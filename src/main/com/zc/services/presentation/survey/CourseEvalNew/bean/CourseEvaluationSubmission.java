@@ -1201,13 +1201,13 @@ public class CourseEvaluationSubmission {
 		 System.out.println("Ahmed Dakrory Values of type : "+questType);
 		//3- Submit Emp Questions and lab questions
 			if(!instAnswersList.isEmpty()){
-	    		coursesInstFacade.saveInstructorEval(instAnswersList,1);
+	    		coursesInstFacade.saveInstructorEvalUpdate(instAnswersList,1);
 	    	}
 	    	if(!taAnswersList.isEmpty()){
-	    		coursesInstFacade.saveInstructorEval(taAnswersList,1);
+	    		coursesInstFacade.saveInstructorEvalUpdate(taAnswersList,1);
 	    	}
 	    	if(!labAnswersList.isEmpty()){
-	    		coursesInstFacade.saveInstructorEval(labAnswersList,1);
+	    		coursesInstFacade.saveInstructorEvalUpdate(labAnswersList,1);
 	    	}
 	 }
 

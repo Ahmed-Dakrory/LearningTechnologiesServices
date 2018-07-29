@@ -5,7 +5,6 @@ package main.com.zc.services.applicationService.survey.courseEval.services;
 
 import java.util.List;
 
-import main.com.zc.services.domain.configurations.model.CourseStudent;
 import main.com.zc.services.presentation.survey.CourseEvalNew.dto.CourseEvalInsQuestionsDTO;
 import main.com.zc.services.presentation.survey.courseEval.dto.CourseEvalAnswersDTO;
 import main.com.zc.services.presentation.survey.courseEval.dto.CourseEvalQuestionsDTO;
@@ -27,6 +26,7 @@ public interface ICourseEvalAnswersAppService {
 	public CourseEvalAnswersDTO add(CourseEvalAnswersDTO form, Integer surveyType) ;
 	public CourseEvalAnswersDTO update(CourseEvalAnswersDTO form) ;
 	public boolean delete(CourseEvalAnswersDTO form) ;
+	public boolean deleteAllcourseData(CourseEvalAnswersDTO form) ;
 	public List<CourseEvalAnswersDTO> getByStudentIDAndCourseID(Integer id, Integer courseID,Integer type);
 	public List<CourseEvalAnswersDTO> getByStudentIDAndCourseIDAndInstructor(Integer id, Integer courseID, Integer insID);
 	public List<CourseEvalAnswersDTO> getByCourseID(Integer courseID);

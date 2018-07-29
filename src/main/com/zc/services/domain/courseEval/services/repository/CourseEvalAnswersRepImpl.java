@@ -3,12 +3,14 @@
  */
 package main.com.zc.services.domain.courseEval.services.repository;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import main.com.zc.services.domain.courseEval.model.CourseEvalAnswers;
 import main.com.zc.services.domain.courseEval.model.ICourseEvalAnswersRep;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.presentation.survey.courseEval.dto.CourseEvalAnswersDTO;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -190,6 +192,8 @@ public class CourseEvalAnswersRepImpl implements ICourseEvalAnswersRep {
 			return false;
 		}
 	}
+	
+	
 
 	@Override
 	public CourseEvalAnswers getByQuestIDAndStudentID(Integer id, Integer stID) {
@@ -257,6 +261,25 @@ public class CourseEvalAnswersRepImpl implements ICourseEvalAnswersRep {
 			@SuppressWarnings("unchecked")
 			List<CourseEvalAnswers> results = query.list();
 			return results.get(0);
+			}
+			catch(Exception ex)
+			{
+				System.out.println("error in getting forms of student");
+				ex.printStackTrace();
+				return null;
+			}
+	}
+	
+	@Override
+	public List<CourseEvalAnswers> getListByStudentIDAndCourseIDAndInstructorAndQuesID(
+			Integer id, Integer courseID, Integer insID, Integer quesID) {
+		try{
+			Query query = sessionFactory.getCurrentSession().getNamedQuery("CourseEvalAnswers.getByStudentIDAndCourseIDAndInstructorAndQuesID").setInteger("id", id).setInteger("courseID", courseID)
+					.setInteger("insID", insID).setInteger("quesID",quesID);
+
+			@SuppressWarnings("unchecked")
+			List<CourseEvalAnswers> results = query.list();
+			return results;
 			}
 			catch(Exception ex)
 			{
@@ -420,6 +443,10 @@ public class CourseEvalAnswersRepImpl implements ICourseEvalAnswersRep {
 			}
 	}
 
+	/*
+	 * (Ahmed Dakrory)
+	 * @see main.com.zc.services.domain.courseEval.model.ICourseEvalAnswersRep#deleteAllcourseData(main.com.zc.services.domain.courseEval.model.CourseEvalAnswers)
+	 */
 	@Override
 	public List<CourseEvalAnswers> getByQuestionIDAndCourseIDAndInsIDAndStudentId(
 			Integer questionID, Integer courseID, Integer insID,
@@ -551,6 +578,40 @@ public class CourseEvalAnswersRepImpl implements ICourseEvalAnswersRep {
 		catch(Exception ex)
 		{
 			System.out.println("error in deleting");
+			ex.printStackTrace();
+			return false;
+		}
+	}
+/*
+ * (Ahmed Dakrory)
+ * Delete All Last Submitted Data to save it again this due to the structure of the database
+ * @see main.com.zc.services.domain.courseEval.model.ICourseEvalAnswersRep#deleteAllcourseData(main.com.zc.services.domain.courseEval.model.CourseEvalAnswers)
+ */
+	
+	
+	@Override
+	public boolean deleteAllcourseDataNew(CourseEvalAnswersDTO form) {
+		try {
+			
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			List<CourseEvalAnswers>list=new ArrayList<CourseEvalAnswers>();
+			if(form.getInstructor()!=null){
+				list=getListByStudentIDAndCourseIDAndInstructorAndQuesID(form.getStudent().getId(), form.getCourse().getId(), form.getInstructor().getId(), form.getQuestion().getId());
+			}else{
+				list=getAllByQuestIDAndStudentIDAndCourseID(form.getQuestion().getId(), form.getStudent().getId(), form.getCourse().getId());
+			}
+			System.out.println("Ahmed Dakrory: Size of List = "+String.valueOf(list.size()));
+			for(int i=0;i<list.size();i++){
+				session.delete(list.get(i));
+
+				
+			}
+			tx1.commit();
+			session.close();
+			
+			return true;
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}

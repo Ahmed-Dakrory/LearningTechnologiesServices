@@ -6,6 +6,7 @@ package main.com.zc.services.domain.courseEval.model;
 import java.util.List;
 
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.presentation.survey.courseEval.dto.CourseEvalAnswersDTO;
 
 /**
  * @author omnya
@@ -25,6 +26,7 @@ public interface ICourseEvalAnswersRep {
 	public CourseEvalAnswers add(CourseEvalAnswers form) ;
 	public CourseEvalAnswers update(CourseEvalAnswers form) ;
 	public boolean delete(CourseEvalAnswers form) ;
+	public boolean deleteAllcourseDataNew(CourseEvalAnswersDTO form);
 	public CourseEvalAnswers getByQuestIDAndStudentID(Integer id, Integer stID);
 	public List<CourseEvalAnswers> getAnswresByQuestionIDAndCourseIDAndInstructorID(Integer courseID, Integer insID, Integer quesID);
 	public List<CourseEvalAnswers> getCommentsByCategoryIDAndCourseIDAndInstructorID(Integer courseID, Integer insID, Integer categoryID);
@@ -52,4 +54,10 @@ public interface ICourseEvalAnswersRep {
 			Integer student, int course, Integer ins, Integer ques, Integer ans);
 	public CourseEvalAnswers getByQuestionIDAndCourseIDAndStudentIdAndAns(
 			Integer ques, int course, Integer student, Integer ans);
+	/*
+	 * (Ahmed Dakrory)
+	 * @see main.com.zc.services.domain.courseEval.model.ICourseEvalAnswersRep#deleteAllcourseData(main.com.zc.services.domain.courseEval.model.CourseEvalAnswers)
+	 */
+	List<CourseEvalAnswers> getListByStudentIDAndCourseIDAndInstructorAndQuesID(
+			Integer id, Integer courseID, Integer insID, Integer quesID);
 }

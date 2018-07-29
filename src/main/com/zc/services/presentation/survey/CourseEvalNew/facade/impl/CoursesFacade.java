@@ -72,6 +72,19 @@ public class CoursesFacade implements ICoursesFacade {
 			answersAppService.addInstAns(courseEvalAnswersDTO,type);
 		}
 	}
+	
+	@Override
+	public void saveInstructorEvalUpdate(List<CourseEvalAnswersDTO> answers,Integer type) {
+		/*
+		 * (Ahmed Dakrory)
+		 * @see main.com.zc.services.domain.courseEval.model.ICourseEvalAnswersRep#deleteAllcourseData(main.com.zc.services.domain.courseEval.model.CourseEvalAnswers)
+		 */
+		answersAppService.deleteAllcourseData(answers.get(0));
+		for (CourseEvalAnswersDTO courseEvalAnswersDTO : answers) {
+			
+			answersAppService.addInstAns(courseEvalAnswersDTO,type);
+		}
+	}
 
 	@Override
 	public CourseEvalQuestionsDTO getQuestionById(Integer id) {

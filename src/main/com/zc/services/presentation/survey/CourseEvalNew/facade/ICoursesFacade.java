@@ -28,6 +28,7 @@ public interface ICoursesFacade {
 	public CoursesDTO getCourseById(Integer id);
 	
 	public void saveInstructorEval(List<CourseEvalAnswersDTO> answers,Integer type);
+	public void saveInstructorEvalUpdate(List<CourseEvalAnswersDTO> answers,Integer type);
 	
 	public CourseEvalQuestionsDTO getQuestionById(Integer id);
 	

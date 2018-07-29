@@ -12,9 +12,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import main.com.zc.services.applicationService.survey.courseEval.assembler.CourseEvalAnswersAssembler;
 import main.com.zc.services.applicationService.survey.courseEval.assembler.CourseEvalOtherQuesAnswersAssempler;
@@ -31,7 +28,6 @@ import main.com.zc.services.domain.data.model.ICourse_InstructorRepository;
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.shared.enumurations.QuestionsCategory;
 import main.com.zc.services.domain.shared.enumurations.ScaleSelectionTypeEnum;
-import main.com.zc.services.presentation.configuration.facade.impl.CourseInstructorFacadeImpl;
 import main.com.zc.services.presentation.survey.CourseEvalNew.dto.CourseEvalInsQuestionsDTO;
 import main.com.zc.services.presentation.survey.courseEval.dto.CourseEvalAnswersDTO;
 import main.com.zc.services.presentation.survey.courseEval.dto.CourseEvalQuestionsDTO;
@@ -42,35 +38,20 @@ import main.com.zc.services.presentation.users.dto.StudentDTO;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.Legend;
-import org.jfree.chart.StandardLegend;
 import org.jfree.chart.labels.StandardPieItemLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.ui.RectangleInsets;
 import org.primefaces.model.chart.PieChartModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.CMYKColor;
 import com.itextpdf.text.pdf.DefaultFontMapper;
 import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 
 /**
  * @author omnya
@@ -335,7 +316,26 @@ public class CourseEvalAnswersAppServiceImpl implements ICourseEvalAnswersAppSer
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean deleteAllcourseData(CourseEvalAnswersDTO form) {
+		System.out.println("Ahmed Dakrory: Delete All forms with this data1: "+form.getCourse().getName());
+		System.out.println("Ahmed Dakrory: Delete All forms with this data1New: "+(assem.toEntity(form)).getCourse().getName());
+		
+		try
+		{
+			return rep.deleteAllcourseDataNew(form);
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Can't delete ans");
+			ex.printStackTrace();
+		}
+		return false;
+	}
+	
 
+	
 	@Override
 	public List<CourseEvalAnswersDTO> getAllOtherAnswers() {
 		
