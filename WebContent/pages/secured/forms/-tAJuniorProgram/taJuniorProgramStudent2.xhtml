@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">TA Junior Program - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+							<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Junior TA Program" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="2">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent1.xhtml"/>
+							<p:menuitem value="+ New Petition" title="New Petition" class="new"
+							 url="/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent2.xhtml" rendered="#{FormsStatusBean.taJuniorProg}"/>
+						</p:tabMenu>
+						<div class="tabWrapper">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Course" for="course"/>
+								<h:panelGroup>
+									<table class="marginLeft_12">
+										<tr>
+											<td style="padding:0;">
+												<p:selectOneMenu required="true" requiredMessage="Please select semester"
+												 id="semester" value="#{TAJuniorProgramStudentBean.selectedSemester}">
+													<f:selectItem itemLabel="Select Semester" />
+													<f:selectItems var="semester" value="#{TAJuniorProgramStudentBean.semesterLst}" 
+													itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+													<p:ajax listener="#{TAJuniorProgramStudentBean.fillYearLst}" update="year"/>	
+												</p:selectOneMenu>
+												<p:message for="semester" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu required="true" requiredMessage="Please select year" id="year" value="#{TAJuniorProgramStudentBean.selectedYear}">
+													<f:selectItem itemLabel="Select Year" />
+													<f:selectItems var="year" value="#{TAJuniorProgramStudentBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+													<p:ajax listener="#{TAJuniorProgramStudentBean.fillCourseLst}" update="course"/>
+												</p:selectOneMenu>
+												<p:message for="year" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu required="true" requiredMessage="Please select course" id="course"
+												 value="#{TAJuniorProgramStudentBean.selectedCourseID}">
+													<f:selectItem itemLabel="Select Course" />
+													<f:selectItems var="course" value="#{TAJuniorProgramStudentBean.coursesLst}"
+													 itemLabel="#{course.name}" itemValue="#{course.id}" />
+												</p:selectOneMenu>
+												<p:message for="course" />
+											</td>
+										</tr>
+									</table>
+								</h:panelGroup>
+								<p:outputLabel value="Major" for="majors"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="majors" value="#{TAJuniorProgramStudentBean.selectedMajor}" required="true" requiredMessage="Please select major">
+										<f:selectItem itemLabel="Select Major" />
+										<f:selectItems var="major" value="#{TAJuniorProgramStudentBean.majorLst}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+									</p:selectOneMenu>
+									<p:message for="majors" />
+								</h:panelGroup>
+								
+								<p:outputLabel value="Your Grade in this course" for="grade" />
+								<h:panelGroup class="marginLeft_12">	
+									<p:inputText id="grade" value="#{TAJuniorProgramStudentBean.addedForm.grade}" required="true" requiredMessage="Please enter your grade" 
+									 requsize="40" class="input290px">
+									 	
+									 		
+									 	</p:inputText>	
+									<p:message for="grade" />								
+								</h:panelGroup>
+
+							
+							<p:outputLabel value="GPA" for="gpa" />
+							<h:panelGroup class="marginLeft_12">
+								<p:inputText id="gpa" value="#{TAJuniorProgramStudentBean.addedForm.gpa}"
+									required="true" requiredMessage="Please Enter GPA"
+									converterMessage="Please enter digits only" requsize="40"
+									class="input290px">
+									<f:validateDoubleRange minimum="2.0" maximum="10.0" />
+									<f:validateDoubleRange />
+								</p:inputText>
+								<p:message for="gpa" />
+							</h:panelGroup>
+
+							<p:outputLabel value="Contact hours per week" for="hours" />
+							<h:panelGroup class="marginLeft_12">
+								<p:inputText id="hours"
+									value="#{TAJuniorProgramStudentBean.addedForm.hours}"
+									required="true" requiredMessage="Please Enter The Number"
+									converterMessage="Please enter digits only" requsize="40"
+									class="input290px">
+									<f:validateDoubleRange minimum="0.0" maximum="4.0" />
+									<f:validateDoubleRange />
+								</p:inputText>
+								<p:message for="hours" />
+							</h:panelGroup>
+							    <p:outputLabel value="Comment" for="reason" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputTextarea
+									id="reason" value="#{TAJuniorProgramStudentBean.addedForm.comment}" maxlength="500" validatorMessage="Only 500 Characters allowed" >
+									<f:validateLength maximum="500"/>
+									</p:inputTextarea>
+									<p:message for="reason" />
+								</h:panelGroup>	
+							
+							</h:panelGrid>
+							<br/>
+						
+							<p:commandButton value="Submit Request" actionListener="#{TAJuniorProgramStudentBean.submitForm}" process="@form" ajax="false" class="blueBtn marginLeft_218" />
+							
+							 
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox"></ui:define>
+	</ui:composition>
+</html>

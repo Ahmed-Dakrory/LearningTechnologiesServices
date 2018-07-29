@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Lab Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Midterm Evaluation" disabled="true" />
+							<p:menuitem value="#{midtermEvaluationSubmission.selectedCourse.name}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+							<p:tabMenu activeIndex="#{midtermEvaluationSubmission.activeIndex}" styleClass="evalTabs">
+								<p:menuitem value="Instructor Evaluation" rendered="#{!midtermEvaluationSubmission.selectedInstructorsLst.isEmpty()}"
+								disabled="true"/>								
+								<p:menuitem value="Teaching Assistant Evaluation" disabled="true" rendered="#{!midtermEvaluationSubmission.selectedTAsLst.isEmpty()}"/>
+								<p:menuitem value="Lab Evaluation" disabled="true"/>
+								<p:menuitem value="Other Comments"  disabled="true"/>
+							</p:tabMenu>
+							<ul class="formBtns evalBtns" id="buttonsPanel"> 
+								<li><p:commandButton action="#{midtermEvaluationSubmission.navigateBtnAction(4, 0)}" value="Next" 
+								styleClass="grayBtn nextBtn" icon="ui-icon-circle-triangle-e" immediate="true"/></li>
+								<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" 
+								action="#{midtermEvaluationSubmission.navigateBtnAction(2, 1)}" immediate="true" /></li>									
+							</ul>
+							<div class="tabWrapper">															
+								<br/><br/>
+								<b style="font-size:15px;">This section includes items about a variety of aspects of teaching. Please 
+								give an overall rating of each aspect of teaching and also check any of the specific strengths or
+								 concerns which match your experience in the course.</b>
+								<br/><br/>
+								<ui:include src="sharedQuestions.xhtml"/>							
+																														
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+								<li><p:commandButton action="#{midtermEvaluationSubmission.navigateBtnAction(4, 0)}" value="Next" 
+								styleClass="grayBtn nextBtn" icon="ui-icon-circle-triangle-e" immediate="true"/></li>
+								<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" 
+								action="#{midtermEvaluationSubmission.navigateBtnAction(2, 1)}" immediate="true" /></li>									
+								</ul>
+								<br/>
+							</div>
+						</p:panel>
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>			  

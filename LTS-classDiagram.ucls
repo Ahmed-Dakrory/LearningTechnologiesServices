@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" 
+    name="main.com.zc.services.presentation.forms.academicPetition.beans.AdmissionDAcademicPetBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/AdmissionDAcademicPetBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1303" width="339" x="372" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" 
+    name="main.com.zc.services.presentation.forms.academicPetition.beans.AdmisisonHAcademicPetBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/AdmisisonHAcademicPetBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1375" width="342" x="751" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" 
+    name="main.com.zc.services.presentation.forms.academicPetition.beans.InstructorAcademicPetBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/InstructorAcademicPetBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="2095" width="339" x="1133" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" 
+    name="main.com.zc.services.presentation.forms.academicPetition.beans.AdmisisonAcademicPetAdminBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/AdmisisonAcademicPetAdminBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="745" width="310" x="1512" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" 
+    name="main.com.zc.services.presentation.forms.academicPetition.beans.AdmissionDAuditingAcademicPetBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/AdmissionDAuditingAcademicPetBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="637" width="296" x="1862" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="main.com.zc.services.presentation.forms.academicPetition.beans.DetailsBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/DetailsBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1897" width="339" x="2198" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="main.com.zc.services.presentation.forms.academicPetition.beans.Test" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/Test.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="97" width="285" x="2577" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" 
+    name="main.com.zc.services.presentation.forms.academicPetition.beans.StudentAcademicPetBean" 
+    project="LearningTechnologiesServices" 
+    file="/LearningTechnologiesServices/src/main/com/zc/services/presentation/forms/academicPetition/beans/StudentAcademicPetBean.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1393" width="339" x="2902" y="-777"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

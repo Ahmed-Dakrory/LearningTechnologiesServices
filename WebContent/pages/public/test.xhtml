@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+</h:head>
+
+<ui:composition template="/templates/uploadSecuredContent.xhtml">
+	<ui:define name="content">
+	<h:form id="searchForm">
+      <ui:remove> <p:inputText value="#{ExportPDFBean}"></p:inputText></ui:remove>
+      
+  					 	<ui:remove>  <p:inputText value="#{courseEvaluationResultsExcelReportsMidterm}"></p:inputText></ui:remove>    
+  		<p:inputText value="#{ExportExcelBean}"/>
+  			
+  		<ui:remove><p:inputText value="#{learningOutComesExporting}"/></ui:remove>	
+	</h:form>
+   </ui:define>
+   
+</ui:composition>
+</html>

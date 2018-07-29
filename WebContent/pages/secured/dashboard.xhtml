@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Dashboard - LT Online Services</ui:define>
+		<ui:define name="content">
+			<div id="dashboardFormId" class="dashboard">
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Dashboard" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="dashboardFormPanel">
+						<ul>
+						<h:panelGroup rendered="#{!dashboardBean.adminMode}">	
+							<li>
+								<p style="font-weight:bold">Forms Status</p>
+								<div class="divcenter">
+									<ul class="dashboardStatistics-user">
+										<ui:repeat value="#{dashboardBean.dashboradElements}" var="dashboardElm" varStatus="iterationStatus">
+											<h:commandLink action="#{dashboardBean.navigateToDashBoardElement(dashboardElm.linkUrl)}"  rendered="#{dashboardElm.CSS != 'newjuniorTA'}">
+												<li id="container" class="#{dashboardElm.CSS}">
+													<h:outputText value="#{dashboardElm.value}" class="dashNumber" /> <br/>
+													<h:outputText value="#{dashboardElm.name}" class="dashValue" />
+												</li>
+											</h:commandLink>
+										</ui:repeat>
+									</ul>
+								</div>
+								</li>
+							</h:panelGroup>
+							<li>
+								<p:panel rendered="#{dashboardBean.adminDashboradElements != null}" id="adminDashboard">
+									<p style="font-weight:bold">Admin Form Status Summary</p>
+									<div class="divcenter">
+									<ul class="dashboardStatistics-user">
+										<ui:repeat value="#{dashboardBean.adminDashboradElements}" var="dashboardElm" varStatus="iterationStatus">
+											<h:commandLink action="#{dashboardBean.navigateToAdminDashBoardElement(dashboardElm.linkUrl)}" rendered="#{dashboardElm.CSS != 'newjuniorTA'}">
+												<li id="container" class="#{dashboardElm.CSS}">
+													<h:outputText value="#{dashboardElm.value}" class="dashNumber" /> <br/>
+													<h:outputText value="#{dashboardElm.name}" class="dashValue" />
+												</li>
+											</h:commandLink>
+										</ui:repeat>
+									</ul>
+									</div>
+								</p:panel>
+							</li>
+						</ul>
+						<!-- USER -->
+							<ul>
+								<h:panelGroup rendered="#{dashboardBean.adminMode}">	
+										<li>
+											<p style="font-weight:bold">Pending Forms Status</p>
+											<div class="divcenter">
+											<ul class="dashboardStatistics-user">
+												<ui:repeat value="#{dashboardBean.dashboradElements}" var="dashboardElm" varStatus="iterationStatus">
+													<h:commandLink action="#{dashboardBean.navigateToDashBoardElement(dashboardElm.linkUrl)}" rendered="#{dashboardElm.CSS != 'newjuniorTA'}" >
+														<li id="container" class="#{dashboardElm.CSS}">
+															<h:outputText value="#{dashboardElm.value}" class="dashNumber" /> <br/>
+															<h:outputText value="#{dashboardElm.name}" class="dashValue" />
+														</li>
+													</h:commandLink>
+												</ui:repeat>
+											</ul>
+											</div>
+										</li>
+									</h:panelGroup>
+								</ul>
+								<br/><br/>
+
+						<h3>Students Support</h3>
+						<p>For convenience of all UST Students, the quick summary below brings together all you need to know about:</p>
+						<p:accordionPanel class="dashAccordion" activeIndex="20">
+					        <p:tab title="Student Affairs">
+					        	<div class="dashboardTxt">
+						             &ndash; &nbsp;<b>Sun. - Thu.</b> 08:00am – 04:00pm &nbsp; Student Affairs student hours <br/>
+						             &ndash; &nbsp;Need to <b>organize</b> a student activity/event/announcement: <a href="https://docs.google.com/a/zewailcity.edu.eg/forms/d/1os6MnNMhn0wDmRgdQwoYzj04KTmTv29Ke00y0KSjm6M/viewform" target="_blank">please click here</a><br/>
+						             &ndash; &nbsp;Need to <b>establish</b> a student organization/club: <a href="https://docs.google.com/a/zewailcity.edu.eg/forms/d/1nlSD4hWOaTp4Fk9V7cQNPQj-EEBePu4J6VEdmw7pSa0/closedform" target="_blank">please click here</a><br/>
+						             &ndash; &nbsp;Need to <b>reserve</b> a room: <a href="https://docs.google.com/a/zewailcity.edu.eg/forms/d/1nlSD4hWOaTp4Fk9V7cQNPQj-EEBePu4J6VEdmw7pSa0/closedform" target="_blank">please click here</a><br/>
+						             &ndash; &nbsp;Need to <b>invite</b> Visitors:  email <a href="mailto:Studentaffairs@zewailcity.edu.eg">Studentaffairs@zewailcity.edu.eg</a> for security permissions &amp; notifications <b>24 hours</b> prior to their visit. include name(s) within the email  
+					        	</div>
+					        </p:tab>
+					        <p:tab title="Admission &amp; Registration Office">
+					            <div class="dashboardTxt">
+						             &ndash; &nbsp;<b>Sun. - Thu.</b> 10:00am – 02:00pm &nbsp; Student Service hours<br/>
+						             &ndash; &nbsp;Self-service access  and login page: <a href="https://selfservice.zewailcity.edu.eg/SelfService/Home.aspx" target="_blank">please click here</a><br/>
+						             &ndash; &nbsp;<a href="mailto:registrar@zewailcity.edu.eg">registrar@zewailcity.edu.eg</a><br/>
+						             &ndash; &nbsp;<a href="mailto:admission@zewailcity.edu.eg">admission@zewailcity.edu.eg</a>
+						        </div>
+					        </p:tab>
+					        <p:tab title="Learning Technologies">
+					            <div class="dashboardTxt">
+					            	&ndash; &nbsp;Learning technologies Website: <a href="http://zclt.info//home/" target="_blank">www.zclt.info</a><br/>
+						             &ndash; &nbsp;Need to access the Learning technologies services: <a href="http://lts.zclt.info/LearningTechnologiesServices/pages/public/login.xhtml" target="_blank">please click here</a>
+						        </div>
+					        </p:tab>
+					        <p:tab title="Student Counseling">
+					            <div class="dashboardTxt">
+						             Student counselor availability on campus:<br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &ndash; &nbsp;<b>Mondays:</b><br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp; 10:00am – 12:00pm <br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp; 02:00pm – 04:00pm<br/>
+						             
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &ndash; &nbsp;<b>Tuesdays &amp; Wednesday s:</b> &nbsp; 11:00am – 03:00pm<br/>
+						             &ndash; &nbsp;Need to schedule an appointment please send an email to Dr. Nashwa Abdel Tawab <a href="mailto:nabdeltawab@zewailcity.edu.eg">nabdeltawab@zewailcity.edu.eg</a>  
+						        </div>
+					        </p:tab>
+					        <p:tab title="Information Technology IT">
+					            <div class="dashboardTxt">
+						             &ndash; &nbsp;IT- Support Staff available in room # 216 <b>Sun. – Thu.</b>  at the following times:<br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp; 08:30am – 09:00am <br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp; 12:50pm – 01:50pm (Updated)<br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp; 03:30pm – 04:00pm<br/>
+						             &ndash; &nbsp;Need IT- Support: email <a href="mailto:it-studentsupport@zewailcity.edu.eg">it-studentsupport@zewailcity.edu.eg</a>  
+						        </div>
+					        </p:tab>
+					        <p:tab title="Library: operating hours">
+					            <div class="dashboardTxt">
+						             &ndash; &nbsp;<b>Sun. – Thu.</b> 08:30 am to 04:00 pm
+						        </div>
+					        </p:tab>
+					        <p:tab title="Gym: operating hours">
+					            <div class="dashboardTxt">
+						             &ndash; &nbsp;<b>Sun. – Thu.</b> 10:00am – 6:00pm <br/>
+						             &ndash; &nbsp;<b>Females</b> ONLY: <br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp;<b>Mon.</b> &nbsp; 12:00pm – 6:00pm <br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp;<b>Wed.</b> &nbsp; 2:00pm – 6:00pm
+						        </div>
+					        </p:tab>
+					        <p:tab title="Clinic: operating hours">
+					            <div class="dashboardTxt">
+						             &ndash; &nbsp;<b>Sun. - Wed.</b> 8:00am – 4:00pm<br/>
+						        </div>
+					        </p:tab>
+					        <p:tab title="Cafeteria: operating hours">
+					            <div class="dashboardTxt">
+						             &ndash; &nbsp;<b>Sun. - Wed.</b> 8:00am – 8:00pm <br/>
+						             &ndash; &nbsp;<b>Thu.</b> 8:00am – 6:00pm <br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp;<b>Breakfast:</b> &nbsp; 8:00am  – 11:30am  <br/>
+						             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &raquo; &nbsp;<b>Lunch &amp; Dinner:</b> &nbsp; 11:30am – 8:00pm
+						        </div>
+					        </p:tab>
+					    </p:accordionPanel>
+						<ui:remove>
+						<table class="policy">
+							<tr>
+								<td colspan="2"><h3>Drop Policy:</h3></td>
+							</tr>
+							<tr>
+								<td colspan="2"><h4>Drop / Add Week (1st Week)</h4></td>
+							</tr>
+							<tr>
+								<td>Deadline:</td>
+								<td>19 February, 2015</td>
+							</tr>
+							<tr>
+								<td>Refundable:</td>
+								<td>Yes</td>
+							</tr>
+							<tr>
+								<td>Approvals:</td>
+								<td>Dean, Program Advisor, Registrar</td>
+							</tr>
+							<tr>
+								<td>Grade:</td>
+								<td>No grade, and will not be added on transcript</td>
+							</tr>
+						</table>
+						<br/>
+						<table class="policy">
+							<tr>
+								<td colspan="2"><h4>Drop / Withdrawal without Academic Penalty (First 6 Weeks)</h4></td>
+							</tr>
+							<tr>
+								<td>Deadline:</td>
+								<td>28 March, 2015</td>
+							</tr>
+							<tr>
+								<td>Refundable:</td>
+								<td>No</td>
+							</tr>
+							<tr>
+								<td>Approvals:</td>
+								<td>Dean, Program Advisor, Instructor, Registrar</td>
+							</tr>
+							<tr>
+								<td>Grade:</td>
+								<td>&quot;<font color="#ff0000"><b>W</b></font>&quot;&nbsp;(On Transcript)</td>
+							</tr>
+						</table>
+						<br/>
+						<table class="policy">
+							<tr>
+								<td colspan="2"><h4>Drop / Withdrawal with Academic Penalty (1 Month before the end of Semester)</h4></td>
+							</tr>
+							<tr>
+								<td>Deadline:</td>
+								<td>7 May, 2015</td>
+							</tr>
+							<tr>
+								<td>Refundable:</td>
+								<td>No</td>
+							</tr>
+							<tr>
+								<td>Approvals:</td>
+								<td>Dean, Program Advisor, instructor Registrar</td>
+							</tr>
+							<tr>
+								<td>Grade:</td>
+								<td>&quot;<font color="#ff0000"><b>WF</b></font>&quot; or &quot;<font color="#ff0000"><b>WP</b></font>&quot; – This will be based on professor evaluation of term performance (On Transcript)</td>
+							</tr>
+							<tr>
+								<td colspan="2"><br/><p>In the last month of the semester no drops or withdrawals will be approved. If the course requirements are not satisfied the student will receive an &quot;<font color="#ff0000"><b>F</b></font>&quot;&nbsp;grade to be added to the transcript.​</p></td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<br/>
+									<p>* Drop = Drop from one course or more &nbsp; &nbsp;</p>
+									<p>*Withdrawal = Dropping all courses and leaving the university.&nbsp;</p>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						</ui:remove>
+					</p:panel>
+				</div>
+			</div>
+			<script>
+	        	document.addEventListener("DOMContentLoaded",function()
+	        	{
+	        		var bodyEl = document.body;
+	        		classie.add( bodyEl, 'show-menu' );
+	        	});
+	        </script>
+		</ui:define>
+	</ui:composition>
+</html>

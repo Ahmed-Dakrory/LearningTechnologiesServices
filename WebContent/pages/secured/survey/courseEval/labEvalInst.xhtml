@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Course Evaluation" disabled="true" />
+							<p:menuitem value="#{CourseEvaluationViewing.selectedCourse.name}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+							<p:tabMenu activeIndex="#{CourseEvaluationViewing.activeIndex}" styleClass="evalTabs">
+								<p:menuitem value="Course Evaluation" disabled="true" />
+								<p:menuitem value="Student Evaluation" disabled="true" />
+								<p:menuitem value="Instructor Evaluation" disabled="true"/>
+								<p:menuitem value="Teaching Assistant Evaluation" disabled="true" rendered="#{!CourseEvaluationViewing.tas.isEmpty()}"/>
+								<p:menuitem value="Lab Evaluation" />
+								<p:menuitem value="Language of Instruction" disabled="true"/>
+							</p:tabMenu>
+						    <ul class="formBtns evalBtns" id="buttonsPanel"> 
+								<li><p:commandButton value="Next" styleClass="grayBtn nextBtn" icon="ui-icon-circle-triangle-e" 
+								 immediate="true" action="#{CourseEvaluationViewing.navigateTo(6, 0)}" /></li>
+								<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" 
+									action="#{CourseEvaluationViewing.navigateTo(4, 1)}" immediate="true" /></li>
+							</ul>
+						    <div class="tabWrapper">						    							    
+						    
+						    	<h:panelGroup id="selectionsPanel">
+						    
+									<ui:repeat value="#{CourseEvaluationViewing.instructorQuestions}" var="question" varStatus="index">
+										<table class="evalTable">
+										
+											<tr>
+												<td class="evalhEAD"><p:outputLabel value="Overall Rating" /></td>
+												<td class="evalhEAD"><p:outputLabel value="Specific Strengths" /></td>
+												<td class="evalhEAD"><p:outputLabel value="Specific Concerns" /></td>
+											</tr>
+										
+											<tr>
+												<td colspan="3" class="evalTableHead"><p:outputLabel value="#{index.index+1}. #{question.text}" /></td>
+											</tr>
+											<tr>
+												<td valign="top" class="evalTableTd">
+													<p:pieChart value="#{question.model}" style="width:300px;height:200px" legendPosition="s" showDataLabels="true"/>
+												</td>
+												<td valign="top" class="evalTableTd">
+												
+													<p:selectOneMenu value="#{question.strengthMainSelection}">	
+														<p:ajax event="change" update=":mainForm:form:selectionsPanel"/>																									
+														<f:selectItems value="#{CourseEvaluationViewing.mainSelections}" var="selection" itemValue="#{selection}" itemLabel="#{selection}"/>
+													</p:selectOneMenu>	
+													<br/><br/>
+													<p:pieChart id="strengthChart" value="#{CourseEvaluationViewing.getSelection(question.strengthModels, question.strengthMainSelection)}" style="width:300px;height:200px" legendPosition="s" showDataLabels="true"/>												
+												
+													<ui:repeat value="#{question.strengthsSelection}" var="comment">
+														<p:outputLabel value="#{comment}"/><br/><br/>
+													</ui:repeat>
+													
+												</td>
+												<td valign="top" style="padding-top:0 !important;">
+													
+													<p:selectOneMenu value="#{question.concernMainSelection}">											
+														<p:ajax event="change" update=":mainForm:form:selectionsPanel"/>		
+														<f:selectItems value="#{CourseEvaluationViewing.mainSelections}" var="selection" itemValue="#{selection}" itemLabel="#{selection}"/>
+													</p:selectOneMenu>	
+													<br/><br/>
+													<p:pieChart id="concernChart" value="#{CourseEvaluationViewing.getSelection(question.concernModels, question.concernMainSelection)}" style="width:300px;height:200px" legendPosition="s" showDataLabels="true"/>												
+													
+													<ui:repeat value="#{question.concernsSelection}" var="comment">
+														<p:outputLabel value="#{comment}"/><br/><br/>
+													</ui:repeat>
+																							
+												</td>
+											</tr>
+																																					
+										</table>
+									</ui:repeat>
+								</h:panelGroup>
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+									<li><p:commandButton value="Next" styleClass="grayBtn nextBtn" icon="ui-icon-circle-triangle-e" 
+										immediate="true" action="#{CourseEvaluationViewing.navigateTo(6, 0)}" /></li>
+									<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" 
+										action="#{CourseEvaluationViewing.navigateTo(4, 1)}" immediate="true" /></li>
+								</ul>
+								<br/>
+							</div>
+						</p:panel>
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

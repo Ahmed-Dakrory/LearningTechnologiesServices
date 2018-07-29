@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:commandButton value="Cancel" title="Cancel" immediate="true"
+	class="dialogCancel" ajax="false" action="#{petitionBean.init}" />
+
+<h:panelGroup rendered="#{petitionBean.formDetail.showForward}">
+	<p:commandButton value="Forward" title="Forward"
+		action="#{petitionBean.forwardPetition}" ajax="false"
+		class="dialogForward" />
+	<ul class="dialogLine">
+		<li style="width: 200px !important"><p:outputLabel
+				value="Forward petition to" for="forward" /></li>
+		<li><p:selectOneMenu id="forward"
+				value="#{petitionBean.selectedInstructor}">
+				<f:selectItem itemLabel="Select Instructor" />
+				<f:selectItems var="forward" value="#{petitionBean.instructors}"
+					itemLabel="#{forward.name}" itemValue="#{forward.id}" />
+			</p:selectOneMenu> <p:message for="forward" /></li>
+	</ul>
+</h:panelGroup>
+<p:commandButton id="remindMe" value="Remind Me" title="Remind Me"
+	process="@this"
+	action="#{notificationBean.preRemindMe(petitionBean.detailedForm)}"
+	rendered="#{petitionBean.formDetail.showRemind}" class="dialogRemind" />
+<p:commandButton value="Print" title="Print" type="button"
+	class="dialogPrint"
+	rendered="#{petitionBean.formDetail.showMarkAsDone}">
+	<p:printer target="detForm" class="dialogPrint" />
+</p:commandButton>
+<h:panelGroup id="detGrid">
+	<p:commandButton value="Mark As Done" title="Mark As Done"
+		actionListener="#{petitionBean.markAsDone}" ajax="false"
+		update="form growl" class="dialogOk"
+		rendered="#{petitionBean.formDetail.showOther and petitionBean.formDetail.showMarkAsDone}" />
+
+
+	<p:commandButton value="Refuse" title="Refuse"
+		actionListener="#{petitionBean.refuse}" ajax="false"
+		update="form growl" class="dialogNo"
+		rendered="#{petitionBean.formDetail.showOther and  !petitionBean.formDetail.showMarkAsDone}" />
+	<p:commandButton value="Aprrove" title="Aprrove"
+		actionListener="#{petitionBean.approve}" ajax="false"
+		update="form growl" class="dialogNo"
+		rendered="#{petitionBean.formDetail.showOther and  !petitionBean.formDetail.showMarkAsDone}" />
+
+	<div class="studentImg">
+		<p:graphicImage
+			value="/images/?path=#{petitionBean.formDetail.student.id}"
+			rendered="#{petitionBean.formDetail.image != null }" />
+		<p:graphicImage library="images" name="icon_user.png"
+			rendered="#{petitionBean.formDetail.image == null }" />
+	</div>
+	<ul class="dialogLine">
+		<li><h:outputLabel value="Student Name:" /></li>
+		<li><h:outputLabel
+				value="#{petitionBean.formDetail.student.name}" /></li>
+	</ul>
+	<ul class="dialogLine">
+		<li><h:outputLabel value="Student ID:" /></li>
+		<li><h:outputLabel
+				value="#{petitionBean.formDetail.student.facultyId}" /></li>
+	</ul>
+	<ul class="dialogLine">
+		<li><h:outputLabel value="Student Contact:" /></li>
+		<li><h:outputLabel value="#{petitionBean.formDetail.phone}" /></li>
+	</ul>
+	<ul class="dialogLine">
+		<li><h:outputLabel value="Submission Date:" /></li>
+		<li><h:outputLabel
+				value="#{petitionBean.formDetail.friendlyDate}" /></li>
+	</ul>
+	<!--  PROGRESS -->
+	<ul class="dialogLine txtareaUl">
+		<li class="txtareaLi printDialog145px"><h:outputLabel
+				value="Request's Progress:" /><br /> <p:inputTextarea
+				value="#{petitionBean.formDetail.status}" disabled="true" /></li>
+	</ul>
+	<!-- 				start			Academic petition  -->
+	<h:panelGroup id="academicPetition"
+		rendered="#{petitionBean.formDetail.formTypesEnum.value == 0}">
+		<ul class="dialogLine">
+			<li><h:outputLabel value="Course Name:" /></li>
+			<li><h:outputLabel
+					value="#{petitionBean.formDetail.course.name}" /></li>
+		</ul>
+		<ul class="dialogLine">
+			<li><h:outputLabel value="Title:" /></li>
+			<li class="maxWidth"><h:outputLabel
+					value="#{petitionBean.formDetail.title}" /></li>
+		</ul>
+
+		<ul class="dialogLine txtareaUl">
+			<li class="txtareaLi printDialog220px"><h:outputLabel
+					value="Request Text:" /><br /> <p:inputTextarea
+					value="#{petitionBean.formDetail.requestText}" disabled="true" /></li>
+		</ul>
+		<!-- 				End			Academic petition  -->
+	</h:panelGroup>
+	<h:panelGroup id="changeMajor"
+		rendered="#{petitionBean.formDetail.formTypesEnum.value == 2}">
+		<!-- 				start			Change  Major  -->
+		<ul class="dialogLine">
+			<li><h:outputLabel value="GPA:" /></li>
+			<li><h:outputLabel value="#{petitionBean.formDetail.gpa}" /></li>
+		</ul>
+		<h:panelGroup>
+			<h:outputLabel value="Current Major:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.curMajor.majorName}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="New Major:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.newMajor.majorName}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="Current Specialization:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.curSpecialization}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="New Specialization:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.newSpecialization}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="Double Specialization:" class="bold" />
+			<br />
+			<h:outputLabel
+				value="#{petitionBean.formDetail.doubleSpecialization}" />
+		</h:panelGroup>
+		<br />
+		<ul class="dialogLine txtareaUl">
+			<li class="txtareaLi"><h:outputLabel value="More Details:" /><br />
+				<p:inputTextarea value="#{petitionBean.formDetail.moreDetails}"
+					disabled="true" /></li>
+		</ul>
+		<!-- 				End			Change  Major  -->
+	</h:panelGroup>
+	<h:panelGroup id="repeatCourse"
+		rendered="#{petitionBean.formDetail.formTypesEnum.value == 1}">
+		<!-- 				start			Repeat Course  -->
+		<h:panelGroup>
+			<h:outputLabel value="Major:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.major.majorName}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="Name of course to be repeated:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.course.name}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="Grade recieved on the first attempt:"
+				class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.grade}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="Semester at which it was first taken:"
+				class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.oldSem}" />
+		</h:panelGroup>
+		<br />
+		<h:panelGroup>
+			<h:outputLabel value="Semester at which it's repeated:" class="bold" />
+			<br />
+			<h:outputLabel value="#{petitionBean.formDetail.newSem}" />
+		</h:panelGroup>
+		<br />
+		<ul class="dialogLine txtareaUl">
+			<li class="txtareaLi"><h:outputLabel
+					value="Reason for repeating the course:" /><br /> <p:inputTextarea
+					value="#{petitionBean.formDetail.reason}" disabled="true" /></li>
+		</ul>
+		<!-- 				End			Repeat Course  -->
+	</h:panelGroup>
+	<h:panelGroup id="addDrop"
+		rendered="#{petitionBean.formDetail.formTypesEnum.value == 3}">
+		<!-- 				start			Add Drop  -->
+		<ul class="dialogLine">
+			<li><h:outputLabel value="Drop/Add:" /></li>
+			<li><h:outputLabel value="#{petitionBean.formDetail.type}" /></li>
+		</ul>
+
+		<h:panelGroup rendered="#{petitionBean.renderAddAction}">
+
+			<ul class="dialogLine">
+				<li><h:outputLabel value="Added Course:"
+						rendered="#{petitionBean.renderAddAction}" /></li>
+				<li><h:outputLabel
+						value="#{petitionBean.formDetail.addedCourse.name}"
+						rendered="#{petitionBean.renderAddAction}" /></li>
+			</ul>
+		</h:panelGroup>
+		<h:panelGroup
+			rendered="#{petitionBean.renderAddAction and petitionBean.formDetail.addedSection !=null}">
+			<ul class="dialogLine">
+				<li><h:outputLabel value="Added Section:"
+						rendered="#{petitionBean.renderAddAction and petitionBean.formDetail.addedSection !=null}" /></li>
+				<li><h:outputLabel
+						value="#{petitionBean.formDetail.addedSection}"
+						rendered="#{petitionBean.renderAddAction and petitionBean.formDetail.addedSection !=null}" /></li>
+			</ul>
+		</h:panelGroup>
+		<h:panelGroup rendered="#{petitionBean.renderDropAction}">
+			<ul class="dialogLine">
+				<li><h:outputLabel value="Dropped Course:"
+						rendered="#{petitionBean.renderDropAction}" /></li>
+				<li><h:outputLabel
+						value="#{petitionBean.formDetail.dropCourse.name}"
+						rendered="#{petitionBean.renderDropAction}" /></li>
+			</ul>
+		</h:panelGroup>
+		<h:panelGroup
+			rendered="#{petitionBean.renderDropAction and petitionBean.formDetail.droppedSection != null}">
+			<ul class="dialogLine">
+				<li><h:outputLabel value="Dropped Section:"
+						rendered="#{petitionBean.renderDropAction and petitionBean.formDetail.droppedSection != null}" /></li>
+				<li><h:outputLabel
+						value="#{petitionBean.formDetail.droppedSection}"
+						rendered="#{petitionBean.renderDropAction and petitionBean.formDetail.droppedSection != null}" /></li>
+			</ul>
+		</h:panelGroup>
+		<!-- 				end			Add Drop  -->
+	</h:panelGroup>
+	<h:panelGroup id="overload"
+		rendered="#{petitionBean.formDetail.formTypesEnum.value == 4}">
+		<!-- 				add			overLoad  -->
+		<ul class="dialogLine">
+			<li><h:outputLabel value="Academic Year:" /></li>
+			<li><h:outputLabel value="#{petitionBean.formDetail.year}" /></li>
+		</ul>
+		<ul class="dialogLine">
+			<li><h:outputLabel value="GPA:" /></li>
+			<li><h:outputLabel value="#{petitionBean.formDetail.gpa}" /></li>
+		</ul>
+		<ul class="dialogLine txtareaUl">
+			<li class="txtareaLi"><h:outputLabel value="Reason:" /><br />
+				<p:inputTextarea value="#{petitionBean.formDetail.reason}"
+					disabled="true" /></li>
+		</ul>
+		<ul class="dialogLine">
+			<li><h:outputLabel value="Course Name:" /></li>
+			<li><h:outputLabel
+					value="#{petitionBean.formDetail.course.name}" /></li>
+		</ul>
+		<!-- 				end			overLoad  -->
+	</h:panelGroup>
+
+	<!-- 							General  -->
+
+	<ul class="dialogLine txtareaUl">
+		<li class="txtareaLi printDialog220px"><h:outputLabel
+				value="Comments:" /><br /> <p:inputTextarea
+				value="#{petitionBean.formDetail.comment}" disabled="true" /></li>
+	</ul>
+	<h:panelGroup rendered="#{petitionBean.formDetail.showOther}">
+		<ul class="dialogLine">
+			<li><h:outputLabel value="Add Comment" /><br /> <p:inputText
+					value="#{petitionBean.newComment}" id="newComment" /> <p:watermark
+					for="newComment" value="Add Your Comment If Exist" /></li>
+			<li class="settingActions"><p:commandButton value="Add Comment"
+					title="Add Comment" update=":mainForm:form:detailView"
+					action="#{petitionBean.addComment(petitionBean.detailedForm)}"
+					class="dialogComment" /></li>
+		</ul>
+
+		<p:selectBooleanCheckbox
+			value="#{petitionBean.formDetail.provostRequired}"
+			rendered="#{petitionBean.formDetail.showProvostRequired}" />
+		<h:outputLabel value="Inform Provost with this petition"
+			rendered="#{petitionBean.formDetail.showProvostRequired}" />
+
+	</h:panelGroup>
+
+</h:panelGroup>
+
+
+
+
+<p:commandButton value="Mark As Done" title="Mark As Done"
+	actionListener="#{petitionBean.markAsDone}" ajax="false"
+	update="form growl" class="dialogOk"
+	rendered="#{petitionBean.formDetail.showOther and petitionBean.formDetail.showMarkAsDone}" />
+
+
+<p:commandButton value="Refuse" title="Refuse"
+	actionListener="#{petitionBean.refuse}" ajax="false"
+	update="form growl" class="dialogNo"
+	rendered="#{petitionBean.formDetail.showOther and  !petitionBean.formDetail.showMarkAsDone}" />
+<p:commandButton value="Aprrove" title="Aprrove"
+	actionListener="#{petitionBean.approve}" ajax="false"
+	update="form growl" class="dialogNo"
+	rendered="#{petitionBean.formDetail.showOther and  !petitionBean.formDetail.showMarkAsDone}" />
+
+
+
+</html>

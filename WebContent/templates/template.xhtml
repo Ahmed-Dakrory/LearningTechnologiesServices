@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+			<ui:insert name="top"></ui:insert>
+		</p:layoutUnit>
+		<p:layoutUnit position="south" size="50" closable="true" collapsible="true">
+			<ui:insert name="bottom">Footer</ui:insert>
+		</p:layoutUnit>
+		<p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+			<ui:insert name="left">Left</ui:insert>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<ui:insert name="center"></ui:insert>
+		</p:layoutUnit>
+	</p:layout>
+	<ui:insert name="confirmDialogBox"></ui:insert>
+		<ui:insert name="BrowseFiles"></ui:insert>
+</h:body>
+</html>

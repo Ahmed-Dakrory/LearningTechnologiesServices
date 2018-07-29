@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Surveys Config - LT Online Services</ui:define>
+		<ui:define name="content">
+					<h:form  id="form">
+							<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+			
+									<h:panelGroup  id="table">
+									<p:commandButton value="+Add Survey" actionListener="#{surveyBean.preAddSurvey}" oncomplete="addDlg.show();"
+									update="growl"/>
+									<p:commandButton value="Go to sections" action="sectionsConfig.xhtml?faces-redirect=true" 
+								/>
+										
+												 <p:dataTable  id="tableID" var="obj" value="#{surveyBean.surveys}" widgetVar="surveyTable"
+								                 emptyMessage="No Surveys are found" filteredValue="#{surveyBean.filteredSurveys}"
+								                 rowIndexVar="index" rowKey="#{survey.id}" 
+								                 rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink}
+								                  {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" paginatorPosition="top"
+								                  currentPageReportTemplate="No. of surveys:{totalRecords}" rowsPerPageTemplate="5,10,15">
+                         
+								 	 	<p:ajax event="rowSelect" listener="#{surveyBean.onRowSelect}" />
+									   <p:column filterBy="#{obj.id}" headerText="ID"  filterMatchMode="startsWith"
+								        sortBy="#{obj.id}">
+								        <h:outputText value="#{obj.id}" />
+								        </p:column>
+								        <p:column filterBy="#{obj.name}" headerText="Name"  filterMatchMode="startsWith"
+								        sortBy="#{obj.name}">
+								            <h:outputText value="#{obj.name}" />
+								        </p:column>
+								 	    <p:column filterBy="#{obj.date}" headerText="Date"  filterMatchMode="startsWith"
+								        sortBy="#{obj.date}">
+								            <h:outputText value="#{obj.date}" />
+								        </p:column>
+								        <p:column filterBy="#{obj.active}" headerText="Active"  filterMatchMode="startsWith"
+								        sortBy="#{obj.active}">
+								            <h:outputText value="#{obj.active}" />
+								        </p:column>
+								        <p:column>
+								      	 <p:commandButton value="Questions" 
+								      	 actionListener="#{surveyBean.navigateToQuestions(obj)}"/>
+								       </p:column>
+									</p:dataTable>	
+								    </h:panelGroup>	
+						</h:form>
+					
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+					<p:dialog widgetVar="addDlg" header="+ Add Survey" showEffect="slide" id="dilg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="250" >
+				 
+				 				<h:form id="dlgForm">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanel" columns="2">
+							<p:outputLabel value="Name" for="name"/>
+							<h:panelGroup>
+			          		<p:inputTextarea required="true" requiredMessage="Please insert the name" id="name" value="#{surveyBean.survey.name}"/>
+			          			<p:message for="name"/>
+			          		</h:panelGroup>
+			          		<p:outputLabel value="Active" for="active"/>
+							<h:panelGroup>
+			          		<p:selectBooleanCheckbox value="#{surveyBean.survey.active}" id="active"/>
+			          		<p:message for="active"/>
+			          		</h:panelGroup>
+			    <h:panelGroup>
+				<p:commandButton value="Add" title="Add" actionListener="#{surveyBean.addSurvey}"  process="addPanel"
+							  update="dlgForm:addPanel :mainForm:form:tableID" class="blueBtn" />
+				<p:commandButton value="Cancel" title="Cancel" onclick="addDlg.hide()" immediate="true"  class="redBtn"/>
+				</h:panelGroup>
+			          </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+	   </ui:define>
+		</ui:composition>
+</html>

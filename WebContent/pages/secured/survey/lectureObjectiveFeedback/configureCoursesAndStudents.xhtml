@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Students-Courses Configurations - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="Lecture objectives feedback" disabled="true" />
+							<p:menuitem value="Students-Courses Configurations" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>
+						<table class="marginLeft_12">
+							<tr>
+								<td style="padding:0;">
+									<p:selectOneMenu id="semester" value="#{configureStudentsWithCourse.selectedSemester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{configureStudentsWithCourse.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{configureStudentsWithCourse.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{configureStudentsWithCourse.selectedYear}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{configureStudentsWithCourse.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{configureStudentsWithCourse.fillCourses}" update="pendingDatatable" ajax="false"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+							</tr>
+						</table>
+	
+						<p:dataTable var="forms" value="#{configureStudentsWithCourse.coursesStudents}" rowKey="#{forms.id}" sortMode="multiple" 
+							filteredValue="#{configureStudentsWithCourse.filteredCoursesStudents}" widgetVar="formsTable" id="pendingDatatable">
+							<p:column width="130" id="formID" sortBy="#{forms.course.id}" filterBy="#{forms.course.id}">
+								<h:outputText value="#{forms.course.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							</p:column>
+							<p:column width="130" id="name" sortBy="#{forms.course.name}" filterBy="#{forms.course.name}">
+								<h:outputText value="#{forms.course.name}" />
+								<p:watermark value="Name" forElement="mainForm:form:pendingDatatable:name:filter" />
+							</p:column>
+							<p:column width="130" id="semester" sortBy="#{forms.course.semester}" filterBy="#{forms.course.semester}">
+								<h:outputText value="#{forms.course.semester}" />
+								<p:watermark value="Semester" forElement="mainForm:form:pendingDatatable:semester:filter" />
+							</p:column>
+							<p:column width="130" id="year" sortBy="#{forms.course.year}" filterBy="#{forms.course.year}">
+								<h:outputText value="#{forms.course.year}" />
+								<p:watermark value="Year" forElement="mainForm:form:pendingDatatable:year:filter" />
+							</p:column>
+							<p:column width="130" id="num" sortBy="#{forms.num}" filterBy="#{forms.num}">
+								<h:outputText value="#{forms.num}" />
+								<p:watermark value="Students" forElement="mainForm:form:pendingDatatable:num:filter" />
+							</p:column>
+							<p:column width="130" headerText="Update Course" styleClass="txtCenter">
+								<p:commandButton title="Update Course" value="Update" actionListener="#{configureStudentsWithCourse.preUpdate(forms.course)}" oncomplete="editDlg.show();" immediate="true"  update=":editNumForm:editNumPalnel" styleClass="blueBtn"/>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+	   		<p:dialog id="editNum" header="Update Course" widgetVar="editDlg" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" modal="true" class="editDialog updateCourse" height="140" style="overflow:hidden">
+				<h:form id="editNumForm">
+					<div class="dialogWrapper">
+						<h:panelGroup id="editNumPalnel">
+							<h:panelGroup>
+					    		<p:inputText id="num" value="#{configureStudentsWithCourse.studentsNum}" required="true" requiredMessage="Please Insert title" class="input376px" style="height:40px"/>
+					    		<p:watermark for="num" value="Number of students" />
+							 	<p:message for="num"/>
+							 </h:panelGroup>
+						</h:panelGroup>
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="editDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						<li><p:commandButton value="Save" title="Save" action="#{configureStudentsWithCourse.updateCourse}" 
+						update="editNumPalnel :mainForm:form:pendingDatatable"  ajax="false"  class="dialogOk" oncomplete="editDlg.hide();"/></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</html>

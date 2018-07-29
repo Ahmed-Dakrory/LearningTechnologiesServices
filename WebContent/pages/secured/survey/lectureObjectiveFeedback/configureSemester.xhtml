@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Weeks Configurations - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="Lecture objectives feedback" disabled="true" />
+							<p:menuitem value="Weeks Configurations" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>
+						<!-- Add Week -->
+						
+						<p:commandLink id="ajax" update="advSettingpnl"	actionListener="#{configureSemesterBean.showAddWeek}" immediate="true">
+							<h3>Add New Week</h3>
+						</p:commandLink>
+						<h:panelGroup id="advSettingpnl">
+							<h:panelGroup rendered="#{configureSemesterBean.addWeekMode}" id="advSettingGrid">
+								<table>
+									<tr>
+										<td width="120"><p:outputLabel for="name" value="Week's Name" /></td>
+										<td colspan="4">
+											<p:inputText value="#{configureSemesterBean.addedWeek.name}" id="name" required="true" requiredMessage="Please enter name" style="width:230px" />
+				            				<p:message for="name"/>
+										</td>
+									</tr>
+									<tr>
+										<td><p:outputLabel for="strt" value="Start Date"/></td>
+										<td><p:calendar id="strt" value="#{configureSemesterBean.addedWeek.startDate}" pattern="MM/dd/yyyy" /></td>
+										<td width="20">&nbsp;</td>
+										<td width="80"><p:outputLabel for="end" value="End Date"/></td>
+										<td><p:calendar id="end" value="#{configureSemesterBean.addedWeek.endDate}" pattern="MM/dd/yyyy" /></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td colspan="4"><p:commandButton value="Add" actionListener="#{configureSemesterBean.addWeek}" update="name strt end pendingDatatable" styleClass="greenBtn"/></td>
+									</tr>
+								</table>
+	            			</h:panelGroup>
+						</h:panelGroup>
+						<br/>
+						<hr/>
+						<br/>
+						<table class="marginLeft_12">
+							<tr>
+								<td style="padding:0;">
+									<p:selectOneMenu id="semester" value="#{configureSemesterBean.addedWeek.semester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{configureSemesterBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{configureSemesterBean.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{configureSemesterBean.addedWeek.year}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{configureSemesterBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{configureSemesterBean.fillweeks}" update="pendingDatatable"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+							</tr>
+						</table>
+						
+						<p:dataTable var="forms" value="#{configureSemesterBean.weeks}" selectionMode="single" selection="#{configureSemesterBean.selectedWeek}" 
+							rowKey="#{forms.id}" sortMode="multiple" filteredValue="#{configureSemesterBean.filteredWeeks}" widgetVar="formsTable" id="pendingDatatable">
+							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							</p:column>
+							<p:column width="130" id="name" sortBy="#{forms.name}" filterBy="#{forms.name}">
+								<h:outputText value="#{forms.name}" />
+								<p:watermark value="Name" forElement="mainForm:form:pendingDatatable:name:filter" />
+							</p:column>
+							<p:column width="130" id="strDate" sortBy="#{forms.startDateFriendly}" filterBy="#{forms.startDateFriendly}">
+								<h:outputText value="#{forms.startDateFriendly}" />
+								<p:watermark value="Start Date" forElement="mainForm:form:pendingDatatable:strDate:filter" />
+							</p:column>
+							<p:column width="130" id="endDate" sortBy="#{forms.endDateFriendly}" filterBy="#{forms.endDateFriendly}">
+								<h:outputText value="#{forms.endDateFriendly}" />
+								<p:watermark value="Start Date" forElement="mainForm:form:pendingDatatable:endDate:filter" />
+							</p:column>
+							<p:column width="100" headerText="Update" styleClass="txtCenter">
+								<p:commandButton title="Open Week" value="Open" actionListener="#{configureSemesterBean.activate(forms)}"
+								immediate="true" rendered="#{forms.active==false||forms.active==null}" update="pendingDatatable" styleClass="blueBtn"/>
+								<p:commandButton title="Close Week" value="Close" actionListener="#{configureSemesterBean.deActivate(forms)}"
+								immediate="true" rendered="#{forms.active==true}" update="pendingDatatable" styleClass="grayBtn"/>
+							</p:column>
+							<p:column width="100" headerText="Delete" styleClass="txtCenter">
+								<p:commandButton title="delete feedback" value="Delete" actionListener="#{configureSemesterBean.preDeleteWeek(forms)}" oncomplete="confirmation.show();" immediate="true" styleClass="redBtn" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+	   		<p:confirmDialog id="confirmDialogID" message="Are you sure you want to delete this week?" header="Confirm Delete" severity="alert" widgetVar="confirmation">
+		   		<h:form>
+					<p:commandButton value="Delete" update=":mainForm:form:pendingDatatable" oncomplete="confirmation.hide()" actionListener="#{configureSemesterBean.delete}" immediate="true" ajax="true" styleClass="deleteBtn"/>
+					<p:commandButton value="cancel" onclick="confirmation.hide()" type="button" styleClass="cancelBtn"/>
+				</h:form>
+			</p:confirmDialog>
+		</ui:define>
+	</ui:composition>
+</html>

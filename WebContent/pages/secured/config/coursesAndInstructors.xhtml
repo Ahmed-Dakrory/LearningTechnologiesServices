@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Courses Configurations</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Courses Configurations" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<h:form id="pageForm">
+				<div class="pannelWrapper">
+					<p:panel class="attendance">
+						<p:commandButton value="+ New Course" id="addInsBtn" title="Add Instructors" onclick="addCourseDlg.show();" styleClass="greenBtn" /> &nbsp;&nbsp;
+			  			<ui:remove><p:commandButton value="Import courses"  title="Add Instructors" action="addCourses.xhtml?faces-redirect=true" immediate="true" styleClass="grayBtn" />
+			  			</ui:remove> 	
+						<br/>
+						<p:panel><h3>Courses</h3><br/></p:panel>
+						<table>
+							<tr>
+								<td>
+									<p:selectOneMenu id="semester" value="#{CoursesInstructorsConfigBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{CoursesInstructorsConfigBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{CoursesInstructorsConfigBean.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{CoursesInstructorsConfigBean.selectedYear}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{CoursesInstructorsConfigBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{CoursesInstructorsConfigBean.fillCourseLst}" update="coursesTable"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+								<td width="12">&nbsp;</td>
+									<ui:remove>
+									<td>
+										<p:selectOneMenu id="course" value="#{CoursesInstructorsConfigBean.selectedCourseID}" required="true" requiredMessage="Please select course">
+											<f:selectItem itemLabel="Select Course" />
+											<f:selectItems var="course" value="#{CoursesInstructorsConfigBean.coursesLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+										</p:selectOneMenu>
+										<p:message for="course" />
+									</td>
+									</ui:remove>
+								</tr>
+							</table>
+							<br/>
+							<p:dataTable var="row"  value="#{CoursesInstructorsConfigBean.coursesLst}" selectionMode="single" rowKey="#{row.id}" 
+							sortMode="multiple" widgetVar="studentCourse" id="coursesTable" resizableColumns="true" rows="100" paginator="true"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+								<p:ajax event="rowSelect" listener="#{CoursesInstructorsConfigBean.onRowSelect}" />
+								<p:column width="130" id="course" sortBy="#{row.name}" filterBy="#{row.name}">
+									<h:outputText value="#{row.name}" />
+								<f:facet name="header">
+								<h:outputText value="Course" />
+							</f:facet>
+								<ui:remove>	<p:watermark value="Course" forElement="pageForm:coursesTable:course:filter"/></ui:remove>
+								</p:column>
+								<p:column width="130" id="sem" sortBy="#{row.semester.name}" filterBy="#{row.semester.name}">
+									<h:outputText value="#{row.semester.name}" />
+									<ui:remove><p:watermark value="Semester" forElement="pageForm:coursesTable:sem:filter"/></ui:remove>
+									<f:facet name="header">
+								<h:outputText value="Semester" />
+							</f:facet>
+								</p:column>
+								<p:column width="130" id="year" sortBy="#{row.year}" filterBy="#{row.year}">
+									<h:outputText value="#{row.year}" />
+									<ui:remove>
+									<p:watermark value="Year" forElement="pageForm:coursesTable:year:filter"/>
+									</ui:remove>
+									<f:facet name="header">
+								<h:outputText value="Year" />
+							</f:facet>
+								</p:column>
+								<p:column width="130" id="ins" sortBy="#{row.instructorsNum}" filterBy="#{row.instructorsNum}">
+									<h:outputText value="#{row.instructorsNum}" />
+									<ui:remove><p:watermark value="Instructors" forElement="pageForm:coursesTable:ins:filter"/></ui:remove>
+									<f:facet name="header">
+								<h:outputText value="Instructors" />
+							</f:facet>
+								</p:column>
+								<p:column width="130" id="coord" sortBy="#{row.coordinator.name}" filterBy="#{row.coordinator.name}">
+									<h:outputText value="#{row.coordinator.name}" />
+										<f:facet name="header">
+								<h:outputText value="Coordinator" />
+							</f:facet>
+							<ui:remove>
+									<p:watermark value="Coordinator" forElement="pageForm:coursesTable:coord:filter"/></ui:remove>
+								</p:column>
+								<ui:remove>
+								<p:column width="130" id="actions" headerText="Actions">
+								<p:commandButton value="Delete" actionListener="#{CoursesInstructorsConfigBean.deleteSelectedCourse(row)}" process="@this"/>
+								</p:column>
+							</ui:remove>
+							</p:dataTable>
+							<p:commandButton value="Export" ajax="false" class="blueBtn">
+						<p:dataExporter type="xls" target="coursesTable" fileName="courses" />
+						</p:commandButton>
+					
+							<br/><br/>
+						</p:panel>
+					</div>
+				</h:form>
+				<p:dialog widgetVar="addCourseDlg" header="New Course" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="440">
+					<h:form>
+						<div class="dialogWrapper">
+							<h:panelGrid columns="1">
+			          			<h:outputLabel value="Name"/>
+			          			<h:inputText value="#{CoursesInstructorsConfigBean.newCourseName}"/>
+			          			<h:outputLabel value="Year" for="newyear"/>
+			          			<p:selectOneMenu id="newyear" value="#{CoursesInstructorsConfigBean.newCourseYear}" required="true" requiredMessage="Please select year" style="width:396px">
+									<f:selectItem itemLabel="Select Year" />
+									<f:selectItems var="year" value="#{CoursesInstructorsConfigBean.newCourseYearLst}" itemLabel="#{year}" itemValue="#{year}" />
+								</p:selectOneMenu>
+								<p:message for="newyear"/>
+								<h:outputLabel value="Semester" for="newsemster"/>
+			          			<p:selectOneMenu id="newsemster" value="#{CoursesInstructorsConfigBean.newCourseSemester}" required="true" requiredMessage="Please select semester" style="width:396px">
+									<f:selectItem itemLabel="Select Semester" />
+									<f:selectItems var="sem" value="#{CoursesInstructorsConfigBean.semesterLst}" itemLabel="#{sem.name}" itemValue="#{sem.id}" />
+								</p:selectOneMenu>
+								<p:message for="newsemster"/>
+								<h:outputLabel value="Coordinator" for="inss"/>
+			          			<p:selectOneMenu id="inss" value="#{CoursesInstructorsConfigBean.newSelectedCoordinator}" required="true" requiredMessage="Please select coordinator" style="width:396px">
+									<f:selectItem itemLabel="Select Instructor" />
+									<f:selectItems var="ins" value="#{CoursesInstructorsConfigBean.allIns}" itemLabel="#{ins.name}" itemValue="#{ins.id}" />
+								</p:selectOneMenu>
+								<p:message for="inss"/>
+							</h:panelGrid>
+						</div>
+						<ul class="dialogFooter">
+							<li><p:commandButton value="Cancel" title="Cancel" onclick="addCourseDlg.hide()" immediate="true" class="dialogCancel" /></li>
+							<li><p:commandButton value="Add" title="Add" action="#{CoursesInstructorsConfigBean.addNewCourse}" ajax="false" update="form coursesTable" process="@this" class="dialogOk" /></li>
+						</ul>
+					</h:form>
+				</p:dialog>
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+   			</ui:define>
+		</ui:composition>
+</html>

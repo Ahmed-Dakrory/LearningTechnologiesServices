@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Instructors - LT Online Services</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Instructors" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel class="attendance">
+				<h:form id="pageForm">
+				
+				
+				
+					<p:commandButton value="+ New Instructor/TA" id="addInsBtn" title="Add Instructors"
+					immediate="true"  process="@this"
+					 actionListener="#{InstructorsBean.preAddInstructor}" styleClass="greenBtn" /> &nbsp;&nbsp;
+								
+						<br/>
+						<p:panel><h3>Instructors And TAs</h3><br/></p:panel>
+						<p:dataTable var="row" value="#{InstructorsBean.instructors}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" widgetVar="studentCourse" 
+						id="studentsTable" resizableColumns="true" rows="10" paginator="true" selection="#{InstructorsBean.selectedIns}"
+					 	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,20,40,60,80,100" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                        <p:ajax event="rowSelect" listener="#{InstructorsBean.onRowSelect}" />
+								
+							<p:column width="130" id="ins" sortBy="#{row.name}" filterBy="#{row.name}">
+								<h:outputText value="#{row.name}" />
+								<p:watermark value="Name" forElement="mainForm:pageForm:studentsTable:ins:filter"/>
+							</p:column>
+							
+							<p:column width="130" id="mail" sortBy="#{row.mail}" filterBy="#{row.mail}">
+								<h:outputText value="#{row.mail}" />
+								<p:watermark value="Email" forElement="mainForm:pageForm:studentsTable:mail:filter"/>
+							</p:column>
+							<p:column width="130" id="role" sortBy="#{row.empType}" filterBy="#{row.empType}">
+								<h:outputText rendered="#{row.empType==1}" value="Ins" />
+								<h:outputText rendered="#{row.empType==2}" value="TA" />
+								<p:watermark value="Role" forElement="mainForm:pageForm:studentsTable:role:filter"/>
+							</p:column>
+							
+						</p:dataTable>
+						 
+						
+						</h:form>
+					<p:dialog widgetVar="addInsDlg"
+					id="Dlg" header="New Course" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="440">
+					<h:form id="addInsForm">
+						<div class="dialogWrapper">
+							<h:panelGrid columns="3" id="grid">
+			          			<h:outputLabel value="Name" for="name"/>
+			          			<h:inputText value="#{InstructorsBean.addedInsName}" id="name" required="true" requiredMessage="Insert name"/>
+			          			<p:message for="name"/>
+			          				<h:outputLabel value="Email" for="mail"/>
+			          			<h:inputText value="#{InstructorsBean.addedInsMail}" id="mail" required="true" requiredMessage="Insert email"/>
+			          			<p:message for="mail"/>
+			          			<h:outputLabel value="Role" for="role"/>
+			          			<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="role" value="#{InstructorsBean.selectedrole}" required="true" requiredMessage="Please select role">
+										<f:selectItem itemLabel="Instructor" itemValue="1" />
+										<f:selectItem itemLabel="TA" itemValue="2" />
+									</p:selectOneMenu>
+									
+								</h:panelGroup>
+								<p:message for="role" />
+			          		</h:panelGrid>
+						</div>
+						<ul class="dialogFooter">
+							<li><p:commandButton value="Cancel" title="Cancel" onclick="addInsDlg.hide()" immediate="true" class="dialogCancel" /></li>
+							<li><p:commandButton value="Add" title="Add" actionListener="#{InstructorsBean.addIns}"  update=":mainForm:pageForm:studentsTable " 
+							process="addInsForm" class="dialogOk" /></li>
+						</ul>
+					</h:form>
+				</p:dialog>
+			
+				</p:panel>
+			</div>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

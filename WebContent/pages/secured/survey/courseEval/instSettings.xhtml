@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+				
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					
+					<p:panel id="addSurveyPanel">
+							
+						<h:panelGrid columns="2">
+							<h:outputLabel for="course" value="Course *" class="label" style="vertical-align:top;line-height:5px !important;" />
+							<h:panelGroup class="marginLeft_12">
+								<p:selectOneMenu id="course" value="#{CourseEvaluationViewing.selectedCourse.id}" required="true" requiredMessage="Please select course" style="width:200px">
+									<f:selectItem itemLabel="Select Course" />
+									<f:selectItems var="course" value="#{CourseEvaluationViewing.courses}" 
+									itemLabel="#{course.name}" itemValue="#{course.id}" />	
+									<p:ajax listener="#{CourseEvaluationViewing.updateSelectedCourse(CourseEvaluationViewing.selectedCourse)}" />							
+								</p:selectOneMenu>						
+								<p:message for="course" />
+							</h:panelGroup>											
+						</h:panelGrid>
+						
+						<ul class="formBtns" id="buttonsPanel" style="margin:0 !important;"> 
+							<li><p:commandButton value="Show Results" ajax="false" update="testpanel" actionListener="#{CourseEvaluationViewing.startView}" styleClass="blueBtn marginLeft_80" action="facultyEvalIns.xhtml"/></li>						
+						</ul>
+						<br/>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

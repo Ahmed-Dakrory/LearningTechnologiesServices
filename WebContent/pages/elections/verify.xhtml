@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/electionsContent.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" life="4000" rendered="#{not facesContext.validationFailed}" />
+			<p:panel id="pnl">
+				<ui:remove>Login Form</ui:remove>
+				<h1 class="electionLoginH1">Students' Union Elections</h1>
+				<ul>
+					<p:panel id="inputsGrid" >
+						<li>
+							<p:inputText id="ID" value="#{electionBean.studentID}" required="true" requiredMessage="Please enter your ID" size="40" />
+							<p:message for="ID" />
+							<p:watermark for="ID" value="Student ID" />
+					    </li>
+					    <li>
+							<p:inputText id="code" value="#{electionBean.studentCode}" required="true" requiredMessage="Please enter your Election Code" size="40" />
+							<p:message for="code" />
+							<p:watermark for="code" value="Election Code" />
+					    </li>
+						<li>
+							<p:commandButton id="startVoting" value="Go"  action="#{electionBean.navigateToVotingPage}" ajax="false" styleClass="loginBtn" update="growl" />
+						</li>
+					</p:panel>
+				</ul>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

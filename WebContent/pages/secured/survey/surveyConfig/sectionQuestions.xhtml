@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">secions of survey Config - LT Online Services</ui:define>
+		<ui:define name="content">
+					<h:form  id="form">
+							<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+			
+									<h:panelGroup  id="table">
+									<p:commandButton value="+Add Question"
+									 actionListener="#{sectionQuestionsBean.preAddQuestion}" oncomplete="addDlg.show();"
+									update="growl"/>
+									<p:commandButton value="Go to surveys" 
+									action="surveys.xhtml?faces-redirect=true" 
+								/>
+								<br/>
+								<h:panelGroup id="mainPnl">
+						<p:dataList value="#{sectionQuestionsBean.questions}" var="ques" id="rep" varStatus="quesIndex"  >
+						<b>#{quesIndex.index+1} - #{ques.text}<br/>
+						<p:commandButton value="Add Scale " 
+						actionListener="#{sectionQuestionsBean.preAddScaleType(ques)}" update=":mainForm:form:rep:scalesPnl" process=":mainForm:form:mainPnl"/></b>
+						<h:panelGroup id="scalesPnl">
+						<h:panelGroup rendered="#{sectionQuestionsBean.processedQues.editMode}" id="sds">
+						<h:outputText value="Scale name"/> <a href="#" class="tooltipNote" data-tooltip="it's just naming to the scale name"/>
+						<h:inputText value="#{sectionQuestionsBean.processedQues.scaleType.name}" id="scaleName"/>
+						<h:outputText value="Selection"/>
+						<h:inputText value="#{sectionQuestionsBean.processedQues.selectionName}" />
+						<p:commandButton value="+Add Selection" update=":mainForm:form:rep:scalesPnl" process=":mainForm:form:rep:scalesPnl" 
+						 actionListener="#{sectionQuestionsBean.addSelection}"/>
+						</h:panelGroup>
+						<br/><b>Answers: </b><br/>
+						<ui:repeat value="#{ques.scaleType.selections}" var="selection">
+						<h:outputLabel value="#{selection.name}"/>
+						<p:commandButton value="Delete Selection" 
+						 actionListener="#{sectionQuestionsBean.deleteSelection(selection)}" update=":mainForm:form:mainPnl"/>
+						<br/>
+						</ui:repeat>
+						</h:panelGroup>
+						<p:separator/>
+						<br/></p:dataList>
+						</h:panelGroup>	
+								</h:panelGroup>
+						</h:form>
+					
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+					<p:dialog widgetVar="addDlg" header="+ Add Question" 
+					showEffect="slide" id="dilg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" 
+				 resizable="true" maximizable="true" minimizable="true" class="addDialog" height="250" >
+				 
+				 	<h:form id="dlgForm">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanel" columns="2">
+			
+							<h:panelGroup>
+							<p:outputLabel value="Text" for="name"/>
+							<a href="#" class="tooltipNote" data-tooltip="Question head"/>
+			          		<p:inputTextarea required="true"
+			          		 requiredMessage="Please insert the name"
+			          		  id="name" value="#{sectionQuestionsBean.addedQuestion.text}"/>
+			          			<p:message for="name"/>
+			          		</h:panelGroup>
+			          		
+			          	
+			    <h:panelGroup>
+				<p:commandLink value="Add" title="Add" actionListener="#{sectionQuestionsBean.addQuestion}"  process="addPanel"
+							  update="dlgForm:addPanel :mainForm:form:table" 
+							  class="blueBtn" />
+				<p:commandButton value="Cancel" title="Cancel" onclick="addDlg.hide()" 
+				immediate="true"  class="redBtn"/>
+				</h:panelGroup>
+			          </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+	   </ui:define>
+	  
+		</ui:composition>
+</html>

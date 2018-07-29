@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Lecture Objectives Feedback - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+					<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="Lecture Objectives Feedback" disabled="true" />
+							<p:menuitem value="Course: #{fillLectureObjectiveFeedbackBean.selectedCourse.name}" disabled="true" />
+							<p:menuitem value="Instructor: #{fillLectureObjectiveFeedbackBean.selectedIns.name}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+						   <div class="tabWrapper">
+								<ui:repeat value="#{fillLectureObjectiveFeedbackBean.questions}" var="ques" varStatus="index">
+									<table class="evalTable">
+										<tr>
+											<td width="30" class="evalQNo"><h:outputText value="#{index.index+1}."/></td>
+											<td style="vertical-align:top !important;" width="700"><h:outputText value="#{ques.text}"/></td>
+											<td width="40">&nbsp;</td>
+											<td class="evalRadio" style="vertical-align:top;">
+												<h:panelGroup>
+ 													<p:outputPanel id="customPanel" style="margin-bottom:10px">
+ 														
+											        	<p:selectOneRadio id="customRadio"  layout="custom" value="#{ques.selection}"  disabled="#{fillLectureObjectiveFeedbackBean.disableSubmitSurvey}">
+											         		<f:selectItems itemLabel="#{selection.id}" itemValue="#{selection.id}" var="selection" value="#{ques.scaleType.selections}" />
+											         		<p:ajax listener="#{fillLectureObjectiveFeedbackBean.saveAns(ques.selection,ques)}" />
+											        	</p:selectOneRadio>
+ 										
+ 														<table class="eval-emotion">
+ 															<tr>
+ 																<td><p:radioButton id="opt1" for="customRadio" itemIndex="0" /></td>
+ 																<td width="50">&nbsp;</td>
+ 																<td><p:radioButton id="opt2" for="customRadio" itemIndex="1" /></td>
+ 																<td width="50">&nbsp;</td>
+ 																<td><p:radioButton id="opt3" for="customRadio" itemIndex="2" /></td>
+ 																														
+ 																
+ 															</tr>
+ 															<tr>
+ 																<td>
+ 																	<h:graphicImage value="#{resource['images:icon_emo-happy.png']}" alt="Happy" id="Happy" style="margin:0 auto" /> 
+      																<p:tooltip id="toolTipFade3" for="Happy" value="Happy" position="top"/>
+ 																</td>
+ 																<td width="50">&nbsp;</td>
+ 																<td>
+ 																	<h:graphicImage value="#{resource['images:icon_emo-average.png']}" alt="Normal" id="Normal" />
+												        			<p:tooltip id="toolTipFade2" for="Normal" value="Normal" position="top"/> 
+ 																</td>
+ 																<td width="50">&nbsp;</td>
+ 																<td>
+ 																	<h:graphicImage value="#{resource['images:icon_emo-sad.png']}" alt="Sad" id="Sad" /> 
+												        			<p:tooltip id="toolTipFade1" for="Sad" value="Sad" position="top"/>
+ 																</td>
+ 															</tr>
+ 														</table>
+      	  											</p:outputPanel>
+												</h:panelGroup>
+											</td>
+										</tr>
+									</table>
+								</ui:repeat>
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+									<li><p:commandButton value="Submit for this course" ajax="false" update="form" styleClass="blueBtn"
+							 			actionListener="#{fillLectureObjectiveFeedbackBean.endSurvey}" process="@this" disabled="#{fillLectureObjectiveFeedbackBean.disableSubmitSurvey}"/></li>
+									<li style="padding-top:21px"><a href="#" class="tooltipNote"	data-tooltip="Please Note that once you submit this instructor you won't be able to change the evaluation"/></li>				
+								</ul>
+								<br/>
+							</div>
+						</p:panel>
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

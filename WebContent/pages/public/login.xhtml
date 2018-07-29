@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/loginContent.xhtml">
+	<ui:define name="content">
+		<h:form id="form" prependId="false">
+			<p:growl id="growl" showDetail="true" sticky="true"
+				rendered="#{not facesContext.validationFailed}" />
+			<p:panel id="pnl">
+				<ui:remove>Login Form</ui:remove>
+				<p:panel id="loginGrid" rendered="#{!loginBean.registerMood and  !loginBean.uplodeImageMood}">
+					<ul>
+						<li>
+							<h:inputText id="Mail" value="#{loginBean.mail}" class="inputField inputFieldStyle" required="true" requiredMessage="Enter your email address." autocomplete="false" size="40" />
+							<p:watermark for="Mail" value="Email" /> 
+							<p:message for="Mail" />
+						</li>
+						<li>
+							<h:inputSecret id="Password" value="#{loginBean.password}" class="inputField inputFieldStyle" required="true" requiredMessage="Enter your password." autocomplete="false" size="40" />
+							<p:watermark for="Password" value="Password" />
+							<p:message for="Password" />
+						</li>
+						<li class="rememberLogin">
+							<h:selectBooleanCheckbox id="_spring_security_remember_me" value="#{loginBean.rememberMe}" /> &nbsps; &nbsp; 
+							<h:outputLabel value="Remember me" />
+						</li>
+						<li><p:commandButton id="submitButton" value="Log In" rendered="#{!loginBean.registerMood}"
+						 action="#{loginBean.login}" ajax="true" update="pnl" class="outerBtn" /></li>
+					</ul>
+					<ul class="outerinks">
+						<li><h:outputText value="New User!" rendered="#{!loginBean.registerMood}" /> &nbsp;</li>
+						<li><p:commandButton value="Register" action="#{loginBean.register}" rendered="#{!loginBean.registerMood}" update="panelGrid2 growl" ajax="false" immediate="true" /></li>
+						<li class="floatR"><p:commandButton id="forgetPassword" value="Forgot Password!" immediate="true" rendered="#{!loginBean.registerMood}" action="forgetPassword.xhtml?faces-redirect=true" /></li>
+						
+					</ul>
+				</p:panel>
+				<!-- <ui:remove>Forget Password Form</ui:remove>
+					<p:blockUI block="pnl" trigger="forgetPassword" id="block" >
+					   ...<br />
+					</p:blockUI>
+					<ui:remove>Register Form</ui:remove> -->
+				<p:panel id="registerGrid" rendered="#{loginBean.registerMood || loginBean.uplodeImageMood}">
+					<ul>
+						<li>
+							<h:inputText id="registerName" value="#{loginBean.registerName}" class="inputField inputFieldStyle" required="true" requiredMessage="Enter your name." autocomplete="false" size="40" rendered="#{loginBean.registerMood }" />
+							<p:watermark for="registerName" value="Name" />
+							<p:message for="registerName" rendered="#{loginBean.registerMood }" />
+						</li>
+						<li>
+							<h:inputText id="registerMail" value="#{loginBean.registerMail}" class="inputField inputFieldStyle" required="true" validatorMessage="Please enter valid email address" requiredMessage="Enter your email address." autocomplete="false" size="40" rendered="#{loginBean.registerMood }">
+								<f:validateRegex disabled="#{!loginBean.registerMood }"
+									pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</h:inputText>
+							<p:watermark for="registerMail" value="Email" />
+							<p:message for="registerMail" rendered="#{loginBean.registerMood }" />
+						</li>
+						<ui:remove>
+							<li><span class="input input--minoru"> <h:inputText
+										id="registerMail" value="#{loginBean.registerMail}"
+										class="inputField inputFieldStyle" required="true"
+										requiredMessage="Enter your email address."
+										autocomplete="false" size="40" /> <label
+									class="input__label input__label--minoru" for="registerMail">
+										<span
+										class="input__label-content input__label-content--minoru">Email</span>
+								</label> <p:watermark for="registerMail" value="Email" /> <p:message
+										for="registerMail" />
+							</span></li>
+						</ui:remove>
+						<li>
+							<p:password id="registerPass" value="#{loginBean.registerPassword}" class="inputField inputFieldStyle" required="true" requiredMessage="Enter your password." autocomplete="false" size="40" validatorMessage="Minimum 6 characters" rendered="#{loginBean.registerMood }">
+								<f:validateLength minimum="6" maximum="100000000" disabled="#{!loginBean.registerMood }" />
+							</p:password>
+							<p:watermark for="registerPass" value="Password" rendered="#{loginBean.registerMood }" />
+							<p:message for="registerPass" rendered="#{loginBean.registerMood }" /></li>
+						<li>
+							<p:password id="registerConfirmPass" value="#{loginBean.registerConfirmPass}" class="inputField inputFieldStyle" required="true" requiredMessage="Confirm your password here." autocomplete="false" size="40" rendered="#{loginBean.registerMood }" /> 
+							<p:watermark for="registerConfirmPass" value="Confirm Password" rendered="#{loginBean.registerMood }" />
+							<p:message for="registerConfirmPass" rendered="#{loginBean.registerMood }" /></li>
+					
+						<li><ui:remove>
+							<h:panelGrid columns="1" style="text-align:center;width:340px;">
+							<h:panelGroup id="imagePreview" class="previewImg"> 
+								<p:graphicImage library="images" name="icon_user.png" rendered="#{loginBean.image == null}" />
+								<p:graphicImage value="#{loginBean.imagePreview}" rendered="#{loginBean.image != null }" />
+								<h:inputHidden id="imagId" required="true" value="#{loginBean.imageString}" requiredMessage="Please select image" />
+								<p:message for="imagId" />
+							</h:panelGroup>
+							<p:fileUpload id="fuid" value="#{loginBean.uploadedImage}"
+								auto="true" mode="advanced" skinSimple="true" 
+								update="imagePreview fuid"
+								showButtons="false" immediate="true"
+								fileUploadListener="#{loginBean.previewImage}"
+								label="Select image" allowTypes="/(\.|\/)(png|jpg|bmp|gif)$/" sizeLimit="500000"  description="Student Image" multiple="false" uploadLabel="Upload Image" cancelLabel="cancel" />
+							</h:panelGrid>
+							
+							<span class="allowedExt">Allowed file types: .png, .jpg, .bmp, .gif &nbsp; Maximum size: 500KB</span>
+							</ui:remove>
+						</li>
+						<br/>
+						<li><p:commandButton value="Register" action="#{loginBean.confirmRegisteration}" process="@this" ajax="false" styleClass="outerBtn" 
+						rendered="#{loginBean.registerMood }" /></li>
+					<ui:remove>	<li><p:commandButton value="Save My Image" action="#{loginBean.saveImage}" process="@this" ajax="false" styleClass="outerBtn" rendered="#{loginBean.uplodeImageMood}" /></li></ui:remove>
+					</ul>
+					<ul class="outerinks">
+						<li><h:outputText value="Already have an account!" rendered="#{loginBean.registerMood }" /> &nbsp;</li>
+						<li><p:commandButton value="Log In" rendered="#{loginBean.registerMood }" action="#{loginBean.cancelRegisteration}" immediate="true" ajax="false" update="registerGrid loginGrid :mainForm:form" /></li>
+					</ul>
+				</p:panel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

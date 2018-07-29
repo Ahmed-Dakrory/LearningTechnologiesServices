@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Declaration of Concentration - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Majors" />
+							<p:menuitem value="Declaration of Concentration" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="mainPanel" rendered="#{!DeclarationOfConcentrationStudentBean.updateMood}">
+						<div class="tabWrapper">
+							<h:panelGrid columns="2" rendered="#{DeclarationOfConcentrationStudentBean.renderInputs}" id="inputs">
+								<p:outputLabel value="Mobile" for="mobileNO" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputText required="true" id="mobileNO" value="#{DeclarationOfConcentrationStudentBean.mobile}" validatorMessage="Please enter digits only, min 8 and max 11 digits" requiredMessage="Please enter mobile" size="40" class="input290px">
+										<f:validateDoubleRange />
+											<f:validateLength minimum="8" maximum="11"/>
+										</p:inputText>
+										<p:message for="mobileNO" />
+									</h:panelGroup>
+									
+									<p:outputLabel value="Major" for="majors"/>
+									<h:panelGroup class="marginLeft_12">
+									
+								<p:selectOneMenu id="majors" required="true" requiredMessage="Please select concentration" 
+									value="#{DeclarationOfConcentrationStudentBean.selectedConcentration}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems var="con" 
+										itemLabel="#{con.label}" itemValue="#{con.value}" value="#{DeclarationOfConcentrationStudentBean.concentrationLst}"  />
+								</p:selectOneMenu>
+								<p:message for="majors" />
+										
+							</h:panelGroup>
+												</h:panelGrid>
+								<p:commandButton value="Save" action="#{DeclarationOfConcentrationStudentBean.submit()}" ajax="false" class="marginLeft_74 greenBtn" />
+							</div>
+						</p:panel>
+						<p:panel id="updatePanel" rendered="#{DeclarationOfConcentrationStudentBean.updateMood}">
+							<div class="tabWrapper">
+								<h:panelGrid columns="2" id="updatePnl">
+									<p:outputLabel value="Your Concentration is:    #{DeclarationOfConcentrationStudentBean.studentConcentration.concentration.name}" /><br/>
+								<p:commandButton value="Change" action="#{DeclarationOfConcentrationStudentBean.preUpdate()}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>
+								
+								</h:panelGrid>
+							</div>
+						</p:panel>
+						</div>
+					
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

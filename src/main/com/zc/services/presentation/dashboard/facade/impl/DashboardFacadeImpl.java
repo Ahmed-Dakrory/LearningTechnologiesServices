@@ -1,0 +1,558 @@
+/**
+ * 
+ */
+package main.com.zc.services.presentation.dashboard.facade.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import main.com.zc.services.applicationService.dashboard.IDashboardAppService;
+import main.com.zc.services.domain.petition.model.ChangeMajorForm;
+import main.com.zc.services.domain.petition.model.CoursePetition;
+import main.com.zc.services.domain.petition.model.DropAddForm;
+import main.com.zc.services.domain.petition.model.OverloadRequest;
+import main.com.zc.services.domain.shared.Constants;
+import main.com.zc.services.presentation.dashboard.dto.AcademicPetitionDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.AddDropDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.ChangeMajorDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.CourseRepeatDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.DashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.IncompleteGradeDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.JuniorTADashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.OverloadRequestDashboardElement;
+import main.com.zc.services.presentation.dashboard.facade.IDashboardFacade;
+import main.com.zc.shared.appService.IPersonGetDataAppService;
+import main.com.zc.shared.presentation.dto.PersonDataDTO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author momen
+ *
+ */
+@Service("dashboardFacadeImpl")
+public class DashboardFacadeImpl implements IDashboardFacade {
+
+	@Autowired
+	IDashboardAppService dashboardAppServ;
+	
+	@Autowired
+	IPersonGetDataAppService personAPPService;
+	
+	@Override
+	public List<DashboardElement> fillAdminDashboardElements()
+	{
+		List<DashboardElement> elements = null;
+		
+		//get the user type
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userMail = authentication.getName();
+		
+		if(userMail.equals(Constants.DEAN_OF_STRATEGIC))
+		{
+			elements = new ArrayList<DashboardElement>();
+			
+			fillAdminDashboardStratgic(elements);
+		}else if(userMail.equals(Constants.DEAN_OF_ACADEMIC))
+		{
+			elements = new ArrayList<DashboardElement>();
+			
+			fillAdminDashboardAcademic(elements);
+		}
+		
+		return elements;
+	}
+	
+	@Override
+	public List<DashboardElement> fillDashboardElements()
+	{
+		List<DashboardElement> elements = new ArrayList<DashboardElement>();
+		
+		//get the user type
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userMail = authentication.getName();
+		
+		if(userMail.startsWith("S-") || userMail.startsWith("s-"))
+		{
+			//student email
+			PersonDataDTO personData = personAPPService.getPersonByPersonMail(userMail);
+			if(personData != null)
+				fillStudentDashboard(elements,personData.getId());
+		}
+		else
+		{
+			//user email
+			switch (userMail) 
+			{
+			case Constants.ADMISSION_DEPT:
+				fillAdmissionDepartmentDashboard(elements);
+				break;
+			case Constants.ADMISSION_HEAD:
+				fillAddmissionHeadDashboard(elements);
+				break;
+			case Constants.DEAN_OF_STRATEGIC:
+				fillDeanDashboardStrategic(elements,userMail);
+				break;
+			case Constants.DEAN_OF_ACADEMIC:
+				fillDeanDashboardAcademic(elements,userMail);
+				break;
+			case Constants.PROVOST:
+				fillProvostDashboard(elements, userMail);
+				break;
+			case Constants.LTS_SYSTEM_ADMIN:
+				fillAdminDashboard(elements);
+				break;
+			default: //instructor mail
+				fillInstructorDashboard(elements, userMail);
+				break;
+			}
+		}
+		
+		return elements;
+	}
+	
+	private void fillDeanDashboardStrategic(List<DashboardElement> elements,String mail)
+	{
+		//petition
+		List<CoursePetition> courseForms = dashboardAppServ.getDeanAcademicPetitionsPending();
+		Integer count = 0;
+		if(courseForms != null)
+			count = courseForms.size();
+		count += dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		List<DropAddForm> dropAddForms = dashboardAppServ.getDeanAddDropPending();
+		count = 0;
+		if(dropAddForms != null)
+			count = dropAddForms.size();
+		count += dashboardAppServ.getInstructorAddDropPending(mail);
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		List<ChangeMajorForm> changMajorForms = dashboardAppServ.getDeanChangeMajorPending();
+		count = 0;
+		if(changMajorForms != null)
+			count = changMajorForms.size();
+		count += dashboardAppServ.getInstructorChangeMajorPending(mail);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getDeanOverloadRequestPending();
+		count = 0;
+		if(overloadRequestForms != null)
+			count = overloadRequestForms.size();
+		count += dashboardAppServ.getInstructorOverloadRequestPending(mail);
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getInstructorCourseRepeatPending(mail);
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+		
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Incomplete grade dashboard 
+		 */
+		count = dashboardAppServ.getDeanIncompleteGradePending();
+		count += dashboardAppServ.getInstructorIncompleteGradePending(mail);
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Junior TA dashboard 
+		 */
+		count = dashboardAppServ.getInstructorJuniorTAPending(mail);
+		elements.add(new JuniorTADashboardElement(count.toString()));
+		
+	}
+	private void fillDeanDashboard(List<DashboardElement> elements,String mail)
+	{
+		//petition
+		List<CoursePetition> courseForms = dashboardAppServ.getDeanAcademicPetitionsPending();
+		Integer count = 0;
+		if(courseForms != null)
+			count = courseForms.size();
+		count += dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		List<DropAddForm> dropAddForms = dashboardAppServ.getDeanAddDropPending();
+		count = 0;
+		if(dropAddForms != null)
+			count = dropAddForms.size();
+		count += dashboardAppServ.getInstructorAddDropPending(mail);
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		List<ChangeMajorForm> changMajorForms = dashboardAppServ.getDeanChangeMajorPending();
+		count = 0;
+		if(changMajorForms != null)
+			count = changMajorForms.size();
+		count += dashboardAppServ.getInstructorChangeMajorPending(mail);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getDeanOverloadRequestPending();
+		count = 0;
+		if(overloadRequestForms != null)
+			count = overloadRequestForms.size();
+		count += dashboardAppServ.getInstructorOverloadRequestPending(mail);
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getDeanCourseRepeatPending();
+		count += dashboardAppServ.getInstructorCourseRepeatPending(mail);
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+		
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Incomplete grade dashboard 
+		 */
+		count = dashboardAppServ.getDeanIncompleteGradePending();
+		count += dashboardAppServ.getInstructorIncompleteGradePending(mail);
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Junior TA dashboard 
+		 */
+		count = dashboardAppServ.getDeanJuniorTAPending();
+		count += dashboardAppServ.getInstructorJuniorTAPending(mail);
+		elements.add(new JuniorTADashboardElement(count.toString()));
+		
+	}
+	private void fillDeanDashboardAcademic(List<DashboardElement> elements,String mail)
+	{
+	
+		//petition
+			Integer	count = dashboardAppServ.getInstructorAcademicPetitionsPending(mail);	
+			elements.add(new AcademicPetitionDashboardElement(count.toString()));
+				
+				//addDrop
+				count = dashboardAppServ.getInstructorAddDropPending(mail);
+				elements.add(new AddDropDashboardElement(count.toString()));
+				
+				//changeMajor
+				count = dashboardAppServ.getInstructorChangeMajorPending(mail);
+				elements.add(new ChangeMajorDashboardElement(count.toString()));
+				
+				//overload
+				count = dashboardAppServ.getInstructorOverloadRequestPending(mail);
+				elements.add(new OverloadRequestDashboardElement(count.toString()));
+				
+				//course repeat
+				count = dashboardAppServ.getDeanCourseRepeatPending();
+				count += dashboardAppServ.getInstructorCourseRepeatPending(mail);
+				elements.add(new CourseRepeatDashboardElement(count.toString()));
+				
+				
+				/**
+				 * @author Omnya
+				 *
+				 *Incomplete grade dashboard 
+				 */
+				count = dashboardAppServ.getInstructorIncompleteGradePending(mail);
+				elements.add(new IncompleteGradeDashboardElement(count.toString()));
+				
+				/**
+				 * @author Omnya
+				 *
+				 *Junior TA dashboard 
+				 */
+				count = dashboardAppServ.getDeanJuniorTAPending();
+				count += dashboardAppServ.getInstructorJuniorTAPending(mail);
+				elements.add(new JuniorTADashboardElement(count.toString()));
+			
+	}
+	
+	private void fillAddmissionHeadDashboard(List<DashboardElement> elements)
+	{
+		//petition
+		List<CoursePetition> courseForms = dashboardAppServ.getAdmissionHeadAcademicPetitionsPending();
+		Integer count = 0;
+		if(courseForms != null)
+			count = courseForms.size();
+		
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionHeadAddDropPending();
+		count = 0;
+		if(dropAddForms != null)
+			count = dropAddForms.size();
+		
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
+		count = 0;
+		if(changMajorForms != null)
+			count = changMajorForms.size();
+		
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionHeadOverloadRequestPending();
+		count = 0;
+		if(overloadRequestForms != null)
+			count = overloadRequestForms.size();
+		
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getAdmissionHeadCourseRepeatPending();
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+		
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Incomplete grade dashboard 
+		 */
+		count = dashboardAppServ.getAdmissionHeadIncompleteGradePending();
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+	}
+	
+	private void fillAdmissionDepartmentDashboard(List<DashboardElement> elements)
+	{
+		//petition
+		List<CoursePetition> courseForms = dashboardAppServ.getAdmissionDepartmentAcademicPetitionsPending();
+		Integer count = 0;
+		if(courseForms != null)
+			count = courseForms.size();
+		
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionDepartmentAddDropPending();
+		count = 0;
+		if(dropAddForms != null)
+			count = dropAddForms.size();
+		
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionDepartmentChangeMajorPending();
+		count = 0;
+		if(changMajorForms != null)
+			count = changMajorForms.size();
+		
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionDepartmentOverloadRequestPending();
+		count = 0;
+		if(overloadRequestForms != null)
+			count = overloadRequestForms.size();
+		
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getAdmissionDepartmentCourseRepeatPending();
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+		
+		/**
+		 * @author Omnya
+		 *
+		 */
+		count = dashboardAppServ.getAdmissionDepartmentIncompleteGradePending();
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+	}
+	
+	private void fillProvostDashboard(List<DashboardElement> elements,String mail)
+	{
+		//petition
+		Integer count =  dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		count = dashboardAppServ.getInstructorAddDropPending(mail);
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		count = dashboardAppServ.getInstructorChangeMajorPending(mail);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getProvostOverloadRequestPending();
+		count = 0;
+		if(overloadRequestForms != null)
+			count = overloadRequestForms.size();
+		count += dashboardAppServ.getInstructorOverloadRequestPending(mail);
+		
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getInstructorCourseRepeatPending(mail);
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+	}
+	
+	private void fillInstructorDashboard(List<DashboardElement> elements,String mail)
+	{
+		//petition
+		Integer count =  dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		count = dashboardAppServ.getInstructorAddDropPending(mail);
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		count = dashboardAppServ.getInstructorChangeMajorPending(mail);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		count = dashboardAppServ.getInstructorOverloadRequestPending(mail);
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getInstructorCourseRepeatPending(mail);
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Incomplete grade dashboard 
+		 */
+		count = dashboardAppServ.getInstructorIncompleteGradePending(mail);
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+		
+		
+		/**
+		 * @author Omnya
+		 *
+		 *Junior TA Dashboard
+		 */
+		count = dashboardAppServ.getInstructorJuniorTAPending(mail);
+		elements.add(new JuniorTADashboardElement(count.toString()));
+	
+	}
+
+	private void fillAdminDashboard(List<DashboardElement> elements)
+	{
+		//petition
+		Integer count =  dashboardAppServ.getAdminAcademicPetitionsPending();
+		Integer all = count + dashboardAppServ.getAdminAcademicPetitionsOld();
+		elements.add(new AcademicPetitionDashboardElement(count.toString() + "/" +all.toString()));
+		
+		//addDrop
+		count = dashboardAppServ.getAdminAddDropPending();
+		all = count + dashboardAppServ.getAdminAddDropOld();
+		elements.add(new AddDropDashboardElement(count.toString() + "/" +all.toString()));
+		
+		//changeMajor
+		count = dashboardAppServ.getAdminChangeMajorPending();
+		all = count + dashboardAppServ.getAdminChangeMajorOld();
+		elements.add(new ChangeMajorDashboardElement(count.toString() + "/" +all.toString()));
+		
+		//overload
+		count = dashboardAppServ.getAdminOverloadRequestPending();
+		all = count + dashboardAppServ.getAdminOverloadRequestOld();
+		elements.add(new OverloadRequestDashboardElement(count.toString() + "/" +all.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getAdminCourseRepeatPending();
+		all = count + dashboardAppServ.getAdminCourseRepeatOld();
+		elements.add(new CourseRepeatDashboardElement(count.toString() + "/" +all.toString()));
+		
+		//Incomplete grade
+				count = dashboardAppServ.getAdminIncompleteGradePending();
+				all = count + dashboardAppServ.getAdminIncompleteGradeOld();
+				elements.add(new IncompleteGradeDashboardElement(count.toString() + "/" +all.toString()));
+				
+	}
+	private void fillAdminDashboardStratgic(List<DashboardElement> elements)
+	{
+		//petition
+				Integer count =  dashboardAppServ.getAdminAcademicPetitionsPending();
+				Integer all = count + dashboardAppServ.getAdminAcademicPetitionsOld();
+				elements.add(new AcademicPetitionDashboardElement(count.toString() + "/" +all.toString()));
+				
+				//addDrop
+				count = dashboardAppServ.getAdminAddDropPending();
+				all = count + dashboardAppServ.getAdminAddDropOld();
+				elements.add(new AddDropDashboardElement(count.toString() + "/" +all.toString()));
+				
+				//changeMajor
+				count = dashboardAppServ.getAdminChangeMajorPending();
+				all = count + dashboardAppServ.getAdminChangeMajorOld();
+				elements.add(new ChangeMajorDashboardElement(count.toString() + "/" +all.toString()));
+				
+				//overload
+				count = dashboardAppServ.getAdminOverloadRequestPending();
+				all = count + dashboardAppServ.getAdminOverloadRequestOld();
+				elements.add(new OverloadRequestDashboardElement(count.toString() + "/" +all.toString()));
+				
+//				//course repeat
+//				count = dashboardAppServ.getAdminCourseRepeatPending();
+//				all = count + dashboardAppServ.getAdminCourseRepeatOld();
+//				elements.add(new CourseRepeatDashboardElement(count.toString() + "/" +all.toString()));
+//				
+				//Incomplete grade
+						count = dashboardAppServ.getAdminIncompleteGradePending();
+						all = count + dashboardAppServ.getAdminIncompleteGradeOld();
+						elements.add(new IncompleteGradeDashboardElement(count.toString() + "/" +all.toString()));
+				
+	}
+	private void fillAdminDashboardAcademic(List<DashboardElement> elements)
+	{
+			
+		
+				//course repeat
+			Integer	count = dashboardAppServ.getAdminCourseRepeatPending();
+			Integer	all = count + dashboardAppServ.getAdminCourseRepeatOld();
+				elements.add(new CourseRepeatDashboardElement(count.toString() + "/" +all.toString()));
+				
+			
+	}
+	
+	private void fillStudentDashboard(List<DashboardElement> elements,Integer studentId)
+	{
+		//petition
+		Integer count =  dashboardAppServ.getStudentAcademicPetitionsPending(studentId);
+		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		
+		//addDrop
+		count = dashboardAppServ.getStudentAddDropPending(studentId);
+		elements.add(new AddDropDashboardElement(count.toString()));
+		
+		//changeMajor
+		count = dashboardAppServ.getStudentChangeMajorPending(studentId);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//overload
+		count = dashboardAppServ.getStudentOverloadRequestPending(studentId);
+		elements.add(new OverloadRequestDashboardElement(count.toString()));
+		
+		//course repeat
+		count = dashboardAppServ.getStudentCourseRepeatPending(studentId);
+		elements.add(new CourseRepeatDashboardElement(count.toString()));
+		
+		/**
+		 * @author Omnya
+		 *
+		 */
+		count = dashboardAppServ.getStudentIncompleteGradePending(studentId);
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+		
+		/**
+		 * @author Omnya
+		 *
+		 */
+		count = dashboardAppServ.getStudentJuniorTAPending(studentId);
+		elements.add(new JuniorTADashboardElement(count.toString()));
+		
+		
+		
+	}
+
+}

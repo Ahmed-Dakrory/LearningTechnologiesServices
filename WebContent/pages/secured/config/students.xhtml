@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Import Students - LT Online Services</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Import Students" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel class="attendance">
+				<h:form id="pageForm">
+				
+				
+				
+					
+								
+						<br/>
+						<p:panel><h3>Students</h3><br/></p:panel>
+						<p:dataTable var="row" value="#{StudentsBean.students}" selectionMode="single" rowKey="#{row.facultyId}" sortMode="multiple" widgetVar="studentCourse" 
+						id="studentsTable" resizableColumns="true" rows="100" paginator="true" selection="#{ImportStudentsBean.selectedStudentsLst}"
+					 	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="100,200,300,400" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                        <p:ajax event="rowSelect" listener="#{StudentsBean.onRowSelect}" />
+								
+							<p:column width="130" id="student" sortBy="#{row.name}" filterBy="#{row.name}">
+								<h:outputText value="#{row.name}" />
+								<p:watermark value="Name" forElement=":pageForm:studentsTable:student:filter"/>
+							</p:column>
+							<p:column width="130" id="id" sortBy="#{row.facultyId}" filterBy="#{row.facultyId}">
+								<h:outputText value="#{row.facultyId}" />
+								<p:watermark value="ID" forElement="pageForm:studentsTable:id:filter"/>
+							</p:column>
+							<p:column width="130" id="mail" sortBy="#{row.mail}" filterBy="#{row.mail}">
+								<h:outputText value="#{row.mail}" />
+								<p:watermark value="ID" forElement="pageForm:studentsTable:mail:filter"/>
+							</p:column>
+							<p:column width="130" id="phone" sortBy="#{row.phone}" filterBy="#{row.phone}">
+								<h:outputText value="#{row.phone}" />
+								<p:watermark value="Phone" forElement="pageForm:studentsTable:phone:filter"/>
+							</p:column>
+							
+						</p:dataTable>
+						 
+						
+					</h:form>
+				</p:panel>
+			</div>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

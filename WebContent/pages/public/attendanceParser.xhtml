@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="#{resource['css:styles.css']}" />
+		<link rel="stylesheet" href="#{resource['css:normalize.css']}" />
+		<link rel="stylesheet" href="#{resource['css:fonts.css']}" />
+		<link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
+		<h:outputScript library="JSEffect" name="JS/modernizr.custom.js" />
+		<!-- Dialog Effects -->
+		<ui:remove>
+		<h:outputStylesheet library="ButtonComponentMorph" name="css/component.css" />
+		<h:outputStylesheet library="ButtonComponentMorph" name="css/content.css" />
+		</ui:remove>
+		<title><ui:insert name="title">Attendance Parsar- LT Online Services</ui:insert></title>
+	</h:head>
+	<h:body style="background:#f5f8fa;">
+		<h:form id="form" style="margin:0 18px;">
+			<p:growl id="growl" showDetail="true" sticky="true" rendered="#{not facesContext.validationFailed}" />
+			<ul class="header">
+				<li>
+					<p:breadCrumb>
+						<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    <p:menuitem value="Attendance" style="cursor:default;" />
+						<p:menuitem value="Attendance Parsar" disabled="true" />
+					</p:breadCrumb>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel id="pnl">
+					<h:panelGroup id="votingGrid">
+						<h4>Attendance Parser:</h4>
+						<h:panelGrid columns="2">
+		                	<p:fileUpload fileUploadListener="#{LectureAttendanceParser.upload}" allowTypes="/(\.|\/)(xlsx)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton attachmentFileUploadButton" description="Attachment"
+								auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+							<p:outputLabel id="attachmentFileNameLable" value="#{LectureAttendanceParser.attachmentFileName}" class="marginLeft_18" />
+	                        <span class="allowedExt" style="margin-left:0;">Allowed file type:.xlsx</span>
+	                    </h:panelGrid>
+	                    <br/>
+	                    <p:commandButton id="attachmentFileUploadButton" value="upload" action="#{LectureAttendanceParser.parse}" disabled="#{LectureAttendanceParser.uploadedFile == null}" ajax="true" 
+	                    	class="blueBtn" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable attachmentFileUploadButton tbl"/>
+-
+	                    <p:commandButton id="attachmentFileRemoveButton" value="remove" 
+	                    action="#{LectureAttendanceParser.removeAttachment}"
+	                     disabled="#{LectureAttendanceParser.uploadedFile == null}" ajax="true"
+	                      class="grayBtn" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable attachmentFileUploadButton"/>
+					</h:panelGroup>
+					<br/><br/>
+					
+					<p:dataTable id="tbl" var="student" value="#{LectureAttendanceParser.attendanceList}" paginatorPosition="top" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                 		paginator="true" rows="20" style="margin-bottom:20px">
+ 						<p:column headerText="ID">
+            				<h:outputText value="#{student.fileNo}" />
+        				</p:column>
+				        <p:column headerText="Name">
+				        	<h:outputText value="#{student.studentName}" />
+				        </p:column>
+				        <p:column headerText="First In">
+				        	<h:outputText value="#{student.firstString}" />
+				        </p:column>
+						<p:column headerText="Last Out">
+							<h:outputText value="#{student.lastString}" />
+						</p:column>
+						<p:column headerText="Status">
+							<h:outputText value="#{student.studentStatus}" />
+						</p:column>
+   				 	</p:dataTable>
+   				 	<br/>
+   				 	<p:commandButton id="exportBtn" value="Export" styleClass="blueBtn" ajax="false" title="#{msg.general_export_as_xls}">
+    					<p:dataExporter type="xls" target="tbl" fileName="Attendance"/>
+					</p:commandButton>
+				</p:panel>
+			</div>
+		</h:form>
+	</h:body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Daily Attendance - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+						    <p:menuitem value="Attendance" />
+							<p:menuitem value="Daily Attendance" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<h4>Search for Attendance</h4>
+						<ul class="srchUl">
+							<li><h:outputLabel value="Search with date"/></li>
+							<li>
+								<p:calendar id="searchDate" value="#{studentDailyAttendanceBean.searchDate}" required="true" requiredMessage="Select Date is required" />
+				        		<p:watermark for="searchDate" value="Select Date" id="watermark" />
+				        		<p:message for="searchDate" />
+							</li>
+				         	<li><h:commandButton id="search" actionListener="#{studentDailyAttendanceBean.searchByDate}" value="Search" styleClass="blueBtn"/></li>
+				         	<li><h:commandButton id="cancel" actionListener="#{studentDailyAttendanceBean.cancelSearchMood}" value="Reset Search" rendered="#{studentDailyAttendanceBean.searchMood}" styleClass="grayBtn" /></li>
+			        	</ul>
+		        	</p:panel>
+					<p:panel id="attPanel">
+						<p:dataTable resizableColumns="true" var="time" value="#{studentDailyAttendanceBean.dailyAttList}" selectionMode="multiple" selection="#{studentDailyAttendanceBean.selectedDailyAttList}"
+							rowKey="#{time.personId}" rows="20" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                	rowsPerPageTemplate="5,10,20,40,60" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}" widgetVar="timeTable" id="timeDatatable" scrollable="true">
+							<p:column width="200" id="date" sortBy="#{time.dateString}" filterBy="#{time.dateString}">
+								<h:outputText value="#{time.dateString}" />
+								<p:watermark value="Day" forElement="mainForm:form:timeDatatable:date:filter"/>
+							</p:column>
+							<p:column width="200" id="checkIn" sortBy="#{time.friendlyFirstIn}" filterBy="#{time.friendlyFirstIn}">
+								<h:outputText value="#{time.friendlyFirstIn}" />
+								<p:watermark value="Check In" forElement="mainForm:form:timeDatatable:checkIn:filter"/>
+							</p:column>
+							<p:column width="200" id="checkOut" sortBy="#{time.friendlyLastOut}" filterBy="#{time.friendlyLastOut}">
+								<h:outputText value="#{time.friendlyLastOut}" />
+								<p:watermark value="Check Out" forElement="mainForm:form:timeDatatable:checkOut:filter" />
+							</p:column>
+							<p:column width="200" id="studentStatus" sortBy="#{time.studentStatus}" filterBy="#{time.studentStatus}">
+								<h:outputText value="#{time.studentStatus}" />
+								<p:watermark value="Status" forElement="mainForm:form:timeDatatable:studentStatus:filter"/>
+							</p:column>
+							<p:column width="100" id="attPetition" headerText="Send Petition" class="txtCenter">
+								<p:commandButton icon="icon_petition" title="Send Petition" oncomplete="changeAttDlg.show()" immediate="true" actionListener="#{studentDailyAttendanceBean.prePetition(time)}" 
+								disabled="#{!time.renderSendPet}"
+								/>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</div>
+				<p:poll interval="10" listener="#{studentDailyAttendanceBean.updatePetitionNotification}"  />
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+		   	<p:dialog id="changeAttDialogBox" header="Send Petition" widgetVar="changeAttDlg" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true" maximizable="true" minimizable="true" class="editDialog">
+				<h:form id="changeAttFormID">
+					<div class="dialogWrapper">
+						<h:panelGrid columns="1" id="changeAttDlgGrid">
+							<h:outputLabel id="statusText" value="Your attendance status is considered as #{studentDailyAttendanceBean.changedTime.studentStatus}, you can send petition to change it." />
+							<h:outputLabel value="Please write your excuse in below:" />
+							<br/>
+							<h:panelGroup>
+								<p:inputTextarea rows="40" cols="70" value="#{studentDailyAttendanceBean.excuseArea}" id="excuse" required="true" requiredMessage="Please write the excuse" class="txtarea500px" />
+								<p:message for="excuse"/>
+							</h:panelGroup>
+						</h:panelGrid>
+					</div>
+					<ul class="dialogFooter"> 
+					    <li><p:commandButton value="Cancel" title="Cancel" onclick="changeAttDlg.hide()" immediate="true" class="dialogCancel" /></li>
+					    <li><p:commandButton id="changeStatus" value="Submit Petition" title="Submit Petition" action="#{studentDailyAttendanceBean.sendPetition}" update="changeAttFormID:changeAttDlgGrid  :mainForm:form:growl" oncomplete="changeAttDlg.hide()" class="dialogOk" /></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</html>

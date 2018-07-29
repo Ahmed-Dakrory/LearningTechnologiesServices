@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Midterm Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="Midterm Evaluation" disabled="true" />
+							<p:menuitem value="Settings" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>
+						<h:panelGrid columns="3">
+							<h:outputLabel for="course" value="Course*" class="label" style="vertical-align:top;line-height:5px !important;" />
+							<h:panelGroup class="marginLeft_12">
+								<p:selectOneMenu id="course" value="#{midtermEvaluationSubmission.selectedCourse.id}" required="true" requiredMessage="Please select course" style="width:200px">
+									<f:selectItem itemLabel="Select Course" />
+									<f:selectItems var="course" value="#{midtermEvaluationSubmission.coursesLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+									<p:ajax update="ins :mainForm:form:ta" listener="#{midtermEvaluationSubmission.fillInstructorsLst}" />
+								</p:selectOneMenu>
+								<p:message for="course" />
+								
+							</h:panelGroup>
+							&nbsp;&nbsp;<a href="#" class="tooltipNote" data-tooltip="Make sure you are selecting all your instructors and TAs to evaluate"/>
+						</h:panelGrid>
+						<div style="margin-left:70px;">
+							<h:panelGroup id="ins">
+								<h:panelGroup rendered="#{midtermEvaluationSubmission.insLst.size()>0}">
+									<h4>Instructors</h4>
+									<p:selectManyCheckbox value="#{midtermEvaluationSubmission.selectedInstructorIDs}" converter="javax.faces.Integer" layout="pageDirection" columns="3" styleClass="selection">
+										<f:selectItems value="#{midtermEvaluationSubmission.insLst}" var="instructor" itemLabel="#{instructor.name}" itemValue="#{instructor.id}"  />
+										<p:ajax update="ins" listener="#{midtermEvaluationSubmission.fillSelectedInstructorsLst}" />
+									</p:selectManyCheckbox>
+									<p:message for="ins" />
+								</h:panelGroup>
+							</h:panelGroup>
+							<h:panelGroup id="ta">
+								<h:panelGroup rendered="#{midtermEvaluationSubmission.taLst.size()>0}">
+						  			<h4>Teaching assistants</h4>
+							  			<p:dataList value="#{midtermEvaluationSubmission.taLst}" var="ta" rowIndexVar="rowIndex" styleClass="taImages">
+								  			<table width="100%">
+								  				<tr>
+								  					<td width="36" valign="top">
+								  						<p:selectBooleanCheckbox value="#{ta.selected}" styleClass="singleCheckBx">
+															<p:ajax listener="#{midtermEvaluationSubmission.saveSelectionToTA(ta,ta.selected)}"/>
+														</p:selectBooleanCheckbox>
+								  					</td>
+								  					<td valign="top"><h:outputLabel value="#{ta.name}"/></td>
+								  				</tr>
+								  				<tr>
+								  					<td>&nbsp;</td>
+								  					<td>
+								  						<div class="studentProfileImg">
+															<p:graphicImage value="/imagesIns/?path=#{ta.id}" id="img" rendered="#{ta.photo != null }" />
+															<p:graphicImage library="images" name="icon_user-empty.png" rendered="#{ta.photo == null }" />
+														</div>
+								  					</td>
+								  				</tr>
+								  			</table>
+								  			<br/>
+							   			</p:dataList>
+						   		</h:panelGroup>
+						   	</h:panelGroup>
+							<ul class="formBtns" id="buttonsPanel" style="margin:0 !important;"> 
+								<li></li>
+								<li><p:commandButton value="Start Survey" ajax="false" update="testpanel" actionListener="#{midtermEvaluationSubmission.startSurvey}" 
+								styleClass="blueBtn" /></li>
+							</ul>
+							<br/>
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+</ui:composition>
+</html>

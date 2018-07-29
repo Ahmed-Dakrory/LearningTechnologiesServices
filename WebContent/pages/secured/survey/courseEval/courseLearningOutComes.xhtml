@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Course Evaluation" disabled="true" />
+							<p:menuitem value="#{CourseEvaluationSubmission.selectedCourse.name}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+							<p:tabMenu activeIndex="#{CourseEvaluationSubmission.activeIndex}" styleClass="evalTabs">
+								<p:menuitem value="Course Evaluation" disabled="true"/>
+								<ui:remove><p:menuitem value="Student Evaluation" disabled="true" /></ui:remove>
+								<p:menuitem value="Instructor Evaluation" disabled="true" rendered="#{!CourseEvaluationSubmission.selectedInstructorsLst.isEmpty()}"/>
+								<p:menuitem value="Teaching Assistant Evaluation" disabled="true" rendered="#{!CourseEvaluationSubmission.selectedTAsLst.isEmpty()}"/>
+								<p:menuitem value="Lab Evaluation" disabled="true"/>
+								<ui:remove><p:menuitem value="Language of Instruction" disabled="true"/></ui:remove>
+								<p:menuitem value="Course Learning outcomes" disabled="true"/>
+								<p:menuitem value="Other Comments"  disabled="true"/>
+							</p:tabMenu>
+						    <ul class="formBtns evalBtns" id="buttonsPanel"> 
+								<li><p:commandButton value="Next" styleClass="grayBtn nextBtn" icon="ui-icon-circle-triangle-e" 
+								action="#{CourseEvaluationSubmission.navigateBtnAction(7, 0)}" immediate="true" /></li>
+									<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" action="#{CourseEvaluationSubmission.navigateBtnAction(5, 1)}" immediate="true" /></li>
+							</ul>
+						    <div class="tabWrapper">
+						    	<br/><br/>
+								<b style="font-size:15px;">By the end of this course, as a student I am able to</b>
+								<br/><br/>
+								
+								
+								<ui:repeat value="#{CourseEvaluationSubmission.courseLEarningOutComes}" var="ques" varStatus="index">
+									<table class="evalTable">
+										<tr>
+											<td width="30" class="evalQNo"><h:outputText value="#{index.index+1}."/></td>
+											<td style="vertical-align:top !important;" width="700"><h:outputText value="#{ques.text}-#{ques.id}"/></td>
+											<td width="30">&nbsp;</td>
+											<td class="evalRadio" style="vertical-align:top;">
+												<p:selectOneRadio id="facQues2"	value="#{ques.selection}" layout="pageDirection">
+													<f:selectItems itemLabel="#{selection.name}-#{selection.id}" itemValue="#{selection.id}" var="selection" value="#{ques.scaleType.selections}" />
+												<p:ajax event="change" update=":mainForm:form:pageContent"/>
+													</p:selectOneRadio>
+											</td>
+										</tr>
+									</table>
+								</ui:repeat>
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+									<li><p:commandButton value="Next" styleClass="grayBtn nextBtn" icon="ui-icon-circle-triangle-e" 
+								action="#{CourseEvaluationSubmission.navigateBtnAction(7, 0)}" immediate="true" /></li>
+									<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" action="#{CourseEvaluationSubmission.navigateBtnAction(5, 1)}" immediate="true" /></li>
+							</ul>
+								<br/>
+							</div>
+						</p:panel>
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

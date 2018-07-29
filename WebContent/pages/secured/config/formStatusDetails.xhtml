@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Forms Settings</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Form Details" disabled="true" />
+							
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<h:form id="pageForm">
+				<div class="pannelWrapper">
+					<p:panel>
+						<ui:remove><p:commandButton value="Back to forms" action="FormsStatus.xhtml?faces-redirect=true" immediate="true" styleClass="grayBtn"/> &nbsp;&nbsp;
+						</ui:remove>
+						 
+					   						
+						<br/><br/><br/>
+						<p:panel class="attendance" id="panel"> 
+					
+							<br/>
+							<p:panel><h3>Settings </h3></p:panel>
+						
+							<br/>
+							
+								<table class="courseDetails" id="tabel">
+								<tr>
+								<td>Form:</td>
+								<td>
+								<h:outputLabel value="#{FormsStatusBean.detailedForm.formTypeName}" id="nameForm"/>
+								
+								</td>
+								</tr>
+								<tr>
+									<td>Status:</td>
+									<td><h:outputLabel value="#{FormsStatusBean.detailedForm.status.name}"/></td>
+									<td><p:commandButton value="Change Status" id="editStatus" title="Change status" type="button" styleClass="changeBtn" />
+							           	<p:overlayPanel id="instructorsPanelEdit" for="editStatus" hideEffect="fade" dynamic="true" class="forwardOverlay">
+				          					<p:selectOneListbox id="insss" value="#{FormsStatusBean.selectedStatus}">
+							<f:selectItems itemLabel="#{inss.name}" itemValue="#{inss.id}"
+								value="#{FormsStatusBean.status}" var="inss" />
+						</p:selectOneListbox>
+											<p:commandButton value="Save" title="Save" action="#{FormsStatusBean.changeStatus}"  process="instructorsPanelEdit" />
+										</p:overlayPanel>
+										</td>
+								</tr>
+								</table>
+						
+					</p:panel>
+					<p:panel rendered="#{FormsStatusBean.detailedForm.id==7 || FormsStatusBean.detailedForm.id==8 || FormsStatusBean.detailedForm.id==9
+					|| FormsStatusBean.detailedForm.id==14}" id="levelGrid">
+					
+								<table class="courseDetails" id="tabel">
+									<tr>
+										<td>Level:</td>
+										<td width="54">
+											<p:selectManyCheckbox id="grid" value="#{FormsStatusBean.selectedLevels}" layout="grid">
+												<f:selectItems value="#{FormsStatusBean.levels}" var="level" itemLabel="#{level}" itemValue="#{level}" />
+											</p:selectManyCheckbox>
+										</td>
+										<td>
+										
+											<p:commandButton value="Save" title="Save" action="#{FormsStatusBean.saveLevels}"  process="levelGrid" />
+										</td>
+									</tr>
+				
+								</table>
+					</p:panel>
+					<p:panel  rendered="#{FormsStatusBean.detailedForm.id==7 || FormsStatusBean.detailedForm.id==2 || FormsStatusBean.detailedForm.id==8 ||
+					FormsStatusBean.detailedForm.id==9 || FormsStatusBean.detailedForm.id==12 || FormsStatusBean.detailedForm.id==13 || FormsStatusBean.detailedForm.id==14 || FormsStatusBean.detailedForm.id==16}" id="yearSemGrid">
+						<table class="courseDetails" id="yearSemTable">
+										<tr>
+								<td>Activate For Semester:</td>
+								<td>
+								<p:selectOneMenu id="semester" value="#{FormsStatusBean.detailedForm.semester.id}" required="true" requiredMessage="Please select semester">
+													<f:selectItem itemLabel="Select Semester" />
+													<f:selectItems var="semester" value="#{FormsStatusBean.semestersLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+									</p:selectOneMenu>
+												<p:message for="semester" />
+												</td>
+												
+								<td>Activate For Year:</td>
+								<td><p:selectOneMenu id="year"
+										value="#{FormsStatusBean.detailedForm.year}" required="true"
+										requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{FormsStatusBean.yearsLst}"
+											itemLabel="#{year}" itemValue="#{year}" />
+									</p:selectOneMenu> <p:message for="year" /></td>
+								<td>
+											<p:commandButton value="Save" title="Save" action="#{FormsStatusBean.saveYearAndSem}"  process="yearSemGrid" update="yearSemGrid"/>
+								</td>
+							</tr>
+							</table>
+					</p:panel>
+					</p:panel>
+				</div>
+				
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

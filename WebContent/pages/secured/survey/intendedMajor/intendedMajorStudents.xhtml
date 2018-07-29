@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Intended Majors - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Intended" />
+							<p:menuitem value="Planned Major Students" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+				<h:panelGroup id="selectionPanel">
+									<table class="marginLeft_12">
+										<tr>
+											<td style="padding:0;">
+												<p:selectOneMenu id="semester" value="#{AdminIntenedMajorBean.selectedSemesterStudents}" required="true" requiredMessage="Please select semester">
+													<f:selectItem itemLabel="Select Semester" />
+													<f:selectItems var="semester" value="#{AdminIntenedMajorBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+													<ui:remove>	<p:ajax listener="#{AdminIntenedMajorBean.fillYearLst}" update="year"/></ui:remove>	
+												</p:selectOneMenu>
+												<p:message for="semester" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu id="year" value="#{AdminIntenedMajorBean.selectedYearStudents}" required="true" requiredMessage="Please select year">
+													<f:selectItem itemLabel="Select Year" />
+													<f:selectItems var="year" value="#{AdminIntenedMajorBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+													<ui:remove><p:ajax listener="#{AdminIntenedMajorBean.updateTable}" update="chart"/></ui:remove>
+												</p:selectOneMenu>
+												<p:message for="year" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+											<p:commandButton value="Generate" process="selectionPanel" action="#{AdminIntenedMajorBean.updateTable}"
+											update="selectionPanel"/>
+											</td>
+										</tr>
+									</table>
+									<h:panelGroup  id="chart" rendered="#{AdminIntenedMajorBean.renderTable}">
+									
+												
+													<p:dataTable var="forms" value="#{AdminIntenedMajorBean.students}" selectionMode="single" 
+							selection="#{AdminIntenedMajorBean.selectedStudents}" rowKey="#{forms.id}" sortMode="multiple" 
+							filteredValue="#{AdminIntenedMajorBean.filteredStudents}" widgetVar="formsTable" id="students" scrollable="true"
+							rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="5,10,15">
+							
+								<p:column width="130" id="name" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}" class="txtLeft">
+								<h:outputText value="#{forms.student.name}" />
+								<f:facet name="header">
+								 <h:outputText value="Name" />
+								</f:facet>
+							</p:column>
+							<p:column width="130" id="studentID" sortBy="#{forms.student.facultyId}" filterBy="#{forms.student.facultyId}" class="txtLeft">
+							
+								<h:outputText value="#{forms.student.facultyId}" />
+								<f:facet name="header">
+								 <h:outputText value="ID" />
+								</f:facet>
+							</p:column>
+								<p:column width="130" id="studentEmail" sortBy="#{forms.student.mail}" filterBy="#{forms.student.mail}" class="txtLeft">
+								<h:outputText value="#{forms.student.mail}" />
+								<f:facet name="header">
+								 <h:outputText value="Email" />
+								</f:facet>
+							</p:column>
+							<p:column width="185" id="major" sortBy="#{forms.major.majorName}" filterBy="#{forms.major.majorName}" class="txtLeft">
+								<h:outputText value="#{forms.major.majorName}" />
+								<f:facet name="header">
+								 <h:outputText value="Major" />
+								</f:facet>
+							</p:column>
+						
+						</p:dataTable>
+						<p:commandButton value="Export" ajax="false" class="blueBtn">
+						<p:dataExporter type="xls" target="students" fileName="students" />
+						</p:commandButton>
+						</h:panelGroup>
+								</h:panelGroup>
+								
+					
+						</div>
+					
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Books System</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Books System" />
+							<p:menuitem value="Recieving" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel>
+					<br/>
+					<h:form id="pageForm" onkeypress="if (event.keyCode == 13) {return false; }">
+						<b>Select user type:</b><br/><br/>
+						<p:selectOneRadio id="who" value="#{CopiesOperationBean.selectedAssignee}" styleClass="bookStatus">
+							<f:selectItem itemLabel="Student" itemValue="1" />
+							<f:selectItem itemLabel="Instructors" itemValue="2" />
+							<f:selectItem itemLabel="TAs" itemValue="3" />
+							<p:ajax update="panel personData"   event="change" />
+						</p:selectOneRadio>
+						<br/>
+            			<h:panelGroup id="panel">
+            				<!-- Student -->
+	            			<h:panelGrid>
+								<p:inputText value="#{CopiesOperationBean.studentID}" rendered="#{CopiesOperationBean.selectedAssignee==1}" id="studentID" required="true"
+				 				requiredMessage="insert stduent id" style="width:302px !important;">
+				 					<p:ajax event="keyup" update="personData" listener="#{CopiesOperationBean.getPersonData}" />
+								</p:inputText>
+								<p:message for="studentID"/>
+								<p:watermark for="studentID" value="Student ID"/>
+							</h:panelGrid>
+							<!-- Instructor -->
+							<h:panelGrid columns="3">
+								<p:selectOneMenu id="ins" value="#{CopiesOperationBean.selectedInsID}" panelStyle="width:180px;" styleClass="selectInst" style="margin-top:15px; width:330px;"
+								 rendered="#{CopiesOperationBean.selectedAssignee==2}" effect="fade" required="true" requiredMessage="Please select instructor"
+			 filter="true" filterMatchMode="startsWith">
+			 <f:selectItem itemLabel="Select Instructor" />
+				<f:selectItems value="#{CopiesOperationBean.insLst}" var="ins"
+					itemLabel="#{ins.name}" itemValue="#{ins.id}" />
+		    <p:ajax  update="personData" listener="#{CopiesOperationBean.getPersonData}" />
+			</p:selectOneMenu>
+			<p:message for="ins"/>
+				</h:panelGrid>
+					<h:panelGrid columns="3"  >
+				<p:selectOneMenu id="tas" 
+				value="#{CopiesOperationBean.selectedTaID}"
+				panelStyle="width:180px;" style="margin-top:20px; width: 330px;"
+				rendered="#{CopiesOperationBean.selectedAssignee==3}" effect="fade"
+				required="true"  requiredMessage="Please select TA"
+				 filter="true" filterMatchMode="startsWith">
+				<f:selectItem itemLabel="Select TA" />
+				<f:selectItems value="#{CopiesOperationBean.taLst}" var="ins"
+					itemLabel="#{ins.name}" itemValue="#{ins.id}" />
+					<p:ajax  update="personData" listener="#{CopiesOperationBean.getPersonData}" />
+			</p:selectOneMenu>
+			<p:message for="tas"/>
+		</h:panelGrid>
+			</h:panelGroup>
+			
+			<h:panelGroup id="personData">
+			<h:panelGrid columns="3"  >
+			
+			<p:inputText value="#{CopiesOperationBean.barCode}" id="barCode" rendered="#{CopiesOperationBean.selectedAssignee!=null}" required="true" style="width:304px;"
+			 requiredMessage="Please insert bar code">
+			</p:inputText>
+			<p:message for="barCode"/>
+			<p:watermark for="barCode" value="Bar Code"/>
+			
+			
+			</h:panelGrid>
+			<p:commandButton value="Reserve" id="reserve" styleClass="blueBtn" 
+			rendered="#{CopiesOperationBean.selectedAssignee!=null}"
+									 action="#{CopiesOperationBean.ReserveBook}" update="booksTable panel personData studentID booksInsTable"/>
+									
+			<h:panelGrid columns="2" class="student">
+			<h:outputLabel value="Name:" rendered="#{CopiesOperationBean.selectedStudent.name!=null  and CopiesOperationBean.selectedAssignee==1}"/>
+			<h:outputLabel value="#{CopiesOperationBean.selectedStudent.name}" rendered="#{CopiesOperationBean.selectedStudent.name!=null and CopiesOperationBean.selectedAssignee==1}"/>
+			
+			<h:outputLabel value="Email:" rendered="#{CopiesOperationBean.selectedStudent.mail!=null and CopiesOperationBean.selectedAssignee==1}"/>
+			<h:outputLabel value="#{CopiesOperationBean.selectedStudent.mail}" rendered="#{CopiesOperationBean.selectedStudent.mail!=null and CopiesOperationBean.selectedAssignee==1}"/>
+			
+			
+			
+			<h:outputLabel value="Name:" rendered="#{CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2}"/>
+			<h:outputLabel value="#{CopiesOperationBean.selectedIns.name}" rendered="#{CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2}"/>
+			
+			<h:outputLabel value="Email:" rendered="#{CopiesOperationBean.selectedIns.mail!=null and CopiesOperationBean.selectedAssignee==2}"/>
+			<h:outputLabel value="#{CopiesOperationBean.selectedIns.mail}" rendered="#{CopiesOperationBean.selectedIns.mail!=null and CopiesOperationBean.selectedAssignee==2}"/>
+			
+			
+			<h:outputLabel value="Name:" rendered="#{CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3}"/>
+			<h:outputLabel value="#{CopiesOperationBean.selectedTa.name}" rendered="#{CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3}"/>
+			
+			<h:outputLabel value="Email:" rendered="#{CopiesOperationBean.selectedIns.mail!=null and CopiesOperationBean.selectedAssignee==3}"/>
+			<h:outputLabel value="#{CopiesOperationBean.selectedTa.mail}" rendered="#{CopiesOperationBean.selectedTa.mail!=null and CopiesOperationBean.selectedAssignee==3}"/>
+			
+			
+			
+			</h:panelGrid>
+			<p:outputLabel value="No Such Student" rendered="#{CopiesOperationBean.selectedStudent.mail==null 
+			 and CopiesOperationBean.selectedAssignee==1}" style="color: #b94a48"/> 
+			
+			<br/>
+				<h:panelGroup rendered="#{CopiesOperationBean.selectedStudent.mail!=name and CopiesOperationBean.selectedAssignee!=null}">
+				<h3> History</h3></h:panelGroup>
+				<br/>
+				<br/>
+			<p:dataTable var="row"  value="#{CopiesOperationBean.studentBooks}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true" selection="#{CopiesOperationBean.selectedStudentBooks}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+                         	 rendered="#{CopiesOperationBean.selectedStudent.mail!=name and CopiesOperationBean.selectedAssignee==1}">
+								<ui:remove><p:ajax event="rowSelect" listener="#{BooksBean.onRowSelect}" /></ui:remove>
+
+						<p:column width="130" id="book" sortBy="#{row.book.name}"
+							filterBy="#{row.book.name}">
+							<h:outputText value="#{row.book.name}" />
+							<p:watermark forElement="pageForm:booksTable:book:filter"
+								value="Book" />
+						</p:column>
+						
+						<p:column width="130" id="course" sortBy="#{row.book.course.name}"
+							filterBy="#{row.book.course.name}">
+							<h:outputText value="#{row.book.course.name}-#{row.book.course.semester}-#{row.book.course.year}" />
+							<p:watermark forElement="pageForm:booksTable:course:filter"
+								value="Course" />
+						</p:column>
+						
+						<p:column width="130" id="code" sortBy="#{row.barCode}"
+							filterBy="#{row.barCode}">
+							<h:outputText value="#{row.barCode}" />
+							<p:watermark forElement="pageForm:booksTable:code:filter"
+								value="Bar Code" />
+						</p:column>
+						
+						
+
+						<p:column width="130" id="date" sortBy="#{row.friendlyDate}"
+							filterBy="#{row.friendlyDate}">
+							<h:outputText value="#{row.friendlyDate}" />
+							<p:watermark forElement="pageForm:booksTable:date:filter"
+								value="Date" />
+						</p:column>
+						
+						<p:column width="130" id="action" sortBy="#{row.action.name}"
+							filterBy="#{row.action.name}">
+							<h:outputText value="#{row.action.name}" />
+							<p:watermark forElement="pageForm:booksTable:action:filter"
+								value="Action" />
+						</p:column>
+
+					</p:dataTable>
+							
+			
+						<p:dataTable var="row"  value="#{CopiesOperationBean.insBooks}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksInsTable" resizableColumns="true" rows="100" paginator="true" selection="#{CopiesOperationBean.selectedInsBooks}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+                         	 rendered="#{CopiesOperationBean.selectedIns!=null and CopiesOperationBean.selectedAssignee==2}">
+								<ui:remove><p:ajax event="rowSelect" listener="#{BooksBean.onRowSelect}" /></ui:remove>
+
+						<p:column width="130" id="book" sortBy="#{row.book.name}"
+							filterBy="#{row.book.name}">
+							<h:outputText value="#{row.book.name}" />
+							<p:watermark forElement="pageForm:booksInsTable:book:filter"
+								value="Book" />
+						</p:column>
+						
+						<p:column width="130" id="course" sortBy="#{row.book.course.name}"
+							filterBy="#{row.book.course.name}">
+							<h:outputText value="#{row.book.course.name}-#{row.book.course.semester}-#{row.book.course.year}" />
+							<p:watermark forElement="pageForm:booksInsTable:course:filter"
+								value="Course" />
+						</p:column>
+						
+						<p:column width="130" id="code" sortBy="#{row.barCode}"
+							filterBy="#{row.barCode}">
+							<h:outputText value="#{row.barCode}" />
+							<p:watermark forElement="pageForm:booksInsTable:code:filter"
+								value="Bar Code" />
+						</p:column>
+						
+						
+
+						<p:column width="130" id="date" sortBy="#{row.friendlyDate}"
+							filterBy="#{row.friendlyDate}">
+							<h:outputText value="#{row.friendlyDate}" />
+							<p:watermark forElement="pageForm:booksInsTable:date:filter"
+								value="Date" />
+						</p:column>
+						
+						<p:column width="130" id="action" sortBy="#{row.action.name}"
+							filterBy="#{row.action.name}">
+							<h:outputText value="#{row.action.name}" />
+							<p:watermark forElement="pageForm:booksInsTable:action:filter"
+								value="Action" />
+						</p:column>
+
+					</p:dataTable>
+					
+					<p:dataTable var="row"  value="#{CopiesOperationBean.taBooks}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksTATable" resizableColumns="true" rows="100" paginator="true" selection="#{CopiesOperationBean.selectedTABooks}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+                         	 rendered="#{CopiesOperationBean.selectedTa!=null and CopiesOperationBean.selectedAssignee==3}">
+								<ui:remove><p:ajax event="rowSelect" listener="#{BooksBean.onRowSelect}" /></ui:remove>
+
+						<p:column width="130" id="book" sortBy="#{row.book.name}"
+							filterBy="#{row.book.name}">
+							<h:outputText value="#{row.book.name}" />
+							<p:watermark forElement="pageForm:booksTATable:book:filter"
+								value="Book" />
+						</p:column>
+						
+						<p:column width="130" id="course" sortBy="#{row.book.course.name}"
+							filterBy="#{row.book.course.name}">
+							<h:outputText value="#{row.book.course.name}-#{row.book.course.semester}-#{row.book.course.year}" />
+							<p:watermark forElement="pageForm:booksTATable:course:filter"
+								value="Course" />
+						</p:column>
+						
+						<p:column width="130" id="code" sortBy="#{row.barCode}"
+							filterBy="#{row.barCode}">
+							<h:outputText value="#{row.barCode}" />
+							<p:watermark forElement="pageForm:booksTATable:code:filter"
+								value="Bar Code" />
+						</p:column>
+						
+						
+
+						<p:column width="130" id="date" sortBy="#{row.friendlyDate}"
+							filterBy="#{row.friendlyDate}">
+							<h:outputText value="#{row.friendlyDate}" />
+							<p:watermark forElement="pageForm:booksTATable:date:filter"
+								value="Date" />
+						</p:column>
+						
+						<p:column width="130" id="action" sortBy="#{row.action.name}"
+							filterBy="#{row.action.name}">
+							<h:outputText value="#{row.action.name}" />
+							<p:watermark forElement="pageForm:booksTATable:action:filter"
+								value="Action" />
+						</p:column>
+
+					</p:dataTable>
+					
+					
+			</h:panelGroup>
+			
+		</h:form>
+				</p:panel>
+			</div>
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+				
+   			</ui:define>
+		</ui:composition>
+</html>

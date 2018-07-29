@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/securedContent.xhtml">
+	<ui:define name="title"> 
+	<h:panelGroup rendered="#{StudentProfileBean.studentProfile.student.id!=null}">#{StudentProfileBean.studentProfile.student.name} Profile - LT Online Services</h:panelGroup>
+	<h:panelGroup rendered="#{StudentProfileBean.studentProfile.student.id==null}">Profile - LT Online Services</h:panelGroup></ui:define>
+	<ui:define name="content">
+		<h:form id="form">
+		
+			<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+			<ul class="header">
+				<li>
+					<p:breadCrumb>
+						<p:menuitem value="Account Settings" />
+						<p:menuitem value="Profile" url="/pages/secured/accountSettings/studentProfile.xhtml" />
+					</p:breadCrumb>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel>
+					<br/>
+					<h:panelGroup id="studentInfoGrid">
+						<table width="100%">
+							<tr>
+								<td valign="top" width="300">
+							
+									<div class="studentProfileImg">
+										<p:graphicImage value="/images/?path=#{StudentProfileBean.studentProfile.student.id}" id="img"
+										rendered="#{StudentProfileBean.studentProfile.studentImage != null }" />
+										<p:graphicImage library="images" name="icon_user-empty.png" rendered="#{StudentProfileBean.studentProfile.studentImage == null }" />
+										<p:fileUpload label="Update Image" fileUploadListener="#{StudentProfileBean.previewImage}"
+										 allowTypes="/(\.|\/)(png|jpg|bmp|gif\jpeg)$/" sizeLimit="500000" description="Attachment"
+										  update=":mainForm:form:img" auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" />
+									</div>
+								</td>
+								<td width="30">&nbsp;</td>
+								<td valign="top" class="profileTabls">
+									<h3>Personal Information:</h3>
+									<hr/>
+									<br/>
+									
+									<h:panelGrid columns="2" width="100%">
+										<p:outputLabel value="Mobile/Phone" for="mobileNO" />
+										<h:panelGroup class="marginLeft_12">
+											<p:inputText required="true" id="mobileNO" value="#{StudentProfileBean.studentProfile.mobile}" validatorMessage="Please enter digits only minimum 8 digits maximum 11" class="input290px" 
+											 requiredMessage="Please enter mobile" size="40">
+												<f:validateDoubleRange />
+												<f:validateLength minimum="8" maximum="11" />
+											</p:inputText>
+											<p:message for="mobileNO" />
+										</h:panelGroup>
+										
+										<p:outputLabel value="Gender" />
+										<h:panelGroup class="marginLeft_12">
+											<p:selectOneRadio id="genderId" value="#{StudentProfileBean.studentProfile.gender}" 
+											required="true" requiredMessage="Please select gender" styleClass="genderRadio">
+												<f:selectItem itemLabel="Male" itemValue="M" />
+												<f:selectItem itemLabel="Female" itemValue="F" />
+											</p:selectOneRadio>
+											<p:message display="text" for="genderId" />
+										</h:panelGroup>
+										<br/><br/>
+									</h:panelGrid>
+									
+									<h3>Study Progress:</h3>
+									<hr/>
+									<br/>
+									<h:panelGrid columns="2" width="100%">
+										<p:outputLabel value="GPA" for="gpa" />
+										<h:panelGroup class="marginLeft_12">
+											<p:inputText required="true" converterMessage="Please enter digits only" id="gpa" 
+											requiredMessage="Please enter GPA" value="#{StudentProfileBean.studentProfile.gpa}" 
+											size="40" class="input290px" validatorMessage="Please enter digits only from 0.0 to 10.0">
+												<f:validateDoubleRange minimum="0.0" maximum="10.0" />
+											</p:inputText>
+											<p:message for="gpa" />
+										</h:panelGroup>
+										
+										<p:outputLabel value="Current Major" for="curMajor" />
+										<h:panelGroup class="marginLeft_12">
+											<p:selectOneMenu required="true" requiredMessage="Please select major" id="curMajor" value="#{StudentProfileBean.selectedCurMajorId}">
+												<f:selectItem itemLabel="Select Major" />
+												<f:selectItems var="curMajor" value="#{StudentProfileBean.majorsLst}" itemLabel="#{curMajor.majorName}" itemValue="#{curMajor.id}" />
+											</p:selectOneMenu>
+											<p:message for="curMajor" />
+										</h:panelGroup>
+										
+										<p:outputLabel value="Completed Credit hrs" for="completedCreditHrsId" />
+										<h:panelGroup class="marginLeft_12">
+											<p:inputText required="true" converterMessage="Please enter digits only"
+											 id="completedCreditHrsId" requiredMessage="Please enter completed credit hrs" 
+											 value="#{StudentProfileBean.studentProfile.completedCreditHrs}" size="40" class="input290px" validatorMessage="Please enter digits only">
+												<f:validateDoubleRange minimum="0.0" />
+											</p:inputText>
+											<p:message for="completedCreditHrsId" />
+										</h:panelGroup>
+										
+										<p:outputLabel value="Registered Credit hrs" for="registeredCreditHrsId" />
+										<h:panelGroup class="marginLeft_12">
+											<p:inputText required="true" converterMessage="Please enter digits only" 
+											id="registeredCreditHrsId" requiredMessage="Please enter registered credit hrs"
+											 value="#{StudentProfileBean.studentProfile.registeredCreditHrs}" size="40" 
+											 class="input290px" validatorMessage="Please enter digits only">
+												<f:validateDoubleRange minimum="0.0" />
+											</p:inputText>
+											<p:message for="registeredCreditHrsId" />
+										</h:panelGroup>
+										
+										<p:outputLabel value="Repeated Courses" for="repeatedCourseId" />
+										<h:panelGroup class="marginLeft_12">
+											<p:inputText required="true" converterMessage="Please enter digits only" id="repeatedCourseId" 
+											requiredMessage="Please enter repeated courses count" value="#{StudentProfileBean.studentProfile.repeatedCourses}"
+											 size="1" class="input290px" validatorMessage="Please enter number from 0">
+												<f:validateDoubleRange minimum="0"  />
+											</p:inputText>
+											<p:message for="repeatedCourseId" />
+										</h:panelGroup>
+										
+									</h:panelGrid>
+									<p:commandButton value="Save Profile" title="Save Profile" actionListener="#{StudentProfileBean.save}"
+									 ajax="false" update="studentInfoGrid" process="studentInfoGrid" class="marginLeft_218 blueBtn" />
+								</td>
+							</tr>
+						</table>
+						
+						</h:panelGroup>
+				</p:panel>
+			</div>
+
+	
+		</h:form>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" header="Update your profile" widgetVar="alertDlg" id="alertDlgID" closeOnEscape="true" message="Please take a few moments to update your profile information." 
+			visible="true" rendered="#{StudentProfileBean.studentProfile.id==null}" styleClass="alertDialog">
+			<h:form id="alertForm">
+			 <span class="UpdateNote">LTS services can not be accessed until your profile data is filled.</span>
+				<h:panelGroup id="alertPanel">
+					<p:commandButton value="Update Now" type="button" onclick="alertDlg.hide();" styleClass="greenBtn marginLeft_18" />
+				</h:panelGroup>
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Books System</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Books System" />
+							<p:menuitem value="Returns" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel>
+					<br/>
+			<h:form id="pageForm">
+				<h:panelGrid>
+				<table>
+					<tr>
+						<td>
+							<p:inputText value="#{BooksReturnBean.barCode}" id="barCode"   required="true"
+			 requiredMessage="Please insert bar code">
+			</p:inputText>
+			<p:message for="barCode"/>
+			<p:watermark for="barCode" value="Bar Code"/>
+						</td>
+						<td>
+						<p:commandButton value="Show" style="display:none;" styleClass="grayBtn" id="show"  		
+									 action="#{BooksReturnBean.getCopy}" update="barCode :pageForm:data"/>
+									 
+			 <p:commandButton value="Clear" styleClass="grayBtn" id="clear"  		
+									 action="#{BooksReturnBean.clear}" update="barCode data"/>
+						</td>
+					</tr>
+				</table>
+			
+			
+									 
+					</h:panelGrid>		 
+				<h:panelGroup id="data">			 
+		<h3>Students</h3>
+				<p:dataTable var="row"  value="#{BooksReturnBean.booksStudent}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true" 
+				selection="#{BooksReturnBean.selectedStudentBooks}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} 
+					 		 {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top" rowIndexVar="rowIndex"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+                         	>
+							
+						<p:column id="book" sortBy="#{row.book.name}"
+							filterBy="#{row.book.name}">
+							<h:outputText value="#{row.book.name}" />
+							<p:watermark forElement="pageForm:booksTable:book:filter"
+								value="Book" />
+						</p:column>
+						
+							<p:column id="name" sortBy="#{row.student.name}"
+							filterBy="#{row.student.name}">
+							<h:outputText value="#{row.student.name}" />
+							<p:watermark forElement="pageForm:booksTable:name:filter"
+								value="Student" />
+						</p:column>
+						
+							<p:column  id="id" sortBy="#{row.student.facultyId}"
+							filterBy="#{row.student.facultyId}">
+							<h:outputText value="#{row.student.facultyId}" />
+							<p:watermark forElement="pageForm:booksTable:id:filter"
+								value="ID" />
+						</p:column>
+						
+						
+						<p:column  id="course" sortBy="#{row.book.course.name}"
+							filterBy="#{row.book.course.name}">
+							<h:outputText value="#{row.book.course.name}-#{row.book.course.semester}-#{row.book.course.year}" />
+							<p:watermark forElement="pageForm:booksTable:course:filter"
+								value="Course" />
+						</p:column>
+						
+						<p:column  id="code" sortBy="#{row.barCode}"
+							filterBy="#{row.barCode}">
+							<h:outputText value="#{row.barCode}" />
+							<p:watermark forElement="pageForm:booksTable:code:filter"
+								value="Bar Code" />
+						</p:column>
+						
+						
+
+						<p:column  id="date" sortBy="#{row.friendlyDate}"
+							filterBy="#{row.friendlyDate}">
+							<h:outputText value="#{row.friendlyDate}" />
+							<p:watermark forElement="pageForm:booksTable:date:filter"
+								value="Date" />
+						</p:column>
+						
+						<p:column id="action" sortBy="#{row.action.name}"
+							filterBy="#{row.action.name}">
+							<h:outputText value="#{row.action.name}" />
+							<p:watermark forElement="pageForm:booksTable:action:filter"
+								value="Action" />
+						</p:column>
+					<p:column id="btns">
+							<p:commandButton rendered="#{row.action.value==0 and rowIndex==0}"  value="Return"
+								style="background-color: green !important"
+								action="#{BooksReturnBean.returnBookStudent(row)}" update="booksTable"  />
+						</p:column>
+						
+						</p:dataTable>
+						<h3>Staff</h3>
+					<p:dataTable var="row"  value="#{BooksReturnBean.booksIns}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksInsTable" resizableColumns="true" rows="100" paginator="true" selection="#{CopiesOperationBean.selectedInsBooks}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top" rowIndexVar="rowIndex"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+                         	>
+							
+						<p:column id="book" sortBy="#{row.book.name}"
+							filterBy="#{row.book.name}">
+							<h:outputText value="#{row.book.name}" />
+							<p:watermark forElement="pageForm:booksInsTable:book:filter"
+								value="Book" />
+						</p:column>
+						
+						
+						<p:column   id="name" sortBy="#{row.instructor.name}"
+							filterBy="#{row.instructor.name}">
+							<h:outputText value="#{row.instructor.name}" />
+							<p:watermark forElement="pageForm:booksInsTable:name:filter"
+								value="Name" />
+						</p:column>
+						
+						
+						
+				
+						
+						
+						<p:column  id="course" sortBy="#{row.book.course.name}"
+							filterBy="#{row.book.course.name}">
+							<h:outputText value="#{row.book.course.name}-#{row.book.course.semester}-#{row.book.course.year}" />
+							<p:watermark forElement="pageForm:booksInsTable:course:filter"
+								value="Course" />
+						</p:column>
+						
+						<p:column id="code" sortBy="#{row.barCode}"
+							filterBy="#{row.barCode}">
+							<h:outputText value="#{row.barCode}" />
+							<p:watermark forElement="pageForm:booksInsTable:code:filter"
+								value="Bar Code" />
+						</p:column>
+						
+						
+
+						<p:column id="date" sortBy="#{row.friendlyDate}"
+							filterBy="#{row.friendlyDate}">
+							<h:outputText value="#{row.friendlyDate}" />
+							<p:watermark forElement="pageForm:booksInsTable:date:filter"
+								value="Date" />
+						</p:column>
+						
+						<p:column id="action" sortBy="#{row.action.name}"
+							filterBy="#{row.action.name}">
+							<h:outputText value="#{row.action.name}" /> 
+							<p:watermark forElement="pageForm:booksInsTable:action:filter"
+								value="Action" />
+						</p:column>
+
+						<p:column id="btns">
+							<p:commandButton rendered="#{row.action.value==0 and rowIndex==0}" value="Return"
+								style="background-color: green !important"
+								action="#{BooksReturnBean.returnBookIns(row)}" update="booksInsTable" />
+						</p:column>
+					</p:dataTable>
+		
+		</h:panelGroup>
+		
+				</h:form>
+				</p:panel>
+			</div>
+   			</ui:define>
+		</ui:composition>
+</html>

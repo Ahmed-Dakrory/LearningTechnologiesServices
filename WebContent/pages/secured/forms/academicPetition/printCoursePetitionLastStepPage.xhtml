@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Academic Petitions" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel header="Reviewing Petitions" id="petitionPanel" toggleOrientation="horizontal">
+						<p:dataTable resizableColumns="true" var="studentPet" value="#{printApprovedCoursePetitionBean.petions}" selectionMode="single"
+							selection="#{printApprovedCoursePetitionBean.selectedPetition}" rowKey="#{studentPet.id}"  sortMode="single"
+							filteredValue="#{printApprovedCoursePetitionBean.filteredPetition}" widgetVar="petitionsTable" id="datatablePet">
+							<p:column width="200" id="formID" sortBy="#{studentPet.id}"
+							filterBy="#{studentPet.id}">
+							<h:outputText value="#{studentPet.id}" />
+							<p:watermark value="ID"
+								forElement="mainForm:form:datatablePet:formID:filter" />
+							</p:column>
+							<p:column id="studentid" sortBy="#{studentPet.studentFileNo}" filterBy="#{studentPet.studentFileNo}">
+								<h:outputText value="#{studentPet.studentFileNo}" />
+								<p:watermark value="Student ID" forElement="mainForm:form:datatablePet:studentid:filter"/>
+							</p:column>
+							<p:column id="studentname" sortBy="#{studentPet.studentName}" filterBy="#{studentPet.studentName}">
+								<h:outputText value="#{studentPet.studentName}" />
+								<p:watermark value="Student Name" forElement="mainForm:form:datatablePet:studentname:filter"/>
+							</p:column>
+							<p:column id="course" sortBy="#{studentPet.courseName}" filterBy="#{studentPet.courseName}">
+								<h:outputText value="#{studentPet.courseName}" />
+								<p:watermark value="Course" forElement="mainForm:form:datatablePet:course:filter"/>
+							</p:column>
+							<p:column id="date" sortBy="#{studentPet.friendlyDate}" filterBy="#{studentPet.friendlyDate}">
+								<h:outputText value="#{studentPet.friendlyDate}" />
+								<p:watermark value="Date" forElement="mainForm:form:datatablePet:date:filter"/>
+							</p:column>
+							<p:column id="petitionrequest" sortBy="#{studentPet.requestText}" filterBy="#{studentPet.requestText}">
+								<h:outputText value="#{studentPet.requestText}" />
+								<p:watermark value="Petition Request" forElement="mainForm:form:datatablePet:petitionrequest:filter"/>
+							</p:column>
+							<p:column id="status" sortBy="#{studentPet.status}" filterBy="#{studentPet.status}">
+								<h:outputText value="#{studentPet.status}" />
+								<p:watermark value="Status" forElement="mainForm:form:datatablePet:status:filter"/>
+							</p:column>
+							<p:column id="done" sortBy="#{studentPet.doneString}" filterBy="#{studentPet.doneString}">
+								<h:outputText value="#{studentPet.doneString}" />
+								<p:watermark value="Done" forElement="mainForm:form:datatablePet:done:filter"/>
+							</p:column>
+							<p:column width="44">
+								<p:commandButton icon="icon_review" title="View" ajax="false" immediate="true" update="fields datatablePet printingPanel" action="#{printApprovedCoursePetitionBean.viewPetitionDetails(studentPet)}">
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					<p:panel header="Academic Petition" id="printingPanel" rendered="#{printApprovedCoursePetitionBean.viewMode}">
+						<h:panelGrid columns="2" id="fields" styleClass="printTable">
+							<h:outputLabel value="Submission Date" />
+							<h:inputText id="submissionDate" value="#{printApprovedCoursePetitionBean.submissionDate}" size="40" />
+							<h:outputLabel value="Responding Date" />
+							<h:inputText id="respondDate" value="#{printApprovedCoursePetitionBean.respondingdate}"	size="40" />
+							<h:outputLabel value="Student ID" />
+							<h:inputText value="#{printApprovedCoursePetitionBean.studentFileNo}" size="40" />
+							<h:outputLabel value="Student Name" />
+							<h:inputText value="#{printApprovedCoursePetitionBean.studentName}" size="40" />
+							<h:outputLabel value="Mobile" />
+							<h:inputText id="mobileNO" value="#{printApprovedCoursePetitionBean.mobileNo}" size="40" />
+							<h:outputLabel value="E-mail" />
+							<h:inputText id="mail" value="#{printApprovedCoursePetitionBean.studentMail}" size="40" />
+							<h:outputLabel value="Petition Request" />
+							<h:inputTextarea id="requestText" value="#{printApprovedCoursePetitionBean.requestText}" />
+							<h:outputLabel value="Petition Status" />
+							<h:inputTextarea id="staus"	value="#{printApprovedCoursePetitionBean.statusText}" />
+							<ui:remove>
+								<p:commandButton value="Aprrove" actionListener="#{printApprovedCoursePetitionBean.perform}" ajax="false"
+									rendered="#{printApprovedCoursePetitionBean.approve}" update="form growl" />
+							</ui:remove>
+						</h:panelGrid>
+					</p:panel>
+					<p:commandButton value="Print Petition" icon="ui-icon-print" rendered="#{printApprovedCoursePetitionBean.viewMode}" ajax="false" update="form growl" immediate="true" styleClass="marginLeft_140 cancelBtn">
+						<p:printer target="printingPanel"/>
+					</p:commandButton>
+					<p:commandButton value="Mark as done" icon="ui-icon-check" action="#{printApprovedCoursePetitionBean.perform}" ajax="false"
+						rendered="#{printApprovedCoursePetitionBean.viewMode}" styleClass="cancelBtn">
+					</p:commandButton>
+				</p:panel>
+			</div>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>

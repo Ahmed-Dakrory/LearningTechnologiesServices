@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Graduation Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Graduation Form" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>
+						<table>
+							<tr>
+								<td style="padding:0;">
+									<p:selectOneMenu id="semester" value="#{graduationFormResponsesBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{graduationFormResponsesBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{graduationFormResponsesBean.fillForms}" update="reponses" ajax="false"/>
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{graduationFormResponsesBean.selectedYear}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{graduationFormResponsesBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{graduationFormResponsesBean.fillForms}" update="reponses" ajax="false"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+								<td>&nbsp;<a href="#" class="tooltipNote" data-tooltip="Step 1: Select the year and week to display the reponses."/></td>
+							</tr>
+						</table>
+
+					<p:commandButton id="export" value="Export" title="Generate"
+						actionListener="#{graduationFormResponsesBean.exportExcelReport}"
+						ajax="false" class="blueBtn" />
+						
+						<p:dataTable var="forms" value="#{graduationFormResponsesBean.responses}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{graduationFormResponsesBean.selectedReponse}"
+							filteredValue="#{graduationFormResponsesBean.filteredResponses}" widgetVar="formsTable" id="reponses">
+							<p:ajax event="rowSelect" listener="#{graduationFormResponsesBean.onRowSelect}" />
+							<p:column width="100" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:reponses:formID:filter" />
+							</p:column>
+							<p:column width="160" id="name" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}">
+								<h:outputText value="#{forms.student.name}" />
+								<p:watermark value="Name" forElement="mainForm:form:reponses:name:filter" />
+							</p:column>
+							<p:column width="130" id="facNum" sortBy="#{forms.student.facultyId}" filterBy="#{forms.student.facultyId}">
+								<h:outputText value="#{forms.student.facultyId}" />
+								<p:watermark value="City ID" forElement="mainForm:form:reponses:facNum:filter" />
+							</p:column>
+							<p:column width="130" id="major" sortBy="#{forms.major.majorName}" filterBy="#{forms.major.majorName}">
+								<h:outputText value="#{forms.major.majorName}" />
+								<p:watermark value="Major" forElement="mainForm:form:reponses:major:filter" />
+							</p:column>
+							<p:column width="130" id="attend" sortBy="#{forms.attend}" filterBy="#{forms.attend}">
+								<h:outputText value="#{forms.attend}" />
+								<p:watermark value="Attend" forElement="mainForm:form:reponses:attend:filter" />
+							</p:column>
+							<ui:remove>
+							<p:column width="130" headerText="Details" styleClass="txtCenter">
+								<p:commandButton title="Dislay"  oncomplete="editDlg.show();"
+								value="Show" actionListener="#{feedbackResultsBean.displayDetails(forms)}"
+								immediate="true"  styleClass="blueBtn"  update=":editNumForm:editNumPalnel"/>
+							</p:column>
+							<p:column width="130" headerText="Send" styleClass="txtCenter">
+								<p:commandButton title="Send" oncomplete="sendingStatusDlg.show();"
+								value="Send" actionListener="#{feedbackResultsBean.sendToSpecificCourse(forms)}"
+								immediate="true"  styleClass="blueBtn" update=":sendingStatusForm:sendingStatusPanel"/>
+							</p:column>
+							</ui:remove>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+</ui:composition>
+</html>

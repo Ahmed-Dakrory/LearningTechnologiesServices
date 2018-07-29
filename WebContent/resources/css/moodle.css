@@ -1,0 +1,29 @@
+body{padding-top:0;background:#F5F8FA;color:#191F24;}
+.navbar-inverse .navbar-inner{padding:0 18px;border-bottom:2px solid #E6E9ED;background:#fff;}
+.navbar-fixed-top, .navbar-fixed-bottom{position:static;}
+.brand{width:192px;height:64px;text-indent:-999999px;background:url("http://localhost:8080/LearningTechnologiesServices/javax.faces.resource/logo_internal.png.xhtml?ln=images") no-repeat;/*line-height:72px;color:#F98012 !important;text-shadow:none;font-weight:260;*/}
+.navbar-inner{min-height:80px;}
+.navbar .brand{margin:18px 6px;padding:0;}
+.breadcrumb{background:none;padding:8px 0;}
+#page-header{margin-top:3px;padding:0 18px;}
+#page-header h1{font-size:16px;margin:0px 0 9px 0;line-height:24px;}
+.container-fluid{padding-left:0;padding-right:0;}
+.desktop-first-column, .desktop-first-column .block{background:#383547;border-radius:0;border:0;box-shadow:none;}
+.desktop-first-column .block h2{padding-bottom:9px;color:#7D78A0;border-bottom:1px solid #45425C;text-shadow:none;font-weight:normal;}
+.row-fluid{margin-top:3px;}
+.row-fluid #region-main{padding:12px 15px;background:#fff;border-top:1px solid #EFF3F7;border-bottom:2px solid #E6E9ED;}
+.row-fluid #region-main .block{background:none;border:0;box-shadow:none;}
+.block_navigation .block_tree .type_activity > p.tree_item.branch.hasicon.active_tree_node, .block_navigation .block_tree .tree_item{margin:9px 0;}
+.block_tree .tree_item a, .block_tree .tree_item span{color:#fff;font-weight:normal;padding:6px 0;}
+/*.block_tree .tree_item{border-left:solid 3px #383547;}*/
+.block_tree .active_tree_node{border-color:#5B5779;}
+/*.block_tree .current_branch p.active_tree_node{border-left:solid 3px #009DB1;background:#5B5779;}*/
+.desktop-first-column .header{margin-bottom:9px;}
+.block_tree .contains_branch{padding:3px 0;}
+table#form td.submit, .form-buttons, .path-admin .buttons, #fitem_id_submitbutton, .fp-content-center form + div, div.backup-section + form, #fgroup_id_buttonar{padding:12px 20px 4px 0px;background:#F5F8FA;}
+#block-region-side-post .block{margin:4px 12px 6px 0;background:#E6E9ED;border-radius:0;border:0;}
+#dock .dockeditem_container{margin-top:104px;}
+.mform fieldset.collapsible legend a.fheader{margin-left:0;}
+.block_settings .block_tree .tree_item{margin:12px 0;}
+.block{margin-bottom:9px;}
+.coursebox{border:0;}

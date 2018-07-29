@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Majors - LT Online Services</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Majors" disabled="true" />
+							<p:menuitem value="Concentrations" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel class="attendance">
+				<h:form id="pageForm">
+				
+				
+				
+					<p:commandButton value="+ New Major" id="addInsBtn" title="Add Major"
+					immediate="true"  process="@this"
+					 actionListener="#{manageMajorsBean.preAddMajor}" styleClass="greenBtn" /> &nbsp;&nbsp;
+								
+						<br/>
+						<p:panel><h3>Instructors</h3><br/></p:panel>
+						<p:dataTable var="row" value="#{manageMajorsBean.majors}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" widgetVar="studentCourse" 
+						id="majorTable" resizableColumns="true" rows="15" paginator="true" 
+					 	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,20,40,60,80,100" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                        <p:ajax event="rowSelect" listener="#{manageMajorsBean.onRowSelect}" />
+								
+							<p:column width="130" id="ins" sortBy="#{row.majorName}" filterBy="#{row.majorName}">
+								<h:outputText value="#{row.majorName}" />
+								<p:watermark value="Major" forElement=":pageForm:majorTable:ins:filter"/>
+							</p:column>
+							
+							<p:column width="130" id="head" sortBy="#{row.mail}" filterBy="#{row.mail}">
+								<h:outputText value="#{row.headOfMajor.name}" />
+								<p:watermark value="Head" forElement="pageForm:majorTable:head:filter"/>
+							</p:column>
+						
+							<p:column width="130" id="type" sortBy="#{row.type}" >
+								<h:outputText rendered="#{row.type==1}" value="Science" />
+								<h:outputText rendered="#{row.type==2}" value="Engineering" />
+								<p:watermark value="Type" forElement="pageForm:majorTable:type:filter"/>
+							</p:column>
+							<p:column width="130" id="visabiltiy" sortBy="#{row.visabiltiy}" >
+								<h:outputText rendered="#{row.visabiltiy==true}" value="Hidden" />
+								<h:outputText rendered="#{row.visabiltiy==false}" value="Shown" />
+								<p:watermark value="Visability" forElement="pageForm:majorTable:visabiltiy:filter"/>
+							</p:column>
+							<p:column width="130" id="btns">
+									<p:commandButton  value="Delete" 
+									action="#{manageMajorsBean.deleteMajor(row)}" update="majorTable"   process="@this" immediate="true"/>
+									<ui:remove><p:commandButton rendered="#{row.status==1}" value="Deactivate" action="#{BooksBean.deactivateCourse(row)}" update="booksTable" styleClass="redBtn"/>
+							</ui:remove>
+							<p:commandButton  value="Update" 
+									action="#{manageMajorsBean.preUpdateMajor(row)}" update=":mainForm majorTable"   process="@this" />
+								
+								</p:column>
+						</p:dataTable>
+						 
+						
+						</h:form>
+					<p:dialog widgetVar="addMajorDlg"
+					id="Dlg" header="New Major" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true"
+					 maximizable="true" minimizable="true" class="addDialog" height="440">
+					<h:form id="addInsForm">
+						<div class="dialogWrapper">
+							<h:panelGrid columns="3" id="grid">
+			          			<h:outputLabel value="Name" for="name"/>
+			          			<h:inputText value="#{manageMajorsBean.addedMajor.majorName}" id="name" required="true" requiredMessage="Insert name"/>
+			          			<p:message for="name"/>
+			          				
+			          			<h:outputLabel value="Type" for="type"/>
+			          			<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="type" value="#{manageMajorsBean.addedMajor.type}" required="true" requiredMessage="Please select type">
+										<f:selectItem itemLabel="Science" itemValue="1" />
+										<f:selectItem itemLabel="Engineering" itemValue="2" />
+									</p:selectOneMenu>
+									
+								</h:panelGroup>
+								<p:message for="type" />
+								<h:outputLabel value="Head" for="ins"/>
+									<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu style="margin-top:15px; width:330px;"  filter="true" filterMatchMode="contains" 
+									id="ins" value="#{manageMajorsBean.addedMajor.headOfMajor.id}" required="true" requiredMessage="Please select type">
+										<f:selectItem itemLabel="Select Head"  />
+										<f:selectItems var="ins" value="#{manageMajorsBean.instructors}" itemLabel="#{ins.name}" itemValue="#{ins.id}" />
+									</p:selectOneMenu>
+									</h:panelGroup>
+								<p:message for="ins" />
+								<h:outputLabel value="Visability" for="vis"/>
+			          			<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="vis" value="#{manageMajorsBean.addedMajor.visabiltiy}" required="true" requiredMessage="Please select visability">
+										<f:selectItem itemLabel="Hide" itemValue="0" />
+										<f:selectItem itemLabel="Show" itemValue="1" />
+									</p:selectOneMenu>
+									
+								</h:panelGroup>
+								<p:message for="vis" />
+			          		</h:panelGrid>
+						</div>
+						<ul class="dialogFooter">
+							<li><p:commandButton value="Cancel" title="Cancel" onclick="addMajorDlg.hide()" immediate="true" class="dialogCancel" /></li>
+							<li><p:commandButton value="Add" title="Add" actionListener="#{manageMajorsBean.addMajor}"  update=":mainForm:pageForm:majorTable " 
+							process="addInsForm" class="dialogOk" /></li>
+						</ul>
+					</h:form>
+				</p:dialog>
+			
+				</p:panel>
+			</div>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/content.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="true" rendered="#{not facesContext.validationFailed}" />
+			<p:panel id="pnl">
+				<p:panel id="inputsGrid" >
+					 <h3 class="electionThanks">Thank You for voting</h3>
+					<p:commandButton id="startVoting" value="New Vote"  action="#{electionBean.navigateToVerifyPage}" ajax="false" styleClass="loginBtn" update="growl" />
+				</p:panel>
+			    <p:outputLabel value="Total Students : #{electionBean.totalNoOFVotes}"/>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

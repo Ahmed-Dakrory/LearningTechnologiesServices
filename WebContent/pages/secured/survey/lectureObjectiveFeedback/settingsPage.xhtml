@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Lecture Objectives Feedback - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="Lecture Objectives Feedback" disabled="true" />
+							<p:menuitem value="Settings" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>
+						<table>
+							<tr>
+								<td width="100"><h:outputLabel for="week" value="Week" class="label" style="vertical-align:top;line-height:5px !important;" /></td>
+								<td>
+									<h:panelGroup>
+										<p:selectOneMenu id="week" value="#{fillLectureObjectiveFeedbackBean.selectedWeek.id}" required="true" requiredMessage="Please select course" style="width:320px">
+											<f:selectItem itemLabel="Select Week" />
+											<f:selectItems var="course" value="#{fillLectureObjectiveFeedbackBean.weeks}" itemLabel="#{course.name} - (#{course.startDateFriendly} to #{course.endDateFriendly})" itemValue="#{course.id}" />
+										</p:selectOneMenu>
+										<p:message for="week" />
+									</h:panelGroup>
+								</td>
+								<td>&nbsp;<a href="#" class="tooltipNote" data-tooltip="Step 1:Select the week of the evaluated lecture"/></td>
+							</tr>
+							<tr>
+								<td><h:outputLabel for="course" value="Course*" class="label" style="vertical-align:top;line-height:5px !important;" /></td>
+								<td>
+									<h:panelGroup>
+										<p:selectOneMenu id="course" value="#{fillLectureObjectiveFeedbackBean.selectedCourse.id}" required="true" requiredMessage="Please select course" 
+										filter="true" filterMatchMode="startsWith" panelStyle="width:180px;" styleClass="selectInst" style="margin-top:15px; width:320px;">
+											<f:selectItem itemLabel="Select Course" />
+											<f:selectItems var="course" value="#{fillLectureObjectiveFeedbackBean.coursesLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+											<p:ajax update="ins" listener="#{fillLectureObjectiveFeedbackBean.fillInstructorsLst}" />
+										</p:selectOneMenu>
+										<p:message for="course" />
+									</h:panelGroup>
+								</td>
+								<td>&nbsp;<a href="#" class="tooltipNote" data-tooltip="Step 2:Select from your courses only"/></td>
+							</tr>
+							<tr>
+								<td><h:outputLabel for="ins" value="Instructors" class="label" style="vertical-align:top;line-height:5px !important;" /></td>
+								<td>
+									<h:panelGroup>
+										<p:selectOneMenu id="ins" value="#{fillLectureObjectiveFeedbackBean.selectedIns.id}"
+										 required="true" requiredMessage="Please select Instructor" filter="true" filterMatchMode="startsWith" panelStyle="width:180px;" styleClass="selectInst" style="margin-top:15px; width:320px;">
+											<f:selectItem itemLabel="Select Instructor" />
+											<f:selectItems var="course" value="#{fillLectureObjectiveFeedbackBean.insLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+										</p:selectOneMenu>
+										<p:message for="ins" />
+									</h:panelGroup>
+								</td>
+								<td>&nbsp;<a href="#" class="tooltipNote" data-tooltip="Step 3:Select from your instructors only"/></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td colspan="2">
+									<p:commandButton value="Start Survey" label="Press to start the evaluation for the selected instructors" ajax="false" id="startBtn" update="testpanel" actionListener="#{fillLectureObjectiveFeedbackBean.startSurvey}"
+						 				styleClass="blueBtn" action="survey.xhtml"/>
+									<p:tooltip id="toolTipFade" for="startBtn" value="Press to start the evaluation for the selected instructor" position="top"/>
+								</td>
+							</tr>
+						</table>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+</ui:composition>
+</html>

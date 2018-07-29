@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Instructor Configurations</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Instructors Configurations" disabled="true" />
+							<p:menuitem value="Instructor Details" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<h:form id="pageForm">
+				<div class="pannelWrapper">
+					<p:panel>
+						<p:commandButton value="Back to instructors" action="/pages/secured/config/instructors.xhtml?faces-redirect=true" 
+						immediate="true" styleClass="grayBtn"/> &nbsp;&nbsp;
+						<ui:remove><p:commandButton value="+ Add Course" id="addInsBtn" title="Add Course" actionListener="#{StudentsBean.preAddCourse}" immediate="true" styleClass="greenBtn" /> &nbsp;&nbsp;
+						</ui:remove>
+						<ui:remove><p:commandButton value="Delete Student" actionListener="#{StudentsBean.preDelete}" process="@this" styleClass="redBtn" />
+						<br/><br/><br/>
+						</ui:remove>
+						<p:panel class="attendance" id="panel"> 
+							<table class="courseDetails">
+								<tr>
+									<td>Instructor  Name:</td>
+									<td><h:outputLabel value="#{InstructorsBean.detailedInstructor.name}"/></td>
+								</tr>
+								<tr>
+									<td>Instructor ID:</td>
+									<td><h:outputLabel value="#{InstructorsBean.detailedInstructor.id}"/></td>
+								</tr>
+								<tr>
+									<td>Student Email:</td>
+									<td><h:outputLabel value="#{InstructorsBean.detailedInstructor.mail}"/></td>
+								</tr>
+																
+							</table>
+							
+								
+						
+							<br/>
+							<p:panel><h3><h:outputLabel value="Courses : (#{InstructorsBean.courses.size()}):"/></h3></p:panel>
+							
+							<ui:repeat value="#{InstructorsBean.courses}" var="course" id="courses">
+								<table class="courseInst">
+									<tr>
+										<td width="240"><h:outputLabel value="#{course.name}"/></td>
+										<td width="240"><h:outputLabel value="#{course.semester}"/></td>
+										<td width="240"><h:outputLabel value="#{course.year}"/></td>
+										
+									</tr>
+								</table>
+							</ui:repeat>
+						
+						</p:panel>
+					</p:panel>
+				</div>
+			
+			</h:form>
+			
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

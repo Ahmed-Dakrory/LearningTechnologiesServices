@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">General Feedback - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="General Feedback" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						
+					<h:panelGroup id="pageContent">
+						<p:panel id="mainPnl">
+							<p:tabMenu  id="ins" activeIndex="0">
+								<p:menuitem value="Pending Feedbacks" url="/pages/secured/forms/generalFeedback/pendingFeedback.xhtml"/>
+								<p:menuitem value="Old Feedbacks" url="/pages/secured/forms/generalFeedback/pendingFeedback.xhtml" />
+								<p:menuitem value="Submitted Feedbacks" url="/pages/secured/forms/generalFeedback/fillFeedbackForm.xhtml" />
+								
+						</p:tabMenu>
+						<h:panelGroup id="ListView" >
+								<p:dataTable var="feedback"
+									value="#{fillFeedbackFormBean.feedbacks}"
+									selectionMode="multiple"
+									selection="#{fillFeedbackFormBean.selectedFeedback}"
+									rowKey="#{feedback.id}" sortMode="multiple"
+									filteredValue="#{fillFeedbackFormBean.filteredFeedback}"
+									widgetVar="feedbacksTable" id="datatableFeedback">
+									<ui:remove>
+										<p:column width="200" id="fileno" sortBy="#{feedback.fileNo}"
+											filterBy="#{feedback.fileNo}">
+											<h:outputText value="#{feedback.fileNo}" />
+											<p:watermark value="File No"
+												forElement="mainForm:form:datatableFeedback:fileno:filter" />
+										</p:column>
+									</ui:remove>
+									<p:column width="130" id="date"
+										sortBy="#{feedback.friendlyDate}"
+										filterBy="#{feedback.friendlyDate}">
+										<h:outputText value="#{feedback.friendlyDate}" />
+										<p:watermark value="Date"
+											forElement="mainForm:form:datatableFeedback:date:filter" />
+									</p:column>
+									<p:column width="200" id="title" sortBy="#{feedback.title}"
+										filterBy="#{feedback.title}">
+										<h:outputText value="#{feedback.title}" />
+										<p:watermark value="Title"
+											forElement="mainForm:form:datatableFeedback:title:filter" />
+									</p:column>
+									<p:column width="200" id="cate"
+										sortBy="#{feedback.categoryName}"
+										filterBy="#{feedback.categoryName}">
+										<h:outputText value="#{feedback.categoryName}" />
+										<p:watermark value="Category"
+											forElement="mainForm:form:datatableFeedback:cate:filter" />
+									</p:column>
+									<p:column width="76" headerText="Details" class="txtCenter">
+										<p:commandButton icon="icon_review" title="Details"
+											process="@this"
+											action="#{fillFeedbackFormBean.showFeedbackDetails(feedback)}" />
+										<ui:remove>
+											<p:commandButton icon="icon_delete" title="delete feedback"
+												actionListener="#{fillFeedbackFormBean.preDelete(feedback)}"
+												onclick="confirmation.show();" immediate="true" />
+											<p:commandButton icon="icon_edit" title="edit feedback"
+												action="#{fillFeedbackFormBean.updateFeedback(feedback)}"
+												process="@this" ajax="true" update="datatableFeedback" />
+										</ui:remove>
+									</p:column>
+								</p:dataTable>
+							</h:panelGroup>
+			
+						</p:panel>
+				</h:panelGroup>	
+				</p:panel>
+				</div>
+				
+				
+				
+				
+				
+				
+				<div class="pannelWrapper">
+					<p:panel id="feedbackformPanel">
+						<p:commandButton value="New Feedback" onclick="addDlg.show();" styleClass="greenBtn marginLeft_9" />
+						<p:dataTable var="feedback" value="#{fillFeedbackFormBean.feedbacks}" selectionMode="multiple" selection="#{fillFeedbackFormBean.selectedFeedback}" rowKey="#{feedback.id}" sortMode="multiple" 
+							filteredValue="#{fillFeedbackFormBean.filteredFeedback}" widgetVar="feedbacksTable" id="datatableFeedback">
+							<ui:remove>
+							<p:column width="200" id="fileno" sortBy="#{feedback.fileNo}" filterBy="#{feedback.fileNo}">
+								<h:outputText value="#{feedback.fileNo}" />
+								<p:watermark value="File No" forElement="mainForm:form:datatableFeedback:fileno:filter"/>
+							</p:column>
+							</ui:remove>
+							<p:column width="130" id="date" sortBy="#{feedback.friendlyDate}" filterBy="#{feedback.friendlyDate}">
+								<h:outputText value="#{feedback.friendlyDate}" />
+								<p:watermark value="Date" forElement="mainForm:form:datatableFeedback:date:filter"/>
+							</p:column>
+							<p:column width="200" id="title" sortBy="#{feedback.title}" filterBy="#{feedback.title}">
+								<h:outputText value="#{feedback.title}" />
+								<p:watermark value="Title" forElement="mainForm:form:datatableFeedback:title:filter"/>
+							</p:column>
+							<p:column width="200" id="cate" sortBy="#{feedback.categoryName}" filterBy="#{feedback.categoryName}">
+								<h:outputText value="#{feedback.categoryName}" />
+								<p:watermark value="Category" forElement="mainForm:form:datatableFeedback:cate:filter"/>
+							</p:column>
+							<p:column width="76" headerText="Details" class="txtCenter">
+							 	<p:commandButton icon="icon_review" title="Details" process="@this" action="#{fillFeedbackFormBean.showFeedbackDetails(feedback)}" />
+								<ui:remove>
+									<p:commandButton icon="icon_delete" title="delete feedback"
+										actionListener="#{fillFeedbackFormBean.preDelete(feedback)}"
+										onclick="confirmation.show();" immediate="true" />
+									<p:commandButton icon="icon_edit" title="edit feedback"
+										action="#{fillFeedbackFormBean.updateFeedback(feedback)}" 
+										process="@this" ajax="true" update="datatableFeedback" />
+								</ui:remove>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+	   		<p:confirmDialog id="confirmDialogID" message="Are you sure you want to delete this feedback?" header="Confirm Delete" severity="alert" widgetVar="confirmation">
+		   		<h:form>
+					<p:commandButton value="Delete" update=":mainForm:form:growl :mainForm:form:datatableFeedback" oncomplete="confirmation.hide()" 
+					actionListener="#{fillFeedbackFormBean.deleteFeedback}" immediate="true" ajax="true" styleClass="deleteBtn"/>
+					<p:commandButton value="cancel" onclick="confirmation.hide()" type="button" styleClass="cancelBtn"/>
+				</h:form>
+			</p:confirmDialog>
+			<p:dialog id="showDetails" header="Form Details" widgetVar="detDlg" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true" maximizable="true" minimizable="true" class="previewDialog" height="310">
+				<h:form id="detForm">
+					<div class="dialogWrapper">
+						<h:panelGroup id="detGrid">
+							<ul class="dialogLine">
+								<li><h:outputLabel value="Submission Date:" /></li>
+								<li><h:outputLabel value="#{fillFeedbackFormBean.detailedDTO.friendlyDate}" /></li>
+							</ul>
+							<ul class="dialogLine">
+								<li><h:outputLabel value="Update Category:" /></li>
+								<li><h:outputLabel value="#{fillFeedbackFormBean.detailedDTO.categoryName}" /></li>
+							</ul>
+							<ul class="dialogLine">
+								<li><h:outputLabel value="Title:" for="title"/></li>
+								<li class="maxWidth"><h:outputLabel value="#{fillFeedbackFormBean.detailedDTO.title}" id="title"/></li>
+							</ul>
+							<ul class="dialogLine txtareaUl"> 
+								<li class="txtareaLi">
+									<h:outputLabel value="Form:" for="form"/><br/>
+									<p:inputTextarea value="#{fillFeedbackFormBean.detailedDTO.feedbackForm}" disabled="true" id="form"/>
+								</li>
+							</ul>
+						</h:panelGroup>
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="detDlg.hide()" immediate="true" class="dialogCancel" /></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+			<p:dialog id="addFeedBack" header="Add FeedBack" widgetVar="addDlg" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom"
+			 resizable="true" maximizable="true" minimizable="true" class="previewDialog" height="315">
+				<h:form id="addFeedBackForm">
+					<div class="dialogWrapper">
+						<h:panelGroup id="addFeedbackPalnel">
+							<p:selectOneMenu id="category" value="#{fillFeedbackFormBean.categoryID}" required="true" requiredMessage="Please select category">
+								<f:selectItem itemLabel="Select Category" />
+								<f:selectItems var="categ" value="#{fillFeedbackFormBean.categories}" itemLabel="#{categ.categoryName}" itemValue="#{categ.id}" />
+							</p:selectOneMenu>
+						    <p:message for="category"/>
+					        <h:panelGroup>
+					    		<p:inputText id="title" value="#{fillFeedbackFormBean.title}" required="true" requiredMessage="Please Insert title" class="input376px"/>
+					    		<p:watermark for="title" value="Title" />
+							 	<p:message for="title"/>
+							 </h:panelGroup>
+							 <p:inputTextarea id="text" value="#{fillFeedbackFormBean.text}" required="true" requiredMessage="Please Type text"/>
+							 <p:watermark for="text" value="Write your feedback..." />
+							 <p:message for="text"/>
+						</h:panelGroup>
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" actionListener="#{fillFeedbackFormBean.addFeedback}" ajax="true" update="addFeedbackPalnel :mainForm:form:datatableFeedback" class="dialogOk" /></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+	   </ui:define>
+	</ui:composition>
+</html>

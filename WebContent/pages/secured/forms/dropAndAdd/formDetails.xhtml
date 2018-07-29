@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Drop/ Add Details - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Add / Drop Form" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<p:tabMenu id="ins" activeIndex="#{(DetailsBeanDropAdd.casesID.equals('Dean') || 
+						 	DetailsBeanDropAdd.casesID.equals('AdmissionD') || DetailsBeanDropAdd.casesID.equals('AdmissionH')||
+						 	DetailsBeanDropAdd.casesID.equals('Stduent'))?3:2}">
+						 	
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropIns.xhtml"
+							 rendered="#{DetailsBeanDropAdd.casesID.equals('Ins')}"/>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropDean.xhtml" 
+                             rendered="#{DetailsBeanDropAdd.casesID.equals('Dean')}"/>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmissionHead.xhtml" 
+							rendered="#{DetailsBeanDropAdd.casesID.equals('AdmissionH')}"/>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmissionDept.xhtml" 
+							rendered="#{DetailsBeanDropAdd.casesID.equals('AdmissionD')}"/>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropStudent.xhtml" 
+							rendered="#{DetailsBeanDropAdd.casesID.equals('Stduent')}"/>
+							<ui:remove><p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmin.xhtml" 
+							rendered="#{DetailsBeanOverloadRequest.casesID.equals('Admin')}"/>
+							</ui:remove>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropIns1.xhtml"
+							 rendered="#{DetailsBeanDropAdd.casesID.equals('Ins')}"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropDean1.xhtml" 
+                             rendered="#{DetailsBeanDropAdd.casesID.equals('Dean')}"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmissionHead1.xhtml" 
+							rendered="#{DetailsBeanDropAdd.casesID.equals('AdmissionH')}"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmissionDept1.xhtml" 
+							rendered="#{DetailsBeanDropAdd.casesID.equals('AdmissionD')}"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropStudent1.xhtml" 
+							rendered="#{DetailsBeanDropAdd.casesID.equals('Stduent')}"/>
+							<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase3.xhtml"
+						 	rendered="#{FormsStatusBean.dropAddPhase3 and DetailsBeanDropAdd.casesID.equals('Stduent')}"
+						 	/>
+						 	<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase2.xhtml"
+						 	rendered="#{FormsStatusBean.dropAddPhase2 and DetailsBeanDropAdd.casesID.equals('Stduent')}"
+						 	/>
+						 		<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase1.xhtml"
+						 	rendered="#{FormsStatusBean.dropAdd and DetailsBeanDropAdd.casesID.equals('Stduent')}"
+						 	/>
+						 	
+							<ui:remove>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmin1.xhtml" 
+							rendered="#{DetailsBeanOverloadRequest.casesID.equals('Admin')}"/>
+						</ui:remove>
+
+                            <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/dropAndAdd/inprogressPetitions.xhtml" 
+                           	rendered="#{DetailsBeanDropAdd.casesID.equals('AdmissionD')||DetailsBeanDropAdd.casesID.equals('AdmissionH')||
+                           	DetailsBeanDropAdd.casesID.equals('Dean')}"/>
+                           	
+							<p:menuitem value="Petition Details" title="Petition Details" disabled="true" />
+						</p:tabMenu>
+						<!-- More Actions buttons -->
+						<h:panelGroup id="actionBtnsGrid">
+							<ul class="moreActionBtns">
+								<li>
+									<p:commandButton id="forwardBtn" value="Forward to Instructor" title="Forward" type="button" rendered="#{!DetailsBeanDropAdd.oldMood and DetailsBeanDropAdd.renderForward}" icon="icon-forward" styleClass="forwardBtn" />
+					           		<p:overlayPanel id="instructorsPanel" for="forwardBtn" hideEffect="fade" dynamic="true" class="forwardOverlay">
+		          						<p:selectOneListbox id="basic" value="#{DetailsBeanDropAdd.selectedInstructor}">
+		          							<f:selectItems itemLabel="#{vice.name}" itemValue="#{vice.id}" value="#{DetailsBeanDropAdd.instructors}" var="vice" />
+		        						</p:selectOneListbox>
+										<p:commandButton value="Forward to instructor" title="Forward to instructor"
+										 action="#{DetailsBeanDropAdd.forwardPetition}" ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								<li>
+									<p:commandButton id="reminderBtn" value="Remind me" title="Remind me" type="button" rendered="#{DetailsBeanDropAdd.renderRemindMe and  !DetailsBeanDropAdd.oldMood}" icon="icon-reminder" />
+					           		<p:overlayPanel id="remindMeDatePanel" for="reminderBtn" hideEffect="fade" dynamic="true" class="remindOverlay">
+										<p:calendar id="reminddate" value="#{DetailsBeanDropAdd.notifyAt}" pattern="MM/dd/yyyy HH:mm" mindate="#{DetailsBeanDropAdd.currentDate}"/>
+										<p:watermark for="reminddate" value="Select Date" id="watermark" /><br/>
+							        	<p:commandButton value="Save Reminder" title="Save Reminder" actionListener="#{DetailsBeanDropAdd.saveReminder}" ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								<li><p:commandButton value="Print" title="Print" type="button" icon="icon-print">
+								<p:printer target=":mainForm:printForm:printGrid" />
+								</p:commandButton></li>
+								<li class="floatL"><p:commandButton value="Back" title="Back" actionListener="#{DetailsBeanDropAdd.cancel}" immediate="true" icon="icon-back" /></li>
+							</ul>
+						<p:commandButton class="redBtn" disabled="true" value="Reverted" onclick="editDlg.show()"
+							rendered="#{DetailsBeanDropAdd.detailedDTO.reverted}"/>
+									
+						</h:panelGroup>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{DetailsBeanDropAdd.detailedDTO.student.id}" rendered="#{DetailsBeanDropAdd.detailedDTO.image != null }" />
+									<p:graphicImage library="images" name="icon_user.png" rendered="#{DetailsBeanDropAdd.detailedDTO.image == null }" />
+								</li>
+								<li>
+									<div class="userName">
+										<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.name}" />
+										<p:commandButton icon="icon_attach" title="Attachment" disabled="#{DetailsBeanDropAdd.detailedDTO.attachments == null}" process="@this" ajax="false" action="#{DetailsBeanDropAdd.downloadAttachments(DetailsBeanDropAdd.detailedDTO)}" />
+									 	<div class="floatR actionBtns marginRight_18">
+											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanDropAdd.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanDropAdd.adminView}" class="blueBtn" />
+								 			<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanDropAdd.approve}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false }" class="greenBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanDropAdd.refuse}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false }" class="redBtn" />
+											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanDropAdd.markAsDone}" rendered="#{DetailsBeanDropAdd.oldMood==false and DetailsBeanDropAdd.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
+											<p:commandButton value="Revert" 
+											rendered="#{!FormsStatusBean.dropAdd and !DetailsBeanDropAdd.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
+											
+											<h:panelGroup rendered="#{!FormsStatusBean.dropAdd and !DetailsBeanDropAdd.oldMood}">
+											<a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it 
+											to (Under Review) status"></a>
+											</h:panelGroup>
+											
+				
+										</div>
+									 	<br/>
+									 </div>
+									 <table>
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Date" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.friendlyDate}" />
+													<h:outputLabel value="ID" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.facultyId}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.mobile}" />
+												</h:panelGrid>
+											</td>
+													<td width="48">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
+													<h:outputLabel value="Registered hrs." />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
+													<h:outputLabel value="Repeated Courses" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.repeatedCourses}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.gpa}" />
+													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.major.majorName}" />
+												</h:panelGrid>
+											</td>
+									
+										</tr> 
+									</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						<!-- Petition Progress -->
+						<div class="formProgressWrapper">
+							<ol class="formProgress">
+								<h:panelGroup rendered="#{FormsStatusBean.dropAdd}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Under Processing" /><br/>
+									</div>
+								</li>
+							
+							<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+									<li>	<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Finalized" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Admission Staff" /><br/>
+					    						<h:outputLabel value="#{DetailsBeanDropAdd.admissionHActionDetails.friendlyDate}" />
+					    					</div>
+					    				</div></li>
+							</h:panelGroup>
+							</h:panelGroup>
+    					<h:panelGroup rendered="#{!FormsStatusBean.dropAdd}">
+    						<li>
+							<div class="formProgress-done" >
+    						<br/>
+							<h:outputLabel value="Under Review" /><br/>
+							</div>
+								</li>
+								
+								<!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns!=null}">
+											<!-- Phase Three -->
+											<div class="otherInfo">
+												<h:outputLabel value="Course Instructor" /><br/>
+												<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns.name}" /><br/>
+											</div>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns==null}">
+											<div class="otherInfo">
+												<h:outputLabel value="Program Advisor" /><br/>
+												<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.major.headOfMajor.name}" /><br/>
+											</div>
+											</h:panelGroup>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==2 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeanDropAdd.instructorActionDetails.actionType.name}" /><br/>
+							    			
+							    			<!-- Phase Three -->
+							    			<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns!=null}">
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanDropAdd.instructorActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Course Instructor" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanDropAdd.instructorActionDetails.friendlyDate}" />
+							    			</div>
+							    			</h:panelGroup>
+							    			<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns==null}">
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanDropAdd.instructorActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Program Advisor" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanDropAdd.instructorActionDetails.friendlyDate}" />
+							    			</div>
+							    			</h:panelGroup>
+							    		</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==1|| DetailsBeanDropAdd.detailedDTO.step.getID()==6}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Dean of Strategic Enrollment Management" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==2 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanDropAdd.deanActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="#{DetailsBeanDropAdd.deanActionDetails.instructorName}" /><br/>
+			    		    					<h:outputLabel value="Dean of Strategic Enrollment Management" /><br/>
+			    								<h:outputLabel value="#{DetailsBeanDropAdd.deanActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==2|| DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==6}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Head" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->										
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanDropAdd.admissionHActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+					    		       			<h:outputLabel value="Admission Head" /><br/>
+					    		    			<h:outputLabel value="#{DetailsBeanDropAdd.admissionHActionDetails.friendlyDate}" />
+					    		    		</div>
+					   			    	</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==2|| DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==3}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Staff" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Finalized" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Admission Staff" /><br/>
+					    						<h:outputLabel value="#{DetailsBeanDropAdd.admissionHActionDetails.friendlyDate}" />
+					    					</div>
+					    				</div>
+									</h:panelGroup>
+								</li></h:panelGroup>
+							</ol>
+						</div>
+						<!-- Petition Details -->
+						<table class="petitionDetails">
+						<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.status!=null}">
+						    <tr>
+						    <td><h:outputLabel value="Status" /></td>
+							<td><p:inputTextarea value="#{DetailsBeanDropAdd.detailedDTO.status}" disabled="true" rows="5" /></td>
+						    </tr>
+						    </h:panelGroup>
+						    <tr>
+						    <td><h:outputLabel value="Form Type" /></td>
+							<td><h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.type}" /></td>
+						    </tr>
+						    
+							<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.type.value==1 || DetailsBeanDropAdd.detailedDTO.type.value==2}">
+							<tr>
+								<td><h:outputLabel value="Added Course"/></td>
+								<td><h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.addedCourse.name}"/></td>
+							
+				    		</tr>
+				    		</h:panelGroup>
+				    		<h:panelGroup  rendered="#{(DetailsBeanDropAdd.detailedDTO.type.value==1 || DetailsBeanDropAdd.detailedDTO.type.value==2) and DetailsBeanDropAdd.detailedDTO.addedSection !=null}">
+							<tr>
+				    			<td><h:outputLabel value="Added Section" /></td>
+				    			<td><h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.addedSection}"/></td>
+				    		</tr>
+				    		</h:panelGroup >
+				    		<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.type.value==0 || DetailsBeanDropAdd.detailedDTO.type.value==2}">
+				    		<tr>			 
+								<td><h:outputLabel value="Dropped Course" /></td>
+								<td><h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.dropCourse.name}" /></td>
+							</tr>
+							</h:panelGroup>
+							
+							<h:panelGroup rendered="#{(DetailsBeanDropAdd.detailedDTO.type.value==0 || DetailsBeanDropAdd.detailedDTO.type.value==2) and DetailsBeanDropAdd.detailedDTO.droppedSection != null}">
+							<tr>
+								<td><h:outputLabel value="Dropped Section:" /></td>
+								<td><h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.droppedSection}" /></td>
+							</tr>
+							</h:panelGroup>
+							<!--  TODO comment this component in phase one and two -->
+							<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns!=null}">
+							<tr>
+								<td><p:outputLabel value="WP/WF" for="dropType"/></td>
+ 								<td>
+ 									<p:selectOneMenu id="dropType"  value="#{DetailsBeanDropAdd.selectedType}" rendered="#{DetailsBeanDropAdd.casesID.equals('Ins')}">
+										<f:selectItem itemLabel="Select Type" />
+										<f:selectItems var="type" value="#{DetailsBeanDropAdd.dropTypeList}" itemLabel="#{type.name}" itemValue="#{type.id}" />
+									</p:selectOneMenu>
+									<p:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.dropType}" for="dropType" rendered="#{!DetailsBeanDropAdd.casesID.equals('Ins')}"/>
+								</td>
+								</tr>
+							</h:panelGroup>
+							<tr>
+								<td><p:outputLabel value="Repeated Course" /></td>
+								<td>
+									<p:outputLabel value="Yes" rendered="#{DetailsBeanDropAdd.detailedDTO.repeatedCourse==true}" />
+									<p:outputLabel value="No" rendered="#{DetailsBeanDropAdd.detailedDTO.repeatedCourse!=true}" />
+									
+								</td>
+								</tr>
+								<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.courseLab!=null}">
+								<tr>
+								<td><p:outputLabel value="Course Lab" /></td>
+								<td>
+									<p:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.courseLab}" />
+								
+									
+								</td>
+								</tr>
+								</h:panelGroup>
+				    		<!-- Comments History -->
+				    		<tr>
+				    			<td><h:outputLabel value="Staff Comments" /></td>
+				    			<td class="comments">
+				    				<ui:repeat var="o" value="#{DetailsBeanDropAdd.detailedDTO.actionDTO}" varStatus="status">
+                    					<h:panelGroup rendered="#{o.comment !=null}" class="marginBottom_12">
+	               							<h:outputLabel value="#{o.instructorName}" class="name"  /> &nbsp;
+                   							<h:outputLabel value="#{o.friendlyDate}" class="date" />  <br/>
+                   							<h:outputLabel value="#{o.comment}" />  <br/>
+                   						</h:panelGroup>
+                  					</ui:repeat>
+                  					<!-- Write Comment -->
+									<h:panelGroup>
+										<p:inputTextarea value="#{DetailsBeanDropAdd.newComment}" rendered="#{!DetailsBeanDropAdd.oldMood}"  id="newComment" >
+											<p:watermark value="Add Comment" for="newComment"/>
+										</p:inputTextarea>
+										<br/>
+										<div class="commentBtns">
+										<h:panelGroup rendered="#{!DetailsBeanDropAdd.oldMood==true }">
+											<a href="#" class="tooltipNote" data-tooltip="When you press comment button ,A notification will be sent to the student to make him/her check the comment "/>
+											</h:panelGroup>
+										
+											<p:commandButton value="Comment" title="Comment" ajax="false" process="newComment" actionListener="#{DetailsBeanDropAdd.addComment(DetailsBeanDropAdd.detailedDTO)}" rendered="#{!DetailsBeanDropAdd.oldMood==true }" update="newComment" class="blueBtn"/>
+											<p:commandButton value="Cancel" title="cancelComment" ajax="false" process="newComment" action="#{DetailsBeanDropAdd.cancelComment}" rendered="#{!DetailsBeanDropAdd.oldMood==true }" update="newComment" class="cancelBtn"/>
+										</div>
+									</h:panelGroup>
+				    			</td>
+				    		</tr>
+				  			<tr>
+								<td><h:outputLabel value="Attachment" rendered="#{DetailsBeanDropAdd.detailedDTO.attachments != null}"/></td>
+								<td class="attachmentBtn">
+									<!-- pdf -->
+									<p:commandButton icon="icon_pdf" rendered="#{DetailsBeanDropAdd.detailedDTO.attachments != null and (DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('pdf'))}"
+									title="PDF Attachment" process="@this" ajax="false" action="#{DetailsBeanDropAdd.downloadAttachments(DetailsBeanDropAdd.detailedDTO)}" />
+									<!-- doc, docx -->
+									<p:commandButton icon="icon_word" title="MS Word Attachment" rendered="#{DetailsBeanDropAdd.detailedDTO.attachments != null and (DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('doc') 
+									|| DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('docx'))}" 
+									 process="@this" ajax="false" action="#{DetailsBeanDropAdd.downloadAttachments(DetailsBeanDropAdd.detailedDTO)}" />
+									<!-- xls, xlsx -->
+									<p:commandButton icon="icon_excel" title="MS Excel Attachment" rendered="#{DetailsBeanDropAdd.detailedDTO.attachments != null and (DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('xls') 
+									|| DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('xlsx'))}"
+									 process="@this" ajax="false" action="#{DetailsBeanDropAdd.downloadAttachments(DetailsBeanDropAdd.detailedDTO)}" />
+									<!-- png, jpg, bmp, gif -->
+									<p:commandButton icon="icon_image" title="Image Attachment"  rendered="#{DetailsBeanDropAdd.detailedDTO.attachments != null and (DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('png') 
+									|| DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('jpg') || DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('bmp') || DetailsBeanDropAdd.detailedDTO.attachments.name.endsWith('gif'))}"
+									 process="@this" ajax="false" action="#{DetailsBeanDropAdd.downloadAttachments(DetailsBeanDropAdd.detailedDTO)}" />
+								</td>
+							</tr>
+						</table>
+						<p:commandButton class="redBtn"  value="Update" onclick="editDlgPhase1.show()"
+							rendered="#{(DetailsBeanDropAdd.detailedDTO.reverted and 
+							DetailsBeanDropAdd.oldMood and DetailsBeanDropAdd.detailedDTO.step.getID()==0)}"/>
+							
+						<!-- Action Buttons -->
+						<div class="actionBtns bottomBtns">
+							<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanDropAdd.approve}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false }" class="greenBtn" />
+							<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanDropAdd.refuse}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false }" class="redBtn" />
+							<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanDropAdd.markAsDone}" rendered="#{DetailsBeanDropAdd.oldMood==false and DetailsBeanDropAdd.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
+						<p:commandButton value="Revert" 
+											rendered="#{!FormsStatusBean.dropAdd and !DetailsBeanDropAdd.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
+											
+											<h:panelGroup rendered="#{!FormsStatusBean.dropAdd and !DetailsBeanDropAdd.oldMood}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
+											</h:panelGroup>
+							
+						</div>	
+					</p:panel>
+				</div>
+			</h:form>
+			<h:form id="printForm" style="display:none;">
+			
+           
+           	<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.name}" />
+			<h:panelGrid columns="2" class="student" id="printGrid">
+				<h:outputLabel value="Student Name" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.name}" />
+			    <h:outputLabel value="Student ID" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.facultyId}" />
+				<h:outputLabel value="Contact" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.phone}" />
+				<h:outputLabel value="Date" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.friendlyDate}" />
+				<h:outputLabel value="Form Type" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.type}" />
+				<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.type.value==1 || DetailsBeanDropAdd.detailedDTO.type.value==2}">
+				<h:outputLabel value="Added Course"/>
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.addedCourse.name}"/>
+				</h:panelGroup>
+				<h:panelGroup  rendered="#{(DetailsBeanDropAdd.detailedDTO.type.value==1 || DetailsBeanDropAdd.detailedDTO.type.value==2) and DetailsBeanDropAdd.detailedDTO.addedSection !=null}">
+				<h:outputLabel value="Added Section" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.addedSection}"/>
+				</h:panelGroup >
+				<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.type.value==0 || DetailsBeanDropAdd.detailedDTO.type.value==2}">
+				<h:outputLabel value="Dropped Course" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.dropCourse.name}" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{(DetailsBeanDropAdd.detailedDTO.type.value==0 || DetailsBeanDropAdd.detailedDTO.type.value==2) and DetailsBeanDropAdd.detailedDTO.droppedSection != null}">
+				<h:outputLabel value="Dropped Section:" />
+				<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.droppedSection}" />
+     			</h:panelGroup>
+							<!--  TODO comment this component in phase one and two -->
+							
+				<p:outputLabel value="WP/WF" />
+ 								
+ 				<p:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.dropType}" rendered="#{!DetailsBeanDropAdd.casesID.equals('Ins')}"/>
+								
+								
+							
+						    
+			</h:panelGrid>			
+          
+           					
+		</h:form>
+		</ui:define>
+			<ui:define name="confirmDialogBox">
+			
+				<p:dialog widgetVar="revertDlg" header="Revert" showEffect="slide" id="dilg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="250" >
+				 
+				 				<h:form id="dlgForm" prependId="false">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanel" columns="1">
+							<p:outputLabel value="Comment" for="comment"/>
+			          			<p:inputTextarea required="true" requiredMessage="Please insert the comment" id="comment" value="#{DetailsBeanDropAdd.content}"
+			          			/>
+			          			<p:message for="comment"/>
+			    <h:panelGroup>
+				<p:commandButton value="Send" title="Send" actionListener="#{DetailsBeanDropAdd.revert}"  process="addPanel"
+							  update="dlgForm:addPanel :mainForm:form" class="blueBtn" />
+				<p:commandButton value="Cancel" title="Cancel" onclick="revertDlg.hide()" immediate="true"  class="redBtn"/>
+				</h:panelGroup>
+			          </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+	   	
+		<p:dialog widgetVar="editDlgPhase1" header="Edit 1" showEffect="slide" id="editDLGID1" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="435" >
+				 
+				 	<h:form id="dlgFormEdit1">
+				 	<h:panelGrid columns="2">
+						
+								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputText required="true" id="mobileNO" value="#{DetailsBeanDropAdd.detailedDTO.phone}" 
+								validatorMessage="Please enter digits only, min 8 and max 11 digits" requiredMessage="Please enter mobile" size="40" class="input290px">
+										<f:validateDoubleRange />
+										<f:validateLength minimum="8" maximum="11"/>
+									</p:inputText>
+									<p:message for="mobileNO" />
+								</h:panelGroup>
+								
+							</h:panelGrid>
+				 				<p:panel  id="addCoursePnl">
+									<h:panelGrid columns="2">
+							
+											<p:outputLabel value="Added Course:&nbsp;" rendered="#{DetailsBeanDropAdd.detailedDTO.addedCourse.name!=null}"/>
+											<p:outputLabel value="&nbsp;#{DetailsBeanDropAdd.detailedDTO.addedCourse.name}" id="Addcourse" 
+											rendered="#{DetailsBeanDropAdd.detailedDTO.addedCourse.name!=null}"/>
+										
+										
+												<p:outputLabel value="Dropped Course:&nbsp;" rendered="#{DetailsBeanDropAdd.detailedDTO.dropCourse.name!=null}"/>
+											<p:outputLabel value="&nbsp;#{DetailsBeanDropAdd.detailedDTO.dropCourse.name}"
+											 id="dropcourse" rendered="#{DetailsBeanDropAdd.detailedDTO.dropCourse.name!=null}"/>
+											
+											</h:panelGrid>
+											<h:panelGrid columns="2">
+											<h:panelGroup><li>&nbsp;</li>
+											<p:selectBooleanCheckbox value="#{DetailsBeanDropAdd.detailedDTO.repeatedCourse}" />
+											</h:panelGroup>
+											<p:outputLabel value="You are repeating this course" />
+											
+											<h:panelGroup><li>&nbsp;</li>
+										<p:selectBooleanCheckbox value="#{DetailsBeanDropAdd.detailedDTO.courseLabBool}" >
+									  		<p:ajax update="writeAdd" />
+									  		
+										</p:selectBooleanCheckbox></h:panelGroup><p:outputLabel value="With course lab" /></h:panelGrid>
+											<h:panelGrid columns="2" id="writeAdd">
+											<p:inputText value="#{DetailsBeanDropAdd.detailedDTO.courseLab}" rendered="#{DetailsBeanDropAdd.detailedDTO.courseLabBool==true}"
+										 id="courseLabText" required="true"
+										requiredMessage="Please insert course lab code" style="width:300px;"/>
+										<h:panelGroup>
+										<p:watermark value="Insert Course Lab Code" for="courseLabText"/>
+										<p:message for="courseLabText"/>
+										</h:panelGroup>
+												</h:panelGrid>
+								<h:panelGrid columns="2">
+									<p:outputLabel value="Instructor Name" for="instruc" rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns!=null}"/>
+										<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns!=null}">
+											<p:selectOneMenu required="true" requiredMessage="Please select instructor"
+											 id="instruc" value="#{DetailsBeanDropAdd.detailedDTO.droppedCourseIns.id}">
+										    <f:selectItem itemLabel="Select Instructor" />
+										    <f:selectItems var="instruc" value="#{DetailsBeanDropAdd.insLst}" itemLabel="#{instruc.name}" itemValue="#{instruc.id}" />
+										    
+											</p:selectOneMenu>
+											<p:message for="instruc" />
+									</h:panelGroup>
+								
+								</h:panelGrid>
+									
+								
+									<ul class="formLine">
+										<li><p:outputLabel value="Attachment: "/></li>
+										<li class="paddingTop_12">
+											 <h:panelGrid columns="3">
+											 	<p:fileUpload fileUploadListener="#{DetailsBeanDropAdd.upload}" 
+											 	allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" 
+											 	 description="Attachment" update="attachmentFileNameLable2"
+												auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+											<li><p:outputLabel id="attachmentFileNameLable2" value="#{DetailsBeanDropAdd.attachmentFileName}" class="marginLeft_12"/></li>
+					                        		
+											 </h:panelGrid>
+											 <span class="allowedExt marginLeft_0">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/>Maximum size: 500KB</span>
+										</li>
+									</ul>
+									<ul class="formBtns"> 
+										<li><p:commandButton value="Save" actionListener="#{DetailsBeanDropAdd.resendPetition}"  class="blueBtn"
+										 process="addCoursePnl" update="addCoursePnl" /></li>
+										<li><p:commandButton value="Cancel" onclick="editDLGID1.close();" class="grayBtn" /></li>
+									</ul>
+								</p:panel>
+								
+				
+					</h:form>
+						
+	   </p:dialog>
+	    		</ui:define>	</ui:composition>
+</html>

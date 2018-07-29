@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Forms Configurations</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Forms" disabled="true" />
+							</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<h:form id="pageForm">
+				<div class="pannelWrapper">
+					<p:panel>
+						<p:dataTable var="row"  value="#{FormsStatusBean.forms}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" widgetVar="studentCourse" id="coursesTable" resizableColumns="true" rows="100" paginator="true"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+								<p:ajax event="rowSelect" listener="#{FormsStatusBean.onRowSelect}" />
+								
+								<p:column width="130" id="name" sortBy="#{row.formTypeName}" filterBy="#{row.formTypeName}">
+									<h:outputText value="#{row.formTypeName}" />
+									<p:watermark value="Name" forElement="pageForm:coursesTable:name:filter"/>
+								</p:column>
+								<p:column width="130" id="sem" sortBy="#{row.status.name}" filterBy="#{row.status.name}">
+									<h:outputText value="#{row.status.name}" />
+									<p:watermark value="Status" forElement="pageForm:coursesTable:sem:filter"/>
+								</p:column>
+								
+							
+								
+							</p:dataTable>
+					</p:panel>
+				</div>
+				
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

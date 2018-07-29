@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" class="login election">
+<h:head>
+	<link rel="stylesheet" type="text/css" href="#{resource['css:styles.css']}" />
+	<link rel="stylesheet" type="text/css" href="#{resource['css:normalize.css']}" />
+	<link rel="stylesheet" href="#{resource['css:fonts.css']}" />
+	<link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
+	<title><ui:insert name="title">LT Online Services</ui:insert>
+	</title>
+</h:head>
+<h:body>
+	<div class="login_mainWrapper">
+		<div class="login_logo">
+			<h:graphicImage value="#{resource['images:login_logo.png']}" alt="ZC LT Online Services" />
+		</div>
+		<h:form id="mainForm">
+			<ui:insert name="content">
+				Content displayed from Template... This text is never included, but only the text enclosed in the "ui:define" element of the template client or consumer (in this case
+      			home.xhtml).
+    		</ui:insert>
+    		<ui:insert name="footer" id="login_footer">
+				<ui:include src="footer.xhtml" />
+			</ui:insert>
+    	</h:form>
+    </div>
+</h:body>
+</html>

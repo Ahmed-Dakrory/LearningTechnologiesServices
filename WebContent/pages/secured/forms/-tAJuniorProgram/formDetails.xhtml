@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">TA Junior Program - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+					<p:breadCrumb>
+						<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+						<p:menuitem value="Petitions" />
+						<p:menuitem value="Junior TA Program" disabled="true" />
+					</p:breadCrumb>
+				</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<p:tabMenu id="ins" activeIndex="#{(DetailsBeanJuniorTA.casesID.equals('Dean') || 
+						 	DetailsBeanJuniorTA.casesID.equals('Stduent'))?3:2}">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/tAJuniorProgram/juniorTAProgIns.xhtml"
+							 rendered="#{DetailsBeanJuniorTA.casesID.equals('Ins')}"/>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/tAJuniorProgram/juniorTAProgDean.xhtml" 
+                             rendered="#{DetailsBeanJuniorTA.casesID.equals('Dean')}"/>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent.xhtml" 
+							rendered="#{DetailsBeanJuniorTA.casesID.equals('Stduent')}"/>
+							<ui:remove>
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/CourseRepeatForm/courseRepeatFormAdmin.xhtml" 
+							rendered="#{DetailsBeanJuniorTA.casesID.equals('Admin')}"/>
+							</ui:remove>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/tAJuniorProgram/juniorTAProgIns1.xhtml"
+							 rendered="#{DetailsBeanJuniorTA.casesID.equals('Ins')}"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/tAJuniorProgram/juniorTAProgDean1.xhtml" 
+                             rendered="#{DetailsBeanJuniorTA.casesID.equals('Dean')}"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent1.xhtml" 
+							rendered="#{DetailsBeanJuniorTA.casesID.equals('Stduent')}"/>
+							<ui:remove>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/CourseRepeatForm/courseRepeatFormAdmin1.xhtml" 
+							rendered="#{DetailsBeanJuniorTA.casesID.equals('Admin')}"/>
+							</ui:remove>
+							
+                            <p:menuitem value="+ New Petition" title="New Petition" class="new" url="/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent2.xhtml"
+							rendered="#{DetailsBeanJuniorTA.casesID.equals('Stduent')} and #{FormsStatusBean.taJuniorProg}"/>
+							<ui:remove>
+                            <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" 
+                           	rendered="#{DetailsBeanJuniorTA.casesID.equals('AdmissionD')||DetailsBeanJuniorTA.casesID.equals('AdmissionH')||
+                           	DetailsBeanJuniorTA.casesID.equals('Dean')}" />
+                           	</ui:remove>
+							<p:menuitem value="Petition Details" title="Petition Details" disabled="true" />
+							
+						</p:tabMenu>
+						
+						<!-- More Actions buttons -->
+						<h:panelGroup id="actionBtnsGrid">
+							<ul class="moreActionBtns">
+							<ui:remove>
+								<li>
+									<p:commandButton id="forwardBtn" value="Forward to Instructor" title="Forward" type="button" rendered="#{!DetailsBeanJuniorTA.oldMood and DetailsBeanJuniorTA.renderForward}" icon="icon-forward" styleClass="forwardBtn" />
+					           		<p:overlayPanel id="instructorsPanel" for="forwardBtn" hideEffect="fade" dynamic="true" class="forwardOverlay">
+		          						<p:selectOneListbox id="basic" value="#{DetailsBeanJuniorTA.selectedInstructor}">
+		          							<f:selectItems itemLabel="#{vice.name}" itemValue="#{vice.id}" value="#{DetailsBeanJuniorTA.instructors}" var="vice" />
+		        						</p:selectOneListbox>
+										<p:commandButton value="Forward to instructor" title="Forward to instructor"
+										 action="#{DetailsBeanJuniorTA.forwardPetition}" ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								</ui:remove>
+								<li>
+									<p:commandButton id="reminderBtn" value="Remind me" title="Remind me" type="button" 
+									rendered="#{DetailsBeanJuniorTA.renderRemindMe and  !DetailsBeanJuniorTA.oldMood}" icon="icon-reminder" />
+					           		<p:overlayPanel id="remindMeDatePanel" for="reminderBtn" hideEffect="fade" dynamic="true" class="remindOverlay">
+										<p:calendar id="reminddate" value="#{DetailsBeanJuniorTA.notifyAt}" pattern="MM/dd/yyyy HH:mm"
+										 mindate="#{DetailsBeanJuniorTA.currentDate}"/>
+										<p:watermark for="reminddate" value="Select Date" id="watermark" /><br/>
+							        	<p:commandButton value="Save Reminder" title="Save Reminder" 
+							        	actionListener="#{DetailsBeanJuniorTA.saveReminder}" ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								<li><p:commandButton value="Print" title="Print" type="button" icon="icon-print">
+								<p:printer target=":mainForm:printForm:printGrid" />
+								 
+								</p:commandButton></li>
+								<li class="floatL"><p:commandButton value="Back" title="Back" actionListener="#{DetailsBeanJuniorTA.cancel}" immediate="true" icon="icon-back" /></li>
+							</ul>
+						</h:panelGroup>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{DetailsBeanJuniorTA.detailedDTO.student.id}" rendered="#{DetailsBeanJuniorTA.detailedDTO.image != null }" />
+									<p:graphicImage library="images" name="icon_user.png" rendered="#{DetailsBeanJuniorTA.detailedDTO.image == null }" />
+								</li>
+								<li>
+									<div class="userName">
+										<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.name}" />
+										<div class="floatR actionBtns marginRight_18">
+											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanJuniorTA.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanJuniorTA.adminView}" class="blueBtn" />
+											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanJuniorTA.approve}" rendered="#{DetailsBeanJuniorTA.oldMood!=true and DetailsBeanJuniorTA.detailedDTO.step.getID()!=0 and (DetailsBeanJuniorTA.paMode or DetailsBeanJuniorTA.casesID.equals('Dean') )}" class="greenBtn" />
+							 				<p:commandButton value="Approve" title="Approve" onclick="attentionDlg.show();" rendered="#{DetailsBeanJuniorTA.casesID.equals('Ins') and (DetailsBeanJuniorTA.detailedDTO.step.getID()==0 or(DetailsBeanJuniorTA.detailedDTO.step.getID()==1 and !DetailsBeanJuniorTA.paMode))}" class="greenBtn" />
+						 					<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanJuniorTA.refuse}" rendered="#{DetailsBeanJuniorTA.oldMood!=true }" class="redBtn" />
+										</div>
+										<br/>
+										<ui:remove><h:outputLabel style="font-size:14px;margin-top:1px;" value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.major.majorName}" /></ui:remove>
+										<ui:remove>
+										<p:commandButton icon="icon_attach" title="Attachment" disabled="#{DetailsBeanJuniorTA.detailedDTO.attachments == null}" process="@this" ajax="false" action="#{DetailsBeanJuniorTA.downloadAttachments(DetailsBeanJuniorTA.detailedDTO)}" />
+									 	</ui:remove>
+									</div>
+									<table width="100%">
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Date" />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.friendlyDate}" />
+													<h:outputLabel value="ID" />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.facultyId}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.mobile}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
+													<h:outputLabel value="Registered hrs." />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
+													<h:outputLabel value="Repeated Courses" />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.repeatedCourses}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.gpa}" />
+													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.major.majorName}" />
+												</h:panelGrid>
+											</td>
+										</tr> 
+									</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						<!-- Petition Progress -->
+						<div class="formProgressWrapper">
+							<ol class="formProgress">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Under Review" /><br/>
+									</div>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanJuniorTA.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+											    <h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.course.coordinator.name}" /><br/>
+												<h:outputLabel value="Course Coordinator" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanJuniorTA.detailedDTO.step.getID()==1 ||
+									 DetailsBeanJuniorTA.detailedDTO.step.getID()==7 ||
+									  DetailsBeanJuniorTA.detailedDTO.step.getID()==2 }">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeanJuniorTA.instructorActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanJuniorTA.instructorActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Course Coordinator" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanJuniorTA.instructorActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li>
+								<h:panelGroup rendered="#{!DetailsBeanJuniorTA.skipMajorHeadCourse}">
+								<li>
+									<h:panelGroup rendered="#{(DetailsBeanJuniorTA.detailedDTO.step.getID()==0||DetailsBeanJuniorTA.detailedDTO.step.getID()==1)}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+											    <h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.major.headOfMajor.name}" /><br/>
+												<h:outputLabel value="Program Advisor" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{
+									 (DetailsBeanJuniorTA.detailedDTO.step.getID()==7 ||
+									  DetailsBeanJuniorTA.detailedDTO.step.getID()==2) and !DetailsBeanJuniorTA.skipMajorHeadCourse }">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeanJuniorTA.paActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanJuniorTA.paActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Program Advisor" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanJuniorTA.paActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li>
+								</h:panelGroup>
+								<!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanJuniorTA.detailedDTO.step.getID()==0 || DetailsBeanJuniorTA.detailedDTO.step.getID()==1|| DetailsBeanJuniorTA.detailedDTO.step.getID()==7}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Dean of Strategic Enrollment Management" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanJuniorTA.detailedDTO.step.getID()==2 }">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanJuniorTA.deanActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="#{DetailsBeanJuniorTA.deanActionDetails.instructorName}" /><br/>
+			    		    					<h:outputLabel value="Dean of Strategic Enrollment Management" /><br/>
+			    								<h:outputLabel value="#{DetailsBeanJuniorTA.deanActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+									</h:panelGroup>
+								</li>
+							</ol>
+						</div>
+						<!-- Petition Details -->
+						<table class="petitionDetails">
+					
+						    <tr>
+						    <td><h:outputLabel value="Major:" /></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.major.majorName}" /></td>
+						    </tr>
+						    
+							<tr>
+						    <td><h:outputLabel value="Course:"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.course.name}" /></td>
+						    </tr>
+					
+					        <tr>
+						    <td><h:outputLabel value="Grade:"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.grade}" /></td>
+						    </tr>
+						    
+						      <tr>
+						    <td><h:outputLabel value="GPA:"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.gpa}" /></td>
+						    </tr>
+						    
+						    
+						      <tr>
+						    <td><h:outputLabel value="Hours:"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.hours}" /></td>
+						    </tr>
+						    
+						    
+						    
+						     <tr>
+						    <td><h:outputLabel value="Student's Comment:"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.comment}" /></td>
+						    </tr>
+						      <h:panelGroup rendered="#{DetailsBeanJuniorTA.detailedDTO.hoursINS!=null}">
+						    <tr>
+						    <td><h:outputLabel value="Supposed Hours"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.hoursINS} hr/week by(#{DetailsBeanJuniorTA.detailedDTO.course.coordinator.name} )" /></td>
+						    </tr>
+						    </h:panelGroup>
+						    
+						    <h:panelGroup rendered="#{DetailsBeanJuniorTA.detailedDTO.task!=null}">
+						    <tr>
+						    <td><h:outputLabel value="Supposed Task"/></td>
+							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.task} by (#{DetailsBeanJuniorTA.detailedDTO.course.coordinator.name})" /></td>
+						    </tr>
+						    </h:panelGroup>
+				    		
+				    		<!-- Comments History -->
+				    		<tr>
+				    			<td><h:outputLabel value="Instructors Comments" /></td>
+				    			<td class="comments">
+				    				<ui:repeat var="o" value="#{DetailsBeanJuniorTA.detailedDTO.actionDTO}" varStatus="status">
+                    					<h:panelGroup rendered="#{o.comment !=null}" class="marginBottom_12">
+	               							<h:outputLabel value="#{o.instructorName}" class="name"  /> &nbsp;
+                   							<h:outputLabel value="#{o.friendlyDate}" class="date" />  <br/>
+                   							<h:outputLabel value="#{o.comment}" />  <br/>
+                   						</h:panelGroup>
+                  					</ui:repeat>
+                  					<!-- Write Comment -->
+									<h:panelGroup>
+										<p:inputTextarea value="#{DetailsBeanJuniorTA.newComment}" rendered="#{!DetailsBeanJuniorTA.oldMood}"  id="newComment" >
+											<p:watermark value="Add Comment" for="newComment"/>
+										</p:inputTextarea>
+										<br/>
+										<div class="commentBtns">
+											<p:commandButton value="Comment" title="Comment" ajax="false" process="newComment" actionListener="#{DetailsBeanJuniorTA.addComment(DetailsBeanJuniorTA.detailedDTO)}" rendered="#{!DetailsBeanJuniorTA.oldMood==true }" update="newComment" class="blueBtn"/>
+											<p:commandButton value="Cancel" title="cancelComment" ajax="false" process="newComment" action="#{DetailsBeanJuniorTA.cancelComment}" rendered="#{!DetailsBeanJuniorTA.oldMood==true }" update="newComment" class="cancelBtn"/>
+										</div>
+									</h:panelGroup>
+				    			</td>
+				    		</tr>
+				 
+						</table>
+						<!-- Action Buttons -->
+						<div class="actionBtns bottomBtns">
+						<p:commandButton value="Approve" title="Approve" ajax="false"
+							 actionListener="#{DetailsBeanJuniorTA.approve}" rendered="#{DetailsBeanJuniorTA.oldMood!=true and DetailsBeanJuniorTA.detailedDTO.step.getID()!=0
+							  and (DetailsBeanJuniorTA.paMode or DetailsBeanJuniorTA.casesID.equals('Dean') )}" class="greenBtn" />
+					   <p:commandButton value="Approve" title="Approve"
+							onclick="attentionDlg.show();" rendered="#{DetailsBeanJuniorTA.casesID.equals('Ins') and (DetailsBeanJuniorTA.detailedDTO.step.getID()==0 
+							or(DetailsBeanJuniorTA.detailedDTO.step.getID()==1 and !DetailsBeanJuniorTA.paMode))}" class="greenBtn" />
+							
+							<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanJuniorTA.refuse}" rendered="#{DetailsBeanJuniorTA.oldMood!=true}" class="redBtn" />
+							
+								</div>	
+					</p:panel>
+				</div>
+			</h:form>
+			<h:form id="printForm" style="display:none;">
+			
+           
+           	<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.name}" />
+			<h:panelGrid columns="2" class="student" id="printGrid">
+				<h:outputLabel value="Student Name" />
+				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.name}" />
+			    <h:outputLabel value="Student ID" />
+				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.facultyId}" />
+				<h:outputLabel value="Contact" />
+	    		<h:outputLabel value="Date" />
+				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.friendlyDate}" />
+				<h:outputLabel value="Major:" />
+				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.major.majorName}" />
+				<h:outputLabel value="Course:"/>
+				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.course.name}" />
+				<h:outputLabel value="Grade:"/>
+				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.grade}" />
+				
+				</h:panelGrid>			
+          
+           					
+		</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+		<p:dialog id="myDialogID" widgetVar="myDialogVar" header="Hours  and  Task" showEffect="slide" hideEffect="clip" closeOnEscape="true"
+		resizable="true" maximizable="true" minimizable="true" class="previewDialog" height="200">
+   		<h:form id="dialogForm">
+   			<div class="dialogWrapper">
+   		<h:panelGroup id="addFeedbackPalnel">
+   		<h:panelGrid columns="2" id="dialogGrid">
+   		<p:outputLabel value="Supposed contact hours per week" for="hours" />
+		<h:panelGroup class="marginLeft_12">
+								<p:inputText id="hours"
+									value="#{DetailsBeanJuniorTA.detailedDTO.hoursINS}"
+									required="true" requiredMessage="Please insert supposed hours for this student"
+									converterMessage="Please enter digits only" requsize="40"
+									class="input290px">
+									<f:validateDoubleRange minimum="0.0" maximum="4.0" />
+									<f:validateDoubleRange />
+								</p:inputText>
+								<p:message for="hours" />
+							</h:panelGroup>
+				
+   		<p:outputLabel value="Supposed task" for="task"/>
+   		<h:panelGroup class="marginLeft_12">
+   		<p:inputText required="true" id="task" requiredMessage="Please insert supposed task for this student" value="#{DetailsBeanJuniorTA.detailedDTO.task}"
+   		class="input290px">
+   	    </p:inputText>
+   	    <p:message for="task"/>
+   	    </h:panelGroup>
+   		</h:panelGrid>
+   		</h:panelGroup>
+   		<div style="width:100%;text-align:right">
+   		<p:commandButton value="Approve" title="Approve" actionListener="#{DetailsBeanJuniorTA.approveIns}"  update="dialogGrid"  ajax="true"
+   		 class="greenBtn" />
+   		
+   		<ui:remove>
+   		 <p:commandButton value="Edit" title="Edit" actionListener="#{DetailsBeanJuniorTA.editHoursAndTask}" rendered="#{DetailsBeanJuniorTA.detailedDTO.hoursINS!=null and 
+   		 DetailsBeanJuniorTA.detailedDTO.task!=null}" update="addFeedbackPalnel "  ajax="true" oncomplete="myDialogVar.hide()"
+   		 class="greenBtn" />
+   		</ui:remove>
+   		 &nbsp;&nbsp;<p:commandButton value="Cancel" title="Cancel" ajax="false" actionListener="myDialogVar.hide();"
+   		 class="redBtn" /></div>
+   		</div>
+		
+   		</h:form>
+        </p:dialog>
+        <p:confirmDialog global="true" showEffect="slide" hideEffect="clip" closeOnEscape="true"
+		resizable="true" maximizable="true" minimizable="true" class="previewDialog" height="200" widgetVar="attentionDlg"
+		header="Attention !" message="Kindly note that you are approving on #{DetailsBeanJuniorTA.numberOfApprovedCourses} Junior TA for this course Before">
+		
+        <p:commandButton value="Continue" type="button"  class="greenBtn" onclick="attentionDlg.hide(); myDialogVar.show();"/>
+        <p:commandButton value="Cancel" type="button" class="redBtn" onclick="attentionDlg.hide();"/>
+    </p:confirmDialog>
+    
+		  		</ui:define>
+	</ui:composition>
+</html>

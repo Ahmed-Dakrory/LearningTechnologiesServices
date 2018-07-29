@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+xmlns:p="http://primefaces.org/ui">
+<!-- See content.xhtml for an explanation of how templating works in this application.
+	According to some explanations, this is the "template client." A better name might
+	be "consumer."
+  -->
+  <ui:composition template="/templates/content.xhtml" style="height:100%;">
+    <ui:define name="content">
+      <div class="indent">
+      <h4> Welcome </h4>
+      <h:form id="homeFormId">
+      
+      <p>
+      This is an example of a simple Facelets template. Here, header, footer and
+      side menu bar appear from the template file (<i>content.xhtml</i>). This
+      section (rendering here--what you're reading) appears from the
+      template client (<i>home.xhtml</i>).
+      </p>
+
+      <p>
+      All (header, footer and content) are united in the template file,
+      <i>content.xhtml</i>, which is summarily included by this file
+      (<i>home.html</i>).
+      </p>
+
+      <h4> How this works... </h4>
+
+      <p>
+      The files <i>header.xhtml</i> and <i>footer.xhtml</i> are NOT anything to
+      do with templating, but with mere inclusion. The template file happens to
+      include them.
+      </p>
+
+      <p>
+      <i>content.xhtml</i>, the template file, acts with this file
+      (<i>home.xhtml</i>), also formally known as the template client or
+      "consumer," to accomplish the templating in our example.
+      </p>
+
+      <p>
+      Think of a single page (this example). The template file is the one that
+      makes use of while the template client
+      makes use of . <i>home.xhtml</i> and not
+      <i>content.xhml</i> is what is "visible" to the browser user (i.e.: is
+      on the URI) who does not request the template file (<i>content.xhml</i>),
+      <i>header.xhtml</i>, or <i>footer.xhtml</i>, but only this file
+      (<i>home.xhtml</i>). That's why all except this file are subsumed under
+      the template subdirectory.
+      </p>
+      </h:form>
+      </div>
+     
+    </ui:define>
+  </ui:composition>
+</html>

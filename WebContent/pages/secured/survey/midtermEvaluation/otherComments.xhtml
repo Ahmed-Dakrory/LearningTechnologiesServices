@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Other Comments - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Midterm Evaluation" disabled="true" />
+							<p:menuitem value="#{midtermEvaluationSubmission.selectedCourse.name}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+							<p:tabMenu activeIndex="#{midtermEvaluationSubmission.activeIndex}" styleClass="evalTabs">
+								<p:menuitem value="Instructor Evaluation" rendered="#{!midtermEvaluationSubmission.selectedInstructorsLst.isEmpty()}" disabled="true"/>								
+								<p:menuitem value="Teaching Assistant Evaluation" disabled="true" rendered="#{!midtermEvaluationSubmission.selectedTAsLst.isEmpty()}"/>
+								<p:menuitem value="Lab Evaluation" disabled="true"/>
+								<p:menuitem value="Other Comments"  disabled="true"/>
+							</p:tabMenu>
+						    <div class="tabWrapper">
+						    							<br/>
+						    
+								<ui:repeat value="#{midtermEvaluationSubmission.otherComments}" var="ques" varStatus="index">
+									<table class="evalTable">
+										<tr>
+											<td width="30" class="evalQNo"><h:outputText value="#{index.index+1}."/></td>
+											<td style="vertical-align:top !important;" width="640"><h:outputText value="#{ques.text}"/></td>
+											<td width="20">&nbsp;<br/></td>
+											
+											<td>
+												<h:panelGroup rendered="#{ques.scaleType!=null}"> 
+													<p:selectOneRadio id="facQues2"	value="#{ques.selection}">
+														<f:selectItems itemLabel="#{selection.name}" itemValue="#{selection.id}" var="selection" 
+														value="#{ques.scaleType.selections}" />
+														<p:ajax listener="#{midtermEvaluationSubmission.saveAns(ques.selection,ques,6)}" />
+													</p:selectOneRadio>
+												</h:panelGroup>	
+												<h:panelGroup rendered="#{ques.scaleType.id==null}"> 
+													<p:inputTextarea value="#{ques.ansText}">
+					   									<p:ajax event="blur"  />
+													</p:inputTextarea>
+												</h:panelGroup>							
+											</td>
+										</tr>
+									</table>
+								</ui:repeat>
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+									<li>
+										<a href="#" class="tooltipNote" data-tooltip="Make sure you have filled all questions before you submit as the course will disappear from your list and can't be refilled"/>
+										<p:commandButton value="Submit for this course" ajax="false" update="testpanel growl form" styleClass="blueBtn" actionListener="#{midtermEvaluationSubmission.endSurvey}"/>
+									</li>
+									<li><p:commandButton value="Back" styleClass="grayBtn backBtn" icon="ui-icon-circle-triangle-w" action="#{midtermEvaluationSubmission.navigateBtnAction(3, 1)}" immediate="true" /></li>
+								</ul>
+								<br/>
+							</div>
+						</p:panel>
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</html>

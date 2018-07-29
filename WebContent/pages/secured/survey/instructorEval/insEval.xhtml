@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">TAs Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="TAs Evaluation" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="tabWrapper">															
+								
+								<p:selectOneMenu id="instructorList" value="#{InstructorTAEvalSubmission.currentTA}">		
+									<p:ajax event="change" listener="#{InstructorTAEvalSubmission.switchToQuestions(InstructorTAEvalSubmission.currentTA)}" update="pageContent"/>				
+									<f:selectItems var="ta" value="#{InstructorTAEvalSubmission.selectedTAsLst}" itemLabel="#{ta.name}" itemValue="#{ta.id}"/>
+								</p:selectOneMenu>
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+										<li><p:commandButton value="Submit for selected TA(s)"  styleClass="blueBtn" 
+								 onclick="alertDlg.show();"/></li>
+							
+							</ul>
+								<br/>
+							</div>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+						   
+						   <h3>Professors evaluation to TAs</h3>
+								<ui:repeat value="#{InstructorTAEvalSubmission.currentquestions}" var="ques" varStatus="index">
+									<table class="evalTable">
+										<tr>
+											
+											<td style="vertical-align:top !important;" width="700"><h:outputText value="#{index.index+1}. "
+											 styleClass="evalQNo"/><h:outputText value="#{ques.text}"/> </td>
+											<td width="30">&nbsp;</td>
+											<td class="evalRadio" style="vertical-align:top;">
+												<p:selectOneRadio id="questions" value="#{ques.selection}" layout="pageDirection">
+													<f:selectItems itemLabel="#{selection.name}" itemValue="#{selection.id}" var="selection" 
+													value="#{ques.scaleType.selections}" />
+													<p:ajax listener="#{InstructorTAEvalSubmission.saveAns(ques.selection,ques,1)}" />
+												</p:selectOneRadio>
+											</td>
+										</tr>
+									</table>
+								</ui:repeat>
+								<ul class="formBtns evalBtns" id="buttonsPanel"> 
+								<li><p:commandButton value="Submit for selected TA(s)"  styleClass="blueBtn" 
+								 onclick="alertDlg.show();"/></li>
+							
+							</ul>
+								<br/>
+							
+						</p:panel>
+					</h:panelGroup>
+				</div>
+							<p:confirmDialog global="true" showEffect="fade" 
+			hideEffect="fade" header="Alert" widgetVar="alertDlg" id="alertDlgID" closeOnEscape="true"
+		     message="Please note that after submission you can't update the evaluation."
+			 styleClass="alertDialog">
+		
+					<p:commandButton value="Submit" actionListener="#{InstructorTAEvalSubmission.endSurvey}" immediate="true"
+					styleClass="greenBtn marginLeft_18" />
+				
+		</p:confirmDialog>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</html>

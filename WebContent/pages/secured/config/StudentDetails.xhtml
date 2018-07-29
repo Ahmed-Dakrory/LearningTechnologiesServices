@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Students Configurations</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Students Configurations" disabled="true" />
+							<p:menuitem value="Student Details" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<h:form id="pageForm">
+				<div class="pannelWrapper">
+					<p:panel>
+						<p:commandButton value="Back to students" action="/pages/secured/config/students.xhtml?faces-redirect=true" 
+						immediate="true" styleClass="grayBtn"/> &nbsp;&nbsp;
+						<ui:remove><p:commandButton value="+ Add Course" id="addInsBtn" title="Add Course" actionListener="#{StudentsBean.preAddCourse}" immediate="true" styleClass="greenBtn" /> &nbsp;&nbsp;
+						
+						<p:commandButton value="Delete Student" actionListener="#{StudentsBean.preDelete}" process="@this" styleClass="redBtn" /></ui:remove>
+						<br/><br/><br/>
+						<p:panel class="attendance" id="panel"> 
+							<table class="courseDetails">
+								<tr>
+									<td>Student  Name:</td>
+									<td><h:outputLabel value="#{StudentsBean.detailedStudent.name}"/></td>
+								</tr>
+								<tr>
+									<td>Student ID:</td>
+									<td><h:outputLabel value="#{StudentsBean.detailedStudent.facultyId}"/></td>
+								</tr>
+								<tr>
+									<td>Student Email:</td>
+									<td><h:outputLabel value="#{StudentsBean.detailedStudent.mail}"/></td>
+								</tr>
+								<tr>
+									<td>Student Phone:</td>
+									<td><h:outputLabel value="#{StudentsBean.detailedStudent.phone}"/></td>
+								</tr>
+								
+							</table>
+							
+								
+						
+							<br/>
+							<p:panel><h3><h:outputLabel value="Courses : (#{StudentsBean.courses.size()}):"/></h3></p:panel>
+							
+							<ui:repeat value="#{StudentsBean.courses}" var="course" id="courses">
+								<table class="courseInst">
+									<tr>
+										<td width="240"><h:outputLabel value="#{course.name}"/></td>
+										<td width="240"><h:outputLabel value="#{course.semester}"/></td>
+										<td width="240"><h:outputLabel value="#{course.year}"/></td>
+										<td><p:commandButton value="Delete" actionListener="#{StudentsBean.deleteCourse(course)}" process="@this" update="courses"/></td>
+									</tr>
+								</table>
+							</ui:repeat>
+						
+						</p:panel>
+					</p:panel>
+				</div>
+				<ui:remove>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Delete this course?" widgetVar="delDlg" header="Delete Course" styleClass="alertDialog">
+					<p:commandButton value="Yes"  actionListener="#{CoursesInstructorsConfigBean.deleteCourse}" immediate="true" />
+					<p:commandButton value="No"  onclick="delDlg.hide()" icon="ui-icon-close" />
+				</p:confirmDialog>
+				</ui:remove>
+				
+			</h:form>
+			<p:dialog header="+Add Course" widgetVar="addCourseDlg" id="addCourseDialog" styleClass="alertDialog" global="true" showEffect="fade" hideEffect="fade">
+				<h:form id="dlgForm">
+				<div class="dialogWrapper">
+							
+											
+												<p:selectOneMenu id="semester" value="#{StudentsBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+													<f:selectItem itemLabel="Select Semester" />
+													<f:selectItems var="semester" value="#{StudentsBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+														<p:ajax listener="#{StudentsBean.fillYearLst}" update="year"/>	
+												</p:selectOneMenu>
+												<p:message for="semester" />
+											
+												<p:selectOneMenu id="year" value="#{StudentsBean.selectedYear}" required="true" requiredMessage="Please select year">
+													<f:selectItem itemLabel="Select Year" />
+													<f:selectItems var="year" value="#{StudentsBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+													<p:ajax listener="#{StudentsBean.fillCourseLst}" update="course"/>
+												</p:selectOneMenu>
+												<p:message for="year" />
+											
+												<p:selectOneMenu id="course" value="#{StudentsBean.selectedCourseID}" required="true" requiredMessage="Please select course">
+													<f:selectItem itemLabel="Select Course" />
+													<f:selectItems var="course" value="#{StudentsBean.addedCoursesLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+												</p:selectOneMenu>
+												<p:message for="course" />
+											
+						</div>
+						<ul class="dialogFooter">
+							<li><p:commandButton value="Cancel" title="Cancel" onclick="addCourseDlg.hide()" immediate="true" class="dialogCancel" /></li>
+							<ui:remove><li><p:commandButton value="Add" title="Add" action="#{CoursesInstructorsConfigBean.addNewCourse}" ajax="false" update="form coursesTable" process="@this" class="dialogOk" /></li>
+							</ui:remove>
+						</ul>
+						</h:form>
+				</p:dialog>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change concentration details - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Change Concentration" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+				<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="1">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeOfConcentration/changeOfConcentrationAdmission.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeOfConcentration/changeOfConcentrationAdmission1.xhtml"/>
+							<ui:remove><p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" /></ui:remove>
+							
+						</p:tabMenu>
+							<h:panelGrid column="1">
+								<p:selectOneMenu id="course" value="#{changeOfConcentrationRegistrarBean.selectedSemester}"
+								 required="true" requiredMessage="Please select semester" style="width:200px">
+									<f:selectItem itemLabel="Select Semester" />
+									<f:selectItems var="sem" value="#{changeOfConcentrationRegistrarBean.semesterLst}" 
+									itemLabel="#{sem.name}" itemValue="#{sem.id}" />
+									<p:ajax update="pendingDatatable year" listener="#{changeOfConcentrationRegistrarBean.ininttialzieYear}" />
+								</p:selectOneMenu>
+								<p:message for="course" />
+								
+								<p:selectOneMenu id="year" value="#{changeOfConcentrationRegistrarBean.selectedYear}"
+								 required="true" requiredMessage="Please select year" style="width:200px">
+									<f:selectItem itemLabel="Select Year" />
+									<f:selectItems var="sem" value="#{changeOfConcentrationRegistrarBean.yearLst}" 
+									itemLabel="#{sem}" itemValue="#{sem}" />
+									<p:ajax update="pendingDatatable export" listener="#{changeOfConcentrationRegistrarBean.getPetitionsBySemester}" />
+								</p:selectOneMenu>
+								<p:message for="year" />
+							</h:panelGrid>
+					<h:panelGroup id="ListView" >
+				
+						<p:commandButton id="export" value="Export" title="Generate" actionListener="#{changeOfConcentrationRegistrarBean.exportExcelReport}" 
+						 ajax="false" class="blueBtn" />
+						<p:dataTable var="forms" value="#{changeOfConcentrationRegistrarBean.archievedForms}" selectionMode="single" selection="#{changeOfConcentrationRegistrarBean.selectedArchievedForms}" rowKey="#{forms.id}" sortMode="multiple" 
+							filterdValue="#{changeOfConcentrationRegistrarBean.filteredArchievedForms}" widgetVar="formsTable" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
+							<p:ajax event="rowSelect" listener="#{changeOfConcentrationRegistrarBean.onRowSelect}" />
+							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							</p:column>
+							<p:column width="200" id="student" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}">
+								<h:outputText value="#{forms.student.name}" />
+								<p:watermark value="Student" forElement="mainForm:form:pendingDatatable:student:filter"/>
+							</p:column>
+							<p:column width="130" id="date" sortBy="#{forms.friendlyDate}" filterBy="#{forms.friendlyDate}">
+								<h:outputText value="#{forms.friendlyDate}" />
+								<p:watermark value="Date" forElement="mainForm:form:pendingDatatable:date:filter"/>
+							</p:column>
+							<p:column width="185" id="curStatus" sortBy="#{forms.currentStatus}" filterBy="#{forms.currentStatus}">
+								<h:outputText value="#{forms.currentStatus}" />
+								<p:watermark value="Current Status" forElement="mainForm:form:pendingDatatable:curStatus:filter"/>
+							</p:column>
+							<p:column width="185" id="nextStatus" sortBy="#{forms.nextStatus}" filterBy="#{forms.nextStatus}">
+								<h:outputText value="#{forms.nextStatus}" escape="false"/>
+								<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable:nextStatus:filter"/>
+							</p:column>
+							
+							</p:dataTable>
+					</h:panelGroup>
+						
+				
+					</p:panel></h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+
+   		</ui:define>
+	</ui:composition>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/outTemplate.xhtml">
+	<ui:define name="content">
+		<h:form id="form">
+			<p:growl id="growl" showDetail="true" sticky="true" rendered="#{not facesContext.validationFailed}" />
+			<p:panel id="pnl" class="electionContianer">
+				<p:panel id="votingGrid" columns="1">
+					<h3>Please select SU President and Vice President:</h3>
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="presidentMenu" value="Preisdent" /></li>
+						<li>
+							<p:selectOneMenu id="presidentMenu" value="#{electionBean.selectedPresident}" disabled="true" styleClass="lrgLabel"> 
+								<f:selectItem itemLabel="Select One" />
+								<f:selectItems itemLabel="#{pres.name}" itemValue="#{pres.id}"  value="#{electionBean.presidentList}" var="pres"/>
+							</p:selectOneMenu>
+						</li>
+						<p:message for="presidentMenu"></p:message>
+					</ul>
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="viceMenu" value="Vice President" /></li>
+						<li>
+							<p:selectOneMenu id="viceMenu" value="#{electionBean.selectedVice}" styleClass="lrgLabel">
+								<f:selectItem itemLabel="Select One"  />
+								<f:selectItems itemLabel="#{vice.name}" itemValue="#{vice.id}" value="#{electionBean.viceList}" var="vice"/>
+							</p:selectOneMenu>
+						</li>
+						<p:message for="viceMenu"></p:message>
+					</ul>
+				</p:panel>
+				<br/>
+				<p:panel id="votingGrid2" columns="1">
+					<h3>Please select SU Committee members:</h3>
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="committeeActivtiesPresidentMenu" value="Activities Preisdent" /></li>
+						<li>
+							<p:selectOneMenu id="committeeActivtiesPresidentMenu" value="#{electionBean.selectedCommitteeActivtiesPresident}" disabled="true" styleClass="lrgLabel">
+								<f:selectItem itemLabel="Select One" />
+								<f:selectItems itemLabel="#{actPresident.name}" itemValue="#{actPresident.id}" value="#{electionBean.committeeActivtiesPresidentList}" var="actPresident"/>
+							</p:selectOneMenu>
+						</li>
+						<p:message for="committeeActivtiesPresidentMenu"></p:message>
+					</ul>
+				
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="committeeActivtiesMenu" value="Activities Committee Members" /><br/><span style="color:#959494;font-size:12px;">(Select 4 members maximum)</span></li>
+						<li>
+							 <p:selectManyCheckbox id="committeeActivtiesMenu"
+								value="#{electionBean.selectedCommitteeActivties}" layout="pageDirection" columns="3">
+								<f:selectItems itemLabel="#{act.name}" itemValue="#{act.id}"  value="#{electionBean.committeeActivtiesList}" var="act" />
+							</p:selectManyCheckbox>
+						</li>
+						<p:message for="committeeActivtiesMenu"></p:message>
+					</ul>
+				
+					 <h:panelGrid columns="1" cellpadding="5">
+     
+   
+</h:panelGrid>
+
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="committeeServicesPresidentMenu" value="Services President" /></li>
+						<li>
+							<p:selectOneMenu id="committeeServicesPresidentMenu" value="#{electionBean.selectedCommitteeServicesPresident}" disabled="true" styleClass="lrgLabel">
+								<f:selectItem itemLabel="Select One" />
+								<f:selectItems itemLabel="#{servPres.name}" itemValue="#{servPres.id}"  value="#{electionBean.committeeServicesPresidentList}" var="servPres" />
+							</p:selectOneMenu>
+						</li>
+						<p:message for="committeeServicesPresidentMenu"></p:message>
+					</ul>
+					<ul class="electionForm">
+						<li class="labelWidth">
+							<p:outputLabel for="committeeServicesMenu" value="Services Committee Members" /><br/>
+							<span style="color:#959494;font-size:12px;">(Select 4 members maximum)</span>
+						</li>
+						<li>
+						<p:selectManyCheckbox id="committeeServicesMenu" value="#{electionBean.selectedCommitteeServices}" layout="pageDirection" columns="1"
+						>
+								<f:selectItems  itemLabel="#{serv.name}" itemValue="#{serv.id}" value="#{electionBean.committeeServicesList}" var="serv" />
+								</p:selectManyCheckbox>
+						</li>
+						<p:message for="committeeServicesMenu"></p:message>
+					</ul>
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="committeeAcademicPresidentMenu" value="Academic President"/></li>
+						<li>
+							<p:selectOneMenu id="committeeAcademicPresidentMenu" value="#{electionBean.selectedCommitteeAcademicPresident}" styleClass="lrgLabel">
+								<f:selectItem itemLabel="Select One" />
+								<f:selectItems itemLabel="#{acadPres.name}" itemValue="#{acadPres.id}"  value="#{electionBean.committeeAcademicListPresident}" var="acadPres"/>
+							</p:selectOneMenu>
+						</li>
+						<p:message for="committeeAcademicPresidentMenu"></p:message>
+					</ul>
+					<ul class="electionForm">
+						<li class="labelWidth"><p:outputLabel for="committeeAcademicMenu" value="Academic Committee Members" /><br/><span style="color:#959494;font-size:12px;">(Select 4 members maximum)</span></li>
+						<li>
+							 <p:selectManyCheckbox id="committeeAcademicMenu" 
+								value="#{electionBean.selectedCommitteeAcademic}" layout="pageDirection" columns="3">
+								<f:selectItems itemLabel="#{acad.name}" itemValue="#{acad.id}" value="#{electionBean.committeeAcademicList}" var="acad" />
+							</p:selectManyCheckbox> 
+						</li>
+						<p:message for="committeeAcademicMenu"></p:message>
+					</ul>
+				</p:panel>
+				<div class="vote">
+					<p:commandButton id="vote" value="Vote"  action="#{electionBean.submitVote}" ajax="false" styleClass="voteBtn"  />
+				</div>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

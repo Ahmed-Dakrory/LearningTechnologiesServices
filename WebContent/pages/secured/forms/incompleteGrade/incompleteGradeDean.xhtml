@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Incomplete Grade Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Incomplete Grade Form" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:selectOneMenu id="request" value="#{IncompleteGradeInstructorBean.typeOfUserDean}" rendered="#{IncompleteGradeInstructorBean.deanMood}">
+							<f:selectItems var="userType" value="#{IncompleteGradeInstructorBean.userTypesDeanLst}" itemLabel="#{userType.name}" itemValue="#{userType.id}" />
+							<p:ajax listener="#{IncompleteGradeInstructorBean.navigateDean}" update="mainPnl" />				
+						</p:selectOneMenu>
+					<h:panelGroup id="pageContent">
+						<p:panel id="mainPnl">
+							<p:tabMenu  id="ins" activeIndex="0">
+								<p:menuitem value="Pending Petitions" url="/pages/secured/forms/incompleteGrade/incompleteGradeDean.xhtml"/>
+								<p:menuitem value="Old Petitions" url="/pages/secured/forms/incompleteGrade/incompleteGradeDean1.xhtml" />
+								<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/incompleteGrade/inprogressPetitions.xhtml" />
+								
+						</p:tabMenu>
+						<h:panelGroup id="ListView" >
+					<p:dataTable var="forms" value="#{IncompleteGradeInstructorBean.pendingFormsDean}" selectionMode="single" selection="#{IncompleteGradeInstructorBean.selectedPendingFormsDean}" rowKey="#{forms.id}" sortMode="multiple"
+								filteredValue="#{IncompleteGradeInstructorBean.filteredPendingFormsDean}" widgetVar="formsTable1" id="pendingDatatable1" rowStyleClass="#{forms.acceptRefuseCssName}">
+								<p:ajax event="rowSelect" listener="#{IncompleteGradeInstructorBean.onRowSelectDean}" />
+								<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+									<h:outputText value="#{forms.id}" />
+									<p:watermark value="ID" forElement="mainForm:form:pendingDatatable1:formID:filter" />
+								</p:column>
+									<p:column width="200" id="studentID" sortBy="#{forms.student.facultyId}" filterBy="#{forms.student.facultyId}">
+									<h:outputText value="#{forms.student.facultyId}" />
+									<p:watermark value="Student" forElement="mainForm:form:pendingDatatable1:studentID:filter"/>
+								</p:column>
+								
+								<p:column width="200" id="student" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}">
+									<h:outputText value="#{forms.student.name}" />
+									<p:watermark value="Student" forElement="mainForm:form:pendingDatatable1:student:filter"/>
+								</p:column>
+								
+								<p:column width="130" id="date" sortBy="#{forms.friendlyDate}" filterBy="#{forms.friendlyDate}">
+									<h:outputText value="#{forms.friendlyDate}" />
+									<p:watermark value="Date" forElement="mainForm:form:pendingDatatable1:date:filter"/>
+								</p:column>
+								<ui:remove>
+								<ui:remove>
+								<p:column width="200" id="course" sortBy="#{forms.courseName}" filterBy="#{forms.courseName}">
+									<h:outputText value="#{forms.courseName}" />
+									<p:watermark value="Course" forElement="mainForm:form:pendingDatatable1:course:filter"/>
+								</p:column>
+								</ui:remove>
+								<p:column width="200" id="title" sortBy="#{forms.title}" filterBy="#{forms.title}">
+									<h:outputText value="#{forms.title}" />
+									<p:watermark value="Title" forElement="mainForm:form:pendingDatatable1:title:filter"/>
+								</p:column>
+								</ui:remove>
+								<p:column width="185" id="curStatus" sortBy="#{forms.currentStatus}" filterBy="#{forms.currentStatus}">
+									<h:outputText value="#{forms.currentStatus}" />
+									<p:watermark value="Current Status" forElement="mainForm:form:pendingDatatable1:curStatus:filter"/>
+								</p:column>
+								<p:column width="185" id="nextStatus" sortBy="#{forms.nextStatus}" filterBy="#{forms.nextStatus}">
+									<h:outputText value="#{forms.nextStatus}" escape="false" />
+									<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable1:nextStatus:filter"/>
+								</p:column>
+							
+							</p:dataTable>
+						</h:panelGroup>
+			
+						</p:panel>
+				</h:panelGroup>	
+				</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+	<ui:define name="confirmDialogBox">
+
+
+  	</ui:define>
+	</ui:composition>
+</html>

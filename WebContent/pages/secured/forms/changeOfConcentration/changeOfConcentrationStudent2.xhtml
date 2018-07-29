@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change of concentration - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Change of concentration" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="2">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeOfConcentration/changeOfConcentrationStudent.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeOfConcentration/changeOfConcentrationStudent1.xhtml"/>
+							<p:menuitem value="+ New Petition" title="Add New Petition" class="new"
+							 url="/pages/secured/forms/changeOfConcentration/changeOfConcentrationStudent2.xhtml"
+							rendered="#{FormsStatusBean.changeOfConcentration}"/>
+						</p:tabMenu>
+						<div class="tabWrapper">
+							<h:panelGrid columns="2">
+							
+								<p:outputLabel value="Major" for="majors"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="majors" value="#{changeOfConcentrationStudentBean.selectedMajorId}"
+									 required="true" requiredMessage="Please select your major">
+										<f:selectItem itemLabel="Select Major" />
+										<f:selectItems var="major" value="#{changeOfConcentrationStudentBean.majorsLst}" 
+										itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+										<p:ajax listener="#{changeOfConcentrationStudentBean.fillConcentrations}" update=":mainForm:form:cons :mainForm:form:newCons" />	
+									</p:selectOneMenu>
+									<p:message for="majors" />
+								</h:panelGroup>
+								<p:outputLabel value="Current Concentration" for="cons"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="cons" value="#{changeOfConcentrationStudentBean.currentConcentrationID}"
+									 required="true" requiredMessage="Please select your current concentration">
+										<f:selectItem itemLabel="Select current" />
+										<f:selectItems var="con" value="#{changeOfConcentrationStudentBean.concentrationLst}" 
+										itemLabel="#{con.name}" itemValue="#{con.id}" />
+									</p:selectOneMenu>
+									<p:message for="cons" />
+								</h:panelGroup>
+								
+								<p:outputLabel value="New Concentration" for="newCons"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="newCons" value="#{changeOfConcentrationStudentBean.newConcentrationID}"
+									 required="true" requiredMessage="Please select your new concentration">
+										<f:selectItem itemLabel="Select new" />
+										<f:selectItems var="con" value="#{changeOfConcentrationStudentBean.concentrationLst}" 
+										itemLabel="#{con.name}" itemValue="#{con.id}" />
+									</p:selectOneMenu>
+									<p:message for="newCons" />
+								</h:panelGroup>
+								
+				 
+								  <p:outputLabel value="More Details" for="moreDetails" />
+							  	<h:panelGroup class="marginLeft_12 maxCharc">
+									<p:inputTextarea id="moreDetails" value="#{changeOfConcentrationStudentBean.moreDetails}" maxlength="500" validatorMessage="Only 500 characters allowed" >
+									<f:validateLength maximum="500"/>
+									</p:inputTextarea>
+									<p:message for="moreDetails"/>
+		                         	<span>Maximum characters: 500</span>
+								</h:panelGroup>
+								<p:outputLabel value="Attachment:"/>
+		                        <h:panelGrid columns="3" class="marginLeft_12">
+		                         	<p:fileUpload fileUploadListener="#{changeOfConcentrationStudentBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton" description="Attachment"
+										auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+	                         		<p:outputLabel id="attachmentFileNameLable" value="#{changeOfConcentrationStudentBean.attachmentFileName}" class="marginLeft_18" />
+	                         		<p:commandButton id="attachmentFileRemoveButton" value="remove" action="#{changeOfConcentrationStudentBean.removeAttachment}" disabled="#{changeOfConcentrationStudentBean.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable"/>
+	                         	</h:panelGrid>
+	                         	<span>&nbsp;</span>
+	                         	<h:panelGroup>
+	                         		<span class="allowedExt">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/> &nbsp; &nbsp; &nbsp;Maximum size: 500KB</span>
+	                         	</h:panelGroup>
+							</h:panelGrid>
+							<br/>
+							<p:commandButton value="Submit Request" actionListener="#{changeOfConcentrationStudentBean.submitRequest}" process="@form" ajax="false" class="blueBtn marginLeft_152" /> 
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox"></ui:define>
+	</ui:composition>
+</html>

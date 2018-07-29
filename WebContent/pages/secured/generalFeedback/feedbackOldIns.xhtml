@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">General Feedback - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="General Feedback" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<h:panelGroup id="pageContent">
+						<p:panel id="mainPnl">
+							<p:tabMenu  id="ins" activeIndex="1">
+								<p:menuitem value="Pending Feedbacks" url="/pages/secured/generalFeedback/feedbackPendingIns.xhtml"/>
+								<p:menuitem value="Old Feedbacks" url="/pages/secured/generalFeedback/feedbackOldIns.xhtml" />
+								
+						</p:tabMenu>
+				<h:panelGroup id="ListView" >
+				<p:dataTable var="feedback"
+									value="#{instructorFeedbackBean.archievedForms}"
+									selectionMode="single"
+									selection="#{instructorFeedbackBean.selectedArchievedForms}"
+									rowKey="#{feedback.id}" sortMode="multiple"
+									filteredValue="#{instructorFeedbackBean.filteredArchievedForms}"
+									widgetVar="feedbacksTable" id="datatableFeedback">
+									 <p:ajax event="rowSelect" listener="#{instructorFeedbackBean.onRowSelect}" />
+									<p:column width="130" id="id"
+										sortBy="#{feedback.id}"
+										filterBy="#{feedback.id}">
+										<h:outputText value="#{feedback.id}" />
+										<p:watermark value="ID"
+											forElement="mainForm:form:datatableFeedback:id:filter" />
+									</p:column>
+									<p:column width="200" id="cate"
+										sortBy="#{feedback.categoryName}"
+										filterBy="#{feedback.categoryName}">
+										<h:outputText value="#{feedback.categoryName}" />
+										<p:watermark value="Category"
+											forElement="mainForm:form:datatableFeedback:cate:filter" />
+									</p:column>
+									<p:column width="200" id="title" sortBy="#{feedback.title}"
+										filterBy="#{feedback.title}">
+										<h:outputText value="#{feedback.title}" />
+										<p:watermark value="Feedback Title"
+											forElement="mainForm:form:datatableFeedback:title:filter" />
+									</p:column>
+									<p:column width="130" id="date"
+										sortBy="#{feedback.friendlyDate}"
+										filterBy="#{feedback.friendlyDate}">
+										<h:outputText value="#{feedback.friendlyDate}" />
+										<p:watermark value="Submission Date"
+											forElement="mainForm:form:datatableFeedback:date:filter" />
+									</p:column>
+									<p:column width="200" id="status" sortBy="#{feedback.step.getName()}"
+										filterBy="#{feedback.step.getName()}">
+										<h:outputText value="#{feedback.step.getName()}" />
+										<p:watermark value="Current Status"
+											forElement="mainForm:form:datatableFeedback:status:filter" />
+									</p:column>
+									
+									
+								</p:dataTable>
+							</h:panelGroup>	
+				
+						</p:panel>
+				</h:panelGroup>	</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+	<ui:define name="confirmDialogBox">
+   			
+		
+  	</ui:define>
+	</ui:composition>
+</html>

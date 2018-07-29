@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- See content.xhtml for an explanation of how templating works in this application.
+	According to some explanations, this is the "template client." A better name might
+	be "consumer."
+  -->
+<ui:composition template="/templates/securedContent.xhtml" style="height:100%;">
+	<ui:define name="content">
+	<h:form id="form">
+		<p:inputText value="#{tAsAttendanceBean.name}"/>
+	</h:form>
+	</ui:define>
+	</ui:composition>
+	</html>

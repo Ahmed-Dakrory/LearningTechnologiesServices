@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" class="outer">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="#{resource['css:styles.css']}" />
+		<link rel="stylesheet" href="#{resource['css:normalize.css']}" />
+		<link rel="stylesheet" href="#{resource['css:fonts.css']}" />
+		<link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
+		<h:outputScript library="JSEffect" name="JS/modernizr.custom.js" />
+		<title><ui:insert name="title">LT Online Services</ui:insert></title>
+	</h:head>
+	<h:body>
+		<div class="outer_mainWrapper">
+			<div class="logo_outer">
+				<h:graphicImage value="#{resource['images:logo_outer.png']}" alt="CLT Online Services" />
+			</div>
+			<h:form id="mainForm" prependId="false">
+				<ui:insert name="content">
+					Content displayed from Template... This text is never included, but only the text enclosed in the "ui:define" element of the template client or consumer (in this case
+	      			home.xhtml).
+	    		</ui:insert>
+	    		<div class="outer_footer">
+					&#169; 2015 <a href="http://www.zclt.info" target="_blank">Center for Learning Technologies</a>, All Rights Reserved.
+				</div>
+	    	</h:form>
+	    </div>
+	    <h:outputScript library="JSEffect" name="JS/classie.js" />
+	    <h:outputScript library="JSEffect" name="JS/inputText.js" />
+	    <h:outputScript library="JSEffect" name="JS/notificationFx.js" />
+	    <h:outputScript library="JSEffect" name="JS/notificationMain.js" />
+	</h:body>
+</html>

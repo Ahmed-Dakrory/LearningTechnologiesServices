@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Import Students - LT Online Services</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Import Students" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel class="attendance">
+					<table>
+						<tr>
+							<td colspan="3"><h4>Import File</h4></td>
+						</tr>
+						<tr>
+							<td><h:outputLabel value="Select File"/> &nbsp;&nbsp;</td>
+							<td>
+								<h:form enctype="multipart/form-data" id="filesForm">
+									<p:fileUpload mode="simple" skinSimple="true" value="#{ImportStudentsBean.file}" />
+									<h:message for="file" />
+								
+									<h:commandButton id="submit"  action="#{ImportStudentsBean.parseFile}" value="Upload File"
+									 update="pageForm:studentCourseTable pageForm:resultText" styleClass="blueBtn" process="@form"/>
+									<h:outputText value="#{ImportStudentsBean.statusMessage}" rendered="#{not empty ImportCoursesBean.statusMessage}"/>
+								</h:form>
+							</td>
+						</tr>
+					</table>
+					<h:outputLabel rendered="#{ImportStudentsBean.renderResultText}" id="resultText"
+					value="Results : There are #{ImportStudentsBean.newStudentsSize} new student(s) of parsed file size #{ImportStudentsBean.originalSize} , the new students are below"/>
+					<h:form id="pageForm">
+					<p:panel><h3>Imported Students</h3><br/></p:panel>
+						<p:dataTable var="row" value="#{ImportStudentsBean.students}" selectionMode="single" rowKey="#{row.facultyId}" sortMode="multiple" widgetVar="studentCourse" 
+						id="studentsTable" resizableColumns="true" rows="10" paginator="true" selection="#{ImportStudentsBean.selectedStudentsLst}"
+					 	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,20,40,60,80,100" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+							<p:column width="130" id="student" sortBy="#{row.name}" filterBy="#{row.name}">
+								<h:outputText value="#{row.name}" />
+								<p:watermark value="Name" forElement=":pageForm:studentsTable:student:filter"/>
+							</p:column>
+							<p:column width="130" id="id" sortBy="#{row.facultyId}" filterBy="#{row.facultyId}">
+								<h:outputText value="#{row.facultyId}" />
+								<p:watermark value="ID" forElement="pageForm:studentsTable:id:filter"/>
+							</p:column>
+							<p:column width="130" id="mail" sortBy="#{row.mail}" filterBy="#{row.mail}">
+								<h:outputText value="#{row.mail}" />
+								<p:watermark value="ID" forElement="pageForm:studentsTable:mail:filter"/>
+							</p:column>
+							<p:column width="130" id="phone" sortBy="#{row.phone}" filterBy="#{row.phone}">
+								<h:outputText value="#{row.phone}" />
+								<p:watermark value="Phone" forElement="pageForm:studentsTable:phone:filter"/>
+							</p:column>
+							
+						</p:dataTable>
+								<p:commandButton id="save" actionListener="#{ImportStudentsBean.saveStudents}" value="Save New Courses" 
+						update="studentsTable "  process="@form" rendered="#{ImportStudentsBean.renderResultText}"/>
+					</h:form>
+				</p:panel>
+					
+					
+			</div>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+
+			
+   		</ui:define>
+	</ui:composition>
+</html>

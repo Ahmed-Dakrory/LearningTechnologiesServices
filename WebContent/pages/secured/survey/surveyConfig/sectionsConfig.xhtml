@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Secions of Survey Config - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" disabled="true"/>
+							<p:menuitem value="Survey" disabled="true" />
+							<p:menuitem value="Secions of Survey Config" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<h:panelGroup id="table">
+							<p:commandButton value="+ Add Section" actionListener="#{sectionsBean.preAddSection}" oncomplete="addDlg.show();" update="growl" styleClass="greenBtn" /> &nbsp;&nbsp;
+							<p:commandButton value="Go to Surveys" action="surveys.xhtml?faces-redirect=true" styleClass="grayBtn" />
+							<p:dataTable id="tableID" var="obj" value="#{sectionsBean.sections}" widgetVar="surveyTable" emptyMessage="No Surveys are found" filteredValue="#{sectionsBean.filteredSections}" rowIndexVar="index" rowKey="#{survey.id}" rows="10" paginator="true" 
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" paginatorPosition="top" currentPageReportTemplate="Total no. of sections: {totalRecords}" rowsPerPageTemplate="5,10,15">
+								<p:ajax event="rowSelect" listener="#{sectionsBean.onRowSelect}" />
+								<p:ajax event="rowToggle" listener="#{sectionsBean.preAddSurvey(obj)}" />
+								<p:column width="16">
+									<p:rowToggler />
+								</p:column>
+								<p:column filterBy="#{obj.id}" id="id" filterMatchMode="startsWith" sortBy="#{obj.id}">
+									<f:facet name="header">
+										<p:watermark for="id" value="ID" />
+									</f:facet> 
+									<h:outputText value="#{obj.id}" />
+								</p:column>
+								<p:column filterBy="#{obj.name}" id="name" filterMatchMode="startsWith" sortBy="#{obj.name}">
+									<f:facet name="header">
+										<p:watermark for="name" value="Name" />
+									</f:facet> 
+									<h:outputText value="#{obj.name}" />
+								</p:column>
+								<p:column filterBy="#{obj.date}" id="date" filterMatchMode="startsWith" sortBy="#{obj.date}">
+									<f:facet name="header">
+										<p:watermark for="date" value="Date" />
+									</f:facet>
+									<h:outputText value="#{obj.date}" />
+								</p:column>
+								<p:column headerText="Questions" styleClass="txtCenter">
+									<p:commandButton value="Questions" actionListener="#{sectionsBean.navigateToQuestions(obj)}" styleClass="cancelBtn"/>
+								</p:column>
+								<p:rowExpansion>
+									<h:panelGroup id="pnl" columns="2">
+										<table class="surveylistTable" width="500">
+											<tr>
+												<th>Assigned Survey</th>
+												<th>Add Survey</th>
+											</tr>
+											<tr>
+												<td>
+													<ui:repeat value="#{sectionsBean.mysurveys}" var="my" id="myID">
+														<p:commandButton value="Delete" title="Delete" actionListener="#{sectionsBean.deleteSurvey(my)}" update=":mainForm:form:tableID:pnl" process=":mainForm:form:tableID:pnl" styleClass="redBtn"/> &nbsp;&nbsp;
+														<h:outputLabel value="#{my.name}"/>
+														<br/>
+													</ui:repeat>
+												</td>
+												<td>
+													<ui:repeat value="#{sectionsBean.otherSurveys}" var="other" id="otherID">
+														<p:commandButton value="Add #{other.name}" title="Add" actionListener="#{sectionsBean.addSurvey(other,obj)}" update=":mainForm:form:tableID:pnl" process=":mainForm:form:tableID:pnl" styleClass="light_greenBtn"/><br/>
+													</ui:repeat>
+												</td>
+											</tr>
+										</table>
+									</h:panelGroup>
+								</p:rowExpansion>
+							</p:dataTable>
+						</h:panelGroup>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+			<p:dialog widgetVar="addDlg" id="dilg" header="Add Section" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="240">
+				<h:form id="dlgForm">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanel" columns="1">
+							<p:outputLabel value="Name" for="name"/>
+							<h:panelGroup>
+			          			<p:inputTextarea required="true" requiredMessage="Please insert the name" id="name" value="#{sectionsBean.section.name}"/>
+			          			<p:message for="name"/>
+			          		</h:panelGroup>
+			        	</h:panelGrid>
+			        </div>  
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" actionListener="#{sectionsBean.addSection}" update="dlgForm:addPanel :mainForm:form:tableID" process="addPanel" class="dialogOk" /></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+	    	<p:dialog widgetVar="surveyDlg" id="dilgSurvey" header="Add Survey" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true" maximizable="true" minimizable="true" class="addDialog" width="80%">
+				<h:form id="surveysForm">
+					<div class="dialogWrapper">
+						<p:scrollPanel mode="native" style="max-height:440px">
+							<h:panelGrid id="mysurbeysPanel" columns="1">
+								<h:outputLabel value="Assigned Surveys"/>
+								<ui:repeat value="#{sectionsBean.mysurveys}" var="my">
+									<h:outputLabel value="#{my.name}"/>
+									<p:commandButton value="Delete" title="Delete" actionListener="#{sectionsBean.deleteSurvey(my)}"/>
+								</ui:repeat>
+							</h:panelGrid>
+							<br/>
+							<h:panelGroup id="othersurbeysPanel" >
+								<h:outputLabel value="Other Surveys:"/>
+								<br/>
+							</h:panelGroup>
+						</p:scrollPanel>
+					</div>
+				</h:form>
+	   		</p:dialog>
+	   	</ui:define>
+	</ui:composition>
+</html>

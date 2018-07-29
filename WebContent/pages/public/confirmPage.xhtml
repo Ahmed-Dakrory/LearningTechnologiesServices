@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/content.xhtml">
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" sticky="false" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<p:panel id="pnl">
+					<ul>
+						<li><p>Thank you for registering, An email has been sent to your email. Please check your email and enter the enclosed confirmation code to finish your registration.</p></li>
+						<li>
+							<p:inputText id="confirmCode" value="#{loginBean.confirmCode}" class="inputField inputFieldStyle"
+							 required="true" requiredMessage="Enter and verify the confirmation code" size="40" validatorMessage="The code you entered is incorrect" >
+							
+							</p:inputText>
+							<p:message for="confirmCode" />
+							<p:watermark for="confirmCode" value="Confirmation Code" />
+						</li>
+						<li><p:commandButton value="Verify" action="#{loginBean.confirmCode()}" ajax="false" class="outerBtn" process="confirmCode"/></li>
+					</ul>
+					<ul class="outerinks">
+						<li><p:commandLink id="resend" value="Resend Code" actionListener="#{loginBean.resendCode}" update="growl" immediate="true"/></li>
+					</ul>
+					<p:blockUI block="pnl" trigger="resend">Sending...<br /></p:blockUI>
+				</p:panel>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

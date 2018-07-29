@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">secions of survey Config - LT Online Services</ui:define>
+		<ui:define name="content">
+					<h:form  id="form">
+							<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+			
+									<h:panelGroup  id="table">
+									
+									<p:commandButton value="+Add section"
+									 actionListener="#{surveyQuestionsBean.preAddSection}" oncomplete="addDlgsection.show();"
+									update="growl"/>
+									<p:commandButton value="Import sections"
+									 oncomplete="uploadDlgsection.show();"/>
+									
+									<p:commandButton value="Go to surveys" 
+									action="surveys.xhtml?faces-redirect=true" immediate="true" />
+								
+								<h:panelGroup id="mainPnl">
+								<p:dataList value="#{surveyQuestionsBean.sections}" var="section" id="sec" varStatus="secIndex"  >
+										<p:panel toggleable="true" collapsed="true" >
+										<f:facet name="header">
+											#{secIndex.index+1} - #{section.name} - #{section.course.name}
+												<p:commandButton value="delete" actionListener="#{surveyQuestionsBean.deleteSection(section)}" 
+												update=":mainForm:form:sec:rep:scalesPnl :mainForm:form:mainPnl"/>
+												<p:commandButton value="+Add Question"
+												 actionListener="#{surveyQuestionsBean.preAddQuestion(section)}" oncomplete="addDlg.show();"
+													update=":mainForm:form:sec:rep"/>
+											</f:facet>
+											<b>Section title:</b> #{section.title} 
+											<br/>
+										<p:dataList value="#{section.questions}" var="ques" id="rep" varStatus="quesIndex"  >
+										<b>#{quesIndex.index+1} - #{ques.text} 	<p:commandButton value="delete question"
+										 actionListener="#{surveyQuestionsBean.delete(ques)}" 
+												update=":mainForm:form:sec:rep"/><br/>
+										 Pre-defined scale <a href="#" class="tooltipNote" data-tooltip="Select from old scales defined by scale name"/>
+										 <p:selectBooleanCheckbox
+											value="#{ques.scaleMode}">
+											<p:ajax update=":mainForm:form:sec:rep" listener="#{surveyQuestionsBean.preAddScaleType(ques,section)}" />
+										</p:selectBooleanCheckbox>
+											<p:selectOneMenu id="scalesLst"
+											value="#{ques.scaleType.id}" rendered="#{ques.scaleMode}">
+											<f:selectItem itemLabel="Select Scale" />
+											<f:selectItems var="course"
+												value="#{surveyQuestionsBean.scales}"
+												itemLabel="#{course.name}" itemValue="#{course.id}" />
+										</p:selectOneMenu>
+										<p:commandButton value="+Add Selection" rendered="#{ques.scaleMode}" 
+										
+										 actionListener="#{surveyQuestionsBean.addSelection}" />
+										<br/>
+										<p:commandButton value="Add Scale "  rendered="#{!ques.scaleMode}"
+										actionListener="#{surveyQuestionsBean.preAddScaleType(ques,section)}" update=":mainForm:form:sec:rep:scalesPnl" 
+										process=":mainForm:form:mainPnl"/>
+										<a href="#" class="tooltipNote" data-tooltip="Define new scale"/>
+										</b>
+										<h:panelGroup id="scalesPnl">
+										<h:panelGroup rendered="#{surveyQuestionsBean.processedQues.editMode and !ques.scaleMode}" id="sds">
+										<br/>
+										<p:outputLabel value="Scale name " for="scaleName"/>
+										<a href="#" class="tooltipNote" data-tooltip="it's just naming to the scale name to help you in the future to be added
+										 into other questions"/>
+										<h:inputText value="#{surveyQuestionsBean.processedQues.scaleType.name}" id="scaleName" required="true" requiredMessage="Please insert name"/>
+										<p:message  for="scaleName"/>
+										<br/>
+										<p:outputLabel value="Selection Type" for="selectionType"/>
+										<p:selectOneMenu id="selectionType" required="true"
+											value="#{ques.selectionType}" >
+											<f:selectItem itemLabel="Main" itemValue="0" />
+											<f:selectItem itemLabel="Strength" itemValue="1" />
+											<f:selectItem itemLabel="Concern" itemValue="2" />
+											<f:selectItem itemLabel="NA" itemValue="3" />
+										</p:selectOneMenu><br/>
+								
+										<p:outputLabel value="Selection" for="selectionNameID"/>
+										<h:inputText value="#{surveyQuestionsBean.processedQues.selectionName}" id="selectionNameID"  required="true" requiredMessage="Please insert selection name"/>
+										<p:message  for="selectionNameID"/>
+										<br/>
+									
+
+										<p:commandButton value="+Add Selection" update=":mainForm:form:sec:rep:scalesPnl" process=":mainForm:form:sec:rep:scalesPnl" 
+										 actionListener="#{surveyQuestionsBean.addSelection}" />
+										</h:panelGroup>
+										<br/><b>Answers: </b><br/>
+										<ui:repeat value="#{ques.scaleType.selections}" var="selection">
+											<h:outputLabel value="#{selection.name}"/>
+											<h:outputLabel value="-(Type : #{selection.type})"/>
+											<p:commandButton value="Delete Selection"  immediate="true"
+											 actionListener="#{surveyQuestionsBean.deleteSelection(selection)}" update=":mainForm:form:sec:rep:scalesPnl"/>
+											<br/>
+										</ui:repeat>
+									</h:panelGroup>
+									<p:separator/>
+									<br/></p:dataList>
+									</p:panel>
+						</p:dataList>
+						</h:panelGroup>	
+						</h:panelGroup>
+						</h:form>
+					
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+					<p:dialog widgetVar="addDlg" header="+ Add Question" 
+					showEffect="slide" id="dilg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" 
+				 resizable="true" maximizable="true" minimizable="true" class="addDialog" height="250" >
+				 
+				 	<h:form id="dlgForm">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanel" columns="2">
+			
+							<h:panelGroup>
+							<p:outputLabel value="Text" for="name"/>
+							<a href="#" class="tooltipNote" data-tooltip="Question head"/>
+			          		<p:inputTextarea required="true"
+			          		 requiredMessage="Please insert the name"
+			          		  id="name" value="#{surveyQuestionsBean.addedQuestion.text}"/>
+			          			<p:message for="name"/>
+			          		</h:panelGroup>
+			          		
+			          	
+			    <h:panelGroup>
+				<p:commandLink value="Add" title="Add" actionListener="#{surveyQuestionsBean.addQuestion}"  process="addPanel"
+							  update="dlgForm:addPanel :mainForm:form:table" 
+							  class="blueBtn" />
+				<p:commandButton value="Cancel" title="Cancel" onclick="addDlg.hide()" 
+				immediate="true"  class="redBtn"/>
+				</h:panelGroup>
+			          </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+	   	<p:dialog widgetVar="addDlgsection" header="+ Add Section" showEffect="slide" id="dilgsec" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true"
+				  minimizable="true" class="addDialog" height="250" >
+				 
+				 				<h:form id="dlgFormSec">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanelsec" columns="2">
+							<h:panelGroup>
+							<p:outputLabel value="Section's name" for="name"/>
+								<a href="#" class="tooltipNote" data-tooltip="Section name that will appear to the student as the tab name"/>
+			          			
+							</h:panelGroup>
+							<h:panelGroup>
+							<p:inputText required="true" 
+			          		requiredMessage="Please insert the name" 
+			          		id="name"
+			          		 value="#{surveyQuestionsBean.addedSection.name}"/>
+			          		<p:message for="name"/>
+			          	</h:panelGroup>
+			          				
+						<h:panelGroup>
+						<p:outputLabel value="Section's title" for="title"/>
+						<a href="#" class="tooltipNote" data-tooltip="Section title will introduce the section for the student"/>
+						</h:panelGroup>
+						<p:inputText id="title"
+			          		 value="#{surveyQuestionsBean.addedSection.title}"/>
+			        <h:panelGroup>
+			          			<p:outputLabel value="Section's Course" for="title"/>
+			          			<a href="#" class="tooltipNote" data-tooltip="Select the course if it will be appear for specific course"/>
+			          			</h:panelGroup>
+			          			<p:selectOneMenu id="course" value="#{surveyQuestionsBean.addedSection.course.id}" >
+								<f:selectItem itemLabel="Select Course" />
+								<f:selectItems var="course" value="#{surveyQuestionsBean.coursesLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+								</p:selectOneMenu>
+						
+			           					<p:selectOneMenu id="scalesLst"
+											value="#{surveyQuestionsBean.selectedScaleType.id}" >
+											<f:selectItem itemLabel="Select Scale" />
+											<f:selectItems var="course"
+												value="#{surveyQuestionsBean.scales}"
+												itemLabel="#{course.name}" itemValue="#{course.id}" />
+										</p:selectOneMenu>
+									
+				<h:panelGroup>					
+				<p:commandButton value="Add" title="Add" actionListener="#{surveyQuestionsBean.addSection}" oncomplete="addDlgsection.hide();"
+				 process="addPanelsec " 
+							  update="dlgFormSec:addPanelsec :mainForm:form:mainPnl" class="blueBtn" />
+				<p:commandButton value="Cancel" title="Cancel" onclick="addDlgsection.hide();" immediate="true"  class="redBtn"/>
+				</h:panelGroup>
+			          </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+	   
+	   	<p:dialog widgetVar="uploadDlgsection" header="+ Upload Sections" showEffect="slide" id="dilgsecupload" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true"
+				  minimizable="true" class="addDialog" height="250" >
+				 
+				 				<h:form id="dlgFormSecupload">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanelsec" columns="2">
+							
+			          		
+			           upload bulk of sections	
+			          <p:fileUpload mode="advanced"   
+									fileUploadListener="#{surveyQuestionsBean.uploadFile}"   >
+									
+									</p:fileUpload>
+					
+			      </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+	   
+	   
+	   
+	   </ui:define>
+	  
+		</ui:composition>
+</html>

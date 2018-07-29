@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Courses Configurations</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Courses Configurations" disabled="true" />
+							<p:menuitem value="Courses Details" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<h:form id="pageForm">
+				<div class="pannelWrapper">
+					<p:panel>
+						<p:commandButton value="Back to courses" action="#{CoursesInstructorsConfigBean.backToCourses}" immediate="true" styleClass="grayBtn"/> &nbsp;&nbsp;
+						<p:commandButton value="+ Add Instructors" id="addInsBtn" title="Add Instructors" type="button" styleClass="greenBtn" />&nbsp; 
+					   <p:overlayPanel id="instructorsPanel" for="addInsBtn" hideEffect="fade" dynamic="true" >
+		          			<p:selectOneMenu id="basic" value="#{CoursesInstructorsConfigBean.selectedInstructor}"
+ style="margin-top:15px; width:330px;"  filter="true" filterMatchMode="contains" >
+		          				<f:selectItems itemLabel="#{inss.name}" itemValue="#{inss.id}" value="#{CoursesInstructorsConfigBean.allIns}" var="inss" />
+		        			</p:selectOneMenu>
+							<p:commandButton value="Add" title="Add" action="#{CoursesInstructorsConfigBean.addInsToCourse}" ajax="false" update="form" />
+						</p:overlayPanel>
+						
+						<p:commandButton value="+ Add TAs" id="addTaBtn" title="Add TAs" type="button" styleClass="greenBtn" />&nbsp;
+					    <p:overlayPanel id="tasPanel" for="addTaBtn" hideEffect="fade" dynamic="true">
+		          			<p:selectOneMenu id="basic2" value="#{CoursesInstructorsConfigBean.selectedTA}"
+ style="margin-top:15px; width:330px;"  filter="true" filterMatchMode="contains" >
+		          				<f:selectItems itemLabel="#{inss.name}" itemValue="#{inss.id}" value="#{CoursesInstructorsConfigBean.allTas}" var="inss" />
+		        			</p:selectOneMenu>
+							<p:commandButton value="Add" title="Add" action="#{CoursesInstructorsConfigBean.addTAToCourse}" ajax="false" update="form" />
+						</p:overlayPanel>
+						<p:commandButton value="Delete Course" actionListener="#{CoursesInstructorsConfigBean.preDelete}" process="@this" styleClass="redBtn" />
+						<br/><br/><br/>
+						<p:panel class="attendance" id="panel"> 
+							<table class="courseDetails">
+								<tr>
+									<td>Course Name:</td>
+									<td><h:outputLabel value="#{CoursesInstructorsConfigBean.detailedCourse.name}"/></td>
+								</tr>
+								<tr>
+									<td>Year:</td>
+									<td><h:outputLabel value="#{CoursesInstructorsConfigBean.detailedCourse.year}"/></td>
+								</tr>
+								<tr>
+									<td>Semester:</td>
+									<td><h:outputLabel value="#{CoursesInstructorsConfigBean.detailedCourse.semester.name}"/></td>
+								</tr>
+							</table>
+							<br/>
+							<p:panel><h3>Course Coordinator</h3></p:panel>
+							<table>
+								<tr>
+									<td><h:outputLabel value="#{CoursesInstructorsConfigBean.detailedCourse.coordinator.name}"/></td>
+									<td width="20">&nbsp;</td>
+									<td>
+										<p:commandButton value="Change Coordinator" id="editInsBtn" title="Add Instructors" type="button" styleClass="changeBtn" />
+							           	<p:overlayPanel id="instructorsPanelEdit" for="editInsBtn" hideEffect="fade" dynamic="true" >
+				          					<p:selectOneMenu id="insss" value="#{CoursesInstructorsConfigBean.selectedCoordinator}"
+ style="margin-top:15px; width:330px;"  filter="true" filterMatchMode="contains" >
+				          						<f:selectItems itemLabel="#{inss.name}" itemValue="#{inss.id}" value="#{CoursesInstructorsConfigBean.allIns}" var="inss"  />
+				        					</p:selectOneMenu>
+											<p:commandButton value="Save" title="Save" action="#{CoursesInstructorsConfigBean.editCourseCoordinator}" ajax="false" update="form" />
+										</p:overlayPanel>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<p:panel><h3><h:outputLabel value="Instructor(s) (#{CoursesInstructorsConfigBean.instructors.size()}):"/></h3></p:panel>
+							<ui:repeat value="#{CoursesInstructorsConfigBean.instructors}" var="ins" id="instructors">
+								<table class="courseInst">
+									<tr>
+										<td width="240"><h:outputLabel value="#{ins.name}"/></td>
+										<td><p:commandButton value="Delete" actionListener="#{CoursesInstructorsConfigBean.deleteInstructorFromCourse(ins)}" process="@this" update="instructors"/></td>
+									</tr>
+								</table>
+							</ui:repeat>
+							
+							<p:panel><h3><h:outputLabel value="TA(s) (#{CoursesInstructorsConfigBean.tas.size()}):"/></h3></p:panel>
+							<ui:repeat value="#{CoursesInstructorsConfigBean.tas}" var="ins" id="tas">
+								<table class="courseInst">
+									<tr>
+										<td width="240"><h:outputLabel value="#{ins.name}"/></td>
+										<td><p:commandButton value="Delete" 
+										actionListener="#{CoursesInstructorsConfigBean.deleteInstructorFromCourse(ins)}" process="@this" update="tas"/></td>
+									</tr>
+								</table>
+							</ui:repeat>
+							
+						</p:panel>
+					</p:panel>
+				</div>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Delete this course?" widgetVar="delDlg" header="Delete Course" styleClass="alertDialog">
+					<p:commandButton value="Yes"  actionListener="#{CoursesInstructorsConfigBean.deleteCourse}" immediate="true" />
+					<p:commandButton value="No"  onclick="delDlg.hide()" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

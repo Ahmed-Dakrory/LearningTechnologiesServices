@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" class="internal">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="#{resource['css:styles.css']}" />
+		<link rel="stylesheet" href="#{resource['css:normalize.css']}" />
+		<link rel="stylesheet" href="#{resource['css:fonts.css']}" />
+		<link href="#{resource['images:favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
+		<h:outputScript library="JSEffect" name="JS/modernizr.custom.js" />
+		<!-- Dialog Effects -->
+		<ui:remove>
+		<h:outputStylesheet library="ButtonComponentMorph" name="css/component.css" />
+		<h:outputStylesheet library="ButtonComponentMorph" name="css/content.css" />
+		</ui:remove>
+		<title><ui:insert name="title"></ui:insert></title>
+	</h:head>
+	<h:body>
+	<!-- Side Menu -->
+	<div class="menu-wrap">
+		<h:graphicImage value="#{resource['images:logo_internal.png']}" alt="CLT Online Services" class="logo_menu" />
+		<!-- For Moodle login -->
+		<form action="https://moodle.zclt.info/moodle/login/index.php" target="_blank" method="post" name="form" id="form">
+			<input type="hidden" name="username" size="15" value="#{leftNavigationMenuBean.moodleEmail}" />
+		    <input type="hidden" name="password" size="15" value="#{leftNavigationMenuBean.moodlePassword}"/> 
+			<input type="submit" name="Submit" value="Go to Moodle" title="Go to Moodle" class="moodleBtn" />
+		</form>
+		<h:form id="menuForm">
+			<nav class="menu">
+				<div class="icon-list">
+					<h3>Dashboard</h3>
+					<p:commandLink ajax="false" immediate="true" value="Dashboard" action="#{leftNavigationMenuBean.renderDashboard}" class="#{leftNavigationMenuBean.getActiveCssName('Dashboard')}"/>
+					<p:commandLink ajax="false" immediate="true" value="Account Settings" action="#{leftNavigationMenuBean.renderAccountSetting}" class="#{leftNavigationMenuBean.getActiveCssName('Account Settings')}"/>
+					
+					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.isStudent()}" value="Student Profile" action="#{leftNavigationMenuBean.renderStudentProfile}" class="#{leftNavigationMenuBean.getActiveCssName('Student Profile')}"/>
+				
+					
+					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.isStudentGraduationForm()}" 
+					value="Graduation Form" action="#{leftNavigationMenuBean.renderGraduationForm}" class="#{leftNavigationMenuBean.getActiveCssName('Graduation Form')}"/>
+					
+					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.seeGraduationFormReponses}" 
+					value="Graduation Form" action="#{leftNavigationMenuBean.renderGraduationForm}" class="#{leftNavigationMenuBean.getActiveCssName('Graduation Form')}"/>
+					
+					<h:outputLink target="_blank" value="#{leftNavigationMenuBean.helpFile}">Help</h:outputLink>
+					<h:panelGrid width="100%"  rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}">
+						<ui:remove><h3>Intended</h3></ui:remove>
+						<h3>Majors</h3>
+					   
+	                	<p:commandLink ajax="false" immediate="true" value="Planned Major Results" rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}"
+							 action="#{leftNavigationMenuBean.renderIntendedMajorSurvey}" class="#{leftNavigationMenuBean.getActiveCssName('Planned Major Results')}"/>
+							 
+                         <p:commandLink ajax="false" immediate="true" value="Planned Major Students" rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}"
+							 action="#{leftNavigationMenuBean.renderIntendedMajorResultStudent}"  class="#{leftNavigationMenuBean.getActiveCssName('Planned Major Students')}"/>
+						
+						<p:commandLink ajax="false" immediate="true" value="Declaration of Major Results" rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}"
+							 action="#{leftNavigationMenuBean.renderDeclarationOfMajor}" class="tallLink #{leftNavigationMenuBean.getActiveCssName('Declaration of Major Results')}"/>
+                        
+                         <p:commandLink ajax="false" immediate="true" value="Declaration of Major Students" rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}"
+							 action="#{leftNavigationMenuBean.renderMajorDecResultStudent}" class="tallLink #{leftNavigationMenuBean.getActiveCssName('Declaration of Major Results Students')}"/>
+					    
+					     <p:commandLink ajax="false" immediate="true" value="Declaration Of Concentration Results" rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}"
+							 action="#{leftNavigationMenuBean.navigateToDeclarationOfConcentrationResults}"  
+							 class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con Results')}"/>
+                      
+                         <p:commandLink ajax="false" immediate="true" value="Declaration Of Concentration Students"
+                          rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}" action="#{leftNavigationMenuBean.navigateToDeclarationOfConcentrationStudents}" 
+							  class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con Students')}"/>
+					
+							 </h:panelGrid>
+						<h:panelGroup  rendered="#{(FormsStatusBean.declarationOfConcentration and leftNavigationMenuBean.studentModeDeclarationOfConcentration)
+						|| (FormsStatusBean.intendedMajor and leftNavigationMenuBean.studentModeIntendedMajor) ||
+						(FormsStatusBean.declarationOfMajor and leftNavigationMenuBean.studentModeDeclarationOfMajor)}">
+						<h3>Majors</h3>
+						 <p:commandLink ajax="false" immediate="true" value="Declaration Of Concentration" 
+						 action="#{leftNavigationMenuBean.navigateToDeclarationOfConcentrationStudent}"
+							 rendered="#{FormsStatusBean.declarationOfConcentration}" 
+							 class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con')}"/>
+	                     <p:commandLink ajax="false" immediate="true" value="Planned Major" action="#{leftNavigationMenuBean.renderIntendedMajorSurvey}"
+							  rendered="#{FormsStatusBean.intendedMajor and leftNavigationMenuBean.studentModeIntendedMajor}"  class="#{leftNavigationMenuBean.getActiveCssName('Intended Major')}"/>
+	                      <p:commandLink ajax="false" immediate="true" value="Declaration of Major"
+                          action="#{leftNavigationMenuBean.renderDeclarationOfMajor}"
+                           rendered="#{FormsStatusBean.declarationOfMajor and leftNavigationMenuBean.studentModeDeclarationOfMajor}"
+						class="#{leftNavigationMenuBean.getActiveCssName('Declaration of Major')}"/>
+						
+						</h:panelGroup>
+					 	
+					
+					<h3>Feedback</h3>
+					<p:commandLink ajax="false" immediate="true" value="Feedback Form" action="#{leftNavigationMenuBean.renderGenFeedback}"
+					 class="#{leftNavigationMenuBean.getActiveCssName('Feedback Form')}" />
+					<p:commandLink ajax="false" immediate="true" value="Submitted Feedbacks" rendered="#{leftNavigationMenuBean.admin}" action="#{leftNavigationMenuBean.renderShowFeedback}" class="#{leftNavigationMenuBean.getActiveCssName('Submitted Feedback')}"/>
+					<p:commandLink id="courseFeedback" ajax="false" immediate="true" value="Course Evaluation" 
+					rendered="#{leftNavigationMenuBean.courseEvalStudent}" action="#{leftNavigationMenuBean.renderCourseEval}"
+					 class="#{leftNavigationMenuBean.getActiveCssName('Course Evaluation')}" 
+					 />
+					<p:commandLink id="midtermFeedback" ajax="false" immediate="true" value="Midterm Evaluation" 
+					rendered="#{leftNavigationMenuBean.midtermEvalStudent}" action="#{leftNavigationMenuBean.renderMidtermEval}"
+					 class="#{leftNavigationMenuBean.getActiveCssName('Midterm Evaluation')}" 
+					 />
+					 <p:commandLink id="lectureObjFeedback" ajax="false" immediate="true" value="Lectures Objectives Feedback" 
+					rendered="#{leftNavigationMenuBean.lectureObjStudent}" action="#{leftNavigationMenuBean.renderLectureObjStudent}" 
+					 class="tallLink #{leftNavigationMenuBean.getActiveCssName('Lectures Objectives Feedback')}"
+					 />
+					<p:commandLink ajax="false" immediate="true" value="TAs Evaluation"  action="#{leftNavigationMenuBean.renderInsTaEval}" 
+					class="#{leftNavigationMenuBean.getActiveCssName('Course Evaluation INS')}"  
+					rendered="#{leftNavigationMenuBean.insTAEvalSecurity}"/>
+					  <p:commandLink ajax="false" immediate="true" value="Semester Config" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToSemesterConfig}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Semester Config')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Course's Students Config" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToStudentsConfig}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Courses Students Config')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Lecture Objectives Results" 
+				    rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToLectureObjectivesFeedback}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Lecture Objectives Result')}"/>
+				
+				
+					<h3>Petitions</h3>
+					<p:commandLink ajax="false" immediate="true" value="Academic Petition" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderAcademicPet}"  class="#{leftNavigationMenuBean.getActiveCssName('Academic Petition')}"/>
+                    <p:commandLink ajax="false" immediate="true" value="Drop / Add Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderAddDropForm}"  class="#{leftNavigationMenuBean.getActiveCssName('Drop / Add Form')}"/>
+                    <p:commandLink ajax="false" immediate="true" value="Change Major and/or Specialization" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderChangeMajor}"  class="tallLink #{leftNavigationMenuBean.getActiveCssName('Change Major')}"/>
+                    <p:commandLink ajax="false" immediate="true" value="Change of Concentration" rendered="#{(leftNavigationMenuBean.validateLoggedIn and leftNavigationMenuBean.studentModeChangeOfConcentration)}" action="#{leftNavigationMenuBean.renderChangeConcentration}" class="#{leftNavigationMenuBean.getActiveCssName('Change of Concentration')}"/>
+					<p:commandLink ajax="false" immediate="true" value="Overload Request" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderOverLoadReq}"  class="#{leftNavigationMenuBean.getActiveCssName('Overload Request')}"/>
+					<p:commandLink ajax="false" immediate="true" value="Course Repeat Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderCourseRepeat}"  class="#{leftNavigationMenuBean.getActiveCssName('Course Repeat Form')}"/>
+					<p:commandLink ajax="false" immediate="true" value="Incomplete Grade Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderIncompleteGrade}"  class="#{leftNavigationMenuBean.getActiveCssName('Incomplete Grade Form')}"/>
+					
+					<!-- remove link from view to enable it again replace rendered="false" to rendered="#{leftNavigationMenuBean.validateLoggedIn}"  -->
+					<p:commandLink ajax="false" immediate="true" value="Junior TA Program"  rendered="false"
+					action="#{leftNavigationMenuBean.renderJuniorTAProgram}" 
+					class="#{leftNavigationMenuBean.getActiveCssName('Junior TA Program')}"/>
+					<ui:remove><p:commandLink ajax="false" immediate="true" value="Petitions History" rendered="#{leftNavigationMenuBean.petitionHitoryBool}" action="#{leftNavigationMenuBean.renderPetitionHitory}" disabled="#{leftNavigationMenuBean.disablePetitionHitory}" class="#{leftNavigationMenuBean.getActiveCssName('Petitions Hitory')}"/></ui:remove>
+					<h:panelGroup  rendered="#{leftNavigationMenuBean.admin}" >
+					
+					<h3>Configurations</h3></h:panelGroup>
+					<p:commandLink ajax="false" immediate="true" value="Add Course" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToAddCourse}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Add Course')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Import Course" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToImportCourse}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Import Course')}"/>
+				     <p:commandLink ajax="false" immediate="true" value="Import Students-Courses" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToImportCourseStudents}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Import Students-Courses')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Import Students" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToImportStudents}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Import Students')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="All Students" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToStudents}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('All Students')}"/>
+				     <p:commandLink ajax="false" immediate="true" value="All Instructors" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToIns}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('All Instructors')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Manage Majors" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToMajor}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Manage Majors')}"/>
+				      <p:commandLink ajax="false" immediate="true" value="Forms Settings" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToForms}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Forms Settings')}"/>
+				   <h:panelGroup  rendered="#{leftNavigationMenuBean.booksSysMode}" ><h3>Books System</h3></h:panelGroup>
+				    <p:commandLink ajax="false" immediate="true" value="All Books" rendered="#{leftNavigationMenuBean.booksSysMode}" 
+					action="#{leftNavigationMenuBean.navigateBookSys(1)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('All Books')}"/>
+				     <p:commandLink ajax="false" immediate="true" value="Recieving" rendered="#{leftNavigationMenuBean.booksSysMode}" 
+					action="#{leftNavigationMenuBean.navigateBookSys(2)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Recieving')}"/>
+				     <p:commandLink ajax="false" immediate="true" value="Returns" rendered="#{leftNavigationMenuBean.booksSysMode}" 
+					action="#{leftNavigationMenuBean.navigateBookSys(3)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Returns')}"/>
+				  	<p:commandLink ajax="false" immediate="true" value="Surveys" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToSurveyConfig(1)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Surveys')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Sections" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.navigateToSurveyConfig(2)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Sections')}"/>
+				    
+					<div class="menuFooter">
+						<!-- User Menu -->
+								<ui:remove><div class="userMenu">&nbsp;</div></ui:remove>
+						<div class="userInfo">
+							<div>
+								<p:graphicImage library="images" name="icon_user.png" rendered="#{loginBean.image == null}" />
+								<p:graphicImage value="#{loginBean.imagePreview}" rendered="#{loginBean.image != null }" />
+							</div>
+							<h:outputText value="#{loginBean.name}" id="name" /> <br/> <p:commandLink id="signOut" value="Log Out" type="button" ajax="false" action="#{loginBean.logout}" update="name signIn signOut" immediate="true" />
+						</div>
+						<footer>&#169; 2013 Center for Learning Technologies.</footer>
+					</div>
+				</div>
+			</nav>
+		</h:form>
+		<div class="close-button" id="close-button">Close Menu</div>
+		</div>
+		<button class="menu-button" id="open-button">Open Menu<span>Menu</span></button>
+		<ui:remove>Content Side</ui:remove>
+		<h:form id="mainForm" class="contents-wrap-class content-wrap">
+			<ui:insert name="content">
+				Content displayed from Template... This text is never included, but only the text enclosed in the "ui:define" element of the template client or consumer (in this case home.xhtml).
+	    	</ui:insert>
+		</h:form>
+		<ui:insert name="confirmDialogBox"></ui:insert>
+	
+		<p:dialog id="remindMeDia" header="Remind Me" widgetVar="remindDlg" showEffect="slide" hideEffect="clip" closeOnEscape="true" class="remindDialog" height="150">
+			<h:form id="remindForm">
+				<div class="dialogWrapper">
+					<h:panelGroup id="remindGrid">
+						<ul class="dialogLine"> 
+							<li><h:outputLabel value="Remind me at:" /></li><br/><br/>
+							<li><p:calendar value="#{notificationBean.notifyAt}" pattern="MM/dd/yyyy HH:mm" mindate="#{notificationBean.currentDate}"/></li>
+						</ul>
+					</h:panelGroup>
+				</div>
+				<ul class="dialogFooter">
+					<li><p:commandButton value="Cancel" title="Cancel" onclick="remindDlg.hide()" immediate="true" class="dialogCancel" /></li>
+					<li><p:commandButton value="Save Reminder" title="Save Reminder" actionListener="#{notificationBean.saveReminder}" ajax="false" update="form growl" class="dialogOk" /></li>
+				</ul>
+			</h:form>
+		</p:dialog>
+		<ui:insert name="BrowseFiles"></ui:insert>
+		<h:outputScript library="JSEffect" name="JS/classie.js" />
+	    <h:outputScript library="JSEffect" name="JS/inputText.js" />
+	    <h:outputScript library="JSEffect" name="JS/notificationFx.js" />
+	    <h:outputScript library="JSEffect" name="JS/notificationMain.js" />
+	    <h:outputScript library="JSEffect" name="JS/mainMenu.js" />
+		<h:outputScript library="JSEffect" name="JS/userMenu.js" />
+		<h:outputScript library="JSEffect" name="JS/dialog.js" />
+		<h:outputScript library="JSEffect" name="JS/dialogMain.js" />
+		<script>
+			PrimeFaces.widget.Dialog.prototype.applyFocus = function() 
+			{
+				//this.jq.find(':not(:submit):not(:button):input:visible:enabled:first').focus();
+			}
+		</script>
+	</h:body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Graduation Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form" prependId="false">
+			<p:ajaxStatus onstart="statusDialog.show()"
+					onsuccess="statusDialog.hide()" />
+
+				<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" styleClass="loading_gif">
+					<h:graphicImage value="#{resource['images:balls.gif']}" alt="Loading..." /><br/> <p style="width:120px !important;text-align:center !important;font-size:13px;">Submitting...</p>
+				</p:dialog>
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Graduation Form" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+					
+				<div class="pannelWrapper">
+					<p:panel id="feedbackformPanel">
+						<div class="graduationBanner">&nbsp;</div> 
+						<h3>Personal Information</h3>  
+						<hr/><br/>
+						<table width="100%">
+							<tr>
+								<td>
+									<h:panelGrid columns="2" styleClass="graduationForm">
+										<p:outputLabel value="Student's ID" for="studentID"/>
+										<p:inputText value="#{graduationInformationBean.addedForm.student.facultyId}" id="studentID" disabled="true"/>
+										
+										<p:outputLabel value="First Name" for="firstName"/>
+										<h:panelGroup>
+											<p:inputText value="#{graduationInformationBean.addedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+											<p:message for="firstName"/>
+										</h:panelGroup>
+										
+										<p:outputLabel value="Middle Name/s" for="middleName"/>
+										<h:panelGroup>
+											<p:inputText value="#{graduationInformationBean.addedForm.middleName}" id="middleName" required="true" requiredMessage="Please fill the middle name"/>
+											<p:message for="middleName"/>
+										</h:panelGroup>
+										
+										<p:outputLabel value="Last Name" for="lastName"/>
+										<h:panelGroup>
+											<p:inputText value="#{graduationInformationBean.addedForm.lastName}" id="lastName" required="true" requiredMessage="Please fill the last name"/>
+											<p:message for="lastName"/>
+										</h:panelGroup>
+										
+										<p:outputLabel value="الاسم بالكامل" for="arabicName"/>
+										<h:panelGroup>
+											<p:inputText value="#{graduationInformationBean.addedForm.arabicName}" id="arabicName" required="true" requiredMessage="Please fill the name"/>
+											<p:message for="arabicName"/>
+										</h:panelGroup>
+										
+										<p:outputLabel value="الرقم القومي" for="nid"/>
+										<h:panelGroup>
+											<p:inputText value="#{graduationInformationBean.addedForm.nID}" id="nid" required="true" requiredMessage="Please fill the NID" validatorMessage="Check the length it should be 14 digits">
+												<f:validateLength maximum="14" minimum="14"/>
+											</p:inputText>
+											<p:message for="nid"/>
+										</h:panelGroup>
+										
+										<p:outputLabel value="محل الميلاد" for="citymenu"/>
+										<h:panelGroup id="city">
+											<p:selectOneMenu  required="true" requiredMessage="Please select the birth place"  style="width:315px;" id="citymenu" value="#{graduationInformationBean.addedForm.birthPlace}" filter="true" filterMatchMode="startsWith">
+												<f:selectItem itemLabel="Select one" />
+												<f:selectItems var="city" value="#{graduationInformationBean.city}" itemLabel="#{city}" itemValue="#{city}" />
+												<p:ajax update="city" event="change" global="false" />
+											</p:selectOneMenu>
+											<p:message for="citymenu"/>
+											
+											<p:inputText rendered="#{graduationInformationBean.addedForm.birthPlace.equals('Other Country')}" required="true" requiredMessage="Please type the birth place"
+											value="#{graduationInformationBean.addedForm.birthPlace}" id="cityName"/>
+											<p:message for="cityName"/>
+										</h:panelGroup>
+										
+										<p:outputLabel value="الجنسية" for="nationality"/>
+										<h:panelGroup>
+											<p:inputText value="#{graduationInformationBean.addedForm.nationality}" id="nationality" required="true" requiredMessage="Please fill the Nationality"/>
+											<p:message for="nationality"/>
+										</h:panelGroup>
+										<br/>
+									</h:panelGrid>
+								</td>
+								<td width="60">&nbsp;</td>
+								<td class="graduationCeremonyNote">
+								<div style="height:280px">
+									<p>
+										This form should be <b>filled</b>, <b>printed</b> and <b>signed</b> by your signature then submitted to the <u>Office of Admission and Registration</u>.</p>
+										<p>If there is any change of your information, you should print the form again and follow the same instructions (Print, Signed and Sunbmit to Office of Admission and Registration).
+									</p></div>
+								</td>
+							</tr>
+						</table> 
+						
+						<h3>Graduate Contact Information</h3><hr/><br/>
+						<h:panelGrid columns="2" styleClass="graduationForm">
+							<p:outputLabel value="Address" for="address"/>
+							<h:panelGroup>
+								<p:inputTextarea value="#{graduationInformationBean.addedForm.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+								<p:message for="address"/>
+							</h:panelGroup>	
+									
+							<p:outputLabel value="Email" for="email"/>
+							<h:panelGroup>
+								<p:inputText value="#{graduationInformationBean.addedForm.student.mail}" id="email" disabled="true"/>
+								<p:message for="email"/>
+							</h:panelGroup>
+							
+							<p:outputLabel value="Phone" for="phone"/>
+							<h:panelGroup>
+								<p:inputText value="#{graduationInformationBean.addedForm.phone}" id="phone" />
+								<p:message for="phone"/>
+							</h:panelGroup>	
+							
+							<p:outputLabel value="Mobile" for="mobile"/>
+							<h:panelGroup>
+								<p:inputText value="#{graduationInformationBean.addedForm.mobile}" required="true" requiredMessage="Please fill the mobile number" id="mobile" />
+								<p:message for="mobile"/>
+							</h:panelGroup>	
+							<br/>
+						</h:panelGrid>
+								
+								
+						<h3>Emergency Contact Information</h3><hr/><br/>
+						<h:panelGrid columns="2" styleClass="graduationForm">
+							<p:outputLabel value="Name" for="emergName"/>
+							<h:panelGroup>
+								<p:inputText value="#{graduationInformationBean.addedForm.emegencyConatactName}" id="emergName" required="true" requiredMessage="Please fill the field"/>
+								<p:message for="emergName"/>
+							</h:panelGroup>
+							
+							<p:outputLabel value="Relationship with graduate" for="relationship"/>
+							<h:panelGroup>
+								<p:inputText value="#{graduationInformationBean.addedForm.emegencyRelationship}" id="relationship" required="true" requiredMessage="Please fill the field"/>
+								<p:message for="relationship"/>
+							</h:panelGroup>
+							
+							<p:outputLabel value="Mobile Number" for="emergMobile"/>
+							<h:panelGroup>
+								<p:inputText value="#{graduationInformationBean.addedForm.emegencyMobile}" id="emergMobile" required="true" requiredMessage="Please fill the field"/>
+								<p:message for="emergMobile"/>
+							</h:panelGroup>
+							<br/>
+						</h:panelGrid>
+								
+						<h3>Bachelor Degree Information</h3><hr/><br/>
+						<h:panelGrid columns="2" styleClass="graduationForm">
+							<p:outputLabel value="Program" for="majormenu"/>
+							<h:panelGroup id="major">
+								<p:selectOneMenu required="true" requiredMessage="Please select the major"  style="width:315px;" id="majormenu" value="#{graduationInformationBean.addedForm.major.id}" filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select major" />
+									<f:selectItems var="major" value="#{graduationInformationBean.majors}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+									<p:ajax global="false" update="concentration" listener="#{graduationInformationBean.fillConcentrartionLst}" />
+								</p:selectOneMenu>
+								<p:message for="majormenu" />
+							</h:panelGroup>
+							
+							<p:outputLabel value="Concentration" />
+							<h:panelGroup id="concentration" >
+								<p:selectOneMenu  requiredMessage="Please select the concentration"  style="width:315px;" id="concentrationmenuReq"
+									value="#{graduationInformationBean.addedForm.concentration.id}" required="#{graduationInformationBean.concentration.size()!=0}" filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select concentration" noSelectionOption="true" itemValue="#{null}"/>
+									<f:selectItems var="con" value="#{graduationInformationBean.concentration}" itemLabel="#{con.name}" itemValue="#{con.id}" />
+								</p:selectOneMenu>
+								
+								<p:message for="concentrationmenuReq"/>
+							</h:panelGroup>
+							
+							<p:outputLabel value="Minor, if any" for="minorMenu"/>
+							<h:panelGroup id="minor" >
+								<p:selectOneMenu style="width:315px;" id="minorMenu" value="#{graduationInformationBean.addedForm.minor.id}" filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select minor" />
+									<f:selectItems var="major" value="#{graduationInformationBean.majors}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+								</p:selectOneMenu>
+							</h:panelGroup>
+							<br/>
+						</h:panelGrid>
+								
+						<h3>Graduation Ceremony Information</h3><hr/><br/>
+						<table class="graduationInfoTable">
+							<tr>
+								<td><p:outputLabel value="Do you plan to attend the graduation ceremony?" for="phone"/></td>
+								<td width="40">&nbsp;</td>
+								<td>
+									<h:panelGroup>
+										<p:selectOneRadio id="attend" value="#{graduationInformationBean.addedForm.attend}" required="true" requiredMessage="please select">
+											<f:selectItem itemLabel="Yes" itemValue="#{true}" />
+											<f:selectItem itemLabel="No" itemValue="#{false}" />
+											<p:ajax update="sizePnl" global="false"/>
+										</p:selectOneRadio>
+										<p:message for="attend"/>
+									</h:panelGroup>
+								</td>
+							</tr>
+						</table>
+						<h:panelGroup id="sizePnl">
+							<h:panelGroup rendered="#{graduationInformationBean.addedForm.attend}">
+								<div class="graduationInfo">
+									<p:outputLabel value="Specify your Body Height and Size." rendered="#{graduationInformationBean.addedForm.attend}" style="font-weight:bold !important;"/><br/><br/>
+									<table>
+										<tr>
+											<td width="70"><p:outputLabel value="Height" for="height" rendered="#{graduationInformationBean.addedForm.attend}" /></td>
+											<td>
+												<h:panelGroup>
+													<p:inputText value="#{graduationInformationBean.addedForm.hight}" id="height" rendered="#{graduationInformationBean.addedForm.attend}" required="true" requiredMessage="Please fill the height" style="width:60px;"/> cm
+													<p:message for="height"/>
+												</h:panelGroup>
+											</td>
+											<td width="50">&nbsp;</td>
+											<td width="55"><p:outputLabel value="Size" for="size" rendered="#{graduationInformationBean.addedForm.attend}"/></td>
+											<td>
+												<h:panelGroup>
+													<p:selectOneMenu value="#{graduationInformationBean.addedForm.size}" rendered="#{graduationInformationBean.addedForm.attend}" required="true" requiredMessage="Please fill the height" id="size">
+						            					<f:selectItem itemLabel="S" itemValue="S" />
+						        					   	<f:selectItem itemLabel="M" itemValue="M" />
+						        					   	<f:selectItem itemLabel="L" itemValue="L" />
+						        					   	<f:selectItem itemLabel="XL" itemValue="XL" />
+						        					   	<f:selectItem itemLabel="XXL" itemValue="XXL" />
+        											</p:selectOneMenu>
+													<p:message for="size"/>
+												</h:panelGroup>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</h:panelGroup>
+						</h:panelGroup>
+						<br/>
+							
+						<div style="width:300px;margin:0 auto;">
+							<p:commandButton value="Submit" 
+								 action="#{graduationInformationBean.submit}" id="submitBtn"
+							  rendered="#{graduationInformationBean.addedForm.id==null}" update="feedbackformPanel"   >
+						  </p:commandButton>
+							<p:commandButton value="Update"
+							 action="#{graduationInformationBean.submit}" 
+							  id="updateBtn"  class="blueBtn marginRight_18"  update="feedbackformPanel"
+							  rendered="#{graduationInformationBean.addedForm.id!=null}">
+							  
+							  </p:commandButton>
+							<p:commandButton value="Print" type="button" icon="ui-icon-print" styleClass="grayBtn" rendered="#{graduationInformationBean.addedForm.id!=null}">
+								<p:printer target=":mainForm:printForm:feedbackformPanel"   />
+							</p:commandButton>
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+			
+			
+			<!-- Printed From -->			
+			<h:form id="printForm" style="display:none;">
+				<p:panel id="feedbackformPanel" style="border:0;">
+					<h3>Personal Information</h3><hr/>  
+					
+					<h:panelGrid columns="2" styleClass="graduationFormPrint">
+						<p:outputLabel value="Student's ID" for="studentID"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.student.facultyId}" id="studentID" disabled="true"/>
+						
+						<p:outputLabel value="First Name" for="firstName"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+						
+						<p:outputLabel value="Middle Name/s" for="middleName"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.middleName}" id="middleName" required="true" requiredMessage="Please fill the middle name"/>
+						
+						<p:outputLabel value="Last Name" for="lastName"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.lastName}" id="lastName" required="true" requiredMessage="Please fill the last name"/>
+						
+						<p:outputLabel value="الاسم بالكامل"  for="arabicName"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.arabicName}" id="arabicName" required="true" requiredMessage="Please fill the name"/>
+						
+						<p:outputLabel value="الرقم القومي" for="nid"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.nID}" id="nid" required="true" requiredMessage="Please fill the NID"/>
+						
+						<p:outputLabel value="محل الميلاد" for="citymenu"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.birthPlace}" id="citymenu"/>
+						
+						<p:outputLabel value="الجنسية" for="nationality"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.nationality}" id="nationality" required="true" requiredMessage="Please fill the Nationality"/>
+						<br/>
+					</h:panelGrid >
+								
+					<h3>Graduate Contact Information</h3><hr/>
+					<h:panelGrid columns="2" styleClass="graduationFormPrint">			
+						<p:outputLabel value="Address" for="address"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+								
+						<p:outputLabel value="Email" for="email"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.student.mail}" id="email" disabled="true"/>
+								
+						<p:outputLabel value="Phone" for="phone"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.phone}" id="phone" />
+								
+						<p:outputLabel value="Mobile" for="mobile"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.mobile}" required="true" requiredMessage="Please fill the mobile number" id="mobile" />
+						<br/>
+					</h:panelGrid>
+								
+					<h3>Emergency Contact Information</h3><hr/>			
+					<h:panelGrid columns="2" styleClass="graduationFormPrint">			
+						<p:outputLabel value="Name" for="emergName"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.emegencyConatactName}" id="emergName" required="true" requiredMessage="Please fill the field"/>
+								
+						<p:outputLabel value="Relationship with graduate" for="relationship"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.emegencyRelationship}" id="relationship" required="true" requiredMessage="Please fill the field"/>
+								
+						<p:outputLabel value="Mobile Number" for="emergMobile"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.emegencyMobile}" id="emergMobile" required="true" requiredMessage="Please fill the field"/>
+						<br/>
+					</h:panelGrid>
+					
+					<h3>Bachelor Degree Information</h3><hr/>		
+					<h:panelGrid columns="2" styleClass="graduationFormPrint">
+						<p:outputLabel value="Program" for="majormenu"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.major.majorName}" id="majormenu"/>
+						
+						<p:outputLabel value="Concentration" for="concentrationmenu"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.concentration.name}" id="concentrationmenu"/>
+						
+						<p:outputLabel value="Minor, if any" for="minorMenu"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.minor.majorName}" id="minorMenu"/>
+						<br/>
+					</h:panelGrid>
+					
+					<h3>Graduation Ceremony Information</h3><hr/>
+					<table>
+						<tr>
+							<td><p:outputLabel value="Do you plan to attend the graduation ceremony?" for="phone" style="font-weight:bold !important;"/></td>
+							<td width="40">&nbsp;</td>
+							<td>
+								<p:outputLabel value="Yes" rendered="#{graduationInformationBean.addedForm.attend}"/>
+								<p:outputLabel value="No" rendered="#{!graduationInformationBean.addedForm.attend}"/>
+							</td>
+						</tr>
+					</table>
+					<br/>
+					<h:panelGroup id="sizePnl">
+						<table>
+							<tr>
+								<td width="55"><p:outputLabel value="Height:" for="height" rendered="#{graduationInformationBean.addedForm.attend}"
+								 style="font-weight:bold !important;"/></td>
+								<td><p:outputLabel value="#{graduationInformationBean.addedForm.hight} cm" id="height" rendered="#{graduationInformationBean.addedForm.attend}" required="true" requiredMessage="Please fill the height"/></td>
+								<td width="50">&nbsp;</td>
+								<td width="55"><p:outputLabel value="Size : " for="size" rendered="#{graduationInformationBean.addedForm.attend}" style="font-weight:bold !important;"/></td>
+								<td><p:outputLabel value="#{graduationInformationBean.addedForm.size}" id="size" rendered="#{graduationInformationBean.addedForm.attend}"/></td>
+							</tr>
+						</table>			
+					</h:panelGroup>
+								
+					<br/>
+					<p style="line-height:24px;">
+						Acknowledgement of Intent To Apply For Graduation<br/>
+						I understand that I am applying to graduate in spring 2017 and I understand that the application fee is neither refundable nor transferable if I do not graduate in the specified semester.<br/><br/>
+						Signature: …………………………………………   <br/>
+						Date:&nbsp;&nbsp;…………………………………………
+					</p>
+				</p:panel>
+			</h:form>
+		</ui:define>
+			<ui:define name="confirmDialogBox">
+	   		<p:dialog id="confirm" header="Confirmation" widgetVar="confirmDlg" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center" resizable="true" modal="true" class="alertDialog updateCourse" height="170" style="overflow:hidden">
+				<h:form id="confirmForm">
+					<div class="dialogWrapper">
+						<p>This form should be <b>filled</b>, <b>printed</b> and <b>signed</b> by your signature then submitted to the <u>Office of Admission and Registration</u>.</p>
+						<p>Any change to your information require you to print the form and submit it again to Office of Admission and Registration.</p>
+					</div>
+					<div style="width:800px;margin:0 auto !important;text-align:center;">
+						<p:commandButton value="Print Form" title="Print Form" ajax="false" styleClass="blueBtn marginRight_18">
+						  	<p:printer target=":mainForm:printForm:feedbackformPanel" />
+						</p:commandButton>
+						<p:commandButton value="Go Back to Form" title="Cancel" onclick="confirmDlg.hide()" ajax="false" styleClass="grayBtn" />
+					</div>
+						
+				</h:form>
+			</p:dialog>
+		</ui:define>
+		
+	</ui:composition>
+</html>

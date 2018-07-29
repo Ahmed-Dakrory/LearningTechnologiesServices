@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Academic Petitions - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+					<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Academic Petitions" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						
+						<p:tabMenu activeIndex="#{((AdmisisonAcademicPetAdminBean.detailView)?3:2)+((AdmisisonAcademicPetAdminBean.loginCase==3)?1:0)}">
+						<p:menuitem value="Pending Petitions" url="/pages/secured/forms/academicPetition/deanCoursePetitionPage.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==1}"/>
+						<p:menuitem value="Pending Petitions" url="/pages/secured/forms/academicPetition/admissionHAcademicPet.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==2}"/>
+						<p:menuitem value="Pending Petitions" url="/pages/secured/forms/academicPetition/admissionDAcademicPet.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==3}"/>
+						
+						<p:menuitem value="Old Petitions" url="/pages/secured/forms/academicPetition/deanCoursePetitionPage1.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==1}"/>
+						<p:menuitem value="Old Petitions" url="/pages/secured/forms/academicPetition/admissionHAcademicPet1.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==2}"/>
+						<p:menuitem value="Old Petitions" url="/pages/secured/forms/academicPetition/admissionDAcademicPet1.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==3}"/>
+						<p:menuitem value="Audit Petitions" url="/pages/secured/forms/academicPetition/auditPetitions.xhtml" rendered="#{AdmisisonAcademicPetAdminBean.loginCase==3}"/>
+						<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/academicPetition/inprogressPetitions.xhtml" />
+					 	<ui:remove><p:menuitem value="Detail Petition" title="Detail Petition" disabled="true" rendered="#{AdmisisonAcademicPetAdminBean.detailView}" /></ui:remove>
+					  	</p:tabMenu>
+						
+						<p:dataTable var="forms" value="#{AdmisisonAcademicPetAdminBean.pendingForms}" selectionMode="multiple" selection="#{AdmisisonAcademicPetAdminBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple"
+							filteredValue="#{AdmisisonAcademicPetAdminBean.filteredPendingForms}" widgetVar="formsTable1" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
+							<p:ajax event="rowSelect" listener="#{AdmisisonAcademicPetAdminBean.onRowSelect}" />
+							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}"/>
+								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							</p:column>
+								<p:column width="200" id="student" sortBy="#{forms.studentName}" filterBy="#{forms.studentName}">
+								<h:outputText value="#{forms.studentName}" />
+								<p:watermark value="Student" forElement="mainForm:form:pendingDatatable:student:filter"/>
+							</p:column>
+						<p:column width="130" id="date" sortBy="#{forms.friendlyDate}" filterBy="#{forms.friendlyDate}">
+								<h:outputText value="#{forms.friendlyDate}" />
+								<p:watermark value="Date" forElement="mainForm:form:pendingDatatable:date:filter"/>
+							</p:column>
+							<ui:remove>
+							<p:column width="200" id="course" sortBy="#{forms.courseName}" filterBy="#{forms.courseName}">
+								<h:outputText value="#{forms.courseName}" />
+								<p:watermark value="Course" forElement="mainForm:form:pendingDatatable:course:filter"/>
+							</p:column>
+							<p:column width="200" id="title" sortBy="#{forms.title}" filterBy="#{forms.title}">
+								<h:outputText value="#{forms.title}" />
+								<p:watermark value="Title" forElement="mainForm:form:pendingDatatable:title:filter"/>
+							</p:column>
+							</ui:remove>
+							<p:column width="185" id="curStatus" sortBy="#{forms.curStatus}" filterBy="#{forms.curStatus}">
+								<h:outputText value="#{forms.curStatus}" />
+								<p:watermark value="Current Status" forElement="mainForm:form:pendingDatatable:curStatus:filter"/>
+							</p:column>
+							<p:column width="185" id="nextStatus" sortBy="#{forms.nextStatus}" filterBy="#{forms.nextStatus}">
+								<h:outputText value="#{forms.nextStatus}" escape="false"/>
+								<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable:nextStatus:filter"/>
+							</p:column>
+
+
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		
+   		</ui:define>
+	</ui:composition>
+</html>
+

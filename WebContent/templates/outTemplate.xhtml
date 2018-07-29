@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" class="internalPages">
+<h:head>
+	<link rel="stylesheet" type="text/css"
+		href="#{resource['css:styles.css']}" />
+	<link rel="stylesheet" type="text/css"
+		href="#{resource['css:normalize.css']}" />
+	<link rel="stylesheet" href="#{resource['css:fonts.css']}" />
+	<link href="#{resource['images:favicon.ico']}" rel="shortcut icon"
+		type="image/x-icon" />
+	<title><ui:insert name="title">LT Online Services</ui:insert></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	
+	<ui:insert name="confirmDialogBox">
+	</ui:insert>
+
+	<ui:insert name="BrowseFiles"></ui:insert>
+</h:body>
+</html>

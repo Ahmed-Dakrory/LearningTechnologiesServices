@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Mail Notifications - LT Online Services</ui:define>
+		<ui:define name="content">
+			<div id="dashboardFormId">
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Account Settings" />
+							<p:menuitem value="Mail Notifications" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="mailSettingFormPanel">
+						<p:tabMenu activeIndex="0">
+							<p:menuitem value="Mail Notifications" url="/pages/secured/generalFeedback/accountSetting.xhtml" />
+						</p:tabMenu>
+						<div class="tabWrapper">
+							<p:selectBooleanCheckbox value="#{accountSettingBean.accountSettingDTO.notifyMe}">
+								<p:ajax update="settingsPanel" />
+							</p:selectBooleanCheckbox>
+							<p:outputLabel value="Send me email notifications" />	
+							<br/><br/>
+							<h:panelGrid columns="4" id="settingsPanel">
+								<h:panelGroup rendered="#{accountSettingBean.accountSettingDTO.notifyMe}" class="marginLeft_12">
+								<p:outputLabel value="Notify me every" /> &nbsp;
+									<p:spinner value="#{accountSettingBean.accountSettingDTO.everyDay}" min="1" max="30" />&nbsp;
+									<p:outputLabel value="day(s)" />
+								</h:panelGroup>
+							</h:panelGrid>
+							<p:commandButton value="Save" actionListener="#{accountSettingBean.save}" class="blueBtn"/>
+						</div>
+					</p:panel>
+				</div>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

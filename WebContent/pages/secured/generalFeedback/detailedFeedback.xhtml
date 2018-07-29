@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Feedback Details - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Feedback System" disabled="true" />
+						</p:breadCrumb>
+						
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+  					 <p:tabMenu id="ins" activeIndex="#{detailedFeedback.casesID.equals('Stduent')?3:2}">
+							<p:menuitem value="Pending Feedbacks" url="/pages/secured/generalFeedback/feedbackPendingIns.xhtml"
+							 rendered="#{detailedFeedback.casesID.equals('Ins')}"/>
+							<p:menuitem value="Pending Feedbacks" url="/pages/secured/generalFeedback/pendingFeedback.xhtml" 
+							rendered="#{detailedFeedback.casesID.equals('Stduent')}"/>
+							
+							<p:menuitem value="Pending Feedbacks" url="/pages/secured/generalFeedback/feedbackHandlerPending.xhtml" 
+							rendered="#{detailedFeedback.casesID.equals('handler')}"/>
+							
+							<p:menuitem value="Old Feedbacks" url="/pages/secured/generalFeedback/feedbackOldIns.xhtml"
+							 rendered="#{detailedFeedback.casesID.equals('Ins')}"/>
+					
+   							<p:menuitem value="Old Feedbacks" url="/pages/secured/generalFeedback/oldFeedback.xhtml" 
+							rendered="#{detailedFeedback.casesID.equals('Stduent')}"/>
+							
+							<p:menuitem value="Old Feedbacks" url="/pages/secured/generalFeedback/feedbackHandlerOld.xhtml" 
+							rendered="#{detailedFeedback.casesID.equals('handler')}"/>
+   							
+   							<p:menuitem value="+ New Feedback" title="New Petition" class="new" url="/pages/secured/generalFeedback/submitFeedback.xhtml"
+							rendered="#{detailedFeedback.casesID.equals('Stduent')}"/>
+							                          	
+							<p:menuitem value="Feedback Details" title="Feedback Details" disabled="true" />
+						</p:tabMenu>
+						<h:panelGroup id="actionBtnsGrid">
+							<ul class="moreActionBtns">
+								<ui:remove>
+								<li>
+									<p:commandButton id="forwardBtn" value="Forward to Instructor" title="Forward" type="button" 
+									rendered="#{!detailedFeedback.oldMood and detailedFeedback.renderForward}" icon="icon-forward"
+									 styleClass="forwardBtn" />
+					           		<p:overlayPanel id="instructorsPanel" for="forwardBtn" hideEffect="fade" dynamic="true" class="forwardOverlay">
+		          						<p:selectOneListbox id="basic" value="#{detailedFeedback.selectedInstructor}">
+		          							<f:selectItems itemLabel="#{vice.name}" itemValue="#{vice.id}" value="#{detailedFeedback.instructors}" var="vice" />
+		        						</p:selectOneListbox>
+										<p:commandButton value="Forward to instructor" title="Forward to instructor" action="#{detailedFeedback.forwardPetition}"
+										 ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								</ui:remove>
+								<ui:remove>
+								<li>
+									<p:commandButton id="reminderBtn" value="Remind me" title="Remind me" type="button" 
+									rendered="#{detailedFeedback.renderRemindMe and  !detailedFeedback.oldMood}" icon="icon-reminder" />
+					           		<p:overlayPanel id="remindMeDatePanel" for="reminderBtn" hideEffect="fade" dynamic="true" class="remindOverlay">
+										<p:calendar id="reminddate" value="#{detailedFeedback.notifyAt}" pattern="MM/dd/yyyy HH:mm"
+										 mindate="#{detailedFeedback.currentDate}"/>
+										<p:watermark for="reminddate" value="Select Date" id="watermark" /><br/>
+							        	<p:commandButton value="Save Reminder" title="Save Reminder" actionListener="#{detailedFeedback.saveReminder}" 
+							        	ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								</ui:remove>
+								<li><p:commandButton value="Print" title="Print" type="button" icon="icon-print">
+								 <p:printer target=":mainForm:printForm:printGrid" />
+								 </p:commandButton></li>
+								<li class="floatL"><p:commandButton value="Back" title="Back"
+									actionListener="#{detailedFeedback.cancel}"
+									immediate="true" icon="icon-back" /></li>
+							</ul>
+						</h:panelGroup>
+						
+						
+						
+						
+									<h:panelGroup id="studentInfoGrid">
+									
+							<ul class="studentInfo">
+								<li style="width:13%;min-width:188px;">
+									<p:graphicImage value="/images/?path=#{detailedFeedback.detailedDTO.student.id}" rendered="#{detailedFeedback.detailedDTO.image != null }" />
+									<p:graphicImage library="images" name="icon_user.png" rendered="#{detailedFeedback.detailedDTO.image == null }" />
+								</li>
+								<li style="width:85%;">
+									<div class="userName">
+										<h:outputLabel value="#{detailedFeedback.detailedDTO.student.name}" />
+										<ui:remove><p:commandButton icon="icon_attach" title="Attachment" disabled="#{detailedFeedback.detailedDTO.attachments == null}" 
+										process="@this" ajax="false" action="#{detailedFeedback.downloadAttachments(detailedFeedback.detailedDTO)}" />
+										</ui:remove>
+										
+										
+									 	<div class="floatR actionBtns marginRight_18">
+									 	<ui:remove>
+											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" 
+											actionListener="#{detailedFeedback.notifyUser}" ajax="false" update="form" 
+											rendered="#{detailedFeedback.adminView}" class="blueBtn" />
+											</ui:remove>
+											 <h:panelGroup rendered="#{(detailedFeedback.oldMood!=true  and !(detailedFeedback.casesID.equals('handler')))
+											 and detailedFeedback.detailedDTO.step.getID()==8 }">
+											 <a href="#" class="tooltipNote" 
+											 data-tooltip="Kindly,first you are requested to press (Start the execution) button to start the performing of the form"/>						 
+											<p:commandButton value="Start the execution" title="Approve" ajax="false" actionListener="#{detailedFeedback.startExecuion}" 
+											 class="greenBtn" />
+											</h:panelGroup>
+										
+											 <h:panelGroup rendered="#{(detailedFeedback.oldMood!=true  and !(detailedFeedback.casesID.equals('handler')))
+											 and detailedFeedback.detailedDTO.step.getID()==9 }">
+											 <a href="#" class="tooltipNote" 
+											 data-tooltip="Kindly,then you are requested to press either (approve and closed) or (refused and closed) after performing the form"/>						 
+											<p:commandButton value="Approved and closed" title="Approve" ajax="false" actionListener="#{detailedFeedback.approve}" 
+											 class="greenBtn" />
+											 <p:commandButton value="Refused and closed" title="Refuse" ajax="false" actionListener="#{detailedFeedback.refuse}" 
+								    		class="redBtn" />
+								    		</h:panelGroup>
+											  <h:panelGroup rendered="#{detailedFeedback.oldMood!=true and detailedFeedback.casesID.equals('handler') }">
+											 <a href="#" class="tooltipNote" data-tooltip="Check that the form is/is not appropriate and approve/refuse to pass it to category's head.Kindly note that refusing means that it will be closed and can't be opened again"></a>
+											 <p:commandButton value="Checked and approved" title="Approve" ajax="false" class="greenBtn" actionListener="#{detailedFeedback.approve}" />
+											   <p:commandButton value="Checked and Refused" title="Refuse" ajax="false" class="redBtn" actionListener="#{detailedFeedback.refuse}" />
+											  </h:panelGroup>
+											
+								    		
+											
+												
+								    		<ui:remove>
+											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{detailedFeedback.markAsDone}"
+											 rendered="#{detailedFeedback.oldMood==false and detailedFeedback.admissionDeptMood==true}" 
+											 ajax="false" update="form growl" class="greenBtn" />
+											 </ui:remove>
+										</div>
+										
+									 </div>
+									 <table width="100%">
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Feedback's  Date" />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.friendlyDate}" />
+													<h:outputLabel value="ID" />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.facultyId}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.mobile}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
+													<h:outputLabel value="Registered hrs." />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
+													<h:outputLabel value="Repeated Courses" />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.repeatedCourses}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.gpa}" />
+													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.major.majorName}" />
+												</h:panelGrid>
+											</td>
+									
+										</tr> 
+									</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						
+						<!-- Petition Progress -->
+						<div class="formProgressWrapper">
+							<ol class="formProgress">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Under Review" /><br/>
+									</div>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{detailedFeedback.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Checking" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Complaint Handling Specialist" /><br/>
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{detailedFeedback.detailedDTO.step.getID()==8 || detailedFeedback.detailedDTO.step.getID()==9 ||
+									 detailedFeedback.detailedDTO.step.getID()==10}">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="Ckecked and #{detailedFeedback.handelerActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="By Complaint Handling Specialist" /><br/>
+							    				<h:outputLabel value="#{detailedFeedback.handelerActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li>
+								<li>
+									<h:panelGroup rendered="#{(detailedFeedback.detailedDTO.step.getID()==0 || detailedFeedback.detailedDTO.step.getID()==8)
+									 and detailedFeedback.handelerActionDetails.actionType.value!=1}">
+									<!-- Check if the handler refused it -->
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Under Processing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="By #{detailedFeedback.detailedDTO.categoryHeadName}" rendered="#{detailedFeedback.detailedDTO.categoryID!=1}"/>
+												<h:outputLabel value="By Major Head" rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+												<br/>
+												<h:outputLabel value="(#{detailedFeedback.detailedDTO.major.headOfMajor.name})" rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+												</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{(detailedFeedback.detailedDTO.step.getID()==9 
+									|| detailedFeedback.detailedDTO.step.getID()==10) and
+									detailedFeedback.handelerActionDetails.actionType.value!=1}"><!-- Check if the handler refused it -->
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="Under Processing" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="By #{detailedFeedback.detailedDTO.categoryHeadName}" rendered="#{detailedFeedback.detailedDTO.categoryID!=1}"/>
+			    									<h:outputLabel value="By Major Head" rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+			    									<br/>
+												<h:outputLabel value="(#{detailedFeedback.detailedDTO.major.headOfMajor.name})" rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+												
+										<br/><h:outputLabel value="#{detailedFeedback.instructorActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{(detailedFeedback.detailedDTO.step.getID()==0 
+									||detailedFeedback.detailedDTO.step.getID()==8 ||detailedFeedback.detailedDTO.step.getID()==9) and
+									detailedFeedback.handelerActionDetails.actionType.value!=1}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Closing" /><br/>
+											<div class="otherInfo">	
+											<h:outputLabel value="By #{detailedFeedback.detailedDTO.categoryHeadName}" rendered="#{detailedFeedback.detailedDTO.categoryID!=1}"/>
+											<h:outputLabel value="By Major Head" rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+											<br/>
+												<h:outputLabel value="(#{detailedFeedback.detailedDTO.major.headOfMajor.name})"  rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+												
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->										
+									<h:panelGroup rendered="#{detailedFeedback.detailedDTO.step.getID()==10
+									and	detailedFeedback.handelerActionDetails.actionType.value!=1}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{detailedFeedback.instructorActionDetails.actionType.name} and Closed" /><br/>
+											<div class="otherInfo">
+											<h:outputLabel value="By #{detailedFeedback.detailedDTO.categoryHeadName}" rendered="#{detailedFeedback.detailedDTO.categoryID!=1}"/>
+											<h:outputLabel value="By Major Head" rendered="#{detailedFeedback.detailedDTO.categoryID==1}" />
+											<br/>
+											<h:outputLabel value="(#{detailedFeedback.detailedDTO.major.headOfMajor.name})" rendered="#{detailedFeedback.detailedDTO.categoryID==1}"/>
+											<br/><h:outputLabel value="#{detailedFeedback.instructorActionDetails.friendlyDate}" />
+										</div>
+					   			    	</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+							
+								</li>
+							</ol>
+						</div>
+						<!-- Petition Details -->
+						<table class="petitionDetails">
+						     
+						   
+							<tr>
+								<td><h:outputLabel value="Major" /></td>
+								<td><h:outputLabel value="#{detailedFeedback.detailedDTO.major.majorName}" /></td>
+				    		</tr>
+				    		<tr>
+				    			<td><h:outputLabel value="Feedback's Category" /></td>
+				    			<td><h:outputLabel value="#{detailedFeedback.detailedDTO.categoryName}" /></td>
+				    		</tr>
+				    		<tr>
+				    			<td><h:outputLabel value="Feedback's Subject" /></td>
+				    			<td><h:outputLabel value="#{detailedFeedback.detailedDTO.title}" /></td>
+				    		</tr>
+				    		<tr>
+				    			<td><h:outputLabel value="Feedback's Body" /></td>
+				    			<td><h:outputText  value="#{detailedFeedback.detailedDTO.feedbackForm}"  escape="false" /></td>
+				    			
+				    		</tr>
+				    		
+				    		
+				    		<!-- Comments History -->
+				    		<tr>
+				    			<td><p:outputLabel value="Staff Comments" for=":mainForm:form:newCommnt"/></td>
+				    			
+				    			<td class="comments">
+				    				<ui:repeat var="o" value="#{detailedFeedback.detailedDTO.actionDTO}" varStatus="status">
+                    					<h:panelGroup rendered="#{o.comment !=null}" class="marginBottom_12">
+	               							<h:outputLabel value="#{o.instructorName}" class="name"  /> &nbsp;
+                   							<h:outputLabel value="#{o.friendlyDate}" class="date" />  <br/>
+                   							<h:outputText value="#{o.comment}"  escape="false"/>  <br/>
+                   						</h:panelGroup>
+                  					</ui:repeat>
+                  					<!-- Write Comment -->
+									<h:panelGroup>
+									
+									<h:panelGroup class="marginLeft_12">
+								&nbsp;&nbsp;	
+								
+								<p:editor id="newCommnt" widgetVar="editorWidget" rendered="#{!detailedFeedback.oldMood}"
+											value="#{detailedFeedback.newComment}"
+											
+											requsize="40" width="600" />&nbsp;&nbsp;
+								<p:message for="newCommnt" />
+									</h:panelGroup>
+									<ui:remove><p:inputTextarea value="#{detailedFeedback.newComment}" rendered="#{!detailedFeedback.oldMood}"  id="newComment" >
+											<p:watermark value="Add Comment" for="newComment"/>
+										</p:inputTextarea>
+										</ui:remove>
+										<br/>
+										<div class="commentBtns">
+										
+											<p:commandButton value="Comment" title="Comment" ajax="false" process="newCommnt"
+											 actionListener="#{detailedFeedback.addComment()}" 
+											 rendered="#{detailedFeedback.oldMood!=true }" update="newCommnt" class="blueBtn"/>
+											<p:commandButton value="Cancel" title="cancelComment" ajax="false"
+											 process="newComment" action="#{detailedFeedback.cancelComment}" 
+											 rendered="#{!detailedFeedback.oldMood==true }" update="newCommnt" class="cancelBtn"/>
+										</div>
+									</h:panelGroup>
+				    			</td>
+				    		</tr>
+				  			<tr>
+								<td><h:outputLabel value="Attachment" rendered="#{detailedFeedback.detailedDTO.attachments != null}"/></td>
+								<td class="attachmentBtn">
+									<!-- pdf -->
+									<p:commandButton icon="icon_pdf" rendered="#{detailedFeedback.detailedDTO.attachments != null and (detailedFeedback.detailedDTO.attachments.name.contains('pdf'))}"
+									title="PDF Attachment" process="@this" ajax="false" action="#{detailedFeedback.downloadAttachments(detailedFeedback.detailedDTO)}" />
+									<!-- doc, docx -->
+									<p:commandButton icon="icon_word" title="MS Word Attachment" rendered="#{detailedFeedback.detailedDTO.attachments != null and (detailedFeedback.detailedDTO.attachments.name.contains('doc') 
+									|| detailedFeedback.detailedDTO.attachments.name.contains('docx'))}" 
+									 process="@this" ajax="false" action="#{detailedFeedback.downloadAttachments(detailedFeedback.detailedDTO)}" />
+									<!-- xls, xlsx -->
+									<p:commandButton icon="icon_excel" title="MS Excel Attachment" rendered="#{detailedFeedback.detailedDTO.attachments != null and (detailedFeedback.detailedDTO.attachments.name.contains('xls') 
+									|| detailedFeedback.detailedDTO.attachments.name.contains('xlsx'))}"
+									 process="@this" ajax="false" action="#{detailedFeedback.downloadAttachments(detailedFeedback.detailedDTO)}" />
+									<!-- png, jpg, bmp, gif -->
+									<p:commandButton icon="icon_image" title="Image Attachment"  rendered="#{detailedFeedback.detailedDTO.attachments != null and (detailedFeedback.detailedDTO.attachments.name.contains('png') 
+									|| detailedFeedback.detailedDTO.attachments.name.contains('jpg') || detailedFeedback.detailedDTO.attachments.name.contains('bmp') || detailedFeedback.detailedDTO.attachments.name.contains('gif'))}"
+									 process="@this" ajax="false" action="#{detailedFeedback.downloadAttachments(detailedFeedback.detailedDTO)}" />
+								</td>
+							</tr>
+						</table>
+						
+						
+					</p:panel>
+					</div>
+		</h:form>
+		<h:form id="printForm" style="display:none;">
+			
+           
+           	<h:outputLabel value="#{detailedFeedback.detailedDTO.studentName}" />
+			<h:panelGrid columns="2" class="student" id="printGrid">
+		      							<h:outputLabel value="ID" />
+										<h:outputLabel value="#{detailedFeedback.detailedDTO.student.facultyId}" />
+										<h:outputLabel value="Name" />
+										<h:outputLabel value="#{detailedFeedback.detailedDTO.student.name}" />
+										<h:outputLabel value="Contact" />
+							    		<h:outputLabel value="#{detailedFeedback.detailedDTO.student.studentProfileDTO.mobile}" />
+							    		<h:outputLabel value="Date" />
+										<h:outputLabel value="#{detailedFeedback.detailedDTO.friendlyDate}" />
+										<h:outputLabel value="Major" />
+										<h:outputLabel value="#{detailedFeedback.detailedDTO.major.majorName}" />
+										<h:outputLabel value="Feedback's Category" />
+				    					<h:outputLabel value="#{detailedFeedback.detailedDTO.categoryName}" />
+				    					<h:outputLabel value="Feedback's Subject" />
+				    					<h:outputLabel value="#{detailedFeedback.detailedDTO.title}" />
+				    					<h:outputLabel value="Feedback's Body" />
+				    					<h:outputLabel value="#{detailedFeedback.detailedDTO.feedbackForm}" />
+				    	
+				    		
+		    </h:panelGrid>			
+          
+           					
+		</h:form>
+		</ui:define>
+		
+		<ui:define name="confirmDialogBox">
+  		</ui:define>
+	</ui:composition>
+</html>

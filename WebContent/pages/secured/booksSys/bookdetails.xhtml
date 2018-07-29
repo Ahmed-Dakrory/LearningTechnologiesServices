@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Books System</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Books System" />
+							<p:menuitem value="Book Details" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<h:form id="pageForm">
+					<p:panel>
+						<p:commandButton value="Back to Books" action="Books.xhtml?faces-redirect=true" immediate="true" styleClass="grayBtn"/> &nbsp;&nbsp;
+						<p:commandButton value="Generate Codes" actionListener="#{BooksBean.preGenerate}" immediate="true" styleClass="yellowBtn"
+						 update=":dlgForm:addPanel"/> &nbsp;&nbsp;
+						 <p:commandButton rendered="#{BooksBean.detailedBook.status==1}" value="Deactivate" 
+									action="#{BooksBean.deactivateCourse(BooksBean.detailedBook)}" update="dataPnl" styleClass="redBtn"/> &nbsp;&nbsp;
+						 <p:commandButton value="Export Codes Of This Book" actionListener="#{BooksBean.preExport}" immediate="true" styleClass="cancelBtn"
+						 update=":dlgForm:addPanel"/>
+						<br/><br/><br/>
+						<p:panel class="attendance" id="panel"> 
+						<p:panel id="dataPnl">
+							<table class="courseDetails">
+								<tr>
+									<td>Book ID:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.id}"/></td>
+								</tr>
+								<tr>
+									<td>Book Name:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.name}"/></td>
+								</tr>
+								<tr>
+									<td>Course:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.course.name}"/></td>
+								</tr>
+								<tr>
+									<td>Original Copies:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.originalCopies} Book(s)" /></td>
+								</tr>
+								<tr>
+									<td>Remaining Copies:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.remaingCopies} Book(s)"/></td>
+								</tr>
+								
+								<tr>
+									<td>History:</td>
+									<td>
+									<ui:repeat value="#{BooksBean.detailedBook.logs}" var="log">
+									<h:outputLabel value="#{log.action} by #{log.user} on #{log.friendlyDate}"/><br/>
+									
+									</ui:repeat>
+									</td>
+								</tr>
+							
+								<tr>
+							
+									<td>Status:</td>
+									<td><h:outputLabel value="Pending" rendered="#{BooksBean.detailedBook.status==0}"/>
+									<h:outputLabel value="Activated" rendered="#{BooksBean.detailedBook.status==1}"/></td>
+									<td>
+									<p:commandButton rendered="#{BooksBean.detailedBook.status==0}" value="Activate" style="background-color: green"
+									 action="#{BooksBean.activateCourse(BooksBean.detailedBook)}" update="dataPnl"/>
+									
+									</td>
+									
+								</tr>
+							</table>
+							</p:panel>
+							<br/>
+							<p:panel id="students">
+							
+								<p:accordionPanel class="dashAccordion" activeIndex="20" multiple="true">
+								 <p:tab title="Copies" > 
+			   <p:dataTable var="row"  value="#{BooksBean.copiesLst}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                         	
+								<p:column width="130" id="code" sortBy="#{row.barCode}" filterBy="#{row.barCode}">
+									<h:outputText value="#{row.barCode}" />
+									<f:facet name="header">	<h:outputText value="Bar Code" /> </f:facet>
+								</p:column>
+								<p:column width="130" id="status" sortBy="#{row.status}" filterBy="#{row.status}">
+									<h:outputText value="#{row.status}" />
+									<f:facet name="header">	<h:outputText value="Status" /> </f:facet>
+								</p:column>
+								
+								<p:column width="130" id="person" sortBy="#{row.lastPerson.nameInEng}" filterBy="#{row.lastPerson.nameInEng}">
+									<h:outputText value="#{row.lastPerson.nameInEng}" />
+									<f:facet name="header">	<h:outputText value="Name" /> </f:facet>
+								</p:column>
+									<p:column width="130" id="mail" sortBy="#{row.lastPerson.email}" filterBy="#{row.lastPerson.email}">
+									<h:outputText value="#{row.lastPerson.email}" />
+									<f:facet name="header">	<h:outputText value="Email" /> </f:facet>
+								</p:column>
+							
+								</p:dataTable>
+								</p:tab>
+							
+							</p:accordionPanel>
+						</p:panel>
+							<br/>
+		
+						</p:panel>
+						
+					</p:panel>
+					
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Delete this course?" widgetVar="delDlg" header="Delete Course" styleClass="alertDialog">
+					<p:commandButton value="Yes"  actionListener="#{CoursesInstructorsConfigBean.deleteCourse}" immediate="true" />
+					<p:commandButton value="No"  onclick="delDlg.hide()" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</h:form>
+				</div>
+			</ui:define>
+					<ui:define name="confirmDialogBox">
+					<p:dialog widgetVar="generateCopiesDlg" header="Codes Genertaing" showEffect="slide" id="dilg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="200">
+					<h:form id="dlgForm">
+					<div class="dialogWrapper">
+						<h:panelGroup id="addPanel">
+							<p:outputLabel value="No. of codes to be generated" for="copies"/>
+			          			<p:inputText value="#{BooksBean.copies}" required="true" requiredMessage="Please insert the number" id="copies"
+			          			validatorMessage="Numbers only"/>
+			          			<p:message for="copies"/>
+			          			<p:outputLabel for="increase" value="Add the generated copies to the remaining number of books"/>
+						    <p:selectOneRadio  value="#{BooksBean.increase}" id="increase" required="true" requiredMessage="Please select">
+							<f:selectItem itemLabel="Yes" itemValue="true" />
+							<f:selectItem itemLabel="No" itemValue="false" />
+							</p:selectOneRadio>
+					</h:panelGroup>
+					</div>
+					<li><p:commandButton value="Generate" title="Generate" actionListener="#{BooksBean.generateReport}" ajax="false" onclick="generateCopiesDlg.hide();"
+							  update="dlgForm:addPanel :pageForm:dataPnl" /></li>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="generateCopiesDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						
+					</ul>
+				</h:form>
+			</p:dialog>
+			<p:dialog widgetVar="exportCopiesDlg" header="Export Codes" showEffect="slide" id="exDlg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="200">
+					<h:form id="dlgFormExport">
+					<div class="dialogWrapper">
+						<h:panelGroup id="addPanelExport">
+						
+						<p:selectBooleanCheckbox value="#{BooksBean.withDate}" />
+						<h:outputText value="Export With Dates " />
+					</h:panelGroup>
+					</div>
+					<li><p:commandButton value="Export" title="Generate" actionListener="#{BooksBean.exportCodes}" ajax="false" onclick="exportCopiesDlg.hide();"
+							  update="dlgForm:addPanel :pageForm:dataPnl" /></li>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="exportCopiesDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						
+					</ul>
+				</h:form>
+			</p:dialog>
+   			</ui:define>
+		</ui:composition>
+</html>

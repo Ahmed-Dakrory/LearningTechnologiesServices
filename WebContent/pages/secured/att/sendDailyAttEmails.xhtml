@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Send Attendance Emails - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+						    <p:menuitem value="Attendance" />
+							<p:menuitem value="Send Attendance Emails" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<ul class="srchUl">
+							<li><h:commandButton id="sendToAll" value="Send to all" action="#{dailyAttParsingBean.sendEmailsToAll}" styleClass="blueBtn" /></li>
+							<li><h:commandButton id="sendToScannedOnce" value="Send to Scanned Once" action="#{dailyAttParsingBean.sendEmailsTOScannedOnce}" styleClass="blueBtn" /></li>
+					 		<li><h:commandButton id="sendToAbsents" value="Send to Absents" action="#{dailyAttParsingBean.sendEmailsToAbsents}" styleClass="blueBtn" /></li>
+						</ul>
+						<p:dataTable resizableColumns="true" var="time" value="#{dailyAttParsingBean.studentEmailList}" selectionMode="multiple" selection="#{dailyAttParsingBean.selectedStudentEmailList}"
+							rowKey="#{time.personId}" rows="20" paginator="true" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		                    rowsPerPageTemplate="5,10,20,40,60" paginatorPosition="top" widgetVar="timeTable" id="timeDatatable" scrollable="true">
+							<p:column width="200" id="studentID" sortBy="#{time.personId}" filterBy="#{time.personId}">
+								<h:outputText value="#{time.personId}" />
+								<p:watermark value="ID" forElement="mainForm:form:timeDatatable:studentID:filter"/>
+							</p:column>
+							<p:column width="200" id="studentName" sortBy="#{time.studentName}" filterBy="#{time.studentName}">
+								<h:outputText value="#{time.studentName}" />
+								<p:watermark value="Name" forElement="mainForm:form:timeDatatable:studentName:filter"/>
+							</p:column>
+							<p:column width="200" id="studentStatus" sortBy="#{time.studentStatus}" filterBy="#{time.studentStatus}" class="txtCenter">
+								<h:outputText value="#{time.studentStatus}" />
+								<p:watermark value="Status" forElement="mainForm:form:timeDatatable:studentStatus:filter"/>
+							</p:column>
+							<p:column width="200" id="checkIn" sortBy="#{time.friendlyFirstIn}" filterBy="#{time.friendlyFirstIn}" class="txtCenter">
+								<h:outputText value="#{time.friendlyFirstIn}" />
+								<p:watermark value="Check In" forElement="mainForm:form:timeDatatable:checkIn:filter"/>
+							</p:column>
+							<p:column width="200" id="checkOut" sortBy="#{time.friendlyLastOut}" filterBy="#{time.friendlyLastOut}" class="txtCenter">
+								<h:outputText value="#{time.friendlyLastOut}" />
+								<p:watermark value="Check Out" forElement="mainForm:form:timeDatatable:checkOut:filter" />
+							</p:column>
+							<p:column width="200" id="emailStatus" sortBy="#{time.sentEmailStatus}" filterBy="#{time.sentEmailStatus}" class="txtCenter">
+								<h:outputText value="#{time.sentEmailStatus}" />
+								<p:watermark value="Email Status" forElement="mainForm:form:timeDatatable:emailStatus:filter" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   			<ui:remove><ui:include src="/pages/secured/academicPetition/admissionCoursePetitionDialogBox.xhtml" /></ui:remove>
+   		</ui:define>
+	</ui:composition>
+</html>

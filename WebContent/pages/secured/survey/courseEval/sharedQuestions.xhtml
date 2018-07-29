@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:panelGroup id="selectionsPanel">					
+		<ui:repeat value="#{CourseEvaluationSubmission.questionsList}" var="question" varStatus="index">
+			<p:panel id="questPanel">
+			
+				<table width="100%" class="evalInternalTable">
+				
+					<tr>
+						<td class="evalhEAD"><p:outputLabel value="Overall Rating" /><br/><span style="font-size:13px;">Select one for each category</span></td>
+						<td class="evalhEAD"><p:outputLabel rendered="#{question.mainSelection!=null}" value="Specific Strengths" /><br/><h:outputLabel rendered="#{question.mainSelection!=null}" styleClass="evalHeadNote">Check all that applies</h:outputLabel></td>
+						<td class="evalhEAD"><p:outputLabel rendered="#{question.mainSelection!=null}" value="Specific Concerns" /><br/><h:outputLabel rendered="#{question.mainSelection!=null}" styleClass="evalHeadNote">Check all that applies</h:outputLabel></td>
+					</tr>
+				
+					<tr>
+						<td colspan="3" class="evalTableHead"><p:outputLabel value="#{index.index+1}. #{question.text}" /></td>
+					</tr>
+					<tr>
+						<td valign="top" class="evalTableTd" style="width: 300px">
+							<p:selectOneRadio layout="pageDirection" required="true" requiredMessage="Please give rating to #{question.text}" value="#{question.mainSelection}">
+								<p:ajax update=":mainForm:form:selectionsPanel"/>
+					            <f:selectItems value="#{CourseEvaluationSubmission.getQuestionsBySelection(0, question.scaleType.selections)}" var="x" itemValue="#{x.id}" itemLabel="#{x.name}"/>												            
+					        </p:selectOneRadio>
+						</td>
+						<td valign="top" class="evalTableTd" style="width: 500px">
+							<p:selectManyCheckbox layout="pageDirection" value="#{question.strengthsSelection}" rendered="#{question.mainSelection!=null}">
+								<p:ajax  update=":mainForm:form:selectionsPanel"/>
+									<f:selectItems value="#{CourseEvaluationSubmission.getQuestionsBySelection(1, question.scaleType.selections)}" var="x" itemValue="#{x.id}" itemLabel="#{x.name}" />
+							</p:selectManyCheckbox>
+						</td>
+						<td valign="top" style="padding-top:0 !important;width: 500px">
+							<p:selectManyCheckbox layout="pageDirection" value="#{question.concernsSelection}" rendered="#{question.mainSelection!=null}">
+  									<p:ajax  update=":mainForm:form:selectionsPanel"/>
+  									<f:selectItems value="#{CourseEvaluationSubmission.getQuestionsBySelection(2, question.scaleType.selections)}" var="x" itemValue="#{x.id}" itemLabel="#{x.name}" />
+							</p:selectManyCheckbox>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							&nbsp;
+						</td>
+						<td>
+							<p:inputTextarea value="#{question.strengthText}" rendered="#{CourseEvaluationSubmission.getOtherComment(question, 1)}">
+								<p:ajax event="blur" />
+							</p:inputTextarea>
+						</td>
+						<td>
+							<p:inputTextarea value="#{question.concernText}" rendered="#{CourseEvaluationSubmission.getOtherComment(question, 2)}">
+								<p:ajax event="blur" />
+							</p:inputTextarea>
+						</td>
+					</tr>
+					<tr><td colspan="3" style="border-bottom:1px solid #e6e9ed;">&nbsp;</td></tr>
+				</table>
+			</p:panel>
+		</ui:repeat>							
+	</h:panelGroup>			
+</html>	

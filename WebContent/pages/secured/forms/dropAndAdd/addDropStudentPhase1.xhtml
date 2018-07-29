@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Add / Drop Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Add / Drop Form" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="2">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropStudent.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropStudent1.xhtml"/>
+							<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase3.xhtml"
+						 	rendered="#{FormsStatusBean.dropAddPhase3}"
+						 	/>
+						 	<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase2.xhtml"
+						 	rendered="#{FormsStatusBean.dropAddPhase2}"
+						 	/>
+						 		<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase1.xhtml"
+						 	rendered="#{FormsStatusBean.dropAdd}"
+						 	/>	</p:tabMenu>
+						<div class="tabWrapper">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Major" for="majors"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="majors" value="#{DropAddBean.selectedMajorId}" required="true" requiredMessage="Please select major">
+										<f:selectItem itemLabel="Select Major" />
+										<f:selectItems var="major" value="#{DropAddBean.majorsLst}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+									</p:selectOneMenu>
+									<p:message for="majors" />
+								</h:panelGroup>
+								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputText required="true" id="mobileNO" value="#{DropAddBean.mobile}" 
+								validatorMessage="Please enter digits only, min 8 and max 11 digits" requiredMessage="Please enter mobile" size="40" class="input290px">
+										<f:validateDoubleRange />
+										<f:validateLength minimum="8" maximum="11"/>
+									</p:inputText>
+									<p:message for="mobileNO" />
+								</h:panelGroup>
+								<p:outputLabel value="Your Request" for="request"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="request" value="#{DropAddBean.selectedAction}" required="true" requiredMessage="Please select action">
+										<f:selectItem itemLabel="Select request" />
+										<f:selectItems var="action" value="#{DropAddBean.actionsPhase1}" itemLabel="#{action.name}" itemValue="#{action.id}" />
+										<p:ajax listener="#{DropAddBean.changePanels}" update=":mainForm:form:pnl"/>				
+									</p:selectOneMenu>
+									<p:message for="request" />
+								</h:panelGroup>
+							</h:panelGrid>
+							<!-- FORM - Add Course -->
+							<p:panel id="pnl" class="subPanel">
+								<p:panel header="Add Course" id="addCoursePnl" rendered="#{DropAddBean.showAddPnl}">
+									<ul class="formLine"> 
+										<li><p:outputLabel value="Course:" for="Addcourse"/></li>
+										<li>
+											<p:selectOneMenu id="Addcourse"  value="#{DropAddBean.selectedAddCourseID}" required="true" requiredMessage="Please select course">
+												<f:selectItem itemLabel="Select Course" />
+												<f:selectItems var="course" value="#{DropAddBean.coursesList}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+											</p:selectOneMenu>
+											<p:message for="Addcourse" />
+										</li>
+									</ul>
+									<ul class="formLine"> 
+										<li>&nbsp;</li>
+										<li><p:selectBooleanCheckbox value="#{DropAddBean.repeatedCourse}" /><p:outputLabel value="You are repeating this course" /></li>
+									</ul>
+									<ul class="formLine"> 
+										<li>&nbsp;</li>
+										<li><p:selectBooleanCheckbox value="#{DropAddBean.hasCourseLab}" >
+									  		<p:ajax update="writeAdd" />
+										</p:selectBooleanCheckbox><p:outputLabel value="With course lab" />
+									    <p:panel id="writeAdd" >
+										<p:inputText value="#{DropAddBean.courseLab}" rendered="#{DropAddBean.hasCourseLab}" id="courseLabText" required="true"
+										requiredMessage="Please insert course lab code" style="width:300px;"/>
+										<p:watermark value="Insert Course Lab Code" for="courseLabText"/>
+										<p:message for="courseLabText"/>
+										</p:panel></li>
+										
+									</ul>
+									<ul class="formLine">
+										<li><p:outputLabel value="Attachment: "/></li>
+										<li class="paddingTop_12">
+											 <h:panelGrid columns="3">
+											 	<p:fileUpload fileUploadListener="#{DropAddBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton" description="Attachment"
+												auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+												<p:outputLabel id="attachmentFileNameLable" value="#{DropAddBean.attachmentFileName}" class="marginLeft_12"/>
+												<p:commandButton id="attachmentFileRemoveButton" value="remove" action="#{DropAddBean.removeAttachment}" disabled="#{DropAddBean.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable"/>
+											 </h:panelGrid>
+											 <span class="allowedExt marginLeft_0">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/>Maximum size: 500KB</span>
+										</li>
+									</ul>
+									<ul class="formBtns"> 
+										<li><p:commandButton value="Add" action="#{DropAddBean.submitRequest(1)}" ajax="false" class="blueBtn" /></li>
+										<li><p:commandButton value="Cancel" action="#{DropAddBean.cancelPnls}" ajax="false" class="grayBtn" /></li>
+									</ul>
+								</p:panel>
+								<!-- FORM - Drop Course -->
+								<p:panel header="Drop Course" id="dropCoursePnl" rendered="#{DropAddBean.showDropPnl}">
+									<ul class="formLine"> 
+										<li><p:outputLabel value="Course:" for="dropcourse"/></li>
+										<li>
+											<p:selectOneMenu id="dropcourse"  value="#{DropAddBean.selectedDropCourseID}" required="true" requiredMessage="Please select course">
+												<f:selectItem itemLabel="Select Course" />
+												<f:selectItems var="course" value="#{DropAddBean.coursesList}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+											</p:selectOneMenu>
+											<p:message for="dropcourse" />
+										</li>
+									</ul>
+									<ul class="formLine"> 
+										<li>&nbsp;</li>
+										<li><p:selectBooleanCheckbox value="#{DropAddBean.repeatedCourse}" /><p:outputLabel value="You are repeating this course" /></li>
+									</ul>
+									<ul class="formLine"> 
+										<li>&nbsp;</li>
+										<li><p:selectBooleanCheckbox value="#{DropAddBean.hasCourseLab}" >
+									  		<p:ajax update="writeDrop" />
+										</p:selectBooleanCheckbox><p:outputLabel value="With course lab" />
+									    <p:panel id="writeDrop" >
+										<p:inputText value="#{DropAddBean.courseLab}" rendered="#{DropAddBean.hasCourseLab}" id="courseLabTextDrop" required="true"
+										requiredMessage="Please insert course lab code" style="width:300px;"/>
+										<p:watermark value="Insert Course Lab Code" for="courseLabTextDrop"/>
+										<p:message for="courseLabTextDrop"/>
+										</p:panel></li>
+										
+									</ul>
+									<ul class="formLine">
+										<li><p:outputLabel value="Attachment:"/></li>
+										<li class="paddingTop_12">
+											<h:panelGrid columns="3">
+												<p:fileUpload fileUploadListener="#{DropAddBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable1 attachmentFileRemoveButton1" description="Attachment"
+												auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+												<p:outputLabel id="attachmentFileNameLable1" value="#{DropAddBean.attachmentFileName}" class="marginLeft_12"/>
+												<p:commandButton id="attachmentFileRemoveButton1" value="remove" action="#{DropAddBean.removeAttachment}" disabled="#{DropAddBean.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton1 attachmentFileNameLable1"/>
+											</h:panelGrid>
+											<span class="allowedExt marginLeft_0">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/>Maximum size: 500KB</span>
+										</li>
+									</ul>
+									<ul class="formBtns"> 
+										<li><p:commandButton value="Drop" action="#{DropAddBean.submitRequest(2)}" ajax="false" class="redBtn" /></li>
+										<li><p:commandButton value="Cancel" action="#{DropAddBean.cancelPnls}" ajax="false" class="grayBtn"/></li>
+									</ul>
+								</p:panel>
+								<!-- FORM - Add & Drop Course -->
+								<p:panel header="Drop And Add Course" id="dropAndAddCoursePnl" rendered="#{DropAddBean.showDropAddPnl}">
+									<ul class="formLine"> 
+										<li style="width: 114px;"><p:outputLabel value="Drop Course:" for="drop"/></li>
+										<li>
+											<p:selectOneMenu id="drop"  value="#{DropAddBean.selectedDropCourseID}" required="true" requiredMessage="Please select course">
+												<f:selectItem itemLabel="Select Course" />
+												<f:selectItems var="course" value="#{DropAddBean.coursesList}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+											</p:selectOneMenu>
+											<p:message for="drop" />
+										</li>
+									</ul>
+										<ul class="formLine"> 
+										<li>&nbsp;</li>
+										<li><p:selectBooleanCheckbox value="#{DropAddBean.repeatedCourse}" /><p:outputLabel value="You are repeating this course" /></li>
+									</ul>
+									<ul class="formLine"> 
+										<li>&nbsp;</li>
+										<li><p:selectBooleanCheckbox value="#{DropAddBean.hasCourseLab}" >
+									  		<p:ajax update="writeBoth" />
+										</p:selectBooleanCheckbox><p:outputLabel value="With course lab" />
+									    <p:panel id="writeBoth" >
+										<p:inputText value="#{DropAddBean.courseLab}" rendered="#{DropAddBean.hasCourseLab}" id="courseLabTextBoth" required="true"
+										requiredMessage="Please insert course lab code" style="width:300px;"/>
+										<p:watermark value="Insert Course Lab Code" for="courseLabTextBoth"/>
+										<p:message for="courseLabTextBoth"/>
+										</p:panel></li>
+										
+									</ul>
+									<ul class="formLine"> 
+										<li><p:outputLabel value="Drop Section:" for="dropedSection"/></li>
+										<li><p:inputText id="dropedSection"  value="#{DropAddBean.droppedSection}" class="input290px" />
+										</li>
+									</ul>
+									<ul class="formLine"> 
+										<li><p:outputLabel value="Add Course:" for="add"/></li>
+										<li>
+											<p:selectOneMenu id="add" value="#{DropAddBean.selectedAddCourseID}" required="true" requiredMessage="Please select course">
+												<f:selectItem itemLabel="Select Course" />
+												<f:selectItems var="course" value="#{DropAddBean.coursesList}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+											</p:selectOneMenu>
+											<p:message for="add" />
+										</li>
+									</ul>
+									<ul class="formLine"> 
+										<li><p:outputLabel value="Add Section:" for="addedSection"/></li>
+										<li><p:inputText id="addedSection"  value="#{DropAddBean.addedSection}" class="input290px" /></li>
+									</ul>
+									<ul class="formLine">
+										<li><p:outputLabel value="Attachment: "/></li>
+										<li class="paddingTop_12">
+											<h:panelGrid columns="3">
+												<p:fileUpload fileUploadListener="#{DropAddBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable2 attachmentFileRemoveButton2"
+												description="Attachment" auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+												<p:outputLabel id="attachmentFileNameLable2" value="#{DropAddBean.attachmentFileName}" class="marginLeft_12"/>
+					                        	<p:commandButton id="attachmentFileRemoveButton2" value="remove" action="#{DropAddBean.removeAttachment}" disabled="#{DropAddBean.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton2 attachmentFileNameLable2"/>
+											</h:panelGrid>
+											<span class="allowedExt marginLeft_0">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/>Maximum size: 500KB</span>
+										</li>
+									</ul>
+									<ul class="formBtns"> 
+										<li><p:commandButton value="Drop And Add" action="#{DropAddBean.submitRequest(3)}" ajax="false" class="greenBtn" /></li>
+										<li><p:commandButton value="Cancel" action="#{DropAddBean.cancelPnls}" ajax="false" class="grayBtn" /></li>
+									</ul>
+								</p:panel>
+							</p:panel>
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

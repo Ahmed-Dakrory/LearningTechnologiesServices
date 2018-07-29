@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Overload Request - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Overload Request" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="1" id="ins">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/overloadRequest/overloadRequestAdmin.xhtml" />
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/overloadRequest/overloadRequestAdmin1.xhtml" />
+						</p:tabMenu>
+						<p:dataTable rowStyleClass="#{forms.acceptRefuseCssName}" var="forms" value="#{AdminOverloadRequestBean.archievedForms}" selectionMode="single" selection="#{AdminOverloadRequestBean.selectedArchievedForms}" rowKey="#{forms.id}" sortMode="multiple" 
+							filteredValue="#{AdminOverloadRequestBean.filteredArchievedForms}" widgetVar="formsTable1" id="pendingDatatable1">
+								 <p:ajax event="rowSelect" listener="#{AdminOverloadRequestBean.onRowSelect}" />
+								<p:column width="130" id="formID" sortBy="#{forms.id}"
+							filterBy="#{forms.id}">
+							<h:outputText value="#{forms.id}" />
+							<p:watermark value="ID"
+								forElement="mainForm:form:pendingDatatable1:formID:filter" /></p:column>
+							<p:column width="200" id="student" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}">
+								<h:outputText value="#{forms.student.name}" />
+								<p:watermark value="Student" forElement="mainForm:form:pendingDatatable1:student:filter"/>
+							</p:column>
+							<p:column width="130" id="date" sortBy="#{forms.friendlyDate}" filterBy="#{forms.friendlyDate}">
+								<h:outputText value="#{forms.friendlyDate}" />
+								<p:watermark value="Date" forElement="mainForm:form:pendingDatatable1:date:filter"/>
+							</p:column>
+							<ui:remove>
+							<p:column width="200" id="course" sortBy="#{forms.course.name}" filterBy="#{forms.course.name}">
+								<h:outputText value="#{forms.course.name}" />
+								<p:watermark value="Course" forElement="mainForm:form:pendingDatatable1:course:filter"/>
+							</p:column>
+							</ui:remove>
+							<p:column width="185" id="curStatus" sortBy="#{forms.currentStatus}" filterBy="#{forms.currentStatus}">
+								<h:outputText value="#{forms.currentStatus}" />
+								<p:watermark value="Current Status" forElement="mainForm:form:pendingDatatable1:curStatus:filter"/>
+							</p:column>
+							<p:column width="185" id="nextStatus" sortBy="#{forms.nextStatus}" filterBy="#{forms.nextStatus}">
+								<h:outputText value="#{forms.nextStatus}" escape="false"/>
+								<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable1:nextStatus:filter"/>
+							</p:column>
+						
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+
+   		</ui:define>
+	</ui:composition>
+</html>

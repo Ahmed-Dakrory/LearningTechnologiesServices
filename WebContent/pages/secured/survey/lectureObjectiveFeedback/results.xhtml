@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Lecture Objectives Feedback Results - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+							<p:menuitem value="Feedback" />
+							<p:menuitem value="Lecture Objectives Feedback" disabled="true" />
+							<p:menuitem value="Results" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>
+						
+						<table>
+						<tr>
+								<td style="padding:0;">
+									<p:selectOneMenu id="semester" value="#{feedbackResultsBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{feedbackResultsBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{feedbackResultsBean.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{feedbackResultsBean.selectedYear}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{feedbackResultsBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{feedbackResultsBean.fillweeks}" update="week" ajax="false"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+							
+							
+								<td width="100"><h:outputLabel for="week" value="Week" class="label" style="vertical-align:top;line-height:5px !important;" /></td>
+								<td>
+									<h:panelGroup>
+										<p:selectOneMenu id="week" value="#{feedbackResultsBean.selectedWeek.id}" required="true" requiredMessage="Please select week" style="width:320px">
+											<f:selectItem itemLabel="Select Week" />
+											<f:selectItems var="week" value="#{feedbackResultsBean.weeks}"
+											 itemLabel="#{week.id} - #{week.name} - (#{week.startDateFriendly} to #{week.endDateFriendly})" itemValue="#{week.id}" />
+											<p:ajax update="pendingDatatable num" listener="#{feedbackResultsBean.fillcoursesFeedback}" />
+										</p:selectOneMenu>
+										<p:message for="week" />
+									</h:panelGroup>
+								</td>
+								<td>&nbsp;<a href="#" class="tooltipNote" data-tooltip="Step 1:Select the week to view the results"/></td>
+							</tr>
+								
+						</table>
+						<h:panelGroup  id="num">
+						<h:outputLabel value="Total number of students who participated this week at least for one course is : #{feedbackResultsBean.totalNum}"
+						rendered="#{feedbackResultsBean.totalNum !=null}"/>
+						<br/>
+							<p:commandButton title="Send"  
+								value="Send to all" actionListener="#{feedbackResultsBean.sendToAll}" oncomplete="sendingStatusDlg.show();"
+								immediate="true"  styleClass="blueBtn" rendered="#{feedbackResultsBean.totalNum !=null}" ajax="true"
+								update=":sendingStatusForm:sendingStatusPanel"
+								/>
+						</h:panelGroup>
+						
+						<p:dataTable var="forms" value="#{feedbackResultsBean.courses}" rowKey="#{forms.id}" sortMode="multiple" 
+							filteredValue="#{feedbackResultsBean.filteredCourses}" widgetVar="formsTable" id="pendingDatatable">
+							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							</p:column>
+							<p:column width="130" id="name" sortBy="#{forms.name}" filterBy="#{forms.name}">
+								<h:outputText value="#{forms.name}" />
+								<p:watermark value="Course Name" forElement="mainForm:form:pendingDatatable:name:filter" />
+							</p:column>
+							<p:column width="130" id="insName" sortBy="#{forms.coordinator.name}" filterBy="#{forms.coordinator.name}">
+								<h:outputText value="#{forms.coordinator.name}" />
+								<p:watermark value="Instructor name" forElement="mainForm:form:pendingDatatable:insName:filter" />
+							</p:column>
+							<p:column width="130" id="semester" sortBy="#{forms.semester}" filterBy="#{forms.semester}">
+								<h:outputText value="#{forms.semester}" />
+								<p:watermark value="Semester" forElement="mainForm:form:pendingDatatable:semester:filter" />
+							</p:column>
+							<p:column width="130" id="year" sortBy="#{forms.year}" filterBy="#{forms.year}">
+								<h:outputText value="#{forms.year}" />
+								<p:watermark value="Year" forElement="mainForm:form:pendingDatatable:year:filter" />
+							</p:column>
+							<p:column width="130" id="num" sortBy="#{forms.persentage}" filterBy="#{forms.persentage}">
+								<h:outputText value="#{forms.persentage} %" />
+								<p:watermark value="Percentage" forElement="mainForm:form:pendingDatatable:num:filter" />
+							</p:column>
+							
+							
+							<p:column width="130" headerText="Details" styleClass="txtCenter">
+								<p:commandButton title="Dislay"  oncomplete="editDlg.show();"
+								value="Show" actionListener="#{feedbackResultsBean.displayDetails(forms)}"
+								immediate="true"  styleClass="blueBtn"  update=":editNumForm:editNumPalnel"/>
+							</p:column>
+							<p:column width="130" headerText="Send" styleClass="txtCenter">
+								<p:commandButton title="Send" oncomplete="sendingStatusDlg.show();"
+								value="Send" actionListener="#{feedbackResultsBean.sendToSpecificCourse(forms)}"
+								immediate="true"  styleClass="blueBtn" update=":sendingStatusForm:sendingStatusPanel"/>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+	   		<p:dialog id="editNum" header="Details"
+	   		 widgetVar="editDlg" showEffect="slide" hideEffect="clip" 
+	   		 closeOnEscape="true" position="center" resizable="true" 
+	   		 maximizable="true" minimizable="true" modal="true"
+	   		  class="editDialog updateCourse" height="200" style="overflow:hidden">
+				<h:form id="editNumForm">
+					<div class="dialogWrapper">
+						<h:panelGroup id="editNumPalnel">
+							<h:panelGroup>
+					    		<ui:repeat value="#{feedbackResultsBean.details}" var="details">
+									<h:outputLabel value="#{details.questionName}"/><br/>
+									<ui:repeat value="#{details.selectionsStatistics}" var="selection">
+									<table>
+									<tr>
+										<td><h:graphicImage value="#{resource['images:icon_emo-happy.png']}" alt="Happy" id="Happy" rendered="#{selection.id==518}" /> 
+									
+										<h:graphicImage value="#{resource['images:icon_emo-average.png']}" alt="Normal" id="Normal" rendered="#{selection.id==519}"/>
+										
+										<h:graphicImage value="#{resource['images:icon_emo-sad.png']}" alt="Sad" id="Sad" rendered="#{selection.id==520}"/>
+										</td>
+										<td><h:outputLabel value="#{selection.fileNo}"/><br/>
+										</td>
+										</tr>
+									 </table>
+									</ui:repeat>
+									
+									</ui:repeat>
+								
+							 </h:panelGroup>
+						</h:panelGroup>
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="editDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						</ul>
+				</h:form>
+			</p:dialog>
+			  <p:dialog id="sendingStatus" header="Details"
+	   		 widgetVar="sendingStatusDlg" showEffect="slide" hideEffect="clip" 
+	   		 closeOnEscape="true" position="center" resizable="true" 
+	   		 maximizable="true" minimizable="true" modal="true"
+	   		  class="editDialog updateCourse" height="200" style="overflow:hidden">
+				<h:form id="sendingStatusForm">
+					<div class="dialogWrapper">
+						<h:panelGroup id="sendingStatusPanel">
+							<h:panelGroup>
+					    		<h:outputLabel value="#{feedbackResultsBean.sendingStatus}"/><br/>
+								
+							 </h:panelGroup>
+						</h:panelGroup>
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="sendingStatusDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						</ul>
+				</h:form>
+			</p:dialog>
+			
+		</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Dashboard - LT Online Services</ui:define>
+	  	<ui:define name="content">
+	  		<h:form id="homeFormId">
+	  			<ui:remove>
+	  			<div class="breadCrumb">
+		      		<p:breadCrumb>
+						<p:menuitem value="Dashboard" disabled="true"/>
+					</p:breadCrumb>
+	      		</div>
+	      		</ui:remove>
+	      		<div class="mainContent">
+	      			<div class="headLogo">
+	      				<h:graphicImage value="#{resource['images:welocome_logo.png']}" alt="ZC LT Online Services"/>
+	      			</div>
+	      		</div>
+	        </h:form>
+	        <script>
+	        	document.addEventListener("DOMContentLoaded",function()
+	        	{
+	        		var bodyEl = document.body;
+	        		classie.add( bodyEl, 'show-menu' );
+	        	});
+	        </script>
+	  	</ui:define>
+	</ui:composition>
+</html>

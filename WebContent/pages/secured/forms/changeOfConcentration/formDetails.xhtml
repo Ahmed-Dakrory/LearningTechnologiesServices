@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change concentration details - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Change of Concentration" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+		
+						<!-- More Actions buttons -->
+						<h:panelGroup id="actionBtnsGrid">
+							<ul class="moreActionBtns">
+								<li>
+									<p:commandButton id="forwardBtn" value="Forward to Instructor" title="Forward" type="button" rendered="#{!DetailsBeanChangeConcentration.oldMood and DetailsBeanChangeConcentration.renderForward}" icon="icon-forward" styleClass="forwardBtn"/>
+					           		<p:overlayPanel id="instructorsPanel" for="forwardBtn" hideEffect="fade" dynamic="true" class="forwardOverlay">
+		          						<p:selectOneListbox id="basic" value="#{DetailsBeanChangeConcentration.selectedInstructor}">
+		          							<f:selectItems itemLabel="#{vice.name}" itemValue="#{vice.id}" value="#{DetailsBeanChangeConcentration.instructors}" var="vice" />
+		        						</p:selectOneListbox>
+										<p:commandButton value="Forward to instructor" title="Forward to instructor" action="#{DetailsBeanChangeConcentration.forwardPetition}" ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								<li>
+									<p:commandButton id="reminderBtn" value="Remind me" title="Remind me" type="button" rendered="#{DetailsBeanChangeConcentration.renderRemindMe and  !DetailsBeanChangeConcentration.oldMood}" icon="icon-reminder" />
+					           		<p:overlayPanel id="remindMeDatePanel" for="reminderBtn" hideEffect="fade" dynamic="true" class="remindOverlay">
+										<p:calendar id="reminddate" value="#{DetailsBeanChangeConcentration.notifyAt}" pattern="MM/dd/yyyy HH:mm" mindate="#{DetailsBeanChangeConcentration.currentDate}"/>
+										<p:watermark for="reminddate" value="Select Date" id="watermark" /><br/>
+							        	<p:commandButton value="Save Reminder" title="Save Reminder" actionListener="#{DetailsBeanChangeConcentration.saveReminder}" ajax="false" update="form growl" />
+									</p:overlayPanel>
+								</li>
+								<li><p:commandButton value="Print" title="Print" type="button" icon="icon-print">
+								 <p:printer target=":mainForm:printForm:printGrid" />
+								 </p:commandButton></li>
+								<li class="floatL"><p:commandButton value="Back" title="Back" actionListener="#{DetailsBeanChangeConcentration.cancel}" immediate="true" icon="icon-back" /></li>
+							</ul>
+							<p:commandButton class="redBtn" disabled="true" value="Reverted" onclick="editDlg.show()"
+							rendered="#{DetailsBeanChangeConcentration.detailedDTO.reverted}"/>
+						</h:panelGroup>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{DetailsBeanChangeConcentration.detailedDTO.student.id}" rendered="#{DetailsBeanChangeConcentration.detailedDTO.image != null }" />
+									<p:graphicImage library="images" name="icon_user.png" rendered="#{DetailsBeanChangeConcentration.detailedDTO.image == null }" />
+								</li>
+								<li>
+									<div class="userName">
+										<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.name}" />
+										<p:commandButton icon="icon_attach" title="Attachment" disabled="#{DetailsBeanChangeConcentration.detailedDTO.attachments == null}" process="@this" ajax="false" action="#{DetailsBeanChangeConcentration.downloadAttachments(DetailsBeanChangeConcentration.detailedDTO)}" />
+									 	<div class="floatR actionBtns marginRight_18">
+											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanChangeConcentration.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanChangeConcentration.adminView}" class="blueBtn" />
+											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanChangeConcentration.approve}" rendered="#{DetailsBeanChangeConcentration.oldMood!=true and DetailsBeanChangeConcentration.admissionDeptMood==false }" class="greenBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanChangeConcentration.refuse}" rendered="#{DetailsBeanChangeConcentration.oldMood!=true and DetailsBeanChangeConcentration.admissionDeptMood==false }" class="redBtn" />
+											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanChangeConcentration.markAsDone}" rendered="#{DetailsBeanChangeConcentration.oldMood==false and DetailsBeanChangeConcentration.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
+										 <ui:remove>
+										 <p:commandButton value="Revert" 
+											rendered="#{!DetailsBeanChangeConcentration.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
+										
+							<h:panelGroup rendered="#{!DetailsBeanChangeConcentration.oldMood}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
+							</h:panelGroup>
+							</ui:remove>
+										</div>
+										<br/>
+									 </div>
+									 <table>
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Date" />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.friendlyDate}" />
+													<h:outputLabel value="ID" />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.facultyId}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.mobile}" />
+							    				</h:panelGrid>
+											</td>
+														<td width="48">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
+													<h:outputLabel value="Registered hrs." />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
+													<h:outputLabel value="Repeated Courses" />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.repeatedCourses}" />
+												</h:panelGrid>
+											</td>
+												<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.gpa}" />
+													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.major.majorName}" />
+												</h:panelGrid>
+											</td>
+							
+										</tr> 
+									</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						<!-- Petition Progress -->
+						<div class="formProgressWrapper">
+							<ol class="formProgress">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Under Review" /><br/>
+									</div>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanChangeConcentration.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.major.headOfMajor.name}" /><br/>
+							    				<h:outputLabel value="Program Advisor" /><br/>
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanChangeConcentration.detailedDTO.step.getID()==6 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==7 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==2 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==3 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==4}">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeanChangeConcentration.instructorActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanChangeConcentration.instructorActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Program Advisor" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanChangeConcentration.instructorActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanChangeConcentration.detailedDTO.step.getID()==0 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==7|| DetailsBeanChangeConcentration.detailedDTO.step.getID()==1 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==6}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Head" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->										
+									<h:panelGroup rendered="#{DetailsBeanChangeConcentration.detailedDTO.step.getID()==3 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanChangeConcentration.admissionHActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+					    		       			<h:outputLabel value="Admission Head" /><br/>
+					    		    			<h:outputLabel value="#{DetailsBeanChangeConcentration.admissionHActionDetails.friendlyDate}" />
+					    		    		</div>
+					   			    	</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanChangeConcentration.detailedDTO.step.getID()==0 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==7|| DetailsBeanChangeConcentration.detailedDTO.step.getID()==1 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==6 || DetailsBeanChangeConcentration.detailedDTO.step.getID()==3}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Staff" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanChangeConcentration.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Finalized" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Admission Staff" /><br/>
+					    						<h:outputLabel value="#{DetailsBeanChangeConcentration.admissionDActionDetails.friendlyDate}" />
+					    					</div>
+					    				</div>
+									</h:panelGroup>
+								</li>
+							</ol>
+						</div>
+						<!-- Petition Details -->
+						<table class="petitionDetails">
+							<tr>
+				    		<td><h:outputLabel value="Major" /></td>
+							
+							<td><h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.major.majorName}" /></td>
+							</tr>
+							<tr>
+				    		<td><h:outputLabel value="Current Concentration" /></td>
+							
+							<td><h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.currentConcen.name}" /></td>
+							</tr>
+							<tr>
+				    		<td><h:outputLabel value="New Concentration" /></td>
+							
+							<td><h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.newConcen.name}" /></td>
+							</tr>
+							
+							<tr>
+				    			<td><h:outputLabel value="Student's Comment" /></td>
+				    			<td><h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.moreDetails}" /></td>
+				    		</tr>
+				    		
+				    		<!-- Comments History -->
+				    		<tr>
+				    			<td><h:outputLabel value="Staff's Comments" /></td>
+				    			<td class="comments">
+				    				<ui:repeat var="o" value="#{DetailsBeanChangeConcentration.detailedDTO.actionDTO}" varStatus="status">
+                    					<h:panelGroup rendered="#{o.comment !=null}" class="marginBottom_12">
+	               							<h:outputLabel value="#{o.instructorName}" class="name"  /> &nbsp;
+                   							<h:outputLabel value="#{o.friendlyDate}" class="date" />  <br/>
+                   							<h:outputLabel value="#{o.comment}" />  <br/>
+                   						</h:panelGroup>
+                  					</ui:repeat>
+                  					<!-- Write Comment -->
+									<h:panelGroup rendered="#{!DetailsBeanChangeConcentration.oldMood}">
+										<p:inputTextarea value="#{DetailsBeanChangeConcentration.newComment}" rendered="#{!DetailsBeanChangeConcentration.oldMood}"  id="newComment" >
+											<p:watermark value="Add Comment" for="newComment"/>
+										</p:inputTextarea>
+										<br/>
+										<div class="commentBtns">
+										<h:panelGroup rendered="#{!DetailsBeanChangeConcentration.oldMood==true }">
+											<a href="#" class="tooltipNote" data-tooltip="When you press comment button ,A notification will be sent to the student to make him/her check the comment "/>
+											</h:panelGroup>
+										
+											<p:commandButton value="Comment" title="Comment" ajax="false" process="newComment" actionListener="#{DetailsBeanChangeConcentration.addComment(DetailsBeanChangeConcentration.detailedDTO)}" rendered="#{!DetailsBeanChangeConcentration.oldMood==true }" update="newComment" class="blueBtn"/>
+											<p:commandButton value="Cancel" title="cancelComment" ajax="false" process="newComment" action="#{DetailsBeanChangeConcentration.cancelComment}" rendered="#{!DetailsBeanChangeConcentration.oldMood==true }" update="newComment" class="cancelBtn"/>
+										</div>
+									</h:panelGroup>
+				    			</td>
+				    		</tr>
+				  			<tr>
+								<td><h:outputLabel value="Attachment" rendered="#{DetailsBeanChangeConcentration.detailedDTO.attachments != null}"/></td>
+								<td class="attachmentBtn">
+									<!-- pdf -->
+									<p:commandButton icon="icon_pdf" rendered="#{DetailsBeanChangeConcentration.detailedDTO.attachments != null and (DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('pdf'))}"
+									title="PDF Attachment" process="@this" ajax="false" action="#{DetailsBeanChangeConcentration.downloadAttachments(DetailsBeanChangeConcentration.detailedDTO)}" />
+									<!-- doc, docx -->
+									<p:commandButton icon="icon_word" title="MS Word Attachment" rendered="#{DetailsBeanChangeConcentration.detailedDTO.attachments != null and (DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('doc') 
+									|| DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('docx'))}" 
+									 process="@this" ajax="false" action="#{DetailsBeanChangeConcentration.downloadAttachments(DetailsBeanChangeConcentration.detailedDTO)}" />
+									<!-- xls, xlsx -->
+									<p:commandButton icon="icon_excel" title="MS Excel Attachment" rendered="#{DetailsBeanChangeConcentration.detailedDTO.attachments != null and (DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('xls') 
+									|| DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('xlsx'))}"
+									 process="@this" ajax="false" action="#{DetailsBeanChangeConcentration.downloadAttachments(DetailsBeanChangeConcentration.detailedDTO)}" />
+									<!-- png, jpg, bmp, gif -->
+									<p:commandButton icon="icon_image" title="Image Attachment"  rendered="#{DetailsBeanChangeConcentration.detailedDTO.attachments != null and (DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('png') 
+									|| DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('jpg') || DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('bmp') || DetailsBeanChangeConcentration.detailedDTO.attachments.name.endsWith('gif'))}"
+									 process="@this" ajax="false" action="#{DetailsBeanChangeConcentration.downloadAttachments(DetailsBeanChangeConcentration.detailedDTO)}" />
+								</td>
+							</tr>
+						</table>
+						<p:commandButton class="redBtn"  value="Update" onclick="editDlg.show()"
+							rendered="#{DetailsBeanChangeConcentration.detailedDTO.reverted 
+							and DetailsBeanChangeConcentration.oldMood and 
+							DetailsBeanChangeConcentration.detailedDTO.step.getID()==0}"/>
+					
+						<!-- Action Buttons -->
+						<div class="actionBtns bottomBtns">
+							<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanChangeConcentration.approve}" rendered="#{DetailsBeanChangeConcentration.oldMood!=true and DetailsBeanChangeConcentration.admissionDeptMood==false }" class="greenBtn" />
+							<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanChangeConcentration.refuse}" rendered="#{DetailsBeanChangeConcentration.oldMood!=true and DetailsBeanChangeConcentration.admissionDeptMood==false }" class="redBtn" />
+							<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanChangeConcentration.markAsDone}" rendered="#{DetailsBeanChangeConcentration.oldMood==false and DetailsBeanChangeConcentration.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
+						   <ui:remove>
+						    <p:commandButton value="Revert" 
+							rendered="#{!DetailsBeanChangeConcentration.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
+							
+							<h:panelGroup rendered="#{!DetailsBeanChangeConcentration.oldMood}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
+							</h:panelGroup>
+							</ui:remove>
+						</div>	
+					</p:panel>
+				</div>
+			</h:form>
+			<h:form id="printForm" style="display:none;">
+			
+           
+           	<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.name}" />
+			<h:panelGrid columns="2" class="student" id="printGrid">
+				<h:outputLabel value="Student Name" />
+				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.name}" />
+				<h:outputLabel value="Student ID" />
+				<h:outputLabel	value="#{DetailsBeanChangeConcentration.detailedDTO.student.facultyId}" />
+				<h:outputLabel value="Date" />
+				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.friendlyDate}" />
+				<h:outputLabel value="Major" />
+				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.major.majorName}" />
+				<h:outputLabel value="More Details" />
+				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.moreDetails}" />
+			</h:panelGrid>			
+          
+           					
+		</h:form>
+		</ui:define>
+			<ui:define name="confirmDialogBox">
+					<p:dialog widgetVar="revertDlg" header="Revert" showEffect="slide" id="dilg" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" 
+				 minimizable="true" class="addDialog" height="250" >
+				 
+				 				<h:form id="dlgForm">
+					<div class="dialogWrapper">
+						<h:panelGrid id="addPanel" columns="1">
+							<p:outputLabel value="Comment" for="comment"/>
+			          			<p:inputTextarea required="true" requiredMessage="Please insert the comment" id="comment" 
+			          			value="#{DetailsBeanChangeConcentration.content}"
+			          			/>
+			          			<p:message for="comment"/>
+			    <h:panelGroup>
+				<p:commandButton value="Send" title="Send" actionListener="#{DetailsBeanChangeConcentration.revert}" 
+				ajax="false" onclick="revertDlg.hide();"
+							  update="dlgForm:addPanel" class="blueBtn" />
+				<p:commandButton value="Cancel" title="Cancel" onclick="revertDlg.hide()" immediate="true"  class="redBtn"/>
+				</h:panelGroup>
+			          </h:panelGrid>
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+		<p:dialog widgetVar="editDlg" header="Edit" showEffect="slide" id="editDLGID" 
+				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="250" >
+				 
+				 	<h:form id="dlgFormEdit">
+					<div class="dialogWrapper">
+					<h:panelGrid columns="2">
+		
+								
+				 
+								  <p:outputLabel value="More Details" for="moreDetails" />
+							  	<h:panelGroup class="marginLeft_12 maxCharc">
+									<p:inputTextarea id="moreDetails" value="#{DetailsBeanChangeConcentration.detailedDTO.moreDetails}" maxlength="500" validatorMessage="Only 500 characters allowed" >
+									<f:validateLength maximum="500"/>
+									</p:inputTextarea>
+									<p:message for="moreDetails"/>
+		                         	<span>Maximum characters: 500</span>
+								</h:panelGroup>
+								<p:outputLabel value="Attachment:"/>
+		                        <h:panelGrid columns="3" class="marginLeft_12">
+		                         	<p:fileUpload fileUploadListener="#{DetailsBeanChangeConcentration.upload}"
+		                         	 allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" 
+		                         	 update="attachmentFileNameLable attachmentFileRemoveButton" description="Attachment"
+										auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" 
+										cancelLabel="cancel" />
+	                         		<p:outputLabel id="attachmentFileNameLable" 
+	                         		value="#{DetailsBeanChangeConcentration.attachmentFileName}" class="marginLeft_18" />
+	                         		<p:commandButton id="attachmentFileRemoveButton" value="remove" 
+	                         		action="#{DetailsBeanChangeConcentration.removeAttachment}"
+	                         		 disabled="#{DetailsBeanChangeConcentration.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable"/>
+	                         	</h:panelGrid>
+	                         	<span>&nbsp;</span>
+	                         	<h:panelGroup>
+	                         		<span class="allowedExt">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/> &nbsp; &nbsp; &nbsp;Maximum size: 500KB</span>
+	                         	</h:panelGroup>
+							</h:panelGrid>
+							<br/>
+							<p:commandButton value="Resend Request" ajax="false" class="blueBtn marginLeft_121" 
+							actionListener="#{DetailsBeanChangeConcentration.resendPetition}"/> 
+					
+					</div>
+		
+				</h:form>
+						
+	   </p:dialog>
+  		</ui:define>
+	</ui:composition>
+</html>

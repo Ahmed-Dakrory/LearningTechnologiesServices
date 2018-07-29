@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Books System</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Books System" />
+							<p:menuitem value="All Books" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel>
+					
+					<h:form id="pageForm">
+						<p:commandButton value="+ New Book" id="addBookBtn" title="Add Book" oncomplete="addCourseDlg.show();" styleClass="greenBtn"
+			 			 actionListener="#{BooksBean.clearDialogBox}" immediate="true" update=":dlgForm:addPanel"/> 
+			 			 <br/><br/>
+			  			<p:dataTable var="row"  value="#{BooksBean.books}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+						 widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true" selection="#{BooksBean.selectedBook}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+								<p:ajax event="rowSelect" listener="#{BooksBean.onRowSelect}" />
+								
+								<p:column width="130" id="id" sortBy="#{row.id}" filterBy="#{row.id}">
+									<h:outputText value="#{row.id}" />
+										<p:watermark  forElement="pageForm:booksTable:id:filter" value="ID"/>	
+								</p:column>
+						
+								<p:column width="130" id="name" sortBy="#{row.name}" filterBy="#{row.name}">
+									<h:outputText value="#{row.name}" />
+										<p:watermark  forElement="pageForm:booksTable:name:filter" value="Name"/>	
+								
+								</p:column>
+								<p:column width="130" id="ocopies" sortBy="#{row.originalCopies}" filterBy="#{row.originalCopies}">
+									<h:outputText value="#{row.originalCopies}" />
+										<p:watermark  forElement="pageForm:booksTable:ocopies:filter" value="Original Copies"/>	
+								</p:column>
+								
+								<p:column width="130" id="rcopies" sortBy="#{row.remaingCopies}" filterBy="#{row.remaingCopies}">
+									<h:outputText value="#{row.remaingCopies}" />
+									<p:watermark  forElement="pageForm:booksTable:rcopies:filter" value="Remaining Copies"/>	
+								</p:column>
+								<p:column width="130" id="course" sortBy="#{row.course.name}" filterBy="#{row.course.name}">
+									<h:outputText value="#{row.course.name}" />
+									<p:watermark  forElement="pageForm:booksTable:course:filter" value="Course"/>	
+								</p:column>
+								<p:column width="130" id="Semester" sortBy="#{row.course.semester.getName()}" filterBy="#{row.course.semester.getName()}">
+									<h:outputText value="#{row.course.semester.getName()}" />
+											<p:watermark  forElement="pageForm:booksTable:Semester:filter" value="Semester"/>	
+								
+								</p:column>
+								<p:column width="130" id="year" sortBy="#{row.course.year}" filterBy="#{row.course.year}">
+									<h:outputText value="#{row.course.year}" />
+									<p:watermark  forElement="pageForm:booksTable:year:filter" value="Year"/>	
+									
+								</p:column>
+								<p:column width="130" id="status">
+									<h:outputText rendered="#{row.status==0}" value="Pending" />
+									<h:outputText rendered="#{row.status==1}" value="Confirmed" />
+									<f:facet name="header">
+										<p:inputText id="ss" disabled="true" styleClass="ui-column-filter" style="width:130px"/>
+										<p:watermark  forElement="pageForm:booksTable:ss" value="Status"/>
+									</f:facet>
+								</p:column>
+						
+								<p:column width="130" id="btns">
+									<p:commandButton rendered="#{row.status==0}" value="Activate" action="#{BooksBean.activateCourse(row)}" update="booksTable" styleClass="light_greenBtn"/>
+									<p:commandButton rendered="#{row.status==1}" value="Deactivate" action="#{BooksBean.deactivateCourse(row)}" update="booksTable" styleClass="redBtn"/>
+							
+								</p:column>
+							</p:dataTable>
+			
+					</h:form>
+				</p:panel>
+			</div>
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+				<p:dialog widgetVar="addCourseDlg" header="New Book" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom"
+			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
+					<h:form id="dlgForm">
+						<div class="dialogWrapper">
+							<h:panelGroup id="addPanel">
+								<h:panelGroup>
+			          				<p:inputText value="#{BooksBean.addedBook.name}" required="true" requiredMessage="insert book name" id="name" style="width:460px !important;"/>
+			          				<p:watermark for="name" value="Name" />
+			          				<p:message for="name"/>
+			          			</h:panelGroup>
+			          			<h:panelGroup>
+			          				<p:inputText value="#{BooksBean.addedBook.originalCopies}" required="true" requiredMessage="insert no. of copies" id="copies" style="width:460px !important;">
+			          			  		<f:validateDoubleRange minimum="0" />
+			          			  	</p:inputText>
+			          			 	<p:watermark for="copies" value="No. of copies" />
+			          			  	<p:message for="copies"/>
+			          			 </h:panelGroup>
+			          			 <br/>
+			          			<b>Course Information:</b><br/><br/>
+			          			<table>
+									<tr>
+										<td style="padding:0;">
+											<p:selectOneMenu id="semester" value="#{BooksBean.selectedSemester}" required="true" requiredMessage="select semester" style="width:180px;">
+												<f:selectItem itemLabel="Select Semester" />
+												<f:selectItems var="semester" value="#{BooksBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+												<p:ajax listener="#{BooksBean.fillYearLst}" update="year"/>	
+											</p:selectOneMenu>
+											<p:message for="semester" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu id="year" value="#{BooksBean.selectedYear}" required="true" requiredMessage="select year" style="width:130px;">
+													<f:selectItem itemLabel="Select Year" />
+													<f:selectItems var="year" value="#{BooksBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+													<p:ajax listener="#{BooksBean.fillCourseLst}" update="course"/>
+												</p:selectOneMenu>
+												<p:message for="year" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu id="course" value="#{BooksBean.selectedCourse}" required="true" requiredMessage="select course" style="width:160px;">
+													<f:selectItem itemLabel="Select Course" />
+													<f:selectItems var="course" value="#{BooksBean.courses}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+												</p:selectOneMenu>
+												<p:message for="course" />
+											</td>
+										</tr>
+										<tr>
+											<td colspan="3" style="line-height:28px;">
+												<b>Book Status:</b><br/>
+												<p:selectOneRadio id="status" value="#{BooksBean.addedBook.status}" required="true" styleClass="bookStatus">
+													<f:selectItem itemLabel="Pending" itemValue="0" /> &nbsp;&nbsp;
+													<f:selectItem itemLabel="Active" itemValue="1" />
+												</p:selectOneRadio>
+												<p:message for="status"/>
+											</td>
+										</tr>
+									</table>
+									
+							
+						</h:panelGroup>
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addCourseDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" actionListener="#{BooksBean.createNewBook}" ajax="true"
+							update="addPanel :pageForm:booksTable" class="dialogOk"  /></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+   			</ui:define>
+		</ui:composition>
+</html>

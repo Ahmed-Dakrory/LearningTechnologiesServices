@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Overload Request - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Overload Request" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="2">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/overloadRequest/overloadRequestStudent.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/overloadRequest/overloadRequestStudent1.xhtml"/>
+							<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/overloadRequest/overloadRequestStudent2.xhtml"
+							rendered="#{FormsStatusBean.overloadRequest}"
+							/>
+						</p:tabMenu>
+						<div class="tabWrapper">
+							<h:panelGrid columns="1">
+								<p:outputLabel value="Complete and Submit the form below"/>
+								<p:outputLabel value="Note: Please include ALL courses for the entire semester"/>
+								<p:outputLabel value="The maximum credit load during Fall or Spring semester is 18 credits"/>
+							</h:panelGrid>
+							<br/>
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Major" for="major"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="major"  value="#{StudentOverloadRequestBean.selectedMajorID}" required="true" requiredMessage="Please select Major">
+										<f:selectItem itemLabel="Select Major" />
+										<f:selectItems var="major" value="#{StudentOverloadRequestBean.majorLst}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+									</p:selectOneMenu>
+									<p:message for="major" />
+								</h:panelGroup>
+								<ui:remove>
+								<p:outputLabel value="Academic Year" for="year"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="year"  value="#{StudentOverloadRequestBean.selectedYear}" required="true" requiredMessage="Please select Year" style="width:130px !important;">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{StudentOverloadRequestBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</h:panelGroup>
+								</ui:remove>
+								<p:outputLabel value="GPA" for="gpa" />
+								<h:panelGroup class="marginLeft_12">	
+									<p:inputText id="gpa" value="#{StudentOverloadRequestBean.gpa}" required="true" requiredMessage="Please Enter GPA" 
+									 converterMessage="Please enter digits only"  requsize="40" class="input290px">
+									 	<f:validateDoubleRange minimum="0.0" maximum="10.0" />
+									 		<f:validateDoubleRange />
+									 	</p:inputText>	
+									<p:message for="gpa" />								
+								</h:panelGroup>
+								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputText required="true" id="mobileNO"
+									 value="#{StudentOverloadRequestBean.mobile}" 
+										validatorMessage="Please Enter Digits only minimum 8 digits maximum 11" requiredMessage="Please enter mobile" size="40" class="input290px">
+										<f:validateLength minimum="8" maximum="11"/>
+									
+									</p:inputText>
+									<p:message for="mobileNO" />
+								</h:panelGroup>
+								
+								<p:outputLabel value="Proposed Course" for="course"/>
+								<h:panelGroup>
+									<table class="marginLeft_12">
+										<tr>
+											<td style="padding:0;">
+												<p:selectOneMenu id="semester" value="#{StudentOverloadRequestBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+													<f:selectItem itemLabel="Select Semester" />
+													<f:selectItems var="semester" value="#{StudentOverloadRequestBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+														<p:ajax listener="#{StudentOverloadRequestBean.fillYearCourseLst}" update="yearCourse"/>	
+												</p:selectOneMenu>
+												<p:message for="semester" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu id="yearCourse" value="#{StudentOverloadRequestBean.selectedYearCourse}" required="true" requiredMessage="Please select year">
+													<f:selectItem itemLabel="Select Year" />
+													<f:selectItems var="year" value="#{StudentOverloadRequestBean.yearLstCourse}" itemLabel="#{year}" itemValue="#{year}" />
+													<p:ajax listener="#{StudentOverloadRequestBean.fillCourseLst}" update="course"/>
+												</p:selectOneMenu>
+												<p:message for="yearCourse" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu id="course" value="#{StudentOverloadRequestBean.selectedCourseID}" required="true" requiredMessage="Please select Course">
+													<f:selectItem itemLabel="Select Course" />
+													<f:selectItems var="course" value="#{StudentOverloadRequestBean.coursesLst}" itemLabel="#{course.name}" itemValue="#{course.id}" />
+												</p:selectOneMenu>
+												<p:message for="course" />
+											</td>
+										</tr>
+									</table>
+								</h:panelGroup>
+								
+								<p:outputLabel value="Academic reasons" for="reason" />
+								<h:panelGroup class="marginLeft_12 maxCharc">	
+									<p:inputTextarea required="true" requiredMessage="Please write reason" id="reason" value="#{StudentOverloadRequestBean.reason}" maxlength="500" validatorMessage="Only 500 Characters allowed ">
+									<f:validateLength maximum="500"></f:validateLength> </p:inputTextarea>
+									<p:message for="reason"/>
+									<span>Maximum Characters: 500</span>
+								</h:panelGroup> 
+							 	<p:outputLabel value="Attachment:"/>
+		                         <h:panelGrid columns="3" class="marginLeft_12 marginBottom_12">
+		                         	<!-- <p:fileUpload value="#{StudentAcademicPetBean.attachmentFile}" fileUploadListener="#{StudentAcademicPetBean.upload}" mode="simple" auto="true" /> -->
+	                         		<p:fileUpload fileUploadListener="#{StudentOverloadRequestBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton" description="Attachment"
+	                         			auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+	                         		<p:outputLabel id="attachmentFileNameLable" value="#{StudentOverloadRequestBean.attachmentFileName}" class="marginLeft_18"/>
+	                         		<p:commandButton id="attachmentFileRemoveButton" value="remove" action="#{StudentOverloadRequestBean.removeAttachment}" disabled="#{StudentOverloadRequestBean.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable"/>
+	                         	</h:panelGrid>
+	                         	<span>&nbsp;</span>
+	                         	<h:panelGroup>
+	                         		<span class="allowedExt">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/> &nbsp; &nbsp; &nbsp;Maximum size: 500KB</span>
+	                         	</h:panelGroup>
+							</h:panelGrid>
+							<p:commandButton value="Submit Request" actionListener="#{StudentOverloadRequestBean.submitRequest}" process="@form" ajax="false" class="blueBtn marginLeft_150" />
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox"></ui:define>
+	</ui:composition>
+</html>

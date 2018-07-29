@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Graduation Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Graduation Form" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{graduationFormResponsesBean.studentProfile.student.id}" rendered="#{graduationFormResponsesBean.studentProfile.studentImage != null }" />
+									<p:graphicImage library="images" name="icon_user.png" rendered="#{graduationFormResponsesBean.studentProfile.studentImage == null }" />
+								</li>
+								<li>
+				 					<table>
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Submission Date" />
+													<h:outputLabel value="#{graduationFormResponsesBean.detailedForm.friendlySubmissionDate}" />
+													<h:outputLabel value="Updating Date" />
+													<h:outputLabel value="#{graduationFormResponsesBean.detailedForm.friendlyUpdateDate}" />
+													<h:outputLabel value="ID" />
+													<h:outputLabel value="#{graduationFormResponsesBean.detailedForm.student.facultyId}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{graduationFormResponsesBean.studentProfile.mobile}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="#{graduationFormResponsesBean.studentProfile.completedCreditHrs}" />
+													<h:outputLabel value="Registered hrs." />
+													<h:outputLabel value="#{graduationFormResponsesBean.studentProfile.registeredCreditHrs}" />
+													<h:outputLabel value="Repeated Courses" />
+													<h:outputLabel value="#{graduationFormResponsesBean.studentProfile.repeatedCourses}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{graduationFormResponsesBean.studentProfile.gpa}" />
+													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="#{graduationFormResponsesBean.studentProfile.major.majorName}" />
+												</h:panelGrid>
+											</td>
+									
+										</tr> 
+									</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						
+						<!-- Petition Details -->
+
+						<!-- Action Buttons -->
+						<div style="width:300px;margin:0 auto;">
+							<p:commandButton value="Print" type="button" icon="ui-icon-print" styleClass="grayBtn">
+								<p:printer target=":mainForm:form:feedbackformPanel" />
+							</p:commandButton>
+						</div>
+						<p:panel id="feedbackformPanel" style="width:70%;margin:0 auto;border:0;">
+							<h3>Personal Information</h3><hr/>  
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">
+								<p:outputLabel value="Student's ID" for="studentID"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.student.facultyId}" id="studentID" disabled="true"/>
+								
+								<p:outputLabel value="First Name" for="firstName"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+								
+								<p:outputLabel value="Middle Name/s" for="middleName"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.middleName}" id="middleName" required="true" requiredMessage="Please fill the middle name"/>
+								
+								<p:outputLabel value="Last Name" for="lastName"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.lastName}" id="lastName" required="true" requiredMessage="Please fill the last name"/>
+								
+								<p:outputLabel value="الاسم بالكامل"  for="arabicName"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.arabicName}" id="arabicName" required="true" requiredMessage="Please fill the name"/>
+								
+								<p:outputLabel value="الرقم القومي" for="nid"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.nID}" id="nid" required="true" requiredMessage="Please fill the NID"/>
+								
+								<p:outputLabel value="محل الميلاد" for="citymenu"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.birthPlace}" id="citymenu"/>
+								
+								<p:outputLabel value="الجنسية" for="nationality"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.nationality}" id="nationality" required="true" requiredMessage="Please fill the Nationality"/>
+							</h:panelGrid>
+								
+							<h3>Graduate Contact Information</h3><hr/>
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
+								<p:outputLabel value="Address" for="address"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+										
+								<p:outputLabel value="Email" for="email"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.student.mail}" id="email" disabled="true"/>
+										
+								<p:outputLabel value="Phone" for="phone"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.phone}" id="phone" />
+										
+								<p:outputLabel value="Mobile" for="mobile"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.mobile}" required="true" requiredMessage="Please fill the mobile number" id="mobile" />
+							</h:panelGrid>
+								
+							<h3>Emergency Contact Information</h3><hr/>			
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
+								<p:outputLabel value="Name" for="emergName"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.emegencyConatactName}" id="emergName" required="true" requiredMessage="Please fill the field"/>
+										
+								<p:outputLabel value="Relationship with graduate" for="relationship"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.emegencyRelationship}" id="relationship" required="true" requiredMessage="Please fill the field"/>
+										
+								<p:outputLabel value="Mobile Number" for="emergMobile"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.emegencyMobile}" id="emergMobile" required="true" requiredMessage="Please fill the field"/>
+							</h:panelGrid>
+					
+							<h3>Bachelor Degree Information</h3><hr/>		
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">
+								<p:outputLabel value="Program" for="majormenu"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.major.majorName}" id="majormenu"/>
+								
+								<p:outputLabel value="Concentration" for="concentrationmenu"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.concentration.name}" id="concentrationmenu"/>
+								
+								<p:outputLabel value="Minor, if any" for="minorMenu"/>
+								<p:outputLabel value="#{graduationFormResponsesBean.detailedForm.minor.majorName}" id="minorMenu"/>
+							</h:panelGrid>
+					
+							<h3>Graduation Ceremony Information</h3><hr/>
+							<table>
+								<tr>
+									<td><p:outputLabel value="Do you plan to attend the graduation ceremony?" for="phone" style="font-weight:bold !important;"/></td>
+									<td width="40">&nbsp;</td>
+									<td>
+										<p:outputLabel value="Yes" rendered="#{graduationFormResponsesBean.detailedForm.attend}"/>
+										<p:outputLabel value="No" rendered="#{!graduationFormResponsesBean.detailedForm.attend}"/>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<h:panelGroup id="sizePnl">
+								<table>
+									<tr>
+										<td width="55"><p:outputLabel value="Height:" for="height" rendered="#{graduationFormResponsesBean.detailedForm.attend}" style="font-weight:bold !important;"/></td>
+										<td><p:outputLabel value="#{graduationFormResponsesBean.detailedForm.hight}  cm" id="height" 
+										rendered="#{graduationFormResponsesBean.detailedForm.attend}" required="true" requiredMessage="Please fill the height"/></td>
+										<td width="50">&nbsp;</td>
+										<td width="55"><p:outputLabel value="Size : " for="size" rendered="#{graduationFormResponsesBean.detailedForm.attend}" style="font-weight:bold !important;"/></td>
+										<td><p:outputLabel value="#{graduationFormResponsesBean.detailedForm.size}" id="size" rendered="#{graduationFormResponsesBean.detailedForm.attend}"/></td>
+									</tr>
+								</table>			
+							</h:panelGroup>
+							<br/>
+						</p:panel>
+					</p:panel>
+				</div>
+			</h:form>
+			<!-- Printed From -->			
+			</ui:define>
+		<ui:define name="confirmDialogBox">
+  		</ui:define>
+	</ui:composition>
+</html>
