@@ -301,12 +301,25 @@ public class CourseEvaluationSubmission {
 			for (int i=0;i< courseEvalQuestions.size();i++) {
 				
 				for (CourseEvalAnswersDTO courseEvalAnswersDTO : answers) {
+					
 					if(courseEvalQuestions.get(i).getId().equals(courseEvalAnswersDTO.getQuestion().getId())) {
 						courseEvalQuestions.get(i).setSelection(courseEvalAnswersDTO.getSelections());
 					}
+					
 				}
 			}
 			
+			
+			for (CourseEvalAnswersDTO courseEvalAnswersDTO : answers) {
+				
+				for(int j=0;j<otherComments.size();j++){
+
+					//Set The comment from the last Submission
+					if(otherComments.get(j).getId().equals(courseEvalAnswersDTO.getQuestion().getId())) {
+						otherComments.get(j).setAnsText(courseEvalAnswersDTO.getComment());
+					}	
+				}
+			}
 			
 			for (CourseEvalInsQuestionsDTO quest : questionsList) {
 				
@@ -394,6 +407,7 @@ public class CourseEvaluationSubmission {
 			
 		}
 		
+		
 		return selectionsType;
 	}
 	
@@ -473,6 +487,7 @@ public class CourseEvaluationSubmission {
 	       	 //Redirect to Student page from course page 
 				//redirect
 			 	try {
+			 		System.out.println("Ahmed Mohamed 2 Navigation");
 			 		submitInsEval(); // in case of back must submit instructor questions tab
 			 		/*@Ahmed Dakrory
 			 		 * Add Type for CourseEval
@@ -496,6 +511,8 @@ public class CourseEvaluationSubmission {
 			 		if(selectedInstructorsLst.isEmpty() && nav == 0) {navigateBtnAction(4, nav); return;}
 			 		else if(selectedInstructorsLst.isEmpty() && nav == 1) {navigateBtnAction(2, nav); return;}
 			 		else {
+
+				 		System.out.println("Ahmed Mohamed 3 Navigation");
 				 		submitInsEval();			 		
 				 		questType = "inst";
 				 		
@@ -518,6 +535,8 @@ public class CourseEvaluationSubmission {
 			 		if(selectedTAsLst.isEmpty() && nav == 0) {navigateBtnAction(5, nav); return;}
 			 		else if(selectedTAsLst.isEmpty() && nav == 1) {navigateBtnAction(3, nav); return;}
 			 		else {
+
+				 		System.out.println("Ahmed Mohamed 4 Navigation");
 				 		submitInsEval();			 				 	
 				 		questType = "ta";
 				 		
@@ -538,8 +557,8 @@ public class CourseEvaluationSubmission {
 	       	 //Redirect to Instructor page from course page 
 				//redirect
 			 	try {
-			 					 			 		 
-					submitInsEval();			 		
+
+			 					 		
 			 		questType = "lab";
 			 		fillEmpQuestions();
 			 		//TODO old 
@@ -569,11 +588,13 @@ public class CourseEvaluationSubmission {
 			 * @Ahmed Dakrory
 			 * Add Sending the Lab Action
 			 */
+				try {
 
-			 SubmitTheValuesOfTheInstructTaLab();
-			 	try {
-			 					 		
-			 		submitInsEval(); // must submit lab questions tab
+			 		System.out.println("Ahmed Mohamed 6 Navigation");
+					submitInsEval(); // must submit lab questions tab
+			 		
+					SubmitTheValuesOfTheInstructTaLab();
+					 			 		
 			 		if(nav==0){
 			 			if(courseLEarningOutComes==null)
 			 				navigateBtnAction(7, 0);
@@ -915,11 +936,11 @@ public class CourseEvaluationSubmission {
 	 * Save into session instructor questions page or ta questions page or lab questions page
 	 */
 	public void submitInsEval() {
+		List<CourseEvalAnswersDTO> answersList = new ArrayList<CourseEvalAnswersDTO>();
+		List<CourseEvalAnswersDTO> oldAnswersList = new ArrayList<CourseEvalAnswersDTO>();
 		
 		try {											
 			
-			List<CourseEvalAnswersDTO> answersList = new ArrayList<CourseEvalAnswersDTO>();
-			List<CourseEvalAnswersDTO> oldAnswersList = new ArrayList<CourseEvalAnswersDTO>();
 			
 			switch (questType) {
 			case "inst":
@@ -929,9 +950,7 @@ public class CourseEvaluationSubmission {
 			case "ta":	
 				oldAnswersList = taAnswersList;				
 				break;
-			case "lab":	
-				oldAnswersList = labAnswersList;				
-				break;
+			
 				
 			default:
 				break;
@@ -1033,11 +1052,13 @@ public class CourseEvaluationSubmission {
 			
 			e.printStackTrace();					
 		}		
+		System.out.println("Ahmed Mohamed Dakrory: "+String.valueOf(answersList.size()));
 		
 	}
 	
 	public void selectInstructor(int index) {
-		
+
+ 		System.out.println("Ahmed Mohamed SelectInstructor");
 		submitInsEval();		
  		fillEmpQuestions();
  		
@@ -1154,7 +1175,8 @@ public class CourseEvaluationSubmission {
 		 System.out.println("Ahmed Dakrory SubmitTheValuesOfTheInstructTaLab()");
 		 List<CourseEvalAnswersDTO> answers = new ArrayList<CourseEvalAnswersDTO>();
 		 List<InstructorDTO> inst = new ArrayList<InstructorDTO>();
-		 
+
+	 		System.out.println("Ahmed Mohamed chechInstEval");
 		 submitInsEval();
 
 		 SubmitTheValuesOfTheInstructTaLab();

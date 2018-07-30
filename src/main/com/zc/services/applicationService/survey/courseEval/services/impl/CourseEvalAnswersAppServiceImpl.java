@@ -241,6 +241,9 @@ public class CourseEvalAnswersAppServiceImpl implements ICourseEvalAnswersAppSer
 			if(oldAnswer.getId()==null)
 			{
 				ans=rep.add(ans);
+			}else{
+				rep.delete(oldAnswer);
+				ans=rep.add(ans);
 			}
 		}
 		}}	else 
@@ -255,6 +258,10 @@ public class CourseEvalAnswersAppServiceImpl implements ICourseEvalAnswersAppSer
 				}
 				else if(oldanswers.getId()==null)
 				{
+					ans=rep.add(ans);
+				}else{
+					
+					rep.delete(oldanswers);
 					ans=rep.add(ans);
 				}
 			}

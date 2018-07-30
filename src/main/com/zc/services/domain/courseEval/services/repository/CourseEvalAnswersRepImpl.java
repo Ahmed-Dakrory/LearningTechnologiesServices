@@ -592,7 +592,7 @@ public class CourseEvalAnswersRepImpl implements ICourseEvalAnswersRep {
 	@Override
 	public boolean deleteAllcourseDataNew(CourseEvalAnswersDTO form) {
 		try {
-			
+			/*
 			session = sessionFactory.openSession();
 			Transaction tx1 = session.beginTransaction();
 			List<CourseEvalAnswers>list=new ArrayList<CourseEvalAnswers>();
@@ -609,7 +609,24 @@ public class CourseEvalAnswersRepImpl implements ICourseEvalAnswersRep {
 			}
 			tx1.commit();
 			session.close();
+			*/
 			
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
+			String hqlDelete;
+			if(form.getInstructor()!=null){
+				hqlDelete = "Delete from attendance_sys1.course_eval_answers where COURSE_ID= "+String.valueOf(form.getCourse().getId())+" And QUES_ID = "+String.valueOf(form.getQuestion().getId())+" AND STUDENT_ID = "+String.valueOf(form.getStudent().getId())+" AND INSTRUCTOR_ID = "+String.valueOf(form.getInstructor().getId());
+			}else{
+				hqlDelete = "Delete from attendance_sys1.course_eval_answers where COURSE_ID= "+String.valueOf(form.getCourse().getId())+" And QUES_ID = "+String.valueOf(form.getQuestion().getId())+" AND STUDENT_ID = "+String.valueOf(form.getStudent().getId());
+			}
+			SQLQuery query = session.createSQLQuery(hqlDelete);
+
+			System.out.println("Ahmed Dakrory: Query: "+query.getQueryString());
+			query.executeUpdate();
+			
+			tx.commit();
+			session.close();
 			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();

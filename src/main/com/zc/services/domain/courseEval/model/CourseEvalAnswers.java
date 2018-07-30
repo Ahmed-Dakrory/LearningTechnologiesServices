@@ -58,7 +58,8 @@ import main.com.zc.services.domain.person.model.Student;
 	@NamedQuery(name = "CourseEvalAnswers.getByStudentIDAndCourseIDAndInstructorAndQuesIDAndAnsID",
 			query ="from CourseEvalAnswers d where d.course.id = :course "
 					+ "and d.instructor.id = :ins and d.question.id = :ques " +
-					"and d.student.id = :student and d.Selections = :ans"),
+					"and d.student.id = :student and d.Selections = :ans"),			
+	
 	@NamedQuery(name = "CourseEvalAnswers.getByQuestionIDAndCourseIDAndStudentIdAndAns",
 			query ="from CourseEvalAnswers d where d.course.id = :course "
 					+ "and d.question.id = :ques " +

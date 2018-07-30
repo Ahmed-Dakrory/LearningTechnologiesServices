@@ -79,7 +79,10 @@ public class CoursesFacade implements ICoursesFacade {
 		 * (Ahmed Dakrory)
 		 * @see main.com.zc.services.domain.courseEval.model.ICourseEvalAnswersRep#deleteAllcourseData(main.com.zc.services.domain.courseEval.model.CourseEvalAnswers)
 		 */
-		answersAppService.deleteAllcourseData(answers.get(0));
+		for (int i=0;i<answers.size();i++) {
+
+			answersAppService.deleteAllcourseData(answers.get(i));
+		}
 		for (CourseEvalAnswersDTO courseEvalAnswersDTO : answers) {
 			
 			answersAppService.addInstAns(courseEvalAnswersDTO,type);
