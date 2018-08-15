@@ -51,6 +51,11 @@
 										<p:watermark  forElement="pageForm:booksTable:ocopies:filter" value="Original Copies"/>	
 								</p:column>
 								
+								<p:column width="130" id="rescopies" sortBy="#{row.reservedCopies}" filterBy="#{row.reservedCopies}">
+									<h:outputText value="#{row.reservedCopies}" />
+										<p:watermark  forElement="pageForm:booksTable:rescopies:filter" value="Reserved Copies"/>	
+								</p:column>
+								
 								<p:column width="130" id="rcopies" sortBy="#{row.remaingCopies}" filterBy="#{row.remaingCopies}">
 									<h:outputText value="#{row.remaingCopies}" />
 									<p:watermark  forElement="pageForm:booksTable:rcopies:filter" value="Remaining Copies"/>	

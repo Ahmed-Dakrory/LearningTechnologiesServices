@@ -10,6 +10,9 @@
 	</h:head>
 	<ui:composition template="/templates/uploadSecuredContent.xhtml">
 		<ui:define name="title">Books System</ui:define>
+		
+		
+		
 		<ui:define name="content">
 			<ul class="header">
 				<li>
@@ -28,6 +31,10 @@
 						<p:commandButton value="Back to Books" action="Books.xhtml?faces-redirect=true" immediate="true" styleClass="grayBtn"/> &nbsp;&nbsp;
 						<p:commandButton value="Generate Codes" actionListener="#{BooksBean.preGenerate}" immediate="true" styleClass="yellowBtn"
 						 update=":dlgForm:addPanel"/> &nbsp;&nbsp;
+						 
+						 <p:commandButton value="Delete Course" actionListener="#{BooksBean.DeleteCourse}" immediate="true" styleClass="redBtn"
+						 update=":dlgForm:addPanel"/> &nbsp;&nbsp;
+						 
 						 <p:commandButton rendered="#{BooksBean.detailedBook.status==1}" value="Deactivate" 
 									action="#{BooksBean.deactivateCourse(BooksBean.detailedBook)}" update="dataPnl" styleClass="redBtn"/> &nbsp;&nbsp;
 						 <p:commandButton value="Export Codes Of This Book" actionListener="#{BooksBean.preExport}" immediate="true" styleClass="cancelBtn"
@@ -122,15 +129,20 @@
 					</p:panel>
 					
 				
-				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Delete this course?" widgetVar="delDlg" header="Delete Course" styleClass="alertDialog">
-					<p:commandButton value="Yes"  actionListener="#{CoursesInstructorsConfigBean.deleteCourse}" immediate="true" />
-					<p:commandButton value="No"  onclick="delDlg.hide()" icon="ui-icon-close" />
-				</p:confirmDialog>
-			</h:form>
-				</div>
-			</ui:define>
-					<ui:define name="confirmDialogBox">
-					<p:dialog widgetVar="generateCopiesDlg" header="Codes Genertaing" showEffect="slide" id="dilg" 
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Delete this course?" widgetVar="delDlg" header="Delete Course" styleClass="alertDialog">
+						<p:commandButton value="Yes"  action="#{BooksBean.DeleteCourseBook(BooksBean.detailedBook)}" immediate="true" />
+						<p:commandButton value="No"  onclick="delDlg.hide()" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+			</div>
+		</ui:define>
+		
+		
+		
+		
+		
+		<ui:define name="confirmDialogBox">
+			<p:dialog widgetVar="generateCopiesDlg" header="Codes Genertaing" showEffect="slide" id="dilg" 
 				 hideEffect="clip" closeOnEscape="true" position="center" resizable="true" maximizable="true" minimizable="true" class="addDialog" height="200">
 					<h:form id="dlgForm">
 					<div class="dialogWrapper">
@@ -172,6 +184,6 @@
 					</ul>
 				</h:form>
 			</p:dialog>
-   			</ui:define>
-		</ui:composition>
+   		</ui:define>
+	</ui:composition>
 </html>

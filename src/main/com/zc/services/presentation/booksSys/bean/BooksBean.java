@@ -138,6 +138,33 @@ public class BooksBean {
 		else 
 			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Failed to be activated");
 	}
+	
+	public void DeleteCourseBook(BookDTO book)
+	{
+		boolean b=facade.remove(book.getId());
+		if(b==true)
+		{
+			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Book is deleted successfully");
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("delDlg.hide();");
+			try {
+	    		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	    		StringBuffer url=origRequest.getRequestURL();
+	    			FacesContext.getCurrentInstance().getExternalContext().redirect
+					("Books.xhtml");
+	    			
+	    		
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Failed to be deleted");
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("delDlg.hide();");
+		}
+	}
 	public void deactivateCourse(BookDTO book)
 	{
 		book.setStatus(0);
@@ -235,6 +262,13 @@ public class BooksBean {
     	RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("generateCopiesDlg.show();");
     }
+    
+    public void DeleteCourse(){
+    	setCopies(null);
+    	RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("delDlg.show();");
+    }
+    
     public void preExport(){
     	setWithDate(false);
     	RequestContext context = RequestContext.getCurrentInstance();
@@ -307,6 +341,7 @@ public class BooksBean {
         				
         				BookCopiesDTO updatedCopy= copiesFacade.update(addedCopy);
             			getDetailedBook().setRemaingCopies(getDetailedBook().getRemaingCopies()+1);
+            			getDetailedBook().setOriginalCopies(getDetailedBook().getOriginalCopies()+1);
         				detailedBook=facade.update(getDetailedBook());
             		  	
             			    row.createCell((short)0).setCellValue(updatedCopy.getBarCode());
@@ -334,6 +369,8 @@ public class BooksBean {
            
       
         }
+        
+        
     	     HttpServletResponse response =
                 (HttpServletResponse) FacesContext.getCurrentInstance()
                     .getExternalContext().getResponse();
@@ -357,9 +394,11 @@ public class BooksBean {
       faces.responseComplete();  
       RequestContext context = RequestContext.getCurrentInstance();
       context.execute("generateCopiesDlg.hide();");
+      
       //
       RequestContext.getCurrentInstance().update("dlgForm:addPanel");
       FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("dlgForm:addPanel");
+     
  
     }
     public void exportCodes(){

@@ -35,11 +35,12 @@
 						</p:selectOneRadio>
 						<br/>
             			<h:panelGroup id="panel">
+            			
             				<!-- Student -->
 	            			<h:panelGrid>
 								<p:inputText value="#{CopiesOperationBean.studentID}" rendered="#{CopiesOperationBean.selectedAssignee==1}" id="studentID" required="true"
 				 				requiredMessage="insert stduent id" style="width:302px !important;">
-				 					<p:ajax event="keyup" update="personData" listener="#{CopiesOperationBean.getPersonData}" />
+				 					<p:ajax event="keyup" update="personData imageform1 numberOfBooks" listener="#{CopiesOperationBean.getPersonData}" />
 								</p:inputText>
 								<p:message for="studentID"/>
 								<p:watermark for="studentID" value="Student ID"/>
@@ -52,11 +53,12 @@
 			 <f:selectItem itemLabel="Select Instructor" />
 				<f:selectItems value="#{CopiesOperationBean.insLst}" var="ins"
 					itemLabel="#{ins.name}" itemValue="#{ins.id}" />
-		    <p:ajax  update="personData" listener="#{CopiesOperationBean.getPersonData}" />
+		    <p:ajax  update="personData imageform1 numberOfBooks" listener="#{CopiesOperationBean.getPersonData}" />
 			</p:selectOneMenu>
 			<p:message for="ins"/>
 				</h:panelGrid>
 					<h:panelGrid columns="3"  >
+					
 				<p:selectOneMenu id="tas" 
 				value="#{CopiesOperationBean.selectedTaID}"
 				panelStyle="width:180px;" style="margin-top:20px; width: 330px;"
@@ -66,13 +68,14 @@
 				<f:selectItem itemLabel="Select TA" />
 				<f:selectItems value="#{CopiesOperationBean.taLst}" var="ins"
 					itemLabel="#{ins.name}" itemValue="#{ins.id}" />
-					<p:ajax  update="personData" listener="#{CopiesOperationBean.getPersonData}" />
+					<p:ajax  update="personData imageform1 numberOfBooks" listener="#{CopiesOperationBean.getPersonData}" />
 			</p:selectOneMenu>
 			<p:message for="tas"/>
 		</h:panelGrid>
 			</h:panelGroup>
 			
 			<h:panelGroup id="personData">
+			
 			<h:panelGrid columns="3"  >
 			
 			<p:inputText value="#{CopiesOperationBean.barCode}" id="barCode" rendered="#{CopiesOperationBean.selectedAssignee!=null}" required="true" style="width:304px;"
@@ -86,7 +89,8 @@
 			<p:commandButton value="Reserve" id="reserve" styleClass="blueBtn" 
 			rendered="#{CopiesOperationBean.selectedAssignee!=null}"
 									 action="#{CopiesOperationBean.ReserveBook}" update="booksTable panel personData studentID booksInsTable"/>
-									
+			<h:panelGrid columns="3">
+					
 			<h:panelGrid columns="2" class="student">
 			<h:outputLabel value="Name:" rendered="#{CopiesOperationBean.selectedStudent.name!=null  and CopiesOperationBean.selectedAssignee==1}"/>
 			<h:outputLabel value="#{CopiesOperationBean.selectedStudent.name}" rendered="#{CopiesOperationBean.selectedStudent.name!=null and CopiesOperationBean.selectedAssignee==1}"/>
@@ -98,20 +102,35 @@
 			
 			<h:outputLabel value="Name:" rendered="#{CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2}"/>
 			<h:outputLabel value="#{CopiesOperationBean.selectedIns.name}" rendered="#{CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2}"/>
-			
+
 			<h:outputLabel value="Email:" rendered="#{CopiesOperationBean.selectedIns.mail!=null and CopiesOperationBean.selectedAssignee==2}"/>
 			<h:outputLabel value="#{CopiesOperationBean.selectedIns.mail}" rendered="#{CopiesOperationBean.selectedIns.mail!=null and CopiesOperationBean.selectedAssignee==2}"/>
 			
-			
+
 			<h:outputLabel value="Name:" rendered="#{CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3}"/>
 			<h:outputLabel value="#{CopiesOperationBean.selectedTa.name}" rendered="#{CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3}"/>
-			
+
 			<h:outputLabel value="Email:" rendered="#{CopiesOperationBean.selectedIns.mail!=null and CopiesOperationBean.selectedAssignee==3}"/>
 			<h:outputLabel value="#{CopiesOperationBean.selectedTa.mail}" rendered="#{CopiesOperationBean.selectedTa.mail!=null and CopiesOperationBean.selectedAssignee==3}"/>
 			
 			
 			
 			</h:panelGrid>
+			<p:spacer width="500dp" height="70dp"/> 
+			
+			
+			<h:panelGrid style="background-position: center; text-align: center">
+				<h:graphicImage id="imageform1" value="#{CopiesOperationBean.holdingImageURL}" height="170" width="170" cache="false" rendered="#{(CopiesOperationBean.selectedStudent.name!=null and CopiesOperationBean.selectedAssignee==1) or (CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2) or (CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3) }"/>
+			
+			<p:spacer width="5dp" height="20dp"/> 
+			
+				<h:outputText id="numberOfBooks" value="#{CopiesOperationBean.numberOfBooksD}" style='color: #FF8040; font-size: xx-large; font-family: "Book Antiqua", "Times New Roman", Serif;font-weight:bold; background-position: center; text-align: center' rendered="#{(CopiesOperationBean.selectedStudent.name!=null and CopiesOperationBean.selectedAssignee==1) or (CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2) or (CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3) }"></h:outputText>
+			</h:panelGrid>
+			
+			</h:panelGrid>	
+			
+			
+			
 			<p:outputLabel value="No Such Student" rendered="#{CopiesOperationBean.selectedStudent.mail==null 
 			 and CopiesOperationBean.selectedAssignee==1}" style="color: #b94a48"/> 
 			

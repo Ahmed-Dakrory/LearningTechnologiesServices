@@ -20,8 +20,11 @@ private Integer id;
 	private CoursesDTO course;
 	
 	private Integer originalCopies;
-	
+
 	private Integer remaingCopies;
+	
+
+	private Integer reservedCopies;
 	
 	
 	private Calendar fromDate;
@@ -54,7 +57,13 @@ private Integer id;
 		this.name = name;
 	}
 
+	public void setReservedCopies(Integer reservedCopies) {
+		this.reservedCopies = reservedCopies;
+	}
 
+	public Integer getReservedCopies() {
+		return (originalCopies-remaingCopies);
+	}
 	public CoursesDTO getCourse() {
 		return course;
 	}

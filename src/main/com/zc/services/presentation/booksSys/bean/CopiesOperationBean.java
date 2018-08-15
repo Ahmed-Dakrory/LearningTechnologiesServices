@@ -72,10 +72,16 @@ public class CopiesOperationBean {
 	private BookStudentDTO selectedStudentBooks;
 	private BookInstructorDTO selectedInsBooks;
 	private BookInstructorDTO selectedTABooks;
+	private String holdingImageURL;
+	private String numberOfBooksD;
+	
+	
+	
 	@PostConstruct
 	public void init()
 	{
 		 fillInsLst();
+		 holdingImageURL="/resources/images/onhold.png";
 	}
 	public void fillInsLst(){
 		insLst=new ArrayList<InstructorDTO>();
@@ -86,15 +92,44 @@ public class CopiesOperationBean {
 	public void getPersonData(){
 		if(selectedAssignee==1) // student
 		{
+			
 			selectedStudent=new StudentDTO();
 			studentBooks=new ArrayList<BookStudentDTO>();
 			try{
 			Integer id=Integer.parseInt(studentID);
 			PersonDataDTO person=studentDataFacade.getPersonByFileNo(id);
 			StudentDTO student=studentFacade.getById(person.getId());
+			System.out.println("Name:"+holdingImageURL);
+
 			if(student!=null){
+				System.out.println("Name:"+student.getName());
+
 				selectedStudent=student;
 				studentBooks=bookReservationFacade.getByStudentID(selectedStudent.getId());
+				/*
+				 * Ahmed Dakrory
+				 * set a hold for who not deliver all books
+				 */
+				int numberOfReserved=0;
+				int numbmerOfRetrieved=0;
+				
+				for(BookStudentDTO bookStudentDTO:studentBooks){
+					if(bookStudentDTO.getAction().getValue()==0){
+						numberOfReserved++;
+					}else{
+						numbmerOfRetrieved++;
+					}
+				}
+				if(numberOfReserved==numbmerOfRetrieved){
+					 holdingImageURL="/resources/images/allowed.png";
+					 numberOfBooksD="Number of unretrived Books = "+String.valueOf(numberOfReserved-numbmerOfRetrieved);
+
+				}else{
+					 holdingImageURL="/resources/images/onhold.png";
+					 numberOfBooksD="Number of unretrived Books = "+String.valueOf(numberOfReserved-numbmerOfRetrieved);
+
+				}
+				System.out.println("Name:"+holdingImageURL);
 			   
 			}
 			}
@@ -104,6 +139,8 @@ public class CopiesOperationBean {
 		}
 		else if(selectedAssignee==2) // Instructor
 		{
+
+			System.out.println(holdingImageURL);
 			selectedIns=new InstructorDTO();
 			insBooks=new ArrayList<BookInstructorDTO>();
 			try{
@@ -113,7 +150,29 @@ public class CopiesOperationBean {
 			if(tempIns!=null){
 				selectedIns=tempIns;
 				insBooks=bookReservationFacade.getByInsID(selectedIns.getId());
-			   
+				/*
+				 * Ahmed Dakrory
+				 * set a hold for who not deliver all books
+				 */
+				int numberOfReserved=0;
+				int numbmerOfRetrieved=0;
+				
+				for(BookInstructorDTO bookInstructorDTO:insBooks){
+					if(bookInstructorDTO.getAction().getValue()==0){
+						numberOfReserved++;
+					}else{
+						numbmerOfRetrieved++;
+					}
+				}
+				if(numberOfReserved==numbmerOfRetrieved){
+					 holdingImageURL="/resources/images/allowed.png";
+					 numberOfBooksD="Number of unretrived Books = "+String.valueOf(numberOfReserved-numbmerOfRetrieved);
+
+				}else{
+					 holdingImageURL="/resources/images/onhold.png";
+					 numberOfBooksD="Number of unretrived Books = "+String.valueOf(numberOfReserved-numbmerOfRetrieved);
+
+				}
 			}
 			}
 			catch(Exception ex){
@@ -122,6 +181,7 @@ public class CopiesOperationBean {
 		}
 		else if(selectedAssignee==3) // TA 
 		{
+			System.out.println(holdingImageURL);
 			selectedTa=new InstructorDTO();
 			taBooks=new ArrayList<BookInstructorDTO>();
 			try{
@@ -131,7 +191,29 @@ public class CopiesOperationBean {
 			if(tempIns!=null){
 				selectedTa=tempIns;
 				taBooks=bookReservationFacade.getByInsID(selectedTa.getId());
-			   
+				/*
+				 * Ahmed Dakrory
+				 * set a hold for who not deliver all books
+				 */
+				int numberOfReserved=0;
+				int numbmerOfRetrieved=0;
+				
+				for(BookInstructorDTO bookInstructorDTO:taBooks){
+					if(bookInstructorDTO.getAction().getValue()==0){
+						numberOfReserved++;
+					}else{
+						numbmerOfRetrieved++;
+					}
+				}
+				if(numberOfReserved==numbmerOfRetrieved){
+					 holdingImageURL="/resources/images/allowed.png";
+					 numberOfBooksD="Number of unretrived Books = "+String.valueOf(numberOfReserved-numbmerOfRetrieved);
+
+				}else{
+					 holdingImageURL="/resources/images/onhold.png";
+					 numberOfBooksD="Number of unretrived Books = "+String.valueOf(numberOfReserved-numbmerOfRetrieved);
+
+				}
 			}
 			}
 			catch(Exception ex){
@@ -401,6 +483,21 @@ public class CopiesOperationBean {
 	}
 	public void setSelectedTABooks(BookInstructorDTO selectedTABooks) {
 		this.selectedTABooks = selectedTABooks;
+	}
+	
+	public String getHoldingImageURL() {
+		
+		return holdingImageURL;	
+		}
+	
+	public void setHoldingImageURL(String holdingImageURL) {
+		this.holdingImageURL = holdingImageURL;
+	}
+	public String getNumberOfBooksD() {
+		return numberOfBooksD;
+	}
+	public void setNumberOfBooksD(String numberOfBooksD) {
+		this.numberOfBooksD = numberOfBooksD;
 	}
 	
 }
