@@ -22,9 +22,11 @@
 					</h:form>
 				</li>
 			</ul>
+			<br/>
+			
 			<div class="pannelWrapper">
 				<p:panel>
-					<br/>
+					
 					<h:form id="pageForm" onkeypress="if (event.keyCode == 13) {return false; }">
 						<b>Select user type:</b><br/><br/>
 						<p:selectOneRadio id="who" value="#{CopiesOperationBean.selectedAssignee}" styleClass="bookStatus">
@@ -78,7 +80,7 @@
 			
 			<h:panelGrid columns="3"  >
 			
-			<p:inputText value="#{CopiesOperationBean.barCode}" id="barCode" rendered="#{CopiesOperationBean.selectedAssignee!=null}" required="true" style="width:304px;"
+			<p:inputText value="#{CopiesOperationBean.barCode}" id="barCode" rendered="#{CopiesOperationBean.selectedAssignee!=null}" required="false" style="width:304px;"
 			 requiredMessage="Please insert bar code">
 			</p:inputText>
 			<p:message for="barCode"/>
@@ -89,6 +91,22 @@
 			<p:commandButton value="Reserve" id="reserve" styleClass="blueBtn" 
 			rendered="#{CopiesOperationBean.selectedAssignee!=null}"
 									 action="#{CopiesOperationBean.ReserveBook}" update="booksTable panel personData studentID booksInsTable"/>
+			<br/>
+			<br/>
+			
+			<p:commandButton value="Generate Report" 
+									 actionListener="#{CopiesOperationBean.ExportReport}" ajax="false" onclick="exportCopiesDlg.hide();"
+							  update="dlgForm:addPanel :pageForm:dataPnl" styleClass="greenBtn" 
+							  rendered="#{(CopiesOperationBean.selectedStudent.name!=null and CopiesOperationBean.selectedAssignee==1) or (CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2) or (CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3)}"/>
+							
+					<br/>
+					<br/>
+			<p:commandButton value="Send Email"
+									 actionListener="#{CopiesOperationBean.SendEmail}" ajax="false" onclick="exportCopiesDlg.hide();"
+							  update="dlgForm:addPanel :pageForm:dataPnl" styleClass="greenBtn" 
+							  rendered="#{(CopiesOperationBean.selectedStudent.name!=null and CopiesOperationBean.selectedAssignee==1) or (CopiesOperationBean.selectedIns.name!=null and CopiesOperationBean.selectedAssignee==2) or (CopiesOperationBean.selectedTa.name!=null and CopiesOperationBean.selectedAssignee==3)}"/>
+					
+			
 			<h:panelGrid columns="3">
 					
 			<h:panelGrid columns="2" class="student">
@@ -129,6 +147,7 @@
 			
 			</h:panelGrid>	
 			
+			<br/><br/>
 			
 			
 			<p:outputLabel value="No Such Student" rendered="#{CopiesOperationBean.selectedStudent.mail==null 
@@ -139,6 +158,11 @@
 				<h3> History</h3></h:panelGroup>
 				<br/>
 				<br/>
+				
+				<br/>
+			
+			
+			
 			<p:dataTable var="row"  value="#{CopiesOperationBean.studentBooks}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
 				widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true" selection="#{CopiesOperationBean.selectedStudentBooks}"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -287,6 +311,7 @@
 		</h:form>
 				</p:panel>
 			</div>
+			
 			</ui:define>
 			<ui:define name="confirmDialogBox">
 				

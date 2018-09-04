@@ -405,6 +405,8 @@ public class BooksBean {
     	List<BookCopiesDTO> copiess=new ArrayList<BookCopiesDTO>();
 		copiess=copiesFacade.getByBookID(getDetailedBook().getId());
     	if(withDate){
+
+    		System.out.println("Generated with dates");
     		 HSSFWorkbook wb = new HSSFWorkbook();
     	        HSSFSheet sheet = wb.createSheet();
     	         
@@ -458,6 +460,7 @@ public class BooksBean {
      	      FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("dlgFormExport:addPanelExport");
     	}
     	else {
+    		System.out.println("Generated but not dates");
     		 HSSFWorkbook wb = new HSSFWorkbook();
  	        HSSFSheet sheet = wb.createSheet();
  	         
@@ -510,6 +513,81 @@ public class BooksBean {
   	      RequestContext.getCurrentInstance().update("dlgFormExport:addPanelExport");
   	      FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("dlgFormExport:addPanelExport");
     	}
+    }
+    
+    public void exportBooks(){
+    	
+    	
+    		 HSSFWorkbook wb = new HSSFWorkbook();
+ 	        HSSFSheet sheet = wb.createSheet();
+ 	       
+ 	        
+ 	        HSSFRow row;
+ 	         
+ 	        row = sheet.createRow((short)0);
+ 	        row.createCell((short)0).setCellValue("ID");
+ 	        row.createCell((short)1).setCellValue("Name");
+ 	        row.createCell((short)2).setCellValue("Original Copies");
+ 	        row.createCell((short)3).setCellValue("Reserved Copies");
+ 	        row.createCell((short)4).setCellValue("Remaining Copies");
+ 	        row.createCell((short)5).setCellValue("Course");
+ 	        row.createCell((short)6).setCellValue("Semester");
+ 	        row.createCell((short)7).setCellValue("Year");
+ 	        row.createCell((short)8).setCellValue("Status");
+ 	        
+ 	        for (int i = 0; i < books.size(); i++){
+ 	        	row = sheet.createRow((short)i+1);
+ 	           	if(books.get(i)!=null)
+ 	        	{
+ 	        		if(books.get(i).getId()!=null)
+ 	        		{
+ 	        				    row.createCell((short)0).setCellValue(books.get(i).getId());
+ 	        		 	        row.createCell((short)1).setCellValue(books.get(i).getName());
+ 	        		 	        row.createCell((short)2).setCellValue(books.get(i).getOriginalCopies());
+ 	        		 	        row.createCell((short)3).setCellValue(books.get(i).getReservedCopies());
+ 	        		 	        row.createCell((short)4).setCellValue(books.get(i).getRemaingCopies());
+ 	        		 	        row.createCell((short)5).setCellValue(books.get(i).getCourse().getName());
+ 	        		 	        row.createCell((short)6).setCellValue(books.get(i).getCourse().getSemester().getName());
+ 	        		 	        row.createCell((short)7).setCellValue(books.get(i).getCourse().getYear());
+ 	        		 	        if(books.get(i).getStatus()==1){
+ 	        		 	        	row.createCell((short)8).setCellValue("Confirmed");
+ 	        		 	        }else{
+ 	        		 	        	row.createCell((short)8).setCellValue("Pending");
+ 	        		 	        }
+ 	        		 	        
+ 	        		
+ 	        		
+ 	        		}
+ 	        	}
+ 	          
+ 	      
+ 	        }
+ 	    	     HttpServletResponse response =
+ 	                (HttpServletResponse) FacesContext.getCurrentInstance()
+ 	                    .getExternalContext().getResponse();
+ 	        response.setContentType("application/vnd.ms-excel");
+ 	        response.setHeader("Content-disposition",  "attachment; filename=ReportOfAllBooks.xls");
+ 	         
+ 	        try {
+ 	            ServletOutputStream out = response.getOutputStream();
+ 	   
+ 	             wb.write(out);
+ 	             out.flush();
+ 	             out.close();
+ 	         
+ 	       } catch (IOException ex) { 
+ 	               ex.printStackTrace();
+ 	       }
+ 	  
+ 	         
+ 	      FacesContext faces = FacesContext.getCurrentInstance();
+ 	      faces.responseComplete();  
+ 	      RequestContext context = RequestContext.getCurrentInstance();
+ 	      context.execute("exportCopiesDlg.hide();");
+  	      //
+  	      RequestContext.getCurrentInstance().update("dlgFormExport:addPanelExport");
+  	      FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("dlgFormExport:addPanelExport");
+    	
     }
     
 	public void setBooks(List<BookDTO> books) {

@@ -29,6 +29,9 @@
 						<p:commandButton value="+ New Book" id="addBookBtn" title="Add Book" oncomplete="addCourseDlg.show();" styleClass="greenBtn"
 			 			 actionListener="#{BooksBean.clearDialogBox}" immediate="true" update=":dlgForm:addPanel"/> 
 			 			 <br/><br/>
+			 			 <p:commandButton value="Generate Report" id="generatereport" title="Generate Report" actionListener="#{BooksBean.exportBooks}" ajax="false" onclick="exportCopiesDlg.hide();"
+							  update="dlgForm:addPanel :pageForm:dataPnl" styleClass="greenBtn"/> 
+			 			 <br/><br/>
 			  			<p:dataTable var="row"  value="#{BooksBean.books}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
 						 widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true" selection="#{BooksBean.selectedBook}"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
