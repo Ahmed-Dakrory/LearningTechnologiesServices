@@ -73,10 +73,14 @@ public class ImportStudentsBean {
 		    }
 		    list.clear();
 		    list.addAll(map.values());
+
+			System.out.println("Ahmed Dakrory1: List: "+String.valueOf(list.size()));
 		    students=list;
 			System.out.println("Size : "+students.size());
 			// see if students existed in database or not 
 			List<StudentDTO> newStudents=facade.getNewStudents(students);
+
+			System.out.println("Ahmed Dakrory2: List: "+String.valueOf(newStudents.size()));
 			newStudentsSize=newStudents.size();
 			originalSize=students.size();
 			students=newStudents;
