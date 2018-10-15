@@ -1,6 +1,3 @@
-/**
- * 
- */
 package main.com.zc.shared.presentation.beans;
 
 import java.util.List;
@@ -23,7 +20,6 @@ import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.CourseEvaluationSubmission;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.InstructorTAEvalSubmission;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.TaToTaEvalSubmission;
-
 import main.com.zc.services.presentation.survey.lectureObjectiveFeedback.bean.FillLectureObjectiveFeedbackBean;
 import main.com.zc.services.presentation.survey.midTermEvaluation.bean.MidtermEvaluationSubmission;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
@@ -118,6 +114,21 @@ public class LeftNavigationMenuBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			return"/pages/secured/dashboard.xhtml?faces-redirect=true";
+		}
+		else
+		{
+			return"/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	public String renderCourseSyllabus()
+	{
+		currentMenuId = "Course Syllabus";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			return"/pages/secured/courseManagment/courseSyllabus.xhtml?faces-redirect=true";
 		}
 		else
 		{
