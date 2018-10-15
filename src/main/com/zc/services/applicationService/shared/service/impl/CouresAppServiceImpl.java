@@ -125,6 +125,13 @@ public class CouresAppServiceImpl implements ICouresAppService {
 			dto.setName(course.getName());
 			dto.setSemester(course.getSemester());
 			dto.setYear(course.getYear());
+			dto.setHideCourseEval(course.getHideCourseEval());
+			dto.setCourseTitle(course.getCourseTitle());
+			dto.setCourseCoordinator(course.getCourseCoordinator());
+			dto.setDescription(course.getDescription());
+			dto.setRequiredElective(course.getRequiredElective());
+			dto.setCredit(course.getCredit());
+			dto.setProgram(course.getProgram());
 			return dto;
 				} catch (Exception ex) {
 			ex.printStackTrace();
@@ -149,6 +156,60 @@ public class CouresAppServiceImpl implements ICouresAppService {
 		}
 		catch(Exception ex){
 			ex.printStackTrace();return null;
+		}
+	}
+
+	
+	@Override
+	public List<CoursesDTO> getByCourseCoordinatorID(String mail) {
+		List<CoursesDTO> courses=new ArrayList<CoursesDTO>();
+		try {
+			List<Courses> instructorCourses=coursesRep.getByCourseCoordinatorID(mail);
+			for(int i=0;i<instructorCourses.size();i++)
+			{
+				CoursesDTO course=new CoursesDTO();
+				course.setId(instructorCourses.get(i).getId());
+				course.setName(instructorCourses.get(i).getName());
+				course.setSemester(instructorCourses.get(i).getSemester());
+				course.setYear(instructorCourses.get(i).getYear());
+				course.setHideCourseEval(instructorCourses.get(i).getHideCourseEval());
+				course.setCourseTitle(instructorCourses.get(i).getCourseTitle());
+				course.setCourseCoordinator(instructorCourses.get(i).getCourseCoordinator());
+				course.setDescription(instructorCourses.get(i).getDescription());
+				course.setRequiredElective(instructorCourses.get(i).getRequiredElective());
+				course.setCredit(instructorCourses.get(i).getCredit());
+				course.setProgram(instructorCourses.get(i).getProgram());
+				courses.add(course);
+			}
+				} catch (Exception ex) {
+			ex.printStackTrace();
+			
+		}
+		return courses;
+	}
+
+	@Override
+	public void updateCourse(CoursesDTO coursesDTO) {
+		// TODO Auto-generated method stub
+		Courses course=new Courses();
+		course.setId(coursesDTO.getId());
+		course.setName(coursesDTO.getName());
+		course.setSemester(coursesDTO.getSemester());
+		course.setCourseCoordinator(coursesDTO.getCourseCoordinator());
+		course.setYear(coursesDTO.getYear());
+		course.setHideCourseEval(coursesDTO.getHideCourseEval());
+		course.setCourseTitle(coursesDTO.getCourseTitle());
+		course.setDescription(coursesDTO.getDescription());
+		course.setRequiredElective(coursesDTO.getRequiredElective());
+		course.setCredit(coursesDTO.getCredit());
+		course.setProgram(coursesDTO.getProgram());
+
+		try {
+			coursesRep.update(course);
+			
+			} catch (Exception ex) {
+			ex.printStackTrace();
+			
 		}
 	}
 

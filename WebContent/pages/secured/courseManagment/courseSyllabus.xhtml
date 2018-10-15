@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Dashboard - LT Online Services</ui:define>
+		<ui:define name="content">
+			<div id="dashboardFormId" class="dashboard">
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Dashboard" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				
+				<div class="pannelWrapper">
+					<p:panel id="dashboardFormPanel">
+					
+						<!-- USER -->
+							<ul>
+								<h:panelGroup rendered="#{dashboardBean.adminMode}">	
+										<li>
+											<p style="font-weight:bold">Courses Available</p>
+											<div class="divcenter">
+			<p:selectOneMenu id="coursesMenu" 
+				value="#{CoursesAvailableForIns.courseId}"
+				panelStyle="width:180px;" style="margin-top:20px; width: 330px;"
+				 effect="fade"
+				filter="true" filterMatchMode="startsWith">
+				<f:selectItem itemLabel="Select Course" />
+				<f:selectItems value="#{CoursesAvailableForIns.coursesLst}" var="courses"
+					itemLabel="#{courses.name}" itemValue="#{courses.id}" />
+					<p:ajax listener="#{CoursesAvailableForIns.openTheSessionOfAddingSyllabus}" />
+			</p:selectOneMenu>
+			<br/><br/>
+									
+			<p:commandButton value="Modify" id="reserve" styleClass="blueBtn" 
+									 action="#{CoursesAvailableForIns.openTheSessionOfAddingSyllabus}" ajax="false"/>
+				
+											</div>
+											
+										</li>
+									</h:panelGroup>
+								</ul>
+								<br/><br/>
+
+			
+					</p:panel>
+				</div>
+			</div>
+			<script>
+	        	document.addEventListener("DOMContentLoaded",function()
+	        	{
+	        		var bodyEl = document.body;
+	        		classie.add( bodyEl, 'show-menu' );
+	        	});
+	        </script>
+		</ui:define>
+	</ui:composition>
+</html>

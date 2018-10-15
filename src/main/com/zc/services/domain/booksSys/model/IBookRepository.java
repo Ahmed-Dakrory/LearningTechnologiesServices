@@ -17,6 +17,7 @@ public interface IBookRepository {
 	public List<Book> getAll();
 	public Book getById(Integer id);
 	public List<Book> getPendingBook();
+	public List<Book> getCoursesBookWithCourseId(int id);
 	public List<Book> getConfirmedBook();
 	
 	

@@ -6,9 +6,8 @@ package main.com.zc.services.presentation.booksSys.facade.impl;
 import java.util.List;
 
 import main.com.zc.services.applicationService.booksSys.service.IBookService;
+import main.com.zc.services.domain.booksSys.model.Book;
 import main.com.zc.services.presentation.booksSys.dto.BookDTO;
-import main.com.zc.services.presentation.booksSys.dto.BookInstructorDTO;
-import main.com.zc.services.presentation.booksSys.dto.BookStudentDTO;
 import main.com.zc.services.presentation.booksSys.dto.BooksLogsDTO;
 import main.com.zc.services.presentation.booksSys.facade.IBooksFacade;
 
@@ -70,6 +69,12 @@ public class BooksFacadeImpl implements IBooksFacade{
 	public List<BooksLogsDTO> getLogsOfBook(Integer bookID) {
 		
 		return service.getLogsOfBook(bookID);
+	}
+
+	@Override
+	public List<Book> getCoursesBookWithCourseId(int id) {
+		// TODO Auto-generated method stub
+		return service.getCoursesBookWithCourseId(id);
 	}
 
 /*	@Override

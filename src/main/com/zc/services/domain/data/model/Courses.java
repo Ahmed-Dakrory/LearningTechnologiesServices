@@ -18,7 +18,6 @@ import javax.persistence.Table;
 
 import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
-
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -45,6 +44,25 @@ public class Courses {
 	@Column(name = "NAME")
 	private String name;
 
+	/**
+	 * @author A7med Al-Dakrorys
+	 * 
+	 */
+	@Column(name = "Program")
+	private String Program;
+	
+	@Column(name = "CourseTitle")
+	private String CourseTitle;
+	
+	@Column(name = "Description")
+	private String Description;
+	
+	@Column(name = "Credit")
+	private String Credit;
+	
+	@Column(name = "RequiredElective")
+	private Integer  RequiredElective;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
 	  private List<Courses_Instructors> courseInstructor=new ArrayList<Courses_Instructors>();
 		
@@ -60,6 +78,8 @@ public class Courses {
 		@Column(name = "COURSE_EVAL_HIDE")
 		private Boolean hideCourseEval;
 	  
+		
+		
 	public Courses(int id, String name) {
 		super();
 		this.id = id;
@@ -145,6 +165,46 @@ public class Courses {
 
 	public void setHideCourseEval(Boolean hideCourseEval) {
 		this.hideCourseEval = hideCourseEval;
+	}
+
+	public String getProgram() {
+		return Program;
+	}
+
+	public void setProgram(String program) {
+		Program = program;
+	}
+
+	public String getCourseTitle() {
+		return CourseTitle;
+	}
+
+	public void setCourseTitle(String courseTitle) {
+		CourseTitle = courseTitle;
+	}
+
+	public String getDescription() {
+		return Description;
+	}
+
+	public void setDescription(String description) {
+		Description = description;
+	}
+
+	public String getCredit() {
+		return Credit;
+	}
+
+	public void setCredit(String credit) {
+		Credit = credit;
+	}
+
+	public Integer getRequiredElective() {
+		return RequiredElective;
+	}
+
+	public void setRequiredElective(Integer requiredElective) {
+		RequiredElective = requiredElective;
 	}
 
 	

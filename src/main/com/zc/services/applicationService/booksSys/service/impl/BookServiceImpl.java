@@ -4,29 +4,20 @@
 package main.com.zc.services.applicationService.booksSys.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import main.com.zc.services.applicationService.booksSys.assembler.BookAssembler;
-import main.com.zc.services.applicationService.booksSys.assembler.BookInstructorAssembler;
-import main.com.zc.services.applicationService.booksSys.assembler.BookStudentAssembler;
 import main.com.zc.services.applicationService.booksSys.service.IBookService;
 import main.com.zc.services.applicationService.booksSys.service.IBooksLogsService;
 import main.com.zc.services.domain.booksSys.model.Book;
-import main.com.zc.services.domain.booksSys.model.BookInstructor;
-import main.com.zc.services.domain.booksSys.model.BookStudent;
 import main.com.zc.services.domain.booksSys.model.IBookInstructorRepository;
 import main.com.zc.services.domain.booksSys.model.IBookRepository;
 import main.com.zc.services.domain.booksSys.model.IBookStudentRepository;
-import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.presentation.booksSys.dto.BookDTO;
-import main.com.zc.services.presentation.booksSys.dto.BookInstructorDTO;
-import main.com.zc.services.presentation.booksSys.dto.BookStudentDTO;
 import main.com.zc.services.presentation.booksSys.dto.BooksLogsDTO;
-import main.com.zc.services.presentation.users.dto.StudentDTO;
 
 /**
  * @author omnya
@@ -182,6 +173,21 @@ public class BookServiceImpl implements IBookService{
 		List<BooksLogsDTO> logs=logsService.getByBookID(bookID);
 		
 		return logs;
+	}
+
+	@Override
+	public List<Book> getCoursesBookWithCourseId(int id) {
+		try{
+			List<Book> books=new ArrayList<Book>();
+			books=rep.getCoursesBookWithCourseId(id);
+			
+			return books;
+					
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 	/*@Override

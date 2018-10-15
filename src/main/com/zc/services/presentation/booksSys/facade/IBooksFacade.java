@@ -5,11 +5,9 @@ package main.com.zc.services.presentation.booksSys.facade;
 
 import java.util.List;
 
+import main.com.zc.services.domain.booksSys.model.Book;
 import main.com.zc.services.presentation.booksSys.dto.BookDTO;
-import main.com.zc.services.presentation.booksSys.dto.BookInstructorDTO;
-import main.com.zc.services.presentation.booksSys.dto.BookStudentDTO;
 import main.com.zc.services.presentation.booksSys.dto.BooksLogsDTO;
-import main.com.zc.services.presentation.users.dto.StudentDTO;
 
 /**
  * @author omnya
@@ -23,6 +21,7 @@ public interface IBooksFacade {
 	public BookDTO getById(Integer id);
 	public List<BookDTO> getPendingBook();
 	public List<BookDTO> getConfirmedBook();
+	public List<Book> getCoursesBookWithCourseId(int id);
 	public List<BooksLogsDTO> getLogsOfBook(Integer bookID);
 /*	public List<BookStudentDTO> getStudentsOfBook(Integer bookID);
 	public List<BookInstructorDTO> getInstructorsOfBook(Integer bookID);*/

@@ -54,4 +54,17 @@ public class CouresFacadeImpl implements ICouresFacade {
 		return service.getcourseByNameAndSemesterAndYear( name,  semester,  year);
 	}
 
+
+
+	@Override
+	public List<CoursesDTO> getByCourseCoordinatorID(String mail) {
+		return service.getByCourseCoordinatorID(mail);
+	}
+
+	@Override
+	public void updateCourse(CoursesDTO coursesDTO) {
+		// TODO Auto-generated method stub
+		service.updateCourse(coursesDTO);
+	}
+
 }

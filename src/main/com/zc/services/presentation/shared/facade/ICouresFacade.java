@@ -12,6 +12,8 @@ import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
  *
  */
 public interface ICouresFacade {
+	public void updateCourse(CoursesDTO coursesDTO);
+	public List<CoursesDTO> getByCourseCoordinatorID(String mail);
 	public List<CoursesDTO> getCoursesByStudentID(Integer studentId);
 	public List<CoursesDTO> getCoursesByStudentIDAndSemesterAndYear(Integer studentId,Integer semester,Integer year);
 	public List<CoursesDTO> getCoursesBySemesterAndYear(Integer semester, Integer year);

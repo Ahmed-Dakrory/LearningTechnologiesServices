@@ -91,6 +91,23 @@ public class BookRepositoryImpl implements IBookRepository{
 				return null;
 			}
 	}
+	
+	@Override
+	public List<Book> getCoursesBookWithCourseId(int id) {
+		try{
+			Query query = sessionFactory.getCurrentSession().getNamedQuery("Book.getByCourseID").setInteger("id", id);
+
+			@SuppressWarnings("unchecked")
+			List<Book> results = query.list();
+			return results;
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error in getting forms ");
+				ex.printStackTrace();
+				return null;
+			}
+	}
 
 	@Override
 	public Book getById(Integer id) {
