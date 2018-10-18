@@ -46,6 +46,11 @@
 						<p:commandLink ajax="false" immediate="true" value="Overload Request" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderOverLoadReq}"  class="#{leftNavigationMenuBean.getActiveCssName('Overload Request')}"/>
 						<p:commandLink ajax="false" immediate="true" value="Course Repeat Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderCourseRepeat}"  class="#{leftNavigationMenuBean.getActiveCssName('Course Repeat Form')}"/>
 						<p:commandLink ajax="false" immediate="true" value="Petitions History" rendered="#{leftNavigationMenuBean.petitionHitoryBool}" action="#{leftNavigationMenuBean.renderPetitionHitory}" disabled="#{leftNavigationMenuBean.disablePetitionHitory}" class="#{leftNavigationMenuBean.getActiveCssName('Petitions Hitory')}"/>
+					
+					<h3>Course Modification</h3>
+					<p:commandLink ajax="false" immediate="true" value="Course Syllabus" rendered="#{(leftNavigationMenuBean.validateLoggedIn) and !(leftNavigationMenuBean.booksSysMode) and !(leftNavigationMenuBean.admin) and !(leftNavigationMenuBean.isStudent())}" action="#{leftNavigationMenuBean.renderCourseSyllabus}" actionListener="#{CoursesAvailableForIns.refresh}" class="#{leftNavigationMenuBean.getActiveCssName('Course Syllabus')}"/>
+                    
+					
 					<h:panelGroup  rendered="#{leftNavigationMenuBean.admin}" ><h3>Configurations</h3></h:panelGroup>
 					<p:commandLink ajax="false" immediate="true" value="Add Course" rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToAddCourse}" 

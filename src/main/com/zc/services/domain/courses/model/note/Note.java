@@ -27,8 +27,11 @@ import org.hibernate.annotations.NamedQuery;
 	,
 	@NamedQuery(name="Note.getByCourseId",
 	query = "from Note d where d.courseId = :id"
+             )
+	,
+	@NamedQuery(name="Note.getById",
+	query = "from Note d where d.id = :id"
 			)
-	
 })
 
 @Entity

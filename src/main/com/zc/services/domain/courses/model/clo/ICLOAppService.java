@@ -14,5 +14,6 @@ public interface ICLOAppService {
 	public List<CLO> getAll();
 	public List<CLO> getByCourseId(int id);
 	public CLO addCLO(CLO clo);
-	
+	public CLO getById(int id);
+	public boolean delete(CLO clo);
 }

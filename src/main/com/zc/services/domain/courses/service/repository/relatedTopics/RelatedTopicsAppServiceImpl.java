@@ -2,11 +2,11 @@
  * 
  */
 package main.com.zc.services.domain.courses.service.repository.relatedTopics;
+
 import java.util.List;
 import main.com.zc.services.domain.courses.model.relatedTopics.IRelatedTopicsAppService;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopicsRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +63,35 @@ public class RelatedTopicsAppServiceImpl implements IRelatedTopicsAppService{
 			}
 	}
 	
+	@Override
+	public boolean delete(RelatedTopics so) {
+		// TODO Auto-generated method stub
+		try{
+			relatedTopicsRepository.delete(so);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public RelatedTopics getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			RelatedTopics note=relatedTopicsRepository.getById(id);
+			
+			return note;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
 }
 		
 		

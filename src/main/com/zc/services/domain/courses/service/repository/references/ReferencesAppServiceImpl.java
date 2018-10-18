@@ -2,8 +2,8 @@
  * 
  */
 package main.com.zc.services.domain.courses.service.repository.references;
-import java.util.List;
 
+import java.util.List;
 import main.com.zc.services.domain.courses.model.references.IReferencesAppService;
 import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.references.ReferencesRepository;
@@ -64,7 +64,36 @@ public class ReferencesAppServiceImpl implements IReferencesAppService{
 				return null;
 			}
 	}
-	
+
+	@Override
+	public boolean delete(References so) {
+		// TODO Auto-generated method stub
+		try{
+			referencesRepository.delete(so);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public References getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			References note=referencesRepository.getById(id);
+			
+			return note;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
 }
 		
 		

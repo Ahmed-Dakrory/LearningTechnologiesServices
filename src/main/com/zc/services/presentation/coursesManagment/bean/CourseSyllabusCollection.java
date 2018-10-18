@@ -2,9 +2,12 @@ package main.com.zc.services.presentation.coursesManagment.bean;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import main.com.zc.services.domain.courses.model.SO.SO;
+import main.com.zc.services.domain.courses.model.books.CourseBooks;
 import main.com.zc.services.domain.courses.model.clo.CLO;
 import main.com.zc.services.domain.courses.model.corequisit.CoRequisites;
+import main.com.zc.services.domain.courses.model.courseIns.CourseInSyllabus;
 import main.com.zc.services.domain.courses.model.courseTa.CourseTa;
 import main.com.zc.services.domain.courses.model.grades.Grade;
 import main.com.zc.services.domain.courses.model.note.Note;
@@ -12,8 +15,7 @@ import main.com.zc.services.domain.courses.model.prerequisites.PreRequisites;
 import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
-import main.com.zc.services.presentation.users.dto.InstructorDTO;
-import main.com.zc.services.domain.booksSys.model.Book;
+
 
 public class CourseSyllabusCollection {
 	
@@ -27,8 +29,8 @@ public class CourseSyllabusCollection {
 	private List<CoRequisites> coRequisites;
 	private List<Grade> grades;
 	private List<CourseTa> courseTas;
-	private List<InstructorDTO> courseInstructor;
-	private List<Book> books;
+	private List<CourseInSyllabus> courseInstructor;
+	private List<CourseBooks> books;
 	
 	public CourseSyllabusCollection() {
 		// TODO Auto-generated constructor stub
@@ -42,8 +44,8 @@ public class CourseSyllabusCollection {
 		coRequisites=new ArrayList<CoRequisites>();
 		grades=new ArrayList<Grade>();
 		courseTas=new ArrayList<CourseTa>();
-		courseInstructor=new ArrayList<InstructorDTO>();
-		books=new ArrayList<Book>();
+		courseInstructor=new ArrayList<CourseInSyllabus>();
+		books=new ArrayList<CourseBooks>();
 	}
 	public CoursesDTO getCourses() {
 		return courses;
@@ -105,16 +107,17 @@ public class CourseSyllabusCollection {
 	public void setCourseTas(List<CourseTa> courseTas) {
 		this.courseTas = courseTas;
 	}
-	public List<Book> getBooks() {
+	
+	public List<CourseBooks> getBooks() {
 		return books;
 	}
-	public void setBooks(List<Book> books) {
+	public void setBooks(List<CourseBooks> books) {
 		this.books = books;
 	}
-	public List<InstructorDTO> getCourseInstructor() {
+	public List<CourseInSyllabus> getCourseInstructor() {
 		return courseInstructor;
 	}
-	public void setCourseInstructor(List<InstructorDTO> courseInstructor) {
+	public void setCourseInstructor(List<CourseInSyllabus> courseInstructor) {
 		this.courseInstructor = courseInstructor;
 	}
 	

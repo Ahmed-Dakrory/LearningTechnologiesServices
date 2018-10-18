@@ -4,10 +4,8 @@
 package main.com.zc.services.domain.courses.service.repository.prerequisites;
 
 import java.util.List;
-
 import main.com.zc.services.domain.courses.model.prerequisites.PreRequisites;
 import main.com.zc.services.domain.courses.model.prerequisites.PreRequisitesRepository;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -66,6 +64,33 @@ public class PreRequisitesRepositoryImpl implements PreRequisitesRepository{
 				ex.printStackTrace();
 				return null;
 			}
+	}
+
+
+	@Override
+	public boolean delete(PreRequisites data) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(data);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public PreRequisites getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("PreRequisites.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<PreRequisites> results=query.list();
+		   return results.get(0);
 	}
 
 }

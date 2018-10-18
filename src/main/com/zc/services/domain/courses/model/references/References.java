@@ -28,6 +28,10 @@ import org.hibernate.annotations.NamedQuery;
 	@NamedQuery(name="References.getByCourseId",
 	query = "from References d where d.courseId = :id"
 			)
+	,
+	@NamedQuery(name="References.getById",
+	query = "from References d where d.id = :id"
+			)
 	
 })
 

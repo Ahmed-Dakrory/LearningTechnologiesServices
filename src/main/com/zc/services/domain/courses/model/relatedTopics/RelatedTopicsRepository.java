@@ -14,4 +14,7 @@ public interface RelatedTopicsRepository {
 	public List<RelatedTopics> getAll();
 	public List<RelatedTopics> getByCourseId(int id);
 	public RelatedTopics addRelatedTopics(RelatedTopics relatedTopics);
+	public RelatedTopics getById(int id);
+	public boolean delete(RelatedTopics relatedTopics);
+	
 }

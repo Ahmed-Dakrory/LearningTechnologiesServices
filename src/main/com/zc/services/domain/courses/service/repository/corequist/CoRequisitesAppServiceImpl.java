@@ -7,7 +7,6 @@ import java.util.List;
 import main.com.zc.services.domain.courses.model.corequisit.CoRequisites;
 import main.com.zc.services.domain.courses.model.corequisit.CoRequisitesRepository;
 import main.com.zc.services.domain.courses.model.corequisit.ICoRequisitesAppService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +56,36 @@ public class CoRequisitesAppServiceImpl implements ICoRequisitesAppService{
 			CoRequisites coRequisites2=coRequisitesRepository.addCoRequisite(coRequisites);
 
 			return coRequisites2;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+	
+
+	@Override
+	public boolean delete(CoRequisites data) {
+		// TODO Auto-generated method stub
+		try{
+			coRequisitesRepository.delete(data);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public CoRequisites getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			CoRequisites objData=coRequisitesRepository.getById(id);
+			
+			return objData;
 			}
 			catch(Exception ex)
 			{

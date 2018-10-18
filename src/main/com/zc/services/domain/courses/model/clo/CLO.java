@@ -28,6 +28,10 @@ import org.hibernate.annotations.NamedQuery;
 	@NamedQuery(name="CLO.getByCourseId",
 	query = "from CLO d where d.courseId = :id"
 			)
+	,
+	@NamedQuery(name="CLO.getById",
+	query = "from CLO d where d.id = :id"
+			)
 	
 })
 
@@ -44,7 +48,7 @@ public class CLO {
 	private Integer courseId;
 	
 	@Column(name = "CLO")
-	private Integer clo;
+	private String clo;
 
 	public Integer getId() {
 		return id;
@@ -62,11 +66,11 @@ public class CLO {
 		this.courseId = courseId;
 	}
 
-	public Integer getClo() {
+	public String getClo() {
 		return clo;
 	}
 
-	public void setClo(Integer clo) {
+	public void setClo(String clo) {
 		this.clo = clo;
 	}
 	

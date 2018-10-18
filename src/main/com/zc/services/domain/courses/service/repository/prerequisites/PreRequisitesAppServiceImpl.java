@@ -2,12 +2,11 @@
  * 
  */
 package main.com.zc.services.domain.courses.service.repository.prerequisites;
-import java.util.List;
 
+import java.util.List;
 import main.com.zc.services.domain.courses.model.prerequisites.IPreRequisitesAppService;
 import main.com.zc.services.domain.courses.model.prerequisites.PreRequisites;
 import main.com.zc.services.domain.courses.model.prerequisites.PreRequisitesRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +64,35 @@ public class PreRequisitesAppServiceImpl implements IPreRequisitesAppService{
 			}
 	}
 	
+
+	@Override
+	public boolean delete(PreRequisites data) {
+		// TODO Auto-generated method stub
+		try{
+			preRequisitesRepository.delete(data);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public PreRequisites getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			PreRequisites objData=preRequisitesRepository.getById(id);
+			
+			return objData;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
 }
 		
 		

@@ -7,7 +7,6 @@ import java.util.List;
 
 import main.com.zc.services.domain.courses.model.SO.SO;
 import main.com.zc.services.domain.courses.model.SO.SORepository;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -67,5 +66,30 @@ public class SORepositoryImpl implements SORepository{
 	}
 
 	
+	@Override
+	public boolean delete(SO note) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(note);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public SO getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("SO.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<SO> results=query.list();
+		   return results.get(0);
+	}
 
 }

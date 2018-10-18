@@ -6,7 +6,6 @@ package main.com.zc.services.domain.courses.service.repository.relatedTopics;
 import java.util.List;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopicsRepository;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -65,6 +64,31 @@ public class RelatedTopicsRepositoryImpl implements RelatedTopicsRepository{
 				   return results;
 	}
 
-	
+	@Override
+	public boolean delete(RelatedTopics note) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(note);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public RelatedTopics getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("RelatedTopics.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<RelatedTopics> results=query.list();
+		   return results.get(0);
+	}
+
 
 }

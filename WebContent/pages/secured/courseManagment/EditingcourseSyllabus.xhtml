@@ -4,6 +4,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+	<head>
+	 <style type="text/css">
+			.ui-panelgrid td, .ui-panelgrid tr
+			{
+			    border-style: none !important
+			}
+    </style>
+	</head>
 	<ui:composition template="/templates/uploadSecuredContent.xhtml">
 		<ui:define name="title">Dashboard - LT Online Services</ui:define>
 		<ui:define name="content">
@@ -30,189 +38,76 @@
 						
  				<div class="divcenter" align="center"><br/><br/><h:outputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.name}" style="font-size: 35px;"/><br/><br/></div>
  								
-										<br/>						
-										<h:outputText value="Course Name" class="dashNumber" /> <br/><br/>
+ 							<p:tabMenu activeIndex="#{param.i}" styleClass="evalTabs">
+								<p:menuitem  value="Course details" outcome="EditingcourseSyllabus.xhtml" icon="ui-icon-star">
+									 <f:param name="i" value="0" />
+								</p:menuitem >								
+								<p:menuitem  value="Prerequisites" outcome="prerequisites.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="1" />
+								</p:menuitem >					
+								<p:menuitem  value="Book" outcome="BooksOfTheCourse.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="2" />
+								</p:menuitem >
+								<p:menuitem  value="Teaching Assistants" outcome="TAs_of_the_course.xhtml" icon="ui-icon-person">
+									 <f:param name="i" value="3" />
+								</p:menuitem >
+								<p:menuitem  value="Instructors" outcome="instructorsOfTheCourse.xhtml" icon="ui-icon-person">
+									 <f:param name="i" value="4" />
+								</p:menuitem >
+								<p:menuitem  value="Grades"  outcome="GradesOfTheCourse.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="5" />
+								</p:menuitem >
+								<p:menuitem  value="Co requisites"  outcome="corequisites.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="6" />
+								</p:menuitem >
+								<p:menuitem  value="Course learning objectives"  outcome="Clos.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="7" />
+								</p:menuitem >
+								<p:menuitem  value="Related topics"  outcome="RelatedTopics.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="8" />
+								</p:menuitem >
+								<p:menuitem  value="Notes "  outcome="notes.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="9" />
+								</p:menuitem >
+								<p:menuitem  value="Student outcome"  outcome="Sos.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="10" />
+								</p:menuitem >
+								<p:menuitem  value="References"  outcome="references.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="11" />
+								</p:menuitem >
+							</p:tabMenu>
+										<br/>	
+										<div align="center">
 										
-										 <p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.name}" style="width:900; overflow:auto;" />
-										<br/><br/>
+										<p:panel>
+										<h:form>
+										<br/><br/><br/><br/>
+										<p:panelGrid styleClass="evalInternalTable" columns="2">
+    										<h:outputText value="Course Name:   " class="dashNumber" /> 
+											<p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.name}" style="width:900; overflow:auto;" />
 										
-										<h:outputText value="Course Program" class="dashNumber" /> <br/><br/>
-										 <p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.program}" width="900" />
+											<h:outputText value="Course Program:    " class="dashNumber" />
+										 	<p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.program}" width="900" />
  
-										<br/><br/>
-										
-									 <h:outputText value="CourseTitle" class="dashNumber" /> <br/><br/>
+ 											<h:outputText value="CourseTitle:    " class="dashNumber" />
  											<p:inputText id="editor" widgetVar="editorWidget" value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.courseTitle}" width="900" />
  
-										<br/><br/>
-										
-									 <h:outputText value="Description" class="dashNumber" /> <br/><br/>
-									 <p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.description}" width="900" />
+  											<h:outputText value="Description:    " class="dashNumber" />
+									 		<p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.description}" width="900" />
  
+										</p:panelGrid>
+										
+									 
+									
+ 
+								<br/><br/>
+								<p:commandButton value="Save" ajax="true" title="Add Data" styleClass="greenBtn"
+			 			 action="#{CoursesAvailableForIns.addMainDataToDatabase}" />		 			 
+		
+										</h:form>
+										</p:panel>
+ </div>
  										<br/><br/>
- 										
- 										<br/><br/>
- 								<br/><br/>	
-								<div class="divcenter" align="center"><br/><br/><h:outputText value="Ta's Of the Course " style="font-size: 35px;"/><br/><br/></div>
- 										 	
-								<br/><br/>			
- 				<div align="center">		
- 			<h:form id="tableform">
-	
-								
-								<br/><br/>
- 										 <h:dataTable id="tableOfAll" value = "#{CoursesAvailableForIns.courseSyllabusCollection.courseTas}" 
- 										 selectionMode="single" sortMode="multiple" 
-										resizableColumns="true" paginator="true"
-										var = "TA">
-            
-            <h:column>    				
-               <f:facet name = "header">Name</f:facet>    				
-               <h:inputText value = "#{TA.name}" style="width:150px;"/>
-            </h:column>
-            
-            <h:column>
-               <f:facet name = "header">EMAIL</f:facet>
-               <h:inputText value = "#{TA.email}" style="width:150px;"/>
-            </h:column>
-           
-            
-            <h:column>
-               <f:facet name = "header">Room</f:facet>
-               <h:inputText value = "#{TA.room}" style="width:150px;"/>
-            </h:column>
-            
-            <h:column>
-               <f:facet name = "header">Building</f:facet>
-               <h:inputText value = "#{TA.building}" style="width:150px;"/>
-            </h:column>
-            
-            <h:column>
-               <f:facet name = "header">Office Hours</f:facet>
-               <h:inputText value = "#{TA.officeHours}" style="width:150px;"/>
-            </h:column>
-           
-         </h:dataTable>
-         
-          <p:commandButton value="+ New TA" id="addTaBtn" type="button" title="Add Ta" styleClass="greenBtn"
-			 			 onclick="addCourseDlg.show();" />
-		
-     </h:form>
-    
- 														
- 							
-									
-									
-											</div>
-											
-											
-												<br/><br/>
- 								<br/><br/>	
-								<div class="divcenter"  align="center"><br/><br/><h:outputText value="Grade's Of the Course " style="font-size: 35px;"/><br/><br/></div>
- 										 	
-								<br/><br/>			
- 				<div align="center">		
- 			<h:form id="tableform1">
-	
-								
-								<br/><br/>
- 										 <h:dataTable id="tableOfAll1" value = "#{CoursesAvailableForIns.courseSyllabusCollection.grades}" 
- 										 selectionMode="single" sortMode="multiple" 
-										resizableColumns="true" paginator="true"
-										var = "grade">
-            
-            <h:column>    				
-               <f:facet name = "header">Type Of Grade</f:facet>    				
-               <h:inputText value = "#{grade.typeOfGrade}" style="width:150px;"/>
-            </h:column>
-            
-            <h:column>
-               <f:facet name = "header">Percentage</f:facet>
-               <h:inputText value = "#{grade.presentage}" style="width:150px;"/>
-            </h:column>
-           
-         </h:dataTable>
-         
-          <p:commandButton value="+ New Grade" id="addGradeBtn" type="button" title="Add Grade" styleClass="greenBtn"
-			 			 onclick="addGradeDlg.show();" />
-		
-     </h:form>
-    
- 														
- 							
-									
-									
-											</div>
-											
-											
-											<br/><br/>
- 								<br/><br/>	
-								<div class="divcenter"  align="center"><br/><br/><h:outputText value="Prerequisite's Of the Course " style="font-size: 35px;"/><br/><br/></div>
- 										 	
-								<br/><br/>			
- 				<div align="center">		
- 			<h:form id="tableform2">
-	
-								
-								<br/><br/>
- 										 <h:dataTable id="tableOfAll2" value = "#{CoursesAvailableForIns.courseSyllabusCollection.pre_Requisites}" 
- 										 selectionMode="single" sortMode="multiple" 
-										resizableColumns="true" paginator="true"
-										var = "prereq">
-            
-                       
-            <h:column>
-               <f:facet name = "header">Prerequisite</f:facet>
-               <h:inputText value = "#{prereq.preRequisite}" style="width:150px;"/>
-            </h:column>
-           
-         </h:dataTable>
-         
-          <p:commandButton value="+ New Prerequisite" type="button" title="Add Prerequisite" styleClass="greenBtn"
-			 			 onclick="addPrerequisteDlg.show();" />
-		
-     </h:form>
-    
- 														
- 							
-									
-									
-											</div>
-											
-											<br/><br/>
- 								<br/><br/>	
-								<div class="divcenter"  align="center"><br/><br/><h:outputText value="Book's Of the Course " style="font-size: 35px;"/><br/><br/></div>
- 										 	
-								<br/><br/>			
- 				<div align="center">		
- 			<h:form id="tableform3">
-	
-								
-								<br/><br/>
- 										 <h:dataTable id="tableOfAll3" value = "#{CoursesAvailableForIns.courseSyllabusCollection.books}" 
- 										 selectionMode="single" sortMode="multiple" 
-										resizableColumns="true" paginator="true"
-										var = "book">
-            
-                       
-            <h:column>
-               <f:facet name = "header">Name</f:facet>
-               <h:inputText value = "#{book.name}" style="width:150px;"/>
-            </h:column>
-            
-           
-         </h:dataTable>
-         
-          <p:commandButton value="+ New Book" type="button" title="Add Book" styleClass="greenBtn"
-			 			 onclick="addBookDlg.show();" />
-		
-     </h:form>
-    
- 														
- 							
-									
-									
-											</div>
 											
 								<br/><br/>
 								<br/><br/>
@@ -245,121 +140,6 @@
 	        		classie.add( bodyEl, 'show-menu' );
 	        	});
 	        </script>
-		</ui:define>
-		<ui:define name="confirmDialogBox">
-		
-
-					<h:form id="pageForm">
-					<p:dialog id="dialogP" widgetVar="addCourseDlg" header="TA Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
-			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
-					
-						<div class="dialogWrapper">
-							<h:panelGroup id="addPanel">
-								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.courseTaNew.name}" required="true" requiredMessage="insert Ta name" id="name" style="width:460px ;"/>
-			          				<p:watermark for="name" value="Name" />
-			          				<p:message for="name"/>
-			          			</h:panelGroup>
-			          			
-			          			 <br/>
-			          			 <h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.courseTaNew.email}" required="true" requiredMessage="insert Ta Email" id="email" style="width:460px; "/>
-			          				<p:watermark for="email" value="Email" />
-			          				<p:message for="email"/>
-			          			</h:panelGroup>
-			          			
-			          			 <br/>
-							
-						</h:panelGroup>
-					</div>
-					<ul class="dialogFooter">
-						<li><p:commandButton value="Cancel" title="Cancel" onclick="addCourseDlg.hide()" immediate="true" class="dialogCancel" /></li>
-						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addTa}" ajax="true" update=":PanelFormAll:tableform:tableOfAll"
-							 class="dialogOk"/></li>
-					</ul>
-			</p:dialog>
-			</h:form>
-			
-				<h:form id="pageForm1">
-					<p:dialog widgetVar="addGradeDlg" header="Grade Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
-			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
-					
-						<div class="dialogWrapper">
-							<h:panelGroup id="addPanel1">
-								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.gradeNew.typeOfGrade}" required="true" requiredMessage="insert grade type Of grade" id="typeOfGrade" style="width:460px ;"/>
-			          				<p:watermark for="typeOfGrade" value="Type Of Grade" />
-			          				<p:message for="typeOfGrade"/>
-			          			</h:panelGroup>
-			          			
-			          			 <br/>
-			          			 <h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.gradeNew.presentage}" required="true" requiredMessage="insert grade percentage" id="presentage" style="width:460px; "/>
-			          				<p:watermark for="presentage" value="Presentage" />
-			          				<p:message for="presentage"/>
-			          			</h:panelGroup>
-			          			
-			          			 <br/>
-							
-						</h:panelGroup>
-					</div>
-					<ul class="dialogFooter">
-						<li><p:commandButton value="Cancel" title="Cancel" onclick="addGradeDlg.hide()" immediate="true" class="dialogCancel" /></li>
-						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addGrade}" ajax="true" update=":PanelFormAll:tableform1:tableOfAll1"
-							 class="dialogOk"/></li>
-					</ul>
-			</p:dialog>
-			</h:form>
-			
-			<h:form>
-					<p:dialog widgetVar="addPrerequisteDlg" header="Pre requisite Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
-			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
-					
-						<div class="dialogWrapper">
-							<h:panelGroup id="addPanel2">
-								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.preRequisites.preRequisite}" required="true" requiredMessage="insert Prerequisite" id="prerequ" style="width:460px ;"/>
-			          				<p:watermark for="prerequ" value="Prerequisite" />
-			          				<p:message for="prerequ"/>
-			          			</h:panelGroup>
-			          			
-			          			
-			          			 <br/>
-							
-						</h:panelGroup>
-					</div>
-					<ul class="dialogFooter">
-						<li><p:commandButton value="Cancel" title="Cancel" onclick="addPrerequisteDlg.hide()" immediate="true" class="dialogCancel" /></li>
-						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addPreRequisite}" ajax="true" update=":PanelFormAll:tableform2:tableOfAll2"
-							 class="dialogOk"/></li>
-					</ul>
-			</p:dialog>
-			</h:form>
-			
-			<h:form>
-					<p:dialog widgetVar="addBookDlg" header="Book Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
-			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
-					
-						<div class="dialogWrapper">
-							<h:panelGroup id="addPanel3">
-								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.book.name}" required="true" requiredMessage="insert book name" id="book" style="width:460px ;"/>
-			          				<p:watermark for="book" value="Book Name" />
-			          				<p:message for="book"/>
-			          			</h:panelGroup>
-			          			
-			          			
-			          			 <br/>
-							
-						</h:panelGroup>
-					</div>
-					<ul class="dialogFooter">
-						<li><p:commandButton value="Cancel" title="Cancel" onclick="addPrerequisteDlg.hide()" immediate="true" class="dialogCancel" /></li>
-						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addBook}" ajax="true" update=":PanelFormAll:tableform3:tableOfAll3"
-							 class="dialogOk"/></li>
-					</ul>
-			</p:dialog>
-			</h:form>
 		</ui:define>
 				
 	</ui:composition>

@@ -67,4 +67,31 @@ public class CLORepositoryImpl implements CLORepository{
 
 	
 
+
+	@Override
+	public boolean delete(CLO data) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(data);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public CLO getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("CLO.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<CLO> results=query.list();
+		   return results.get(0);
+	}
+	
 }

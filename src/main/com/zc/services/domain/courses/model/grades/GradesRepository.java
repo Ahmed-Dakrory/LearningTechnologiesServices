@@ -13,5 +13,8 @@ public interface GradesRepository {
 
 	public List<Grade> getAll();
 	public List<Grade> getByCourseId(int id);
+	public Grade getById(int id);
 	public Grade addGrade(Grade grade);
+	public boolean delete(Grade grade);
+	
 }

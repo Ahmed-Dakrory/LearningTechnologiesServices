@@ -28,6 +28,10 @@ import org.hibernate.annotations.NamedQuery;
 	@NamedQuery(name="Grade.getByCourseId",
 	query = "from Grade d where d.courseId = :id"
 			)
+	,
+	@NamedQuery(name="Grade.getById",
+	query = "from Grade d where d.id = :id"
+			)
 	
 })
 
@@ -44,7 +48,7 @@ public class Grade {
 	private Integer courseId;
 	
 	@Column(name = "TypeOfGrade")
-	private Integer typeOfGrade;
+	private String typeOfGrade;
 	
 	@Column(name = "Presentage")
 	private Integer presentage;
@@ -65,11 +69,11 @@ public class Grade {
 		this.courseId = courseId;
 	}
 
-	public Integer getTypeOfGrade() {
+	public String getTypeOfGrade() {
 		return typeOfGrade;
 	}
 
-	public void setTypeOfGrade(Integer typeOfGrade) {
+	public void setTypeOfGrade(String typeOfGrade) {
 		this.typeOfGrade = typeOfGrade;
 	}
 

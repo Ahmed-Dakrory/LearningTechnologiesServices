@@ -28,6 +28,10 @@ import org.hibernate.annotations.NamedQuery;
 	@NamedQuery(name="CourseTa.getByCourseId",
 	query = "from CourseTa d where d.courseId = :id"
 			)
+	,
+	@NamedQuery(name="CourseTa.getById",
+	query = "from CourseTa d where d.id = :id"
+			)
 	
 })
 

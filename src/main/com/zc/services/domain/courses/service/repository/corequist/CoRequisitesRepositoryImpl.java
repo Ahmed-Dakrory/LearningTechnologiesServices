@@ -7,7 +7,6 @@ import java.util.List;
 
 import main.com.zc.services.domain.courses.model.corequisit.CoRequisites;
 import main.com.zc.services.domain.courses.model.corequisit.CoRequisitesRepository;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -66,4 +65,30 @@ public class CoRequisitesRepositoryImpl implements CoRequisitesRepository{
 				   return results;
 	}
 
+
+	@Override
+	public boolean delete(CoRequisites data) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(data);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public CoRequisites getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("CoRequisites.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<CoRequisites> results=query.list();
+		   return results.get(0);
+	}
 }

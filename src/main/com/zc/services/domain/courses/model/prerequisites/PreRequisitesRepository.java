@@ -14,4 +14,6 @@ public interface PreRequisitesRepository {
 	public List<PreRequisites> getAll();
 	public List<PreRequisites> getByCourseId(int id);
 	public PreRequisites addPreRequisites(PreRequisites preRequisite);
+	public PreRequisites getById(int id);
+	public boolean delete(PreRequisites preRequisites);
 }

@@ -14,5 +14,8 @@ public interface IPreRequisitesAppService {
 	public List<PreRequisites> getAllPreRequisites();
 	public List<PreRequisites> getByCourseId(int id);
 	public PreRequisites addPreRequisite(PreRequisites preRequisite);
+	public PreRequisites getById(int id);
+	public boolean delete(PreRequisites preRequisites);
+	
 	
 }

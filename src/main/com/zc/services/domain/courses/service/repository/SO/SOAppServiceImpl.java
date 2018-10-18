@@ -12,6 +12,7 @@ import java.util.List;
 import main.com.zc.services.domain.courses.model.SO.ISOAppService;
 import main.com.zc.services.domain.courses.model.SO.SO;
 import main.com.zc.services.domain.courses.model.SO.SORepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +69,35 @@ public class SOAppServiceImpl implements ISOAppService{
 			}
 	}
 
-	
+
+	@Override
+	public boolean delete(SO so) {
+		// TODO Auto-generated method stub
+		try{
+			soRepository.delete(so);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public SO getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			SO so=soRepository.getById(id);
+			
+			return so;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
 	
 }
 		

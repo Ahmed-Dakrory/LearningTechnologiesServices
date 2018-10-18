@@ -19,24 +19,31 @@ import org.primefaces.context.RequestContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import main.com.zc.services.domain.booksSys.model.Book;
 import main.com.zc.services.domain.courses.model.SO.ISOAppService;
+import main.com.zc.services.domain.courses.model.SO.SO;
+import main.com.zc.services.domain.courses.model.books.CourseBooks;
+import main.com.zc.services.domain.courses.model.books.IBookCourseAppService;
+import main.com.zc.services.domain.courses.model.clo.CLO;
 import main.com.zc.services.domain.courses.model.clo.ICLOAppService;
+import main.com.zc.services.domain.courses.model.corequisit.CoRequisites;
 import main.com.zc.services.domain.courses.model.corequisit.ICoRequisitesAppService;
+import main.com.zc.services.domain.courses.model.courseIns.CourseInSyllabus;
+import main.com.zc.services.domain.courses.model.courseIns.ICourseInsSyllabusAppService;
 import main.com.zc.services.domain.courses.model.courseTa.CourseTa;
 import main.com.zc.services.domain.courses.model.courseTa.ICourseTaAppService;
 import main.com.zc.services.domain.courses.model.grades.Grade;
 import main.com.zc.services.domain.courses.model.grades.IGradeAppService;
 import main.com.zc.services.domain.courses.model.note.INoteAppService;
+import main.com.zc.services.domain.courses.model.note.Note;
 import main.com.zc.services.domain.courses.model.prerequisites.IPreRequisitesAppService;
 import main.com.zc.services.domain.courses.model.prerequisites.PreRequisites;
 import main.com.zc.services.domain.courses.model.references.IReferencesAppService;
+import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.relatedTopics.IRelatedTopicsAppService;
-import main.com.zc.services.domain.data.model.Courses;
+import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
 import main.com.zc.services.domain.data.model.Courses_Instructors;
-import main.com.zc.services.presentation.booksSys.dto.BookDTO;
-import main.com.zc.services.presentation.booksSys.facade.IBooksFacade;
-import main.com.zc.services.presentation.configuration.facade.ICourseInstructorFacade;
+import main.com.zc.services.domain.data.model.ICourse_InstructorRepository;
+import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.presentation.shared.facade.ICouresFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.shared.JavaScriptMessagesHandler;
@@ -53,14 +60,26 @@ public class CoursesAvailableForIns {
 	
 	private List<CoursesDTO> coursesLst;
 	private List<Courses_Instructors> courseInstructorList;
+	private CourseInSyllabus courses_Instructor;
+	private Employee selectedInstructor;
+	private int selectedCourseInstructorId;
 	private String numberOfCourses;
 	private int courseId; 
 	private CourseSyllabusCollection courseSyllabusCollection;
 	private CourseTa courseTaNew;
 	private Grade gradeNew;
-	private Book book;
+	private CourseBooks book;
+	private String selectedBookName;
 	private PreRequisites preRequisites;
+	private CoRequisites coRequisites;
+	private CLO clo;
+	private References references;
+	private SO so;
+	private Note note;
+	private RelatedTopics relatedTopics;
 	private String mail;
+	
+	private int tabSelection=0;
 	
 	
 	@ManagedProperty(value = "#{loginFacadeImpl}")
@@ -107,12 +126,16 @@ public class CoursesAvailableForIns {
 	ICouresFacade courseFacade;
 	
 	//CoursesInstructor Table facade
-	@ManagedProperty("#{ICourseInstructorFacade}")
-	private ICourseInstructorFacade courseInsFacade;
+	@ManagedProperty("#{ICourse_InstructorRepository}")
+	private ICourse_InstructorRepository courseInsFacade;
 	
+	//CoursesInstructorSyllabus Table facade
+	@ManagedProperty("#{courseInsSyllabusFacadeImpl}")
+	private ICourseInsSyllabusAppService courseInsSyllabusFacade;
+		
 	//Book Table facade
-	@ManagedProperty("#{IBooksFacade}")
-   	private IBooksFacade facade; 
+	@ManagedProperty("#{BookCourseFacadeImpl}")
+   	private IBookCourseAppService bookFacade; 
 	
 	@PostConstruct
 	public void init()
@@ -202,11 +225,23 @@ public class CoursesAvailableForIns {
 		courseTaNew=new CourseTa();
 		gradeNew=new Grade();
 		preRequisites=new PreRequisites();
-		book=new Book();
+		book=new CourseBooks();
+		courses_Instructor=new CourseInSyllabus();
+		coRequisites=new CoRequisites();
+		clo=new CLO();
+		so=new SO();
+		references=new References();
+		note=new Note();
+		relatedTopics=new RelatedTopics();
+		
+		courseInstructorList=courseInsFacade.getAll();
+		for(int i=0;i<courseInstructorList.size();i++){
+			System.out.println("Ahmed Println: "+courseInstructorList.get(i).getInstructor().getName());
+		}
 		courseSyllabusCollection=new CourseSyllabusCollection();
 		
 		courseSyllabusCollection.setCourses(courseFacade.getcourseById(courseId));
-		courseSyllabusCollection.setCourseInstructor(courseInsFacade.getAllInstructorsByCourseId(courseId));
+		courseSyllabusCollection.setCourseInstructor(courseInsSyllabusFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setCourseTas(courseTaFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setPre_Requisites(preRequisitFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setCoRequisites(coRequisitFacade.getByCourseId(courseId));
@@ -216,28 +251,106 @@ public class CoursesAvailableForIns {
 		courseSyllabusCollection.setNotes(noteFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setReferences(referencesFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setRelatedTopics(relatedTopicsFacade.getByCourseId(courseId));
-		courseSyllabusCollection.setBooks(facade.getCoursesBookWithCourseId(courseId));
+		courseSyllabusCollection.setBooks(bookFacade.getByCourseId(courseId));
 
 		return "/pages/secured/courseManagment/EditingcourseSyllabus.xhtml?faces-redirect=true";
 		
 	}
 	
 	public String endofEditing(){
-		courseFacade.updateCourse(courseSyllabusCollection.getCourses());
-		AddCourseInstructorToDataBase();
-		AddCourseTaToDataBase();
-		AddNotesToDataBase();
-		AddReferencesToDataBase();
-		AddRelatedTopicsToDataBase();
-		AddGradesToDataBase();
-		AddSosToDataBase();
-		AddClosToDataBase();
-		AddPre_RequisitesToDataBase();
-		AddCoRequisitesToDataBase();
-		AddBooksToDataBase();
+		
 		return "/pages/secured/courseManagment/courseSyllabus.xhtml?faces-redirect=true";
 	}
 	
+	
+	public void deleteNote(int Id){
+		noteFacade.delete(noteFacade.getById(Id));
+		courseSyllabusCollection.setNotes(noteFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Note was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteCourseIns(int Id){
+		courseInsSyllabusFacade.delete(courseInsSyllabusFacade.getById(Id));
+		courseSyllabusCollection.setCourseInstructor(courseInsSyllabusFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Instructor was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteCourseTa(int Id){
+		courseTaFacade.delete(courseTaFacade.getById(Id));
+		courseSyllabusCollection.setCourseTas(courseTaFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "TA was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteCLO(int Id){
+		cloFacade.delete(cloFacade.getById(Id));
+		courseSyllabusCollection.setClos(cloFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course Learning objective was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deletePreRequisite(int Id){
+		preRequisitFacade.delete(preRequisitFacade.getById(Id));
+		courseSyllabusCollection.setPre_Requisites(preRequisitFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Pre Requisite was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteCoRequisite(int Id){
+		coRequisitFacade.delete(coRequisitFacade.getById(Id));
+		courseSyllabusCollection.setCoRequisites(coRequisitFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Co Requisite was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteBook(int Id){
+		bookFacade.delete(bookFacade.getById(Id));
+		courseSyllabusCollection.setBooks(bookFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Book was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteSO(int Id){
+		soFacade.delete(soFacade.getById(Id));
+		courseSyllabusCollection.setSos(soFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Student OutCome was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteGrade(int Id){
+		gradeFacade.delete(gradeFacade.getById(Id));
+		courseSyllabusCollection.setGrades(gradeFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Grade was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteRelatedTopic(int Id){
+		relatedTopicsFacade.delete(relatedTopicsFacade.getById(Id));
+		courseSyllabusCollection.setRelatedTopics(relatedTopicsFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Related Topic was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteReference(int Id){
+		referencesFacade.delete(referencesFacade.getById(Id));
+		courseSyllabusCollection.setReferences(referencesFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Reference was Deleted successfully");
+
+		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+
 	public void addTa(){
 		System.out.println("Ok Ya Man");
 		courseTaNew.setCourseId(courseId);
@@ -252,6 +365,7 @@ public class CoursesAvailableForIns {
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("addCourseDlg.hide();");
 
+		
 		courseTaNew=new CourseTa();
 	}
 	
@@ -265,9 +379,7 @@ public class CoursesAvailableForIns {
 		context.execute("addGradeDlg.hide();");
 		gradeNew=new Grade();
 	}
-	
 	public void addPreRequisite(){
-		System.out.println("Ok Ya Man");
 		preRequisites.setCourseId(courseId);
 		courseSyllabusCollection.getPre_Requisites().add(preRequisites);
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "PreRequisite was added successfully");
@@ -276,102 +388,194 @@ public class CoursesAvailableForIns {
 		context.execute("addPrerequisteDlg.hide();");
 		preRequisites=new PreRequisites();
 	}
+	public void addCoRequisite(){
+		coRequisites.setCourseId(courseId);
+		courseSyllabusCollection.getCoRequisites().add(coRequisites);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "CoRequisite was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addCorequisteDlg.hide();");
+		coRequisites=new CoRequisites();
+	}
+	public void addClo(){
+		clo.setCourseId(courseId);
+		courseSyllabusCollection.getClos().add(clo);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Clo was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addCloDlg.hide();");
+		clo=new CLO();
+	}
+	public void addSo(){
+		so.setCourseId(courseId);
+		courseSyllabusCollection.getSos().add(so);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "SO was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addSoDlg.hide();");
+		so=new SO();
+	}
+	public void addNote(){
+		note.setCourseId(courseId);
+		courseSyllabusCollection.getNotes().add(note);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Note was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addNoteDlg.hide();");
+		note=new Note();
+	}
+	public void addRelatedTopic(){
+		relatedTopics.setCourseId(courseId);
+		courseSyllabusCollection.getRelatedTopics().add(relatedTopics);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "RelatedTopic was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addRelatedTopicDlg.hide();");
+		relatedTopics=new RelatedTopics();
+	}
+	public void addReference(){
+		references.setCourseId(courseId);
+		courseSyllabusCollection.getReferences().add(references);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Reference was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addReferenceDlg.hide();");
+		references=new References();
+	}
 	
 	public void addBook(){
-		System.out.println("Ok Ya Man");
-Courses courses=new Courses();
-courses.setId(courseSyllabusCollection.getCourses().getId());
-courses.setName(courseSyllabusCollection.getCourses().getName());
-
-		book.setCourse(courses);
+		book.setCourseId(courseId);
+		book.setBook(selectedBookName);
 		courseSyllabusCollection.getBooks().add(book);
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Book was added successfully");
 
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("addBookDlg.hide();");
-		book=new Book();
+		book=new CourseBooks();
+		
 	}
-	private void AddCoRequisitesToDataBase() {
+	public void addIntructor(){
+		selectedInstructor=courseInsFacade.getById(selectedCourseInstructorId).getInstructor();
+		courses_Instructor.setCourseId(courseId);
+		courses_Instructor.setName(selectedInstructor.getName());
+		courses_Instructor.setEmail(selectedInstructor.getMail());
+		courseSyllabusCollection.getCourseInstructor().add(courses_Instructor);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Instructor was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addInstDlg.hide();");
+		courses_Instructor=new CourseInSyllabus();
+		
+	}
+	
+	
+
+	
+	public void addMainDataToDatabase(){
+		System.out.println("Ahmed Play ok");
+		courseFacade.updateCourse(courseSyllabusCollection.getCourses());
+			System.out.println("Ahmed Play ok 3");
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
+	}
+	
+	public void addCoRequisitesToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getCoRequisites().size();i++){
 			coRequisitFacade.addCoRequisite(courseSyllabusCollection.getCoRequisites().get(i));
-		}
+		}		
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddPre_RequisitesToDataBase() {
+	public void addPre_RequisitesToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getPre_Requisites().size();i++){
 			preRequisitFacade.addPreRequisite(courseSyllabusCollection.getPre_Requisites().get(i));
-		}
+		}	
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddClosToDataBase() {
+	public void addClosToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getClos().size();i++){
 			cloFacade.addCLO(courseSyllabusCollection.getClos().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
 	}
 
-	private void AddSosToDataBase() {
+	public void addSosToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getSos().size();i++){
 			soFacade.addSO(courseSyllabusCollection.getSos().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
 	}
 	
-	private void AddBooksToDataBase() {
+	public void addBooksToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getBooks().size();i++){
-			BookDTO bookDTO=new BookDTO();
-			bookDTO.setId(courseSyllabusCollection.getBooks().get(i).getId());
-			bookDTO.setName(courseSyllabusCollection.getBooks().get(i).getName());
-			bookDTO.setOriginalCopies(courseSyllabusCollection.getBooks().get(i).getOriginalCopies());
-			bookDTO.setRemaingCopies(courseSyllabusCollection.getBooks().get(i).getRemaingCopies());
-			bookDTO.setStatus(courseSyllabusCollection.getBooks().get(i).getStatus());
-			bookDTO.setCourse(courseSyllabusCollection.getCourses());
-
-
-			facade.add(bookDTO);
+			bookFacade.addCourseBook(courseSyllabusCollection.getBooks().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddGradesToDataBase() {
+	public void addGradesToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getGrades().size();i++){
 			gradeFacade.addGrade(courseSyllabusCollection.getGrades().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddRelatedTopicsToDataBase() {
+	public void addRelatedTopicsToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getRelatedTopics().size();i++){
 			relatedTopicsFacade.addRelatedTopics(courseSyllabusCollection.getRelatedTopics().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddReferencesToDataBase() {
+	public void addReferencesToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getReferences().size();i++){
 			referencesFacade.addReference(courseSyllabusCollection.getReferences().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddNotesToDataBase() {
+	public void addNotesToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getNotes().size();i++){
 			noteFacade.addNote(courseSyllabusCollection.getNotes().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddCourseInstructorToDataBase() {
+	public void addCourseInstructorToDataBase() {
 		
 		for(int i=0;i<courseSyllabusCollection.getCourseInstructor().size();i++){
-			int instId=courseSyllabusCollection.getCourseInstructor().get(i).getId();
-			int courseId=courseSyllabusCollection.getCourses().getId();
-			courseInsFacade.addInstructorToCourse(instId, courseId);
+			courseInsSyllabusFacade.addCourseIns(courseSyllabusCollection.getCourseInstructor().get(i));
 		}
-		
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
 	}
 
-	private void AddCourseTaToDataBase() {
+	public void addCourseTaToDataBase() {
 	
 		for(int i=0;i<courseSyllabusCollection.getCourseTas().size();i++){
 			courseTaFacade.addCourseTa(courseSyllabusCollection.getCourseTas().get(i));
 		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
 	
 	}
 
+	
+
+	
+	
+	////////////////////////Setters and Getters////////////////
+	
+	
+	
+	
 	public List<CoursesDTO> getCoursesLst() {
 		return coursesLst;
 	}
@@ -379,13 +583,7 @@ courses.setName(courseSyllabusCollection.getCourses().getName());
 		this.coursesLst = coursesLst;
 	}
 	
-	public List<Courses_Instructors> getCourseInstructorList() {
-		return courseInstructorList;
-	}
-	public void setCourseInstructorList(
-			List<Courses_Instructors> courseInstructorList) {
-		this.courseInstructorList = courseInstructorList;
-	}
+	
 	public String getNumberOfCourses() {
 		return numberOfCourses;
 	}
@@ -484,22 +682,6 @@ courses.setName(courseSyllabusCollection.getCourses().getName());
 		this.coRequisitFacade = coRequisitFacade;
 	}
 
-	public ICourseInstructorFacade getCourseInsFacade() {
-		return courseInsFacade;
-	}
-
-	public void setCourseInsFacade(ICourseInstructorFacade courseInsFacade) {
-		this.courseInsFacade = courseInsFacade;
-	}
-
-	public IBooksFacade getFacade() {
-		return facade;
-	}
-
-	public void setFacade(IBooksFacade facade) {
-		this.facade = facade;
-	}
-
 	public CourseSyllabusCollection getCourseSyllabusCollection() {
 		return courseSyllabusCollection;
 	}
@@ -541,12 +723,148 @@ courses.setName(courseSyllabusCollection.getCourses().getName());
 		this.preRequisites = preRequisites;
 	}
 
-	public Book getBook() {
+	
+	public int getTabSelection() {
+		return tabSelection;
+	}
+
+	public void setTabSelection(int tabSelection) {
+		this.tabSelection = tabSelection;
+	}
+
+	public CourseBooks getBook() {
 		return book;
 	}
 
-	public void setBook(Book book) {
+	public void setBook(CourseBooks book) {
 		this.book = book;
+	}
+
+	
+
+	public IBookCourseAppService getBookFacade() {
+		return bookFacade;
+	}
+
+	public void setBookFacade(IBookCourseAppService bookFacade) {
+		this.bookFacade = bookFacade;
+	}
+
+	public String getSelectedBookName() {
+		return selectedBookName;
+	}
+
+	public void setSelectedBookName(String selectedBookName) {
+		this.selectedBookName = selectedBookName;
+	}
+
+	
+	public List<Courses_Instructors> getCourseInstructorList() {
+		return courseInstructorList;
+	}
+
+	public void setCourseInstructorList(
+			List<Courses_Instructors> courseInstructorList) {
+		this.courseInstructorList = courseInstructorList;
+	}
+
+
+	public ICourse_InstructorRepository getCourseInsFacade() {
+		return courseInsFacade;
+	}
+
+	public void setCourseInsFacade(ICourse_InstructorRepository courseInsFacade) {
+		this.courseInsFacade = courseInsFacade;
+	}
+
+	public CourseInSyllabus getCourses_Instructor() {
+		return courses_Instructor;
+	}
+
+	public void setCourses_Instructor(CourseInSyllabus courses_Instructor) {
+		this.courses_Instructor = courses_Instructor;
+	}
+
+	
+	public Employee getSelectedInstructor() {
+		return selectedInstructor;
+	}
+
+	public void setSelectedInstructor(Employee selectedInstructor) {
+		this.selectedInstructor = selectedInstructor;
+	}
+
+	public ICourseInsSyllabusAppService getCourseInsSyllabusFacade() {
+		return courseInsSyllabusFacade;
+	}
+
+	public void setCourseInsSyllabusFacade(
+			ICourseInsSyllabusAppService courseInsSyllabusFacade) {
+		this.courseInsSyllabusFacade = courseInsSyllabusFacade;
+	}
+
+	public int getSelectedInstructorName() {
+		return selectedCourseInstructorId;
+	}
+
+	public void setSelectedInstructorName(int selectedInstructorName) {
+		this.selectedCourseInstructorId = selectedInstructorName;
+	}
+
+	public int getSelectedCourseInstructorId() {
+		return selectedCourseInstructorId;
+	}
+
+	public void setSelectedCourseInstructorId(int selectedCourseInstructorId) {
+		this.selectedCourseInstructorId = selectedCourseInstructorId;
+	}
+
+	public CoRequisites getCoRequisites() {
+		return coRequisites;
+	}
+
+	public void setCoRequisites(CoRequisites coRequisites) {
+		this.coRequisites = coRequisites;
+	}
+
+	public CLO getClo() {
+		return clo;
+	}
+
+	public void setClo(CLO clo) {
+		this.clo = clo;
+	}
+
+	public References getReferences() {
+		return references;
+	}
+
+	public void setReferences(References references) {
+		this.references = references;
+	}
+
+	public SO getSo() {
+		return so;
+	}
+
+	public void setSo(SO so) {
+		this.so = so;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
+	}
+
+	public RelatedTopics getRelatedTopics() {
+		return relatedTopics;
+	}
+
+	public void setRelatedTopics(RelatedTopics relatedTopics) {
+		this.relatedTopics = relatedTopics;
 	}
 	
 	

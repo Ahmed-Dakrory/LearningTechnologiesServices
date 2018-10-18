@@ -3,11 +3,8 @@
  */
 package main.com.zc.services.domain.courses.service.repository.references;
 
-import java.util.List;
-
-import main.com.zc.services.domain.courses.model.references.References;
+import java.util.List;import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.references.ReferencesRepository;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -66,6 +63,30 @@ public class ReferencesRepositoryImpl implements ReferencesRepository{
 				   return results;
 	}
 
-	
+	@Override
+	public boolean delete(References note) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(note);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public References getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("References.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<References> results=query.list();
+		   return results.get(0);
+	}
 
 }

@@ -66,6 +66,35 @@ public class GradeAppServiceImpl implements IGradeAppService{
 				return null;
 			}
 	}
+
+	@Override
+	public Grade getById(int id) {
+		try{
+			Grade grades=gradesRepository.getById(id);
+			
+			return grades;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+	@Override
+	public boolean delete(Grade grade) {
+		// TODO Auto-generated method stub
+		try{
+			boolean ok=gradesRepository.delete(grade);
+			
+			return ok;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
 	
 }
 		

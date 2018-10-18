@@ -7,7 +7,6 @@ import java.util.List;
 import main.com.zc.services.domain.courses.model.courseTa.CourseTa;
 import main.com.zc.services.domain.courses.model.courseTa.CourseTaRepository;
 import main.com.zc.services.domain.courses.model.courseTa.ICourseTaAppService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,6 +63,36 @@ public class CourseTaAppServiceImpl implements ICourseTaAppService{
 			}
 	}
 	
+
+	@Override
+	public boolean delete(CourseTa so) {
+		// TODO Auto-generated method stub
+		try{
+			courseTaRepository.delete(so);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public CourseTa getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			CourseTa note=courseTaRepository.getById(id);
+			
+			return note;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
 }
 		
 		

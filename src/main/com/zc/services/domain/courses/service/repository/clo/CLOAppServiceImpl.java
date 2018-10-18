@@ -12,7 +12,6 @@ import java.util.List;
 import main.com.zc.services.domain.courses.model.clo.CLO;
 import main.com.zc.services.domain.courses.model.clo.CLORepository;
 import main.com.zc.services.domain.courses.model.clo.ICLOAppService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +69,35 @@ public class CLOAppServiceImpl implements ICLOAppService{
 	}
 
 	
+
+	@Override
+	public boolean delete(CLO data) {
+		// TODO Auto-generated method stub
+		try{
+			cloRepository.delete(data);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public CLO getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			CLO objData=cloRepository.getById(id);
+			
+			return objData;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
 	
 }
 		

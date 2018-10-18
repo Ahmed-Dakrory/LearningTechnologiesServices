@@ -66,6 +66,31 @@ public class GradeRepositoryImpl implements GradesRepository{
 				   return results;
 	}
 
+	@Override
+	public Grade getById(int id) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("Grade.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<Grade> results=query.list();
+		   return results.get(0);
+	}
+
+	@Override
+	public boolean delete(Grade grade) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(grade);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
 	
 
 }

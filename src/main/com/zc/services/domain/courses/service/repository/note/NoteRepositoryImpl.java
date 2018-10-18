@@ -4,6 +4,7 @@
 package main.com.zc.services.domain.courses.service.repository.note;
 
 import java.util.List;
+
 import main.com.zc.services.domain.courses.model.note.Note;
 import main.com.zc.services.domain.courses.model.note.NoteRepository;
 
@@ -63,6 +64,32 @@ public class NoteRepositoryImpl implements NoteRepository{
 				 @SuppressWarnings("unchecked")
 				List<Note> results=query.list();
 				   return results;
+	}
+
+	@Override
+	public boolean delete(Note note) {
+		// TODO Auto-generated method stub
+		try {
+			session = sessionFactory.openSession();
+			Transaction tx1 = session.beginTransaction();
+			session.delete(note);
+			tx1.commit();
+			session.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Note getById(int id) {
+		// TODO Auto-generated method stub
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("Note.getById").setInteger("id",id);
+
+		 @SuppressWarnings("unchecked")
+		List<Note> results=query.list();
+		   return results.get(0);
 	}
 
 	

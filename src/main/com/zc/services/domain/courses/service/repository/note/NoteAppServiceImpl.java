@@ -68,6 +68,35 @@ public class NoteAppServiceImpl implements INoteAppService{
 			}
 	}
 
+	@Override
+	public boolean delete(Note so) {
+		// TODO Auto-generated method stub
+		try{
+			noteRepository.delete(so);
+			return true;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return false;
+			}
+	}
+
+	@Override
+	public Note getById(int id) {
+		// TODO Auto-generated method stub
+		try{
+			Note note=noteRepository.getById(id);
+			
+			return note;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
 	
 	
 }
