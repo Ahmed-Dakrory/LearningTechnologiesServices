@@ -75,6 +75,9 @@
 								<p:menuitem  value="References"  outcome="references.xhtml" icon="ui-icon-document">
 									 <f:param name="i" value="11" />
 								</p:menuitem >
+								<p:menuitem  value="Topics"  outcome="TopicsOfTheCourse.xhtml" icon="ui-icon-document">
+									 <f:param name="i" value="12" />
+								</p:menuitem >
 							</p:tabMenu>
 										<br/>	
 										<div align="center">
@@ -92,9 +95,23 @@
  											<h:outputText value="CourseTitle:    " class="dashNumber" />
  											<p:inputText id="editor" widgetVar="editorWidget" value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.courseTitle}" width="900" />
  
-  											<h:outputText value="Description:    " class="dashNumber" />
-									 		<p:inputText value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.description}" width="900" />
+ 											<h:outputText value="Credit Hours    " class="dashNumber" />
+									 		<p:inputText  value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.credit}" width="900" />
  
+ 
+  											<h:outputText value="Description:    " class="dashNumber" />
+									 		<h:inputTextarea style="height: 200px; width: 500px" value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.description}"  />
+ 
+ 											<h:outputText value="Required Or Elective    " class="dashNumber" />
+ 											<p:selectOneMenu id="courseRorE" 
+												value="#{CoursesAvailableForIns.courseSyllabusCollection.courses.requiredElective}"
+												panelStyle="width:180px;" style="margin-top:20px; width: 330px;"
+												 effect="fade"
+												filter="true" filterMatchMode="startsWith">
+												<f:selectItem itemLabel="Required" itemValue="1" />
+												<f:selectItem itemLabel="Elective" itemValue="0" />
+											</p:selectOneMenu>
+									 		
 										</p:panelGrid>
 										
 									 

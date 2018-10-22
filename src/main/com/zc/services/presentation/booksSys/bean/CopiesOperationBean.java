@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -30,9 +29,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.primefaces.context.RequestContext;
 
 import main.com.zc.services.domain.shared.enumurations.BookActionEnum;
@@ -50,7 +47,6 @@ import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.services.presentation.users.facade.IStudentFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
-import main.com.zc.shared.presentation.dto.LoginStaffDTO;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
 /**

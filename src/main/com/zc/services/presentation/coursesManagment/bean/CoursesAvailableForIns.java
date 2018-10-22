@@ -4,21 +4,19 @@
 package main.com.zc.services.presentation.coursesManagment.bean;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
-
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.context.RequestContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import main.com.zc.services.domain.courses.model.SO.ISOAppService;
 import main.com.zc.services.domain.courses.model.SO.SO;
 import main.com.zc.services.domain.courses.model.books.CourseBooks;
@@ -41,6 +39,8 @@ import main.com.zc.services.domain.courses.model.references.IReferencesAppServic
 import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.relatedTopics.IRelatedTopicsAppService;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
+import main.com.zc.services.domain.courses.model.topics.ITopicsAppService;
+import main.com.zc.services.domain.courses.model.topics.Topics;
 import main.com.zc.services.domain.data.model.Courses_Instructors;
 import main.com.zc.services.domain.data.model.ICourse_InstructorRepository;
 import main.com.zc.services.domain.person.model.Employee;
@@ -77,6 +77,7 @@ public class CoursesAvailableForIns {
 	private SO so;
 	private Note note;
 	private RelatedTopics relatedTopics;
+	private Topics topics;
 	private String mail;
 	
 	private int tabSelection=0;
@@ -137,6 +138,11 @@ public class CoursesAvailableForIns {
 	@ManagedProperty("#{BookCourseFacadeImpl}")
    	private IBookCourseAppService bookFacade; 
 	
+	//Topic Table facade
+	@ManagedProperty(value = "#{TopicFacadeImpl}")
+	private ITopicsAppService topicFacade;
+		
+	
 	@PostConstruct
 	public void init()
 	{
@@ -173,14 +179,28 @@ public class CoursesAvailableForIns {
 		}
 	
 	public void generateFile(){
-		 /*JTextPane pad = new JTextPane();
-	        pad.setContentType("text/html");
-	        HTMLEditorKit kit = (HTMLEditorKit)pad.getEditorKit();
-	        HTMLDocument htmldoc = (HTMLDocument)kit.createDefaultDocument();
-	        kit.insertHTML(htmldoc, htmldoc.getLength(), "<p>paragraph <b>1</b></p>", 0, 0, null);
-	        kit.insertHTML(htmldoc, htmldoc.getLength(), "<p>paragraph <span style=\"color:red\">2</span></p>", 0, 0, null);
-	        pad.setDocument(htmldoc);
-	       */ 
+		 HSSFWorkbook workbook = new HSSFWorkbook();
+		    HSSFSheet sheet = workbook.createSheet();
+		    
+		    ReportFileGeneration reportFileGeneration=new ReportFileGeneration(courseSyllabusCollection,workbook, sheet);
+		    
+		    reportFileGeneration.generateReport();
+
+		    FacesContext facesContext = FacesContext.getCurrentInstance();
+		    ExternalContext externalContext = facesContext.getExternalContext();
+		    externalContext.setResponseContentType("application/vnd.ms-excel");
+		    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+
+		    try {
+				workbook.write(externalContext.getResponseOutputStream());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    facesContext.responseComplete();
+	}
+	/*public void generateFile(){
+		
 	        
 	      //load document here
 		    HttpServletResponse response =
@@ -188,7 +208,7 @@ public class CoursesAvailableForIns {
 	                    .getExternalContext().getResponse();
 		    try {
 				PrintWriter out = response.getWriter();
-				// out.println(courseSyllabus.getCourseName());
+				 out.println(courseSyllabusCollection.getCourses().getName());
 			        try {
 			        	response.setContentType("application/msword");
 			            response.setHeader("Content-disposition", "attachment; fileName=\"" + "Syllabus.doc" + "\"" );
@@ -219,7 +239,7 @@ public class CoursesAvailableForIns {
  	      FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("dlgFormExport:addPanelExport");
  	      
 	}
-
+*/
 	public String openTheSessionOfAddingSyllabus(){
 
 		courseTaNew=new CourseTa();
@@ -231,13 +251,12 @@ public class CoursesAvailableForIns {
 		clo=new CLO();
 		so=new SO();
 		references=new References();
+		topics=new Topics();
 		note=new Note();
 		relatedTopics=new RelatedTopics();
 		
 		courseInstructorList=courseInsFacade.getAll();
-		for(int i=0;i<courseInstructorList.size();i++){
-			System.out.println("Ahmed Println: "+courseInstructorList.get(i).getInstructor().getName());
-		}
+		
 		courseSyllabusCollection=new CourseSyllabusCollection();
 		
 		courseSyllabusCollection.setCourses(courseFacade.getcourseById(courseId));
@@ -252,7 +271,7 @@ public class CoursesAvailableForIns {
 		courseSyllabusCollection.setReferences(referencesFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setRelatedTopics(relatedTopicsFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setBooks(bookFacade.getByCourseId(courseId));
-
+		courseSyllabusCollection.setTopics(topicFacade.getByCourseId(courseId));
 		return "/pages/secured/courseManagment/EditingcourseSyllabus.xhtml?faces-redirect=true";
 		
 	}
@@ -293,6 +312,13 @@ public class CoursesAvailableForIns {
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course Learning objective was Deleted successfully");
 
 		System.out.println("Deleted Item: "+String.valueOf(Id));
+	}
+	
+	public void deleteTopic(int Id){
+		topicFacade.delete(topicFacade.getById(Id));
+		courseSyllabusCollection.setTopics(topicFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Topics was Deleted successfully");
+
 	}
 	
 	public void deletePreRequisite(int Id){
@@ -406,6 +432,15 @@ public class CoursesAvailableForIns {
 		context.execute("addCloDlg.hide();");
 		clo=new CLO();
 	}
+	public void addTopic(){
+		topics.setCourseId(courseId);
+		courseSyllabusCollection.getTopics().add(topics);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Topic was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addTopicDlg.hide();");
+		topics=new Topics();
+	}
 	public void addSo(){
 		so.setCourseId(courseId);
 		courseSyllabusCollection.getSos().add(so);
@@ -498,6 +533,13 @@ public class CoursesAvailableForIns {
 	public void addClosToDataBase() {
 		for(int i=0;i<courseSyllabusCollection.getClos().size();i++){
 			cloFacade.addCLO(courseSyllabusCollection.getClos().get(i));
+		}
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+	}
+	
+	public void addTopicToDataBase() {
+		for(int i=0;i<courseSyllabusCollection.getTopics().size();i++){
+			topicFacade.addTopic(courseSyllabusCollection.getTopics().get(i));
 		}
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
 	}
@@ -866,6 +908,24 @@ public class CoursesAvailableForIns {
 	public void setRelatedTopics(RelatedTopics relatedTopics) {
 		this.relatedTopics = relatedTopics;
 	}
+
+	public Topics getTopics() {
+		return topics;
+	}
+
+	public void setTopics(Topics topics) {
+		this.topics = topics;
+	}
+
+	public ITopicsAppService getTopicFacade() {
+		return topicFacade;
+	}
+
+	public void setTopicFacade(ITopicsAppService topicFacade) {
+		this.topicFacade = topicFacade;
+	}
+
+
 	
 	
 	

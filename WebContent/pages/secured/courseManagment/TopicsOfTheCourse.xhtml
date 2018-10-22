@@ -70,54 +70,53 @@
 								<p:menuitem  value="Topics"  outcome="TopicsOfTheCourse.xhtml" icon="ui-icon-document">
 									 <f:param name="i" value="12" />
 								</p:menuitem >
-							</p:tabMenu>
+							</p:tabMenu><br/>	
+								<div class="divcenter"  align="center"><br/><br/><h:outputText value="Topics Of the Course " style="font-size: 35px;"/><br/><br/></div>
+ 										 	
 										
- 										 	
-								<br/><br/>
-								<br/><br/>
- 								<br/><br/>	
-								<div class="divcenter"  align="center"><br/><br/><h:outputText value="Course Learning Objective Of the Course " style="font-size: 35px;"/><br/><br/></div>
- 										 	
-								<br/><br/>			
- 				<div align="center">		
- 			<h:form id="tableform2">
+ 					
+ 			<h:form id="tableform1">
 	<div align="center">
-			<p:panel>
+								<p:panel>
+								
+								<br/><br/>	
 								<br/><br/>
- 										 <p:dataTable id="tableOfAll2" value = "#{CoursesAvailableForIns.courseSyllabusCollection.clos}" 
+ 										 <p:dataTable id="tableOfAll1" value = "#{CoursesAvailableForIns.courseSyllabusCollection.topics}" 
  										 paginator="true" styleClass="paginated"
- 										 resizableColumns="true" var = "ref">
-            
-                   <f:facet style="width:790px;" name = "header">Course Learning Objective</f:facet>
+ 										 resizableColumns="true" var = "topic">
+           
+            <f:facet style="width:790px;" name = "header">Topics</f:facet>
                     
             <p:column style="width:870px;">
               
                <div align="center">
-              <p:inputText style="width:790px;" value = "#{ref.clo}"/> 
+              <p:inputText style="width:790px;" value = "#{topic.name}"/> 
               </div>
             </p:column>
             <p:column>
-									<p:commandButton value="Delete" update="tableOfAll2" ajax="true" action="#{CoursesAvailableForIns.deleteCLO(ref.id)}" styleClass="redBtn"/>
+									<p:commandButton value="Delete" update="tableOfAll1" ajax="true" action="#{CoursesAvailableForIns.deleteTopic(topic.id)}" styleClass="redBtn"/>
 						</p:column>
+          
          </p:dataTable>
          
-          <p:commandButton value="+ New Course Learning Objective" type="button" title="Add Course Learning Objective" styleClass="greenBtn"
-			 			 onclick="addCloDlg.show();" />
-			 		<br/>	 
-		   <p:commandButton value="Save" ajax="true" title="Add Course Learning Objective" styleClass="greenBtn"
-			 			 action="#{CoursesAvailableForIns.addClosToDataBase}" />		 			 
-		</p:panel>
+         
+							
+          <p:commandButton value="+ New Topic" id="addTopicBtn" type="button" title="Add Topic" styleClass="greenBtn"
+			 			 onclick="addTopicDlg.show();" />
+		<br/>
+		<p:commandButton value="Save" ajax="true" title="Add Grades" styleClass="greenBtn"
+			 			 action="#{CoursesAvailableForIns.addTopicToDataBase}" />		 			 
+			</p:panel>
 			</div>
-										
      </h:form>
     
  														
  							
 									
 									
-											</div>
 											
-									
+											
+											<br/>
 											
 								<br/><br/>
 								<br/><br/>
@@ -126,7 +125,7 @@
     
          	<p:commandButton value="Submit for this course" ajax="false" styleClass="blueBtn" action="#{CoursesAvailableForIns.endofEditing}"/>
 										
-			<br/><br/>					 
+<br/><br/>					 
 									 
 			<p:commandButton value="Download Syllabus" styleClass="blueBtn" 
 									 action="#{CoursesAvailableForIns.generateFile}" ajax="false"/>
@@ -153,16 +152,16 @@
 		</ui:define>
 		<ui:define name="confirmDialogBox">
 			
-			<h:form>
-					<p:dialog widgetVar="addCloDlg" header="Course Learning Objective Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
+				<h:form id="pageForm1">
+					<p:dialog widgetVar="addTopicDlg" header="Topic Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
 			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
 					
 						<div class="dialogWrapper">
-							<h:panelGroup id="addPanel2">
+							<h:panelGroup id="addPanel1">
 								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.clo.clo}" required="true" requiredMessage="insert Course Learning Objective" id="ref1" style="width:460px ;"/>
-			          				<p:watermark for="ref1" value="CLO" />
-			          				<p:message for="ref1"/>
+			          				<p:inputText value="#{CoursesAvailableForIns.topics.name}" required="true" requiredMessage="insert grade type Of grade" id="topicId" style="width:460px ;"/>
+			          				<p:watermark for="topicId" value="Topic" />
+			          				<p:message for="topicId"/>
 			          			</h:panelGroup>
 			          			
 			          			
@@ -171,8 +170,8 @@
 						</h:panelGroup>
 					</div>
 					<ul class="dialogFooter">
-						<li><p:commandButton value="Cancel" title="Cancel" onclick="addCloDlg.hide()" immediate="true" class="dialogCancel" /></li>
-						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addClo}" ajax="true" update=":PanelFormAll:tableform2:tableOfAll2"
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addTopicDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addTopic}" ajax="true" update=":PanelFormAll:tableform1:tableOfAll1"
 							 class="dialogOk"/></li>
 					</ul>
 			</p:dialog>
