@@ -52,8 +52,9 @@ public class ReportFileGeneration {
 		Relatedtopics();
 		Instructor();
 		TA(23);
-		int returnRow = TextBooks(27);
-		int returnRow2 = References(returnRow);
+		int returnRow0=Schedule(24);
+		int returnRow = TextBooks(returnRow0+1);
+		int returnRow2 = References(returnRow+1);
 		int returnRow3 = Topics(returnRow2+1);
 		int returnRow4 = Grades(returnRow3+2);
 		int returnRow5 = Notes(returnRow4+2);
@@ -341,6 +342,51 @@ public class ReportFileGeneration {
 	    cell.setCellValue(value);
 	}
 	
+	public int Schedule(int num){
+		int numbReturn=num;
+		HSSFCellStyle style = workbook.createCellStyle();
+	    style.setAlignment(CellStyle.ALIGN_LEFT);
+	    HSSFFont font = workbook.createFont();
+	    font.setFontHeightInPoints((short) 11);
+	    font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+	    style.setFont(font); 
+	    
+		sheet.addMergedRegion(new CellRangeAddress(num, num, 0, 1));
+	    row = sheet.createRow(num);
+	    cell = row.createCell(0);
+	    row.getCell(0).setCellStyle(style);
+	    cell.setCellValue("Schedule");
+	    
+	    style = workbook.createCellStyle();
+	    style.setWrapText(true);
+	    style.setAlignment(CellStyle.ALIGN_LEFT);
+	    font = workbook.createFont();
+	    font.setFontHeightInPoints((short) 11);
+	    style.setFont(font); 
+	    if(courseSyllabusCollection.getSchedules().size()>=1){
+	    sheet.addMergedRegion(new CellRangeAddress(num, num+courseSyllabusCollection.getSchedules().size()-1, 2, 9));
+	    cell = row.createCell(2);
+	    row.getCell(2).setCellStyle(style);
+	    String value="";
+	    for(int i=0;i<courseSyllabusCollection.getSchedules().size();i++){
+	    	numbReturn++;
+	    	value+=courseSyllabusCollection.getSchedules().get(i).getDay()+" ";
+	    	value+=courseSyllabusCollection.getSchedules().get(i).getFromTime()+" - ";
+	    	value+=courseSyllabusCollection.getSchedules().get(i).getToTime()+", ";
+	    	value+=courseSyllabusCollection.getSchedules().get(i).getRoom()+"-";
+	    	value+=courseSyllabusCollection.getSchedules().get(i).getBuilding();
+	    	
+	    	if(i!=courseSyllabusCollection.getSchedules().size()-1){
+		    	value+="\r\n";
+		    	
+	    	}
+	    	
+	    }
+	    cell.setCellValue(value);
+	    }
+	    return numbReturn;
+	}
+	
 	public int TextBooks(int num){
 		int numbReturn=num;
 		HSSFCellStyle style = workbook.createCellStyle();
@@ -362,7 +408,7 @@ public class ReportFileGeneration {
 	    font = workbook.createFont();
 	    font.setFontHeightInPoints((short) 11);
 	    style.setFont(font); 
-	    
+	    if(courseSyllabusCollection.getCourseTas().size()>=1){
 		sheet.addMergedRegion(new CellRangeAddress(num, num+courseSyllabusCollection.getBooks().size()-1, 2, 9));
 	    cell = row.createCell(2);
 	    row.getCell(2).setCellStyle(style);
@@ -379,6 +425,7 @@ public class ReportFileGeneration {
 	    	
 	    }
 	    cell.setCellValue(value);
+	    }
 	    return numbReturn;
 	}
 
@@ -403,7 +450,8 @@ public class ReportFileGeneration {
 	    font = workbook.createFont();
 	    font.setFontHeightInPoints((short) 11);
 	    style.setFont(font); 
-	    
+
+	    if(courseSyllabusCollection.getReferences().size()>=1){
 		sheet.addMergedRegion(new CellRangeAddress(num, num+courseSyllabusCollection.getReferences().size()-1, 2, 9));
 	    cell = row.createCell(2);
 	    row.getCell(2).setCellStyle(style);
@@ -420,6 +468,7 @@ public class ReportFileGeneration {
 	    	
 	    }
 	    cell.setCellValue(value);
+	    }
 	    return numbReturn;
 	}
 
@@ -444,7 +493,8 @@ public class ReportFileGeneration {
 	    font = workbook.createFont();
 	    font.setFontHeightInPoints((short) 11);
 	    style.setFont(font); 
-	    
+
+	    if(courseSyllabusCollection.getTopics().size()>=1){
 		sheet.addMergedRegion(new CellRangeAddress(num, num+courseSyllabusCollection.getTopics().size(), 2, 9));
 	    cell = row.createCell(2);
 	    row.getCell(2).setCellStyle(style);
@@ -461,6 +511,7 @@ public class ReportFileGeneration {
 	    	
 	    }
 	    cell.setCellValue(value);
+	    }
 	    return numbReturn;
 	}
 
@@ -486,7 +537,8 @@ public class ReportFileGeneration {
 	    font.setFontHeightInPoints((short) 11);
 	    style.setFont(font); 
 	    
-		
+
+	    if(courseSyllabusCollection.getGrades().size()>=1){
 	    String value="";
 	    for(int i=0;i<courseSyllabusCollection.getGrades().size();i++){
 	    	numbReturn++;
@@ -505,7 +557,7 @@ public class ReportFileGeneration {
 		    cell = row.createCell(5);
 		    row.getCell(5).setCellStyle(style);
 	    	cell.setCellValue("%");
-	    	
+	    }
 	    	
 	    }
 	    return numbReturn;
@@ -532,7 +584,8 @@ public class ReportFileGeneration {
 	    font = workbook.createFont();
 	    font.setFontHeightInPoints((short) 11);
 	    style.setFont(font); 
-	    
+
+	    if(courseSyllabusCollection.getNotes().size()>=1){
 		sheet.addMergedRegion(new CellRangeAddress(num+1, num+courseSyllabusCollection.getNotes().size()+3, 1, 9));
 		row = sheet.createRow(num+1);
 		cell = row.createCell(1);
@@ -549,6 +602,7 @@ public class ReportFileGeneration {
 	    	}
 
 		    cell.setCellValue(value);
+	    }
 	    }
 	    return numbReturn;
 	}
@@ -587,7 +641,8 @@ public class ReportFileGeneration {
 	    font = workbook.createFont();
 	    font.setFontHeightInPoints((short) 11);
 	    style.setFont(font); 
-	    
+
+	    if(courseSyllabusCollection.getClos().size()>=1){
 		sheet.addMergedRegion(new CellRangeAddress(num+2, num+courseSyllabusCollection.getClos().size()+8, 1, 9));
 		row = sheet.createRow(num+2);
 		cell = row.createCell(1);
@@ -604,6 +659,7 @@ public class ReportFileGeneration {
 	    	}
 
 		    cell.setCellValue(value);
+	    }
 	    }
 	    return numbReturn;
 	}
@@ -634,6 +690,8 @@ public class ReportFileGeneration {
 	    cell = row.createCell(1);
 	    row.getCell(1).setCellStyle(style);
 	    String value="";
+
+	    if(courseSyllabusCollection.getSos().size()>=1){
 	    for(int i=0;i<courseSyllabusCollection.getSos().size();i++){
 	    	value+=courseSyllabusCollection.getSos().get(i).getSo();
 	    	
@@ -644,7 +702,7 @@ public class ReportFileGeneration {
 	    	}
 	    	
 	    }
-
+	    }
 	    cell.setCellValue(value);
 	}
 

@@ -73,43 +73,60 @@
 								<p:menuitem  value="Schedule"  outcome="schedule_of_the_course.xhtml" icon="ui-icon-document">
 									 <f:param name="i" value="13" />
 								</p:menuitem >
-							</p:tabMenu>
-										
- 										 	
-								<br/><br/>
-								<br/><br/>
- 								<br/><br/>	
-								<div class="divcenter"  align="center"><br/><br/><h:outputText value="Notes Of the Course " style="font-size: 35px;"/><br/><br/></div>
- 										 	
-								<br/><br/>			
+							</p:tabMenu><br/>
+ 												
  				<div align="center">		
- 			<h:form id="tableform2">
-	
-								<p:panel>
+ 			<h:form id="tableform" >
+ 			
+ 			
+ 										<br/><br/>
+ 								<br/><br/>	
+								<div class="divcenter" align="center"><br/><br/><h:outputText value="Schedule Of the Course " style="font-size: 35px;"/><br/><br/></div>
+ 										 	
+								<br/><br/>	
+							<p:panel>	
 								<br/><br/>
- 										 <p:dataTable id="tableOfAll2" value = "#{CoursesAvailableForIns.courseSyllabusCollection.notes}" 
- 										  var = "ref"  paginator="true" styleClass="paginated">
-            <f:facet name="header">
-            Notes
-        </f:facet>
-                       <p:column style="width:790px;align:center;" >
-                       		<div align="center">
-                       		<p:inputText style="width:590px;" value = "#{ref.note}"/>
-                       </div>
-                       </p:column>
+ 										 <p:dataTable id="tableOfAll" value = "#{CoursesAvailableForIns.courseSyllabusCollection.schedules}"
+					 		   resizableColumns="true" paginator="true" styleClass="paginated" var = "schedule" >
+            
+            <p:column>    				
+               <f:facet name = "header">Day</f:facet>    				
+               <p:inputText value = "#{schedule.day}" style="width:150px;"/>
+            </p:column>
+            
+            <p:column>
+               <f:facet name = "header">Starting Time</f:facet>
+               <p:inputText value = "#{schedule.fromTime}" style="width:150px;"/>
+            </p:column>
            
-           			   <p:column>
-									<p:commandButton value="Delete" update="tableOfAll2" ajax="true" action="#{CoursesAvailableForIns.deleteNote(ref.id)}" styleClass="redBtn"/>
+            
+            <p:column>
+               <f:facet name = "header">Ending Time</f:facet>
+               <p:inputText value = "#{schedule.toTime}" style="width:150px;"/>
+            </p:column>
+            
+            <p:column>
+               <f:facet name = "header">Room</f:facet>
+               <p:inputText value = "#{schedule.room}" style="width:150px;"/>
+            </p:column>
+            
+            <p:column>
+               <f:facet name = "header">Building</f:facet>
+               <p:inputText value = "#{schedule.building}" style="width:150px;"/>
+            </p:column>
+           
+            <p:column>
+									<p:commandButton value="Delete" update="tableOfAll" ajax="true" action="#{CoursesAvailableForIns.deleteSchedule(schedule.id)}" styleClass="redBtn"/>
 						</p:column>
          </p:dataTable>
-         
-          <p:commandButton value="+ New Note" type="button" title="Add Note" styleClass="greenBtn"
-			 			 onclick="addNoteDlg.show();" />
-			 		<br/>	 
-		   <p:commandButton value="Save" ajax="true" title="Add Note" styleClass="greenBtn"
-			 			 action="#{CoursesAvailableForIns.addNotesToDataBase}" />		 			 
-		</p:panel>
-								
+          <p:commandButton value="+ New Schedule" id="addTaBtn" type="button" title="Add Schedule" styleClass="greenBtn"
+			 			 onclick="addScheduleDlg.show();" />
+			<br/>
+		<p:commandButton value="Save" ajax="true" title="Add Ta" styleClass="greenBtn"
+			 			 action="#{CoursesAvailableForIns.addScheduleToDataBase}" />		 			 
+		
+         </p:panel>
+		
      </h:form>
     
  														
@@ -118,16 +135,14 @@
 									
 											</div>
 											
-									
 											
-								<br/><br/>
-								<br/><br/>
+												<br/><br/>
       
 			
     
          	<p:commandButton value="Submit for this course" ajax="false" styleClass="blueBtn" action="#{CoursesAvailableForIns.endofEditing}"/>
 										
-			<br/><br/>					 
+<br/><br/>					 
 									 
 			<p:commandButton value="Download Syllabus" styleClass="blueBtn" 
 									 action="#{CoursesAvailableForIns.generateFile}" ajax="false"/>
@@ -153,28 +168,54 @@
 	        </script>
 		</ui:define>
 		<ui:define name="confirmDialogBox">
-			
-			<h:form>
-					<p:dialog widgetVar="addNoteDlg" header="Note Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
+		
+
+					<h:form id="pageForm">
+					<p:dialog id="dialogP" widgetVar="addScheduleDlg" header="Schedule Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
 			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
 					
 						<div class="dialogWrapper">
-							<h:panelGroup id="addPanel2">
+							<h:panelGroup id="addPanel">
 								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.note.note}" required="true" requiredMessage="insert note" id="ref1" style="width:460px ;"/>
-			          				<p:watermark for="ref1" value="Note" />
-			          				<p:message for="ref1"/>
+			          				<p:inputText value="#{CoursesAvailableForIns.schedule.day}" required="true" requiredMessage="insert Schedule day" id="day" style="width:460px ;"/>
+			          				<p:watermark for="day" value="Day" />
+			          				<p:message for="day"/>
 			          			</h:panelGroup>
 			          			
+			          			 <br/>
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.schedule.fromTime}" required="true" requiredMessage="insert Schedule start time" id="start" style="width:460px; "/>
+			          				<p:watermark for="start" value="start" />
+			          				<p:message for="start"/>
+			          			</h:panelGroup>
 			          			
+			          			<br/>
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.schedule.toTime}" required="true" requiredMessage="insert Schedule Ending Time" id="toTime" style="width:460px; "/>
+			          				<p:watermark for="toTime" value="toTime" />
+			          				<p:message for="toTime"/>
+			          			</h:panelGroup>
+			          			
+			          			<br/>
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.schedule.room}" required="true" requiredMessage="insert Schedule room" id="room" style="width:460px; "/>
+			          				<p:watermark for="room" value="room" />
+			          				<p:message for="room"/>
+			          			</h:panelGroup>
+			          			
+			          			<br/>
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.schedule.building}" required="true" requiredMessage="insert Schedule building" id="building" style="width:460px; "/>
+			          				<p:watermark for="building" value="building" />
+			          				<p:message for="building"/>
+			          			</h:panelGroup>
 			          			 <br/>
 							
 						</h:panelGroup>
 					</div>
 					<ul class="dialogFooter">
-						<li><p:commandButton value="Cancel" title="Cancel" onclick="addNoteDlg.hide()" immediate="true" class="dialogCancel" /></li>
-						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addNote}" ajax="true" update=":PanelFormAll:tableform2:tableOfAll2"
-							 class="dialogOk"/></li>
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addScheduleDlg.hide()" immediate="true" class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" action="#{CoursesAvailableForIns.addSchedule}" ajax="true" update=":PanelFormAll:tableform:tableOfAll" class="dialogOk"/></li>
 					</ul>
 			</p:dialog>
 			</h:form>

@@ -6,17 +6,20 @@ package main.com.zc.services.presentation.coursesManagment.bean;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.context.RequestContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import main.com.zc.services.domain.courses.model.SO.ISOAppService;
 import main.com.zc.services.domain.courses.model.SO.SO;
 import main.com.zc.services.domain.courses.model.books.CourseBooks;
@@ -39,6 +42,8 @@ import main.com.zc.services.domain.courses.model.references.IReferencesAppServic
 import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.relatedTopics.IRelatedTopicsAppService;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
+import main.com.zc.services.domain.courses.model.schedule.IScheduleAppService;
+import main.com.zc.services.domain.courses.model.schedule.Schedule;
 import main.com.zc.services.domain.courses.model.topics.ITopicsAppService;
 import main.com.zc.services.domain.courses.model.topics.Topics;
 import main.com.zc.services.domain.data.model.Courses_Instructors;
@@ -78,6 +83,7 @@ public class CoursesAvailableForIns {
 	private Note note;
 	private RelatedTopics relatedTopics;
 	private Topics topics;
+	private Schedule schedule;
 	private String mail;
 	
 	private int tabSelection=0;
@@ -142,6 +148,9 @@ public class CoursesAvailableForIns {
 	@ManagedProperty(value = "#{TopicFacadeImpl}")
 	private ITopicsAppService topicFacade;
 		
+	//Topic Table facade
+	@ManagedProperty(value = "#{ScheduleFacadeImpl}")
+	private IScheduleAppService scheduleFacade;
 	
 	@PostConstruct
 	public void init()
@@ -252,6 +261,7 @@ public class CoursesAvailableForIns {
 		so=new SO();
 		references=new References();
 		topics=new Topics();
+		schedule=new Schedule();
 		note=new Note();
 		relatedTopics=new RelatedTopics();
 		
@@ -272,6 +282,7 @@ public class CoursesAvailableForIns {
 		courseSyllabusCollection.setRelatedTopics(relatedTopicsFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setBooks(bookFacade.getByCourseId(courseId));
 		courseSyllabusCollection.setTopics(topicFacade.getByCourseId(courseId));
+		courseSyllabusCollection.setSchedules(scheduleFacade.getByCourseId(courseId));
 		return "/pages/secured/courseManagment/EditingcourseSyllabus.xhtml?faces-redirect=true";
 		
 	}
@@ -280,7 +291,6 @@ public class CoursesAvailableForIns {
 		
 		return "/pages/secured/courseManagment/courseSyllabus.xhtml?faces-redirect=true";
 	}
-	
 	
 	public void deleteNote(int Id){
 		noteFacade.delete(noteFacade.getById(Id));
@@ -318,6 +328,13 @@ public class CoursesAvailableForIns {
 		topicFacade.delete(topicFacade.getById(Id));
 		courseSyllabusCollection.setTopics(topicFacade.getByCourseId(courseId));
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Topics was Deleted successfully");
+
+	}
+	
+	public void deleteSchedule(int Id){
+		scheduleFacade.delete(scheduleFacade.getById(Id));
+		courseSyllabusCollection.setSchedules(scheduleFacade.getByCourseId(courseId));
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Schedule was Deleted successfully");
 
 	}
 	
@@ -478,6 +495,16 @@ public class CoursesAvailableForIns {
 		references=new References();
 	}
 	
+	public void addSchedule(){
+		schedule.setCourseId(courseId);
+		courseSyllabusCollection.getSchedules().add(schedule);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Schedule was added successfully");
+
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("addScheduleDlg.hide();");
+		schedule=new Schedule();
+	}
+	
 	public void addBook(){
 		book.setCourseId(courseId);
 		book.setBook(selectedBookName);
@@ -510,6 +537,14 @@ public class CoursesAvailableForIns {
 		System.out.println("Ahmed Play ok");
 		courseFacade.updateCourse(courseSyllabusCollection.getCourses());
 			System.out.println("Ahmed Play ok 3");
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
+
+	}
+	
+	public void addScheduleToDataBase() {
+		for(int i=0;i<courseSyllabusCollection.getSchedules().size();i++){
+			scheduleFacade.addSchedule(courseSyllabusCollection.getSchedules().get(i));
+		}		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Data has been saved");
 
 	}
@@ -923,6 +958,22 @@ public class CoursesAvailableForIns {
 
 	public void setTopicFacade(ITopicsAppService topicFacade) {
 		this.topicFacade = topicFacade;
+	}
+
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+
+	public IScheduleAppService getScheduleFacade() {
+		return scheduleFacade;
+	}
+
+	public void setScheduleFacade(IScheduleAppService scheduleFacade) {
+		this.scheduleFacade = scheduleFacade;
 	}
 
 

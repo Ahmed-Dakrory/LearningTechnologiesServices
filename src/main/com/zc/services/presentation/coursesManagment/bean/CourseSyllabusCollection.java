@@ -14,6 +14,7 @@ import main.com.zc.services.domain.courses.model.note.Note;
 import main.com.zc.services.domain.courses.model.prerequisites.PreRequisites;
 import main.com.zc.services.domain.courses.model.references.References;
 import main.com.zc.services.domain.courses.model.relatedTopics.RelatedTopics;
+import main.com.zc.services.domain.courses.model.schedule.Schedule;
 import main.com.zc.services.domain.courses.model.topics.Topics;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 
@@ -33,6 +34,7 @@ public class CourseSyllabusCollection {
 	private List<CourseInSyllabus> courseInstructor;
 	private List<CourseBooks> books;
 	private List<Topics> topics;
+	private List<Schedule> schedules;
 	
 	public CourseSyllabusCollection() {
 		// TODO Auto-generated constructor stub
@@ -49,6 +51,7 @@ public class CourseSyllabusCollection {
 		courseInstructor=new ArrayList<CourseInSyllabus>();
 		books=new ArrayList<CourseBooks>();
 		topics=new ArrayList<Topics>();
+		schedules=new ArrayList<Schedule>();
 	}
 	public CoursesDTO getCourses() {
 		return courses;
@@ -128,6 +131,12 @@ public class CourseSyllabusCollection {
 	}
 	public void setTopics(List<Topics> topics) {
 		this.topics = topics;
+	}
+	public List<Schedule> getSchedules() {
+		return schedules;
+	}
+	public void setSchedules(List<Schedule> schedules) {
+		this.schedules = schedules;
 	}
 
 	
