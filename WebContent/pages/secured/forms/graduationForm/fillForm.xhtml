@@ -29,35 +29,27 @@
 						<div class="graduationBanner">&nbsp;</div> 
 						<h3>Personal Information</h3>  
 						<hr/><br/>
-						<table width="100%">
+						<table width="105%">
 							<tr>
 								<td>
 									<h:panelGrid columns="2" styleClass="graduationForm">
 										<p:outputLabel value="Student's ID" for="studentID"/>
 										<p:inputText value="#{graduationInformationBean.addedForm.student.facultyId}" id="studentID" disabled="true"/>
 										
-										<p:outputLabel value="First Name" for="firstName"/>
+										<p:outputLabel value="Full Name" for="firstName"/>
 										<h:panelGroup>
-											<p:inputText value="#{graduationInformationBean.addedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+											<p:inputText value="#{graduationInformationBean.addedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the full name"/> <p:outputLabel value="   Identical to your passport"/>
 											<p:message for="firstName"/>
 										</h:panelGroup>
 										
-										<p:outputLabel value="Middle Name/s" for="middleName"/>
-										<h:panelGroup>
-											<p:inputText value="#{graduationInformationBean.addedForm.middleName}" id="middleName" required="true" requiredMessage="Please fill the middle name"/>
-											<p:message for="middleName"/>
-										</h:panelGroup>
 										
-										<p:outputLabel value="Last Name" for="lastName"/>
-										<h:panelGroup>
-											<p:inputText value="#{graduationInformationBean.addedForm.lastName}" id="lastName" required="true" requiredMessage="Please fill the last name"/>
-											<p:message for="lastName"/>
-										</h:panelGroup>
+										
 										
 										<p:outputLabel value="الاسم بالكامل" for="arabicName"/>
 										<h:panelGroup>
-											<p:inputText value="#{graduationInformationBean.addedForm.arabicName}" id="arabicName" required="true" requiredMessage="Please fill the name"/>
+											<p:inputText value="#{graduationInformationBean.addedForm.arabicName}" id="arabicName" required="true" requiredMessage="Please fill the name"/> <p:outputLabel value="   مطابق للبطاقة الرقم القومي"/>
 											<p:message for="arabicName"/>
+											
 										</h:panelGroup>
 										
 										<p:outputLabel value="الرقم القومي" for="nid"/>
@@ -265,14 +257,8 @@
 						<p:outputLabel value="Student's ID" for="studentID"/>
 						<p:outputLabel value="#{graduationInformationBean.addedForm.student.facultyId}" id="studentID" disabled="true"/>
 						
-						<p:outputLabel value="First Name" for="firstName"/>
-						<p:outputLabel value="#{graduationInformationBean.addedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
-						
-						<p:outputLabel value="Middle Name/s" for="middleName"/>
-						<p:outputLabel value="#{graduationInformationBean.addedForm.middleName}" id="middleName" required="true" requiredMessage="Please fill the middle name"/>
-						
-						<p:outputLabel value="Last Name" for="lastName"/>
-						<p:outputLabel value="#{graduationInformationBean.addedForm.lastName}" id="lastName" required="true" requiredMessage="Please fill the last name"/>
+						<p:outputLabel value="Full Name" for="firstName"/>
+						<p:outputLabel value="#{graduationInformationBean.addedForm.firstName}" id="firstName" required="true" requiredMessage="Please fill the full name"/>
 						
 						<p:outputLabel value="الاسم بالكامل"  for="arabicName"/>
 						<p:outputLabel value="#{graduationInformationBean.addedForm.arabicName}" id="arabicName" required="true" requiredMessage="Please fill the name"/>
