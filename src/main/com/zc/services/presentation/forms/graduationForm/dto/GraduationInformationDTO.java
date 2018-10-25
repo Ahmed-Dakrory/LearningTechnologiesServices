@@ -5,9 +5,7 @@ package main.com.zc.services.presentation.forms.graduationForm.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import javax.persistence.Column;
-
+import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
@@ -50,6 +48,7 @@ public class GraduationInformationDTO {
 	private String  size;
 
 	private Integer semester;
+	private String semesterString;
 	
 	private Integer year;
 	
@@ -207,6 +206,15 @@ public class GraduationInformationDTO {
 	}
 
 	public void setSemester(Integer semester) {
+		if(semester==0){
+			setSemesterString(SemesterEnum.Fall.getName());
+		}else if(semester==1){
+			setSemesterString(SemesterEnum.Spring.getName());
+		}else if(semester==2){
+			setSemesterString(SemesterEnum.Summer.getName());
+		}else if(semester==3){
+			setSemesterString(SemesterEnum.Winter.getName());
+		}
 		this.semester = semester;
 	}
 
@@ -304,6 +312,15 @@ public class GraduationInformationDTO {
 
 	public void setFriendlyUpdateDate(String friendlyUpdateDate) {
 		this.friendlyUpdateDate = friendlyUpdateDate;
+	}
+
+	public String getSemesterString() {
+		
+		return semesterString;
+	}
+
+	public void setSemesterString(String semesterString) {
+		this.semesterString = semesterString;
 	}
 
 	
