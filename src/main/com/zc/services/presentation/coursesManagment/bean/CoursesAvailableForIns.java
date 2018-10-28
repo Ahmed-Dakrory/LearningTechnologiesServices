@@ -6,6 +6,7 @@ package main.com.zc.services.presentation.coursesManagment.bean;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,6 +14,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -157,6 +164,124 @@ public class CoursesAvailableForIns {
 	{
 		
 			 
+	}
+	
+	public void orderThisBook(int refId){
+		References references=referencesFacade.getById(refId);
+				try{
+					if (references != null) { // Implementation of sending mails
+						Properties props = new Properties();
+						props.put("mail.smtp.host", "smtp.gmail.com");
+						props.put("mail.smtp.socketFactory.port", "465");
+						props.put("mail.smtp.socketFactory.class",
+								"javax.net.ssl.SSLSocketFactory");
+						props.put("mail.smtp.auth", "true");
+						props.put("mail.smtp.port", "465");
+
+						Session session = Session.getDefaultInstance(props,
+								new javax.mail.Authenticator() {
+									protected PasswordAuthentication getPasswordAuthentication() {
+										return new PasswordAuthentication(
+												"LearningTechnologies@zewailcity.edu.eg",
+												"zcltinfo");
+									}
+								});
+
+						javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
+						
+		     				addressTo[0] = new javax.mail.internet.InternetAddress(
+		     						"rramzy@zewailcity.edu.eg");
+			
+
+						/* Message message = new MimeMessage(session); */
+						Message message = new MimeMessage(session);
+
+						message.setFrom(new InternetAddress(
+								"LearningTechnologies@zewailcity.edu.eg"));
+						message.setRecipients(Message.RecipientType.TO, addressTo);
+
+						message.setSubject("Book details for purchase order");
+
+						String htmlText = "<div style=width:700px;margin:0 auto;font:normal 13px/30px Segoe, Segoe UI, DejaVu Sans, Trebuchet MS, Verdana, sans-serif !important;>"
+								+ "<ul style=margin:0;padding:0;>"
+								+ "<li style=list-style:none;float:left;width:700px;margin:0;>"
+								+ "	<ul style=margin:0;padding:0;width:700px;margin-top:18px;>"
+								+ "<li style=list-style:none;float:left;width:260px;padding:0;><img src=\"http://zclt.info/ZCTestMail/university_logo.png\" alt=Zewail City of Science and Technology /></li>"
+								+ "<li style=list-style:none;float:right;width:121px;padding:0;><img src=\"http://zclt.info/ZCTestMail/LT_logo_l.png\" alt=Center for Learning Technologies style=margin-top:4px; /></li>"
+								+ "</ul>"
+								+ "</li>"
+								+ "<li style=list-style:none;float:left;width:700px;background:#f1f2f2;margin:15px 0 24px 0;padding:1px 0;>&nbsp;</li>"
+								+ "<li style=list-style:none;float:left;width:700px;margin-bottom:24px;padding-left:24px;>"
+								+ "<h2 style=margin:0;padding:0;color:#404040 !important;>Learning Technologies Services</h2>"
+								+ "</li>"
+								+ "<li style=list-style:none;float:left;width:700px;marin:0;background:#f2f0f0;>"
+								+ "<div style=padding:24px 36px;color:#676767 !important;>"
+								+ "<span style=color:#676767>Dear "
+								+ "Rasha"
+								+ ",</span><br/><br/><br/>"
+								+ "<span style=color:#404040>You're receiving this email because it is needed to order this book with this details"+"</span><br/><br/><br/>"
+								+ "<span style=color:#404040>"+"Course Name: "+"</span>"+ "<span style=color:#676767>"+courseSyllabusCollection.getCourses().getCourseTitle()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Course Code: "+"</span>"+ "<span style=color:#676767>"+courseSyllabusCollection.getCourses().getName()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Course Coordinator: "+"</span>"+ "<span style=color:#676767>"+courseSyllabusCollection.getCourses().getCourseCoordinator().getName()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Coordinator Email: "+"</span>"+ "<span style=color:#676767>"+courseSyllabusCollection.getCourses().getCourseCoordinator().getMail()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Book Title: "+"</span>"+ "<span style=color:#676767>"+references.getName()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Book Authors: "+"</span>"+ "<span style=color:#676767>"+references.getAuthors()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Book Publisher: "+"</span>"+ "<span style=color:#676767>"+references.getPublisher()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Book Year: "+"</span>"+ "<span style=color:#676767>"+references.getYear()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Book Edition: "+"</span>"+ "<span style=color:#676767>"+references.getEdition()+"</span><br/>"
+								+ "<span style=color:#404040>"+"Book ISBN Number: "+"</span>"+ "<span style=color:#676767>"+references.getIsbn_number()+"</span><br/><br/>"
+								+ "</span><br/><br/>"
+								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
+								+ "<span style=color:#676767>Center for Learning Technologies</span>"
+								+ "</div>"
+								+ "</li>"
+								+ "<li style=list-style:none;float:left;width:700px;margin-bottom:4px;background:#ececec;>"
+								+ "<ul style=margin:0;padding:0;>"
+								+ "<li style=list-style:none;float:left;width:134px;margin:0;padding:18px 36px !important;color:#717070;>"
+								+ "<a href=http://www.zclt.info/ title=Center for Learning Technologies><img src=\"http://zclt.info/ZCTestMail/LT_logo_s.png\"  alt=Center for Learning Technologies /></a><br/>"
+								+ "<span style=color:#404040;font-size:11px;>Giving Fuel to Innovation</span>"
+								+ "</li>"
+								+ "<li style=list-style:none;float:right;width:59px;margin:0;padding:18px 36px !important;color:#717070;>"
+								+ "<a href=http://www.zewailcity.edu.eg/ title=Zewail City of Science and Technology><img src=\"http://zclt.info/ZCTestMail/ZC_logo.png\"  alt=Zewail City of Science and Technology /></a>"
+								+ "</li>"
+								+ "</ul>"
+								+ "</li>"
+								+ "<li style=list-style:none;float:left;width:700px;margin-bottom:12px;background:#ececec;>"
+								+ "<div style=padding:8px 16px;color:#a1a0a0;font-size:11px;line-height:20px;>"
+								+ " <br/><b><span style=color:#a1a0a0;font-size:11px;>Follow us:</sapn></b><a href=https://www.facebook.com/learning.technologies.zewailcity title=ZC LT Facebook><img src=\"http://zclt.info/ZCTestMail/facebook_square.png\"  alt=ZC LT Facebook style=vertical-align:middle;/></a>"
+								+ "  <a href=https://www.youtube.com/channel/UCiajXXIv0rCpxVIgCDekm2A title=ZC LT Youtube><img src=\"http://zclt.info/ZCTestMail/youtube_square.png\"   alt=ZC LT Youtube style=vertical-align:middle;/></a>"
+								+ "</div>" + "</li>" + "</ul>" + "</div>";
+						/*
+						 * message.setText("Dear " + dao.getName() + " ," +
+						 * "\n Your Password is : " + dao.getPassword() + "\n\n Regards"
+						 * + "\n Learning Technologies Department" +
+						 * "\n\n Please do not reply to this email ");
+						 * 
+						 * Transport.send(message);
+						 */
+
+						message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+
+						Transport.send(message);
+
+						JavaScriptMessagesHandler.RegisterNotificationMessage("",
+								"Email Sent");
+						// System.out.println("Done sending ");
+						
+
+					} else {
+						JavaScriptMessagesHandler.RegisterErrorMessage("",
+								"This email address is not registered in the system!");
+					}
+
+				} catch (Exception excep) {
+					excep.printStackTrace();
+					JavaScriptMessagesHandler.RegisterErrorMessage("",
+							"This email address is not registered in the system!");
+
+				}
+				
+				
 	}
 	
 	public void refresh(){

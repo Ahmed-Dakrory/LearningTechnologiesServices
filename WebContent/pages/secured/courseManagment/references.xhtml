@@ -90,17 +90,59 @@
  										 paginator="true" styleClass="paginated"
  										 resizableColumns="true" var = "ref">
             
-            <f:facet style="width:590px;" name = "header">References</f:facet>
+            <f:facet style="width:990px;" name = "header">References</f:facet>
                      
-            <p:column style="width:770px;">
+            <p:column style="width:270px;">
+            <f:facet name = "header">Title</f:facet>
                <div align="center">
-               <p:inputText style="width:590px;" value = "#{ref.name}"/>
+               <p:inputText style="width:250px;" value = "#{ref.name}"/>
+               </div>
+            </p:column>
+            
+            <p:column style="width:250px;">
+            <f:facet name = "header">Author</f:facet>
+               <div align="center">
+               <p:inputText style="width:200px;" value = "#{ref.authors}"/>
+               </div>
+            </p:column>
+            
+            <p:column style="width:250px;">
+            <f:facet name = "header">Publisher</f:facet>
+               <div align="center">
+               <p:inputText style="width:200px;" value = "#{ref.publisher}"/>
+               </div>
+            </p:column>
+            
+            <p:column style="width:150px;">
+            <f:facet name = "header">Year</f:facet>
+               <div align="center">
+               <p:inputText style="width:100px;" value = "#{ref.year}"/>
+               </div>
+            </p:column>
+            
+            <p:column style="width:200px;">
+            <f:facet name = "header">Edition</f:facet>
+               <div align="center">
+               <p:inputText style="width:150px;" value = "#{ref.edition}"/>
+               </div>
+            </p:column>
+            
+            <p:column style="width:150px;">
+            <f:facet name = "header">ISBN Number</f:facet>
+               <div align="center">
+               <p:inputText style="width:100px;" value = "#{ref.isbn_number}"/>
                </div>
             </p:column>
            
-           <p:column>
-									<p:commandButton value="Delete" update="tableOfAll2" ajax="true" action="#{CoursesAvailableForIns.deleteReference(ref.id)}" styleClass="redBtn"/>
-						</p:column>
+           <p:column style="width:150px;">
+				<p:commandButton value="Delete" update="tableOfAll2" ajax="true" action="#{CoursesAvailableForIns.deleteReference(ref.id)}" styleClass="redBtn"/>
+			</p:column>
+			
+			<p:column style="width:150px;">
+				<p:commandButton value="Order this book"  ajax="true" action="#{CoursesAvailableForIns.orderThisBook(ref.id)}" styleClass="greenBtn"/>
+			</p:column>
+						
+						
                  
            
          </p:dataTable>
@@ -161,13 +203,61 @@
 						<div class="dialogWrapper">
 							<h:panelGroup id="addPanel2">
 								<h:panelGroup>
-			          				<p:inputText value="#{CoursesAvailableForIns.references.name}" required="true" requiredMessage="insert Reference" id="ref1" style="width:460px ;"/>
+			          				<p:inputText value="#{CoursesAvailableForIns.references.name}" required="true" requiredMessage="insert Reference Name" id="ref1" style="width:460px ;"/>
 			          				<p:watermark for="ref1" value="Reference" />
 			          				<p:message for="ref1"/>
 			          			</h:panelGroup>
 			          			
 			          			
 			          			 <br/>
+			          			 
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.references.authors}" required="true" requiredMessage="insert Reference Author" id="ref2" style="width:460px ;"/>
+			          				<p:watermark for="ref2" value="Author" />
+			          				<p:message for="ref2"/>
+			          			</h:panelGroup>
+			          			
+			          			
+			          			 <br/>
+			          			 
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.references.publisher}" required="true" requiredMessage="insert Reference publisher" id="ref3" style="width:460px ;"/>
+			          				<p:watermark for="ref3" value="publisher" />
+			          				<p:message for="ref3"/>
+			          			</h:panelGroup>
+			          			
+			          			
+			          			 <br/>
+			          			 
+			          			 
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.references.year}" required="true" requiredMessage="insert Reference year" id="ref4" style="width:460px ;"/>
+			          				<p:watermark for="ref4" value="year" />
+			          				<p:message for="ref4"/>
+			          			</h:panelGroup>
+			          			
+			          			
+			          			 <br/>
+			          			 
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.references.edition}" required="true" requiredMessage="insert Reference Edition" id="ref5" style="width:460px ;"/>
+			          				<p:watermark for="ref5" value="edition" />
+			          				<p:message for="ref5"/>
+			          			</h:panelGroup>
+			          			
+			          			
+			          			 <br/>
+			          			 
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{CoursesAvailableForIns.references.isbn_number}" required="true" requiredMessage="insert Reference ISBN number" id="ref6" style="width:460px ;"/>
+			          				<p:watermark for="ref6" value="isbn_number" />
+			          				<p:message for="ref6"/>
+			          			</h:panelGroup>
+			          			
+			          			
+			          			 <br/>
+			          			 
+			          			 
 							
 						</h:panelGroup>
 					</div>
