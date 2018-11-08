@@ -135,8 +135,7 @@ public class CourseEvaluationSubmission {
 			FormsStatusDTO form=formStatus.getById(12);
 			
 			if(form.getStatus().equals(FormsStatusEnum.Active))
-					//coursesLst=facade.getCoursesByStudentIDAndSemesterAndYear(student.getId(), form.getSemester().getId(), form.getYear());
-				coursesLst=facade.getCoursesByStudentID(student.getId());
+				coursesLst=facade.getCoursesByStudentIDAndSemesterAndYear(student.getId(), form.getSemester().getId(), form.getYear());
 			}}
 		
 	}
@@ -1172,12 +1171,10 @@ public class CourseEvaluationSubmission {
 	 }
 	 
 	 public void chechInstEval() {
-		 System.out.println("Ahmed Dakrory SubmitTheValuesOfTheInstructTaLab()");
 		 List<CourseEvalAnswersDTO> answers = new ArrayList<CourseEvalAnswersDTO>();
 		 List<InstructorDTO> inst = new ArrayList<InstructorDTO>();
 
-	 		System.out.println("Ahmed Mohamed chechInstEval");
-		 submitInsEval();
+	 	 submitInsEval();
 
 		 SubmitTheValuesOfTheInstructTaLab();
 		 if(questType.equals("inst")) {

@@ -71,6 +71,11 @@ public class MidtermEvaluationSubmission {
 	private int activeIndex = 0;
 	
 	private StudentDTO student;
+
+	/*@Ahmed Dakrory
+	 * To get the index of the selected course;
+	 */
+	private int IndexofTheSelectedCourse;
 	
 	private List<InstructorDTO>insLst=new ArrayList<InstructorDTO>();
 	private List<InstructorDTO>taLst=new ArrayList<InstructorDTO>();
@@ -131,13 +136,14 @@ public class MidtermEvaluationSubmission {
 			FormsStatusDTO form=formStatus.getById(17);
 			
 			if(form.getStatus().equals(FormsStatusEnum.Active))
-					coursesLst=facade.getCoursesByStudentIDAndSemesterAndYear(student.getId(), form.getSemester().getId(), form.getYear());
-
+				coursesLst=facade.getCoursesByStudentIDAndSemesterAndYear(student.getId(), form.getSemester().getId(), form.getYear());
+				//Will be deleted after submission
+				//coursesLst=facade.getCoursesByStudentID(student.getId());
 			}}
 		
 	}
     public void updateCourseList()
-    {
+    {/*
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
@@ -159,6 +165,7 @@ public class MidtermEvaluationSubmission {
     	
     	coursesLst=copies;
 		}
+		*/
     }
     public void hideCourse(){
     	try{
@@ -193,7 +200,7 @@ public class MidtermEvaluationSubmission {
 	public void fillCourseQuestions()
 	{
 		courseEvalQuestions=new ArrayList<CourseEvalQuestionsDTO>();
-		courseEvalQuestions=facade.getBySectionID(QuestionsCategory.Course_Eval.getID());
+		courseEvalQuestions=facade.getBySectionID(QuestionsCategory.MIDTERM_EVALUATION_INSTRUCTOR.getID());
 	}
 	public void fillLanguageQuestions(){
 		languageOFInstructionQuestions=new ArrayList<CourseEvalQuestionsDTO>();
@@ -225,8 +232,18 @@ public class MidtermEvaluationSubmission {
 			student.setMail(person.getEmail());				
 		}
 		
-		List<CourseEvalAnswersDTO> answers = new ArrayList<CourseEvalAnswersDTO>();
-		
+		//List<CourseEvalAnswersDTO> answers = new ArrayList<CourseEvalAnswersDTO>();
+		CoursesDTO course=coursesLst.get(IndexofTheSelectedCourse);
+
+		System.out.println("Dakrory IndexofTheSelectedCourse= "+String.valueOf(IndexofTheSelectedCourse));
+		PersonDataDTO person=studentDataFacade.getPersonByPersonMail(authentication.getName());
+		StudentDTO student=new StudentDTO();
+		student.setId(person.getId());
+		List<CourseEvalAnswersDTO> answers=ansFacade.getByStudentIDAndCourseID(student.getId(),course.getId(),2);
+
+		System.out.println("Dakrory Number of te Answers= "+String.valueOf(answers.size()));
+		System.out.println("Dakrory StudentId= "+String.valueOf(student.getId()));
+		System.out.println("Dakrory CourseId= "+String.valueOf(course.getId()));
 		switch (questType) {
 		case "inst":
 
@@ -238,7 +255,7 @@ public class MidtermEvaluationSubmission {
 				//setQuestionsList(coursesInstFacade.getAllInstructorQuestions(10));
 				//setQuestionsList(coursesInstFacade.getAllInstructorQuestions(QuestionsCategory.Instructor_Asis.getID()));			
 				setQuestionsList(coursesInstFacade.getAllInstructorQuestions(319));
-				answers = instAnswersList;
+				//answers = instAnswersList;
 			}
 			
 			break;
@@ -251,7 +268,7 @@ public class MidtermEvaluationSubmission {
 				
 				//setQuestionsList(coursesInstFacade.getAllInstructorQuestions(12));
 				setQuestionsList(coursesInstFacade.getAllInstructorQuestions(321));
-				answers = taAnswersList;
+				//answers = taAnswersList;
 			}
 			
 			break;
@@ -259,7 +276,7 @@ public class MidtermEvaluationSubmission {
 			selectedIns = null;
 			//setQuestionsList(coursesInstFacade.getAllInstructorQuestions(13));
 			setQuestionsList(coursesInstFacade.getAllInstructorQuestions(322));
-			answers = labAnswersList;
+			//answers = labAnswersList;
 			break;
 		default:
 			break;
@@ -268,7 +285,36 @@ public class MidtermEvaluationSubmission {
 		setOldIns(selectedIns);					
 		
 		if(!answers.isEmpty() && answers != null){
-						
+			/*@ Ahmed Dakrory
+			 * Set The Answers for the Course evaluation Part By 
+			 * Fill the Empty Question from the last database last Answers
+			 */
+			for (int i=0;i< courseEvalQuestions.size();i++) {
+				
+				for (CourseEvalAnswersDTO courseEvalAnswersDTO : answers) {
+					
+					if(courseEvalQuestions.get(i).getId().equals(courseEvalAnswersDTO.getQuestion().getId())) {
+						courseEvalQuestions.get(i).setSelection(courseEvalAnswersDTO.getSelections());
+					}
+					
+				}
+			}
+			
+			
+			for (CourseEvalAnswersDTO courseEvalAnswersDTO : answers) {
+				
+				for(int j=0;j<otherComments.size();j++){
+
+					//Set The comment from the last Submission
+					if(otherComments.get(j).getId().equals(courseEvalAnswersDTO.getQuestion().getId())) {
+						otherComments.get(j).setAnsText(courseEvalAnswersDTO.getComment());
+					}	
+				}
+			}
+			
+			
+			
+			
 			for (CourseEvalInsQuestionsDTO quest : questionsList) {
 				
 				List<String> strengthsSelections = new ArrayList<String>();
@@ -485,7 +531,10 @@ public class MidtermEvaluationSubmission {
 		case 4:  { 
 	       	 //Redirect to other comments  from Language of instruction page 
 			try {
-				submitInsEval();
+				submitInsEval(); // must submit lab questions tab
+		 		
+				SubmitTheValuesOfTheLab();
+				 	
 				if(selectedInstructorsLst.isEmpty() && selectedTAsLst.isEmpty())
 		 			activeIndex = 1;
 		 		else if (selectedInstructorsLst.isEmpty() || selectedTAsLst.isEmpty())
@@ -505,14 +554,7 @@ public class MidtermEvaluationSubmission {
 	}
 
 	public void endSurvey(){
-		//3- Submit Emp Questions and lab questions
-    	if(!instAnswersList.isEmpty())
-    		coursesInstFacade.saveInstructorEval(instAnswersList,2);
-    	if(!taAnswersList.isEmpty())
-    		coursesInstFacade.saveInstructorEval(taAnswersList,2);
-    	if(!labAnswersList.isEmpty())
-    		coursesInstFacade.saveInstructorEval(labAnswersList,2);
-    	
+		
 
 		//3- Submit the other comments
     	for(int i=0;i<otherComments.size();i++)
@@ -819,6 +861,7 @@ public class MidtermEvaluationSubmission {
 			 {
 				 if(coursesLst.get(i).getId()==getSelectedCourse().getId())
 				 {
+					 IndexofTheSelectedCourse=i;
 					 setSelectedCourse(coursesLst.get(i));
 				 }
 			 }
@@ -832,7 +875,8 @@ public class MidtermEvaluationSubmission {
 				questionsList = new ArrayList<CourseEvalInsQuestionsDTO>();
 				selectedIns = null;
 				
-				
+				fillEmpQuestions();
+						
 					if(getSelectedInstructorsLst().size()>0)
 					{
 						navigateBtnAction(1, 0);
@@ -858,22 +902,55 @@ public class MidtermEvaluationSubmission {
 		 ins.setSelected(selection);
 	 }
 	 
+	 public void SubmitTheValuesOfTheInstruct(){
+
+		 System.out.println("Ahmed Dakrory Values of type : "+questType);
+			if(!instAnswersList.isEmpty())
+	    		//coursesInstFacade.saveInstructorEval(instAnswersList,2);
+			coursesInstFacade.saveInstructorEvalUpdate(instAnswersList,2);
+	    	
+	 }
+	 
+	 public void SubmitTheValuesOfTheTa(){
+
+		 System.out.println("Ahmed Dakrory Values of type : "+questType);
+			if(!taAnswersList.isEmpty())
+	    		coursesInstFacade.saveInstructorEvalUpdate(taAnswersList,2);
+	    	
+	 }
+	 
+	 public void SubmitTheValuesOfTheLab(){
+
+		 System.out.println("Ahmed Dakrory Values of type : "+questType);
+		//3- Submit Emp Questions and lab questions
+	    	
+	    	if(!labAnswersList.isEmpty())
+	    		coursesInstFacade.saveInstructorEvalUpdate(labAnswersList,2);
+	    	
+	 }
+	 
 	 public void chechInstEval() {
 		 
 		 List<CourseEvalAnswersDTO> answers = new ArrayList<CourseEvalAnswersDTO>();
 		 List<InstructorDTO> inst = new ArrayList<InstructorDTO>();
 		 
+		 
 		 submitInsEval();
+		 
 		 
 		 if(questType.equals("inst")) {
 			 
 			 answers = instAnswersList;
 			 inst = selectedInstructorsLst;
+			 SubmitTheValuesOfTheInstruct();
 			 
 		 } else if(questType.equals("ta")){
 			 
 			 answers = taAnswersList;
 			 inst = selectedTAsLst;
+			 SubmitTheValuesOfTheTa();
+			 
+			 
 		 }
 		 
 		 Boolean exist = false;
@@ -1076,6 +1153,18 @@ public class MidtermEvaluationSubmission {
 	}
 	public void setFormStatus(IFormsStatusFacade formStatus) {
 		this.formStatus = formStatus;
+	}
+	public StudentDTO getStudent() {
+		return student;
+	}
+	public void setStudent(StudentDTO student) {
+		this.student = student;
+	}
+	public int getIndexofTheSelectedCourse() {
+		return IndexofTheSelectedCourse;
+	}
+	public void setIndexofTheSelectedCourse(int indexofTheSelectedCourse) {
+		IndexofTheSelectedCourse = indexofTheSelectedCourse;
 	}
 	
 }
