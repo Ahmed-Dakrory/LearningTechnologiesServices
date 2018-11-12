@@ -38,9 +38,9 @@ public class ExportReportsAppServiceImpl implements IExportReportsAppService{
 	        row.createCell((short)1).setCellValue("First Name");
 	        row.createCell((short)2).setCellValue("Middle Name/s");
 	        row.createCell((short)3).setCellValue("Last Name");
-	        row.createCell((short)4).setCellValue("الاسم بالكامل");
-	        row.createCell((short)5).setCellValue("الرقم القومي");
-	        row.createCell((short)6).setCellValue("محل الميلاد");
+	        row.createCell((short)4).setCellValue("الأسم بالكامل");
+	        row.createCell((short)5).setCellValue("رقم التليفون");
+	        row.createCell((short)6).setCellValue("محل الأقامة");
 	        row.createCell((short)7).setCellValue("الجنسية");
 	        row.createCell((short)8).setCellValue("Address");
 	        row.createCell((short)9).setCellValue("Email");
