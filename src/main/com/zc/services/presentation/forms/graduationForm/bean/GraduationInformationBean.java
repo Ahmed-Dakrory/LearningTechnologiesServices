@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormsStatusEnum;
+import main.com.zc.services.domain.survey.model.Concentration;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.forms.graduationForm.dto.GraduationInformationDTO;
@@ -67,6 +68,7 @@ public class GraduationInformationBean {
 	 @ManagedProperty("#{ISendEmailFacade}") 
 	 private ISendEmailFacade emailFacade;
 	 
+	 private BaseDTO concentrationSelected;
 	@PostConstruct
 	public void init(){
 		addedForm=new GraduationInformationDTO();
@@ -89,6 +91,8 @@ public class GraduationInformationBean {
 				if(old.getId()!=null)
 			{
 				addedForm=old;
+				concentrationSelected=concentrationFacade.getConcentrationById(getAddedForm().getConcentration().getId());
+				
 				concentration=concentrationFacade.getConcentrationsByMajor(getAddedForm().getMajor().getId());
 			}
 				else {
@@ -172,6 +176,8 @@ public class GraduationInformationBean {
 		getAddedForm().setSemester(form.getSemester().getId());
 		getAddedForm().setYear(form.getYear());
 		GraduationInformationDTO dto;
+		concentrationSelected=concentrationFacade.getConcentrationById(getAddedForm().getConcentration().getId());
+		
 		getAddedForm().setConcentration((getAddedForm().getConcentration().getId()==0)?null:getAddedForm().getConcentration());
 		if(getAddedForm().getId()!=null)
 		{
@@ -237,7 +243,7 @@ public class GraduationInformationBean {
 						+"<br/>Stundet ID : "+getAddedForm().getStudent().getFacultyId()
 						+"<br/>Stundet Email : "+getAddedForm().getStudent().getMail()
 						+"<br/>Major : "+getAddedForm().getMajor().getMajorName()
-						+"<br/>Concentration : "+getAddedForm().getConcentration().getName()
+						+"<br/>Concentration : "+concentrationSelected.getName()
 						+"<br/><br/>"
 						+ "</div>"
 						+ "</li>"
@@ -391,6 +397,12 @@ public class GraduationInformationBean {
 	}
 	public void setMajorFacade(IMajorsFacade majorFacade) {
 		this.majorFacade = majorFacade;
+	}
+	public BaseDTO getConcentrationSelected() {
+		return concentrationSelected;
+	}
+	public void setConcentrationSelected(BaseDTO concentrationSelected) {
+		this.concentrationSelected = concentrationSelected;
 	}
 
 	

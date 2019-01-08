@@ -66,6 +66,7 @@ public class MajorAppServiceImpl implements IMajorAppService{
 				InstructorDTO ins=new InstructorDTO();
 				ins.setId(majors.get(i).getHeadOfMajorId().getId());
 				ins.setName(majors.get(i).getHeadOfMajorId().getName());
+				ins.setMail(majors.get(i).getHeadOfMajorId().getMail());
 				dto.setHeadOfMajor(ins);
 			}
 		
@@ -230,4 +231,35 @@ public class MajorAppServiceImpl implements IMajorAppService{
 		
 	}
 
+	
+	
+	@Override
+	public MajorDTO getById(int id) {
+
+		MajorDTO dto=new MajorDTO();
+		try{
+			Majors majors=majorRep.getById(id);
+			
+			
+				dto.setId(majors.getId());
+				dto.setMajorName(majors.getMajorName());
+				dto.setType(majors.getType());
+				dto.setVisabiltiy(majors.getHidden());
+				InstructorDTO ins=new InstructorDTO();
+				ins.setId(majors.getHeadOfMajorId().getId());
+				ins.setName(majors.getHeadOfMajorId().getName());
+				ins.setMail(majors.getHeadOfMajorId().getMail());
+				dto.setHeadOfMajor(ins);
+			
+		
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		
+		}
+		return dto;
+	}
+
+	
 }

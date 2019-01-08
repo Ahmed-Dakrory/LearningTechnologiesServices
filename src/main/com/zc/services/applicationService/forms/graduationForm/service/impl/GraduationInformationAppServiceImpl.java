@@ -123,6 +123,7 @@ public class GraduationInformationAppServiceImpl implements IGraduationInformati
 			GraduationInformation form=new GraduationInformation();
 			form=rep.getById(id);
 			dto=assem.toDTO(form);
+			System.out.println("Dakrory: "+dto.getConcentration().getName());
 			return dto;
 			
 		}

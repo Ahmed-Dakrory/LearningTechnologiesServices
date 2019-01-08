@@ -13,18 +13,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import main.com.zc.security.impl.LoginBean;
+import main.com.zc.services.domain.model.heads.Heads;
+import main.com.zc.services.domain.petition.model.Majors;
+import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormsStatusEnum;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.CourseEvaluationSubmission;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.InstructorTAEvalSubmission;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.TaToTaEvalSubmission;
 import main.com.zc.services.presentation.survey.lectureObjectiveFeedback.bean.FillLectureObjectiveFeedbackBean;
 import main.com.zc.services.presentation.survey.midTermEvaluation.bean.MidtermEvaluationSubmission;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
+import main.com.zc.services.presentation.users.facade.impl.StudentFacadeImpl;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.appService.ILoginSecurityAppService;
 import main.com.zc.shared.presentation.dto.LoginStaffDTO;
@@ -56,6 +62,7 @@ public class LeftNavigationMenuBean {
 	private boolean insTAEvalSecurity;
 	private boolean booksSysMode;
 	private boolean seeGraduationFormReponses;
+	private boolean headOrStudent;
 	//@ManagedProperty("#{CourseEvalStudentBean}")
 	//private CourseEvalStudentBean courseEvalBean;
 /*	@ManagedProperty("#{CourseEvaluationSubmission}")
@@ -96,11 +103,109 @@ public class LeftNavigationMenuBean {
 	@ManagedProperty("#{IFormsStatusFacade}")
    	private IFormsStatusFacade formStatus; 
 	
+	
+	@ManagedProperty("#{headsFacadeImpl}")
+   	private HeadsAppServiceImpl headFacades; 
+	
+	@ManagedProperty("#{IMajorsFacade}")
+	private MajorsFacadeImpl majorfacade;
+	
+	@ManagedProperty("#{IStudentFacade}")
+    private StudentFacadeImpl studentFacadeImpl;
+	
+	
+	
+	
 	@PostConstruct
 	public void init() {
 		
 
 		currentMenuId = "Dashboard";
+		
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			headOrStudent=false;
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			{
+				headOrStudent=true;
+				return;
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+						
+						headOrStudent=true;
+						return;
+					}
+				}
+				/*
+				 * here the heads login
+				 * 2 Director of Accredition for Engineering
+				 * 3 Director of Accredition for Science
+				 * 4 Dean of Admission
+				 * 5 Director of Admission and Registration
+				 * 6 Registrar staff
+				 */
+				
+				Heads  typeHead2 = headFacades.getByType(2);
+				Heads  typeHead3 = headFacades.getByType(3);
+				Heads  typeHead4 = headFacades.getByType(4);
+				Heads  typeHead5 = headFacades.getByType(5);
+				Heads  typeHead6 = headFacades.getByType(6);
+				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
+				{
+					//Engineering
+					headOrStudent=true;
+					return;
+				}
+				else if(mail.toLowerCase().equals(typeHead3.getHeadPersonId().getMail().toLowerCase()))
+				{
+					//Science
+					headOrStudent=true;
+					return;
+				}
+				else if(mail.toLowerCase().equals(typeHead4.getHeadPersonId().getMail().toLowerCase()))
+				{
+					headOrStudent=true;
+					return;
+				}
+				else if(mail.toLowerCase().equals(typeHead5.getHeadPersonId().getMail().toLowerCase()))
+				{
+
+					headOrStudent=true;
+					return;
+				}
+				else if(mail.toLowerCase().equals(typeHead6.getHeadPersonId().getMail().toLowerCase()))
+				{
+
+					headOrStudent=true;
+					return;
+				}
+				else 
+				{
+
+					headOrStudent=false;
+					return;
+				}
+				
+			
+			}
+			
+		}
+		else
+		{
+			headOrStudent=false;
+			return;
+		}
 		
 	}
 
@@ -522,6 +627,89 @@ public class LeftNavigationMenuBean {
 					{
 						return "/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml?faces-redirect=true";
 					}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderChangeCourseConfirmation()
+	{
+		currentMenuId = "Change course";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/courseChangeComfirmation/formDetails.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+						
+							return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
+					}
+				}
+				/*
+				 * here the heads login
+				 * 2 Director of Accredition for Engineering
+				 * 3 Director of Accredition for Science
+				 * 4 Dean of Admission
+				 * 5 Director of Admission and Registration
+				 * 6 Registrar staff
+				 */
+				
+				Heads  typeHead2 = headFacades.getByType(2);
+				Heads  typeHead3 = headFacades.getByType(3);
+				Heads  typeHead4 = headFacades.getByType(4);
+				Heads  typeHead5 = headFacades.getByType(5);
+				Heads  typeHead6 = headFacades.getByType(6);
+				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
+				{
+					//Engineering
+					return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=2&emailForState="+mail+"&faces-redirect=true";
+				}
+				else if(mail.toLowerCase().equals(typeHead3.getHeadPersonId().getMail().toLowerCase()))
+				{
+					//Science
+					return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=1&emailForState="+mail+"&faces-redirect=true";
+				}
+				else if(mail.toLowerCase().equals(typeHead4.getHeadPersonId().getMail().toLowerCase()))
+				{
+					return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=2&majorId=-1&type=4&emailForState="+mail+"&faces-redirect=true";
+				}
+				else if(mail.toLowerCase().equals(typeHead5.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=3&majorId=-1&type=5&emailForState="+mail+"&faces-redirect=true";
+				}
+				else if(mail.toLowerCase().equals(typeHead6.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=4&majorId=-1&type=6&emailForState="+mail+"&faces-redirect=true";
+				}
+				else 
+				{
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?faces-redirect=true";
+				}
 				
 			
 			}
@@ -1055,6 +1243,27 @@ public class LeftNavigationMenuBean {
 		
 		
 					return "/pages/secured/config/majors.xhtml?faces-redirect=true";
+				
+			
+				
+			
+	}
+		else 	return "pages/public/login.xhtml?faces-redirect=true";
+	
+	}
+	
+	public String navigateToHeads()
+	{
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser")&&isAdmin())// logged in
+		{
+			
+			
+			  currentMenuId = "Manage Heads";
+		
+		
+					return "/pages/secured/config/accreditionHead.xhtml?faces-redirect=true";
 				
 			
 				
@@ -2186,5 +2395,59 @@ else
 		this.midtermEvalStudent = midtermEvalStudent;
 	}
 
+
+
+	
+
+
+
+	public HeadsAppServiceImpl getHeadFacades() {
+		return headFacades;
+	}
+
+
+
+	public void setHeadFacades(HeadsAppServiceImpl headFacades) {
+		this.headFacades = headFacades;
+	}
+
+
+
+	public MajorsFacadeImpl getMajorfacade() {
+		return majorfacade;
+	}
+
+
+
+	public void setMajorfacade(MajorsFacadeImpl majorfacade) {
+		this.majorfacade = majorfacade;
+	}
+
+
+
+	public StudentFacadeImpl getStudentFacadeImpl() {
+		return studentFacadeImpl;
+	}
+
+
+
+	public void setStudentFacadeImpl(StudentFacadeImpl studentFacadeImpl) {
+		this.studentFacadeImpl = studentFacadeImpl;
+	}
+
+
+
+	public boolean isHeadOrStudent() {
+		return headOrStudent;
+	}
+
+
+
+	public void setHeadOrStudent(boolean headOrStudent) {
+		this.headOrStudent = headOrStudent;
+	}
+
+	
+	
 }
  

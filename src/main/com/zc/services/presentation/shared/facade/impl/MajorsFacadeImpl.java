@@ -80,5 +80,11 @@ public class MajorsFacadeImpl implements IMajorsFacade{
 	public BaseDTO addConcentration(BaseDTO major) {
 		return service.addConcentration(major);
 	}
+	
+	@Override
+	public MajorDTO getById(int id) {
+		
+		return service.getById(id);
+	}
 
 }

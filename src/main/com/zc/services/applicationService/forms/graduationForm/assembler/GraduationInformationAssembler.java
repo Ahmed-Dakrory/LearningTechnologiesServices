@@ -47,6 +47,7 @@ public class GraduationInformationAssembler {
 			concentration.setName(form.getConcentration().getName());
 			concentration.setFileNo(form.getConcentration().getParent().getId());
 			dto.setConcentration(concentration);
+			System.out.println("Dakrory: "+form.getConcentration().getId());
 		}
 		catch(Exception ex){
 			System.out.println("************************Can't add concentartion to the graduation form**********************");

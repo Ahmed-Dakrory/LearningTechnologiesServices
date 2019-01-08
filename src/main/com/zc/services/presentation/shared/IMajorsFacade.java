@@ -23,4 +23,5 @@ public interface IMajorsFacade {
 	public boolean deleteCocnentration(BaseDTO con);
 	public boolean hideCocnentration(BaseDTO con);
 	public BaseDTO addConcentration(BaseDTO major);
+	public MajorDTO getById(int id);
 }

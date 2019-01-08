@@ -20,7 +20,7 @@ import org.primefaces.event.SelectEvent;
 import main.com.zc.services.presentation.configuration.facade.IStudentCourseFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
-import main.com.zc.services.presentation.users.dto.StudentDTO;
+import main.com.zc.services.presentation.users.facade.IInstructorFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
 /**
@@ -40,6 +40,12 @@ public class InstructorsBean {
 	private Integer selectedrole;
 	@ManagedProperty("#{IStudentCourseFacade}")
    	private IStudentCourseFacade facade; 
+	
+
+	@ManagedProperty("#{IInstructorFacade}")
+	private IInstructorFacade insFacade;
+	
+	
 	
 	
 	
@@ -61,7 +67,7 @@ public class InstructorsBean {
 	  		
 	  		try {
 	    		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-	    		StringBuffer url=origRequest.getRequestURL();
+	    		origRequest.getRequestURL();
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
 					("instructorDetails.xhtml");
 	    			
@@ -92,6 +98,11 @@ public class InstructorsBean {
 		ins.setName(getAddedInsName());
 		ins.setEmpType(getSelectedrole());
 		InstructorDTO dto=facade.addIns(ins);
+		/*
+		 * A7med Dakrory
+		 * Adding Instructor to the database
+		 */
+		insFacade.update(ins);
 		if(dto!=null)
 		{
 			JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Added Successfully");
@@ -152,6 +163,12 @@ public class InstructorsBean {
 	}
 	public void setSelectedrole(Integer selectedrole) {
 		this.selectedrole = selectedrole;
+	}
+	public IInstructorFacade getInsFacade() {
+		return insFacade;
+	}
+	public void setInsFacade(IInstructorFacade insFacade) {
+		this.insFacade = insFacade;
 	}
 	
 }

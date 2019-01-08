@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Heads - LT Online Services</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Heads" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel class="attendance">
+				<h:form id="pageForm">
+				<p:growl id="growl" showDetail="true" sticky="true" rendered="#{not facesContext.validationFailed}" />
+			
+				
+				
+					<p:commandButton value="+ New Head" id="addInsBtn" title="Add Head"
+					immediate="true"  process="@this" update=":mainForm:addInsForm:grid"
+					 actionListener="#{manageHeadsBean.preAddHead}" styleClass="greenBtn" /> &nbsp;&nbsp;
+								
+						<br/>
+						<p:panel><h3>Heads</h3><br/></p:panel>
+						<p:dataTable var="row" value="#{manageHeadsBean.heads}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" widgetVar="studentCourse" 
+						id="headTable" resizableColumns="true" rows="15" paginator="true" 
+					 	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,20,40,60,80,100" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                        		<p:column width="24">
+								<p:rowToggler />
+							</p:column>
+							
+							<p:column width="130" id="head" sortBy="#{row.headPersonId.name}" filterBy="#{row.headPersonId.name}">
+								<h:outputText value="#{row.headPersonId.name}" />
+								<p:watermark value="Head" forElement="mainForm:pageForm:headTable:head:filter"/>
+							</p:column>
+						
+							<p:column width="130" id="type" sortBy="#{row.type}" filterBy="#{row.type}">
+								<h:outputText rendered="#{row.type==0}" value="Head of the Zewail city" />
+								<h:outputText rendered="#{row.type==1}" value="Addmision office manager" />
+								<h:outputText rendered="#{row.type==2}" value="Director of Accredition for Engineering" />
+								<h:outputText rendered="#{row.type==3}" value="Director of Accredition for Science" />
+								<h:outputText rendered="#{row.type==4}" value="Dean of Admission" />
+								<h:outputText rendered="#{row.type==5}" value="Director of Admission and Registration" />
+								<h:outputText rendered="#{row.type==6}" value="Registrar staff" />
+								<p:watermark value="Type" forElement="mainForm:pageForm:headTable:type:filter"/>
+							</p:column>
+							<p:column width="130" id="hidden" sortBy="#{row.hidden}" filterBy="#{row.type}">
+								<h:outputText rendered="#{row.hidden==true}" value="Hidden" />
+								<h:outputText rendered="#{row.hidden==false}" value="Shown" />
+								<p:watermark value="Visability" forElement="mainForm:pageForm:headTable:hidden:filter"/>
+							</p:column>
+							<p:column width="130" id="btns">
+									<p:commandButton  value="Delete" 
+									action="#{manageHeadsBean.deleteHead(row)}" update="headTable"   process="@this" immediate="true"/>
+								
+							<p:commandButton  value="Update" 
+									action="#{manageHeadsBean.preUpdateHead(row)}" update=":mainForm:addInsForm:grid headTable"   process="@this" />
+								
+								</p:column>
+								
+								
+              					
+              					
+              					
+						</p:dataTable>
+						 
+						
+						</h:form>
+					<p:dialog widgetVar="addHeadDlg"
+					id="Dlg" header="New Head" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom" resizable="true"
+					 maximizable="true" minimizable="true" class="addDialog" height="440">
+					<h:form id="addInsForm">
+						<div class="dialogWrapper">
+							<h:panelGrid columns="3" id="grid">
+			          			
+			          				
+			          			<h:outputLabel value="Type" for="type"/>
+			          			<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="type" value="#{manageHeadsBean.addedHead.type}" required="true" requiredMessage="Please select type">
+										<f:selectItem itemLabel="Head of the Zewail city" itemValue="0" />
+										<f:selectItem itemLabel="Addmision office manager" itemValue="1" />
+										<f:selectItem itemLabel="Director of Accredition for Engineering" itemValue="2" />
+										<f:selectItem itemLabel="Director of Accredition for Science" itemValue="3" />
+										<f:selectItem itemLabel="Dean of Admission" itemValue="4" />
+										<f:selectItem itemLabel="Director of Admission and Registration" itemValue="5" />
+										<f:selectItem itemLabel="Registrar staff" itemValue="6" />
+									</p:selectOneMenu>
+									
+								</h:panelGroup>
+								<p:message for="type" />
+								<h:outputLabel value="Head" for="ins"/>
+									<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu style="margin-top:15px; width:330px;"  filter="true" filterMatchMode="contains" 
+									id="ins" value="#{manageHeadsBean.newEmployeeId}" required="true" requiredMessage="Please select type">
+										<f:selectItem itemLabel="Select Head"  />
+										<f:selectItems var="ins" value="#{manageHeadsBean.instructors}" itemLabel="#{ins.name}" itemValue="#{ins.id}" />
+									</p:selectOneMenu>
+									</h:panelGroup>
+								<p:message for="ins" />
+								<h:outputLabel value="Visability" for="vis"/>
+			          			<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="vis" value="#{manageHeadsBean.addedHead.hidden}" required="true" requiredMessage="Please select visability">
+										<f:selectItem itemLabel="Hide" itemValue="true" />
+										<f:selectItem itemLabel="Show" itemValue="false" />
+									</p:selectOneMenu>
+									
+								</h:panelGroup>
+								<p:message for="vis" />
+			          		</h:panelGrid>
+						</div>
+						<ul class="dialogFooter">
+							<li><p:commandButton value="Cancel" title="Cancel" onclick="addHeadDlg.hide()" immediate="true" class="dialogCancel" /></li>
+							<li><p:commandButton value="Add" title="Add" actionListener="#{manageHeadsBean.addHead}"  update=":mainForm:pageForm:headTable " 
+							process="addInsForm" class="dialogOk" /></li>
+							
+						</ul>
+					</h:form>
+				</p:dialog>
+				</p:panel>
+			</div>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+   		</ui:define>
+	</ui:composition>
+</html>

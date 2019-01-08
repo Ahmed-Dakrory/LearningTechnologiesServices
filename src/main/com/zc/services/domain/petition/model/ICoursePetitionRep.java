@@ -31,7 +31,7 @@ public interface ICoursePetitionRep {
 
 	public List<CoursePetition> getByCourseID(Integer id);
 	
-	public List<CoursePetition>getByCourseCoordinatorIDPending(Integer id);
+	public List<CoursePetition> getByCourseCoordinatorIDPending(Integer id);
 	
 	public List<CoursePetition> getByCourseCoordinatorIDOld(Integer id);
 	public List<CoursePetition> getOldSummer(Integer year);

@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import main.com.zc.services.domain.data.model.Data;
-import main.com.zc.services.domain.feedback.model.Feedback;
 import main.com.zc.services.domain.time.model.Time;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;

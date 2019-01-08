@@ -11,6 +11,7 @@ import main.com.zc.services.presentation.users.dto.StudentDTO;
  * @author omnya
  *
  */
+
 public interface IStudentFacade {
 	public List<StudentDTO> getAll();
 	

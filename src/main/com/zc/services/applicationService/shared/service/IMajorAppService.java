@@ -15,6 +15,7 @@ import main.com.zc.shared.presentation.dto.BaseDTO;
 public interface IMajorAppService {
 	public boolean isMajorHead(Integer empID);
 	public List<MajorDTO> getAll();
+	public MajorDTO getById(int id);
 	public List<MajorDTO> getAvailableOnly();
 	public MajorDTO addMajor(MajorDTO major);
 	public boolean deleteMajor(MajorDTO major);
