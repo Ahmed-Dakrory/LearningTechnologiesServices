@@ -73,39 +73,7 @@ public class CoursePetitionDTO {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	
 		
-		if(getStep().equals(PetitionStepsEnum.INSTRUCTOR))
-		{
-			if(authentication.getName().equals(getInstructor().getMail()))
-			{
-				for(int i=0;i<getActionDTO().size();i++)
-				{
-					if(getActionDTO().get(i).getInstructorID().equals(getInstructor().getId()))
-					{
-						if(getActionDTO().get(i).getActionType()!=null)
-						{
-						if(getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Approved))
-						
-						{
-							result = AcceptRefuseFormEnum.Accept;
-						}
-						else if(getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Refused))
-							
-							{
-								result = AcceptRefuseFormEnum.Refuse;
-							}
-						else 
-							
-							result = AcceptRefuseFormEnum.Not;
-						}
-						else 
-							result = AcceptRefuseFormEnum.Not;
-						break;
-					}
-				}
-			}
-		}
-
-		else if(getStep().equals(PetitionStepsEnum.DEAN))
+		 if(getStep().equals(PetitionStepsEnum.DEAN))
 		{
 			if(authentication.getName().equals(Constants.DEAN_OF_STRATEGIC))
 			{
@@ -199,7 +167,39 @@ public class CoursePetitionDTO {
 					}
 				}
 			}
-		}
+		}else 
+			if(getStep().equals(PetitionStepsEnum.INSTRUCTOR))
+			{
+				if(authentication.getName().equals(getInstructor().getMail()))
+				{
+					for(int i=0;i<getActionDTO().size();i++)
+					{
+						if(getActionDTO().get(i).getInstructorID().equals(getInstructor().getId()))
+						{
+							if(getActionDTO().get(i).getActionType()!=null)
+							{
+							if(getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Approved))
+							
+							{
+								result = AcceptRefuseFormEnum.Accept;
+							}
+							else if(getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Refused))
+								
+								{
+									result = AcceptRefuseFormEnum.Refuse;
+								}
+							else 
+								
+								result = AcceptRefuseFormEnum.Not;
+							}
+							else 
+								result = AcceptRefuseFormEnum.Not;
+							break;
+						}
+					}
+				}
+			}
+
 	
 		return result;
 	}

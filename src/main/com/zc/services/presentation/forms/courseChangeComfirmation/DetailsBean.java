@@ -99,7 +99,8 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
 		student.setStudentProfileDTO(facade.getCurrentPRofileByStudentID(studentId));
 		major=majorfacade.getById(student.getStudentProfileDTO().getMajor().getId());
-		coursesDTOsTaken=coursesfacade.getCoursesByStudentID(student.getId());
+		//coursesDTOsTaken=coursesfacade.getCoursesByStudentID(student.getId());
+		coursesDTOsTaken=coursesfacade.getAll();
 		coursesDTOsAll=coursesfacade.getAll();
 		System.out.println("Ahmed Dakrory: "+String.valueOf(major.getType()));
 	

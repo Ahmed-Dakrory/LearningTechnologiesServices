@@ -27,7 +27,7 @@
 							url="/pages/secured/forms/academicPetition/studentCoursePetitionPage2.xhtml" rendered="#{FormsStatusBean.academicPetition}"/>
 						</p:tabMenu>
 						<p:dataTable var="forms" value="#{StudentAcademicPetBean.pendingForms}" selectionMode="single" selection="#{StudentAcademicPetBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple"
-							filteredValue="#{StudentAcademicPetBean.filteredPendingForms}" widgetVar="formsTable" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
+							filteredValue="#{StudentAcademicPetBean.filteredPendingForms}" widgetVar="formsTable" id="pendingDatatable" >
 							  <p:ajax event="rowSelect" listener="#{StudentAcademicPetBean.onRowSelect}" />
 							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 								<h:outputText value="#{forms.id}" />

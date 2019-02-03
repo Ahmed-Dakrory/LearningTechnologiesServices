@@ -644,7 +644,7 @@ public class LeftNavigationMenuBean {
 	 */
 	public String renderChangeCourseConfirmation()
 	{
-		currentMenuId = "Change course";
+		currentMenuId = "Graduation Requirement";
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in

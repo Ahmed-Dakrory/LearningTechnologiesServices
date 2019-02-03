@@ -31,7 +31,7 @@
 						</p:tabMenu>
 					<h:panelGroup id="ListView" rendered="#{!AdmissionDAcademicPetBean.detailView}">
 						<p:dataTable var="forms" value="#{AdmissionDAcademicPetBean.pendingForms}" selectionMode="single" selection="#{AdmissionDAcademicPetBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple"
-							filteredValue="#{AdmissionDAcademicPetBean.filteredPendingForms}" widgetVar="formsTable1" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
+							filteredValue="#{AdmissionDAcademicPetBean.filteredPendingForms}" widgetVar="formsTable1" id="pendingDatatable" >
 							<p:ajax event="rowSelect" listener="#{AdmissionDAcademicPetBean.onRowSelect}" />
 							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 								<h:outputText value="#{forms.id}" />

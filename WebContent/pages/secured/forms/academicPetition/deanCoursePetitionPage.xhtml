@@ -35,7 +35,7 @@
 				<h:panelGroup id="ListView" rendered="#{!InstructorAcademicPetBean.detailView}">
 				
 							<p:dataTable var="forms" value="#{InstructorAcademicPetBean.pendingFormsDean}" selectionMode="single" selection="#{InstructorAcademicPetBean.selectedPendingFormsDean}" rowKey="#{forms.id}" sortMode="multiple"
-								filteredValue="#{InstructorAcademicPetBean.filteredPendingFormsDean}" widgetVar="formsTable1" id="pendingDatatable2" rowStyleClass="#{forms.acceptRefuseCssName}">
+								filteredValue="#{InstructorAcademicPetBean.filteredPendingFormsDean}" widgetVar="formsTable1" id="pendingDatatable2" >
 								<p:ajax event="rowSelect" listener="#{InstructorAcademicPetBean.onRowSelectDean}" />
 								<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 									<h:outputText value="#{forms.id}" />

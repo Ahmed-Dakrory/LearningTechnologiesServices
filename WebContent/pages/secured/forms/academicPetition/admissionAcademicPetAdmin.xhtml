@@ -25,7 +25,7 @@
 							<p:menuitem value="Old Petitions" url="/pages/secured/forms/academicPetition/admissionAcademicPet1Admin.xhtml" />
 					  	</p:tabMenu>
 						<p:dataTable var="forms" value="#{AdmisisonAcademicPetAdminBean.pendingForms}" selectionMode="single" selection="#{AdmisisonAcademicPetAdminBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple"
-							filteredValue="#{AdmisisonAcademicPetAdminBean.filteredPendingForms}" widgetVar="formsTable1" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
+							filteredValue="#{AdmisisonAcademicPetAdminBean.filteredPendingForms}" widgetVar="formsTable1" id="pendingDatatable" >
 							<p:ajax event="rowSelect" listener="#{AdmisisonAcademicPetAdminBean.onRowSelect}" />
 							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 								<h:outputText value="#{forms.id}"/>

@@ -6,7 +6,7 @@ public class encrypt {
 public static void main(String[]args)
 {
 	//String pass=new  Md5PasswordEncoder().encodePassword("6f7ed6088b452df06e3287e90146d1e6", "abadawi@zewailcity.edu.eg");
-	String pass=new  Md5PasswordEncoder().encodePassword("123456", "s-mtelsharkawy@zewailcity.edu.eg");
+	String pass=new  Md5PasswordEncoder().encodePassword("s-mohamed.rabea@zewailcity.edu.eg", "s-mohamed.rabea@zewailcity.edu.eg");
 	//ab1622fb4ef34e41af5fb18f0a3051c7//gosman@zewailcity.edu.eg
 	//3f0c41a4e568198348a0cdd3d4022d1e
 	//a045a2e7bda539de1994531f8fdf872f
