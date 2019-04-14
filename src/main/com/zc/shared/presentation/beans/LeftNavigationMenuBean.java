@@ -722,6 +722,125 @@ public class LeftNavigationMenuBean {
 		}
 	}
 	
+	
+	
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderChangeCourseConfirmation(int oldOrAll)
+	{
+		currentMenuId = "Graduation Requirement";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/courseChangeComfirmation/formDetails.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+						if(oldOrAll==0) {
+							return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
+						}else {
+							return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
+							
+						}
+						}
+				}
+				/*
+				 * here the heads login
+				 * 2 Director of Accredition for Engineering
+				 * 3 Director of Accredition for Science
+				 * 4 Dean of Admission
+				 * 5 Director of Admission and Registration
+				 * 6 Registrar staff
+				 */
+				
+				Heads  typeHead2 = headFacades.getByType(2);
+				Heads  typeHead3 = headFacades.getByType(3);
+				Heads  typeHead4 = headFacades.getByType(4);
+				Heads  typeHead5 = headFacades.getByType(5);
+				Heads  typeHead6 = headFacades.getByType(6);
+				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
+				{
+					//Engineering
+					if(oldOrAll==0) {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=2&emailForState="+mail+"&faces-redirect=true";
+					}else {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=1&majorId=-1&type=2&emailForState="+mail+"&faces-redirect=true";
+							
+					}
+				}
+				else if(mail.toLowerCase().equals(typeHead3.getHeadPersonId().getMail().toLowerCase()))
+				{
+					//Science
+					if(oldOrAll==0) {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=1&emailForState="+mail+"&faces-redirect=true";
+					}else {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=1&majorId=-1&type=1&emailForState="+mail+"&faces-redirect=true";
+								
+					}
+				}
+				else if(mail.toLowerCase().equals(typeHead4.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(oldOrAll==0) {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=2&majorId=-1&type=4&emailForState="+mail+"&faces-redirect=true";
+					}else {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=2&majorId=-1&type=4&emailForState="+mail+"&faces-redirect=true";
+								
+					}
+				}
+				else if(mail.toLowerCase().equals(typeHead5.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(oldOrAll==0) {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=3&majorId=-1&type=5&emailForState="+mail+"&faces-redirect=true";
+					}else {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=3&majorId=-1&type=5&emailForState="+mail+"&faces-redirect=true";
+							
+					}
+				}
+				else if(mail.toLowerCase().equals(typeHead6.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(oldOrAll==0) {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=4&majorId=-1&type=6&emailForState="+mail+"&faces-redirect=true";
+					}else {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=4&majorId=-1&type=6&emailForState="+mail+"&faces-redirect=true";
+								
+					}
+				}
+				else 
+				{
+					if(oldOrAll==0) {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?faces-redirect=true";
+					}else {
+						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?faces-redirect=true";
+								
+					}
+			}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
 
 	public String renderCourseRepeat()
 	{

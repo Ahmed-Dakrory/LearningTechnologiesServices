@@ -138,38 +138,42 @@
 			
 			<h:form>
 					<p:dialog widgetVar="addCourseComfirmationDlg" header="Course Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
-			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="900" height="390" style="width:900px !important">
+			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="950" height="500" style="width:900px !important">
 					
 						<div class="dialogWrapper">
 							<h:panelGroup id="addPanel3">
 								<h:panelGroup>
 					
-					
+					<h:outputLabel value="Select Your Taken course" />
+					<br></br>
 					<p:selectOneMenu
 						value="#{DetailsBeanChangeCourseComfirmation.courseTakenId}"
 						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
 						effect="fade" filter="true" filterMatchMode="startsWith">
-						<f:selectItem itemLabel="Select Your Taken course" />
 						<f:selectItems value="#{DetailsBeanChangeCourseComfirmation.coursesDTOsTaken}" var="row"
 						itemLabel="#{row.name}" itemValue="#{row.id}" />
 					</p:selectOneMenu>
 					
 					
 					<br/>
+					
+					<h:outputLabel value="Select the relative course from another major" />
+					<br></br>
 					<p:selectOneMenu
 						value="#{DetailsBeanChangeCourseComfirmation.courseRelativeId}"
 						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
 						effect="fade" filter="true" filterMatchMode="startsWith">
-						<f:selectItem itemLabel="Select Course From another Major" />
 						<f:selectItems value="#{DetailsBeanChangeCourseComfirmation.coursesDTOsAll}" var="row"
 						itemLabel="#{row.name}" itemValue="#{row.id}" />
 					</p:selectOneMenu>
 					<br/>
+					
+					<h:outputLabel value="Course intake year" />
+					<br></br>
 					<p:selectOneMenu
 						value="#{DetailsBeanChangeCourseComfirmation.newCourseComfirmation.studentIntake}"
 						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
 						effect="fade" filter="true" filterMatchMode="startsWith">
-						<f:selectItem itemLabel="Course intake year" />
 						<f:selectItem itemLabel="2011" itemValue="2011" />
 						<f:selectItem itemLabel="2012" itemValue="2012" />
 						<f:selectItem itemLabel="2013" itemValue="2013" />
@@ -192,12 +196,15 @@
 						<f:selectItem itemLabel="2030" itemValue="2030" />
 					</p:selectOneMenu>
 			        
-					<br/>  				
+					<br/>  		
+					
+					
+					<h:outputLabel value="Course Req regarded as:" />
+					<br></br>		
 			        <p:selectOneMenu
 						value="#{DetailsBeanChangeCourseComfirmation.newCourseComfirmation.courseCountAs}"
 						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
 						effect="fade" filter="true" filterMatchMode="startsWith">
-						<f:selectItem itemLabel="Course Req regarded as:" />
 						<f:selectItem itemLabel="Major Req" itemValue="0" />
 						<f:selectItem itemLabel="Humanities" itemValue="1" />
 						<f:selectItem itemLabel="Major Elective" itemValue="2" />

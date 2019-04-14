@@ -77,8 +77,9 @@ public class HeadDetailsBean {
 	@ManagedProperty("#{headsFacadeImpl}")
    	private HeadsAppServiceImpl headFacades; 
 	
-	
+
     private List<CCC> courseChangeComfirmationsForHead; 
+    private List<CCC> courseChangeComfirmationsForHeadWaiting; 
     
     //Those parameters handled on the get request
 
@@ -87,10 +88,13 @@ public class HeadDetailsBean {
     private int majorId=-1;
     
     private String emailForState;
+    
+    private boolean theTabWaitingShown;
 	@PostConstruct
 	public void init()
 	{
 		
+		theTabWaitingShown=false;
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		
 		stateNow=Integer.parseInt(origRequest.getParameter("stateNow"));
@@ -98,25 +102,7 @@ public class HeadDetailsBean {
 		type=Integer.parseInt(origRequest.getParameter("type"));
 		majorId=Integer.parseInt(origRequest.getParameter("majorId"));
 		
-		try{
-
-			Integer id=Integer.parseInt(origRequest.getParameter("id"));
-			
-				if(id!=null){
-					newCourseComfirmation=cccAppServiceImpl.getById(id);
-					studentId = newCourseComfirmation.getStudent().getId();
-					student=studentFacadeImpl.getById(studentId);
-
-			  		System.out.println("Ahmed dakrory"+student.getName());
-					student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
-					setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
-					
-				}
-				
-			}
-		catch(Exception ex){
-			 
-		}
+		
 		System.out.println("AhmedDakrory:StateNow: "+stateNow);
 		System.out.println("AhmedDakrory:type: "+type);
 		System.out.println("AhmedDakrory:majorId: "+majorId);
@@ -131,6 +117,7 @@ public class HeadDetailsBean {
 		 * 
 		 */
 		courseChangeComfirmationsForHead=new ArrayList<CCC>();
+		courseChangeComfirmationsForHeadWaiting=new ArrayList<CCC>();
 		if(stateNow==0){
 			//this mean the head of major
 			MajorDTO majorDetails=majorfacade.getById(majorId);
@@ -168,7 +155,10 @@ public class HeadDetailsBean {
 			}
 			Heads employee= headFacades.getByType(typeHead);
 			if(emailForState.equals(employee.getHeadPersonId().getMail())){
+				theTabWaitingShown=true;
 				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStep(stateNow);
+
+				courseChangeComfirmationsForHeadWaiting=cccAppServiceImpl.getAll();
 			}
 			
 			
@@ -216,6 +206,7 @@ public class HeadDetailsBean {
 		
 
 		courseChangeComfirmationsForHead=new ArrayList<CCC>();
+		courseChangeComfirmationsForHeadWaiting=new ArrayList<CCC>();
 		if(stateNow==0){
 			//this mean the head of major
 			MajorDTO majorDetails=majorfacade.getById(majorId);
@@ -254,6 +245,9 @@ public class HeadDetailsBean {
 			Heads employee= headFacades.getByType(typeHead);
 			if(emailForState.equals(employee.getHeadPersonId().getMail())){
 				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStep(stateNow);
+
+				courseChangeComfirmationsForHeadWaiting=cccAppServiceImpl.getAll();
+				theTabWaitingShown=true;
 			}
 			
 			
@@ -281,6 +275,7 @@ public class HeadDetailsBean {
 		
 
 		courseChangeComfirmationsForHead=new ArrayList<CCC>();
+		courseChangeComfirmationsForHeadWaiting=new ArrayList<CCC>();
 		if(stateNow==0){
 			//this mean the head of major
 			MajorDTO majorDetails=majorfacade.getById(majorId);
@@ -319,6 +314,8 @@ public class HeadDetailsBean {
 			Heads employee= headFacades.getByType(typeHead);
 			if(emailForState.equals(employee.getHeadPersonId().getMail())){
 				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStep(stateNow);
+				courseChangeComfirmationsForHeadWaiting=cccAppServiceImpl.getAll();
+				theTabWaitingShown=true;
 			}
 			
 			
@@ -368,6 +365,14 @@ public class HeadDetailsBean {
 	  	try {
 	  		newCourseComfirmation = (CCC) event.getObject();
 	  		
+	  		studentId = newCourseComfirmation.getStudent().getId();
+			student=studentFacadeImpl.getById(studentId);
+						
+			student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
+			setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
+						
+					
+			
 	  		try {
 	    		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	    		origRequest.getRequestURL();
@@ -585,6 +590,26 @@ public class HeadDetailsBean {
 
 	public void setEmailForState(String emailForState) {
 		this.emailForState = emailForState;
+	}
+
+
+	public List<CCC> getCourseChangeComfirmationsForHeadWaiting() {
+		return courseChangeComfirmationsForHeadWaiting;
+	}
+
+
+	public void setCourseChangeComfirmationsForHeadWaiting(List<CCC> courseChangeComfirmationsForHeadWaiting) {
+		this.courseChangeComfirmationsForHeadWaiting = courseChangeComfirmationsForHeadWaiting;
+	}
+
+
+	public boolean isTheTabWaitingShown() {
+		return theTabWaitingShown;
+	}
+
+
+	public void setTheTabWaitingShown(boolean theTabWaitingShown) {
+		this.theTabWaitingShown = theTabWaitingShown;
 	}
 	
 	

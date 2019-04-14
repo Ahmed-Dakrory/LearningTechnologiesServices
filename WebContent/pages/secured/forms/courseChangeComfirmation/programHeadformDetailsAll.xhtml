@@ -20,7 +20,7 @@
 					</li>
 				</ul>
 				<div class="pannelWrapper">
-						<p:tabMenu activeIndex="0">
+						<p:tabMenu activeIndex="1">
 								
 							<p:menuitem value="Recent Forms" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(0)}" />
 						   <p:menuitem value="Recent Forms"  rendered="#{HeadDetailsBeanChangeCourseComfirmation.theTabWaitingShown}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(1)}" />
@@ -34,9 +34,8 @@
 
 					
 						
-						<p:dataTable var="forms" value="#{HeadDetailsBeanChangeCourseComfirmation.courseChangeComfirmationsForHead}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation}"
+						<p:dataTable var="forms" value="#{HeadDetailsBeanChangeCourseComfirmation.courseChangeComfirmationsForHeadWaiting}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation}"
 							widgetVar="formsTable" id="reponses">
-							<p:ajax event="rowSelect" listener="#{HeadDetailsBeanChangeCourseComfirmation.onRowSelect}" />
 							<p:column width="100" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 								<h:outputText value="#{forms.id}" />
 								<p:watermark value="ID" forElement="mainForm:form:reponses:formID:filter" />
@@ -54,6 +53,11 @@
 							<p:column width="160" id="intakeYear" sortBy="#{forms.studentIntake}" filterBy="#{forms.studentIntake}">
 								<h:outputText value="#{forms.studentIntake}" />
 								<p:watermark value="Intake Year" forElement="mainForm:form:reponses:intakeYear:filter" />
+							</p:column>
+							
+							<p:column width="160" id="state" sortBy="#{forms.stateStep}" filterBy="#{forms.stateStep}">
+								<h:outputText value="#{forms.stateStep}" />
+								<p:watermark value="Intake Year" forElement="mainForm:form:reponses:state:filter" />
 							</p:column>
 							
 							<ui:remove>
