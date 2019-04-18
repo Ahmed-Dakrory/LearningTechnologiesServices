@@ -333,6 +333,17 @@ public class HeadDetailsBean {
 			}
 	}
 	
+	public void goBack() {
+		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		origRequest.getRequestURL();
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect
+				("programHeadformDetailsAll.xhtml?stateNow="+stateNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 	
 	public String getCourseCountAsString(int countAs) {
 		switch(countAs){
@@ -378,6 +389,38 @@ public class HeadDetailsBean {
 	    		origRequest.getRequestURL();
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
 					("headStudentformDetails.xhtml?id="+newCourseComfirmation.getId());
+	    			
+	    			
+	    		
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void onRowSelect1(SelectEvent event) {  
+	  	try {
+	  		newCourseComfirmation = (CCC) event.getObject();
+	  		
+	  		studentId = newCourseComfirmation.getStudent().getId();
+			student=studentFacadeImpl.getById(studentId);
+						
+			student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
+			setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
+						
+					
+			
+	  		try {
+	    		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	    		origRequest.getRequestURL();
+	    			FacesContext.getCurrentInstance().getExternalContext().redirect
+					("headStudentformDetails2.xhtml?id="+newCourseComfirmation.getId());
 	    			
 	    			
 	    		

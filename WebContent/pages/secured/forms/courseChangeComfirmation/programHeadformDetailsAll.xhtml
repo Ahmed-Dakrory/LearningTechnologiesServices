@@ -36,6 +36,7 @@
 						
 						<p:dataTable var="forms" value="#{HeadDetailsBeanChangeCourseComfirmation.courseChangeComfirmationsForHeadWaiting}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation}"
 							widgetVar="formsTable" id="reponses">
+							<p:ajax event="rowSelect" listener="#{HeadDetailsBeanChangeCourseComfirmation.onRowSelect1}" />
 							<p:column width="100" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 								<h:outputText value="#{forms.id}" />
 								<p:watermark value="ID" forElement="mainForm:form:reponses:formID:filter" />
