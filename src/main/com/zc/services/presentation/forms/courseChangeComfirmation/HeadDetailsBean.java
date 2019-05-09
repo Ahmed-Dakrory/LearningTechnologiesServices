@@ -8,12 +8,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.SelectEvent;
@@ -170,32 +178,48 @@ public class HeadDetailsBean {
 	
 	
 	public void acceptRequist(int id){
+		String EmailToSendTo="";
 		newCourseComfirmation=cccAppServiceImpl.getById(id);
-		if(stateNow==0){
-
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setStateStep(1);
-		}else if(stateNow==1){
-
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setStateStep(2);
-		}else if(stateNow==2){
-
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setStateStep(3);
-		}else if(stateNow==3){
-
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setStateStep(4);
-		}else if(stateNow==4){
-
-			newCourseComfirmation.setAction(1);
-			newCourseComfirmation.setStateStep(5);
-		}
+		
 		studentId = newCourseComfirmation.getStudent().getId();
 		student=studentFacadeImpl.getById(studentId);
 		student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
 		setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
+		
+		
+		
+		if(stateNow==0){
+			/*
+			 * from major head to accredation 
+			 */
+			newCourseComfirmation.setAction(0);
+			newCourseComfirmation.setStateStep(1);
+			EmailToSendTo=getEmailByState(1);
+			sendEmailForStudent(getNameByState(1),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
+		}else if(stateNow==1){
+
+			newCourseComfirmation.setAction(0);
+			newCourseComfirmation.setStateStep(2);
+			EmailToSendTo=getEmailByState(2);
+			sendEmailForStudent(getNameByState(2),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
+		}else if(stateNow==2){
+
+			newCourseComfirmation.setAction(0);
+			newCourseComfirmation.setStateStep(3);
+			EmailToSendTo=getEmailByState(3);
+			sendEmailForStudent(getNameByState(3),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
+		}else if(stateNow==3){
+
+			newCourseComfirmation.setAction(0);
+			newCourseComfirmation.setStateStep(4);
+			EmailToSendTo=getEmailByState(4);
+			sendEmailForStudent(getNameByState(4),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
+		}else if(stateNow==4){
+
+			newCourseComfirmation.setAction(1);
+			newCourseComfirmation.setStateStep(5);
+			sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Accepted");
+		}
 		
 		cccAppServiceImpl.addCCC(newCourseComfirmation);
 		
@@ -205,6 +229,7 @@ public class HeadDetailsBean {
 		origRequest.getRequestURL();
 		
 
+		//Update the list of the courseChangeComifrmation
 		courseChangeComfirmationsForHead=new ArrayList<CCC>();
 		courseChangeComfirmationsForHeadWaiting=new ArrayList<CCC>();
 		if(stateNow==0){
@@ -253,6 +278,7 @@ public class HeadDetailsBean {
 			
 		}
 		
+
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect
 			("programHeadformDetails.xhtml?stateNow="+stateNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
@@ -263,6 +289,89 @@ public class HeadDetailsBean {
 			
 	}
 	
+	public String getEmailByState(int stateNow) {
+		
+
+		if(stateNow==0){
+			//this mean the head of major
+			MajorDTO majorDetails=majorfacade.getById(majorId);
+			return majorDetails.getHeadOfMajor().getMail();
+			
+		}else if(stateNow==1){
+			//this mean the head of accredition
+			int typeHead=-1;
+			if(type==1){
+				typeHead=3;
+			}else if(type==2){
+				typeHead=2;
+			}else{
+				typeHead=type;
+			}
+			Heads employee= headFacades.getByType(typeHead);
+			return employee.getHeadPersonId().getMail();
+		}else {
+			/*
+			 * this mean 2 for the dean
+			 * 3 for the director of addmission
+			 * 4 for the registrar staff
+			 */
+			int typeHead=-1;
+			if(type==1){
+				typeHead=3;
+			}else if(type==2){
+				typeHead=2;
+			}else{
+				typeHead=type;
+			}
+			Heads employee= headFacades.getByType(typeHead);
+			
+			return employee.getHeadPersonId().getMail();
+			
+		}
+	}
+
+	public String getNameByState(int stateNow) {
+		
+
+		if(stateNow==0){
+			//this mean the head of major
+			MajorDTO majorDetails=majorfacade.getById(majorId);
+			return majorDetails.getHeadOfMajor().getName();
+			
+		}else if(stateNow==1){
+			//this mean the head of accredition
+			int typeHead=-1;
+			if(type==1){
+				typeHead=3;
+			}else if(type==2){
+				typeHead=2;
+			}else{
+				typeHead=type;
+			}
+			Heads employee= headFacades.getByType(typeHead);
+			return employee.getHeadPersonId().getName();
+		}else {
+			/*
+			 * this mean 2 for the dean
+			 * 3 for the director of addmission
+			 * 4 for the registrar staff
+			 */
+			int typeHead=-1;
+			if(type==1){
+				typeHead=3;
+			}else if(type==2){
+				typeHead=2;
+			}else{
+				typeHead=type;
+			}
+			Heads employee= headFacades.getByType(typeHead);
+			
+			return employee.getHeadPersonId().getName();
+			
+		}
+	}
+
+
 	public void refuseRequist(int id){
 		newCourseComfirmation=cccAppServiceImpl.getById(id);
 		newCourseComfirmation.setAction(2);
@@ -321,6 +430,8 @@ public class HeadDetailsBean {
 			
 		}
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Action Taken");
+
+		sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Rejected");
 		
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		origRequest.getRequestURL();
@@ -333,6 +444,110 @@ public class HeadDetailsBean {
 			}
 	}
 	
+	public void sendEmailForStudent(String name,String mail, String string) {
+		 String from = "learningtechnologies@zewailcity.edu.eg";
+	        String pass = "zcltinfo";
+	        String[] to = {mail }; // list of recipient email addresses 
+	        String subject = "Graduation Requirements Form New Message";
+	        String htmlText = "<div style=\"width:700px;margin:0\" auto;font:normal=\"\" 13px=\"\" 30px=\"\" segoe,=\"\" segoe=\"\" ui,=\"\" dejavu=\"\" sans,=\"\" trebuchet=\"\" ms,=\"\" verdana,=\"\" sans-serif=\"\" !important;=\"\">\n" + 
+	        		"					<ul style=\"margin:0;padding:0;\">\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:700px;margin:0;\">\n" + 
+	        		"						<ul style=\"margin:0;padding:0;width:700px;margin-top:18px;\">\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:260px;padding:0;\"><img src=\"http://lts.zclt.info/LearningTechnologiesServices/javax.faces.resource/zewailLogo.png.xhtml?ln=Copy%20of%20images\" alt=\"Zewail\" city=\"\" of=\"\" science=\"\" and=\"\" technology=\"\" style=\"\n" + 
+	        		"    width: 77px;\n" + 
+	        		"\"></li>\n" + 
+	        		"					<li style=\"list-style:none;float:right;width:121px;margin-right: 55px;padding:0;\"><img src=\"http://lts.zclt.info/LearningTechnologiesServices/javax.faces.resource/welocome_logo.png.xhtml?ln=Copy%20of%20images\" alt=\"Center\" for=\"\" learning=\"\" technologies=\"\" style=\"margin-top:4px;width: 170px;\"></li>\n" + 
+	        		"					</ul>\n" + 
+	        		"					</li>\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:700px;margin-bottom: 25px;background:#f1f2f2;\" 0=\"\" 24px=\"\" 0;padding:1px=\"\" 0;=\"\">&nbsp;</li>\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:700px;margin-bottom:24px;padding-left:24px;\">\n" + 
+	        		"					<h2 style=\"margin:0;padding:0;color:#404040\" !important;=\"\">Learning Technologies Services</h2>\n" + 
+	        		"					</li>\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:700px;marin:0;background:#f2f0f0;\">\n" + 
+	        		"					<div style=\"padding:24px\" 36px;color:#676767=\"\" !important;=\"\">\n" + 
+	        		"					<span style=\"color:#676767\">Dear \n" + 
+	        		"					"+name+"\n" + 
+	        		"					,</span><br><br><br>\n" + 
+	        		"					<span style=\"color:#676767\">"+string+"</span><br><br><br>\n" + 
+	        		"					<br><br>\n" + 
+	        		"					<span style=\"color:#676767\">Thank you, </span><br><br>\n" + 
+	        		"					<span style=\"color:#676767\">Center for Learning Technologies</span>\n" + 
+	        		"					</div>\n" + 
+	        		"					</li>\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:700px;margin-bottom:4px;background:#ececec;\">\n" + 
+	        		"					<ul style=\"margin:0;padding:0;\">\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:134px;margin:0;padding:18px\" 36px=\"\" !important;color:#717070;=\"\">\n" + 
+	        		"					<a href=\"http://www.zclt.info/\" title=\"Center\" for=\"\" learning=\"\" technologies=\"\"><img src=\"http://lts.zclt.info/LearningTechnologiesServices/javax.faces.resource/welocome_logo.png.xhtml?ln=Copy%20of%20images\" alt=\"Center\" for=\"\" learning=\"\" technologies=\"\" style=\"\n" + 
+	        		"    width: 139px;\n" + 
+	        		"\"></a><br>\n" + 
+	        		"					<span style=\"color:#404040;font-size:11px;\">Giving Fuel to Innovation</span>\n" + 
+	        		"					</li>\n" + 
+	        		"					<li style=\"list-style:none;float:right;padding: 24px;\" 36px=\"\" !important;color:#717070;=\"\">\n" + 
+	        		"					<a href=\"http://www.zewailcity.edu.eg/\" title=\"Zewail\" city=\"\" of=\"\" science=\"\" and=\"\" technology=\"\"><img src=\"http://lts.zclt.info/LearningTechnologiesServices/javax.faces.resource/zewailLogo.png.xhtml?ln=Copy%20of%20images\" alt=\"Zewail\" city=\"\" of=\"\" science=\"\" and=\"\" technology=\"\" style=\"\n" + 
+	        		"    width: 66px;\n" + 
+	        		"\"></a>\n" + 
+	        		"					</li>\n" + 
+	        		"					</ul>\n" + 
+	        		"					</li>\n" + 
+	        		"					<li style=\"list-style:none;float:left;width:700px;margin-bottom:12px;background:#ececec;\">\n" + 
+	        		"					<div style=\"padding:8px\" 16px;color:#a1a0a0;font-size:11px;line-height:20px;=\"\">\n" + 
+	        		"					 <br><b><span style=\"color:#a1a0a0;font-size:11px;\">Follow us:</span></b><a href=\"https://www.facebook.com/learning.technologies.zewailcity\" title=\"ZC\" lt=\"\" facebook=\"\" style=\"\n" + 
+	        		"\"><img src=\"https://static.xx.fbcdn.net/rsrc.php/yo/r/iRmz9lCMBD2.ico\" alt=\"ZC\" lt=\"\" facebook=\"\" style=\"vertical-align:middle;width: 21px;margin-left: 13px;\"></a>\n" + 
+	        		"					  <a href=\"https://www.youtube.com/channel/UCiajXXIv0rCpxVIgCDekm2A\" title=\"ZC\" lt=\"\" youtube=\"\"><img src=\"https://s.ytimg.com/yts/img/favicon_144-vfliLAfaB.png\" alt=\"ZC\" lt=\"\" youtube=\"\" style=\"vertical-align:middle;width: 23px;margin-left: 14px;\"></a>\n" + 
+	        		"					</div> </li> </ul> </div>";
+
+	        sendFromGMail(from, pass, to, subject, htmlText);
+	        
+	
+	}
+
+	 private static void sendFromGMail(String from, String pass, String[] to, String subject, String body) {
+	        Properties props = System.getProperties();
+	        String host = "smtp.gmail.com";
+	        props.put("mail.smtp.starttls.enable", "true");
+	        props.put("mail.smtp.host", host);
+	        props.put("mail.smtp.user", from);
+	        props.put("mail.smtp.password", pass);
+	        props.put("mail.smtp.port", "587");
+	        props.put("mail.smtp.auth", "true");
+
+	        Session session = Session.getDefaultInstance(props);
+	        MimeMessage message = new MimeMessage(session);
+
+	        try {
+	            message.setFrom(new InternetAddress(from));
+	            InternetAddress[] toAddress = new InternetAddress[to.length];
+
+	            // To get the array of addresses
+	            for( int i = 0; i < to.length; i++ ) {
+	                toAddress[i] = new InternetAddress(to[i]);
+	            }
+
+	            for( int i = 0; i < toAddress.length; i++) {
+	                message.addRecipient(Message.RecipientType.TO, toAddress[i]);
+	            }
+
+	            message.setSubject(subject);
+	            message.setText(body);
+
+	    		message.setContent(body, "text/html; charset=ISO-8859-1");
+	            Transport transport = session.getTransport("smtp");
+	            transport.connect(host, from, pass);
+	            transport.sendMessage(message, message.getAllRecipients());
+	            transport.close();
+	        }
+	        catch (AddressException ae) {
+	            ae.printStackTrace();
+	        }
+	        catch (MessagingException me) {
+	            me.printStackTrace();
+	        }
+	    }
+	 
+	 
+	
+
+
 	public void goBack() {
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		origRequest.getRequestURL();

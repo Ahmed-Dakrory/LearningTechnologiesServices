@@ -29,8 +29,8 @@ import main.com.zc.services.presentation.users.facade.impl.StudentFacadeImpl;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
 /**
- * @author omnya
- *
+ * @author Ahmed.Dakrory
+ * Not used by any xhtml
  */
 @ManagedBean(name="AccreditionHeadDetailsBeanChangeCourseComfirmation")
 @ViewScoped
