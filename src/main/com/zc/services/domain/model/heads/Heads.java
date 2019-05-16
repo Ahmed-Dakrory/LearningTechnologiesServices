@@ -61,6 +61,15 @@ public class Heads {
 	 * 3 for Accredition for Science Departments
 	 * 4 for The Dean of students affairs
 	 */
+
+	public static int HEAD_OF_ZEWAIL_CITY=0;
+	public static int HEAD_OF_ADDMISION_OFFICE=1;
+	public static int HEAD_OF_ACCEDITIOM_ENGINEERING=2;
+	public static int HEAD_OF_ACCEDITIOM_SCIENCE=3;
+	public static int DEAN_OF_STUDENT_AFFAIRS=4;
+	public static int ASSOCIATE_DEAN=5;
+	public static int REGISTRAR_STAFF=6;
+	
 	@Column(name="departmentType")
     private Integer type;
     

@@ -655,7 +655,7 @@ public class LeftNavigationMenuBean {
 			{
 				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
 				int idStudent=dataOfStudent.getId();
-				return "/pages/secured/forms/courseChangeComfirmation/formDetails.xhtml?id="+idStudent+"&faces-redirect=true";
+				return "/pages/secured/forms/courseReplacement/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
 			
 			}
 			else
@@ -667,7 +667,7 @@ public class LeftNavigationMenuBean {
 					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
 					{
 						
-							return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
+							return "/pages/secured/forms/courseReplacement/programHeadformDetails.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
 					}
 				}
 				/*
@@ -679,11 +679,11 @@ public class LeftNavigationMenuBean {
 				 * 6 Registrar staff
 				 */
 				
-				Heads  typeHead2 = headFacades.getByType(2);
-				Heads  typeHead3 = headFacades.getByType(3);
-				Heads  typeHead4 = headFacades.getByType(4);
-				Heads  typeHead5 = headFacades.getByType(5);
-				Heads  typeHead6 = headFacades.getByType(6);
+				Heads  typeHead2 = headFacades.getByType(Heads.HEAD_OF_ACCEDITIOM_ENGINEERING);
+				Heads  typeHead3 = headFacades.getByType(Heads.HEAD_OF_ACCEDITIOM_SCIENCE);
+				Heads  typeHead4 = headFacades.getByType(Heads.DEAN_OF_STUDENT_AFFAIRS);
+				Heads  typeHead5 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
+				Heads  typeHead6 = headFacades.getByType(Heads.REGISTRAR_STAFF);
 				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
 				{
 					//Engineering

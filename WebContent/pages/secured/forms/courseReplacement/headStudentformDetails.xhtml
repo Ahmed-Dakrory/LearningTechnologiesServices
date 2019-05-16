@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Change Comfirmation Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Student Course Change Comfirmation Form" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.id}" rendered="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.data.studentImage != null }" />
+								</li>
+								<li>
+								<table>
+											<tr>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Submission Date" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.getFriendlySubmissionDate(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.date)}" />
+														<h:outputLabel value="Updating Date" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.getFriendlySubmissionDate(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.updateDate)}" />
+														<h:outputLabel value="ID" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.facultyId}" />
+														<h:outputLabel value="Mob./Phone" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.mobile}" />
+													</h:panelGrid>
+												</td>
+														<td width="48">&nbsp;</td>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Completed hrs." />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.completedCreditHrs}" />
+														<h:outputLabel value="Registered hrs." />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.registeredCreditHrs}" />
+														<h:outputLabel value="Repeated Courses" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.repeatedCourses}" />
+													</h:panelGrid>
+												</td>
+												<td width="48">&nbsp;</td>
+												<td valign="top">
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="GPA" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.gpa}" />
+														<h:outputLabel value="Current Major" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.major.majorName}" />
+														<h:outputLabel value="Current Major Type" />
+														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.getMajorType(HeadDetailsBeanChangeCourseComfirmation.major.type)}" />
+													</h:panelGrid>
+												</td>
+										
+											</tr> 
+										</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						
+						<!-- Petition Details -->
+
+						<!-- Action Buttons -->
+						<div style="width:300px;margin:0 auto;">
+			 			 	<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
+			 			 		<p:commandButton value="Accept" ajax="true" action="#{HeadDetailsBeanChangeCourseComfirmation.acceptRequist(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.id)}" styleClass="greenBtn" update="feedbackformPanel"/>
+								<p:commandButton value="Refuse" ajax="true" action="#{HeadDetailsBeanChangeCourseComfirmation.refuseRequist(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.id)}" styleClass="redBtn" update="feedbackformPanel"/>
+							</h:panelGrid>
+						</div>
+						<p:panel id="feedbackformPanel" style="width:70%;margin:0 auto;border:0;">
+							<h3>Personal Information</h3><hr/>  
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">
+								<p:outputLabel value="Student's ID" for="studentID"/>
+								<p:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.fileNo}" id="studentID" disabled="true"/>
+								
+								<p:outputLabel value="Full Name" for="firstName"/>
+								<p:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.data.getNameInEnglish()}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+								
+							</h:panelGrid>
+							
+								<h3>Courses needed to be comfirmed</h3><hr/>
+								<h:panelGrid id="panelForupdate" columns="2" styleClass="graduationFormPrintDetails">			
+									  				
+				               		<p:outputLabel>Requiest Id</p:outputLabel>				
+				               		<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.id}" style="width:150px;"/>
+	            	
+					                <p:outputLabel>Taken Course</p:outputLabel>
+					                <p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.courseOld.name} with #{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.courseOld.getCredit()} Cr.H" style="width:150px;"/>
+	            
+					                <p:outputLabel>Relative Course</p:outputLabel>
+					                <p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.newCourse.name}  with #{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.newCourse.getCredit()} Cr.H" style="width:150px;"/>
+				          		
+					                <p:outputLabel>Intake Year</p:outputLabel>
+					                <p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.studentIntake}" style="width:150px;"/>
+				           	
+					               	<p:outputLabel>Course Regarded As</p:outputLabel>
+					              	<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.getCourseCountAsString(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.courseCountAs)}" style="width:150px;"/>
+				            	
+				            	
+				            		<p:outputLabel>State</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.stateStep}" style="width:150px;"/>
+	            					          	
+				               		<p:outputLabel>Action</p:outputLabel>
+	            					<p:outputLabel value = "Need Action" rendered="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.action==0}" style="width:150px;"/>
+	            					<p:outputLabel value = "Accepted" rendered="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.action==1}"  style="width:150px;"/>
+	            					<p:outputLabel value = "Refused" rendered="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.action==2}" style="width:150px;"/>
+	            	
+	           	
+								</h:panelGrid>
+							
+							<h3>Graduate Contact Information</h3><hr/>
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
+								<p:outputLabel value="Address" for="address"/>
+								<p:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.data.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+										
+								<p:outputLabel value="Email" for="email"/>
+								<p:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.data.mail}" id="email" disabled="true"/>
+										
+								<p:outputLabel value="Phone" for="phone"/>
+								<p:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.student.data.phone}" id="phone" />
+										
+							</h:panelGrid>
+								
+						</p:panel>
+					</p:panel>
+				</div>
+			</h:form>
+			<!-- Printed From -->			
+			</ui:define>
+		<ui:define name="confirmDialogBox">
+  		</ui:define>
+	</ui:composition>
+</html>
