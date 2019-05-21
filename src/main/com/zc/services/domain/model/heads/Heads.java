@@ -63,12 +63,11 @@ public class Heads {
 	 */
 
 	public static int HEAD_OF_ZEWAIL_CITY=0;
-	public static int HEAD_OF_ADDMISION_OFFICE=1;
-	public static int HEAD_OF_ACCEDITIOM_ENGINEERING=2;
-	public static int HEAD_OF_ACCEDITIOM_SCIENCE=3;
-	public static int DEAN_OF_STUDENT_AFFAIRS=4;
-	public static int ASSOCIATE_DEAN=5;
-	public static int REGISTRAR_STAFF=6;
+	public static int VICE_DIRECTOR_FOR_ENGINEERING=1;
+	public static int VICE_DIRECTOR_FOR_SCIENCE=2;
+	public static int DEAN_OF_STRATIGIC_ENROLLEMENT=3;
+	public static int ASSOCIATE_DEAN=4;
+	public static int REGISTRAR_STAFF=5;
 	
 	@Column(name="departmentType")
     private Integer type;
@@ -111,6 +110,21 @@ public class Heads {
 	}
 
 
+	public String getTypeString() {
+		if(type==HEAD_OF_ZEWAIL_CITY) {
+			return "HEAD OF ZEWAIL CITY";
+		}else if(type==ASSOCIATE_DEAN) {
+			return "Associate Dean";
+		}else if(type==VICE_DIRECTOR_FOR_ENGINEERING) {
+			return "VICE DIRECTOR FOR ENGINEERING";
+		}else if(type==VICE_DIRECTOR_FOR_SCIENCE) {
+			return "VICE DIRECTOR FOR SCIENCE";
+		}else if(type==DEAN_OF_STRATIGIC_ENROLLEMENT) {
+			return "DEAN OF STRATIGIC ENROLLEMENT";
+		}else {
+			return "REGISTRAR STAFF";
+		}
+	}
 	
 	
 	

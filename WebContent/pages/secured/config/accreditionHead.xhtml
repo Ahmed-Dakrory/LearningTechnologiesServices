@@ -49,13 +49,7 @@
 							</p:column>
 						
 							<p:column width="130" id="type" sortBy="#{row.type}" filterBy="#{row.type}">
-								<h:outputText rendered="#{row.type==0}" value="Head of the Zewail city" />
-								<h:outputText rendered="#{row.type==1}" value="Addmision office manager" />
-								<h:outputText rendered="#{row.type==2}" value="Director of Accredition for Engineering" />
-								<h:outputText rendered="#{row.type==3}" value="Director of Accredition for Science" />
-								<h:outputText rendered="#{row.type==4}" value="Dean of Admission" />
-								<h:outputText rendered="#{row.type==5}" value="Director of Admission and Registration" />
-								<h:outputText rendered="#{row.type==6}" value="Registrar staff" />
+								<h:outputText value="#{row.getTypeString()}" />
 								<p:watermark value="Type" forElement="mainForm:pageForm:headTable:type:filter"/>
 							</p:column>
 							<p:column width="130" id="hidden" sortBy="#{row.hidden}" filterBy="#{row.type}">
@@ -92,12 +86,11 @@
 			          			<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="type" value="#{manageHeadsBean.addedHead.type}" required="true" requiredMessage="Please select type">
 										<f:selectItem itemLabel="Head of the Zewail city" itemValue="0" />
-										<f:selectItem itemLabel="Addmision office manager" itemValue="1" />
-										<f:selectItem itemLabel="Director of Accredition for Engineering" itemValue="2" />
-										<f:selectItem itemLabel="Director of Accredition for Science" itemValue="3" />
-										<f:selectItem itemLabel="Dean of Admission" itemValue="4" />
-										<f:selectItem itemLabel="Director of Admission and Registration" itemValue="5" />
-										<f:selectItem itemLabel="Registrar staff" itemValue="6" />
+										<f:selectItem itemLabel="Director of Accredition for Engineering" itemValue="1" />
+										<f:selectItem itemLabel="Director of Accredition for Science" itemValue="2" />
+										<f:selectItem itemLabel="DEAN OF STRATIGIC ENROLLEMENT" itemValue="3" />
+										<f:selectItem itemLabel="Associate Dean" itemValue="4" />
+										<f:selectItem itemLabel="Registrar staff" itemValue="5" />
 									</p:selectOneMenu>
 									
 								</h:panelGroup>

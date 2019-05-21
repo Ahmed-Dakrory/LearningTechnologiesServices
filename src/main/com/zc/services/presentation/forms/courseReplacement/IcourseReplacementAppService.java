@@ -12,6 +12,7 @@ import java.util.List;
 public interface IcourseReplacementAppService {
 
 	public List<courseReplacement> getAll();
+	public List<courseReplacement> getAllRefused();
 	public courseReplacement addcourseReplacement(courseReplacement ccc);
 	public List<courseReplacement> getByStudentId(int id);
 	public List<courseReplacement> getByMajorId(int id);

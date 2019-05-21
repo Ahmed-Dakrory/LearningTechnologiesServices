@@ -27,6 +27,7 @@ public class StudentProfileAssembler {
 		dto.setSemester(profile.getSemester());
 		dto.setYear(profile.getYear());
 		dto.setGpa(profile.getGpa());
+		dto.setConcentration(profile.getConcentration());
 	try
 		{
 			StudentDTO student=new StudentDTO();
@@ -67,6 +68,7 @@ public class StudentProfileAssembler {
 		profile.setSemester(dto.getSemester());
 		profile.setYear(dto.getYear());
 		profile.setGpa(dto.getGpa());
+		profile.setConcentration(dto.getConcentration());
 		try
 		{
 			Student student=new Student();

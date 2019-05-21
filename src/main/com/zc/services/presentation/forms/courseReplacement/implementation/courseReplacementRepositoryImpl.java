@@ -134,4 +134,13 @@ public class courseReplacementRepositoryImpl implements courseReplacementReposit
 				   return results;
 	}
 
+	@Override
+	public List<courseReplacement> getAllRefused() {
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("courseReplacement.getAllRefused");
+
+		 @SuppressWarnings("unchecked")
+		List<courseReplacement> results=query.list();
+		   return results;
+	}
+
 }

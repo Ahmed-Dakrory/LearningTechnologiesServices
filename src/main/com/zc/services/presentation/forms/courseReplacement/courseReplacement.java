@@ -32,7 +32,7 @@ import main.com.zc.services.domain.person.model.Student;
 		     )
 	,
 	@NamedQuery(name="courseReplacement.getByStudentId",
-	query = "from courseReplacement d where d.student.id = :id"
+	query = "from courseReplacement d where d.studentId.id = :id"
 			)
 	,
 	@NamedQuery(name="courseReplacement.getById",
@@ -41,6 +41,11 @@ import main.com.zc.services.domain.person.model.Student;
 	,
 	@NamedQuery(name="courseReplacement.getByMajorId",
 	query = "from courseReplacement d where d.majorId = :id"
+			)
+	
+	,
+	@NamedQuery(name="courseReplacement.getAllRefused",
+	query = "from courseReplacement d where d.action = 2"
 			)
 	
 	,
@@ -116,16 +121,22 @@ public class courseReplacement {
 	 * 4 is for registrar staff
 	 */
 
-	public static int STEP_AUDITING=-1;
-	public static int STEP_MajorHead=0;
-	public static int STEP_DirectorOfAccredition=1;
-	public static int STEP_DeanOfAddmission=2;
-	public static int STEP_AssociateDean=3;
-	public static int STEP_Registerar=4;
+	public static int STEP_AUDITING=0;
+	public static int STEP_MajorHead=1;
+	public static int STEP_DirectorOfAccredition=2;
+	public static int STEP_DeanOfStratigicEnrollment=3;
+	public static int STEP_AssociateDean=4;
+	public static int STEP_Registerar=5;
+	public static int STEP_Finished=6;
+	
+	
 	
 	@Column(name = "formStep")
 	private Integer formStep;
 	
+
+	public static int TYPE_ENGINEERING=0;
+	public static int TYPE_SCIENCE=1;
 	@Column(name = "type")
 	private Integer type;
 	
@@ -142,8 +153,8 @@ public class courseReplacement {
 	
 
 	public static int STATE_INPROCESS=0;
-	public static int STATE_ACCEPTED=0;
-	public static int STATE_REFUSED=0;
+	public static int STATE_ACCEPTED=1;
+	public static int STATE_REFUSED=2;
 	
 	
 	@Column(name = "action")
@@ -347,5 +358,30 @@ public class courseReplacement {
 	}
 	
 	
+	public String getStepString() {
+		if(formStep==STEP_AssociateDean) {
+			return "Associate Dean";
+		}else if(formStep==STEP_AUDITING) {
+			return "Registrar Auditing";
+		}else if(formStep==STEP_DeanOfStratigicEnrollment) {
+			return "Dean Of Stratigic Enrollment";
+		}else if(formStep==STEP_MajorHead) {
+			return "Major Head";
+		}else if(formStep==STEP_Registerar) {
+			return "Registrar";
+		}else {
+			return "Vice Director Of Accredition";
+		}
+	}
 	
+	
+	public String getStateString() {
+		if(action==STATE_ACCEPTED) {
+			return "ACCEPTED";
+		}else if(action==STATE_INPROCESS) {
+			return "IN PROCESS";
+		}else  {
+			return "REFUSED";
+		}
+	}
 }

@@ -1,8 +1,10 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.forms.courseChangeComfirmation;
+package main.com.zc.services.presentation.forms.courseReplacement;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
@@ -22,11 +24,13 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
-import main.com.zc.services.domain.data.model.Courses;
+import main.com.zc.services.domain.model.heads.Heads;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
 import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
-import main.com.zc.services.presentation.forms.courseChangeComfirmation.implementation.CCCAppServiceImpl;
+import main.com.zc.services.presentation.forms.courseReplacement.implementation.courseReplacementAppServiceImpl;
 import main.com.zc.services.presentation.shared.facade.impl.CouresFacadeImpl;
 import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
@@ -41,9 +45,9 @@ import main.com.zc.shared.JavaScriptMessagesHandler;
  * @author omnya
  *
  */
-@ManagedBean(name="DetailsBeanChangeCourseComfirmation")
+@ManagedBean(name="courseReplacementBean")
 @ViewScoped
-public class DetailsBean {
+public class courseReplacementBean {
 
 	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
    	private IGetLoggedInInstructorData getInsDataFacade;
@@ -64,24 +68,29 @@ public class DetailsBean {
     @ManagedProperty("#{ICouresFacade}")
 	private CouresFacadeImpl coursesfacade;
     
-    @ManagedProperty("#{CCCFacadeImpl}")
-	private CCCAppServiceImpl cccAppServiceImpl;
+    @ManagedProperty("#{courseReplacementFacadeImpl}")
+	private courseReplacementAppServiceImpl cccAppServiceImpl;
     
-	
+    
+
+	@ManagedProperty("#{headsFacadeImpl}")
+   	private HeadsAppServiceImpl headFacades;
+    
     private StudentDTO student;
     private MajorDTO major;
     private List<CoursesDTO> coursesDTOsTaken;
     private List<CoursesDTO> coursesDTOsAll;
-    private List<CCC> courseChangeComfirmations;
+    private List<courseReplacement> courseChangeComfirmations;
     private int studentId;
     
 
     
-    private int stateOfReq;
-    private int courseTakenId;
-    private int courseRelativeId;
-    private CCC newCourseComfirmation;
+    private int step;
+
+    private courseReplacement newCourseComfirmation;
     
+
+    private courseReplacement selectedCourseReplacement;
     
 	@PostConstruct
 	public void init()
@@ -95,58 +104,77 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 			
 				if(id!=null){
 					studentId=id;
+					student=studentFacadeImpl.getById(studentId);
+					newCourseComfirmation=new courseReplacement();
+					courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
+					student.setStudentProfileDTO(facade.getCurrentPRofileByStudentID(studentId));
+					
+					major=majorfacade.getById(student.getStudentProfileDTO().getMajor().getId());
+					//coursesDTOsTaken=coursesfacade.getCoursesByStudentID(student.getId());
+					coursesDTOsTaken=coursesfacade.getAll();
+					coursesDTOsAll=coursesfacade.getAll();
+					System.out.println("Ahmed Dakrory: "+String.valueOf(major.getType()));
 				}
+
+				
 				
 			}
 		catch(Exception ex){
 			 
 		}
 		
-		student=studentFacadeImpl.getById(studentId);
-		newCourseComfirmation=new CCC();
-		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
-		student.setStudentProfileDTO(facade.getCurrentPRofileByStudentID(studentId));
-		major=majorfacade.getById(student.getStudentProfileDTO().getMajor().getId());
-		//coursesDTOsTaken=coursesfacade.getCoursesByStudentID(student.getId());
-		coursesDTOsTaken=coursesfacade.getAll();
-		coursesDTOsAll=coursesfacade.getAll();
-		System.out.println("Ahmed Dakrory: "+String.valueOf(major.getType()));
+		
+		try{
+
+		Integer idCourseReplacement=Integer.parseInt(origRequest.getParameter("c"));
+		
+		if(idCourseReplacement!=null) {
+			selectedCourseReplacement=cccAppServiceImpl.getById(idCourseReplacement);
+			
+			
+			studentId=selectedCourseReplacement.getStudentId().getId();
+			student=studentFacadeImpl.getById(studentId);
+			student.setStudentProfileDTO(facade.getCurrentPRofileByStudentID(studentId));
+			
+			major=majorfacade.getById(student.getStudentProfileDTO().getMajor().getId());
+		}
+		
+		}catch(Exception ex){
+			 
+		}
+		
 	
 	}
 	
 	
-	public void addCCC(){
-		stateOfReq=0;
-		Courses courseTaken= new Courses();
-		courseTaken.setId(courseTakenId);
-		Courses courseRelative= new Courses();
-		courseRelative.setId(courseRelativeId);
-		Student student=new Student();
-		student.setId(studentId);
-		newCourseComfirmation.setStudent(student);
-		newCourseComfirmation.setStateStep(stateOfReq);
-		newCourseComfirmation.setCourseOld(courseTaken);
-		newCourseComfirmation.setNewCourse(courseRelative);
+	public void addcourseReplacement(){
+		step=0;
+		Student studentNew=new Student();
+		studentNew.setId(studentId);
+		newCourseComfirmation.setStudentId(studentNew);
+		newCourseComfirmation.setFormStep(step);
 		newCourseComfirmation.setMajorId(major.getId());
 		newCourseComfirmation.setType(major.getType());
 		newCourseComfirmation.setAction(0);
-		newCourseComfirmation.setDate(Calendar.getInstance());
-		newCourseComfirmation.setUpdateDate(Calendar.getInstance());
-		cccAppServiceImpl.addCCC(newCourseComfirmation);
+		newCourseComfirmation.setSubmissionDate(Calendar.getInstance());
+		newCourseComfirmation.setLastUpdateDate(Calendar.getInstance());
+		cccAppServiceImpl.addcourseReplacement(newCourseComfirmation);
 		
 		
-		//this mean the head of major
-		MajorDTO majorDetails=majorfacade.getById(major.getId());
-		String Email_of_MajorHead= majorDetails.getHeadOfMajor().getMail();
-		String Name_of_MajorHead= majorDetails.getHeadOfMajor().getName();
-
-		sendEmailForStudent(Name_of_MajorHead,Email_of_MajorHead,"Please Check your dashboard for a new Graduation Requirement Form");
+		
+		//Registerar
+		Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
+		
+		sendEmailForStudent(student.getName(),student.getMail(),"Please Check your dashboard for a New Course Replacement Form");
+		sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Please Check your dashboard for a New Course Replacement Form");
+		
+		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course comfirmation requist was added successfully");
 
 		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("addCourseComfirmationDlg.hide();");
-		newCourseComfirmation=new CCC();
+		newCourseComfirmation=new courseReplacement();
 	}
 	
 	public void sendEmailForStudent(String name,String mail, String string) {
@@ -201,7 +229,8 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	        		"					  <a href=\"https://www.youtube.com/channel/UCiajXXIv0rCpxVIgCDekm2A\" title=\"ZC\" lt=\"\" youtube=\"\"><img src=\"https://s.ytimg.com/yts/img/favicon_144-vfliLAfaB.png\" alt=\"ZC\" lt=\"\" youtube=\"\" style=\"vertical-align:middle;width: 23px;margin-left: 14px;\"></a>\n" + 
 	        		"					</div> </li> </ul> </div>";
 
-	        sendFromGMail(from, pass, to, subject, htmlText);
+	        System.out.println("Email Sent To: "+name+" With Mail: "+mail);
+	       // sendFromGMail(from, pass, to, subject, htmlText);
 	        
 	
 	}
@@ -251,7 +280,7 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	 
 	 
 	
-	public void deleteCCC(int Id){
+	public void deletecourseReplacement(int Id){
 		/*preRequisitFacade.delete(preRequisitFacade.getById(Id));
 		courseSyllabusCollection.setPre_Requisites(preRequisitFacade.getByCourseId(courseId));
 		*/
@@ -288,9 +317,43 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		return "";
 	}
 
+	public void onRowSelect(SelectEvent event) {  
+	  	try {
+	  		selectedCourseReplacement = (courseReplacement) event.getObject();
+	  		
+
+			System.out.println("Ahmed Dakrory new: "+String.valueOf(selectedCourseReplacement.getStudentId().getId()));
+	  		try {
+	    			FacesContext.getCurrentInstance().getExternalContext().redirect
+					("studentDetailsCourseReplacement.xhtml?c="+selectedCourseReplacement.getId());
+	    			
+	    			
+	    		
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
+	
+	public String getFriendlySubmissionDate(Calendar calender) {
+		if(calender!=null){
+			 
+			  // SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS");
+				 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			    String strDate = sdf.format(calender.getTime());
+			    return strDate;
+			}
+			
+			else return "";
+	}
 	
 	
 	
@@ -370,19 +433,19 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		this.coursesDTOsAll = coursesDTOsAll;
 	}
 
-	public CCCAppServiceImpl getCccAppServiceImpl() {
+	public courseReplacementAppServiceImpl getCccAppServiceImpl() {
 		return cccAppServiceImpl;
 	}
 	
-	public void setCccAppServiceImpl(CCCAppServiceImpl cccAppServiceImpl) {
+	public void setCccAppServiceImpl(courseReplacementAppServiceImpl cccAppServiceImpl) {
 		this.cccAppServiceImpl = cccAppServiceImpl;
 	}
 
-	public List<CCC> getCourseChangeComfirmations() {
+	public List<courseReplacement> getCourseChangeComfirmations() {
 		return courseChangeComfirmations;
 	}
 
-	public void setCourseChangeComfirmations(List<CCC> courseChangeComfirmations) {
+	public void setCourseChangeComfirmations(List<courseReplacement> courseChangeComfirmations) {
 		this.courseChangeComfirmations = courseChangeComfirmations;
 	}
 
@@ -395,43 +458,51 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	}
 
 
-	public int getStateOfReq() {
-		return stateOfReq;
-	}
 
-
-	public void setStateOfReq(int stateOfReq) {
-		this.stateOfReq = stateOfReq;
-	}
-
-
-	public CCC getNewCourseComfirmation() {
+	public courseReplacement getNewCourseComfirmation() {
 		return newCourseComfirmation;
 	}
 
 
-	public void setNewCourseComfirmation(CCC newCourseComfirmation) {
+	public void setNewCourseComfirmation(courseReplacement newCourseComfirmation) {
 		this.newCourseComfirmation = newCourseComfirmation;
 	}
 
 
-	public int getCourseTakenId() {
-		return courseTakenId;
+
+
+	public int getStep() {
+		return step;
 	}
 
 
-	public void setCourseTakenId(int courseTakenId) {
-		this.courseTakenId = courseTakenId;
+	public void setStep(int step) {
+		this.step = step;
 	}
 
 
-	public int getCourseRelativeId() {
-		return courseRelativeId;
+	public courseReplacement getSelectedCourseReplacement() {
+		return selectedCourseReplacement;
 	}
 
 
-	public void setCourseRelativeId(int courseRelativeId) {
-		this.courseRelativeId = courseRelativeId;
+	public void setSelectedCourseReplacement(courseReplacement selectedCourseReplacement) {
+		this.selectedCourseReplacement = selectedCourseReplacement;
 	}
+
+
+	public HeadsAppServiceImpl getHeadFacades() {
+		return headFacades;
+	}
+
+
+	public void setHeadFacades(HeadsAppServiceImpl headFacades) {
+		this.headFacades = headFacades;
+	}
+
+
+
+
+	
 
 }

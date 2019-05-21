@@ -78,7 +78,6 @@ public class HeadDetailsBean {
     private int stateOfReq;
     private int courseTakenId;
     private int courseRelativeId;
-    private courseReplacement newCourseComfirmation;
     private courseReplacement selectedNewCourseComfirmation;
     
 
@@ -86,202 +85,227 @@ public class HeadDetailsBean {
    	private HeadsAppServiceImpl headFacades; 
 	
 
-    private List<courseReplacement> courseChangeComfirmationsForHead; 
-    private List<courseReplacement> courseChangeComfirmationsForHeadWaiting; 
+    private List<courseReplacement> pendingFormsList; 
+    private List<courseReplacement> oldFormsFinal;
+    private List<courseReplacement> submittedForms;
+    private List<courseReplacement> auditingFormList;
     
     //Those parameters handled on the get request
 
-    private int stateNow=-1;
+    private int stepNow=-1;
     private int type=-1;
     private int majorId=-1;
     
     private String emailForState;
+
+    private boolean auditingTabVisibility;
+    private boolean submittedTabVisibility;
+    private boolean oldTabVisibility;
+
+    public static int PENDING_PAGE=0;
+    public static int AUDITING_PAGE=1;
+    public static int SUBMITTED_PAGE=2;
+    public static int OLD_PAGE=3;
     
-    private boolean theTabWaitingShown;
 	@PostConstruct
 	public void init()
 	{
-		
-		theTabWaitingShown=false;
+
+		auditingTabVisibility=false;
+		submittedTabVisibility=false;
+		oldTabVisibility=false;
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		
-		stateNow=Integer.parseInt(origRequest.getParameter("stateNow"));
+		stepNow=Integer.parseInt(origRequest.getParameter("stepNow"));
 		emailForState=origRequest.getParameter("emailForState");
 		type=Integer.parseInt(origRequest.getParameter("type"));
 		majorId=Integer.parseInt(origRequest.getParameter("majorId"));
 		
 		
-		System.out.println("AhmedDakrory:StateNow: "+stateNow);
-		System.out.println("AhmedDakrory:type: "+type);
-		System.out.println("AhmedDakrory:majorId: "+majorId);
-		System.out.println("AhmedDakrory:emailForState: "+emailForState);
-		newCourseComfirmation=new courseReplacement();
-		/*
-		 * to get the major head list of requirments
-		 * as the type of major state the needed flow of the next steps
-		 * 
-		 * type 1 mean science then type 3 in heads is the corrosponding head in accredition
-		 * type 2 mean Engineering then type 2 in heads is the corrosponding head in accredition
-		 * 
-		 */
-		courseChangeComfirmationsForHead=new ArrayList<courseReplacement>();
-		courseChangeComfirmationsForHeadWaiting=new ArrayList<courseReplacement>();
-		if(stateNow==0){
-			//this mean the head of major
-			MajorDTO majorDetails=majorfacade.getById(majorId);
-			if(majorDetails.getHeadOfMajor().getMail().equals(emailForState)){
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStepAndMajorId(majorId, 0);	
-			}
-		}else if(stateNow==1){
-			//this mean the head of accredition
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			if(emailForState.equals(employee.getHeadPersonId().getMail())){
-				
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStepAndType(type, 1);
-			}
-		}else {
-			/*
-			 * this mean 2 for the dean
-			 * 3 for the director of addmission
-			 * 4 for the registrar staff
-			 */
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			if(emailForState.equals(employee.getHeadPersonId().getMail())){
-				theTabWaitingShown=true;
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStep(stateNow);
+	
 
-				courseChangeComfirmationsForHeadWaiting=cccAppServiceImpl.getAll();
-			}
-			
-			
-		}
+		
+		
+		updateListDependsOnLogedAccount();
+		
+		
 		
 		
 		
 	}
 	
 	
+	private void updateListDependsOnLogedAccount() {
+		// TODO Auto-generated method stub
+		pendingFormsList=new ArrayList<courseReplacement>();
+		oldFormsFinal=new ArrayList<courseReplacement>();
+		auditingFormList=new ArrayList<courseReplacement>(); 
+		submittedForms=new ArrayList<courseReplacement>(); 
+		
+		
+		if(stepNow==courseReplacement.STEP_Registerar||stepNow==courseReplacement.STEP_AUDITING) {
+			//Registerar
+			Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
+			if(registerar.getHeadPersonId().getMail().equals(emailForState)){
+				auditingFormList=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_AUDITING);
+				pendingFormsList=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_Registerar);
+				submittedForms=cccAppServiceImpl.getAll();
+				oldFormsFinal=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_Finished);
+				oldFormsFinal.addAll(cccAppServiceImpl.getAllRefused());
+				auditingTabVisibility=true;
+				oldTabVisibility=true;
+				submittedTabVisibility=true;
+			}
+			
+		}
+		
+		if(stepNow==courseReplacement.STEP_MajorHead){
+			//this mean the head of major
+			MajorDTO majorDetails=majorfacade.getById(majorId);
+			if(majorDetails.getHeadOfMajor().getMail().equals(emailForState)){
+				pendingFormsList=cccAppServiceImpl.getAllForStepAndMajorId(majorId, courseReplacement.STEP_MajorHead);
+				auditingTabVisibility=false;
+				submittedTabVisibility=false;
+				oldTabVisibility=false;
+			}
+		}
+
+		
+		
+		
+		
+		
+		
+		if(stepNow==courseReplacement.STEP_DirectorOfAccredition){
+			if(type==Heads.VICE_DIRECTOR_FOR_ENGINEERING) {
+				Heads employee= headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
+				if(emailForState.equals(employee.getHeadPersonId().getMail())){
+					
+					pendingFormsList=cccAppServiceImpl.getAllForStepAndType(courseReplacement.TYPE_ENGINEERING, courseReplacement.STEP_DirectorOfAccredition);
+					auditingTabVisibility=false;
+					submittedTabVisibility=false;
+					oldTabVisibility=false;
+				}
+			}else if(type==Heads.VICE_DIRECTOR_FOR_SCIENCE) {
+				Heads employee= headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+				if(emailForState.equals(employee.getHeadPersonId().getMail())){
+					
+					pendingFormsList=cccAppServiceImpl.getAllForStepAndType(courseReplacement.TYPE_SCIENCE, courseReplacement.STEP_DirectorOfAccredition);
+					auditingTabVisibility=false;
+					submittedTabVisibility=false;
+					oldTabVisibility=false;
+				}
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		if(stepNow==courseReplacement.STEP_DeanOfStratigicEnrollment) {
+			
+			Heads deanOfStratigicEnrollement= headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+			if(emailForState.equals(deanOfStratigicEnrollement.getHeadPersonId().getMail())){
+				pendingFormsList=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_DeanOfStratigicEnrollment);
+				submittedForms=cccAppServiceImpl.getAll();
+				oldFormsFinal=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_Finished);
+				oldFormsFinal.addAll(cccAppServiceImpl.getAllRefused());
+				
+				auditingTabVisibility=false;
+				submittedTabVisibility=true;
+				oldTabVisibility=true;
+			}
+			
+		}
+
+		
+		
+		if(stepNow==courseReplacement.STEP_AssociateDean) {
+			
+			Heads deanOfStratigicEnrollement= headFacades.getByType(Heads.ASSOCIATE_DEAN);
+			if(emailForState.equals(deanOfStratigicEnrollement.getHeadPersonId().getMail())){
+				pendingFormsList=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_AssociateDean);
+				submittedForms=cccAppServiceImpl.getAll();
+				oldFormsFinal=cccAppServiceImpl.getAllForStep(courseReplacement.STEP_Finished);
+				oldFormsFinal.addAll(cccAppServiceImpl.getAllRefused());
+				
+				auditingTabVisibility=false;
+				submittedTabVisibility=true;
+				oldTabVisibility=true;
+			}
+			
+		}
+
+
+	}
+
+
 	public void acceptRequist(int id){
 		String EmailToSendTo="";
-		newCourseComfirmation=cccAppServiceImpl.getById(id);
 		
-		studentId = newCourseComfirmation.getStudentId().getId();
+		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 		student=studentFacadeImpl.getById(studentId);
 		student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
 		setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
 		
 		
 		
-		if(stateNow==0){
-			/*
-			 * from major head to accredation 
-			 */
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setFormStep(1);
-			EmailToSendTo=getEmailByState(1);
-			sendEmailForStudent(getNameByState(1),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
-		}else if(stateNow==1){
+		if(stepNow==courseReplacement.STEP_AUDITING){
+			
+			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_AUDITING+1);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_AUDITING+1);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_AUDITING+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		
+		}else if(stepNow==courseReplacement.STEP_MajorHead){
+			
+			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_MajorHead+1);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_MajorHead+1);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_MajorHead+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		
+		}else if(stepNow==courseReplacement.STEP_DirectorOfAccredition){
+			
+			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_DirectorOfAccredition+1);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_DirectorOfAccredition+1);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_DirectorOfAccredition+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		
+		}else if(stepNow==courseReplacement.STEP_DeanOfStratigicEnrollment){
+			
+			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_DeanOfStratigicEnrollment+1);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_DeanOfStratigicEnrollment+1);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_DeanOfStratigicEnrollment+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		
+		}else if(stepNow==courseReplacement.STEP_AssociateDean){
+			
+			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Registerar);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_Registerar);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		
+		}else if(stepNow==courseReplacement.STEP_Registerar){
 
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setFormStep(2);
-			EmailToSendTo=getEmailByState(2);
-			sendEmailForStudent(getNameByState(2),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
-		}else if(stateNow==2){
-
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setFormStep(3);
-			EmailToSendTo=getEmailByState(3);
-			sendEmailForStudent(getNameByState(3),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
-		}else if(stateNow==3){
-
-			newCourseComfirmation.setAction(0);
-			newCourseComfirmation.setFormStep(4);
-			EmailToSendTo=getEmailByState(4);
-			sendEmailForStudent(getNameByState(4),EmailToSendTo,"Please Check your dashboard for a new Graduation Requirement Form");
-		}else if(stateNow==4){
-
-			newCourseComfirmation.setAction(1);
-			newCourseComfirmation.setFormStep(5);
+			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_ACCEPTED);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Finished);
 			sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Accepted");
 		}
 		
-		cccAppServiceImpl.addcourseReplacement(newCourseComfirmation);
+		cccAppServiceImpl.addcourseReplacement(selectedNewCourseComfirmation);
 		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Action Taken");
 
+		updateListDependsOnLogedAccount();
+		
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		origRequest.getRequestURL();
 		
-
-		//Update the list of the courseChangeComifrmation
-		courseChangeComfirmationsForHead=new ArrayList<courseReplacement>();
-		courseChangeComfirmationsForHeadWaiting=new ArrayList<courseReplacement>();
-		if(stateNow==0){
-			//this mean the head of major
-			MajorDTO majorDetails=majorfacade.getById(majorId);
-			if(majorDetails.getHeadOfMajor().getMail().equals(emailForState)){
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStepAndMajorId(majorId, 0);	
-			}
-		}else if(stateNow==1){
-			//this mean the head of accredition
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			if(emailForState.equals(employee.getHeadPersonId().getMail())){
-				
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStepAndType(type, 1);
-			}
-		}else {
-			/*
-			 * this mean 2 for the dean
-			 * 3 for the director of addmission
-			 * 4 for the registrar staff
-			 */
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			if(emailForState.equals(employee.getHeadPersonId().getMail())){
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStep(stateNow);
-
-				courseChangeComfirmationsForHeadWaiting=cccAppServiceImpl.getAll();
-				theTabWaitingShown=true;
-			}
-			
-			
-		}
-		
-
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect
-			("programHeadformDetails.xhtml?stateNow="+stateNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
+			("pendingCourseReplacementForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -289,155 +313,104 @@ public class HeadDetailsBean {
 			
 	}
 	
-	public String getEmailByState(int stateNow) {
+	public String getEmailByState(int step) {
 		
 
-		if(stateNow==0){
-			//this mean the head of major
-			MajorDTO majorDetails=majorfacade.getById(majorId);
-			return majorDetails.getHeadOfMajor().getMail();
+		if(step==courseReplacement.STEP_MajorHead) {
 			
-		}else if(stateNow==1){
-			//this mean the head of accredition
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
+			//this mean the head of major
+			MajorDTO majorDetails=majorfacade.getById(selectedNewCourseComfirmation.getMajorId());
+			return majorDetails.getHeadOfMajor().getMail();
+		}else if(step==courseReplacement.STEP_AssociateDean){
+			
+			Heads employee= headFacades.getByType(Heads.ASSOCIATE_DEAN);
+			return employee.getHeadPersonId().getMail();
+		}else if(step==courseReplacement.STEP_AUDITING){
+			
+			Heads employee= headFacades.getByType(Heads.REGISTRAR_STAFF);
+			return employee.getHeadPersonId().getMail();
+		}else if(step==courseReplacement.STEP_DeanOfStratigicEnrollment){
+			
+			Heads employee= headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+			return employee.getHeadPersonId().getMail();
+		}else if(step==courseReplacement.STEP_Registerar){
+			
+			Heads employee= headFacades.getByType(Heads.REGISTRAR_STAFF);
 			return employee.getHeadPersonId().getMail();
 		}else {
-			/*
-			 * this mean 2 for the dean
-			 * 3 for the director of addmission
-			 * 4 for the registrar staff
-			 */
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			
+			if(type==courseReplacement.TYPE_ENGINEERING) {
+			Heads employee= headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
 			return employee.getHeadPersonId().getMail();
-			
+			}else {
+				Heads employee= headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+				return employee.getHeadPersonId().getMail();
+			}
 		}
+		
+		
 	}
 
-	public String getNameByState(int stateNow) {
+	public String getNameByState(int step) {
 		
 
-		if(stateNow==0){
+		if(step==courseReplacement.STEP_MajorHead) {
 			//this mean the head of major
-			MajorDTO majorDetails=majorfacade.getById(majorId);
+			MajorDTO majorDetails=majorfacade.getById(selectedNewCourseComfirmation.getMajorId());
 			return majorDetails.getHeadOfMajor().getName();
+		}else if(step==courseReplacement.STEP_AssociateDean){
 			
-		}else if(stateNow==1){
-			//this mean the head of accredition
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
+			Heads employee= headFacades.getByType(Heads.ASSOCIATE_DEAN);
+			return employee.getHeadPersonId().getName();
+		}else if(step==courseReplacement.STEP_AUDITING){
+			
+			Heads employee= headFacades.getByType(Heads.REGISTRAR_STAFF);
+			return employee.getHeadPersonId().getName();
+		}else if(step==courseReplacement.STEP_DeanOfStratigicEnrollment){
+			
+			Heads employee= headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+			return employee.getHeadPersonId().getName();
+		}else if(step==courseReplacement.STEP_Registerar){
+			
+			Heads employee= headFacades.getByType(Heads.REGISTRAR_STAFF);
 			return employee.getHeadPersonId().getName();
 		}else {
-			/*
-			 * this mean 2 for the dean
-			 * 3 for the director of addmission
-			 * 4 for the registrar staff
-			 */
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			
+			if(type==courseReplacement.TYPE_ENGINEERING) {
+			Heads employee= headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
 			return employee.getHeadPersonId().getName();
-			
+			}else {
+				Heads employee= headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+				return employee.getHeadPersonId().getName();
+			}
 		}
 	}
 
 
 	public void refuseRequist(int id){
-		newCourseComfirmation=cccAppServiceImpl.getById(id);
-		newCourseComfirmation.setAction(2);
-		studentId = newCourseComfirmation.getStudentId().getId();
+		selectedNewCourseComfirmation.setAction(courseReplacement.STATE_REFUSED);
+		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 		student=studentFacadeImpl.getById(studentId);
 		student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
 		setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
 		
-		cccAppServiceImpl.addcourseReplacement(newCourseComfirmation);
+		cccAppServiceImpl.addcourseReplacement(selectedNewCourseComfirmation);
 		
-
-		courseChangeComfirmationsForHead=new ArrayList<courseReplacement>();
-		courseChangeComfirmationsForHeadWaiting=new ArrayList<courseReplacement>();
-		if(stateNow==0){
-			//this mean the head of major
-			MajorDTO majorDetails=majorfacade.getById(majorId);
-			if(majorDetails.getHeadOfMajor().getMail().equals(emailForState)){
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStepAndMajorId(majorId, 0);	
-			}
-		}else if(stateNow==1){
-			//this mean the head of accredition
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			if(emailForState.equals(employee.getHeadPersonId().getMail())){
-				
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStepAndType(type, 1);
-			}
-		}else {
-			/*
-			 * this mean 2 for the dean
-			 * 3 for the director of addmission
-			 * 4 for the registrar staff
-			 */
-			int typeHead=-1;
-			if(type==1){
-				typeHead=3;
-			}else if(type==2){
-				typeHead=2;
-			}else{
-				typeHead=type;
-			}
-			Heads employee= headFacades.getByType(typeHead);
-			if(emailForState.equals(employee.getHeadPersonId().getMail())){
-				courseChangeComfirmationsForHead=cccAppServiceImpl.getAllForStep(stateNow);
-				courseChangeComfirmationsForHeadWaiting=cccAppServiceImpl.getAll();
-				theTabWaitingShown=true;
-			}
-			
-			
-		}
+		updateListDependsOnLogedAccount();
+		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Action Taken");
 
-		sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Rejected");
+		sendEmailForStudent(student.getName(),student.getMail(),"Course Replacement Form Has been Rejected");
+		
+		if(stepNow!=courseReplacement.STEP_AUDITING&&stepNow!=courseReplacement.STEP_Registerar) {
+			//Registerar
+			Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
+			sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Course Replacement Form Has been Rejected");
+		}
 		
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		origRequest.getRequestURL();
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect
-				("programHeadformDetails.xhtml?stateNow="+stateNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
+				("pendingCourseReplacementForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -496,7 +469,10 @@ public class HeadDetailsBean {
 	        		"					  <a href=\"https://www.youtube.com/channel/UCiajXXIv0rCpxVIgCDekm2A\" title=\"ZC\" lt=\"\" youtube=\"\"><img src=\"https://s.ytimg.com/yts/img/favicon_144-vfliLAfaB.png\" alt=\"ZC\" lt=\"\" youtube=\"\" style=\"vertical-align:middle;width: 23px;margin-left: 14px;\"></a>\n" + 
 	        		"					</div> </li> </ul> </div>";
 
-	        sendFromGMail(from, pass, to, subject, htmlText);
+	        
+
+	        System.out.println("Email Sent To: "+name+" With Mail: "+mail);
+	        //sendFromGMail(from, pass, to, subject, htmlText);
 	        
 	
 	}
@@ -553,7 +529,7 @@ public class HeadDetailsBean {
 		origRequest.getRequestURL();
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect
-				("programHeadformDetailsAll.xhtml?stateNow="+stateNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
+				("pendingCourseReplacementForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&type="+type+"&emailForState="+emailForState);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -589,9 +565,9 @@ public class HeadDetailsBean {
 	
 	public void onRowSelect(SelectEvent event) {  
 	  	try {
-	  		newCourseComfirmation = (courseReplacement) event.getObject();
+	  		selectedNewCourseComfirmation = (courseReplacement) event.getObject();
 	  		
-	  		studentId = newCourseComfirmation.getStudentId().getId();
+	  		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 			student=studentFacadeImpl.getById(studentId);
 						
 			student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
@@ -603,7 +579,7 @@ public class HeadDetailsBean {
 	    		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	    		origRequest.getRequestURL();
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
-					("headStudentformDetails.xhtml?id="+newCourseComfirmation.getId());
+					("headStudentformDetails.xhtml");
 	    			
 	    			
 	    		
@@ -621,9 +597,9 @@ public class HeadDetailsBean {
 	
 	public void onRowSelect1(SelectEvent event) {  
 	  	try {
-	  		newCourseComfirmation = (courseReplacement) event.getObject();
+	  		selectedNewCourseComfirmation = (courseReplacement) event.getObject();
 	  		
-	  		studentId = newCourseComfirmation.getStudentId().getId();
+	  		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 			student=studentFacadeImpl.getById(studentId);
 						
 			student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
@@ -635,7 +611,7 @@ public class HeadDetailsBean {
 	    		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	    		origRequest.getRequestURL();
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
-					("headStudentformDetails2.xhtml?id="+newCourseComfirmation.getId());
+					("headStudentformDetailsNotEdit.xhtml?id="+selectedNewCourseComfirmation.getId());
 	    			
 	    			
 	    		
@@ -772,22 +748,22 @@ public class HeadDetailsBean {
 	}
 
 	public List<courseReplacement> getCourseChangeComfirmationsForHead() {
-		return courseChangeComfirmationsForHead;
+		return pendingFormsList;
 	}
 
 	public void setCourseChangeComfirmationsForHead(
-			List<courseReplacement> courseChangeComfirmationsForHead) {
-		this.courseChangeComfirmationsForHead = courseChangeComfirmationsForHead;
+			List<courseReplacement> pendingFormsList) {
+		this.pendingFormsList = pendingFormsList;
 	}
 
 
 	public courseReplacement getNewCourseComfirmation() {
-		return newCourseComfirmation;
+		return selectedNewCourseComfirmation;
 	}
 
 
-	public void setNewCourseComfirmation(courseReplacement newCourseComfirmation) {
-		this.newCourseComfirmation = newCourseComfirmation;
+	public void setNewCourseComfirmation(courseReplacement selectedNewCourseComfirmation) {
+		this.selectedNewCourseComfirmation = selectedNewCourseComfirmation;
 	}
 
 
@@ -811,13 +787,13 @@ public class HeadDetailsBean {
 	}
 
 
-	public int getStateNow() {
-		return stateNow;
+	public int getStepNow() {
+		return stepNow;
 	}
 
 
-	public void setStateNow(int stateNow) {
-		this.stateNow = stateNow;
+	public void setStepNow(int stepNow) {
+		this.stepNow = stepNow;
 	}
 
 
@@ -852,24 +828,90 @@ public class HeadDetailsBean {
 
 
 	public List<courseReplacement> getCourseChangeComfirmationsForHeadWaiting() {
-		return courseChangeComfirmationsForHeadWaiting;
+		return oldFormsFinal;
 	}
 
 
-	public void setCourseChangeComfirmationsForHeadWaiting(List<courseReplacement> courseChangeComfirmationsForHeadWaiting) {
-		this.courseChangeComfirmationsForHeadWaiting = courseChangeComfirmationsForHeadWaiting;
+	public void setCourseChangeComfirmationsForHeadWaiting(List<courseReplacement> oldFormsFinal) {
+		this.oldFormsFinal = oldFormsFinal;
 	}
 
 
-	public boolean isTheTabWaitingShown() {
-		return theTabWaitingShown;
+	
+
+
+
+
+	public boolean isAuditingTabVisibility() {
+		return auditingTabVisibility;
 	}
 
 
-	public void setTheTabWaitingShown(boolean theTabWaitingShown) {
-		this.theTabWaitingShown = theTabWaitingShown;
+	public void setAuditingTabVisibility(boolean auditingTabVisibility) {
+		this.auditingTabVisibility = auditingTabVisibility;
+	}
+
+
+	public boolean isSubmittedTabVisibility() {
+		return submittedTabVisibility;
+	}
+
+
+	public void setSubmittedTabVisibility(boolean submittedTabVisibility) {
+		this.submittedTabVisibility = submittedTabVisibility;
+	}
+
+
+	public boolean isOldTabVisibility() {
+		return oldTabVisibility;
+	}
+
+
+	public void setOldTabVisibility(boolean oldTabVisibility) {
+		this.oldTabVisibility = oldTabVisibility;
+	}
+
+
+	public List<courseReplacement> getPendingFormsList() {
+		return pendingFormsList;
+	}
+
+
+	public void setPendingFormsList(List<courseReplacement> pendingFormsList) {
+		this.pendingFormsList = pendingFormsList;
+	}
+
+
+	public List<courseReplacement> getOldFormsFinal() {
+		return oldFormsFinal;
+	}
+
+
+	public void setOldFormsFinal(List<courseReplacement> oldFormsFinal) {
+		this.oldFormsFinal = oldFormsFinal;
+	}
+
+
+	public List<courseReplacement> getSubmittedForms() {
+		return submittedForms;
+	}
+
+
+	public void setSubmittedForms(List<courseReplacement> submittedForms) {
+		this.submittedForms = submittedForms;
+	}
+
+
+	public List<courseReplacement> getAuditingFormList() {
+		return auditingFormList;
+	}
+
+
+	public void setAuditingFormList(List<courseReplacement> auditingFormList) {
+		this.auditingFormList = auditingFormList;
 	}
 	
 	
 
+	
 }

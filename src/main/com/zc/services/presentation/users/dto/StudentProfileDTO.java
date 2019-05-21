@@ -4,6 +4,7 @@
 package main.com.zc.services.presentation.users.dto;
 
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
+import main.com.zc.services.domain.survey.model.Concentration;
 
 /**
  * @author omnya
@@ -15,6 +16,8 @@ public class StudentProfileDTO {
 	private Integer  id;
 	
 	private MajorDTO major;
+	
+	private Concentration concentration;
 	
 	private Double registeredCreditHrs;
 	
@@ -130,5 +133,14 @@ public class StudentProfileDTO {
 	public void setGpa(Double gpa) {
 		this.gpa = gpa;
 	}
+
+	public Concentration getConcentration() {
+		return concentration;
+	}
+
+	public void setConcentration(Concentration concentration) {
+		this.concentration = concentration;
+	}
+	
 	
 }

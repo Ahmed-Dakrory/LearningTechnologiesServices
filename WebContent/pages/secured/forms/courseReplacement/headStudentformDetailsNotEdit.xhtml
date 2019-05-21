@@ -76,12 +76,7 @@
 
 						<!-- Action Buttons -->
 						<!-- Action Buttons -->
-						<div style="width:300px;margin:0 auto;">
-			 			 	<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
-			 			 		<p:commandButton  value="Accept"  action="#{HeadDetailsBeanChangeCourseComfirmation.acceptRequist(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.id)}" styleClass="greenBtn" update="feedbackformPanel"/>
-								<p:commandButton  value="Refuse"  action="#{HeadDetailsBeanChangeCourseComfirmation.refuseRequist(HeadDetailsBeanChangeCourseComfirmation.newCourseComfirmation.id)}" styleClass="redBtn" update="feedbackformPanel"/>
-							</h:panelGrid>
-						</div>
+						
 							<p:panel id="feedbackformPanel" style="width:70%;margin:0 auto;border:0;">
 							
 							
@@ -104,20 +99,8 @@
 					                <p:outputLabel>Course Complete: </p:outputLabel>
 					                <p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.courseComplete} with #{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.courseCompleteCredits} Cr.H" style="width:150px;"/>
 	            
-	            
-	            					<p:outputLabel rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? true : false}" >Course Complete Credit Hours: </p:outputLabel>
-					                <p:inputText rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.courseCompleteCredits}" style="width:150px;"/>
-	            
-	            
-	            
 					                <p:outputLabel>To Replace: </p:outputLabel>
 					                <p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.toReplace}  with #{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.toReplaceCredits} Cr.H" style="width:150px;"/>
-				          		
-				          		
-				          			<p:outputLabel rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? true : false}" >To Replace Credit Hours: </p:outputLabel>
-					                <p:inputText rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.toReplaceCredits}" style="width:150px;"/>
-				          		
-				          		
 				          		
 					                <p:outputLabel>Intake Year</p:outputLabel>
 					                <p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.studentInTake}" style="width:150px;"/>
@@ -130,15 +113,10 @@
 	            					<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.getStepString()}" style="width:150px;"/>
 	            					          	
 				               		<p:outputLabel>Action</p:outputLabel>
-	            					<p:outputLabel value = "Need Action" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.action==0}" style="width:150px;"/>
-	            					<p:outputLabel value = "Accepted" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.action==1}"  style="width:150px;"/>
-	            					<p:outputLabel value = "Refused" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.action==2}" style="width:150px;"/>
-	            	
-	            					<!-- 
+	            					<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.getStateString()}" style="width:150px;"/>
+	 
 	            					<p:outputLabel>Registrar Comment</p:outputLabel>
-	            					<p:inputTextarea value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.registerationComment}"  style="width:150px; height:300px;"/>
-	            					
-	            					
+	            					<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.registerationComment}"  style="width:150px; height:300px;"/>
 	            					
 	            					<p:outputLabel>Program Director Comment</p:outputLabel>
 	            					<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.programDirectorComment}"  style="width:150px;"/>
@@ -151,25 +129,11 @@
 	            					
 	            					<p:outputLabel>Associate Dean Comment</p:outputLabel>
 	            					<p:outputLabel value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.associateDeanComment}"  style="width:150px;"/>
-	            					 -->
+	            					
 	           	
 								</h:panelGrid>
 								
-								<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? 'block' : 'none'}" >Registrar Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? 'block' : 'none'}"></hr>
-								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 0) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.registerationComment}"  style="width:70%; height:300px;"/>
-	            				
-	            				<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 1) ? 'block' : 'none'}" >Program Director Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 1) ? 'block' : 'none'}"></hr>
-								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 1) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.programDirectorComment}"  style="width:70%; height:300px;"/>
-	            				
-	            				<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 2) ? 'block' : 'none'}" >vice Director Of Accreditation Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 2) ? 'block' : 'none'}"></hr>
-								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 2) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.viceDirectorComment}"  style="width:70%; height:300px;"/>
-	            				
-	            				<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 3) ? 'block' : 'none'}" >Dean of Strategic Enrollment Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 3) ? 'block' : 'none'}"></hr>
-								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 3) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.deanComment}"  style="width:70%; height:300px;"/>
-	            				
-	            				<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 4) ? 'block' : 'none'}" >Associate Dean Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 4) ? 'block' : 'none'}"></hr>
-								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 4) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.associateDeanComment}"  style="width:70%; height:300px;"/>
-	            					
+									
 							
 							
 							<h3>Graduate Contact Information</h3><hr/>

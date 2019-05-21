@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
+import main.com.zc.services.domain.survey.model.Concentration;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -90,6 +91,10 @@ public class StudentProfile {
 	@ManyToOne
 	@JoinColumn(name = "STUDENT")
 	private Student student;
+	
+	@ManyToOne
+	@JoinColumn(name = "concentration")
+	private Concentration concentration;
 	
 	
 	
@@ -198,6 +203,18 @@ public class StudentProfile {
 
 	public void setGpa(Double gpa) {
 		this.gpa = gpa;
+	}
+
+
+
+	public Concentration getConcentration() {
+		return concentration;
+	}
+
+
+
+	public void setConcentration(Concentration concentration) {
+		this.concentration = concentration;
 	}
 	
 	

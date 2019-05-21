@@ -20,6 +20,8 @@ import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormsStatusEnum;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.forms.courseReplacement.HeadDetailsBean;
+import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
 import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.CourseEvaluationSubmission;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.InstructorTAEvalSubmission;
@@ -156,11 +158,11 @@ public class LeftNavigationMenuBean {
 				 * 6 Registrar staff
 				 */
 				
-				Heads  typeHead2 = headFacades.getByType(2);
-				Heads  typeHead3 = headFacades.getByType(3);
-				Heads  typeHead4 = headFacades.getByType(4);
-				Heads  typeHead5 = headFacades.getByType(5);
-				Heads  typeHead6 = headFacades.getByType(6);
+				Heads  typeHead2 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
+				Heads  typeHead3 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+				Heads  typeHead4 = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  typeHead5 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
+				Heads  typeHead6 = headFacades.getByType(Heads.REGISTRAR_STAFF);
 				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
 				{
 					//Engineering
@@ -639,12 +641,14 @@ public class LeftNavigationMenuBean {
 		}
 	}
 	
+	
+	
 	/*
 	 * This for the new comfirmation course
 	 */
 	public String renderChangeCourseConfirmation()
 	{
-		currentMenuId = "Graduation Requirement";
+		currentMenuId = "Course Replacement";
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -666,49 +670,47 @@ public class LeftNavigationMenuBean {
 					MajorDTO major=majors.get(i);
 					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
 					{
-						
-							return "/pages/secured/forms/courseReplacement/programHeadformDetails.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
+							return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
 					}
 				}
-				/*
-				 * here the heads login
-				 * 2 Director of Accredition for Engineering
-				 * 3 Director of Accredition for Science
-				 * 4 Dean of Admission
-				 * 5 Director of Admission and Registration
-				 * 6 Registrar staff
-				 */
 				
-				Heads  typeHead2 = headFacades.getByType(Heads.HEAD_OF_ACCEDITIOM_ENGINEERING);
-				Heads  typeHead3 = headFacades.getByType(Heads.HEAD_OF_ACCEDITIOM_SCIENCE);
-				Heads  typeHead4 = headFacades.getByType(Heads.DEAN_OF_STUDENT_AFFAIRS);
-				Heads  typeHead5 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
-				Heads  typeHead6 = headFacades.getByType(Heads.REGISTRAR_STAFF);
-				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
+				
+				Heads  STEP_AssociateDean = headFacades.getByType(Heads.ASSOCIATE_DEAN);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_DirectorOfAccreditionEng = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
+				Heads  STEP_DirectorOfAccreditionScience = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				if(mail.toLowerCase().equals(STEP_AssociateDean.getHeadPersonId().getMail().toLowerCase()))
 				{
-					//Engineering
-					return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=2&emailForState="+mail+"&faces-redirect=true";
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
 				}
-				else if(mail.toLowerCase().equals(typeHead3.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
 				{
-					//Science
-					return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=1&emailForState="+mail+"&faces-redirect=true";
+						return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
 				}
-				else if(mail.toLowerCase().equals(typeHead4.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(STEP_DirectorOfAccreditionEng.getHeadPersonId().getMail().toLowerCase()))
 				{
-					return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=2&majorId=-1&type=4&emailForState="+mail+"&faces-redirect=true";
+					
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DirectorOfAccredition+"&majorId=-1&type="+STEP_DirectorOfAccreditionEng.getType()+"&emailForState="+mail+"&faces-redirect=true";
+					
+				}else if(mail.toLowerCase().equals(STEP_DirectorOfAccreditionScience.getHeadPersonId().getMail().toLowerCase()))
+				{
+					
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DirectorOfAccredition+"&majorId=-1&type="+STEP_DirectorOfAccreditionScience.getType()+"&emailForState="+mail+"&faces-redirect=true";
+					
 				}
-				else if(mail.toLowerCase().equals(typeHead5.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
 				{
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=3&majorId=-1&type=5&emailForState="+mail+"&faces-redirect=true";
-				}
-				else if(mail.toLowerCase().equals(typeHead6.getHeadPersonId().getMail().toLowerCase()))
-				{
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=4&majorId=-1&type=6&emailForState="+mail+"&faces-redirect=true";
+						return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
 				}
 				else 
 				{
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?faces-redirect=true";
+					return "/pages/public/login.xhtml?faces-redirect=true";
+				
 				}
 				
 			
@@ -727,9 +729,9 @@ public class LeftNavigationMenuBean {
 	/*
 	 * This for the new comfirmation course
 	 */
-	public String renderChangeCourseConfirmation(int oldOrAll)
+	public String renderChangeCourseConfirmation(int page)
 	{
-		currentMenuId = "Graduation Requirement";
+		currentMenuId = "Course Replacement";
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -740,7 +742,7 @@ public class LeftNavigationMenuBean {
 			{
 				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
 				int idStudent=dataOfStudent.getId();
-				return "/pages/secured/forms/courseChangeComfirmation/formDetails.xhtml?id="+idStudent+"&faces-redirect=true";
+				return "/pages/secured/forms/courseReplacement/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
 			
 			}
 			else
@@ -751,84 +753,71 @@ public class LeftNavigationMenuBean {
 					MajorDTO major=majors.get(i);
 					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
 					{
-						if(oldOrAll==0) {
-							return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
-						}else {
-							return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=0&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
-							
-						}
-						}
+							return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&type=-1&emailForState="+mail+"&faces-redirect=true";
+					}
 				}
-				/*
-				 * here the heads login
-				 * 2 Director of Accredition for Engineering
-				 * 3 Director of Accredition for Science
-				 * 4 Dean of Admission
-				 * 5 Director of Admission and Registration
-				 * 6 Registrar staff
-				 */
 				
-				Heads  typeHead2 = headFacades.getByType(2);
-				Heads  typeHead3 = headFacades.getByType(3);
-				Heads  typeHead4 = headFacades.getByType(4);
-				Heads  typeHead5 = headFacades.getByType(5);
-				Heads  typeHead6 = headFacades.getByType(6);
-				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
+				
+				Heads  STEP_AssociateDean = headFacades.getByType(Heads.ASSOCIATE_DEAN);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_DirectorOfAccreditionEng = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
+				Heads  STEP_DirectorOfAccreditionScience = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				if(mail.toLowerCase().equals(STEP_AssociateDean.getHeadPersonId().getMail().toLowerCase()))
 				{
-					//Engineering
-					if(oldOrAll==0) {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=2&emailForState="+mail+"&faces-redirect=true";
-					}else {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=1&majorId=-1&type=2&emailForState="+mail+"&faces-redirect=true";
+					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/courseReplacement/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+						
+					}else if(page==HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/courseReplacement/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+						
+					}
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/courseReplacement/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
 							
+					}else if(page==HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/courseReplacement/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+						
 					}
+						
+						return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
 				}
-				else if(mail.toLowerCase().equals(typeHead3.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(STEP_DirectorOfAccreditionEng.getHeadPersonId().getMail().toLowerCase()))
 				{
-					//Science
-					if(oldOrAll==0) {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=1&majorId=-1&type=1&emailForState="+mail+"&faces-redirect=true";
-					}else {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=1&majorId=-1&type=1&emailForState="+mail+"&faces-redirect=true";
-								
-					}
+					
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DirectorOfAccredition+"&majorId=-1&type="+STEP_DirectorOfAccreditionEng.getType()+"&emailForState="+mail+"&faces-redirect=true";
+					
+				}else if(mail.toLowerCase().equals(STEP_DirectorOfAccreditionScience.getHeadPersonId().getMail().toLowerCase()))
+				{
+					
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DirectorOfAccredition+"&majorId=-1&type="+STEP_DirectorOfAccreditionScience.getType()+"&emailForState="+mail+"&faces-redirect=true";
+					
 				}
-				else if(mail.toLowerCase().equals(typeHead4.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
 				{
-					if(oldOrAll==0) {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=2&majorId=-1&type=4&emailForState="+mail+"&faces-redirect=true";
-					}else {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=2&majorId=-1&type=4&emailForState="+mail+"&faces-redirect=true";
-								
+					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/courseReplacement/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/courseReplacement/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==HeadDetailsBean.AUDITING_PAGE) {
+						return "/pages/secured/forms/courseReplacement/auditingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AUDITING+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
 					}
-				}
-				else if(mail.toLowerCase().equals(typeHead5.getHeadPersonId().getMail().toLowerCase()))
-				{
-					if(oldOrAll==0) {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=3&majorId=-1&type=5&emailForState="+mail+"&faces-redirect=true";
-					}else {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=3&majorId=-1&type=5&emailForState="+mail+"&faces-redirect=true";
-							
-					}
-				}
-				else if(mail.toLowerCase().equals(typeHead6.getHeadPersonId().getMail().toLowerCase()))
-				{
-					if(oldOrAll==0) {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?stateNow=4&majorId=-1&type=6&emailForState="+mail+"&faces-redirect=true";
-					}else {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?stateNow=4&majorId=-1&type=6&emailForState="+mail+"&faces-redirect=true";
-								
-					}
+					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
 				}
 				else 
 				{
-					if(oldOrAll==0) {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetails.xhtml?faces-redirect=true";
-					}else {
-						return "/pages/secured/forms/courseChangeComfirmation/programHeadformDetailsAll.xhtml?faces-redirect=true";
-								
-					}
-			}
+					return "/pages/public/login.xhtml?faces-redirect=true";
+				
+				}
 				
 			
 			}

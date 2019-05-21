@@ -158,6 +158,20 @@ public class courseReplacementAppServiceImpl implements IcourseReplacementAppSer
 						return null;
 					}
 	}
+
+	@Override
+	public List<courseReplacement> getAllRefused() {
+		try{
+			List<courseReplacement> ccc=cccRepository.getAllRefused();
+			
+			return ccc;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
 	
 }
 		
