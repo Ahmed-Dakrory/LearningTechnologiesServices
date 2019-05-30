@@ -53,10 +53,10 @@ public class Constants implements IConstants {
 	
 	
 	
-	public static final String ADMISSION_HEAD="aosman@zewailcity.edu.eg";
+	public static final String ADMISSION_HEAD="ghazem@zewailcity.edu.eg";
 	public static final Integer ADMISSION_HEAD_ID=888;
 	
-	public static final String ADMISSION_HEAD_NAME="Mrs. Abla Osman";
+	public static final String ADMISSION_HEAD_NAME="Mrs. Ghada";
 	public static final String ADMISSION_DEPT="registrar@zewailcity.edu.eg";
 	public static final Integer ADMISSION_DEPT_ID=999;
 	public static final String CHANGE_MAJOR_YASMINE="yasmine@zewailcity.edu.eg";

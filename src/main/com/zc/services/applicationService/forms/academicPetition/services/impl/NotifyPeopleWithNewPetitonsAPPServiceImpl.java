@@ -163,7 +163,7 @@ public class NotifyPeopleWithNewPetitonsAPPServiceImpl implements
 	
 	
 		List<String> mailsList=new ArrayList<String>();
-	    mailsList.add("aosman@zewailcity.edu.eg");
+	    mailsList.add("ghazem@zewailcity.edu.eg");
 		return notifyUser(mailsList,subject) ;
 	}
 
