@@ -157,36 +157,67 @@ public class LeftNavigationMenuBean {
 				 * 5 Director of Admission and Registration
 				 * 6 Registrar staff
 				 */
-				
+				String head2Mail="";
+				String head3Mail="";
+				String head4Mail="";
+				String head5Mail="";
+				String head6Mail="";
 				Heads  typeHead2 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
 				Heads  typeHead3 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
 				Heads  typeHead4 = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
 				Heads  typeHead5 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
 				Heads  typeHead6 = headFacades.getByType(Heads.REGISTRAR_STAFF);
-				if(mail.toLowerCase().equals(typeHead2.getHeadPersonId().getMail().toLowerCase()))
+				
+				
+				if(typeHead2!=null) {
+					head2Mail=typeHead2.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
+				if(typeHead3!=null) {
+					head3Mail=typeHead3.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
+				if(typeHead4!=null) {
+					head4Mail=typeHead4.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
+				if(typeHead5!=null) {
+					head5Mail=typeHead5.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
+				if(typeHead6!=null) {
+					head6Mail=typeHead6.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
+				if(mail.toLowerCase().equals(head2Mail))
 				{
 					//Engineering
 					headOrStudent=true;
 					return;
 				}
-				else if(mail.toLowerCase().equals(typeHead3.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(head3Mail))
 				{
 					//Science
 					headOrStudent=true;
 					return;
 				}
-				else if(mail.toLowerCase().equals(typeHead4.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(head4Mail))
 				{
 					headOrStudent=true;
 					return;
 				}
-				else if(mail.toLowerCase().equals(typeHead5.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(head5Mail))
 				{
 
 					headOrStudent=true;
 					return;
 				}
-				else if(mail.toLowerCase().equals(typeHead6.getHeadPersonId().getMail().toLowerCase()))
+				else if(mail.toLowerCase().equals(head6Mail))
 				{
 
 					headOrStudent=true;
