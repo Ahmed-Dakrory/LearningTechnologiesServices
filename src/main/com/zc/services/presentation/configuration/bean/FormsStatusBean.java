@@ -289,7 +289,7 @@ public class FormsStatusBean {
 	}
 	public boolean isDropAdd() {
 		FormsStatusDTO form=facade.getById(2);
-		if(form.getStatus().equals(FormsStatusEnum.Active))
+		if(form.getStatus().equals(FormsStatusEnum.Active)||form.getStatus().equals(FormsStatusEnum.Second_Phase)||form.getStatus().equals(FormsStatusEnum.Third_Phase))
 		{
 			return true;
 		}

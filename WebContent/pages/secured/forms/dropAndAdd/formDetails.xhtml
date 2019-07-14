@@ -167,7 +167,7 @@
 						<!-- Petition Progress -->
 						<div class="formProgressWrapper">
 							<ol class="formProgress">
-								<h:panelGroup rendered="#{FormsStatusBean.dropAdd}">
+								<h:panelGroup rendered="#{!FormsStatusBean.dropAdd}">
     							<li>
     								<div class="formProgress-done">
     									<br/>
@@ -186,7 +186,7 @@
 					    				</div></li>
 							</h:panelGroup>
 							</h:panelGroup>
-    					<h:panelGroup rendered="#{!FormsStatusBean.dropAdd}">
+    					<h:panelGroup rendered="#{FormsStatusBean.dropAdd}">
     						<li>
 							<div class="formProgress-done" >
     						<br/>
