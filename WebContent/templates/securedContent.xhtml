@@ -185,6 +185,9 @@
 				     <p:commandLink ajax="false" immediate="true" value="Returns" rendered="#{leftNavigationMenuBean.booksSysMode}" 
 					action="#{leftNavigationMenuBean.navigateBookSys(3)}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Returns')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="All Books Reserved" rendered="#{leftNavigationMenuBean.booksSysMode}" 
+					action="#{leftNavigationMenuBean.navigateBookSys(4)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Returns')}"/>
 				  	<p:commandLink ajax="false" immediate="true" value="Surveys" rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToSurveyConfig(1)}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Surveys')}"/>

@@ -4,6 +4,7 @@
 package main.com.zc.services.presentation.booksSys.bean;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -94,6 +95,7 @@ public class CopiesOperationBean {
 	private String holdingImageURL;
 	private String numberOfBooksD;
 	private int numberOfBooksN;
+	private List<BookCopiesDTO> allstudentBooksReserved;
 	
 	
 	
@@ -102,6 +104,70 @@ public class CopiesOperationBean {
 	{
 		 fillInsLst();
 		 holdingImageURL="/resources/images/onhold.png";
+
+		 refresh();
+		
+		 
+	}
+	public void refresh() {
+		List<BookCopiesDTO> allstudentBooksCopies = booksCopiesFacade.getAll();
+		allstudentBooksReserved=new ArrayList<BookCopiesDTO>();
+		for(int i=0;i<allstudentBooksCopies.size();i++) {
+			if(allstudentBooksCopies.get(i).getStatus()==BookStatusEnum.HELD) {
+				BookCopiesDTO bookReserved = allstudentBooksCopies.get(i);
+				
+				Calendar instr=Calendar.getInstance();
+				instr.setTimeInMillis(0);
+				Calendar stud=Calendar.getInstance();
+				stud.setTimeInMillis(0);
+
+				PersonDataDTO personInstructor=new PersonDataDTO();
+				PersonDataDTO personStudent=new PersonDataDTO();
+				List<BookInstructorDTO> bookInstructor= bookReservationFacade.getByBarCodeIns(bookReserved.getBarCode());
+				
+				if(bookInstructor!=null) {
+					if(bookInstructor.size()>0) {
+
+				 instr = bookInstructor.get(0).getDate();
+				 personInstructor.setEmail(bookInstructor.get(0).getInstructor().getMail());
+				 personInstructor.setNameInEng(bookInstructor.get(0).getInstructor().getName());
+				
+					}
+				}
+				
+				List<BookStudentDTO> bookStudent= bookReservationFacade.getByBarCodeStudent(bookReserved.getBarCode());
+				if(bookStudent!=null) {
+					if(bookStudent.size()>0) {
+						System.out.println(bookStudent.get(bookStudent.size()-1).getStudent().getName());
+				 stud = bookStudent.get(0).getDate();
+
+				 personStudent.setEmail(bookStudent.get(0).getStudent().getMail());
+				 personStudent.setNameInEng(bookStudent.get(0).getStudent().getName());
+				}
+				}
+				
+				if(instr.getTimeInMillis()>stud.getTimeInMillis()) {
+					bookReserved.setLastOper(instr);
+					bookReserved.setLastPerson(personInstructor);
+				}else {
+					bookReserved.setLastOper(stud);
+					bookReserved.setLastPerson(personStudent);
+				}
+				allstudentBooksReserved.add(bookReserved);
+				
+			}
+		}
+	}
+	
+	public String getFriendlyDate(Calendar date) {
+		if(date!=null){
+			 
+			   SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			    String strDate = sdf.format(date.getTime());
+			    return strDate;
+			}
+			
+			else return "";
 	}
 	public void fillInsLst(){
 		insLst=new ArrayList<InstructorDTO>();
@@ -272,6 +338,7 @@ public class CopiesOperationBean {
 					    book.setRemaingCopies(copy.getBook().getRemaingCopies()-1);;
 					    booksFacade.update(book);
 					    copy.setStatus(BookStatusEnum.HELD);
+					    copy.setLastOper(Calendar.getInstance());
 					    booksCopiesFacade.update(copy);
 						JavaScriptMessagesHandler.RegisterErrorMessage(null, "Book is reserved Successfully");
 					
@@ -307,6 +374,7 @@ public class CopiesOperationBean {
 				    book.setRemaingCopies(copy.getBook().getRemaingCopies()-1);;
 				    booksFacade.update(book);
 				    copy.setStatus(BookStatusEnum.HELD);
+				    copy.setLastOper(Calendar.getInstance());
 				    booksCopiesFacade.update(copy);
 					JavaScriptMessagesHandler.RegisterErrorMessage(null, "Book is reserved Successfully");
 			
@@ -343,6 +411,7 @@ public class CopiesOperationBean {
 				    book.setRemaingCopies(copy.getBook().getRemaingCopies()-1);;
 				    booksFacade.update(book);
 				    copy.setStatus(BookStatusEnum.HELD);
+				    copy.setLastOper(Calendar.getInstance());
 				    booksCopiesFacade.update(copy);
 					JavaScriptMessagesHandler.RegisterErrorMessage(null, "Book is reserved Successfully");
 			}
@@ -370,7 +439,50 @@ public class CopiesOperationBean {
 	
 	}
 
-
+public void exportReservedBooks() {
+	 HSSFWorkbook wb = new HSSFWorkbook();
+      HSSFSheet sheet = wb.createSheet();
+      
+      HSSFRow row;
+       
+      row = sheet.createRow((short)0);
+      row.createCell((short)0).setCellValue("Book");
+      row.createCell((short)1).setCellValue("Course");
+      row.createCell((short)2).setCellValue("Bar Code");
+      row.createCell((short)3).setCellValue("Date");
+      row.createCell((short)4).setCellValue("Name");
+      row.createCell((short)5).setCellValue("Email");
+      
+      for (int i = 0; i < allstudentBooksReserved.size(); i++){
+        	row = sheet.createRow((short)i+1);
+        	row.createCell((short)0).setCellValue(allstudentBooksReserved.get(i).getBook().getName());
+	 	        row.createCell((short)1).setCellValue(allstudentBooksReserved.get(i).getBook().getCourse().getName());
+	 	        row.createCell((short)2).setCellValue(allstudentBooksReserved.get(i).getBarCode());
+	 	      row.createCell((short)3).setCellValue(getFriendlyDate(allstudentBooksReserved.get(i).getLastOper()));
+	 	        row.createCell((short)4).setCellValue(allstudentBooksReserved.get(i).getLastPerson().getNameInEng());
+	 	        row.createCell((short)5).setCellValue(allstudentBooksReserved.get(i).getLastPerson().getEmail());
+      }
+      
+      
+      HttpServletResponse response =
+               (HttpServletResponse) FacesContext.getCurrentInstance()
+                   .getExternalContext().getResponse();
+       response.setContentType("application/vnd.ms-excel");
+       response.setHeader("Content-disposition",  "attachment; filename=ReportOfAllBooks.xls");
+        
+       try {
+           ServletOutputStream out = response.getOutputStream();
+  
+            wb.write(out);
+            out.flush();
+            out.close();
+        
+      } catch (IOException ex) { 
+              ex.printStackTrace();
+      }
+        
+    
+}
 
 	  public void ExportReport(){
 	    	
@@ -1046,5 +1158,12 @@ public IBookReservationFacade getBookReservationFacade() {
 	public void setNumberOfBooksN(int numberOfBooksN) {
 		this.numberOfBooksN = numberOfBooksN;
 	}
+	public List<BookCopiesDTO> getAllstudentBooksReserved() {
+		return allstudentBooksReserved;
+	}
+	public void setAllstudentBooksReserved(List<BookCopiesDTO> allstudentBooksReserved) {
+		this.allstudentBooksReserved = allstudentBooksReserved;
+	}
+	
 	
 }

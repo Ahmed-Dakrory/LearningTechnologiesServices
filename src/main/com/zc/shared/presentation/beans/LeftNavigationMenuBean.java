@@ -1632,6 +1632,9 @@ public String navigateBookSys(Integer page)
 	}else if(page==3)
 	{
 		return "/pages/secured/booksSys/booksReturns.xhtml?faces-redirect=true";
+	}else if(page==4)
+	{
+		return "/pages/secured/booksSys/booksAllReserved.xhtml?faces-redirect=true";
 	}
 	else{
 		return "/pages/public/login.xhtml?faces-redirect=true";
