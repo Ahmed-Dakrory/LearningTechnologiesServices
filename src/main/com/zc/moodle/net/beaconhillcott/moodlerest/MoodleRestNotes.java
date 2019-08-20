@@ -67,7 +67,7 @@ public class MoodleRestNotes {
       NodeList elements=MoodleCallRestWebService.call(data.toString());
       for (int j=0;j<elements.getLength();j+=3,processedCount++) {
         for (int k=0; k<3; k++) {
-          String content=elements.item(j+k).getTextContent();
+          String content=elements.item(j+k).getLocalName();
           String nodeName=elements.item(j+k).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
           notes[processedCount].setMoodleNoteField(nodeName, content);
         }

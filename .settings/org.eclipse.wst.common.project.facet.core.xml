@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
-  <runtime name="Apache Tomcat v7.0"/>
-  <secondary-runtime name="Pivotal tc Server Developer Edition (Runtime) v3.1"/>
+  <runtime name="Apache Tomcat v9.0"/>
   <fixed facet="java"/>
   <fixed facet="wst.jsdt.web"/>
   <fixed facet="jst.web"/>

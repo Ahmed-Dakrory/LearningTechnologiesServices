@@ -49,8 +49,8 @@ public class MoodleRestEnrol {
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         MoodleCourseUser user=null;
         for (int j=0;j<elements.getLength();j+=2) {
-            String content1=elements.item(j).getTextContent();
-            String content2=elements.item(j+1).getTextContent();
+            String content1=elements.item(j).getLocalName();
+            String content2=elements.item(j+1).getLocalName();
             user=new MoodleCourseUser(Long.parseLong(content1),Long.parseLong(content2));
             v.add(user);
         }
@@ -98,8 +98,8 @@ public class MoodleRestEnrol {
                 user=new MoodleUser();
               }
             }
-            if (elements!=null && elements.item(j)!=null && elements.item(j).getNodeName()!=null && elements.item(j).getTextContent()!=null)
-              user.setMoodleUserField(elements.item(j).getNodeName(), elements.item(j).getTextContent());
+            if (elements!=null && elements.item(j)!=null && elements.item(j).getNodeName()!=null && elements.item(j).getLocalName()!=null)
+              user.setMoodleUserField(elements.item(j).getNodeName(), elements.item(j).getLocalName());
         }
         MoodleUser[] users=new MoodleUser[v.size()];
         for (int i=0;i<v.size();i++) {
@@ -231,11 +231,11 @@ public class MoodleRestEnrol {
           }
         }
         try {
-          if (elements!=null && elements.item(j)!=null && elements.item(j).getNodeName()!=null && elements.item(j).getTextContent()!=null) {
-            course.setMoodleCourseField(elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue(), elements.item(j).getTextContent());
+          if (elements!=null && elements.item(j)!=null && elements.item(j).getNodeName()!=null && elements.item(j).getLocalName()!=null) {
+            course.setMoodleCourseField(elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue(), elements.item(j).getLocalName());
           }
         } catch (NullPointerException ex) {
-          System.out.println("NullPointerException: NodeName="+elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue()+" NodeValue="+elements.item(j).getTextContent());
+          System.out.println("NullPointerException: NodeName="+elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue()+" NodeValue="+elements.item(j).getLocalName());
         }
       }
       if (course!=null)

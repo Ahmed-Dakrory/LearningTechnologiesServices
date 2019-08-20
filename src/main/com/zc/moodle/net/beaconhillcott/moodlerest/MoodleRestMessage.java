@@ -62,7 +62,7 @@ public class MoodleRestMessage {
                 String parent=elements.item(j).getParentNode().getParentNode().getParentNode().getParentNode().getNodeName();
                 if (parent.equals("KEY"))
                     parent=elements.item(j).getParentNode().getParentNode().getParentNode().getParentNode().getAttributes().getNamedItem("name").getNodeValue();
-                String content=elements.item(j).getTextContent();
+                String content=elements.item(j).getLocalName();
                 String nodeName=elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
                 if (parent.equals("RESPONSE") && nodeName.equals("msgid")) {
                     i++;

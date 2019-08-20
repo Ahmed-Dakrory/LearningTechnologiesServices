@@ -281,7 +281,7 @@ public class MoodleCallRestWebService {
                 String parent=elements.item(i).getParentNode().getParentNode().getParentNode().getParentNode().getNodeName();
                 if (parent.equals("KEY"))
                   parent=elements.item(i).getParentNode().getParentNode().getParentNode().getParentNode().getAttributes().getNamedItem("name").getNodeValue();
-                String content=elements.item(i).getTextContent();
+                String content=elements.item(i).getLocalName();
                 String nodeName=elements.item(i).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
                 System.out.println("parent="+parent+" nodeName="+nodeName+" content="+content);
               }

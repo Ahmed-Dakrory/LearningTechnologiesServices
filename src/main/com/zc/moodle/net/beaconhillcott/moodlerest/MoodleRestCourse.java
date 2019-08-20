@@ -45,7 +45,7 @@ public class MoodleRestCourse {
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         course=null;
         for (int j=0;j<elements.getLength();j++) {
-            String content=elements.item(j).getTextContent();
+            String content=elements.item(j).getLocalName();
             String nodeName=elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
             if (nodeName.equals("id")) {
                 if (course==null)
@@ -110,7 +110,7 @@ public class MoodleRestCourse {
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         course=null;
         for (int j=0;j<elements.getLength();j++) {
-            String content=elements.item(j).getTextContent();
+            String content=elements.item(j).getLocalName();
             String nodeName=elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
             if (nodeName.equals("id")) {
                 if (course==null)
@@ -197,7 +197,7 @@ public class MoodleRestCourse {
         data.trimToSize();
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         for (int j=0;j<elements.getLength();j+=2) {
-            hash.put(elements.item(j+1).getTextContent(), elements.item(j).getTextContent());
+            hash.put(elements.item(j+1).getLocalName(), elements.item(j).getLocalName());
         }
         for (int i=0;i<course.length;i++) {
             if (hash.containsKey(course[i].getShortname()))
@@ -242,7 +242,7 @@ public class MoodleRestCourse {
         String parent=elements.item(i).getParentNode().getParentNode().getParentNode().getParentNode().getNodeName();
         if (parent.equals("KEY"))
           parent=elements.item(i).getParentNode().getParentNode().getParentNode().getParentNode().getAttributes().getNamedItem("name").getNodeValue();
-        String content=elements.item(i).getTextContent();
+        String content=elements.item(i).getLocalName();
         String nodeName=elements.item(i).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
         if (parent.equals("RESPONSE") && nodeName.equals("id")) {
           if (result!=null) {

@@ -63,7 +63,7 @@ public class MoodleRestGroup {
         data.trimToSize();
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         for (int j=0;j<elements.getLength();j+=5) {
-            hash.put(elements.item(j+2).getTextContent(), elements.item(j).getTextContent());
+            hash.put(elements.item(j+2).getLocalName(), elements.item(j).getLocalName());
         }
         for (int i=0;i<group.length;i++) {
             if (hash.containsKey(group[i].getName()))
@@ -116,7 +116,7 @@ public class MoodleRestGroup {
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         group=null;
         for (int j=0;j<elements.getLength();j++) {
-            String content=elements.item(j).getTextContent();
+            String content=elements.item(j).getLocalName();
             String nodeName=elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
             if (nodeName.equals("id")) {
                 if (group==null)
@@ -160,7 +160,7 @@ public class MoodleRestGroup {
         if (id<1) throw new MoodleRestGroupException(); else  data.append("&").append(URLEncoder.encode("courseid", MoodleServices.ENCODING)).append("=").append(id);
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         for (int j=0;j<elements.getLength();j++) {
-            String content=elements.item(j).getTextContent();
+            String content=elements.item(j).getLocalName();
             String nodeName=elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
             if (nodeName.equals("id")) {
                 if (group==null)
@@ -260,8 +260,8 @@ public class MoodleRestGroup {
         NodeList elements=MoodleCallRestWebService.call(data.toString());
         user=null;
         for (int j=0;j<elements.getLength();j+=2) {
-            String content1=elements.item(j).getTextContent();
-            String content2=elements.item(j+1).getTextContent();
+            String content1=elements.item(j).getLocalName();
+            String content2=elements.item(j+1).getLocalName();
             user=new MoodleGroupUser(Long.parseLong(content1),Long.parseLong(content2));
             v.add(user);
         }

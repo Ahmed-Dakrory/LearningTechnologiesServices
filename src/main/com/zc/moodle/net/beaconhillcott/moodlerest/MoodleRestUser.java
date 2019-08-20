@@ -159,7 +159,7 @@ public class MoodleRestUser {
 			data.trimToSize();
 			NodeList elements = MoodleCallRestWebService.call(data.toString());
 			for (int j = 0; j < elements.getLength(); j += 2) {
-				hash.put(elements.item(j + 1).getTextContent(), elements.item(j).getTextContent());
+				hash.put(elements.item(j + 1).getLocalName(), elements.item(j).getLocalName());
 			}
 		} catch (IOException ex) {
 			Logger.getLogger(MoodleRestUser.class.getName()).log(Level.SEVERE, null, ex);
@@ -419,7 +419,7 @@ public class MoodleRestUser {
 				if (parent.equals("KEY"))
 					parent = elements.item(j).getParentNode().getParentNode().getParentNode().getParentNode()
 							.getAttributes().getNamedItem("name").getNodeValue();
-				String content = elements.item(j).getTextContent();
+				String content = elements.item(j).getLocalName();
 				String nodeName = elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
 				if (parent.equals("RESPONSE") && nodeName.equals("id")) {
 					if (user == null)
@@ -546,7 +546,7 @@ public class MoodleRestUser {
 				if (parent.equals("KEY"))
 					parent = elements.item(j).getParentNode().getParentNode().getParentNode().getParentNode()
 							.getAttributes().getNamedItem("name").getNodeValue();
-				String content = elements.item(j).getTextContent();
+				String content = elements.item(j).getLocalName();
 				String nodeName = elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
 				if (parent.equals("RESPONSE") && nodeName.equals("id")) {
 					if (user == null)
@@ -694,7 +694,7 @@ public class MoodleRestUser {
 				if (parent.equals("KEY"))
 					parent = elements.item(j).getParentNode().getParentNode().getParentNode().getParentNode()
 							.getAttributes().getNamedItem("name").getNodeValue();
-				String content = elements.item(j).getTextContent();
+				String content = elements.item(j).getLocalName();
 				String nodeName = elements.item(j).getParentNode().getAttributes().getNamedItem("name").getNodeValue();
 				if (parent.equals("users") && nodeName.equals("id")) {
 					if (user == null) {
