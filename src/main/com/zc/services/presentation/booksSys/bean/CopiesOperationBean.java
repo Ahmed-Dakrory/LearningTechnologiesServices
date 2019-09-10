@@ -685,7 +685,7 @@ public void exportReservedBooks() {
 										protected PasswordAuthentication getPasswordAuthentication() {
 											return new PasswordAuthentication(
 													"LearningTechnologies@zewailcity.edu.eg",
-													"zcltinfo");
+													"learningtechnologies@zc");
 										}
 									});
 
@@ -791,7 +791,7 @@ public void exportReservedBooks() {
 										protected PasswordAuthentication getPasswordAuthentication() {
 											return new PasswordAuthentication(
 													"LearningTechnologies@zewailcity.edu.eg",
-													"zcltinfo");
+													"learningtechnologies@zc");
 										}
 									});
 
@@ -897,7 +897,7 @@ public void exportReservedBooks() {
 										protected PasswordAuthentication getPasswordAuthentication() {
 											return new PasswordAuthentication(
 													"LearningTechnologies@zewailcity.edu.eg",
-													"zcltinfo");
+													"learningtechnologies@zc");
 										}
 									});
 

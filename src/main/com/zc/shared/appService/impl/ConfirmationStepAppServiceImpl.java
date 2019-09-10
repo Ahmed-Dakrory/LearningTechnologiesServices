@@ -49,7 +49,7 @@ public class ConfirmationStepAppServiceImpl implements IConfirmationStepAppServi
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(
 								"LearningTechnologies@zewailcity.edu.eg",
-								"zcltinfo");
+								"learningtechnologies@zc");
 					}
 				});
 

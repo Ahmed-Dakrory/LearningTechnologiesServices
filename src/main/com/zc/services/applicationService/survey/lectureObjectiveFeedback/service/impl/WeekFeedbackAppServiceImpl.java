@@ -659,7 +659,7 @@ public class WeekFeedbackAppServiceImpl implements IWeekFeedbackAppService{
 						protected PasswordAuthentication getPasswordAuthentication() {
 							return new PasswordAuthentication(
 									"LearningTechnologies@zewailcity.edu.eg",
-									"zcltinfo");
+									"learningtechnologies@zc");
 						}
 					});
 

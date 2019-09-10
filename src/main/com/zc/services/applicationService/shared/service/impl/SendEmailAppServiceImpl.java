@@ -38,7 +38,7 @@ try{
 						protected PasswordAuthentication getPasswordAuthentication() {
 							return new PasswordAuthentication(
 									"LearningTechnologies@zewailcity.edu.eg",
-									"zcltinfo");
+									"learningtechnologies@zc");
 						}
 					});
 			Message message = new MimeMessage(session);

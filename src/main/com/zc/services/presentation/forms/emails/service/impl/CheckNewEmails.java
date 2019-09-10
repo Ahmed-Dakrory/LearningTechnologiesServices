@@ -1587,7 +1587,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 							protected PasswordAuthentication getPasswordAuthentication() {
 								return new PasswordAuthentication(
 										"learningtechnologies@zewailcity.edu.eg",
-										"zcltinfo");
+										"learningtechnologies@zc");
 							}
 						});
 

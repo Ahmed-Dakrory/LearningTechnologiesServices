@@ -179,7 +179,7 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	
 	public void sendEmailForStudent(String name,String mail, String string) {
 		 String from = "learningtechnologies@zewailcity.edu.eg";
-	        String pass = "zcltinfo";
+	        String pass = "learningtechnologies@zc";
 	        String[] to = {mail }; // list of recipient email addresses 
 	        String subject = "Graduation Requirements Form New Message";
 	        String htmlText = "<div style=\"width:700px;margin:0\" auto;font:normal=\"\" 13px=\"\" 30px=\"\" segoe,=\"\" segoe=\"\" ui,=\"\" dejavu=\"\" sans,=\"\" trebuchet=\"\" ms,=\"\" verdana,=\"\" sans-serif=\"\" !important;=\"\">\n" + 

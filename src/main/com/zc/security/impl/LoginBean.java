@@ -351,7 +351,7 @@ public class LoginBean {
 							protected PasswordAuthentication getPasswordAuthentication() {
 								return new PasswordAuthentication(
 										"LearningTechnologies@zewailcity.edu.eg",
-										"zcltinfo");
+										"learningtechnologies@zc");
 							}
 						});
 
