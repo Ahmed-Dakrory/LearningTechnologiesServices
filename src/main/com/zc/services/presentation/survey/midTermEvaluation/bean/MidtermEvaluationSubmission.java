@@ -130,7 +130,7 @@ public class MidtermEvaluationSubmission {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			
-		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
+		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			
 			{
 			PersonDataDTO student=studentDataFacade.getPersonByPersonMail(authentication.getName());

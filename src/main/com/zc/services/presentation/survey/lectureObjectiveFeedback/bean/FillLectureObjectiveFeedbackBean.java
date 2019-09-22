@@ -104,7 +104,7 @@ public class FillLectureObjectiveFeedbackBean {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{	
-		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
+		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			
 			{
 		coursesLst=coursesFacade.getCoursesBySemesterAndYear(form.getSemester().getId(), form.getYear());
