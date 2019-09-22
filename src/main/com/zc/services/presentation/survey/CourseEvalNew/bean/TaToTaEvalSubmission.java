@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -76,7 +77,7 @@ public class TaToTaEvalSubmission {
 		{
 
 			if (!authentication.getName().startsWith("s-")
-					&& !authentication.getName().startsWith("S-"))
+					&& !authentication.getName().startsWith("S-")&&!StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 
 			{
 				List<CoursesDTO> courses = new ArrayList<CoursesDTO>();

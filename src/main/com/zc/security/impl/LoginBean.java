@@ -30,6 +30,7 @@ import main.com.zc.shared.appService.ILoginSecurityAppService;
 import main.com.zc.shared.presentation.dto.LoginStaffDTO;
 import main.com.zc.shared.presentation.facade.ILoginFacade;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -121,7 +122,7 @@ public class LoginBean {
 				String name = user.getUsername(); // get logged in username
 
 				setName(name);
-				if (this.mail.toLowerCase().startsWith("s-")) {
+				if (this.mail.toLowerCase().startsWith("s-")||StringUtils.isNumeric(this.mail.substring(0, 4))) {
 					byte[] dbImage = loginAppService.getStudentImage(this.mail);
 					//if (dbImage != null) {
 						this.uplodeImageMood = false;
@@ -204,7 +205,7 @@ public class LoginBean {
 			// System.out.println("Name : " + getRegisterName());
 			// System.out.println("Mail : " + getRegisterMail());
 			// System.out.println("Pass : " + getRegisterPassword());
-			if (getRegisterMail().startsWith("s-")
+			if (getRegisterMail().startsWith("s-")||StringUtils.isNumeric(getRegisterMail().substring(0, 4))
 					|| getRegisterMail().startsWith("S-"))// Student add login
 			{
 				System.out.println("student");
@@ -498,7 +499,7 @@ public class LoginBean {
 				LoginStaffDTO dao = loginfacade
 						.checkRegisteryOFMail(getRegisterMail());
 				if (dao == null) {
-					if (getRegisterMail().toLowerCase().startsWith("s-"))// Student add
+					if (getRegisterMail().toLowerCase().startsWith("s-")||StringUtils.isNumeric(getRegisterMail().substring(0, 4)))// Student add
 																	// login
 					{
 						// System.out.println("student");

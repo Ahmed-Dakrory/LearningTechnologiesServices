@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,7 +64,7 @@ public class HandlerFeedbackBean {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-			if(!authentication.getName().startsWith("S-")&&!authentication.getName().startsWith("s-"))
+			if(!authentication.getName().startsWith("S-")&&!authentication.getName().startsWith("s-")&&!StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			{
 			if(authentication.getName().equals("lts-admin@zewailcity.edu.eg")){
 				fillPendingForms();
@@ -135,7 +136,7 @@ public class HandlerFeedbackBean {
 		{
 			
 			String mail = authentication.getName();
-			if(!mail.startsWith("S-")&&!mail.startsWith("s-"))
+			if(!mail.startsWith("S-")&&!mail.startsWith("s-")&&!StringUtils.isNumeric(mail.substring(0, 4)))
 			{try{
 				
 				pendingForms=  facade.getPendingHandler();
@@ -161,7 +162,7 @@ public class HandlerFeedbackBean {
 			{
 				
 				String mail = authentication.getName();
-				if(!mail.startsWith("S-")&&!mail.startsWith("s-"))
+				if(!mail.startsWith("S-")&&!mail.startsWith("s-")&&!StringUtils.isNumeric(mail.substring(0, 4)))
 				{try{
 					
 				archievedForms=  facade.getOldHandler();

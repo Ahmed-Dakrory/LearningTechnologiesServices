@@ -6,6 +6,7 @@ package main.com.zc.shared.appService.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,7 @@ public class LoginAppServiceImpl implements ILoginAppService {
 	public LoginStaffDTO addInsLogin(String name, String mail, String pass,
 			byte[] image) throws Exception {
 		try {
-			//if (mail.toLowerCase().startsWith("s-")) {
+			//if (mail.toLowerCase().startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))) {
 				//if (image != null) {
 				//	Data data = studentRepository.getPersonByMail(mail)
 					//		.getData();

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import main.com.zc.services.applicationService.persons.service.IStudentProfileService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +38,7 @@ public class ProfileCustomFilter implements Filter{
     		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
            if(!authentication.getPrincipal().equals("anonymousUser")&&(((HttpServletRequest)req).getRequestURL().toString().contains("pages"))){
         	   String mail=((User) authentication.getPrincipal()).getUsername();
-        	  	   if (mail.toLowerCase().startsWith("s-")&&(!((HttpServletRequest)req).getRequestURL().toString().contains("accountSettings/studentProfile"))&&(!studentProfileService.checkStudentProfile(mail))) {
+        	  	   if ((mail.toLowerCase().startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))&&(!((HttpServletRequest)req).getRequestURL().toString().contains("accountSettings/studentProfile"))&&(!studentProfileService.checkStudentProfile(mail))) {
             		   response.sendRedirect(((HttpServletRequest)req).getContextPath()+"/pages/secured/accountSettings/studentProfile.xhtml?faces-redirect=true"); 
             	   }}
         	   chain.doFilter(req, res);

@@ -24,6 +24,7 @@ import main.com.zc.services.presentation.dashboard.facade.IDashboardFacade;
 import main.com.zc.shared.appService.IPersonGetDataAppService;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -75,7 +76,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userMail = authentication.getName();
 		
-		if(userMail.startsWith("S-") || userMail.startsWith("s-"))
+		if(userMail.startsWith("S-") || userMail.startsWith("s-")||StringUtils.isNumeric(userMail.substring(0, 4)))
 		{
 			//student email
 			PersonDataDTO personData = personAPPService.getPersonByPersonMail(userMail);

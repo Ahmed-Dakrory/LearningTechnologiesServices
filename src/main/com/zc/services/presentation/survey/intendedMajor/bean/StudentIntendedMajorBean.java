@@ -21,6 +21,7 @@ import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -54,7 +55,7 @@ public class StudentIntendedMajorBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 							studentMajor=facade.getByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
 						
 					
@@ -107,7 +108,7 @@ public class StudentIntendedMajorBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 					IntendedMajorSurveyDTO dto=new IntendedMajorSurveyDTO();
 					if(getStudentMajor().getId()!=null)
 					{

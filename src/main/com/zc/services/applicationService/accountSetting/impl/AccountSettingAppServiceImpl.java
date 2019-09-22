@@ -15,6 +15,7 @@ import main.com.zc.shared.appService.ILoginAppService;
 import main.com.zc.shared.appService.ILoginSecurityAppService;
 import main.com.zc.shared.presentation.dto.LoginStaffDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -45,7 +46,7 @@ public class AccountSettingAppServiceImpl implements IAccountSettingAppService {
 			accountSettingDTO.setInstructorAccount(false);
 			return accountSettingDTO;
 			}
-		else if(!mail.toLowerCase().startsWith("s-"))
+		else if(!(mail.toLowerCase().startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))))
 		{
 		Employee instructor = instructorRepository
 				.getByMail(mail);

@@ -13,6 +13,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
@@ -68,7 +70,7 @@ public class ChangeOfConcentrationStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-    	if(mail.startsWith("S-")||mail.startsWith("s-")){
+    	if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 			
     	majorsLst=new ArrayList<MajorDTO>();
 		fillMajorsLst();
@@ -86,7 +88,7 @@ public class ChangeOfConcentrationStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				
 			    StudentDTO student=new StudentDTO();
 				student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());
@@ -156,7 +158,7 @@ public class ChangeOfConcentrationStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				pendingForms=facade.getPendingPetitionsByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
 			}
 			else {
@@ -170,7 +172,7 @@ public class ChangeOfConcentrationStudentBean {
 	if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 	{
 		String mail = authentication.getName();
-		if(mail.startsWith("S-")||mail.startsWith("s-")){
+		if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 			archievedForms=facade.getArchievedPetitionsByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
 		}
 		else {

@@ -15,6 +15,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
@@ -92,7 +94,7 @@ public class CourseRepeatStudentBean {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-			if(authentication.getName().startsWith("S-")||authentication.getName().startsWith("s-"))
+			if(authentication.getName().startsWith("S-")||authentication.getName().startsWith("s-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			{
 		fillPendingLst();
 		fillArchievedLst();
@@ -143,7 +145,7 @@ public class CourseRepeatStudentBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				pendingForms=facade.getPendingPetitionsOfstuent(studentDataFacade.getPersonByPersonMail(mail).getId());
 				
 			}
@@ -162,7 +164,7 @@ public class CourseRepeatStudentBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				archievedForms=facade.getArchievedPetitionsOfstuent(studentDataFacade.getPersonByPersonMail(mail).getId());
 				
 			}
@@ -195,7 +197,7 @@ public class CourseRepeatStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				
 			    StudentDTO student=new StudentDTO();
 				student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());

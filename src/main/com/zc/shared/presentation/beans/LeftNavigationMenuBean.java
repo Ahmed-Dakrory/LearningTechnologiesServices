@@ -9,6 +9,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -130,7 +131,7 @@ public class LeftNavigationMenuBean {
 		{
 			headOrStudent=false;
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				headOrStudent=true;
 				return;
@@ -289,7 +290,7 @@ public class LeftNavigationMenuBean {
 			
 			if (!authentication.getPrincipal().equals("anonymousUser"))
 			{
-				if(mail.startsWith("S-") || mail.startsWith("s-"))
+				if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
 					HelpURL = context.getRequestContextPath()+"/resources/help/LTS Student User Guide.pdf";
 				else
 					HelpURL = context.getRequestContextPath()+"/resources/help/LTS Staff User Guide.pdf";
@@ -317,7 +318,7 @@ public class LeftNavigationMenuBean {
 			
 					System.out.println("You are signed in ");
 					String mail = authentication.getName();
-					if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+					if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 					{
 				return"/pages/secured/generalFeedback/pendingFeedback.xhtml?faces-redirect=true";
 					}
@@ -373,7 +374,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/academicPetition/studentCoursePetitionPage.xhtml?faces-redirect=true";
@@ -432,7 +433,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(!mail.startsWith("s-")&&!mail.startsWith("S-")&&mail.toLowerCase().equals("attendance@zewailcity.edu.eg".toLowerCase())) // student case
+			if(!StringUtils.isNumeric(mail.substring(0, 4))&&!mail.startsWith("s-")&&!mail.startsWith("S-")&&mail.toLowerCase().equals("attendance@zewailcity.edu.eg".toLowerCase())) // student case
 			{
 				//studentDailyAttBool=false;
 				return "/pages/secured/att/dailyAttPage.xhtml?faces-redirect=true";
@@ -456,7 +457,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/att/studentDailyAttPage.xhtml?faces-redirect=true";
@@ -481,7 +482,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(!mail.startsWith("s-")&&!mail.startsWith("S-")&&mail.toLowerCase().equals("attendance@zewailcity.edu.eg".toLowerCase())) // student case
+			if(!StringUtils.isNumeric(mail.substring(0, 4))&&!mail.startsWith("s-")&&!mail.startsWith("S-")&&mail.toLowerCase().equals("attendance@zewailcity.edu.eg".toLowerCase())) // student case
 			{
 				//studentDailyAttBool=false;
 				return "/pages/secured/att/showAttendancePetition.xhtml?faces-redirect=true";
@@ -506,7 +507,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/dropAndAdd/addDropStudent.xhtml?faces-redirect=true";
@@ -561,7 +562,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/changeMajor/changeMajorStudent.xhtml?faces-redirect=true";
@@ -616,7 +617,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/overloadRequest/overloadRequestStudent.xhtml?faces-redirect=true";
@@ -686,7 +687,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
 				int idStudent=dataOfStudent.getId();
@@ -769,7 +770,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
 				int idStudent=dataOfStudent.getId();
@@ -871,7 +872,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/CourseRepeatForm/courseRepeatFormStudent.xhtml?faces-redirect=true";
@@ -925,7 +926,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/incompleteGrade/incompleteGradeStudent.xhtml?faces-redirect=true";
@@ -980,7 +981,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				currentMenuId = "Intended Major";
 				if(Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2014"))
@@ -1028,7 +1029,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				currentMenuId = "Declaration of Major";
 				
@@ -1068,7 +1069,7 @@ public class LeftNavigationMenuBean {
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-		if(authentication.getName().startsWith("S-")||authentication.getName().startsWith("s-"))
+		if(authentication.getName().startsWith("S-")||authentication.getName().startsWith("s-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 		{
 			currentMenuId = "Declaration of Major";
 			if(Integer.toString(studentDataFacade.getPersonByPersonMail(authentication.getName()).getFileNo()).startsWith("2014"))
@@ -1109,7 +1110,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{    currentMenuId = "Intended Major";
 				if(Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2014"))
 				{
@@ -1157,7 +1158,7 @@ public class LeftNavigationMenuBean {
 		
 						
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{    currentMenuId = "Course Evaluation";
 			
 			  ExternalContext exctxt = FacesContext.getCurrentInstance().getExternalContext();
@@ -1189,7 +1190,7 @@ public class LeftNavigationMenuBean {
 		
 						
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{    currentMenuId = "Midterm Evaluation";
 			
 			  ExternalContext exctxt = FacesContext.getCurrentInstance().getExternalContext();
@@ -1216,7 +1217,7 @@ public class LeftNavigationMenuBean {
 		{
 			
 			String mail = authentication.getName();
-			if(!mail.startsWith("s-")&&!mail.startsWith("S-")) // student case
+			if(!mail.startsWith("s-")&&!mail.startsWith("S-")&&!StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{    currentMenuId = "Course Evaluation INS";
 		
 		           InstructorDTO ins=getInsDataFacade.getInsByPersonMail(mail);
@@ -1589,7 +1590,7 @@ public String renderJuniorTAProgram(){
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				
 				return "/pages/secured/forms/tAJuniorProgram/taJuniorProgramStudent.xhtml?faces-redirect=true";
@@ -1650,7 +1651,7 @@ public String renderChangeConcentration(){
 	{
 		
 		String mail = authentication.getName();
-		if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+		if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 		{
 			
 			return "/pages/secured/forms/changeOfConcentration/changeOfConcentrationStudent.xhtml?faces-redirect=true";
@@ -1695,7 +1696,7 @@ public String renderLectureObjStudent(){
 	
 					
 		String mail = authentication.getName();
-		if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+		if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 		{    currentMenuId = "Lectures Objectives Feedback";
 		
 		  ExternalContext exctxt = FacesContext.getCurrentInstance().getExternalContext();
@@ -1798,7 +1799,7 @@ public void setValidateLoggedIn(boolean validateLoggedIn) {
 		{   
 			String mail = authentication.getName();
 		
-			if(!mail.startsWith("s-")&&!mail.startsWith("S-")) //Other than student case
+			if(!mail.startsWith("s-")&&!mail.startsWith("S-")&&!StringUtils.isNumeric(mail.substring(0, 4))) //Other than student case
 			{
 				if(mail.equals("attendance@zewailcity.edu.eg"))
 					return false;
@@ -1884,7 +1885,7 @@ public void setValidateLoggedIn(boolean validateLoggedIn) {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{
 				if(Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2014"))
 				{
@@ -2094,7 +2095,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-"))
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 				//if(Integer.toString(student.getFileNo()).startsWith("")
@@ -2138,7 +2139,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-"))
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 				//if(Integer.toString(student.getFileNo()).startsWith("")
@@ -2182,7 +2183,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-"))
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 				//if(Integer.toString(student.getFileNo()).startsWith("")
@@ -2218,7 +2219,7 @@ else
 			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 			{   
 				String mail = authentication.getName();
-				if(mail.startsWith("s-")||mail.startsWith("S-"))
+				if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 				{
 					PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 					//if(Integer.toString(student.getFileNo()).startsWith("")
@@ -2261,7 +2262,7 @@ else
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-			if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-"))
+			if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			return"/pages/secured/forms/graduationForm/fillForm.xhtml?faces-redirect=true";
 			else 
 			return"/pages/secured/forms/graduationForm/result.xhtml?faces-redirect=true";
@@ -2277,7 +2278,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-"))
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				return true;
 			}
@@ -2294,7 +2295,7 @@ else
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{   
 	
 				FormsStatusDTO form=formStatus.getById(12);
@@ -2339,7 +2340,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(!mail.startsWith("s-")&&!mail.startsWith("S-"))
+			if(!mail.startsWith("s-")&&!mail.startsWith("S-")&&!StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				FormsStatusDTO form=formStatus.getById(13);
 				if(form.getStatus().equals(FormsStatusEnum.Active))
@@ -2370,7 +2371,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(!mail.startsWith("s-")&&!mail.startsWith("S-"))
+			if(!mail.startsWith("s-")&&!mail.startsWith("S-")&&!StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				InstructorDTO emp=new InstructorDTO();
 				emp=getInsDataFacade.getInsByPersonMail(mail);
@@ -2409,7 +2410,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-"))
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 				List<Integer> settings=settingsFacade.getById(14).getLevels();
@@ -2466,7 +2467,7 @@ else
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{   
 	
 				FormsStatusDTO form=formStatus.getById(15);
@@ -2509,7 +2510,7 @@ else
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")) // student case
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
 			{   
 	
 				FormsStatusDTO form=formStatus.getById(17);

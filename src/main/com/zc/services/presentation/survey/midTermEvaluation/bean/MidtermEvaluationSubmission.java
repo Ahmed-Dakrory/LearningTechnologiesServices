@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
@@ -129,7 +130,7 @@ public class MidtermEvaluationSubmission {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			
-		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-"))
+		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			
 			{
 			PersonDataDTO student=studentDataFacade.getPersonByPersonMail(authentication.getName());

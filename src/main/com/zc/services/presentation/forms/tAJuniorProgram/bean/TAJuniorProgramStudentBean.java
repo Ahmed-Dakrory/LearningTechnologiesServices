@@ -31,6 +31,7 @@ import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFac
 import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -84,7 +85,7 @@ public class TAJuniorProgramStudentBean {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-			if(authentication.getName().startsWith("S-")||authentication.getName().startsWith("s-"))
+			if(authentication.getName().startsWith("S-")||authentication.getName().startsWith("s-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			{
 				addedForm=new TAJuniorProgramDTO();
 		fillPendingLst();
@@ -140,7 +141,7 @@ public class TAJuniorProgramStudentBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				pendingForms=facade.getPendingRequestsOfStudent(studentDataFacade.getPersonByPersonMail(mail).getId());
 				for(int i=0;i<pendingForms.size();i++)
 			    {
@@ -169,7 +170,7 @@ public class TAJuniorProgramStudentBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				archievedForms=facade.getArchievedRequestsOfStudent(studentDataFacade.getPersonByPersonMail(mail).getId());
 				
 			}
@@ -242,7 +243,7 @@ public class TAJuniorProgramStudentBean {
 			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 			{
 				String mail = authentication.getName();
-				if(mail.startsWith("S-")||mail.startsWith("s-")){
+				if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 					
 				    StudentDTO student=new StudentDTO();
 					student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());

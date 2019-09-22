@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,7 +92,7 @@ public class CourseEvalStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			
-		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-"))
+		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			
 			{
 		previewInstructors=new ArrayList<BaseDTO>();
@@ -199,7 +200,7 @@ public class CourseEvalStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			
-		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-"))
+		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))
 			
 			{
 			PersonDataDTO student=studentDataFacade.getPersonByPersonMail(authentication.getName());

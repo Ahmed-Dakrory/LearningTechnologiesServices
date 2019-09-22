@@ -16,6 +16,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,7 +79,7 @@ public class StudentDailyAttendanceBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				try {
 	    			List<DailyAttDataDTO> times=dailyAttFacade.getStudentAttByFileNo(studentDataFacade.getPersonByPersonMail(mail).getFileNo());
 	 			

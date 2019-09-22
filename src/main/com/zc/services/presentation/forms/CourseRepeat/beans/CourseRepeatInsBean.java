@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -96,7 +97,7 @@ public class CourseRepeatInsBean {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-"))
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			{
 				try {
 					FacesContext.getCurrentInstance().getExternalContext().redirect

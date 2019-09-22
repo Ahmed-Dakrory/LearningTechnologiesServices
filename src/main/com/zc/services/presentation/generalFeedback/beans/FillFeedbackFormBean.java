@@ -34,6 +34,7 @@ import main.com.zc.shared.appService.ILoginSecurityAppService;
 import main.com.zc.shared.presentation.dto.AttachmentDTO;
 import main.com.zc.shared.presentation.dto.LoginStaffDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
@@ -337,7 +338,7 @@ public void submitForm(){
 			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 			{
 				String mail = authentication.getName();
-				if(mail.startsWith("S-")||mail.startsWith("s-")){
+				if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 					  StudentDTO student=new StudentDTO();
 					  student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());
 					//TODO 

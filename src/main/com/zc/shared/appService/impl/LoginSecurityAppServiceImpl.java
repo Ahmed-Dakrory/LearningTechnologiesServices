@@ -11,6 +11,7 @@ import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.shared.appService.ILoginSecurityAppService;
 import main.com.zc.shared.presentation.dto.LoginStaffDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 /**
@@ -31,7 +32,7 @@ public class LoginSecurityAppServiceImpl implements ILoginSecurityAppService {
 		LoginData loginStaff=loginStaffRep.getByMail(mail);
 		LoginStaffDTO dao=new LoginStaffDTO(loginStaff.getId(),
 				loginStaff.getName(),loginStaff.getMail(), loginStaff.getPassword());
-		if(loginStaff.getMail().startsWith("S-")||loginStaff.getMail().startsWith("s-"))
+		if(loginStaff.getMail().startsWith("S-")||loginStaff.getMail().startsWith("s-")||StringUtils.isNumeric(loginStaff.getMail().substring(0, 4)))
 		{
 		Student per=perRep.getPersonByMail(loginStaff.getMail());
 		dao.setFileNo(per.getFileNo());

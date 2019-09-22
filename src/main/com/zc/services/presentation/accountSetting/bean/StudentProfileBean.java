@@ -23,6 +23,7 @@ import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFac
 import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -64,7 +65,7 @@ public class StudentProfileBean {
 			studentProfile = new StudentProfileDTO();
 			Authentication authentication = SecurityContextHolder.getContext()
 					.getAuthentication();
-			if (authentication.getName().toLowerCase().startsWith("s-")) {
+			if (authentication.getName().toLowerCase().startsWith("s-")||StringUtils.isNumeric(authentication.getName().substring(0, 4))) {
 				PersonDataDTO studentDto = studentDataFacade
 						.getPersonByPersonMail(authentication.getName());
 				FormsStatusDTO formSetting = formSettingFacade.getById(11);

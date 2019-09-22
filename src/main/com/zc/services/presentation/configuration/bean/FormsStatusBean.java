@@ -20,6 +20,7 @@ import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -396,7 +397,7 @@ public class FormsStatusBean {
 			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 			{   
 				String mail = authentication.getName();
-				if(mail.startsWith("s-")||mail.startsWith("S-"))
+				if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 				{
 					PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 					//if(Integer.toString(student.getFileNo()).startsWith("")
@@ -477,7 +478,7 @@ public class FormsStatusBean {
 			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 			{   
 				String mail = authentication.getName();
-				if(mail.startsWith("s-")||mail.startsWith("S-"))
+				if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 				{
 					PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
 					//if(Integer.toString(student.getFileNo()).startsWith("")

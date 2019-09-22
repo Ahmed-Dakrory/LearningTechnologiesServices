@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.domain.shared.enumurations.QuestionsCategory;
@@ -102,7 +104,7 @@ public class FillLectureObjectiveFeedbackBean {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{	
-		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-"))
+		if(authentication.getName().startsWith("s-")||authentication.getName().startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
 			
 			{
 		coursesLst=coursesFacade.getCoursesBySemesterAndYear(form.getSemester().getId(), form.getYear());

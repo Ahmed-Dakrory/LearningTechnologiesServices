@@ -22,6 +22,8 @@ import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.BaseDTO;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -63,7 +65,7 @@ public class DeclarationOfConcentrationStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				
 					studentConcentration=facade.getByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
 						
@@ -174,7 +176,7 @@ public class DeclarationOfConcentrationStudentBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.startsWith("S-")||mail.startsWith("s-")){
+			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				/*if(Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2014")||Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2013"))
 				{*/
 					IntendedMajorSurveyDTO dto=new IntendedMajorSurveyDTO();
