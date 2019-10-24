@@ -56,9 +56,13 @@ public class Courses {
 	
 	@Column(name = "Description")
 	private String Description;
-	
+
 	@Column(name = "Credit")
 	private String Credit;
+	
+
+	@Column(name = "clo")
+	private String clo;
 	
 	@Column(name = "RequiredElective")
 	private Integer  RequiredElective;
@@ -205,6 +209,14 @@ public class Courses {
 
 	public void setRequiredElective(Integer requiredElective) {
 		RequiredElective = requiredElective;
+	}
+
+	public String getClo() {
+		return clo;
+	}
+
+	public void setClo(String clo) {
+		this.clo = clo;
 	}
 
 	

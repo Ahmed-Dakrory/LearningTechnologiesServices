@@ -102,6 +102,7 @@ public class CourseInstructorFacadeImpl implements ICourseInstructorFacade {
 		CoursesDTO dto=new CoursesDTO();
 		dto.setId(course.getId());
 		dto.setName(course.getName());
+		dto.setClo(course.getClo());
 		if(course.getCourseCoordinator()!=null)
 		{	InstructorDTO ins=new InstructorDTO();
 			ins.setId(course.getCourseCoordinator().getId());
@@ -145,6 +146,7 @@ public class CourseInstructorFacadeImpl implements ICourseInstructorFacade {
 			CoursesDTO courseDTO=new CoursesDTO();
 			courseDTO.setId(course.getId());
 			courseDTO.setName(course.getName());
+			courseDTO.setClo(course.getClo());
 			return courseDTO;
 		}
 		catch(Exception ex)
@@ -163,6 +165,7 @@ public class CourseInstructorFacadeImpl implements ICourseInstructorFacade {
 			course.setName(dto.getName());
 			course.setYear(dto.getYear());
 			course.setSemester(dto.getSemester());
+			course.setClo(dto.getClo());
 			
 			course.setCourseCoordinator(newCoord);
 			int i=courseRep.add(course);
@@ -170,6 +173,7 @@ public class CourseInstructorFacadeImpl implements ICourseInstructorFacade {
 			CoursesDTO courseDTO=new CoursesDTO();
 			courseDTO.setId(course.getId());
 			courseDTO.setName(course.getName());
+			courseDTO.setClo(course.getClo());
 			return courseDTO;
 		}
 		catch(Exception ex)

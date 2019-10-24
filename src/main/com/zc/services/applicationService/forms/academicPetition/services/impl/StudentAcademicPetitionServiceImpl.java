@@ -105,6 +105,7 @@ public class StudentAcademicPetitionServiceImpl implements IStudentAcademicPetit
 			CoursesDTO dto=new CoursesDTO();
 			dto.setId(courses.get(i).getId());
 			dto.setName(courses.get(i).getName());
+			dto.setClo(courses.get(i).getClo());
 			try{
 			InstructorDTO insDto=new InstructorDTO();
 			insDto.setId(courses.get(i).getCourseCoordinator().getId());
@@ -155,6 +156,9 @@ public class StudentAcademicPetitionServiceImpl implements IStudentAcademicPetit
 			dto.setName(courses.get(i).getName());
 			dto.setSemester(courses.get(i).getSemester());
 			dto.setYear(courses.get(i).getYear());
+			if(courses.get(i).getClo()!=null) {
+			dto.setClo(courses.get(i).getClo());
+			}
 			try{
 			InstructorDTO insDto=new InstructorDTO();
 			insDto.setId(courses.get(i).getCourseCoordinator().getId());

@@ -579,6 +579,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 				dto.setName(courseObj.getName());
 				dto.setYear(courseObj.getYear());
 				dto.setSemester(courseObj.getSemester());
+				dto.setClo(courseObj.getClo());
 				addedCoursesLst.add(dto);
 				
 			}
@@ -597,6 +598,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 					dto.setName(courseObj.getName());
 					dto.setYear(courseObj.getYear());
 					dto.setSemester(courseObj.getSemester());
+					dto.setClo(courseObj.getClo());
 					addedCoursesLst.add(dto);
 					//courseStudent.getCourse().setId(course.getId());
 					
@@ -886,6 +888,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 			dto.setName(objects.get(i).getCourse().getName());
 			dto.setSemester(objects.get(i).getCourse().getSemester());
 			dto.setYear(objects.get(i).getCourse().getYear());
+			dto.setClo(objects.get(i).getCourse().getClo());
 			dtos.add(dto);
 		}
 		return dtos;
@@ -959,6 +962,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 			course.setSemester(objects.get(i).getCourse().getSemester());
 			course.setName(objects.get(i).getCourse().getName());
 			course.setId(objects.get(i).getCourse().getId());
+			course.setClo(objects.get(i).getCourse().getClo());
 			courses.add(course);
 		}
 	
@@ -1017,6 +1021,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 			course.setSemester(objects.get(i).getCourse().getSemester());
 			course.setName(objects.get(i).getCourse().getName());
 			course.setId(objects.get(i).getCourse().getId());
+			course.setClo(objects.get(i).getCourse().getClo());
 			courses.add(course);
 		}
 	

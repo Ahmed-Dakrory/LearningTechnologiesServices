@@ -125,6 +125,11 @@
 							<h:panelGrid columns="1">
 			          			<h:outputLabel value="Name"/>
 			          			<h:inputText value="#{CoursesInstructorsConfigBean.newCourseName}"/>
+			          			
+			          			<h:outputLabel value="Clo"/>
+			          			<h:inputText value="#{CoursesInstructorsConfigBean.newCourseClo}"/>
+			          			
+			          			
 			          			<h:outputLabel value="Year" for="newyear"/>
 			          			<p:selectOneMenu id="newyear" value="#{CoursesInstructorsConfigBean.newCourseYear}" required="true" requiredMessage="Please select year" style="width:396px">
 									<f:selectItem itemLabel="Select Year" />

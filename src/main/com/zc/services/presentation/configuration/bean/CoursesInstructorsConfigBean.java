@@ -54,6 +54,7 @@ public class CoursesInstructorsConfigBean {
 	private Integer selectedTA;
 	private Integer selectedCoordinator;
 	private String newCourseName;
+	private String newCourseClo;
 	private Integer newSelectedCoordinator;
 	private Integer newCourseYear;
 	private Integer newCourseSemester;
@@ -342,6 +343,7 @@ public class CoursesInstructorsConfigBean {
 		{
 			CoursesDTO dto=new CoursesDTO();
 			dto.setName(getNewCourseName());
+			dto.setClo(getNewCourseClo());
 			dto.setYear(getNewCourseYear());
 			if(getNewCourseSemester()==0)
 			{
@@ -535,6 +537,12 @@ public class CoursesInstructorsConfigBean {
 	}
 	public void setAllTas(List<InstructorDTO> allTas) {
 		this.allTas = allTas;
+	}
+	public String getNewCourseClo() {
+		return newCourseClo;
+	}
+	public void setNewCourseClo(String newCourseClo) {
+		this.newCourseClo = newCourseClo;
 	}
 	
 	

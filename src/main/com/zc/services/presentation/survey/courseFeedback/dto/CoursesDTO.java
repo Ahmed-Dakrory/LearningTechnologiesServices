@@ -26,6 +26,7 @@ private String program;
 private String courseTitle;
 private String description;
 private String credit;
+private String clo;
 private Integer  requiredElective;
 
 public CoursesDTO() {
@@ -119,6 +120,12 @@ public Employee getCourseCoordinator() {
 }
 public void setCourseCoordinator(Employee courseCoordinator) {
 	this.courseCoordinator = courseCoordinator;
+}
+public String getClo() {
+	return clo;
+}
+public void setClo(String clo) {
+	this.clo = clo;
 }
 
 
