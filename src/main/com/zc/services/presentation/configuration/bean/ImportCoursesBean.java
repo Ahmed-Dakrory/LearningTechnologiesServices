@@ -57,7 +57,7 @@ public class ImportCoursesBean {
 		 try {
 			inputStream=file.getInputstream();
 			list=facade.parseCoursesFile(inputStream);
-			
+			 
 		    Map<String, CoursesDTO> map = new LinkedHashMap();
 		    for (CoursesDTO ays : list) {
 		      map.put(ays.getName(), ays);
@@ -65,6 +65,10 @@ public class ImportCoursesBean {
 		    list.clear();
 		    list.addAll(map.values());
 		    courses=facade.getNewCourses(list);
+		    for(int i=0;i<courses.size();i++) {
+		    	System.out.println("Ahmed: "+String.valueOf(courses.get(i).getName()));
+		    	System.out.println("Ahmed: "+String.valueOf(courses.get(i).getClo()));
+		    }
 			System.out.println("Size : "+list.size());
 			resultText=true;
 			//courses=facade.saveCourses(list);

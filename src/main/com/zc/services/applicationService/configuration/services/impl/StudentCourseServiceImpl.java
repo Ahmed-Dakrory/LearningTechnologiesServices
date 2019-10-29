@@ -517,13 +517,12 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 						}
 					}
 
-					if (count ==3) { // course code
+if (count ==3) { // course code
 						
 						switch (cell.getCellType()) {
 						
 						case Cell.CELL_TYPE_STRING:
 							
-							System.out.print(cell.getStringCellValue());
 							course.setName(cell.getStringCellValue());
 						      
 						
@@ -534,6 +533,24 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 						
 						
 					}
+
+	if (count ==10) { // course code
+		
+		switch (cell.getCellType()) {
+		
+		case Cell.CELL_TYPE_STRING:
+			
+			course.setClo(cell.getStringCellValue());
+		      
+		
+			break;
+		}
+
+	
+	
+	
+}
+
 
 				}
 					dataList.add(course);
@@ -572,6 +589,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 				courseObj.setName(List.get(i).getName());
 				courseObj.setSemester(List.get(i).getSemester());
 				courseObj.setYear(List.get(i).getYear());
+				courseObj.setClo(List.get(i).getClo());
 				Integer addedCourse=courseRep.add(courseObj);
 				courseObj=courseRep.getById(addedCourse);
 				CoursesDTO dto=new CoursesDTO();
@@ -591,6 +609,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 					courseObj.setName(List.get(i).getName());
 					courseObj.setSemester(List.get(i).getSemester());
 					courseObj.setYear(List.get(i).getYear());
+					courseObj.setClo(List.get(i).getClo());
 					Integer addedCourse=courseRep.add(courseObj);
 					courseObj=courseRep.getById(addedCourse);
 					CoursesDTO dto=new CoursesDTO();
@@ -812,6 +831,8 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 				courseObj.setName(originalList.get(i).getName());
 				courseObj.setSemester(originalList.get(i).getSemester());
 				courseObj.setYear(originalList.get(i).getYear());
+				courseObj.setClo(originalList.get(i).getClo());
+				
 			/*	Integer addedCourse=courseRep.add(courseObj);
 				courseObj=courseRep.getById(addedCourse);
 				CoursesDTO dto=new CoursesDTO();
