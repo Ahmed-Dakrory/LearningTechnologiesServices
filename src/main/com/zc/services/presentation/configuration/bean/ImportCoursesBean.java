@@ -15,10 +15,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-import main.com.zc.services.presentation.configuration.dto.StudentCourseDTO;
 import main.com.zc.services.presentation.configuration.facade.IStudentCourseFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
-import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
 import org.primefaces.model.UploadedFile;

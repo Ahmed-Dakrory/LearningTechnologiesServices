@@ -424,6 +424,39 @@ public class LeftNavigationMenuBean {
 	
 	}
 
+	
+	public String renderCourseCloSurvey() // for Academic Petition
+	{
+		currentMenuId = "Clo Survey";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				
+				return "/pages/secured/survey/clo/cloStudent.xhtml?faces-redirect=true";
+			
+			}
+			else
+			{
+
+				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+		
+	
+	}
+
 		
 	public String renderSendAttendance()
 	{
@@ -1351,6 +1384,27 @@ public class LeftNavigationMenuBean {
 	}
 	
 
+	public String navigateToAddCourseSurvey()
+	{
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			
+			  currentMenuId = "Clo Survey Config";
+		
+		
+					return "/pages/secured/config/surveyConfigClo.xhtml?faces-redirect=true";
+				
+			
+				
+			
+	}
+		else 	return "pages/public/login.xhtml?faces-redirect=true";
+	
+	}
+	
 	public String navigateToIns()
 	{
 		Authentication authentication = SecurityContextHolder.getContext()

@@ -11,9 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-
-import main.com.zc.services.domain.booksSys.model.BookStudent;
 import main.com.zc.services.domain.shared.enumurations.BookActionEnum;
 import main.com.zc.services.domain.shared.enumurations.BookStatusEnum;
 import main.com.zc.services.presentation.booksSys.dto.BookCopiesDTO;

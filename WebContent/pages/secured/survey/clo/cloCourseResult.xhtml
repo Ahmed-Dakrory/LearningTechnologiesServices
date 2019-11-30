@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+		#{courseCloBean.refresh()}
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Courses Clo Evaluation" disabled="true" />
+							<p:menuitem value="Evaluation Results" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<h:panelGroup id="pageContent">
+						<p:panel id="petitionPanel">
+						<h:selectOneMenu value="#{courseCloBean.selectedCourse.id}">
+						<f:ajax listener="#{courseCloBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+						<f:selectItems value="#{courseCloBean.listOfAllCourses}" var="data" itemLabel="#{data.course_code}" itemValue="#{data.id}" />
+						</h:selectOneMenu>
+						 
+						</p:panel>
+						
+						
+						<p:panel id="surveyPanel" >
+						<p:panel rendered="#{courseCloBean.selectedCourse.id!=null}">
+							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Code: #{courseCloBean.selectedCourse.course_code}
+								
+							</div>
+							<br></br>
+							<br></br>
+							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Semester: #{courseCloBean.selectedCourse.semestar}
+							</div>
+							
+							<br></br>
+							<br></br>
+							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Year: #{courseCloBean.selectedCourse.year}
+							</div>
+							
+							
+							<br></br>
+							<p:panel rendered="#{courseCloBean.selectedCourse.clo1!=null}">
+							<br></br>
+							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
+									<br></br>
+									<div>Clo  : Number of Student  : Percentage of 5</div>
+								<ui:repeat value="#{courseCloBean.resultsPersonClo}" varStatus="state" var="var">
+									<br></br>
+									<div>Clo #{state.index+1}  : #{var}  : #{courseCloBean.resultsPercentage.get(var)}</div>
+								</ui:repeat>
+							</p:panel>
+							
+						 </p:panel>
+						</p:panel>
+						
+						
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>
