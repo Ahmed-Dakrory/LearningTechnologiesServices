@@ -92,10 +92,10 @@ public class course_cloRepositoryImpl implements course_cloRepository{
 
 
 	@Override
-	public List<course_clo> getAllByYearAndSemestar(String year, String semestar) {
+	public List<course_clo> getAllByYearAndSemestar(int year, int semestar) {
 		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("course_clo.getAllByYearAndSemestar")
-				 .setString("year",year)
-				 .setString("semestar", semestar);
+				 .setInteger("year",year)
+				 .setInteger("semestar", semestar);
 
 		 @SuppressWarnings("unchecked")
 		List<course_clo> results=query.list();
@@ -107,10 +107,10 @@ public class course_cloRepositoryImpl implements course_cloRepository{
 	}
 
 	@Override
-	public course_clo getAllByYearAndSemestarAndCourseCode(String year, String semestar, String courseCode) {
+	public course_clo getAllByYearAndSemestarAndCourseCode(int year, int semestar, String courseCode) {
 		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("course_clo.getAllByYearAndSemestarAndCourseCode")
-				 .setString("year",year)
-				 .setString("semestar", semestar)
+				 .setInteger("year",year)
+				 .setInteger("semestar", semestar)
 				 .setString("course_code", courseCode);
 		 
 		 @SuppressWarnings("unchecked")

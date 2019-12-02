@@ -7,6 +7,17 @@
 	<ui:composition template="/templates/securedContent.xhtml">
 		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
 		<ui:define name="content">
+		<style>
+		.tdClass {
+    padding: 0;
+    border: black;
+    border-style: solid;
+    border-width: 1px;
+    width: 139px;
+    height: 37px;
+    text-align: center;
+}
+		</style>
 		#{courseCloBean.refresh()}
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -21,6 +32,31 @@
 					</li>
 				</ul>
 				<div class="pannelWrapper">
+				
+				<table>
+							<tr>
+								<td>
+									<p:selectOneMenu id="semester" value="#{courseCloBean.semesterSelected}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{CoursesInstructorsConfigBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{CoursesInstructorsConfigBean.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{courseCloBean.yearSelected}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{CoursesInstructorsConfigBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{courseCloBean.getListOfCoursesByYearAndSemester}" update="pageContent"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+								
+								</tr>
+							</table>
+							
+							
 					<h:panelGroup id="pageContent">
 						<p:panel id="petitionPanel">
 						<h:selectOneMenu value="#{courseCloBean.selectedCourse.id}">
@@ -40,7 +76,7 @@
 							<br></br>
 							<br></br>
 							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
-								Course Semester: #{courseCloBean.selectedCourse.semestar}
+								Course Semester: #{courseCloBean.selectedCourse.semester}
 							</div>
 							
 							<br></br>
@@ -49,17 +85,77 @@
 								Course Year: #{courseCloBean.selectedCourse.year}
 							</div>
 							
-							
 							<br></br>
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo1!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
 									<br></br>
-									<div>Clo  : Number of Student  : Percentage of 5</div>
-								<ui:repeat value="#{courseCloBean.resultsPersonClo}" varStatus="state" var="var">
-									<br></br>
-									<div>Clo #{state.index+1}  : #{var}  : #{courseCloBean.resultsPercentage.get(var)}</div>
-								</ui:repeat>
+									
+									<table>
+									<thead>
+									<tr  style="background: darkkhaki;">
+										<td class="tdClass" style="background: #c1a570;">
+										
+										</td>
+									<td  class="tdClass"  colspan="2">
+											<div>Excellent</div>
+										</td>
+										<td class="tdClass" colspan="2">
+											<div>Very good</div>
+										</td>
+										<td class="tdClass" colspan="2">
+											<div>good</div>
+										</td>
+										<td class="tdClass" colspan="2">
+											<div>Weak</div>
+										</td>
+										<td class="tdClass" colspan="2">
+											<div>Very Weak</div>
+										</td>
+										
+										<td class="tdClass" >
+											<div>Total</div>
+										</td>
+									</tr>
+									</thead>
+									<tbody>
+									<ui:repeat var="clo" value="#{courseCloBean.resultsPersonPercntageClo}">
+										<tr style="display:#{clo.numberOfPersons>0}">
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">
+												<div>CLO #{clo.cloNumber}</div>
+											</td>
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
+											
+											
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
+											
+										
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
+											
+
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
+											
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
+											
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">
+												<div>#{clo.numberOfPersons}</div>
+											</td>
+											
+										</tr>
+										
+										</ui:repeat>
+									</tbody>
+									</table>
+									
 							</p:panel>
 							
 						 </p:panel>

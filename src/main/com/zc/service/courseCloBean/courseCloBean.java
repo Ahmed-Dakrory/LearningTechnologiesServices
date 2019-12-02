@@ -29,6 +29,7 @@ import main.com.zc.service.courseClo.course_clo;
 import main.com.zc.service.courseClo.course_cloAppServiceImpl;
 import main.com.zc.service.student.IStudentGetDataAppService;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
@@ -89,7 +90,7 @@ public class courseCloBean implements Serializable{
 	Student studentThisAccount;
 	boolean aStudentAccount = false;
 	
-	
+ 
 
 	private UploadedFile file;
 	private String statusMessage;
@@ -97,8 +98,11 @@ public class courseCloBean implements Serializable{
 	private boolean saveMood;
 	private List<course_clo> courses=new ArrayList<course_clo>();
 
-	private List<Integer> resultsPersonClo;
-	private double[] resultsPercentage;
+	private Integer semesterSelected=0;
+	private Integer yearSelected=2015;
+
+	private List<cloResult> resultsPersonPercntageClo;
+	
 	
 	@PostConstruct
 	public void init() {
@@ -119,168 +123,281 @@ public class courseCloBean implements Serializable{
 	}
 	
 	public void selectTheCourseResults() {
-		resultsPersonClo=new ArrayList<Integer>();
+		
+		
+
+		resultsPersonPercntageClo=new ArrayList<cloResult>();
+		
+		
 		
 		selectedCourse = course_cloFacade.getById(selectedCourse.getId());
 		listOfCourseAnswers=clo_survey_ansFacade.getAllByCourseId(selectedCourse.getId());
 		if(listOfCourseAnswers!=null) {
-		
+			
+			
 		
 		for(int i=0;i<20;i++) {
 
-			resultsPersonClo.add(0);
-			resultsPercentage[i]=0;
-			
+			resultsPersonPercntageClo.add(new cloResult(i+1));
 		}
 		
 		for(int i=0;i<listOfCourseAnswers.size();i++) {
 			if(listOfCourseAnswers.get(i).getClo1()!=null) {
-				resultsPersonClo.set(0, resultsPersonClo.get(0)+1);
-				double res =listOfCourseAnswers.get(i).getClo1();
-				System.out.println("Dakrory: "+listOfCourseAnswers.get(i).getClo1());
-				resultsPercentage[0]= res+resultsPercentage[0];
+				Integer res =listOfCourseAnswers.get(i).getClo1();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(0);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(0,clo);
+				
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo2()!=null) {
-				resultsPersonClo.set(1, resultsPersonClo.get(1)+1);
-				double res =listOfCourseAnswers.get(i).getClo2();
-				resultsPercentage[1] = res +resultsPercentage[1];
+				Integer res =listOfCourseAnswers.get(i).getClo2();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(1);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(1,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo3()!=null) {
-				resultsPersonClo[2, resultsPersonClo.get(2)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo3();
-				if(res !=null)
-				resultsPercentage[2] = res +resultsPercentage[2];
+				Integer res =listOfCourseAnswers.get(i).getClo3();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(2);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(2,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo4()!=null) {
-				resultsPersonClo[3, resultsPersonClo.get(3)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo4();
-				if(res !=null)
-				resultsPercentage[3] = res +resultsPercentage[3];
+				Integer res =listOfCourseAnswers.get(i).getClo4();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(3);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(3,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo5()!=null) {
-				resultsPersonClo[4, resultsPersonClo.get(4)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo5();
-				if(res !=null)
-				resultsPercentage[4] = res +resultsPercentage[4];
+				Integer res =listOfCourseAnswers.get(i).getClo5();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(4);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(4,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo6()!=null) {
-				resultsPersonClo[5, resultsPersonClo.get(5)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo6();
-				if(res !=null)
-				resultsPercentage[5] = res +resultsPercentage[5];
+				Integer res =listOfCourseAnswers.get(i).getClo6();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(5);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(5,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo7()!=null) {
-				resultsPersonClo[6, resultsPersonClo.get(6)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo7();
-				if(res !=null)
-				resultsPercentage[6] = res +resultsPercentage[6];
+				Integer res =listOfCourseAnswers.get(i).getClo7();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(6);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(6,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo8()!=null) {
-				resultsPersonClo[7, resultsPersonClo.get(7)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo8();
-				if(res !=null)
-				resultsPercentage[7] = res +resultsPercentage[7];
+				Integer res =listOfCourseAnswers.get(i).getClo8();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(7);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(7,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo9()!=null) {
-				resultsPersonClo[8, resultsPersonClo.get(8)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo9();
-				if(res !=null)
-				resultsPercentage[8] = res +resultsPercentage[8];
+				Integer res =listOfCourseAnswers.get(i).getClo9();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(8);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(8,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo10()!=null) {
-				resultsPersonClo[9, resultsPersonClo.get(9)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo10();
-				if(res !=null)
-				resultsPercentage[9] = res +resultsPercentage[9];
+				Integer res =listOfCourseAnswers.get(i).getClo10();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(9);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(9,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo11()!=null) {
-				resultsPersonClo[10, resultsPersonClo.get(10)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo11();
-				if(res !=null)
-				resultsPercentage[10] = res +resultsPercentage[10];
+				Integer res =listOfCourseAnswers.get(i).getClo11();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(10);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(10,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo12()!=null) {
-				resultsPersonClo[11, resultsPersonClo.get(11)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo12();
-				if(res !=null)
-				resultsPercentage[11] = res +resultsPercentage[11];
+				Integer res =listOfCourseAnswers.get(i).getClo12();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(11);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(11,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo13()!=null) {
-				resultsPersonClo[12, resultsPersonClo.get(12)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo13();
-				if(res !=null)
-				resultsPercentage[12] = res +resultsPercentage[12];
+				Integer res =listOfCourseAnswers.get(i).getClo13();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(12);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(12,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo14()!=null) {
-				resultsPersonClo[13, resultsPersonClo.get(13)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo14();
-				if(res !=null)
-				resultsPercentage[13] = res +resultsPercentage[13];
+				Integer res =listOfCourseAnswers.get(i).getClo14();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(13);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(13,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo15()!=null) {
-				resultsPersonClo[14, resultsPersonClo.get(14)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo15();
-				if(res !=null)
-				resultsPercentage[14] = res +resultsPercentage[14];
+				Integer res =listOfCourseAnswers.get(i).getClo15();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(14);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(14,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo16()!=null) {
-				resultsPersonClo[15, resultsPersonClo.get(15)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo16();
-				if(res !=null)
-				resultsPercentage[15] = res +resultsPercentage[15];
+				Integer res =listOfCourseAnswers.get(i).getClo16();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(15);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(15,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo17()!=null) {
-				resultsPersonClo[16, resultsPersonClo.get(16)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo17();
-				if(res !=null)
-				resultsPercentage[16] = res +resultsPercentage[16];
+				Integer res =listOfCourseAnswers.get(i).getClo17();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(16);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(16,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo18()!=null) {
-				resultsPersonClo[17, resultsPersonClo.get(17)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo18();
-				if(res !=null)
-				resultsPercentage[17] = res +resultsPercentage[17];
+				Integer res =listOfCourseAnswers.get(i).getClo18();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(17);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(17,clo);
 			}
 			
 			if(listOfCourseAnswers.get(i).getClo19()!=null) {
-				resultsPersonClo[18, resultsPersonClo.get(18)+1);
-				double res =Long.getLong(String.valueOf(listOfCourseAnswers.get(i).getClo19();
-				if(res !=null)
-				resultsPercentage[18] = res +resultsPercentage[18];
+				Integer res =listOfCourseAnswers.get(i).getClo19();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(18);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(18,clo);
 			}
 			
 			
 			if(listOfCourseAnswers.get(i).getClo20()!=null) {
-				resultsPersonClo[19, resultsPersonClo.get(19)+1);
-				double res =listOfCourseAnswers.get(i).getClo20();
-				if(res !=null)
-				resultsPercentage[19] = res +resultsPercentage[19];
+				Integer res =listOfCourseAnswers.get(i).getClo20();
+				res=res-1;
+				cloResult clo=resultsPersonPercntageClo.get(19);
+				clo.numberOfPersons=clo.numberOfPersons+1;
+				int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+				
+				numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+				clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+				resultsPersonPercntageClo.set(19,clo);
 			}
 		}
 		
-		for(int i=0;i<resultsPercentage.size();i++) {
+		
+		
+		for(int i=0;i<resultsPersonPercntageClo.size();i++) {
 			
-			resultsPercentage.set(i, resultsPercentage.get(i)/5);
-			System.out.println(resultsPercentage.get(i));
-			
+			for(int j=0;j<resultsPersonPercntageClo.get(i).percentage.length;j++) {
+				if(resultsPersonPercntageClo.get(i).getNumberOfPersons()!=0)
+					resultsPersonPercntageClo.get(i).percentage[j] = resultsPersonPercntageClo.get(i).getEachGradeCloPersons()[j]/resultsPersonPercntageClo.get(i).getNumberOfPersons()*100;
+				
+			}
 		}
+
+		
+		
 		}
 		
 	}
@@ -296,7 +413,7 @@ public class courseCloBean implements Serializable{
 		selectedAnswerForStudentAndCourse.setStudentId(studentThisAccount);
 		clo_survey_ansFacade.addclo_survey_ans(selectedAnswerForStudentAndCourse);
 		
-		 JavaScriptMessagesHandler.RegisterNotificationMessage(null, courses.size()+" course(s) has(have) been saved Successfully");
+		 JavaScriptMessagesHandler.RegisterNotificationMessage(null, " Your Survey have been saved Successfully");
 	}
 
 	private void doStudentProcendure(String mail) {
@@ -309,9 +426,13 @@ public class courseCloBean implements Serializable{
 	}
 
 
+	public void getListOfCoursesByYearAndSemester() {
+
+		listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+	}
+	
 	public void refresh(){
 		
-		listOfAllCourses = course_cloFacade.getAll();
 		
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -383,9 +504,33 @@ public class courseCloBean implements Serializable{
 		List<course_clo> dataList = new ArrayList<course_clo>();
 		for(int i=0;i<listOfUploadedCourses2.size();i++) {
 			course_clo c0=listOfUploadedCourses2.get(i);
-			course_clo c1=course_cloFacade.getAllByYearAndSemestarAndCourseCode(c0.getYear(),c0.getSemestar(), c0.getCourse_code());
+			course_clo c1=course_cloFacade.getAllByYearAndSemestarAndCourseCode(c0.getYear(),c0.getSemester().getValue(), c0.getCourse_code());
 			if(c1==null) {
 				dataList.add(c0);
+			}else {
+				c1.setClo1(c0.getClo1());
+				c1.setClo2(c0.getClo2());
+				c1.setClo3(c0.getClo3());
+				c1.setClo4(c0.getClo4());
+				c1.setClo5(c0.getClo5());
+				c1.setClo6(c0.getClo6());
+				c1.setClo7(c0.getClo7());
+				c1.setClo8(c0.getClo8());
+				c1.setClo9(c0.getClo9());
+				c1.setClo10(c0.getClo10());
+				c1.setClo11(c0.getClo11());
+				c1.setClo12(c0.getClo12());
+				c1.setClo13(c0.getClo13());
+				c1.setClo14(c0.getClo14());
+				c1.setClo15(c0.getClo15());
+				c1.setClo16(c0.getClo16());
+				c1.setClo17(c0.getClo17());
+				c1.setClo18(c0.getClo18());
+				c1.setClo19(c0.getClo19());
+				c1.setClo20(c0.getClo20());
+				c1.setProgram(c0.getProgram());
+				
+				dataList.add(c1);
 			}
 		}
 		return dataList;
@@ -435,14 +580,22 @@ public class courseCloBean implements Serializable{
 					if (withNewCount == 3) { // Course_code 
 						String data = theIntgerDataAdaptedTo(cell);
 						if(data!=null) {
-							course.setYear(data);
+							float f=Float.valueOf(data);
+							course.setYear((int)f);
 						}
 					}
 					
 					if (withNewCount == 4) { // Semestar 
 						String data = theIntgerDataAdaptedTo(cell);
 						if(data!=null) {
-							course.setSemestar(data);
+							if(data.equalsIgnoreCase("Fall")) {
+								course.setSemester(SemesterEnum.Fall);
+							}else if(data.equalsIgnoreCase("Spring")) {
+								course.setSemester(SemesterEnum.Spring);
+							}else if(data.equalsIgnoreCase("Summer")) {
+								course.setSemester(SemesterEnum.Summer);
+							}
+							
 						}
 					}
 					
@@ -592,7 +745,7 @@ public class courseCloBean implements Serializable{
 					
 				}
 
-				course.setDate(new Date());
+				
 				dataList.add(course);
 	 	       }
 			
@@ -840,21 +993,30 @@ public class courseCloBean implements Serializable{
 		this.selectedAnswerForStudentAndCourse = selectedAnswerForStudentAndCourse;
 	}
 
-	public List<Integer> getResultsPersonClo() {
-		return resultsPersonClo;
+	public List<cloResult> getResultsPersonPercntageClo() {
+		return resultsPersonPercntageClo;
 	}
 
-	public void setResultsPersonClo(List<Integer> resultsPersonClo) {
-		this.resultsPersonClo = resultsPersonClo;
+	public void setResultsPersonPercntageClo(List<cloResult> resultsPersonPercntageClo) {
+		this.resultsPersonPercntageClo = resultsPersonPercntageClo;
 	}
 
-	public List<Long> getResultsPercentage() {
-		return resultsPercentage;
+	public Integer getSemesterSelected() {
+		return semesterSelected;
 	}
 
-	public void setResultsPercentage(List<Long> resultsPercentage) {
-		this.resultsPercentage = resultsPercentage;
+	public void setSemesterSelected(Integer semesterSelected) {
+		this.semesterSelected = semesterSelected;
 	}
+
+	public Integer getYearSelected() {
+		return yearSelected;
+	}
+
+	public void setYearSelected(Integer yearSelected) {
+		this.yearSelected = yearSelected;
+	}
+
 
 
 	

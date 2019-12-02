@@ -13,8 +13,8 @@ import java.util.List;
 public interface Icourse_cloAppService {
 
 	public List<course_clo> getAll();
-	public List<course_clo> getAllByYearAndSemestar(String year,String semestar);
-	public course_clo getAllByYearAndSemestarAndCourseCode(String year,String semestar,String courseCode);
+	public List<course_clo> getAllByYearAndSemestar(int year,int semestar);
+	public course_clo getAllByYearAndSemestarAndCourseCode(int year,int semestar,String courseCode);
 	public course_clo addcourse_clo(course_clo data);
 	public course_clo getById(int id);
 	public boolean delete(course_clo data)throws Exception;

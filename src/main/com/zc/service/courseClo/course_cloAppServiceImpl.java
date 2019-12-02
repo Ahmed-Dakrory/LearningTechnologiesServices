@@ -87,7 +87,7 @@ public class course_cloAppServiceImpl implements Icourse_cloAppService{
 	
 
 	@Override
-	public List<course_clo> getAllByYearAndSemestar(String year, String semestar) {
+	public List<course_clo> getAllByYearAndSemestar(int year, int semestar) {
 		try{
 			List<course_clo> course=course_cloDataRepository.getAllByYearAndSemestar(year, semestar);
 			
@@ -103,7 +103,7 @@ public class course_cloAppServiceImpl implements Icourse_cloAppService{
 
 
 	@Override
-	public course_clo getAllByYearAndSemestarAndCourseCode(String year, String semestar, String courseCode) {
+	public course_clo getAllByYearAndSemestarAndCourseCode(int year, int semestar, String courseCode) {
 		// TODO Auto-generated method stub
 				try{
 					course_clo so=course_cloDataRepository.getAllByYearAndSemestarAndCourseCode(year,  semestar,  courseCode);
