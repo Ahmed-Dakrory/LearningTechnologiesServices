@@ -61,6 +61,11 @@
 								<h:outputText value="#{row.semester}" />
 								<p:watermark value="Semester" forElement="pageForm:studentCourseTable:semester:filter"/>
 							</p:column>
+							
+							<p:column width="130" id="clo1" sortBy="#{row.clo1}" filterBy="#{row.clo1}">
+								<h:outputText value="#{row.clo1}" />
+								<p:watermark value="CLO 1" forElement="pageForm:studentCourseTable:clo1:filter"/>
+							</p:column>
 						</p:dataTable>
 								<p:commandButton id="save" actionListener="#{courseCloBean.saveCourse}" value="Save New Courses" 
 						update="studentCourseTable "  process="@form" rendered="#{courseCloBean.resultText}"/>

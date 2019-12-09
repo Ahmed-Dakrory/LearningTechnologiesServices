@@ -809,6 +809,7 @@ public class courseCloBean implements Serializable{
 	{
 		for(int i=0;i<courses.size();i++) {
 			course_cloFacade.addcourse_clo(courses.get(i));
+			//System.out.println("Dakrory: "+courses.get(i).getCourse_code());
 		}
 		if(courses.size()!=0)
 		{

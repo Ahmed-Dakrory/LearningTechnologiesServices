@@ -84,6 +84,14 @@ public class CoursesInstructorsConfigBean {
 		semesterLst.add(new BaseDTO(1,"Spring"));
 		semesterLst.add(new BaseDTO(2,"Summer"));
 		//semesterLst.add(new BaseDTO(3,"Winter"));
+		
+		yearLst=new ArrayList<Integer>();
+		 setSelectedYear(null);
+		 setSelectedCourseID(null);
+		for(int i=2013;i<2031;i++)
+		{
+			yearLst.add(i);
+		}
 	}
 	public void fillYearLst(AjaxBehaviorEvent event)
 	{

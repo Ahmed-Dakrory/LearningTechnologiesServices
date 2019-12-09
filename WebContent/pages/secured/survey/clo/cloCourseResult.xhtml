@@ -26,7 +26,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Feedback" />
-							<p:menuitem value="Courses Clo Evaluation" disabled="true" />
+							<p:menuitem value="Courses CLO Evaluation" disabled="true" />
 							<p:menuitem value="Evaluation Results" disabled="true" />
 						</p:breadCrumb>
 					</li>
@@ -97,20 +97,20 @@
 										<td class="tdClass" style="background: #c1a570;">
 										
 										</td>
-									<td  class="tdClass"  colspan="2">
+									<td  class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'}" colspan="2">
 											<div>Excellent</div>
 										</td>
-										<td class="tdClass" colspan="2">
+										<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'}"  colspan="2">
 											<div>Very good</div>
 										</td>
-										<td class="tdClass" colspan="2">
+										<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'}"  colspan="2">
 											<div>good</div>
 										</td>
-										<td class="tdClass" colspan="2">
-											<div>Weak</div>
+										<td class="tdClass"  style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'}"  colspan="2">
+											<div>Fair</div>
 										</td>
-										<td class="tdClass" colspan="2">
-											<div>Very Weak</div>
+										<td class="tdClass"  style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'}"  colspan="2">
+											<div>Needs Improvement</div>
 										</td>
 										
 										<td class="tdClass" >
@@ -125,25 +125,25 @@
 												<div>CLO #{clo.cloNumber}</div>
 											</td>
 											
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
 											
 											
 											
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
 											
 										
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
 											
 
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
 											
 											
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
+											<td class="tdClass" style="display:#{leftNavigationMenuBean.headOrStudent?'':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
 											
 											
 											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">

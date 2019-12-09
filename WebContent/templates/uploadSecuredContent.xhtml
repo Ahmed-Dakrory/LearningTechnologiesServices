@@ -38,7 +38,7 @@
 						<h3>Feedback</h3>
 						<p:commandLink ajax="false" immediate="true" value="Feedback Form"  action="#{leftNavigationMenuBean.renderGenFeedback}" class="#{leftNavigationMenuBean.getActiveCssName('Feedback Form')}" />
 						<p:commandLink ajax="false" immediate="true" value="Submitted Feedbacks" rendered="#{leftNavigationMenuBean.admin}" action="#{leftNavigationMenuBean.renderShowFeedback}" class="#{leftNavigationMenuBean.getActiveCssName('Submitted Feedback')}"/>
-						<p:commandLink ajax="false" immediate="true" value="Clo Survey" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
+						<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
                         <h3>Petitions</h3>
 						<p:commandLink ajax="false" immediate="true" value="Academic Petition" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderAcademicPet}"  class="#{leftNavigationMenuBean.getActiveCssName('Academic Petition')}"/>
                         <p:commandLink ajax="false" immediate="true" value="Course Replacement" rendered="#{leftNavigationMenuBean.headOrStudent}" action="#{leftNavigationMenuBean.renderChangeCourseConfirmation}"  class="#{leftNavigationMenuBean.getActiveCssName('Comfirmation for Change course')}"/>
@@ -82,7 +82,7 @@
 				    class="#{leftNavigationMenuBean.getActiveCssName('Forms Settings')}"/>
 				    
 				    
-				     <p:commandLink ajax="false" immediate="true" value="Clo Survey Config" rendered="#{leftNavigationMenuBean.admin}" 
+				     <p:commandLink ajax="false" immediate="true" value="CLO Survey Config" rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToAddCourseSurvey}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey Config')}"/>
 				    
