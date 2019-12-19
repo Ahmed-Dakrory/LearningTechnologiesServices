@@ -25,30 +25,35 @@ public class SendEmailAppServiceImpl implements ISendEmailAppService{
 	public boolean sendMail(ArrayList<String> emailLstTO,ArrayList<String> emailLstCC,ArrayList<String> emailLstBCC, String content, String subject) {
 try{
 			
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.socketFactory.port", "465");
-			props.put("mail.smtp.socketFactory.class",
-					"javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
+	
+	String from = "LearningTechnologies@zewailcity.edu.eg";
+    String pass = "DELF-651984@dr";
+	
+    
+	// TODO Auto-generated method stub
+	 Properties props = System.getProperties();
 
-			Session session = Session.getDefaultInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(
-									"LearningTechnologies@zewailcity.edu.eg",
-									"learningtechnologies@zc");
-						}
-					});
-			Message message = new MimeMessage(session);
+       String host = "smtp.gmail.com";
+       props.put("mail.smtp.starttls.enable", "true");
+       props.put("mail.smtp.host", host);
+       props.put("mail.smtp.user", from);
+       props.put("mail.smtp.password",pass);
+       props.put("mail.smtp.port", "587");
+       props.put("mail.smtp.auth", "true");
 
+       Session session = Session.getDefaultInstance(props);
+       MimeMessage message = new MimeMessage(session);
+
+
+			
+			
 			message.setFrom(new InternetAddress(
-					"LearningTechnologies@zewailcity.edu.eg"));
+					from));
 
 			message.setSubject(subject);
 
 			message.setContent(content, "text/html; charset=ISO-8859-1");
+			
 
 			
 			if(emailLstTO!=null)
@@ -88,7 +93,10 @@ try{
 				}
 			}
 		
-			Transport.send(message);
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
 
 		
 return true;

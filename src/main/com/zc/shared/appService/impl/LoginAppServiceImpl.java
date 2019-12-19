@@ -6,7 +6,6 @@ package main.com.zc.shared.appService.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,10 +121,14 @@ public class LoginAppServiceImpl implements ILoginAppService {
 	public LoginStaffDTO checkRegisteryOFMail(String mail) {
 		try {
 			LoginData login = loginStaffRep.getByMail(mail);
+			if(login!=null) {
 			LoginStaffDTO dao = new LoginStaffDTO(login.getId(),
 					login.getName(), login.getMail(), login.getPassword());
 
 			return dao;
+			}else {
+				return null;
+			}
 		} catch (IndexOutOfBoundsException ex) {
 			return null;
 		}

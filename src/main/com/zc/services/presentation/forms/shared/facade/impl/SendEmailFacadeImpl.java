@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import main.com.zc.services.applicationService.shared.service.ISendEmailAppService;
 import main.com.zc.services.presentation.forms.shared.facade.ISendEmailFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Omnya Alaa
@@ -33,45 +32,36 @@ public class SendEmailFacadeImpl implements ISendEmailFacade{
 	public boolean sendEmail(String senderName, String senderEmail,
 			String content, String title) {
 try{
-			
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.socketFactory.port", "465");
-			props.put("mail.smtp.socketFactory.class",
-					"javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
+	String from = "LearningTechnologies@zewailcity.edu.eg";
+    String pass = "DELF-651984@dr";
+	
+	// TODO Auto-generated method stub
+	 Properties props = System.getProperties();
 
-			Session session = Session.getDefaultInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(
-									"LearningTechnologies@zewailcity.edu.eg",
-									"learningtechnologies@zc");
-						}
-					});
+        String host = "smtp.gmail.com";
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.user", from);
+        props.put("mail.smtp.password", pass);
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+
+        Session session = Session.getDefaultInstance(props);
+        MimeMessage message = new MimeMessage(session);
 
 			javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 			
-			/* addressTo[0] = new javax.mail.internet.InternetAddress(
-			  "oalaaeddin@zewailcity.edu.eg");*/
-			 
-			/* addressTo[0] = new javax.mail.internet.InternetAddress(
-					  "mshoieb@zewailcity.edu.eg");*/
-					
+			
 			 
 			 //TODO the real sender
 			addressTo[0] = new javax.mail.internet.InternetAddress(senderEmail);
 
 
-			/* Message message = new MimeMessage(session); */
-			Message message = new MimeMessage(session);
-
+			
 			message.setFrom(new InternetAddress(
-					"LearningTechnologies@zewailcity.edu.eg"));
+					from));
 			message.setRecipients(Message.RecipientType.TO, addressTo);
 
-			message.setSubject(title);
 
 			String htmlText = "<div style=width:700px;margin:0 auto;font:normal 13px/30px Segoe, Segoe UI, DejaVu Sans, Trebuchet MS, Verdana, sans-serif !important;>"
 					+ "<ul style=margin:0;padding:0;>"
@@ -113,18 +103,16 @@ try{
 					+ " <br/><b><span style=color:#a1a0a0;font-size:11px;>Follow us:</sapn></b><a href=https://www.facebook.com/learning.technologies.zewailcity title=ZC LT Facebook><img src=\"http://zclt.info/ZCTestMail/facebook_square.png\"  alt=ZC LT Facebook style=vertical-align:middle;/></a>"
 					+ "  <a href=https://www.youtube.com/channel/UCiajXXIv0rCpxVIgCDekm2A title=ZC LT Youtube><img src=\"http://zclt.info/ZCTestMail/youtube_square.png\"   alt=ZC LT Youtube style=vertical-align:middle;/></a>"
 					+ "</div>" + "</li>" + "</ul>" + "</div>";
-			/*
-			 * message.setText("Dear " + dao.getName() + " ," +
-			 * "\n Your Password is : " + dao.getPassword() + "\n\n Regards"
-			 * + "\n Learning Technologies Department" +
-			 * "\n\n Please do not reply to this email ");
-			 * 
-			 * Transport.send(message);
-			 */
+			
 
-			message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+			 message.setSubject(title);
+	            message.setText(htmlText);
 
-			Transport.send(message);
+	    		message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+	            Transport transport = session.getTransport("smtp");
+	            transport.connect(host, from, pass);
+	            transport.sendMessage(message, message.getAllRecipients());
+	            transport.close();
 
 		/*	JavaScriptMessagesHandler.RegisterNotificationMessage("",
 					"Please, Check Your Inbox");

@@ -90,6 +90,8 @@ public class LoginDataRepositoryImpl implements ILoginDataRepository {
 
 		@SuppressWarnings("unchecked")
 		List<LoginData> results = query.list();
+		if(results.size()<1)
+			return null;
 		return results.get(0);
 	}
 

@@ -15,7 +15,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -170,22 +169,23 @@ public class CoursesAvailableForIns {
 		References references=referencesFacade.getById(refId);
 				try{
 					if (references != null) { // Implementation of sending mails
-						Properties props = new Properties();
-						props.put("mail.smtp.host", "smtp.gmail.com");
-						props.put("mail.smtp.socketFactory.port", "465");
-						props.put("mail.smtp.socketFactory.class",
-								"javax.net.ssl.SSLSocketFactory");
-						props.put("mail.smtp.auth", "true");
-						props.put("mail.smtp.port", "465");
 
-						Session session = Session.getDefaultInstance(props,
-								new javax.mail.Authenticator() {
-									protected PasswordAuthentication getPasswordAuthentication() {
-										return new PasswordAuthentication(
-												"LearningTechnologies@zewailcity.edu.eg",
-												"learningtechnologies@zc");
-									}
-								});
+						String from = "LearningTechnologies@zewailcity.edu.eg";
+					    String pass = "DELF-651984@dr";
+						
+						// TODO Auto-generated method stub
+						 Properties props = System.getProperties();
+
+					        String host = "smtp.gmail.com";
+					        props.put("mail.smtp.starttls.enable", "true");
+					        props.put("mail.smtp.host", host);
+					        props.put("mail.smtp.user", from);
+					        props.put("mail.smtp.password", pass);
+					        props.put("mail.smtp.port", "587");
+					        props.put("mail.smtp.auth", "true");
+
+					        Session session = Session.getDefaultInstance(props);
+					        MimeMessage message = new MimeMessage(session);
 
 						javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 						
@@ -193,11 +193,8 @@ public class CoursesAvailableForIns {
 		     						"rramzy@zewailcity.edu.eg");
 			
 
-						/* Message message = new MimeMessage(session); */
-						Message message = new MimeMessage(session);
-
 						message.setFrom(new InternetAddress(
-								"LearningTechnologies@zewailcity.edu.eg"));
+								from));
 						message.setRecipients(Message.RecipientType.TO, addressTo);
 
 						message.setSubject("Book details for purchase order");
@@ -260,10 +257,13 @@ public class CoursesAvailableForIns {
 						 * Transport.send(message);
 						 */
 
-						message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+			            message.setText(htmlText);
 
-						Transport.send(message);
-
+			    		message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+			            Transport transport = session.getTransport("smtp");
+			            transport.connect(host, from, pass);
+			            transport.sendMessage(message, message.getAllRecipients());
+			            transport.close();
 						JavaScriptMessagesHandler.RegisterNotificationMessage("",
 								"Email Sent");
 						// System.out.println("Done sending ");

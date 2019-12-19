@@ -45,11 +45,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		try {
 
 			LoginStaffDTO dao = loginSecAppService.getUserByMail(username);
+			if(dao!=null) {
 			Collection<GrantedAuthority> studentAuthorities = new ArrayList<GrantedAuthority>();
 			studentAuthorities.add(new GrantedAuthorityImpl("ROLE_REGISTERED"));
 			UserDetails user = new User(username, dao.getPassword(), true,
 					true, true, true, studentAuthorities);
 			return user;
+			}else {
+				throw new UsernameNotFoundException("UserAccount for name \""
+						+ username + "\" not found.");
+				
+			}
 		} catch (IndexOutOfBoundsException ex) {
 			throw new UsernameNotFoundException("UserAccount for name \""
 					+ username + "\" not found.");

@@ -30,6 +30,7 @@ public class LoginSecurityAppServiceImpl implements ILoginSecurityAppService {
 	
 		try{
 		LoginData loginStaff=loginStaffRep.getByMail(mail);
+		if(loginStaff!=null) {
 		LoginStaffDTO dao=new LoginStaffDTO(loginStaff.getId(),
 				loginStaff.getName(),loginStaff.getMail(), loginStaff.getPassword());
 		if(loginStaff.getMail().startsWith("S-")||loginStaff.getMail().startsWith("s-")||StringUtils.isNumeric(loginStaff.getMail().substring(0, 4)))
@@ -38,6 +39,9 @@ public class LoginSecurityAppServiceImpl implements ILoginSecurityAppService {
 		dao.setFileNo(per.getFileNo());
 		}
 		return dao;
+		}else {
+			return null;
+		}
 	}
 	catch(Exception ex)
 	{

@@ -672,22 +672,22 @@ public void exportReservedBooks() {
 					//Student
 					try{
 						if (selectedStudent.getMail() != null) { // Implementation of sending mails
-							Properties props = new Properties();
-							props.put("mail.smtp.host", "smtp.gmail.com");
-							props.put("mail.smtp.socketFactory.port", "465");
-							props.put("mail.smtp.socketFactory.class",
-									"javax.net.ssl.SSLSocketFactory");
-							props.put("mail.smtp.auth", "true");
-							props.put("mail.smtp.port", "465");
+							String from = "LearningTechnologies@zewailcity.edu.eg";
+						    String pass = "DELF-651984@dr";
+							
+							// TODO Auto-generated method stub
+							 Properties props = System.getProperties();
 
-							Session session = Session.getDefaultInstance(props,
-									new javax.mail.Authenticator() {
-										protected PasswordAuthentication getPasswordAuthentication() {
-											return new PasswordAuthentication(
-													"LearningTechnologies@zewailcity.edu.eg",
-													"learningtechnologies@zc");
-										}
-									});
+						        String host = "smtp.gmail.com";
+						        props.put("mail.smtp.starttls.enable", "true");
+						        props.put("mail.smtp.host", host);
+						        props.put("mail.smtp.user", from);
+						        props.put("mail.smtp.password", pass);
+						        props.put("mail.smtp.port", "587");
+						        props.put("mail.smtp.auth", "true");
+
+						        Session session = Session.getDefaultInstance(props);
+						        MimeMessage message = new MimeMessage(session);
 
 							javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 							
@@ -695,11 +695,9 @@ public void exportReservedBooks() {
 			     						selectedStudent.getMail());
 				
 
-							/* Message message = new MimeMessage(session); */
-							Message message = new MimeMessage(session);
-
+							
 							message.setFrom(new InternetAddress(
-									"LearningTechnologies@zewailcity.edu.eg"));
+									from));
 							message.setRecipients(Message.RecipientType.TO, addressTo);
 
 							message.setSubject("Need The Reserved Books");
@@ -753,9 +751,13 @@ public void exportReservedBooks() {
 							 * Transport.send(message);
 							 */
 
-							message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+					            message.setText(htmlText);
 
-							Transport.send(message);
+					    		message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+					            Transport transport = session.getTransport("smtp");
+					            transport.connect(host, from, pass);
+					            transport.sendMessage(message, message.getAllRecipients());
+					            transport.close();
 
 							JavaScriptMessagesHandler.RegisterNotificationMessage("",
 									"Email Sent");
@@ -778,22 +780,23 @@ public void exportReservedBooks() {
 					//inst
 					try{
 						if (selectedIns.getMail() != null) { // Implementation of sending mails
-							Properties props = new Properties();
-							props.put("mail.smtp.host", "smtp.gmail.com");
-							props.put("mail.smtp.socketFactory.port", "465");
-							props.put("mail.smtp.socketFactory.class",
-									"javax.net.ssl.SSLSocketFactory");
-							props.put("mail.smtp.auth", "true");
-							props.put("mail.smtp.port", "465");
+							String from = "LearningTechnologies@zewailcity.edu.eg";
+						    String pass = "DELF-651984@dr";
+							
+							// TODO Auto-generated method stub
+							 Properties props = System.getProperties();
 
-							Session session = Session.getDefaultInstance(props,
-									new javax.mail.Authenticator() {
-										protected PasswordAuthentication getPasswordAuthentication() {
-											return new PasswordAuthentication(
-													"LearningTechnologies@zewailcity.edu.eg",
-													"learningtechnologies@zc");
-										}
-									});
+						        String host = "smtp.gmail.com";
+						        props.put("mail.smtp.starttls.enable", "true");
+						        props.put("mail.smtp.host", host);
+						        props.put("mail.smtp.user", from);
+						        props.put("mail.smtp.password", pass);
+						        props.put("mail.smtp.port", "587");
+						        props.put("mail.smtp.auth", "true");
+
+						        Session session = Session.getDefaultInstance(props);
+						        MimeMessage message = new MimeMessage(session);
+
 
 							javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 							
@@ -801,11 +804,8 @@ public void exportReservedBooks() {
 			     						selectedIns.getMail());
 				
 
-							/* Message message = new MimeMessage(session); */
-							Message message = new MimeMessage(session);
-
 							message.setFrom(new InternetAddress(
-									"LearningTechnologies@zewailcity.edu.eg"));
+									from));
 							message.setRecipients(Message.RecipientType.TO, addressTo);
 
 							message.setSubject("Need The Reserved Books");
@@ -859,9 +859,13 @@ public void exportReservedBooks() {
 							 * Transport.send(message);
 							 */
 
-							message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+					            message.setText(htmlText);
 
-							Transport.send(message);
+					    		message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+					            Transport transport = session.getTransport("smtp");
+					            transport.connect(host, from, pass);
+					            transport.sendMessage(message, message.getAllRecipients());
+					            transport.close();
 
 							JavaScriptMessagesHandler.RegisterNotificationMessage("",
 									"Email Sent");
@@ -884,22 +888,22 @@ public void exportReservedBooks() {
 					//TA
 					try{
 						if (selectedTa.getMail() != null) { // Implementation of sending mails
-							Properties props = new Properties();
-							props.put("mail.smtp.host", "smtp.gmail.com");
-							props.put("mail.smtp.socketFactory.port", "465");
-							props.put("mail.smtp.socketFactory.class",
-									"javax.net.ssl.SSLSocketFactory");
-							props.put("mail.smtp.auth", "true");
-							props.put("mail.smtp.port", "465");
+							String from = "LearningTechnologies@zewailcity.edu.eg";
+						    String pass = "DELF-651984@dr";
+							
+							// TODO Auto-generated method stub
+							 Properties props = System.getProperties();
 
-							Session session = Session.getDefaultInstance(props,
-									new javax.mail.Authenticator() {
-										protected PasswordAuthentication getPasswordAuthentication() {
-											return new PasswordAuthentication(
-													"LearningTechnologies@zewailcity.edu.eg",
-													"learningtechnologies@zc");
-										}
-									});
+						        String host = "smtp.gmail.com";
+						        props.put("mail.smtp.starttls.enable", "true");
+						        props.put("mail.smtp.host", host);
+						        props.put("mail.smtp.user", from);
+						        props.put("mail.smtp.password", pass);
+						        props.put("mail.smtp.port", "587");
+						        props.put("mail.smtp.auth", "true");
+
+						        Session session = Session.getDefaultInstance(props);
+						        MimeMessage message = new MimeMessage(session);
 
 							javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 							
@@ -907,11 +911,9 @@ public void exportReservedBooks() {
 			     						selectedTa.getMail());
 				
 
-							/* Message message = new MimeMessage(session); */
-							Message message = new MimeMessage(session);
-
+							
 							message.setFrom(new InternetAddress(
-									"LearningTechnologies@zewailcity.edu.eg"));
+									from));
 							message.setRecipients(Message.RecipientType.TO, addressTo);
 
 							message.setSubject("Need The Reserved Books");
@@ -965,9 +967,13 @@ public void exportReservedBooks() {
 							 * Transport.send(message);
 							 */
 
-							message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+					            message.setText(htmlText);
 
-							Transport.send(message);
+					    		message.setContent(htmlText, "text/html; charset=ISO-8859-1");
+					            Transport transport = session.getTransport("smtp");
+					            transport.connect(host, from, pass);
+					            transport.sendMessage(message, message.getAllRecipients());
+					            transport.close();
 
 							JavaScriptMessagesHandler.RegisterNotificationMessage("",
 									"Email Sent");

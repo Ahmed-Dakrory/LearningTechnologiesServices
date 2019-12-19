@@ -16,9 +16,10 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -38,7 +39,6 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
@@ -113,6 +113,8 @@ public class LoginBean {
 	public String login() {
 		try {
 			// System.out.println("HI >>>>> ");
+			LoginStaffDTO daoUSerLogin =  getLoginfacade().checkRegisteryOFMail(mail);
+			if(daoUSerLogin!=null) {
 			boolean success = authenticationService.login(mail, password);
 
 			if (success) {
@@ -156,6 +158,12 @@ public class LoginBean {
 			} else {
 				JavaScriptMessagesHandler.RegisterErrorMessage(null,
 						"The email or password you entered is incorrect. ");
+				return "";
+			}
+			
+			}else {
+				JavaScriptMessagesHandler.RegisterErrorMessage(null,
+						"The email is not registered");
 				return "";
 			}
 		} catch (Exception ex) {
@@ -332,6 +340,60 @@ public class LoginBean {
 
 	}
 
+	
+	private static boolean sendFromGMail( final  InternetAddress[] toAddress, final String subject, final String body,final String problemMessage,final String successMessage) {
+		 
+				
+				String from = "LearningTechnologies@zewailcity.edu.eg";
+		        String pass = "DELF-651984@dr";
+				
+				// TODO Auto-generated method stub
+				 Properties props = System.getProperties();
+
+			        String host = "smtp.gmail.com";
+			        props.put("mail.smtp.starttls.enable", "true");
+			        props.put("mail.smtp.host", host);
+			        props.put("mail.smtp.user", from);
+			        props.put("mail.smtp.password", pass);
+			        props.put("mail.smtp.port", "587");
+			        props.put("mail.smtp.auth", "true");
+
+			        Session session = Session.getDefaultInstance(props);
+			        MimeMessage message = new MimeMessage(session);
+
+			        try {
+			            message.setFrom(new InternetAddress(from));
+						message.setRecipients(Message.RecipientType.TO, toAddress);
+			            
+
+			            message.setSubject(subject);
+			            message.setText(body);
+
+			    		message.setContent(body, "text/html; charset=ISO-8859-1");
+			            Transport transport = session.getTransport("smtp");
+			            transport.connect(host, from, pass);
+			            transport.sendMessage(message, message.getAllRecipients());
+			            transport.close();
+			            System.out.println("Done Email Send");JavaScriptMessagesHandler.RegisterErrorMessage("",
+								successMessage);
+			            return true;
+			        }
+			        catch (AddressException ae) {
+			            ae.printStackTrace();
+			            JavaScriptMessagesHandler.RegisterErrorMessage("",
+								problemMessage);
+			            return false;
+			        }
+			        catch (MessagingException me) {
+			            me.printStackTrace();
+			            JavaScriptMessagesHandler.RegisterErrorMessage("",
+								problemMessage);
+			            return false;
+			        }
+			        
+		
+	       
+	    }
 	public void forgetPassword() {
 		try {
 			LoginStaffDTO dao = loginfacade.checkRegisteryOFMail(forgetMail);
@@ -339,43 +401,14 @@ public class LoginBean {
 				String generatedPassword= UUID.randomUUID().toString().replace("-", "").substring(0,6).toUpperCase();
 				dao.setPassword(generatedPassword);
 				loginAppService.changePassword(forgetMail, generatedPassword);
-				Properties props = new Properties();
-				props.put("mail.smtp.host", "smtp.gmail.com");
-				props.put("mail.smtp.socketFactory.port", "587");
-				props.put("mail.smtp.socketFactory.class",
-						"javax.net.ssl.SSLSocketFactory");
-				props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.port", "587");
-
-				Session session = Session.getDefaultInstance(props,
-						new javax.mail.Authenticator() {
-							protected PasswordAuthentication getPasswordAuthentication() {
-								return new PasswordAuthentication(
-										"LearningTechnologies@zewailcity.edu.eg",
-										"learningtechnologies@zc");
-							}
-						});
-
+						
 				javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 				
-				/* addressTo[0] = new javax.mail.internet.InternetAddress(
-				  "oalaaeddin@zewailcity.edu.eg");*/
-				/* addressTo[0] = new javax.mail.internet.InternetAddress(
-						  "oalaaeddin@zewailcity.edu.eg");*/
-				/* addressTo[0] = new javax.mail.internet.InternetAddress(
-						  "mshoieb@zewailcity.edu.eg");*/
      				addressTo[0] = new javax.mail.internet.InternetAddress(
 						forgetMail);
 	
 
-				/* Message message = new MimeMessage(session); */
-				Message message = new MimeMessage(session);
 
-				message.setFrom(new InternetAddress(
-						"LearningTechnologies@zewailcity.edu.eg"));
-				message.setRecipients(Message.RecipientType.TO, addressTo);
-
-				message.setSubject("Forgetting Password");
 
 				String htmlText = "<div style=width:700px;margin:0 auto;font:normal 13px/30px Segoe, Segoe UI, DejaVu Sans, Trebuchet MS, Verdana, sans-serif !important;>"
 						+ "<ul style=margin:0;padding:0;>"
@@ -419,35 +452,20 @@ public class LoginBean {
 						+ " <br/><b><span style=color:#a1a0a0;font-size:11px;>Follow us:</sapn></b><a href=https://www.facebook.com/learning.technologies.zewailcity title=ZC LT Facebook><img src=\"http://zclt.info/ZCTestMail/facebook_square.png\"  alt=ZC LT Facebook style=vertical-align:middle;/></a>"
 						+ "  <a href=https://www.youtube.com/channel/UCiajXXIv0rCpxVIgCDekm2A title=ZC LT Youtube><img src=\"http://zclt.info/ZCTestMail/youtube_square.png\"   alt=ZC LT Youtube style=vertical-align:middle;/></a>"
 						+ "</div>" + "</li>" + "</ul>" + "</div>";
-				/*
-				 * message.setText("Dear " + dao.getName() + " ," +
-				 * "\n Your Password is : " + dao.getPassword() + "\n\n Regards"
-				 * + "\n Learning Technologies Department" +
-				 * "\n\n Please do not reply to this email ");
-				 * 
-				 * Transport.send(message);
-				 */
-
-				message.setContent(htmlText, "text/html; charset=ISO-8859-1");
-
-				Transport.send(message);
-
-				JavaScriptMessagesHandler.RegisterNotificationMessage("",
-						"Please, Check Your Inbox");
-				// System.out.println("Done sending ");
-
-			} else {
-				JavaScriptMessagesHandler.RegisterErrorMessage("",
-						"This email address is not registered in the system!");
+				
+			sendFromGMail( addressTo, "Forgetting Password",htmlText,"This email address is not registered in the system!","Please, Check Your Inbox");
+			
 			}
-
-		} catch (Exception excep) {
-			excep.printStackTrace();
-			JavaScriptMessagesHandler.RegisterErrorMessage("",
-					"This email address is not registered in the system!");
-
+			}catch (Exception e) {
+				// TODO: handle exception
+				
+				JavaScriptMessagesHandler.RegisterErrorMessage("",
+						"Problem!!");
+			}
+			
+			
+			
 		}
-	}
 
 	public String confirmCode() {
 
@@ -488,6 +506,7 @@ public class LoginBean {
 
 	}
 	public String confirmRegisteration() {
+		if(isZewailAccount(getRegisterMail().toLowerCase())) {
 		try {
 
 			if (registerPassword.equals(registerConfirmPass) == false) {
@@ -553,7 +572,20 @@ public class LoginBean {
 			JavaScriptMessagesHandler.RegisterErrorMessage("", "Error");
 			return "";
 		}
+		}
+		else {
+			JavaScriptMessagesHandler.RegisterErrorMessage("", "This is not Zewail Email");
+		
+			return "";
+			}
 
+	}
+
+	private boolean isZewailAccount(String lowerCase) {
+		// TODO Auto-generated method stub
+		if(lowerCase.toLowerCase().contains("@zewailcity.edu.eg"))
+			return true;
+		return false;
 	}
 
 	public String getMail() {

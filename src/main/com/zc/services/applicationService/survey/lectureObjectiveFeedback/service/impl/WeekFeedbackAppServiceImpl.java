@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -16,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import main.com.zc.services.applicationService.configuration.services.ICoursesService;
 import main.com.zc.services.applicationService.configuration.services.IStudentsCoursesNumberAppService;
 import main.com.zc.services.applicationService.persons.service.IInstructorAppService;
@@ -646,22 +646,22 @@ public class WeekFeedbackAppServiceImpl implements IWeekFeedbackAppService{
 	public boolean sendMail(String email,String content,String subject){
 	try{
 			
-			Properties props = new Properties();
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.socketFactory.port", "465");
-			props.put("mail.smtp.socketFactory.class",
-					"javax.net.ssl.SSLSocketFactory");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
+		String from = "LearningTechnologies@zewailcity.edu.eg";
+	    String pass = "DELF-651984@dr";
+		
+		// TODO Auto-generated method stub
+		 Properties props = System.getProperties();
 
-			Session session = Session.getDefaultInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(
-									"LearningTechnologies@zewailcity.edu.eg",
-									"learningtechnologies@zc");
-						}
-					});
+	        String host = "smtp.gmail.com";
+	        props.put("mail.smtp.starttls.enable", "true");
+	        props.put("mail.smtp.host", host);
+	        props.put("mail.smtp.user", from);
+	        props.put("mail.smtp.password", pass);
+	        props.put("mail.smtp.port", "587");
+	        props.put("mail.smtp.auth", "true");
+
+	        Session session = Session.getDefaultInstance(props);
+	        MimeMessage message = new MimeMessage(session);
 
 			javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[1];
 			
@@ -678,19 +678,20 @@ public class WeekFeedbackAppServiceImpl implements IWeekFeedbackAppService{
 			addressCC[0] = new javax.mail.internet.InternetAddress("teachingeffectiveness@zewailcity.edu.eg");
 
 
-			/* Message message = new MimeMessage(session); */
-			Message message = new MimeMessage(session);
 
 			message.setFrom(new InternetAddress(
-					"LearningTechnologies@zewailcity.edu.eg"));
+					from));
 			message.setRecipients(Message.RecipientType.TO, addressTo);
 			message.setRecipients(Message.RecipientType.CC, addressCC);
 
 			message.setSubject(subject);
+            message.setText(content);
 
-			message.setContent(content, "text/html; charset=ISO-8859-1");
-
-			Transport.send(message);
+    		message.setContent(content, "text/html; charset=ISO-8859-1");
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, from, pass);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
 
 			/*JavaScriptMessagesHandler.RegisterNotificationMessage("",
 					"Please, Check Your Inbox");*/
