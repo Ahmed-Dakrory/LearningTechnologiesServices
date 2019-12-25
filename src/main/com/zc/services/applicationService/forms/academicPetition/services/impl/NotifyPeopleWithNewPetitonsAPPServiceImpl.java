@@ -74,7 +74,7 @@ public class NotifyPeopleWithNewPetitonsAPPServiceImpl implements
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(
 								"learningtechnologies@zewailcity.edu.eg",
-								"learningtechnologies@zc");
+								"DELF-651984@dr");
 					}
 				});
 
