@@ -209,4 +209,44 @@ public class BookCopiesAppServiceImpl implements IBookCopiesAppService{
 		}
 	}
 
+	@Override
+	public List<BookCopiesDTO> getAllFree() {
+		List<BookCopies> copies=new ArrayList<BookCopies>();
+		List<BookCopiesDTO> dtos=new ArrayList<BookCopiesDTO>();
+		try{
+			copies=rep.getAllFree();
+		for(int i=0;i<copies.size();i++)
+		{
+			BookCopiesDTO dto=assem.toDTO(copies.get(i));
+			dtos.add(dto);
+			
+		}
+		return dtos;
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Override
+	public List<BookCopiesDTO> getAllHeld() {
+		List<BookCopies> copies=new ArrayList<BookCopies>();
+		List<BookCopiesDTO> dtos=new ArrayList<BookCopiesDTO>();
+		try{
+			copies=rep.getAllHeld();
+		for(int i=0;i<copies.size();i++)
+		{
+			BookCopiesDTO dto=assem.toDTO(copies.get(i));
+			dtos.add(dto);
+			
+		}
+		return dtos;
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
 }

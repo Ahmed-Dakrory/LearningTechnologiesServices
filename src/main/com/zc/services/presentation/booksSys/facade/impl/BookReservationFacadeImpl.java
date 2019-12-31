@@ -4,7 +4,10 @@
 package main.com.zc.services.presentation.booksSys.facade.impl;
 
 import java.util.List;
-import javax.faces.bean.ManagedProperty;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import main.com.zc.services.applicationService.booksSys.service.IBookInstructorService;
 import main.com.zc.services.applicationService.booksSys.service.IBookStudentService;
 import main.com.zc.services.presentation.booksSys.dto.BookInstructorDTO;
@@ -12,8 +15,6 @@ import main.com.zc.services.presentation.booksSys.dto.BookStudentDTO;
 import main.com.zc.services.presentation.booksSys.facade.IBookReservationFacade;
 import main.com.zc.services.presentation.configuration.facade.ICourseInstructorFacade;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author omnya

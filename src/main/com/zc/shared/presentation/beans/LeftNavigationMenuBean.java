@@ -1690,6 +1690,9 @@ public String navigateBookSys(Integer page)
 	}else if(page==4)
 	{
 		return "/pages/secured/booksSys/booksAllReserved.xhtml?faces-redirect=true";
+	}else if(page==5)
+	{
+		return "/pages/secured/booksSys/booksAllOnStore.xhtml?faces-redirect=true";
 	}
 	else{
 		return "/pages/public/login.xhtml?faces-redirect=true";

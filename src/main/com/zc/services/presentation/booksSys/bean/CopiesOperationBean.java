@@ -96,6 +96,7 @@ public class CopiesOperationBean {
 	private String numberOfBooksD;
 	private int numberOfBooksN;
 	private List<BookCopiesDTO> allstudentBooksReserved;
+	private List<BookCopiesDTO> allstudentBooksinOurStore;
 	
 	
 	
@@ -107,13 +108,13 @@ public class CopiesOperationBean {
 
 		 refresh();
 		
-		 
+		 refreshInOurBookStore();
 	}
 	public void refresh() {
-		List<BookCopiesDTO> allstudentBooksCopies = booksCopiesFacade.getAll();
+		List<BookCopiesDTO> allstudentBooksCopies = booksCopiesFacade.getAllHeld();
 		allstudentBooksReserved=new ArrayList<BookCopiesDTO>();
 		for(int i=0;i<allstudentBooksCopies.size();i++) {
-			if(allstudentBooksCopies.get(i).getStatus()==BookStatusEnum.HELD) {
+			
 				BookCopiesDTO bookReserved = allstudentBooksCopies.get(i);
 				
 				Calendar instr=Calendar.getInstance();
@@ -155,7 +156,56 @@ public class CopiesOperationBean {
 				}
 				allstudentBooksReserved.add(bookReserved);
 				
-			}
+			
+		}
+	}
+	
+	public void refreshInOurBookStore() {
+		List<BookCopiesDTO> allstudentBooksCopies = booksCopiesFacade.getAllFree();
+		allstudentBooksinOurStore=new ArrayList<BookCopiesDTO>();
+		for(int i=0;i<allstudentBooksCopies.size();i++) {
+				BookCopiesDTO bookReserved = allstudentBooksCopies.get(i);
+				
+				Calendar instr=Calendar.getInstance();
+				instr.setTimeInMillis(0);
+				Calendar stud=Calendar.getInstance();
+				stud.setTimeInMillis(0);
+
+				PersonDataDTO personInstructor=new PersonDataDTO();
+				PersonDataDTO personStudent=new PersonDataDTO();
+				List<BookInstructorDTO> bookInstructor= bookReservationFacade.getByBarCodeIns(bookReserved.getBarCode());
+				
+				if(bookInstructor!=null) {
+					if(bookInstructor.size()>0) {
+
+				 instr = bookInstructor.get(0).getDate();
+				 personInstructor.setEmail(bookInstructor.get(0).getInstructor().getMail());
+				 personInstructor.setNameInEng(bookInstructor.get(0).getInstructor().getName());
+				
+					}
+				}
+				
+				List<BookStudentDTO> bookStudent= bookReservationFacade.getByBarCodeStudent(bookReserved.getBarCode());
+				if(bookStudent!=null) {
+					if(bookStudent.size()>0) {
+						System.out.println(bookStudent.get(bookStudent.size()-1).getStudent().getName());
+				 stud = bookStudent.get(0).getDate();
+
+				 personStudent.setEmail(bookStudent.get(0).getStudent().getMail());
+				 personStudent.setNameInEng(bookStudent.get(0).getStudent().getName());
+				}
+				}
+				
+				if(instr.getTimeInMillis()>stud.getTimeInMillis()) {
+					bookReserved.setLastOper(instr);
+					bookReserved.setLastPerson(personInstructor);
+				}else {
+					bookReserved.setLastOper(stud);
+					bookReserved.setLastPerson(personStudent);
+				}
+				allstudentBooksinOurStore.add(bookReserved);
+				
+			
 		}
 	}
 	
@@ -439,50 +489,96 @@ public class CopiesOperationBean {
 	
 	}
 
-public void exportReservedBooks() {
-	 HSSFWorkbook wb = new HSSFWorkbook();
-      HSSFSheet sheet = wb.createSheet();
-      
-      HSSFRow row;
-       
-      row = sheet.createRow((short)0);
-      row.createCell((short)0).setCellValue("Book");
-      row.createCell((short)1).setCellValue("Course");
-      row.createCell((short)2).setCellValue("Bar Code");
-      row.createCell((short)3).setCellValue("Date");
-      row.createCell((short)4).setCellValue("Name");
-      row.createCell((short)5).setCellValue("Email");
-      
-      for (int i = 0; i < allstudentBooksReserved.size(); i++){
-        	row = sheet.createRow((short)i+1);
-        	row.createCell((short)0).setCellValue(allstudentBooksReserved.get(i).getBook().getName());
-	 	        row.createCell((short)1).setCellValue(allstudentBooksReserved.get(i).getBook().getCourse().getName());
-	 	        row.createCell((short)2).setCellValue(allstudentBooksReserved.get(i).getBarCode());
-	 	      row.createCell((short)3).setCellValue(getFriendlyDate(allstudentBooksReserved.get(i).getLastOper()));
-	 	        row.createCell((short)4).setCellValue(allstudentBooksReserved.get(i).getLastPerson().getNameInEng());
-	 	        row.createCell((short)5).setCellValue(allstudentBooksReserved.get(i).getLastPerson().getEmail());
-      }
-      
-      
-      HttpServletResponse response =
-               (HttpServletResponse) FacesContext.getCurrentInstance()
-                   .getExternalContext().getResponse();
-       response.setContentType("application/vnd.ms-excel");
-       response.setHeader("Content-disposition",  "attachment; filename=ReportOfAllBooks.xls");
-        
-       try {
-           ServletOutputStream out = response.getOutputStream();
-  
-            wb.write(out);
-            out.flush();
-            out.close();
-        
-      } catch (IOException ex) { 
-              ex.printStackTrace();
-      }
-        
-    
-}
+	public void exportReservedBooks() {
+		 HSSFWorkbook wb = new HSSFWorkbook();
+	      HSSFSheet sheet = wb.createSheet();
+	      
+	      HSSFRow row;
+	       
+	      row = sheet.createRow((short)0);
+	      row.createCell((short)0).setCellValue("Book");
+	      row.createCell((short)1).setCellValue("Course");
+	      row.createCell((short)2).setCellValue("Bar Code");
+	      row.createCell((short)3).setCellValue("Date");
+	      row.createCell((short)4).setCellValue("Name");
+	      row.createCell((short)5).setCellValue("Email");
+	      
+	      for (int i = 0; i < allstudentBooksReserved.size(); i++){
+	        	row = sheet.createRow((short)i+1);
+	        	row.createCell((short)0).setCellValue(allstudentBooksReserved.get(i).getBook().getName());
+		 	        row.createCell((short)1).setCellValue(allstudentBooksReserved.get(i).getBook().getCourse().getName());
+		 	        row.createCell((short)2).setCellValue(allstudentBooksReserved.get(i).getBarCode());
+		 	      row.createCell((short)3).setCellValue(getFriendlyDate(allstudentBooksReserved.get(i).getLastOper()));
+		 	        row.createCell((short)4).setCellValue(allstudentBooksReserved.get(i).getLastPerson().getNameInEng());
+		 	        row.createCell((short)5).setCellValue(allstudentBooksReserved.get(i).getLastPerson().getEmail());
+	      }
+	      
+	      
+	      HttpServletResponse response =
+	               (HttpServletResponse) FacesContext.getCurrentInstance()
+	                   .getExternalContext().getResponse();
+	       response.setContentType("application/vnd.ms-excel");
+	       response.setHeader("Content-disposition",  "attachment; filename=ReportOfAllBooks.xls");
+	        
+	       try {
+	           ServletOutputStream out = response.getOutputStream();
+	  
+	            wb.write(out);
+	            out.flush();
+	            out.close();
+	        
+	      } catch (IOException ex) { 
+	              ex.printStackTrace();
+	      }
+	        
+	    
+	}
+	
+	
+	public void exportOnOurStoreBook() {
+		 HSSFWorkbook wb = new HSSFWorkbook();
+	      HSSFSheet sheet = wb.createSheet();
+	      
+	      HSSFRow row;
+	       
+	      row = sheet.createRow((short)0);
+	      row.createCell((short)0).setCellValue("Book");
+	      row.createCell((short)1).setCellValue("Course");
+	      row.createCell((short)2).setCellValue("Bar Code");
+	      row.createCell((short)3).setCellValue("Date");
+	      row.createCell((short)4).setCellValue("Name");
+	      row.createCell((short)5).setCellValue("Email");
+	      
+	      for (int i = 0; i < allstudentBooksinOurStore.size(); i++){
+	        	row = sheet.createRow((short)i+1);
+	        	row.createCell((short)0).setCellValue(allstudentBooksinOurStore.get(i).getBook().getName());
+		 	        row.createCell((short)1).setCellValue(allstudentBooksinOurStore.get(i).getBook().getCourse().getName());
+		 	        row.createCell((short)2).setCellValue(allstudentBooksinOurStore.get(i).getBarCode());
+		 	      row.createCell((short)3).setCellValue(getFriendlyDate(allstudentBooksinOurStore.get(i).getLastOper()));
+		 	        row.createCell((short)4).setCellValue(allstudentBooksinOurStore.get(i).getLastPerson().getNameInEng());
+		 	        row.createCell((short)5).setCellValue(allstudentBooksinOurStore.get(i).getLastPerson().getEmail());
+	      }
+	      
+	      
+	      HttpServletResponse response =
+	               (HttpServletResponse) FacesContext.getCurrentInstance()
+	                   .getExternalContext().getResponse();
+	       response.setContentType("application/vnd.ms-excel");
+	       response.setHeader("Content-disposition",  "attachment; filename=ReportOfAllBooks.xls");
+	        
+	       try {
+	           ServletOutputStream out = response.getOutputStream();
+	  
+	            wb.write(out);
+	            out.flush();
+	            out.close();
+	        
+	      } catch (IOException ex) { 
+	              ex.printStackTrace();
+	      }
+	        
+	    
+	}
 
 	  public void ExportReport(){
 	    	
@@ -1169,6 +1265,12 @@ public IBookReservationFacade getBookReservationFacade() {
 	}
 	public void setAllstudentBooksReserved(List<BookCopiesDTO> allstudentBooksReserved) {
 		this.allstudentBooksReserved = allstudentBooksReserved;
+	}
+	public List<BookCopiesDTO> getAllstudentBooksinOurStore() {
+		return allstudentBooksinOurStore;
+	}
+	public void setAllstudentBooksinOurStore(List<BookCopiesDTO> allstudentBooksinOurStore) {
+		this.allstudentBooksinOurStore = allstudentBooksinOurStore;
 	}
 	
 	

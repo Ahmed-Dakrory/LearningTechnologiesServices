@@ -24,6 +24,8 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQueries({
 
 	@NamedQuery(name = "BookCopies.getAll", query = "SELECT d FROM BookCopies d "),
+	@NamedQuery(name = "BookCopies.getAllFree", query = "SELECT d FROM BookCopies d where d.status = 0 "),
+	@NamedQuery(name = "BookCopies.getAllHeld", query = "SELECT d FROM BookCopies d where d.status = 1 "),
 	@NamedQuery(name = "BookCopies.getById", query = "from BookCopies d where d.id = :id "),
 	@NamedQuery(name = "BookCopies.getByCourseID", query = "from BookCopies d where d.book.course.id = :id"),
 	@NamedQuery(name = "BookCopies.getByBookID", query = "from BookCopies d where d.book.id = :id"),

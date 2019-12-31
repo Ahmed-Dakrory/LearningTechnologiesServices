@@ -131,6 +131,42 @@ public class BookCopiesRepImpl implements IBookCopiesRep {
 				return null;
 			}
 	}
+	
+	
+	@Override
+	public List<BookCopies> getAllFree() {
+		try{
+			Query query = sessionFactory.getCurrentSession().getNamedQuery("BookCopies.getAllFree");
+
+			@SuppressWarnings("unchecked")
+			List<BookCopies> results = query.list();
+			return results;
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error in getting forms ");
+				ex.printStackTrace();
+				return null;
+			}
+	}
+	
+	
+	@Override
+	public List<BookCopies> getAllHeld() {
+		try{
+			Query query = sessionFactory.getCurrentSession().getNamedQuery("BookCopies.getAllHeld");
+
+			@SuppressWarnings("unchecked")
+			List<BookCopies> results = query.list();
+			return results;
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error in getting forms ");
+				ex.printStackTrace();
+				return null;
+			}
+	}
 
 	@Override
 	public List<BookCopies> getByCourseID(Integer id) {

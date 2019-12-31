@@ -68,4 +68,18 @@ public class BookCopiesFacadeImpl implements  IBookCopiesFacade {
 		return service.getByBarCode(code);
 	}
 
+	@Override
+	public List<BookCopiesDTO> getAllFree() {
+		// TODO Auto-generated method stub
+
+		return service.getAllFree();
+	}
+	
+	@Override
+	public List<BookCopiesDTO> getAllHeld() {
+		// TODO Auto-generated method stub
+
+		return service.getAllHeld();
+	}
+
 }

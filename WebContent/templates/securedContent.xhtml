@@ -192,6 +192,11 @@
 				    <p:commandLink ajax="false" immediate="true" value="All Books Reserved" rendered="#{leftNavigationMenuBean.booksSysMode}" 
 					action="#{leftNavigationMenuBean.navigateBookSys(4)}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Returns')}"/>
+				    
+				    <p:commandLink ajax="false" immediate="true" value="All Books On Store" rendered="#{leftNavigationMenuBean.booksSysMode}" 
+					action="#{leftNavigationMenuBean.navigateBookSys(5)}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Returns')}"/>
+				    
 				  	<p:commandLink ajax="false" immediate="true" value="Surveys" rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToSurveyConfig(1)}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Surveys')}"/>

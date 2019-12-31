@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Books System</ui:define>
+		<ui:define name="content">
+		
+		<!-- 
+		#{CopiesOperationBean.refresh()}
+		 -->
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Books System" />
+							<p:menuitem value="on Store" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<br/>
+			
+			<h:form>
+			<p:commandButton value="Generate Report" 
+									 actionListener="#{CopiesOperationBean.exportOnOurStoreBook}" ajax="false" 
+							  update="dlgForm:addPanel :pageForm:dataPnl" styleClass="greenBtn" 
+							 />
+			
+			</h:form>
+			
+			<div class="pannelWrapper">
+				<p:panel>
+					<h:form id="pageForm" >
+						<p:dataTable var="row"  value="#{CopiesOperationBean.allstudentBooksinOurStore}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
+				widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true" selection="#{CopiesOperationBean.selectedStudentBooks}"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+                         	>
+								
+
+						<p:column width="130" id="book" sortBy="#{row.book.name}"
+							filterBy="#{row.book.name}">
+							<h:outputText value="#{row.book.name}" />
+							<p:watermark forElement="pageForm:booksTable:book:filter"
+								value="Book" />
+						</p:column>
+						
+						<p:column width="130" id="course" sortBy="#{row.book.course.name}"
+							filterBy="#{row.book.course.name}">
+							<h:outputText value="#{row.book.course.name}-#{row.book.course.semester}-#{row.book.course.year}" />
+							<p:watermark forElement="pageForm:booksTable:course:filter"
+								value="Course" />
+						</p:column>
+						
+						<p:column width="130" id="code" sortBy="#{row.barCode}"
+							filterBy="#{row.barCode}">
+							<h:outputText value="#{row.barCode}" />
+							<p:watermark forElement="pageForm:booksTable:code:filter"
+								value="Bar Code" />
+						</p:column>
+						
+						
+
+						<p:column width="130" id="date" sortBy="#{CopiesOperationBean.getFriendlyDate(row.lastOper)}"
+							filterBy="#{CopiesOperationBean.getFriendlyDate(row.lastOper)}">
+							<h:outputText value="#{CopiesOperationBean.getFriendlyDate(row.lastOper)}" />
+							<p:watermark forElement="pageForm:booksTable:date:filter"
+								value="Date" />
+						</p:column>
+						
+						<p:column width="130" id="name" sortBy="#{row.lastPerson.nameInEng}"
+							filterBy="#{row.lastPerson.nameInEng}">
+							<h:outputText value="#{row.lastPerson.nameInEng}" />
+							<p:watermark forElement="pageForm:booksTable:name:filter"
+								value="name" />
+						</p:column>
+						
+						<p:column width="130" id="email" sortBy="#{row.lastPerson.email}"
+							filterBy="#{row.lastPerson.email}">
+							<h:outputText value="#{row.lastPerson.email}" />
+							<p:watermark forElement="pageForm:booksTable:email:filter"
+								value="Email" />
+						</p:column>
+
+					</p:dataTable>
+					</h:form>
+				</p:panel>
+			</div>
+			
+			</ui:define>
+			<ui:define name="confirmDialogBox">
+				
+   			</ui:define>
+		</ui:composition>
+</html>
