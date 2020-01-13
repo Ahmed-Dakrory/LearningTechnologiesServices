@@ -30,6 +30,8 @@ import main.com.zc.service.courseClo.course_cloAppServiceImpl;
 import main.com.zc.service.student.IStudentGetDataAppService;
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
+import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
+import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
@@ -64,6 +66,8 @@ public class courseCloBean implements Serializable{
 
 
 
+	@ManagedProperty("#{IFormsStatusFacade}")
+   	private IFormsStatusFacade facadeSettings;
 
 
 	@ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
@@ -433,7 +437,13 @@ public class courseCloBean implements Serializable{
 	
 	public void refresh(){
 		
+		FormsStatusDTO settingCLO = facadeSettings.getById(18);
+		semesterSelected = Integer.valueOf(settingCLO.getSemester().getId());
 		
+		yearSelected = settingCLO.getYear();
+		
+		System.out.println("Dakrory: Year"+yearSelected+"Semestar: "+semesterSelected);
+		getListOfCoursesByYearAndSemester();
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -1016,6 +1026,14 @@ public class courseCloBean implements Serializable{
 
 	public void setYearSelected(Integer yearSelected) {
 		this.yearSelected = yearSelected;
+	}
+
+	public IFormsStatusFacade getFacadeSettings() {
+		return facadeSettings;
+	}
+
+	public void setFacadeSettings(IFormsStatusFacade facadeSettings) {
+		this.facadeSettings = facadeSettings;
 	}
 
 

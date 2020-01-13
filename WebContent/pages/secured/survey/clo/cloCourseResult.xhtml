@@ -33,28 +33,7 @@
 				</ul>
 				<div class="pannelWrapper">
 				
-				<table>
-							<tr>
-								<td>
-									<p:selectOneMenu id="semester" value="#{courseCloBean.semesterSelected}" required="true" requiredMessage="Please select semester">
-										<f:selectItem itemLabel="Select Semester" />
-										<f:selectItems var="semester" value="#{CoursesInstructorsConfigBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
-										<p:ajax listener="#{CoursesInstructorsConfigBean.fillYearLst}" update="year"/>	
-									</p:selectOneMenu>
-									<p:message for="semester" />
-								</td>
-								<td width="12">&nbsp;</td>
-								<td>
-									<p:selectOneMenu id="year" value="#{courseCloBean.yearSelected}" required="true" requiredMessage="Please select year">
-										<f:selectItem itemLabel="Select Year" />
-										<f:selectItems var="year" value="#{CoursesInstructorsConfigBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
-										<p:ajax listener="#{courseCloBean.getListOfCoursesByYearAndSemester}" update="pageContent"/>
-									</p:selectOneMenu>
-									<p:message for="year" />
-								</td>
-								
-								</tr>
-							</table>
+			
 							
 							
 					<h:panelGroup id="pageContent">

@@ -117,14 +117,14 @@ public class LeftNavigationMenuBean {
     private StudentFacadeImpl studentFacadeImpl;
 	
 	
-	
+	private boolean cloAvailable=false;
 	
 	@PostConstruct
 	public void init() {
 		
 
 		currentMenuId = "Dashboard";
-		
+		cloAvailable =(formStatus.getById(18).getStatus().getValue())==0?true:false;
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -2645,6 +2645,18 @@ else
 
 	public void setHeadOrStudent(boolean headOrStudent) {
 		this.headOrStudent = headOrStudent;
+	}
+
+
+
+	public boolean isCloAvailable() {
+		return cloAvailable;
+	}
+
+
+
+	public void setCloAvailable(boolean cloAvailable) {
+		this.cloAvailable = cloAvailable;
 	}
 
 	
