@@ -5,7 +5,7 @@ public class cloResult {
 	int cloNumber=0;
 	int numberOfPersons=0;
 	int[] eachGradeCloPersons=new int[5];
-	double[] percentage=new double[5];
+	float[] percentage=new float[5];
 	
 	public cloResult(int cloNumber) {
 		// TODO Auto-generated constructor stub
@@ -48,7 +48,7 @@ public class cloResult {
 
 
 
-	public double[] getPercentage() {
+	public float[] getPercentage() {
 		return percentage;
 	}
 
@@ -56,7 +56,7 @@ public class cloResult {
 
 
 
-	public void setPercentage(double[] percentage) {
+	public void setPercentage(float[] percentage) {
 		this.percentage = percentage;
 	}
 

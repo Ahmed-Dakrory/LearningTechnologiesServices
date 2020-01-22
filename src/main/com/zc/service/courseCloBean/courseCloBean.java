@@ -11,10 +11,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -125,6 +128,47 @@ public class courseCloBean implements Serializable{
 			selectedAnswerForStudentAndCourse=new clo_survey_ans();
 		}
 	}
+	
+	public void getListOfAllCoursesThreshold() {
+		List<cloThreshold> allCoursesThresoldResults=new ArrayList<cloThreshold>();
+		for(int i=0;i<listOfAllCourses.size();i++) {
+			 course_clo courseCLO = course_cloFacade.getById(listOfAllCourses.get(i).getId());
+			listOfCourseAnswers=clo_survey_ansFacade.getAllByCourseId(courseCLO.getId());
+			System.out.println("Ahmed Result: "+courseCLO.getCourse_code());
+			cloThreshold course_threshold=new cloThreshold(listOfCourseAnswers, courseCLO);
+			
+			allCoursesThresoldResults.add(course_threshold);
+		}
+		
+		if(allCoursesThresoldResults.size()>0) {
+			generateFile(allCoursesThresoldResults);
+		}
+	}
+	
+	public void generateFile(List<cloThreshold> allCoursesThresoldResults){
+		 HSSFWorkbook workbook = new HSSFWorkbook();
+		    HSSFSheet sheet = workbook.createSheet();
+		    
+		    ReportFileGeneration reportFileGeneration=new ReportFileGeneration(allCoursesThresoldResults,workbook, sheet);
+		    
+		    reportFileGeneration.generateReport();
+
+		    FacesContext facesContext = FacesContext.getCurrentInstance();
+		    ExternalContext externalContext = facesContext.getExternalContext();
+		    externalContext.setResponseContentType("application/vnd.ms-excel");
+		    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+
+		    try {
+				workbook.write(externalContext.getResponseOutputStream());
+				System.out.println("Done");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println(e.toString());
+			}
+		    facesContext.responseComplete();
+	}
+	
 	
 	public void selectTheCourseResults() {
 		
@@ -392,12 +436,15 @@ public class courseCloBean implements Serializable{
 		
 		
 		for(int i=0;i<resultsPersonPercntageClo.size();i++) {
-			
+			cloResult cR= resultsPersonPercntageClo.get(i);
 			for(int j=0;j<resultsPersonPercntageClo.get(i).percentage.length;j++) {
-				if(resultsPersonPercntageClo.get(i).getNumberOfPersons()!=0)
-					resultsPersonPercntageClo.get(i).percentage[j] = resultsPersonPercntageClo.get(i).getEachGradeCloPersons()[j]/resultsPersonPercntageClo.get(i).getNumberOfPersons()*100;
-				
+				if(resultsPersonPercntageClo.get(i).getNumberOfPersons()!=0) {
+					cR.percentage[j]= ((float)cR.getEachGradeCloPersons()[j])/((float) cR.getNumberOfPersons())*100;
+					
+				}
 			}
+			
+			resultsPersonPercntageClo.set(i, cR);
 		}
 
 		

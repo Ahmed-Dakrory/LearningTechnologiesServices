@@ -43,7 +43,9 @@
 						<f:selectItems value="#{courseCloBean.listOfAllCourses}" var="data" itemLabel="#{data.course_code}" itemValue="#{data.id}" />
 						</h:selectOneMenu>
 						 
+						 
 						</p:panel>
+						 <p:commandButton rendered="#{leftNavigationMenuBean.headOrStudent}" value="Generate Total Result Sheet" ajax="false"   action="#{courseCloBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
 						
 						
 						<p:panel id="surveyPanel" >
@@ -69,7 +71,6 @@
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
 									<br></br>
-									
 									<table>
 									<thead>
 									<tr  style="background: darkkhaki;">
