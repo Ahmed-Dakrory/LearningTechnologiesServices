@@ -156,7 +156,12 @@ public class StudentProfileRepImpl implements IStudentProfileRep{
 
 			@SuppressWarnings("unchecked")
 			List<StudentProfile> results = query.list();
-			return results.get(0);
+			if(results.size()>0) {
+
+				return results.get(0);
+			}else {
+				return null;
+			}
 			}
 			catch(Exception ex)
 			{
