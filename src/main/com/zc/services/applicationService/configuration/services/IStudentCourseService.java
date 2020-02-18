@@ -26,6 +26,7 @@ public interface IStudentCourseService {
 	public List<CoursesDTO> parseCoursesFile(InputStream input);
 	public List<CoursesDTO> saveCourses( List<CoursesDTO> List);
 	public List<StudentDTO> getNewStudents(List<StudentDTO> originalList);
+	public List<StudentDTO> getOldStudents(List<StudentDTO> originalList);
 	public boolean addStudent(StudentDTO student);
 	public List<CoursesDTO> getNewCourses(List<CoursesDTO> originalList);
 	public List<StudentDTO> getAllStudents() ;

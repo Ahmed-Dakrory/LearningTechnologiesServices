@@ -103,7 +103,14 @@ public class DataRepository implements IDataRepository {
 
 			@SuppressWarnings("unchecked")
 			List<Data> results = query.list();
-			return results.get(0);
+			
+				if(results.size()>0) {
+
+					return results.get(0);
+				}else {
+					return null;
+				}
+			
 			}
 			catch(Exception ex)
 			{

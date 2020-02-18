@@ -23,7 +23,7 @@ public interface IStudentProfileRep {
 
 	public StudentProfile getById(Integer id);
 	
-	public List<StudentProfile>getByStudentID(Integer id);
+	public  List<StudentProfile> getByStudentID(Integer id);
 	
 	public List<StudentProfile>getBySemesterAndYear(Integer sem, Integer year);
 	

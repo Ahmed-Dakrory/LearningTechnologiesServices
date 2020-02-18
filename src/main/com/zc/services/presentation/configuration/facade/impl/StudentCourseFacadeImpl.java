@@ -133,5 +133,10 @@ public class StudentCourseFacadeImpl implements IStudentCourseFacade{
 		return service.getCoursesOfInstructorBySemesterAndYear(insID, year, semeter);
 	}
 
+	@Override
+	public List<StudentDTO> getOldStudents(List<StudentDTO> originalList) {
+		return service.getOldStudents(originalList);
+	}
+
 
 }

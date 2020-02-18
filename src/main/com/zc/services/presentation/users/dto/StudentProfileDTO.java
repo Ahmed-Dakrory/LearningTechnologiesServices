@@ -14,8 +14,10 @@ public class StudentProfileDTO {
 
 
 	private Integer  id;
-	
+
 	private MajorDTO major;
+	
+	private String minor;
 	
 	private Concentration concentration;
 	
@@ -140,6 +142,14 @@ public class StudentProfileDTO {
 
 	public void setConcentration(Concentration concentration) {
 		this.concentration = concentration;
+	}
+
+	public String getMinor() {
+		return minor;
+	}
+
+	public void setMinor(String minor) {
+		this.minor = minor;
 	}
 	
 	

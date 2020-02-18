@@ -24,6 +24,7 @@ import org.hibernate.annotations.NamedQuery;
 
 	@NamedQuery(name = "Concentration.getAll", query = "SELECT d FROM Concentration d"),
 	@NamedQuery(name = "Concentration.getById", query = "from Concentration d where d.id = :id "),
+	@NamedQuery(name = "Concentration.getByName", query = "from Concentration d where d.name = :name "),
 	@NamedQuery(name = "Concentration.getByParentID", query = "from Concentration d where d.parent = :id ")
 
 	

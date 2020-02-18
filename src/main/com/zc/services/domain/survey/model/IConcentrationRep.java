@@ -16,6 +16,7 @@ public interface IConcentrationRep {
 	public Concentration update(Concentration form);
 	public List<Concentration> getAll();
 	public Concentration getById(Integer id);
+	public Concentration getByName(String name);
 	public List<Concentration> getByParentID(Integer id);
 	public boolean hide(Integer id);
 }

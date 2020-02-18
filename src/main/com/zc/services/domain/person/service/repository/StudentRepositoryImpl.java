@@ -25,7 +25,7 @@ public class StudentRepositoryImpl implements IStudentRepository {
 
 	@Override
 	public int add(Student person) {
-		session.getCurrentSession().save(person);
+		session.getCurrentSession().saveOrUpdate(person);
 		return person.getId();
 	}
 

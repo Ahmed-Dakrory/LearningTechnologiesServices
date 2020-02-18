@@ -14,6 +14,7 @@ public class StudentDTO {
 	private Integer id;
 	private Integer facultyId;
 	private String phone;
+	private String address;
 	private StudentProfileDTO studentProfileDTO;
 	
 	public String getName() {
@@ -51,6 +52,12 @@ public class StudentDTO {
 	}
 	public void setStudentProfileDTO(StudentProfileDTO studentProfileDTO) {
 		this.studentProfileDTO = studentProfileDTO;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	

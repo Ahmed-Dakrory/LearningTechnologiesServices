@@ -209,6 +209,7 @@ public class StudentProfileServiceImpl implements IStudentProfileService {
 		}
 		return dtos;
 	}
+	
 
 	@Override
 	public List<StudentProfileDTO> getBySemesterAndYear(Integer sem,

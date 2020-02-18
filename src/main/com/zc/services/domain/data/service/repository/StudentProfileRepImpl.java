@@ -111,15 +111,16 @@ public class StudentProfileRepImpl implements IStudentProfileRep{
 	}
 
 	@Override
-	public List<StudentProfile> getByStudentID(Integer id) {
+	public  List<StudentProfile> getByStudentID(Integer id) {
 		try{
 			Query query = sessionFactory.getCurrentSession()
 					.getNamedQuery("StudentProfile.getByStudentID").setInteger("id", id);
 
 			@SuppressWarnings("unchecked")
 			List<StudentProfile> results = query.list();
+			
 			return results;
-			}
+		}
 			catch(Exception ex)
 			{
 				

@@ -50,7 +50,10 @@ public class ImportStudentsBean {
 //	  private StreamedContent downloadFile;
 	@ManagedProperty("#{IStudentCourseFacade}")
 	private IStudentCourseFacade facade; 
-	 
+
+	List<StudentDTO> newStudents;
+	List<StudentDTO> oldStudents;
+	
 	
 	@PostConstruct
 	public void init()
@@ -65,7 +68,7 @@ public class ImportStudentsBean {
 		 try {
 			inputStream=file.getInputstream();
 			List<StudentDTO> list=facade.praseStudentFile(inputStream);
-			list.remove(list.get(list.size()-1));
+			//list.remove(list.get(list.size()-1));
 		    students=list;
 		    Map<Integer, StudentDTO> map = new LinkedHashMap();
 		    for (StudentDTO ays : list) {
@@ -78,12 +81,13 @@ public class ImportStudentsBean {
 		    students=list;
 			System.out.println("Size : "+students.size());
 			// see if students existed in database or not 
-			List<StudentDTO> newStudents=facade.getNewStudents(students);
-
+			newStudents=facade.getNewStudents(students);
+			oldStudents =facade.getOldStudents(students);
+			
 			System.out.println("Ahmed Dakrory2: List: "+String.valueOf(newStudents.size()));
 			newStudentsSize=newStudents.size();
 			originalSize=students.size();
-			students=newStudents;
+			//students=newStudents;
 			renderResultText=true;
 			// get file original size 
 			// get the new students to save them
@@ -106,13 +110,23 @@ public class ImportStudentsBean {
 		}  
 	 public void saveStudents(){
 		 boolean add=true;
-		 for(int i=0;i<students.size();i++)
+		 for(int i=0;i<newStudents.size();i++)
 		 {
-			 add&=facade.addStudent(students.get(i));
+
+			 add&=facade.addStudent(newStudents.get(i));
+		 }
+		 
+		 for(int i=0;i<oldStudents.size();i++)
+		 {
+
+			 add&=facade.addStudent(oldStudents.get(i));
 		 }
 		 if(add)
 		 {
 			 JavaScriptMessagesHandler.RegisterNotificationMessage(null, students.size()+" student(s) has(have) been saved Successfully"); 
+			 students =new ArrayList<>();
+			 newStudents =new ArrayList<>();
+			 oldStudents =new ArrayList<>();
 		 }
 	 }
 
@@ -231,6 +245,26 @@ public class ImportStudentsBean {
 
 	public void setRenderResultText(boolean renderResultText) {
 		this.renderResultText = renderResultText;
+	}
+
+
+	public List<StudentDTO> getNewStudents() {
+		return newStudents;
+	}
+
+
+	public void setNewStudents(List<StudentDTO> newStudents) {
+		this.newStudents = newStudents;
+	}
+
+
+	public List<StudentDTO> getOldStudents() {
+		return oldStudents;
+	}
+
+
+	public void setOldStudents(List<StudentDTO> oldStudents) {
+		this.oldStudents = oldStudents;
 	}
 
 

@@ -153,6 +153,23 @@ public class ConcentrationRepImpl implements IConcentrationRep {
 			session.close();
 		}
 	}
+	@Override
+	public Concentration getByName(String name) {
+		try{
+			Query query = sessionFactory.getCurrentSession()
+					.getNamedQuery("Concentration.getByName").setString("name", name);
+
+			@SuppressWarnings("unchecked")
+			List<Concentration> results = query.list();
+			return results.get(0);
+			}
+			catch(Exception ex)
+			{
+				
+				ex.printStackTrace();
+				return null;
+			}
+	}
 	
 	
 }

@@ -20,9 +20,14 @@ import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
+import main.com.zc.services.domain.data.model.IStudentProfileRep;
+import main.com.zc.services.domain.data.model.StudentProfile;
+import main.com.zc.services.presentation.accountSetting.facade.IStudentProfileFacade;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IStudentAcademicPetFacade;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
@@ -31,6 +36,7 @@ import main.com.zc.services.presentation.shared.IMajorsFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.AttachmentDownloaderHelper;
 import main.com.zc.shared.JavaScriptMessagesHandler;
@@ -55,6 +61,9 @@ public class StudentOverloadRequestBean {
    	
     @ManagedProperty("#{StudentAcademicPetFacadeImpl}")
     private IStudentAcademicPetFacade coursefacade;
+    
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
     
     @ManagedProperty("#{IMajorsFacade}")
     private IMajorsFacade majorFacade;
@@ -208,6 +217,7 @@ public class StudentOverloadRequestBean {
 	}  
 	public void submitRequest()
 	{
+		System.out.println("Done");
 		OverloadRequestDTO dto=new OverloadRequestDTO();
 		
 		try{
@@ -223,6 +233,15 @@ public class StudentOverloadRequestBean {
 		        student.setMail(studentDataFacade.getPersonByPersonMail(mail).getEmail());
 		        student.setName(studentDataFacade.getPersonByPersonMail(mail).getNameInEng());
 		        dto.setStudent(student);
+
+		        System.out.println(selectedSemester);
+		        System.out.println(getSelectedYearCourse());
+		        System.out.println(studentDataFacade.getPersonByPersonMail(mail).getId());
+		        StudentProfileDTO profile = profileFacade.getBySemesterAndYearAndStudentId(selectedSemester, Integer.valueOf(getSelectedYearCourse()), studentDataFacade.getPersonByPersonMail(mail).getId());
+		        
+		        System.out.println(profile.getId());
+		        if(profile!=null) {
+		        	if(validProfileToSubmit(profile)) {
 		        CoursesDTO course=new CoursesDTO();
 				course.setId(getSelectedCourseID());
 				dto.setCourse(course);
@@ -232,7 +251,7 @@ public class StudentOverloadRequestBean {
 				dto.setSubmissionDate(Calendar.getInstance());
 				dto.setStep(PetitionStepsEnum.AUDITING);
 				dto.setReason(getReason());
-				dto.setGpa(getGpa());
+				dto.setGpa(String.valueOf(profile.getGpa()));
 				MajorDTO major=new MajorDTO();
 				major.setId(getSelectedMajorID());
 				dto.setMajor(major);
@@ -244,7 +263,7 @@ public class StudentOverloadRequestBean {
 				
 				dto=facade.submitRequest(dto);
 				
-		        if(dto!=null)
+				if(dto!=null)
 		        {
 		        
 		        	init();
@@ -261,6 +280,14 @@ public class StudentOverloadRequestBean {
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
 									"Form Can't Be Submitted", ""));
 		        }
+				}else {
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									"Your GPA or Credit hours not valid", ""));
+				}
+		        }
+		        
 		        
 			}
 		}
@@ -280,6 +307,17 @@ public class StudentOverloadRequestBean {
 		}
 	}
 	
+	private boolean validProfileToSubmit(StudentProfileDTO profile) {
+		// TODO Auto-generated method stub
+		if(profile.getGpa()>=3 && profile.getCompletedCreditHrs()>64) {
+			return true;
+		}
+		return false;
+	}
+
+
+
+
 	public void upload(FileUploadEvent event) {  
 	    // Do what you want with the file      
 	    setAttachmentFile(event.getFile());
@@ -600,6 +638,20 @@ public class StudentOverloadRequestBean {
 
 	public void setMajorFacade(IMajorsFacade majorFacade) {
 		this.majorFacade = majorFacade;
+	}
+
+
+
+
+	public StudentProfileFacadeImpl getProfileFacade() {
+		return profileFacade;
+	}
+
+
+
+
+	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+		this.profileFacade = profileFacade;
 	}
 
 

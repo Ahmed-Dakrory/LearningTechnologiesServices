@@ -96,7 +96,9 @@ public class StudentProfile {
 	@JoinColumn(name = "concentration")
 	private Concentration concentration;
 	
-	
+
+	@Column(name="minor")
+	private String minor;
 	
 
 	public Integer getId() {
@@ -215,6 +217,18 @@ public class StudentProfile {
 
 	public void setConcentration(Concentration concentration) {
 		this.concentration = concentration;
+	}
+
+
+
+	public String getMinor() {
+		return minor;
+	}
+
+
+
+	public void setMinor(String minor) {
+		this.minor = minor;
 	}
 	
 	

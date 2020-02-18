@@ -7,15 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -34,16 +27,24 @@ import main.com.zc.services.domain.data.model.ICourse_InstructorRepository;
 import main.com.zc.services.domain.data.model.ICoursesRepository;
 import main.com.zc.services.domain.data.model.IDataRepository;
 import main.com.zc.services.domain.data.model.IMailSettingsRepository;
+import main.com.zc.services.domain.data.model.IStudentProfileRep;
 import main.com.zc.services.domain.data.model.MailSetting;
+import main.com.zc.services.domain.data.model.StudentProfile;
 import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.person.model.IEmployeeRepository;
 import main.com.zc.services.domain.person.model.IStudentRepository;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.petition.model.IMajorRepository;
+import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
+import main.com.zc.services.domain.survey.model.Concentration;
+import main.com.zc.services.domain.survey.model.IConcentrationRep;
 import main.com.zc.services.presentation.configuration.dto.StudentCourseDTO;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
 /**
@@ -55,6 +56,11 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 
 	@Autowired
 	IStudentRepository studentRep;
+	
+	@Autowired
+	IStudentProfileRep studentProfileRep;
+	
+	
 	@Autowired
 	ICoursesRepository courseRep;
 	@Autowired
@@ -67,6 +73,13 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 	ICourse_InstructorRepository courseInsRep;
 	@Autowired
 	IMailSettingsRepository mailSettingRep;
+	
+	@Autowired
+	IConcentrationRep concentratioRep;
+	
+	@Autowired
+	IMajorRepository majorRep;
+	
 	CourseStudentAssembler assem=new CourseStudentAssembler();
 	@Override
 	public List<StudentCourseDTO> praseFile(InputStream input)throws IOException
@@ -649,15 +662,16 @@ if (count ==3) { // course code
 
 			// Iterate through each rows one by one
 
-			Iterator<Row> rowIterator = sheet.iterator();
-
-			while (rowIterator.hasNext()) {
-				Row row = rowIterator.next();
+			int rowsNumbers = sheet.getLastRowNum();
+			
+			
+			 for(int i=0;i<rowsNumbers+1;i++) {
+					Row row = sheet.getRow(i);
 				// For each row, iterate through all the columns
 				Iterator<Cell> cellIterator = row.cellIterator();
 				
 				  StudentDTO student=new StudentDTO();
-                  
+				  StudentProfileDTO studentProfileDTO=new StudentProfileDTO();
 				int count = 0;
 				while (cellIterator.hasNext()) {
 					Cell cell = cellIterator.next();
@@ -666,91 +680,189 @@ if (count ==3) { // course code
                   
 					if (count == 1) { // file No 
 						
-						switch (cell.getCellType()) {
-						case Cell.CELL_TYPE_NUMERIC:
-						{ 
 						
 							try{
-								
-						
-							 student.setFacultyId((int)cell.getNumericCellValue());
+								student.setFacultyId(Integer.parseInt(getTheValueFromCell(cell)));
 							}
 							catch(Exception ex)
 							{
 								ex.printStackTrace();
 								
 							}
-			
-							 break;
-							 
-						}
-						case Cell.CELL_TYPE_STRING:
-						{
 						
-							try{
-								student.setFacultyId(Integer.parseInt(cell.getStringCellValue()));
-							}
-							catch(Exception ex)
-							{
-								ex.printStackTrace();
-								
-							}
-						}
-						
-						}
 					}
 
 					
 
 					if (count ==2) {// Name
-						switch (cell.getCellType()) {
-	
-						case Cell.CELL_TYPE_STRING:
-							
-						 
-						      
-						    	student.setName(cell.getStringCellValue());
-						    
-						
-							break;
+						try {
+						    	student.setName(getTheValueFromCell(cell));
+						}catch (Exception ex) { //
 						}
+					    	
+						
 					}
 					
 					if (count ==3) {// Mail
-						switch (cell.getCellType()) {
-	
-						case Cell.CELL_TYPE_STRING:
-							
 						 
-						      
-						    	student.setMail(cell.getStringCellValue());
+							try {
+								student.setMail(getTheValueFromCell(cell));
+							}catch (Exception ex) { //
+							}
 						    
-						
-							break;
-						}
 					}
 					
 					if (count ==4) {// Phone
-						switch (cell.getCellType()) {
-	
-						case Cell.CELL_TYPE_STRING:
-							
-						 
-						      
-						    	student.setPhone(cell.getStringCellValue());
-						    
 						
-							break;
+						 
+
+						try {
+						    	student.setPhone(getTheValueFromCell(cell));
+						}catch (Exception ex) { //
 						}
+					    	
+						
+					}
+					
+					if (count ==5) {// GPA
+						
+						 
+
+						try {
+							studentProfileDTO.setGpa(Double.valueOf(getTheValueFromCell(cell)));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					if (count ==6) {// current credit hours
+						
+						 
+
+						try {
+							studentProfileDTO.setRegisteredCreditHrs(Double.valueOf(getTheValueFromCell(cell)));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					if (count ==7) {// completed credit hours
+						
+						 
+
+						try {
+							studentProfileDTO.setCompletedCreditHrs(Double.valueOf(getTheValueFromCell(cell)));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					if (count ==8) {// Year
+						
+						 
+
+						try {
+							studentProfileDTO.setYear(Integer.valueOf(getTheValueFromCell(cell)));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					if (count == 9) {// Semester
+						
+						 
+
+						try {
+							SemesterEnum semester =SemesterEnum.Fall;
+							if(getTheValueFromCell(cell).toLowerCase().contains("sprg")) {
+								semester =SemesterEnum.Spring;
+							}else if(getTheValueFromCell(cell).toLowerCase().contains("fall")) {
+								semester =SemesterEnum.Fall;
+							}else if(getTheValueFromCell(cell).toLowerCase().contains("winter")) {
+								semester =SemesterEnum.Winter;
+							}else if(getTheValueFromCell(cell).toLowerCase().contains("summer")) {
+								semester =SemesterEnum.Summer;
+							}
+							
+							studentProfileDTO.setSemester(semester);
+						}catch (Exception ex) { //
+						}
+					    	
+						
 					}
 					
 
+					if (count == 10) {// Minor
+						
+						 
+
+						try {
+							studentProfileDTO.setMinor(getTheValueFromCell(cell));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					if (count == 11) {// Repeated Courses
+						
+						 
+
+						try {
+							studentProfileDTO.setRepeatedCourses(Integer.valueOf(getTheValueFromCell(cell)));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					
+					if (count == 12) {// Concentration
+						
+						 
+
+						try {
+							Concentration con=concentratioRep.getByName(getTheValueFromCell(cell));
+							studentProfileDTO.setConcentration(con);
+							MajorDTO major = new MajorDTO();
+							major.setId(con.getParent().getId());
+							major.setMajorName(con.getParent().getMajorName());
+							studentProfileDTO.setMajor(major);
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					if (count == 13) {// address
+						
+						 
+
+						try {
+							
+							student.setAddress(getTheValueFromCell(cell));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
 				
 
 				
 				}
 			
-			
+			student.setStudentProfileDTO(studentProfileDTO);
 				
 					dataList.add(student);
 				
@@ -770,7 +882,29 @@ if (count ==3) { // course code
 
 	}
 
+	 public String getTheValueFromCell(Cell cell) {
+		 String returnedValue="";
+		 switch (cell.getCellType()) {
+		 case Cell.CELL_TYPE_BLANK:
+        	 returnedValue = "";
+             break;
+         case Cell.CELL_TYPE_STRING:
+        	 returnedValue = String.valueOf(cell.getStringCellValue());
+             break;
+         case Cell.CELL_TYPE_NUMERIC:
+        	 Long number = (long) cell.getNumericCellValue();
+        	 returnedValue = String.valueOf(number);
+             break;
+         case Cell.CELL_TYPE_BOOLEAN:
+        	 returnedValue = String.valueOf(cell.getBooleanCellValue());
+             break;
+         
+         default :
 
+         }
+		 return returnedValue;
+	 }
+	 
 	@Override
 	public List<StudentDTO> getNewStudents(List<StudentDTO> originalList) {
 		List<StudentDTO> newStudents=new ArrayList<StudentDTO>();
@@ -790,20 +924,95 @@ if (count ==3) { // course code
 	public boolean addStudent(StudentDTO student) {
 		try
 		{
-			Student addedStudent=new Student();
-			Data data=new Data();
-			data.setMail(student.getMail());
-			data.setPhone(student.getPhone());
-			data.setNameInEnglish(student.getName());
-			int dataId=dataRep.add(data);
-			data.setId(dataId);
+			boolean isNew =true;
+			Student addedStudent=studentRep.getPersonByFileNo(student.getFacultyId());
+			if(addedStudent==null) {
+				addedStudent = new Student();
+			}else {
+				isNew = false;
+			}
+			
+			
+			//Data add
+			Data data= dataRep.getByMail(student.getMail());
+			if(data == null) {
+				data =new Data();
+				data.setMail(student.getMail());
+				data.setPhone(student.getPhone());
+				data.setAddress(student.getAddress());
+				data.setNameInEnglish(student.getName());
+				int dataId=dataRep.add(data);
+				data.setId(dataId);
+			}else {
+				data.setMail(student.getMail());
+				data.setPhone(student.getPhone());
+				data.setAddress(student.getAddress());
+				data.setNameInEnglish(student.getName());
+				int dataId=dataRep.update(data);
+				data.setId(dataId);
+			}
+			
+			
+			
+			addedStudent.setId(student.getId());
 			addedStudent.setData(data);
 			addedStudent.setFileNo(student.getFacultyId());
 			int addedID=studentRep.add(addedStudent);
-			if(addedID!=0)
+			
+			if(!isNew) {
+				//profile add
+				
+				StudentProfile profile=studentProfileRep.getBySemesterAndYearAndStudentId(student.getStudentProfileDTO().getSemester().getValue(), student.getStudentProfileDTO().getYear(), student.getId());
+				
+				
+				if(profile!=null) {
+					profile.setCompletedCreditHrs(student.getStudentProfileDTO().getCompletedCreditHrs());
+					profile.setConcentration(student.getStudentProfileDTO().getConcentration());
+					profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
+					profile.setGpa(student.getStudentProfileDTO().getGpa());
+					profile.setMinor(student.getStudentProfileDTO().getMinor());
+					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
+					profile.setMajor(major);
+					profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
+					profile.setSemester(student.getStudentProfileDTO().getSemester());
+					profile.setYear(student.getStudentProfileDTO().getYear());
+					profile.setStudent(addedStudent);
+					studentProfileRep.update(profile);
+				}else {
+					profile =new StudentProfile();
+					profile.setCompletedCreditHrs(student.getStudentProfileDTO().getCompletedCreditHrs());
+					profile.setConcentration(student.getStudentProfileDTO().getConcentration());
+					profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
+					profile.setGpa(student.getStudentProfileDTO().getGpa());
+					profile.setMinor(student.getStudentProfileDTO().getMinor());
+					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
+					profile.setMajor(major);
+					profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
+					profile.setSemester(student.getStudentProfileDTO().getSemester());
+					profile.setYear(student.getStudentProfileDTO().getYear());
+					profile.setStudent(addedStudent);
+					studentProfileRep.add(profile);
+				}
+				
 				return true;
-			else 
-				return false;
+			}else {
+				StudentProfile profile =new StudentProfile();
+				profile.setCompletedCreditHrs(student.getStudentProfileDTO().getCompletedCreditHrs());
+				profile.setConcentration(student.getStudentProfileDTO().getConcentration());
+				profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
+				profile.setGpa(student.getStudentProfileDTO().getGpa());
+				profile.setMinor(student.getStudentProfileDTO().getMinor());
+				Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
+				profile.setMajor(major);
+				profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
+				profile.setSemester(student.getStudentProfileDTO().getSemester());
+				profile.setYear(student.getStudentProfileDTO().getYear());
+				profile.setStudent(addedStudent);
+				studentProfileRep.add(profile);
+				return true;
+			}
+			
+				
 		}
 		catch(Exception ex)
 		{
@@ -1054,6 +1263,29 @@ if (count ==3) { // course code
 		}
 		return courses;
 		
+	}
+
+
+	@Override
+	public List<StudentDTO> getOldStudents(List<StudentDTO> originalList) {
+		List<StudentDTO> newStudents=new ArrayList<StudentDTO>();
+		for(int i=0;i<originalList.size();i++)
+		{
+			Student student=studentRep.getPersonByFileNo(originalList.get(i).getFacultyId());
+			if(student!=null) {
+			StudentProfile profile =studentProfileRep.getBySemesterAndYearAndStudentId(originalList.get(i).getStudentProfileDTO().getSemester().getValue(),originalList.get(i).getStudentProfileDTO().getYear(), student.getId());
+			if(student!=null)
+			{
+				originalList.get(i).setId(student.getId());
+				if(profile!=null) {
+
+					originalList.get(i).getStudentProfileDTO().setId(profile.getId());
+				}
+				newStudents.add(originalList.get(i));
+			}
+			}
+		}
+		return newStudents;
 	}
 
 

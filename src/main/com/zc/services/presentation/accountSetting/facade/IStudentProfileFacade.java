@@ -24,7 +24,7 @@ public interface IStudentProfileFacade {
 
 	public StudentProfileDTO getById(Integer id);
 	
-	public List<StudentProfileDTO>getByStudentID(Integer id);
+	public List<StudentProfileDTO> getByStudentID(Integer id);
 	
 	public List<StudentProfileDTO>getBySemesterAndYear(Integer sem, Integer year);
 	
