@@ -237,7 +237,7 @@ public class StudentOverloadRequestBean {
 		        System.out.println(selectedSemester);
 		        System.out.println(getSelectedYearCourse());
 		        System.out.println(studentDataFacade.getPersonByPersonMail(mail).getId());
-		        StudentProfileDTO profile = profileFacade.getBySemesterAndYearAndStudentId(selectedSemester, Integer.valueOf(getSelectedYearCourse()), studentDataFacade.getPersonByPersonMail(mail).getId());
+		        StudentProfileDTO profile = profileFacade.getCurrentPRofileByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
 		        
 		        System.out.println(profile.getId());
 		        if(profile!=null) {
@@ -247,9 +247,9 @@ public class StudentOverloadRequestBean {
 				dto.setCourse(course);
 				dto.setMobile(getMobile());
 				dto.setYear(getSelectedYear());
-				dto.setStatus(PetitionStepsEnum.AUDITING.getName());
+				dto.setStatus(PetitionStepsEnum.ADMISSION_PROCESSING.getName());
 				dto.setSubmissionDate(Calendar.getInstance());
-				dto.setStep(PetitionStepsEnum.AUDITING);
+				dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 				dto.setReason(getReason());
 				dto.setGpa(String.valueOf(profile.getGpa()));
 				MajorDTO major=new MajorDTO();

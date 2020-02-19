@@ -45,7 +45,7 @@ public class AdmissionDeptAcademicPetServiceImpl implements IAdmissionDeptAcadem
 		{
 			if(allForms.get(i).getPerformed()==null)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 					filterdDTO.add(assem.toDTO(allForms.get(i)));
 			}
 			else if(allForms.get(i).getPerformed()!=null)

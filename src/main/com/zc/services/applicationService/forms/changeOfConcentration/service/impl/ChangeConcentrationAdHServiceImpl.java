@@ -47,7 +47,7 @@ public class ChangeConcentrationAdHServiceImpl implements IChangeConcentrationAd
 		
 		for(int i=0;i<allForms.size();i++)
 		{
-			if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||allForms.get(i).getStep().equals(PetitionStepsEnum.PA))
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||allForms.get(i).getStep().equals(PetitionStepsEnum.PA))
 				{
 				// first add list of actions to this petition 
 				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.CHANGECONCENTRATION.getValue());

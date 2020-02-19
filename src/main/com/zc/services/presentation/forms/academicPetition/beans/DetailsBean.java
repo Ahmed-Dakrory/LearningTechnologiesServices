@@ -1086,7 +1086,7 @@ public class DetailsBean {
 				
 	    	try{
 	    	CoursePetitionDTO dto=getDetailedDTO();
-	    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+	    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
 				dto.setNotifyAt(null);
 			}
@@ -1131,7 +1131,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Approved);
 	    		   		
-	    	    			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+	    	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	    	    				
 	    	    		dto=facade.updateStatusOfForm(dto);
 	    		    	if(dto!=null)
@@ -1161,7 +1161,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Approved);
 	    		   		
-    	    			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+    	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
     	    				
     	    		dto=facade.updateStatusOfForm(dto);
     		    	if(dto!=null)
@@ -1204,7 +1204,7 @@ public class DetailsBean {
 	    			
 	    			
 	    			dto.getActionDTO().add(newAction);
-	    			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 					
 	    			
 	    			dto=facade.updateStatusOfForm(dto);
@@ -1257,7 +1257,7 @@ public class DetailsBean {
 	    	
 			
 			dto.getActionDTO().add(newAction);
-			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 			
 			
 			dto=facade.updateStatusOfForm(dto);
@@ -1303,7 +1303,7 @@ public class DetailsBean {
 				
 	    	try{
 	    	CoursePetitionDTO dto=getDetailedDTO();
-	    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+	    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
 				dto.setNotifyAt(null);
 			}
@@ -1348,7 +1348,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
 	    		   		
-	    	    			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+	    	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	    	    				
 	    	    		dto=facade.updateStatusOfForm(dto);
 	    		    	if(dto!=null)
@@ -1378,7 +1378,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
 	    		   		
- 	    			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+ 	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
  	    				
  	    		dto=facade.updateStatusOfForm(dto);
  		    	if(dto!=null)
@@ -1421,7 +1421,7 @@ public class DetailsBean {
 	    			
 	    			
 	    			dto.getActionDTO().add(newAction);
-	    			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 					
 	    			
 	    			dto=facade.updateStatusOfForm(dto);
@@ -1474,7 +1474,7 @@ public class DetailsBean {
 	    	
 			
 			dto.getActionDTO().add(newAction);
-			dto.setStep(PetitionStepsEnum.ADMISSION_HEAD);
+			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 			
 			
 			dto=facade.updateStatusOfForm(dto);
@@ -2588,7 +2588,7 @@ public class DetailsBean {
          {
         	 if(getDetailedDTO()!=null)
         	 {
-        		 if(getDetailedDTO().getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+        		 if(getDetailedDTO().getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
         		 {
         			 render= true;
         			

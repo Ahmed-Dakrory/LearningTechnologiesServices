@@ -56,10 +56,11 @@ public class ChangeOfConcentrationAssem {
 			dto.setNextStatus("Reviewing By Admission Head");
 		}
 	
-		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
-			dto.setCurrentStatus("Reviewed By Admission Head");
-			dto.setNextStatus("Finalizing By Registrar");
+			dto.setCurrentStatus("Waiting Action From Registrar");
+			dto.setNextStatus("Finished");
+
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 		{

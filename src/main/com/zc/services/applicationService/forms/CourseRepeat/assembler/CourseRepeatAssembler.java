@@ -142,10 +142,11 @@ public class CourseRepeatAssembler {
 				dto.setCurrentStatus("Reviewed By Dean of Academic Affairs");
 				dto.setNextStatus("Reviewing By Admission Head");
 			}
-			else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+			else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
-				dto.setCurrentStatus("Reviewed By Admission Head");
-				dto.setNextStatus("Action taken Admission Department");
+				dto.setCurrentStatus("Waiting Action From Registrar");
+				dto.setNextStatus("Finished");
+
 			}
 			else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 			{

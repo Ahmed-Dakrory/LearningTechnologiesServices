@@ -47,7 +47,7 @@ public class AdmissionDOverloadRequestServiceImpl implements IAdmissionDOverload
 			{
 				if(request.get(i).getPerformed()==null)
 				{
-				if(request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 					{
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(request.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());
 					List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();

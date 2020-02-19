@@ -169,7 +169,7 @@ public class InsOverloadRequestServiceImpl implements IInsOverloadRequestService
 					if(allForms.get(i).getForwardTOIns().getId().equals(insID))
 					{
 						if(		allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-								allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||
+								allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||
 								allForms.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||
 								allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 						
@@ -233,7 +233,7 @@ public class InsOverloadRequestServiceImpl implements IInsOverloadRequestService
 				{
 				if(
 						allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||
+						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||
 						allForms.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||
 						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 				{	List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());
@@ -402,7 +402,7 @@ public class InsOverloadRequestServiceImpl implements IInsOverloadRequestService
 			}
 			else
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)
 						||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 				{	List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());
 				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
@@ -430,7 +430,7 @@ public class InsOverloadRequestServiceImpl implements IInsOverloadRequestService
 			}
 			}
 			else if(allForms.get(i).getPerformed()==null) 
-			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
+			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 			{	List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());
 			List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
 			if(actions!=null)
@@ -592,7 +592,7 @@ public class InsOverloadRequestServiceImpl implements IInsOverloadRequestService
 			}
 			else if(allForms.get(i).getPerformed()==null)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||
 						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 				{
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());

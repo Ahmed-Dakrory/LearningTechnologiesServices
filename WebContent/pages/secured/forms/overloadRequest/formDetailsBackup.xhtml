@@ -189,33 +189,135 @@
     							<li>
     							
     							<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()!=11}">
-								<div class="formProgress-done">
+								<div class="#{(DetailsBeanOverloadRequest.detailedDTO.step.getID()==0)?'formProgress-done':'formProgress-todo'}">
+    									<br/>
+										<h:outputLabel value="Under Review" /><br/>
+									</div></h:panelGroup>
+									</li>
+									<!-- 
+    						 -->
+    						 
+    						 <li>
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Major Advisor" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==6 ||
+									 DetailsBeanOverloadRequest.detailedDTO.step.getID()==1 ||
+									  DetailsBeanOverloadRequest.detailedDTO.step.getID()==2 ||
+									   DetailsBeanOverloadRequest.detailedDTO.step.getID()==3 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==4||
+									   DetailsBeanOverloadRequest.detailedDTO.step.getID()==5}">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeanOverloadRequest.instructorActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanOverloadRequest.instructorActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Major Advisor" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanOverloadRequest.instructorActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li><!--
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==0 
+									|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==1}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Dean of Strategic Enrollment Management" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==2
+									 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==3 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==4
+									 ||DetailsBeanOverloadRequest.detailedDTO.step.getID()==5}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanOverloadRequest.deanActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="#{DetailsBeanOverloadRequest.deanActionDetails.instructorName}" /><br/>
+			    		    					<h:outputLabel value="Dean of Strategic Enrollment Management" /><br/>
+			    								<h:outputLabel value="#{DetailsBeanOverloadRequest.deanActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 --><h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.provostRequired==true}"><li>
+    						 
+									<h:panelGroup rendered="#{(DetailsBeanOverloadRequest.detailedDTO.step.getID()==0 
+									|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==1||DetailsBeanOverloadRequest.detailedDTO.step.getID()==2)									 
+									and DetailsBeanOverloadRequest.detailedDTO.provostRequired==true}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Provost" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.provostRequired==true
+									 and (DetailsBeanOverloadRequest.detailedDTO.step.getID()==3 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==4||
+									  DetailsBeanOverloadRequest.detailedDTO.step.getID()==5)}">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeanOverloadRequest.provostActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeanOverloadRequest.provostActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Provost" /><br/>
+							    				<h:outputLabel value="#{DetailsBeanOverloadRequest.provostActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li></h:panelGroup><!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==0 ||
+									 DetailsBeanOverloadRequest.detailedDTO.step.getID()==2|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==1
+									  || DetailsBeanOverloadRequest.detailedDTO.step.getID()==6|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==5}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Head" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->										
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==3 
+									|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanOverloadRequest.admissionHActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+					    		       			<h:outputLabel value="Admission Head" /><br/>
+					    		    			<h:outputLabel value="#{DetailsBeanOverloadRequest.admissionHActionDetails.friendlyDate}" />
+					    		    		</div>
+					   			    	</div>
+									</h:panelGroup>
+								</li>
+								
+								
+								<!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==0 || 
+									DetailsBeanOverloadRequest.detailedDTO.step.getID()==2|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==1 ||
+									 DetailsBeanOverloadRequest.detailedDTO.step.getID()==6 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==3
+									 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==5}">
+										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">	
 												<h:outputLabel value="Admission Staff" />
 											</div>
 										</div>
-										
-										</h:panelGroup>
-									</li>
-									
-									
-								
-
-								<li>
-									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==0 || 
-									DetailsBeanOverloadRequest.detailedDTO.step.getID()==2|| DetailsBeanOverloadRequest.detailedDTO.step.getID()==1 ||
-									 DetailsBeanOverloadRequest.detailedDTO.step.getID()==6 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==3
-									 || DetailsBeanOverloadRequest.detailedDTO.step.getID()==5}">
-										<div class="formProgress-todo">
-						    				<br/>
-											<h:outputLabel value="Finalized" /><br/>
-											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
-					    						<h:outputLabel value="#{DetailsBeanOverloadRequest.admissionHActionDetails.friendlyDate}" />
-					    					</div>
-					    				</div>
 									</h:panelGroup>
 									<!-- OR -->
 									<h:panelGroup rendered="#{DetailsBeanOverloadRequest.detailedDTO.step.getID()==4}">

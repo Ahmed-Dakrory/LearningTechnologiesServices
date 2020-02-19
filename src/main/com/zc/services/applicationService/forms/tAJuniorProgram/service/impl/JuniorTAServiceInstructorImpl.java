@@ -597,7 +597,7 @@ public class JuniorTAServiceInstructorImpl implements IJuniorTAServiceInstructor
 			}
 			else
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{
 					// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.JUNIORTAPROGRAM.getValue());
@@ -626,7 +626,7 @@ public class JuniorTAServiceInstructorImpl implements IJuniorTAServiceInstructor
 			}
 			}
 			else if(allForms.get(i).getPerformed()==null) 
-			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{// first add list of actions to this petition 
 				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.JUNIORTAPROGRAM.getValue());
 				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();

@@ -79,7 +79,7 @@ public class CourseRepeatAdmissionDeptServiceImpl implements ICourseRepeatAdmiss
 		{
 			if(allForms.get(i).getPerformed()==null)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 					{
 
 					// first add list of actions to this petition 

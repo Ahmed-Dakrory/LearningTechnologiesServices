@@ -109,10 +109,10 @@ public class AddDropAssembler  {
 			dto.setCurrentStatus("Reviewed By Dean of Strategic Enrollment Management");
 			dto.setNextStatus("Reviewing By Admission Head");
 		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
-			dto.setCurrentStatus("Reviewed By Admission Head");
-			dto.setNextStatus("Action taken By Admission Department");
+			dto.setCurrentStatus("Waiting Action From Registrar");
+			dto.setNextStatus("Finished");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 		{

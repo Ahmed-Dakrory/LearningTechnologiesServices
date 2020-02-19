@@ -167,7 +167,7 @@ public class ChangeConcentrationInsServiceImpl implements IChangeConcentrationIn
 				{
 					if(allForms.get(i).getForwardTOIns().getId().equals(insID))
 					{
-						if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+						if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 						{
 							// first add list of actions to this petition 
 							List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.CHANGECONCENTRATION.getValue());
@@ -228,7 +228,7 @@ public class ChangeConcentrationInsServiceImpl implements IChangeConcentrationIn
 				}
 				else
 				{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{	// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.CHANGECONCENTRATION.getValue());
 					List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();

@@ -45,7 +45,7 @@ public class CourseRepeatAdmissionHeadServiceImpl implements ICourseRepeatAdmiss
 		
 		for(int i=0;i<allForms.size();i++)
 		{
-			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
 				// first add list of actions to this petition 
 				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.REPEATECOURSE.getValue());

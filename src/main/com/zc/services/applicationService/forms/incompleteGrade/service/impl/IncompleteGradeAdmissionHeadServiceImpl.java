@@ -48,7 +48,7 @@ public class IncompleteGradeAdmissionHeadServiceImpl implements IIncompleteGrade
 		
 		for(int i=0;i<allForms.size();i++)
 		{
-			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{
 
 				// first add list of actions to this petition 

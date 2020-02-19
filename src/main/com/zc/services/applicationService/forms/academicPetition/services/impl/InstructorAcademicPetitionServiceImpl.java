@@ -160,7 +160,7 @@ public class InstructorAcademicPetitionServiceImpl implements IInstructorAcademi
 					{
 						if(
 								allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-								allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+								allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 						
 						    {
 							List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.ACADEMICPETITION.getValue());
@@ -224,7 +224,7 @@ public class InstructorAcademicPetitionServiceImpl implements IInstructorAcademi
 				{
 				if(
 						allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{//filterdDTO.add(assem.toDTO(allForms.get(i)));}
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.ACADEMICPETITION.getValue());
 					List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
@@ -384,7 +384,7 @@ public class InstructorAcademicPetitionServiceImpl implements IInstructorAcademi
 			}
 			else
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{
 					//filterdDTO.add(assem.toDTO(allForms.get(i)));
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.ACADEMICPETITION.getValue());
@@ -414,7 +414,7 @@ public class InstructorAcademicPetitionServiceImpl implements IInstructorAcademi
 			}
 			}
 			else if(allForms.get(i).getPerformed()==null) 
-			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
 				//filterdDTO.add(assem.toDTO(allForms.get(i)));
 				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.ACADEMICPETITION.getValue());

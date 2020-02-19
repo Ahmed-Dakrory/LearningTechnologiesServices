@@ -60,7 +60,7 @@ public class ChangeMajorAssembler {
 			dto.setCurrentStatus("Reviewed By Dean of Strategic Enrollment Management");
 			dto.setNextStatus("Reviewing By Admission Head");
 		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
 			dto.setCurrentStatus("Reviewed By Admission Head");
 			dto.setNextStatus("Action taken Admission Department");

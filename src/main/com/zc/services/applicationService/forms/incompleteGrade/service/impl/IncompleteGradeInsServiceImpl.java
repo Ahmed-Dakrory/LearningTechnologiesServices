@@ -155,7 +155,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 				//(allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR)||
 				if(allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR_OF_COURSE)||
 						
-						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)
+						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)
 						||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT)
 						||allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 				{
@@ -197,7 +197,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 					//TODO Updating scenario and removing program advisor step
 					//if(allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR)||
 					if(allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR_OF_COURSE)||
-							allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)
+							allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)
 							||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT)
 							||allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 				{
@@ -263,7 +263,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 				//TODO updating scenario by removing program advisor step
 				//if(allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR)||
 						if(allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR_OF_COURSE)||
-						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)
+						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)
 						||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT)
 						||allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 			{
@@ -422,7 +422,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 			{
 				
 				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)
+						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)
 						||allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 				{
 					// first add list of actions to this petition 
@@ -461,7 +461,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 				if(allForms.get(i).getForwardTOIns().getId().equals(insID))
 				{
 					if(		allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-							allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||
+							allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||
 							allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 				{
 						// first add list of actions to this petition 
@@ -523,7 +523,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 			else 
 			{
 				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN)||
-						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD)||
+						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||
 						allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 			{
 					// first add list of actions to this petition 
@@ -763,7 +763,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 			}
 			else
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{
 					// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),5);
@@ -792,7 +792,7 @@ public class IncompleteGradeInsServiceImpl implements IIncompleteGradeInsService
 			}
 			}
 			else if(allForms.get(i).getPerformed()==null) 
-			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+			{if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{// first add list of actions to this petition 
 				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),5);
 				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();

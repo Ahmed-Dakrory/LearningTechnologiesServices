@@ -48,7 +48,7 @@ public class AdmissionHOverloadRequestServiceImpl implements IAdmissionHOverload
 				{
 					if(request.get(i).getProvostRequired()==true)// provost was informed
 					{
-						if(request.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+						if(request.get(i).getStep().equals(PetitionStepsEnum.PROVOST)||request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 						{
 							List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(request.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());
 							List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
@@ -78,7 +78,7 @@ public class AdmissionHOverloadRequestServiceImpl implements IAdmissionHOverload
 				}
 					else if(request.get(i).getProvostRequired()==false)// provost was skipped informed
 					{
-						if(request.get(i).getStep().equals(PetitionStepsEnum.DEAN)||request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+						if(request.get(i).getStep().equals(PetitionStepsEnum.DEAN)||request.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 							{
 							List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(request.get(i).getId(),FormTypesEnum.OVERLOADREQUEST.getValue());
 							List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();

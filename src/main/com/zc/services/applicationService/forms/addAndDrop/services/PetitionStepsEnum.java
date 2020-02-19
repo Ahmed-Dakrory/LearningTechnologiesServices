@@ -42,14 +42,14 @@ public enum PetitionStepsEnum {
 		
 	}
 	,
-	ADMISSION_HEAD(3) {
+	ADMISSION_PROCESSING(3) {
 			@Override
 			public int getID() {
 				return 3;
 			}
 			@Override
 			public String getName() {
-				return "Admission Head has taken action";
+				return "Waiting Action From Registrar";
 			}
 			
 		}

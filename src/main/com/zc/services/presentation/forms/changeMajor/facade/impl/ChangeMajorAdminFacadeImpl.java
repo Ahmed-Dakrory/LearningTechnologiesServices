@@ -88,7 +88,7 @@ public class ChangeMajorAdminFacadeImpl implements IChangeMajorAdminFacade {
 		
 				,Constants.ADMISSION_HEAD, content,title);
 		}
-		else if(form.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+		else if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
 			sendEmailFacade.sendEmail("registrar"
 		

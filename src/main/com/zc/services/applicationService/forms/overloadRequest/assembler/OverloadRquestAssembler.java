@@ -134,10 +134,10 @@ public class OverloadRquestAssembler {
 			dto.setCurrentStatus("Reviewed By Provost");
 			dto.setNextStatus("Reviewing By Admission Head");
 		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
-			dto.setCurrentStatus("Reviewed By Admission Head");
-			dto.setNextStatus("Reviewing by Admission Department");
+			dto.setCurrentStatus("Waiting Action From Registrar");
+			dto.setNextStatus("Finished");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 		{

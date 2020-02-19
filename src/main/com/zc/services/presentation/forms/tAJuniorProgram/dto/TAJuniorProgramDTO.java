@@ -135,7 +135,7 @@ public class TAJuniorProgramDTO {
 					
 				}
 				
-				else if(getStep().equals(PetitionStepsEnum.ADMISSION_HEAD))
+				else if(getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 				{
 					if(authentication.getName().equals(Constants.ADMISSION_HEAD))
 					{
