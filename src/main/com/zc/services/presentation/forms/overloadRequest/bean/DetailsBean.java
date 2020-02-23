@@ -208,8 +208,12 @@ public class DetailsBean {
                     break;              
                  
         case "AdmissionH":  
-       	 refuseAdmissionHead();
-       	 break;
+          	 refuseAdmissionHead();
+          	 break;
+          	 
+        case "AdmissionD": 
+          	 refuseAdmissionDep();
+          	 break;
        	 
        
 		 }
@@ -1489,6 +1493,238 @@ public class DetailsBean {
 	    		try {
 	 					FacesContext.getCurrentInstance().getExternalContext().redirect
 	 					("overloadRequestAdmissionHead.xhtml?id="+dto.getId());
+	 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+	 				} catch (IOException e) {
+	 					// TODO Auto-generated catch block
+	 					e.printStackTrace();
+	 				}
+	    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+	    		}
+	    	else {
+	    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+	    	}
+	
+    	}
+		
+    	}
+    
+    
+    	
+    
+    	
+    	
+    	
+    	
+    	catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+    	}
+    	}
+   	 }
+   	 
+   	 public void refuseAdmissionDep()
+   	 {
+
+     	System.out.println("DoneOk: No");
+   		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+
+        	System.out.println("DoneOk: 3A");
+    	try{
+    	OverloadRequestDTO dto=getDetailedDTO();
+
+    	System.out.println("DoneOk: 4A");
+    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
+		{
+			dto.setNotifyAt(null);
+		}
+    	System.out.println("DoneOk: 5A");
+    	//InstructorDTO loggedInInstructor=getInsDataFacade.getInsByPersonMail(authentication.getName());
+    	// 1- get action of petition
+    	
+    	//2- loop on actions 
+    	boolean actionExistBefore=false;
+    	int index=0;
+    	if(dto.getActionDTO().size()>0){
+    		
+    	for(int i=0;i<dto.getActionDTO().size();i++)
+    	{
+    		actionExistBefore=false;
+    		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
+    		if(dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
+    				dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
+    		{
+    			actionExistBefore=true;
+    			index=i;
+    			break;
+    			
+    			
+    		}
+    	}
+    	
+    	
+    	
+
+    	System.out.println("DoneOk: New5A");
+    		if(actionExistBefore)
+	    	{
+
+    			System.out.println("DoneOK: "+String.valueOf("ok3"));
+	    		//4- then we've two cases 
+    			//5- a) the petition already approved 
+    			if(dto.getActionDTO().get(index).getActionType()!=null)
+    			{
+    			if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
+    			{
+    				  JavaScriptMessagesHandler.RegisterWarningMessage(null, "Already Refused Before !");
+    			}
+    		
+    			//6- b) the petition already refused
+    			else if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Approved))
+    			{
+    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
+    		   		
+    	    			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+    	    				
+    	    		dto=facade.updateStatusOfForm(dto);
+    		    	if(dto!=null)
+    		    	{
+    		    		//init();
+    		    		
+    		    		try {
+    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+    		 					("overloeadRequestAdmissionD.xhtml");
+    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+    		 				} catch (IOException e) {
+    		 					// TODO Auto-generated catch block
+    		 					e.printStackTrace();
+    		 				}
+    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+    		    		}
+    		    	else {
+    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+    		    	}
+    		    	
+    		    	
+    		    	
+    		    	
+    			}
+    			}
+    			else 
+    			{
+
+    		    	System.out.println("DoneOk: New5B");
+    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
+    		   		
+	    			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	    				
+	    		dto=facade.updateStatusOfForm(dto);
+		    	if(dto!=null)
+		    	{
+		    		//init();
+		    		
+		    		try {
+		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+		 					("overloeadRequestAdmissionD.xhtml");
+		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+		 				} catch (IOException e) {
+		 					// TODO Auto-generated catch block
+		 					e.printStackTrace();
+		 				}
+		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+		    		}
+		    	else {
+		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+		    	}
+    			}
+    			
+	    	}
+    		// else there is no previous actions
+    		else 
+    		{
+
+    	    	System.out.println("DoneOk: NNNNNNA");
+    			//8- add new action object 
+    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+    			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
+    			System.out.println("DoneOK: "+String.valueOf("ok"));
+    			newAction.setDate(Calendar.getInstance());
+    			newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+    			newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+    			newAction.setPetitionID(dto.getId());
+    			System.out.println("DoneOK: "+String.valueOf(newAction.getActionType().getValue()));
+    			if(getNewComment()!=null)
+    			{
+    				if(!getNewComment().trim().equals(""))
+    				{
+    					newAction.setComment(getNewComment());
+    				}	
+    			}
+    			
+    			
+    			dto.getActionDTO().add(newAction);
+    			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+				
+    			
+    			dto=facade.updateStatusOfForm(dto);
+    		    	if(dto!=null)
+    		    	{
+    		    		//init();
+    		    		
+    		    		try {
+    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+    		 					("overloeadRequestAdmissionD.xhtml");
+    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+    		 				} catch (IOException e) {
+    		 					// TODO Auto-generated catch block
+    		 					e.printStackTrace();
+    		 				}
+    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+    		    		}
+    		    	else {
+    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+    		    	}
+    		}
+ 
+    	
+    	
+    	}
+    	else 
+    	{
+
+    		PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
+			System.out.println("DoneOK: "+String.valueOf("ok"));
+			newAction.setDate(Calendar.getInstance());
+			newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+			newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+			newAction.setPetitionID(dto.getId());
+			System.out.println("DoneOK: "+String.valueOf(newAction.getActionType().getValue()));
+			
+			
+		if(getNewComment()!=null)
+		{
+			if(!getNewComment().trim().equals(""))
+			{
+				newAction.setComment(getNewComment());
+			}	
+		}
+    
+		
+		dto.getActionDTO().add(newAction);
+		dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+		
+		
+		dto=facade.updateStatusOfForm(dto);
+	    	if(dto!=null)
+	    	{
+	    		//init();
+	    		
+	    		try {
+	 					FacesContext.getCurrentInstance().getExternalContext().redirect
+	 					("overloeadRequestAdmissionD.xhtml");
 	 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	 				} catch (IOException e) {
 	 					// TODO Auto-generated catch block

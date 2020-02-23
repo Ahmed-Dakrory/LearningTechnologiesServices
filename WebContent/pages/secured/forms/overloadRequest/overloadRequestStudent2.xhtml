@@ -63,25 +63,7 @@
 									<p:message for="year" />
 								</h:panelGroup>
 								</ui:remove>
-								<p:outputLabel value="GPA" for="gpa" />
-								<h:panelGroup class="marginLeft_12">	
-									<p:inputText id="gpa" value="#{StudentOverloadRequestBean.gpa}" required="true" requiredMessage="Please Enter GPA" 
-									 converterMessage="Please enter digits only"  requsize="40" class="input290px">
-									 	<f:validateDoubleRange minimum="0.0" maximum="10.0" />
-									 		<f:validateDoubleRange />
-									 	</p:inputText>	
-									<p:message for="gpa" />								
-								</h:panelGroup>
-								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
-								<h:panelGroup class="marginLeft_12">
-									<p:inputText required="true" id="mobileNO"
-									 value="#{StudentOverloadRequestBean.mobile}" 
-										validatorMessage="Please Enter Digits only minimum 8 digits maximum 11" requiredMessage="Please enter mobile" size="40" class="input290px">
-										<f:validateLength minimum="8" maximum="11"/>
-									
-									</p:inputText>
-									<p:message for="mobileNO" />
-								</h:panelGroup>
+								
 								
 								<p:outputLabel value="Proposed Course" for="course"/>
 								<h:panelGroup>

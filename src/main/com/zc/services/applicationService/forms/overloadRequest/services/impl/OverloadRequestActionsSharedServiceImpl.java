@@ -214,7 +214,8 @@ try{
                         actionIns.setId(dto.getActionDTO().get(i).getInstructorID());
                         action.setInstructor(actionIns);
                         action.setPetitionID(dto.getId());
-                        
+
+						System.out.println("DakroryA: "+action.getActionType());
                         actionRep.add(action);
 						}
 						

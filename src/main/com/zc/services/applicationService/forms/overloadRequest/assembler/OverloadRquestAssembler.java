@@ -44,11 +44,13 @@ public class OverloadRquestAssembler {
 		try{
 			StudentDTO student=new StudentDTO();
 			student.setId(form.getStudent().getId());
+			if(form.getStudent().getData()!=null) {
 			student.setName(form.getStudent().getData().getNameInEnglish());
 			student.setMail(form.getStudent().getData().getMail());
+			dto.setImage(form.getStudent().getData().getStudentImage());
+			}
 			student.setFacultyId(form.getStudent().getFileNo());
 			dto.setStudent(student);
-			dto.setImage(form.getStudent().getData().getStudentImage());
 				}
 		catch(Exception ex)
 		{
@@ -72,11 +74,12 @@ public class OverloadRquestAssembler {
 			major.setId(form.getMajor().getId());
 			major.setMajorName(form.getMajor().getMajorName());
 			InstructorDTO majorIns=new InstructorDTO();
+			if(form.getMajor().getHeadOfMajorId()!=null) {
 			majorIns.setId(form.getMajor().getHeadOfMajorId().getId());
 			majorIns.setName(form.getMajor().getHeadOfMajorId().getName());
 			majorIns.setMail(form.getMajor().getHeadOfMajorId().getMail());
 			major.setHeadOfMajor(majorIns);
-			dto.setMajor(major);
+			}dto.setMajor(major);
 		}
 		catch(Exception ex)
 		{

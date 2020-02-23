@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @Repository("IPetitionsActionsRep")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+@Transactional
 public class PetitionsActionsRepImpl implements IPetitionsActionsRep{
 
 	@Autowired
@@ -34,6 +34,7 @@ public class PetitionsActionsRepImpl implements IPetitionsActionsRep{
 	public PetitionsActions add(PetitionsActions action) {
 		try{
 			sessionFactory.getCurrentSession().save(action);
+			System.out.println("Data:dakrory: "+action.getActionType().getID());
 			return action;
 			}
 			catch(Exception ex)

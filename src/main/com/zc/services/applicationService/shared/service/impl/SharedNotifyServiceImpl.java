@@ -806,7 +806,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
                 
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Under review";
+						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -838,7 +838,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Under review";
+						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -849,7 +849,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.contains(Constants.PETITION_STATUS_REFUSED_BY_DEAN)) {
 					studentContent += Constants.PETITION_STATUS_REFUSED_BY_DEAN;
 				}*/
-				studentContent += "<br/> The next step is the Admission Head approval";
+				studentContent += "<br/> The next step is the Final Discision";
 			} else if (overLoadRequest.getStep().equals(PetitionStepsEnum.DEAN)
 					&& (overLoadRequest.getProvostRequired() != null && overLoadRequest
 							.getProvostRequired())) {
@@ -863,7 +863,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Under review";
+						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -888,7 +888,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Under review";
+						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -899,7 +899,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.contains(Constants.PETITION_STATUS_REFUSED_BY_PROVOST)) {
 					studentContent += Constants.PETITION_STATUS_REFUSED_BY_PROVOST;
 				}*/
-				studentContent += "<br/> The next step is the Admission Head approval";
+				studentContent += "<br/> The next step is the final discision";
 
 			} else if (overLoadRequest.getStep().equals(
 					PetitionStepsEnum.ADMISSION_PROCESSING)) {
@@ -916,7 +916,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 						+ overLoadRequest.getId()
-						+ " is : <br/> Under review";
+						+ " is : <br/> Waiting Action From Registrar";
 				else 
 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
@@ -929,7 +929,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.contains(Constants.PETITION_STATUS_REFUSED_BY_ADMISSION_HEAD)) {
 					studentContent += Constants.PETITION_STATUS_REFUSED_BY_ADMISSION_HEAD;
 				}*/
-				studentContent += "<br/> The next step is the Admission Department approval";
+				studentContent += "<br/> The next step is the final discision";
 			} else if (overLoadRequest.getStep().equals(
 					PetitionStepsEnum.ADMISSION_DEPT)) {
 				// Notify Student
@@ -940,7 +940,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " <br/> Under review";
+						+ overLoadRequest.getId() + " <br/> Has been Finished";
 				else 
 					studentContent = "We would like to inform you that your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " <br/> "+status;

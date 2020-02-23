@@ -23,7 +23,7 @@ import main.com.zc.services.presentation.forms.emails.model.PendingPetitionCount
  *
  */
 @Repository("IOverloadRequestRep")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+@Transactional
 public class OverloadRequestRepImpl implements IOverloadRequestRep{
 
 	@Autowired

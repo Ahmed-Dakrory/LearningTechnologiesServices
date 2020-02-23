@@ -56,13 +56,19 @@ public class GetInstructorDataAppServiceImpl implements
 	@Override
 	public main.com.zc.services.presentation.users.dto.InstructorDTO getInsByMailNew(String mail) {
 		try{
+			System.out.println(mail);
 			Employee ins = insRep.getByMail(mail);
+
+if(ins!=null) {
 			main.com.zc.services.presentation.users.dto.InstructorDTO dto=new main.com.zc.services.presentation.users.dto.InstructorDTO();
 			dto.setId(ins.getId());
 			dto.setName(ins.getName());
 			dto.setMail(ins.getMail());
 			dto.setEmpType(ins.getType());
 			return dto;
+}else {
+	return null;
+}
 			}
 			
 			catch(Exception ex)

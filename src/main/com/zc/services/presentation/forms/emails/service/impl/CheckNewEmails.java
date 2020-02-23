@@ -1574,36 +1574,52 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 			
 			IGetInstructorDataAppService insDataService = (IGetInstructorDataAppService) springContext.getBean("IGetInstructorDataAppService");
 			IPersonGetDataAppService studentDataService = (IPersonGetDataAppService) springContext.getBean("IPersonGetDataAppService");
-				Properties props = new Properties();
-				props.put("mail.smtp.host", "smtp.gmail.com");
-				props.put("mail.smtp.socketFactory.port", "465");
-				props.put("mail.smtp.socketFactory.class",
-						"javax.net.ssl.SSLSocketFactory");
-				props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.port", "465");
 
-				Session session = Session.getDefaultInstance(props,
-						new javax.mail.Authenticator() {
-							protected PasswordAuthentication getPasswordAuthentication() {
-								return new PasswordAuthentication(
-										"learningtechnologies@zewailcity.edu.eg",
-										"DELF-651984@dr");
-							}
-						});
+			String from = "learningtechnologies@zewailcity.edu.eg";
+	        String pass = "DELF-651984@dr";
+			
+			// TODO Auto-generated method stub
+			 Properties props = System.getProperties();
+
+		        String host = "smtp.gmail.com";
+		        props.put("mail.smtp.starttls.enable", "true");
+		        props.put("mail.smtp.host", host);
+		        props.put("mail.smtp.user", from);
+		        props.put("mail.smtp.password", pass);
+		        props.put("mail.smtp.port", "587");
+		        props.put("mail.smtp.auth", "true");
+
+		        Session session = Session.getDefaultInstance(props);
+		        MimeMessage message = new MimeMessage(session);
+			        
+				
 
 				javax.mail.internet.InternetAddress[] addressTo = new javax.mail.internet.InternetAddress[recipentList.size()];
 
 				//addressTo[0] = new javax.mail.internet.InternetAddress("oalaaeddin@zewailcity.edu.eg");
 				//addressTo[0] = new javax.mail.internet.InternetAddress("mshoieb@zewailcity.edu.eg");
 				String newhtmlText="";
+				try {
+					if(insDataService.getInsByMailNew(recipentList.get(i))!=null) {
 			    if(insDataService.getInsByMailNew(recipentList.get(i)).getId()!=null){
 				 newhtmlText=htmlText.replace("$name$", insDataService.getInsByMailNew(recipentList.get(i)).getName());
 			    }
-			    else if(studentDataService.getPersonByPersonMail(recipentList.get(i))!=null)
+					}
+}catch(Error e) {
+					
+				}
+				
+				
+				try {
+					if(studentDataService.getPersonByPersonMail(recipentList.get(i))!=null) {
+			    if(studentDataService.getPersonByPersonMail(recipentList.get(i))!=null)
 			    {
 			    	newhtmlText=htmlText.replace("$name$", studentDataService.getPersonByPersonMail(recipentList.get(i)).getNameInEng());
 			    }
-				
+					}
+}catch(Error e) {
+					
+				}
 				// addressTo[0] = new javax.mail.internet.InternetAddress(
 				// "helbadry@zewailcity.edu.eg");
 				// addressTo[1] = new javax.mail.internet.InternetAddress(
@@ -1615,17 +1631,20 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 							recipentList.get(x));
 				}
 
-				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress(
-						"learningtechnologies@zewailcity.edu.eg"));
+				message.setFrom(new InternetAddress(from));
 
 				message.setRecipients(Message.RecipientType.TO, addressTo);
 
 				message.setSubject(title);
 
-				message.setContent(newhtmlText, "text/html; charset=ISO-8859-1");
 
-				 Transport.send(message);
+	            message.setText(newhtmlText);
+
+	    		message.setContent(newhtmlText, "text/html; charset=ISO-8859-1");
+	            Transport transport = session.getTransport("smtp");
+	            transport.connect(host, from, pass);
+	            transport.sendMessage(message, message.getAllRecipients());
+	            transport.close();
 //				System.out.println("To:");
 //				for (InternetAddress c : addressTo) {
 //					System.out.println(c.getAddress());

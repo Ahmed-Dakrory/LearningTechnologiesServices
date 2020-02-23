@@ -102,6 +102,7 @@
 							rendered="#{DetailsBeanOverloadRequest.detailedDTO.reverted}"/>
 							
 						</h:panelGroup>
+						
 						<!-- Student Info -->
 						<h:panelGroup id="studentInfoGrid">
 							<ul class="studentInfo">
@@ -120,7 +121,7 @@
 												<h:outputLabel value="Inform Provost with petition" />
 											</h:panelGroup>
 											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanOverloadRequest.approve}" rendered="#{DetailsBeanOverloadRequest.oldMood!=true and DetailsBeanOverloadRequest.admissionDeptMood==false }" class="greenBtn" />
-								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanOverloadRequest.refuse}" rendered="#{DetailsBeanOverloadRequest.oldMood!=true and DetailsBeanOverloadRequest.admissionDeptMood==false }" class="redBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanOverloadRequest.refuse}" rendered="#{DetailsBeanOverloadRequest.oldMood!=true and DetailsBeanOverloadRequest.admissionDeptMood==true }" class="redBtn" />
 											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanOverloadRequest.markAsDone}" rendered="#{DetailsBeanOverloadRequest.oldMood==false and DetailsBeanOverloadRequest.admissionDeptMood==true  and !DetailsBeanOverloadRequest.audit}" ajax="false" update="form growl" class="greenBtn" />
 											<p:commandButton value="Revert" 
 											rendered="#{!DetailsBeanOverloadRequest.oldMood and !DetailsBeanOverloadRequest.audit}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
@@ -243,12 +244,12 @@
 						    <td><h:outputLabel value="Major" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.major.majorName}" /></td>
 						    </tr>
-						    
+						    <!-- 
 							<tr>
 						    <td><h:outputLabel value="Academic Year" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.year}" /></td>
 						    </tr>
-					
+					 -->
 					        <tr>
 						    <td><h:outputLabel value="GPA" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.gpa}" /></td>
@@ -344,8 +345,8 @@
 					</p:panel>
 				</div>
 			</h:form>
-					<h:form id="printForm" style="display:none;">
 			
+					<h:form id="printForm" style="display:none;">
            
            	<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.name}" />
 			<h:panelGrid columns="2" class="student" id="printGrid">
