@@ -1524,236 +1524,124 @@ public class DetailsBean {
    	 }
    	 
    	 public void refuseAdmissionDep()
-   	 {
-
-     	System.out.println("DoneOk: No");
+	 {
    		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-
-        	System.out.println("DoneOk: 3A");
+		if(authentication.getName().equals(Constants.ADMISSION_DEPT))
+		{
     	try{
-    	OverloadRequestDTO dto=getDetailedDTO();
-
-    	System.out.println("DoneOk: 4A");
-    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
-		{
-			dto.setNotifyAt(null);
-		}
-    	System.out.println("DoneOk: 5A");
-    	//InstructorDTO loggedInInstructor=getInsDataFacade.getInsByPersonMail(authentication.getName());
-    	// 1- get action of petition
-    	
-    	//2- loop on actions 
-    	boolean actionExistBefore=false;
-    	int index=0;
-    	if(dto.getActionDTO().size()>0){
-    		
-    	for(int i=0;i<dto.getActionDTO().size();i++)
-    	{
-    		actionExistBefore=false;
-    		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
-    		if(dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
-    				dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
-    		{
-    			actionExistBefore=true;
-    			index=i;
-    			break;
-    			
-    			
-    		}
-    	}
-    	
-    	
-    	
-
-    	System.out.println("DoneOk: New5A");
-    		if(actionExistBefore)
-	    	{
-
-    			System.out.println("DoneOK: "+String.valueOf("ok3"));
-	    		//4- then we've two cases 
-    			//5- a) the petition already approved 
-    			if(dto.getActionDTO().get(index).getActionType()!=null)
-    			{
-    			if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
-    			{
-    				  JavaScriptMessagesHandler.RegisterWarningMessage(null, "Already Refused Before !");
-    			}
-    		
-    			//6- b) the petition already refused
-    			else if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Approved))
-    			{
-    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
-    		   		
-    	    			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-    	    				
-    	    		dto=facade.updateStatusOfForm(dto);
-    		    	if(dto!=null)
-    		    	{
-    		    		//init();
-    		    		
-    		    		try {
-    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-    		 					("overloeadRequestAdmissionD.xhtml");
-    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
-    		 				} catch (IOException e) {
-    		 					// TODO Auto-generated catch block
-    		 					e.printStackTrace();
-    		 				}
-    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-    		    		}
-    		    	else {
-    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
-    		    	}
-    		    	
-    		    	
-    		    	
-    		    	
-    			}
-    			}
-    			else 
-    			{
-
-    		    	System.out.println("DoneOk: New5B");
-    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
-    		   		
-	    			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-	    				
-	    		dto=facade.updateStatusOfForm(dto);
-		    	if(dto!=null)
-		    	{
-		    		//init();
-		    		
-		    		try {
-		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		 					("overloeadRequestAdmissionD.xhtml");
-		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
-		 				} catch (IOException e) {
-		 					// TODO Auto-generated catch block
-		 					e.printStackTrace();
-		 				}
-		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-		    		}
-		    	else {
-		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
-		    	}
-    			}
-    			
-	    	}
-    		// else there is no previous actions
-    		else 
-    		{
-
-    	    	System.out.println("DoneOk: NNNNNNA");
-    			//8- add new action object 
-    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
-    			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
-    			System.out.println("DoneOK: "+String.valueOf("ok"));
-    			newAction.setDate(Calendar.getInstance());
-    			newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
-    			newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
-    			newAction.setPetitionID(dto.getId());
-    			System.out.println("DoneOK: "+String.valueOf(newAction.getActionType().getValue()));
-    			if(getNewComment()!=null)
-    			{
-    				if(!getNewComment().trim().equals(""))
-    				{
-    					newAction.setComment(getNewComment());
-    				}	
-    			}
-    			
-    			
-    			dto.getActionDTO().add(newAction);
-    			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-				
-    			
-    			dto=facade.updateStatusOfForm(dto);
-    		    	if(dto!=null)
-    		    	{
-    		    		//init();
-    		    		
-    		    		try {
-    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-    		 					("overloeadRequestAdmissionD.xhtml");
-    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
-    		 				} catch (IOException e) {
-    		 					// TODO Auto-generated catch block
-    		 					e.printStackTrace();
-    		 				}
-    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-    		    		}
-    		    	else {
-    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
-    		    	}
-    		}
- 
-    	
-    	
-    	}
-    	else 
-    	{
-
-    		PetitionsActionsDTO newAction=new PetitionsActionsDTO();
-			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
-			System.out.println("DoneOK: "+String.valueOf("ok"));
-			newAction.setDate(Calendar.getInstance());
-			newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
-			newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
-			newAction.setPetitionID(dto.getId());
-			System.out.println("DoneOK: "+String.valueOf(newAction.getActionType().getValue()));
-			
-			
-		if(getNewComment()!=null)
-		{
-			if(!getNewComment().trim().equals(""))
+    		OverloadRequestDTO dto=getDetailedDTO();
+    		if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 			{
-				newAction.setComment(getNewComment());
-			}	
+				dto.setNotifyAt(null);
+			}
+
+    		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+    	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+    	dto.setPerformed(true);
+   	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    String date = sdf.format(Calendar.getInstance().getTime());
+	   
+	  
+		
+System.out.println("DakroryNew: 11");
+boolean existed=false;
+int index=0;
+for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
+{
+   System.out.println("Dakrory: "+String.valueOf(getDetailedDTO().getActionDTO().get(i).getInstructorID()));
+if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+{
+	
+    existed=true;
+    index=i;
+	break;
+}	
+}
+if(existed){
+
+	System.out.println("DakroryNew: 21");
+	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+	dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Refused);
+	dto=facade.updateStatusOfForm(dto);
+	if(dto!=null)
+	{
+		//init();
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+		try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect
+				("overloeadRequestAdmissionD.xhtml?id="+dto.getId());
+				JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		sharedAcademicPetFacade.notifayNextStepOwner(dto);
 		}
-    
-		
-		dto.getActionDTO().add(newAction);
-		dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-		
+	else {
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+	}
+}
+//Defing new action row
+else {
+
+	System.out.println("DakroryNew: 3");
+PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+newAction.setActionType(PetitionActionTypeEnum.Refused);
+newAction.setDate(Calendar.getInstance());
+dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+newAction.setPetitionID(dto.getId());
+if(getNewComment()!=null)
+{
+	if(!getNewComment().trim().equals(""))
+	{
+		newAction.setComment(getNewComment());
+	}	
+}
+
+
+dto.getActionDTO().add(newAction);
+
+dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+sharedAcademicPetFacade.notifayNextStepOwner(dto);
+
+}
+
+				
 		
 		dto=facade.updateStatusOfForm(dto);
-	    	if(dto!=null)
-	    	{
-	    		//init();
-	    		
-	    		try {
-	 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	 					("overloeadRequestAdmissionD.xhtml");
-	 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
-	 				} catch (IOException e) {
-	 					// TODO Auto-generated catch block
-	 					e.printStackTrace();
-	 				}
-	    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-	    		}
-	    	else {
-	    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
-	    	}
-	
+
+    	System.out.println("DakroryNew: 7");
+    	if(dto!=null)
+    	{
+    	 	init();
+    	 	FacesContext.getCurrentInstance().getExternalContext().redirect
+			("overloeadRequestAdmissionD.xhtml?id="+dto.getId()+"&action=refuse");
+        		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Done!");
+        		sharedAcademicPetFacade.notifayNextStepOwner(dto);
     	}
-		
+    	else {
+    		JavaScriptMessagesHandler.RegisterErrorMessage(null, " failed!");
     	}
-    
-    
-    	
-    
-    	
-    	
-    	
-    	
+    	}
     	catch(Exception ex)
     	{
     		ex.printStackTrace();
-    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+    		JavaScriptMessagesHandler.RegisterErrorMessage(null, " failed!");
+    		
     	}
-    	}
-   	 }
+    	
+    }
+		else{
+			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Allowed only for registrar");
+		}
+		
+		}
+	 }
    	
    	public void approveProvost()
    	 {
@@ -2202,7 +2090,7 @@ public class DetailsBean {
  	}
  	}
    	}
-    public void markAsDone()
+   public void markAsDone()
 	 {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -2217,157 +2105,83 @@ public class DetailsBean {
 				}
 	    	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
 	    	dto.setPerformed(true);
+	    	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
 	   	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		    String date = sdf.format(Calendar.getInstance().getTime());
 		   
-		    boolean refusedByAdmissionDept=false;
-		    boolean approvedByAdmissionDept=false;
-		    for(int i=0;i<getDetailedDTO().getActionDTO().size();i++){
-		    	if(getDetailedDTO().getActionDTO().get(i).getActionType()!=null)
-		    	{
-		    	if(getDetailedDTO().getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
-		    	{
-		    		refusedByAdmissionDept=true;
-		    		break;
-		    	}
-		    	}
-		    }
-		    for(int i=0;i<getDetailedDTO().getActionDTO().size();i++){
-		    	if(getDetailedDTO().getActionDTO().get(i).getActionType()!=null)
-		    	{
-		    	if(getDetailedDTO().getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved))
-		    	{
-		    		approvedByAdmissionDept=true;
-		    		break;
-		    	}
-		    	}
-		    }
-			if(refusedByAdmissionDept)
-			{
+		  
+			
+	System.out.println("DakroryNew: 11");
+	boolean existed=false;
+	int index=0;
+   for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
+   {
+	   System.out.println("Dakrory: "+String.valueOf(getDetailedDTO().getActionDTO().get(i).getInstructorID()));
+    if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+    {
+   	
+	    existed=true;
+	    index=i;
+   	break;
+    }	
+   }
+	if(existed){
 
-				boolean existed=false;
-				int index=0;
-               for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
-               {
-                if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
-                {
-               	
-	    		    existed=true;
-	    		    index=i;
-               	break;
-                }	
-               }
-				if(existed){
-					dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-           		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
-   	    		dto=facade.updateStatusOfForm(dto);
-   		    	if(dto!=null)
-   		    	{
-   		    		//init();
-   		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "refused successfully");
-   		    		try {
-   		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-   		 					("overloeadRequestAdmissionD.xhtml?id="+dto.getId());
-   		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "refused successfully");
-   		 				} catch (IOException e) {
-   		 					// TODO Auto-generated catch block
-   		 					e.printStackTrace();
-   		 				}
-   		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-   		    		}
-   		    	else {
-   		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
-   		    	}
+    	System.out.println("DakroryNew: 21");
+		dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Approved);
+		dto=facade.updateStatusOfForm(dto);
+   	if(dto!=null)
+   	{
+   		//init();
+   		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+   		try {
+					FacesContext.getCurrentInstance().getExternalContext().redirect
+					("overloeadRequestAdmissionD.xhtml?id="+dto.getId());
+					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				//Defing new action row
-				else {
-				PetitionsActionsDTO newAction=new PetitionsActionsDTO();
-				newAction.setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
-				newAction.setDate(Calendar.getInstance());
-				newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
-				newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
-				newAction.setPetitionID(dto.getId());
-				if(getNewComment()!=null)
-				{
-					if(!getNewComment().trim().equals(""))
-					{
-						newAction.setComment(getNewComment());
-					}	
-				}
-				
-				
-				dto.getActionDTO().add(newAction);
-			
-		
-				
-				}
-			}
-			if(approvedByAdmissionDept)
-			{
-				boolean existed=false;
-				int index=0;
-               for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
-               {
-                if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
-                {
-               	
-	    		    existed=true;
-	    		    index=i;
-               	break;
-                }	
-               }
-				if(existed){
-					dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-           		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Mark_As_Done_Approving);
-   	    		dto=facade.updateStatusOfForm(dto);
-   		    	if(dto!=null)
-   		    	{
-   		    		//init();
-   		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
-   		    		try {
-   		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-   		 					("overloeadRequestAdmissionD.xhtml?id="+dto.getId());
-   		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
-   		 				} catch (IOException e) {
-   		 					// TODO Auto-generated catch block
-   		 					e.printStackTrace();
-   		 				}
-   		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-   		    		}
-   		    	else {
-   		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
-   		    	}
-				}
-				//Defing new action row
-				else {
-				PetitionsActionsDTO newAction=new PetitionsActionsDTO();
-				newAction.setActionType(PetitionActionTypeEnum.Mark_As_Done_Approving);
-				newAction.setDate(Calendar.getInstance());
-				newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
-				newAction.setPetitionID(dto.getId());
-				newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
-				if(getNewComment()!=null)
-				{
-					if(!getNewComment().trim().equals(""))
-					{
-						newAction.setComment(getNewComment());
-					}	
-				}
-				
-				
-				dto.getActionDTO().add(newAction);
-			
-		
-				
-				}
-				
-			}
-			
-		    dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+   		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+   		}
+   	else {
+   		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+   	}
+	}
+	//Defing new action row
+	else {
+
+    	System.out.println("DakroryNew: 3");
+	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+	newAction.setActionType(PetitionActionTypeEnum.Approved);
+	newAction.setDate(Calendar.getInstance());
+	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+	newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+	newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+	newAction.setPetitionID(dto.getId());
+	if(getNewComment()!=null)
+	{
+		if(!getNewComment().trim().equals(""))
+		{
+			newAction.setComment(getNewComment());
+		}	
+	}
+	
+	
+	dto.getActionDTO().add(newAction);
+
+    dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	sharedAcademicPetFacade.notifayNextStepOwner(dto);
+	
+	}
+
 					
 			
 			dto=facade.updateStatusOfForm(dto);
-			
+
+	    	System.out.println("DakroryNew: 7");
 	    	if(dto!=null)
 	    	{
 	    	 	init();

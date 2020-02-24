@@ -155,8 +155,9 @@ public class OverloadRquestAssembler {
 		}
 		else if(form.getStep().equals(PetitionStepsEnum.CLOSED))
 		{
-			dto.setCurrentStatus("Closed By Admission Department: "+form.getStatus());
-		
+			//dto.setCurrentStatus("Closed By Admission Department: "+form.getStatus());
+			dto.setCurrentStatus("Closed ");
+			
 		}
 		AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
 		dto.setAttachments(attachmentAssm.toDTO(form.getAttachments()));

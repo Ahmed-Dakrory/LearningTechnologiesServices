@@ -31,6 +31,7 @@ import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfi
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IStudentAcademicPetFacade;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
+import main.com.zc.services.presentation.forms.overloadRequest.facade.IOverloadRequestActionsSharedFacade;
 import main.com.zc.services.presentation.forms.overloadRequest.facade.IStudentOverloadRequestFacade;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
@@ -54,6 +55,9 @@ public class StudentOverloadRequestBean {
 	@ManagedProperty("#{StudentOverloadRequestFacadeImpl}")
 	private IStudentOverloadRequestFacade facade;
 
+	@ManagedProperty("#{IOverloadRequestActionsSharedFacade}")
+	private IOverloadRequestActionsSharedFacade facadeOverLoad;
+	
     @ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
 	private IGetLoggedInStudentDataFacade studentDataFacade;
     @ManagedProperty("#{SharedAcademicPetFacadeImpl}")
@@ -215,6 +219,24 @@ public class StudentOverloadRequestBean {
 			e.printStackTrace();
 		}
 	}  
+	
+	public void closeFormOverLoad(int id) {
+		OverloadRequestDTO overLoadReq = facadeOverLoad.getByID(id);
+		overLoadReq.setStep(PetitionStepsEnum.CLOSED);
+		overLoadReq.setStatus(PetitionStepsEnum.CLOSED.getName());
+		overLoadReq.setPerformed(true);
+		facadeOverLoad.updateStatusOfForm(overLoadReq);
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null,"Request with Id "+String.valueOf(id)+" has been closed");
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect
+			("overloadRequestStudent.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public void submitRequest()
 	{
 		System.out.println("Done");
@@ -652,6 +674,20 @@ public class StudentOverloadRequestBean {
 
 	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
 		this.profileFacade = profileFacade;
+	}
+
+
+
+
+	public IOverloadRequestActionsSharedFacade getFacadeOverLoad() {
+		return facadeOverLoad;
+	}
+
+
+
+
+	public void setFacadeOverLoad(IOverloadRequestActionsSharedFacade facadeOverLoad) {
+		this.facadeOverLoad = facadeOverLoad;
 	}
 
 
