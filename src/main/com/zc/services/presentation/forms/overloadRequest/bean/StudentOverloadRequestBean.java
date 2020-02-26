@@ -264,19 +264,23 @@ public class StudentOverloadRequestBean {
 		        System.out.println(profile.getId());
 		        if(profile!=null) {
 		        	if(validProfileToSubmit(profile)) {
-		        CoursesDTO course=new CoursesDTO();
-				course.setId(getSelectedCourseID());
-				dto.setCourse(course);
+		        //CoursesDTO course=new CoursesDTO();
+				//course.setId(getSelectedCourseID());
+				//dto.setCourse(course);
 				dto.setMobile(getMobile());
-				dto.setYear(getSelectedYear());
+				//dto.setYear(getSelectedYear());
 				dto.setStatus(PetitionStepsEnum.ADMISSION_PROCESSING.getName());
 				dto.setSubmissionDate(Calendar.getInstance());
 				dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 				dto.setReason(getReason());
 				dto.setGpa(String.valueOf(profile.getGpa()));
-				MajorDTO major=new MajorDTO();
-				major.setId(getSelectedMajorID());
-				dto.setMajor(major);
+				MajorDTO major=profile.getMajor();
+				if(major!=null) {
+					
+					dto.setMajor(major);
+				}
+
+		        System.out.println(major.getMajorName());
 				if(this.attachmentFile != null)
 				{
 					AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());

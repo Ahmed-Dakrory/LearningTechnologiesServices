@@ -56,14 +56,14 @@
 							 <p:menuitem value="+ New Petition" title="New Petition" class="new" url="/pages/secured/forms/overloadRequest/overloadRequestStudent2.xhtml"
 							rendered="#{DetailsBeanOverloadRequest.casesID.equals('Stduent') and FormsStatusBean.overloadRequest}"/>
 							
-							<p:menuitem value="Audit Petitions" url="/pages/secured/forms/overloadRequest/auditPetitions.xhtml"
+					<!-- 		<p:menuitem value="Audit Petitions" url="/pages/secured/forms/overloadRequest/auditPetitions.xhtml"
 							rendered="#{DetailsBeanOverloadRequest.casesID.equals('AdmissionD')}" />
 					
 							
 							  <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/overloadRequest/inprogressPetitions.xhtml" 
                            	rendered="#{DetailsBeanOverloadRequest.casesID.equals('AdmissionD')||DetailsBeanOverloadRequest.casesID.equals('AdmissionH')||
                            	DetailsBeanOverloadRequest.casesID.equals('Dean') || DetailsBeanOverloadRequest.casesID.equals('Provost')}"/>
-                           	
+                           	 -->
                            	
 							<p:menuitem value="Petition Details" title="Petition Details" disabled="true" />
 							
@@ -281,12 +281,12 @@
 						    <td><h:outputLabel value="GPA" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.gpa}" /></td>
 						    </tr>
-						 
+						 <!-- 
 						    <tr>
 						    <td><h:outputLabel value="Course Name" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.course.name}" /></td>
 						    </tr>
-						       
+						        -->
 						    <tr>
 						    <td><h:outputLabel value="Reason" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.reason}"/></td>

@@ -211,7 +211,7 @@ public class OverloadRquestAssembler {
 		request.setYear(dto.getYear());
 		request.setProvostRequired(dto.getProvostRequired());
 		request.setReverted(dto.getReverted());
-		try{
+		/*try{
 			Courses course=new Courses();
 			course.setId(dto.getCourse().getId());
 			request.setCourse(course);
@@ -220,7 +220,7 @@ public class OverloadRquestAssembler {
 		{
 			System.out.println("Error in getting course of overload request");
 			ex.printStackTrace();
-		}
+		}*/
 		try{
 			Majors major=new Majors();
 			major.setId(dto.getMajor().getId());
@@ -251,6 +251,8 @@ public class OverloadRquestAssembler {
 	{
 		request.setInsSendMail(null);
 	}
+	
+	/*
 	try{
 		Employee ins=new Employee();
 		ins.setId(dto.getForwardTOIns().getId());
@@ -271,7 +273,7 @@ public class OverloadRquestAssembler {
 		System.out.println("Error in assign forwarded ins");
 		System.out.println(ex.toString());
 	}
-	
+	*/
 		return request;
 	}
 }
