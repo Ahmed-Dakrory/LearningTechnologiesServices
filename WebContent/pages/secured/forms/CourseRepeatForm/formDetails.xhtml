@@ -51,13 +51,13 @@
 
                             <p:menuitem value="+ New Petition" title="New Petition" class="new" url="/pages/secured/forms/CourseRepeatForm/courseRepeatFormStudent2.xhtml"
 							rendered="#{DetailsBeanCourseRepeat.casesID.equals('Stduent')}"/>
-							<p:menuitem value="Audit Petitions" url="/pages/secured/forms/CourseRepeatForm/auditPetitions.xhtml"
+							<!-- <p:menuitem value="Audit Petitions" url="/pages/secured/forms/CourseRepeatForm/auditPetitions.xhtml"
 							rendered="#{DetailsBeanCourseRepeat.casesID.equals('AdmissionD')}" />
 					
                             <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/CourseRepeatForm/inprogressPetitions.xhtml" 
                            	rendered="#{DetailsBeanCourseRepeat.casesID.equals('AdmissionD')||DetailsBeanCourseRepeat.casesID.equals('AdmissionH')||
                            	DetailsBeanCourseRepeat.casesID.equals('Dean')}"/>
-                           	
+                           	 -->
 							<p:menuitem value="Petition Details" title="Petition Details" disabled="true" />
 							
 						</p:tabMenu>
@@ -90,8 +90,8 @@
 								</p:commandButton></li>
 								<li class="floatL"><p:commandButton value="Back" title="Back" actionListener="#{DetailsBeanCourseRepeat.cancel}" immediate="true" icon="icon-back" /></li>
 							</ul>
-							<p:commandButton class="redBtn" disabled="true" value="Reverted" onclick="editDlg.show()"
-							rendered="#{DetailsBeanCourseRepeat.detailedDTO.reverted}"/>
+						<!-- 	<p:commandButton class="redBtn" disabled="true" value="Reverted" onclick="editDlg.show()"
+							rendered="#{DetailsBeanCourseRepeat.detailedDTO.reverted}"/> -->
 							</h:panelGroup>
 						
 						<!-- Student Info -->
@@ -108,11 +108,11 @@
 									 	<div class="floatR actionBtns marginRight_18">
 											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanCourseRepeat.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanCourseRepeat.adminView}" class="blueBtn" />
 											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanCourseRepeat.approve}" rendered="#{DetailsBeanCourseRepeat.oldMood!=true and DetailsBeanCourseRepeat.admissionDeptMood==false }" class="greenBtn" />
-								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanCourseRepeat.refuse}" rendered="#{DetailsBeanCourseRepeat.oldMood!=true and DetailsBeanCourseRepeat.admissionDeptMood==false }" class="redBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanCourseRepeat.refuse}" rendered="#{DetailsBeanCourseRepeat.oldMood!=true and DetailsBeanCourseRepeat.admissionDeptMood==true }" class="redBtn" />
 											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanCourseRepeat.markAsDone}" rendered="#{DetailsBeanCourseRepeat.oldMood==false and DetailsBeanCourseRepeat.admissionDeptMood==true and !DetailsBeanCourseRepeat.audit}" ajax="false" update="form growl" class="greenBtn" />
-										    <p:commandButton value="Revert" 
+										  <!--   <p:commandButton value="Revert" 
 											rendered="#{!DetailsBeanCourseRepeat.oldMood  and !DetailsBeanCourseRepeat.audit}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
-											
+											 -->
 											<h:panelGroup rendered="#{!DetailsBeanCourseRepeat.oldMood  and !DetailsBeanCourseRepeat.audit}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
 											</h:panelGroup>
 											
@@ -156,6 +156,18 @@
 													<h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.student.studentProfileDTO.gpa}" />
 													<h:outputLabel value="Current Major" />
 													<h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.student.studentProfileDTO.major.majorName}" />
+													<h:outputLabel value="Student Email" />
+													<h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.student.mail}" />
+												</h:panelGrid>
+											</td>
+											
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Concentration" />
+													<h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.student.studentProfileDTO.concentration.name}" />
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.student.studentProfileDTO.minor}" />
 												</h:panelGrid>
 											</td>
 								
@@ -176,126 +188,76 @@
 								</li>
     							<li>
     							<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()!=11}">
-								<div class="#{(DetailsBeanCourseRepeat.detailedDTO.step.getID()==0)?'formProgress-done':'formProgress-todo'}">
+								<div class="#{(DetailsBeanCourseRepeat.detailedDTO.step.getID()==0||DetailsBeanCourseRepeat.detailedDTO.step.getID()==3||DetailsBeanCourseRepeat.detailedDTO.step.getID()==4||DetailsBeanCourseRepeat.detailedDTO.step.getID()==10)?'formProgress-done':'formProgress-todo'}">
     									<br/>
 										<h:outputLabel value="Under Review" /><br/>
 									</div></h:panelGroup>
 								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==0}">
-										<ui:remove> 
-										<div class="formProgress-todo">
-											<br/>
-											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">
-											    <h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.major.headOfMajor.name}" /><br/>
-												<h:outputLabel value="Program Advisor" />
-											</div>
-										</div>
-										</ui:remove>
-										<div class="formProgress-todo">
-											<br/>
-											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">
-											  <h:outputLabel value="Dean of Academic Affairs" />
-											</div>
-										</div>
-									</h:panelGroup>
-									<!-- OR -->
-									<ui:remove>
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==1 ||
-									  DetailsBeanCourseRepeat.detailedDTO.step.getID()==2 ||
-									   DetailsBeanCourseRepeat.detailedDTO.step.getID()==3 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==4}">
-							    		<div class="formProgress-done">
-							    			<br/>
-							    			<h:outputLabel value="#{DetailsBeanCourseRepeat.instructorActionDetails.actionType.name}" /><br/>
-							    			<div class="otherInfo">
-							    				<h:outputLabel value="#{DetailsBeanCourseRepeat.instructorActionDetails.instructorName}" /><br/>
-							    				<h:outputLabel value="Program Advisor" /><br/>
-							    				<h:outputLabel value="#{DetailsBeanCourseRepeat.instructorActionDetails.friendlyDate}" />
-							    			</div>
-							    		</div>
-									</h:panelGroup></ui:remove>
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==2 || 
-									DetailsBeanCourseRepeat.detailedDTO.step.getID()==3 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==4}">
-										<div class="formProgress-done">
-							    			<br/>
-											<h:outputLabel value="#{DetailsBeanCourseRepeat.deanActionDetails.actionType.name}" /><br/>
-											<div class="otherInfo">
-			    								<h:outputLabel value="#{DetailsBeanCourseRepeat.deanActionDetails.instructorName}" /><br/>
-			    		    					<h:outputLabel value="Dean of Strategic Enrollment Management" /><br/>
-			    								<h:outputLabel value="#{DetailsBeanCourseRepeat.deanActionDetails.friendlyDate}" />
-			    							</div>
-			    						</div>
-									</h:panelGroup>
-									
-								</li><!-- 
-    						 --><ui:remove>
-    						 <li>
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==0 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==1|| DetailsBeanCourseRepeat.detailedDTO.step.getID()==6}">
-										<div class="formProgress-todo">
-											<br/>
-											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">
-												<h:outputLabel value="Dean of Strategic Enrollment Management" />
-											</div>
-										</div>
-									</h:panelGroup>
-									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==2 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==3 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==4}">
-										<div class="formProgress-done">
-							    			<br/>
-											<h:outputLabel value="#{DetailsBeanCourseRepeat.deanActionDetails.actionType.name}" /><br/>
-											<div class="otherInfo">
-			    								<h:outputLabel value="#{DetailsBeanCourseRepeat.deanActionDetails.instructorName}" /><br/>
-			    		    					<h:outputLabel value="Dean of Strategic Enrollment Management" /><br/>
-			    								<h:outputLabel value="#{DetailsBeanCourseRepeat.deanActionDetails.friendlyDate}" />
-			    							</div>
-			    						</div>
-									</h:panelGroup>
-								</li></ui:remove>
+    						 --><!-- 
+    						 -->
 								<!-- 
+    						 --><!-- 
     						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==0 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==2|| DetailsBeanCourseRepeat.detailedDTO.step.getID()==1 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==6}">
-										<div class="formProgress-todo">
-											<br/>
-											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">	
-												<h:outputLabel value="Admission Head" />
-											</div>
-										</div>
-									</h:panelGroup>
-									<!-- OR -->										
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==3 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==4}">
-										<div class="formProgress-done">
-							    			<br/>
-											<h:outputLabel value="#{DetailsBeanCourseRepeat.admissionHActionDetails.actionType.name}" /><br/>
-											<div class="otherInfo">
-					    		       			<h:outputLabel value="Admission Head" /><br/>
-					    		    			<h:outputLabel value="#{DetailsBeanCourseRepeat.admissionHActionDetails.friendlyDate}" />
-					    		    		</div>
-					   			    	</div>
-									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==0 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==2|| DetailsBeanCourseRepeat.detailedDTO.step.getID()==1 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==6 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==3}">
-										<div class="formProgress-todo">
+									
+    							
+    							<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()!=3 }">
+								<div class="formProgress-done">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">	
 												<h:outputLabel value="Admission Staff" />
 											</div>
 										</div>
-									</h:panelGroup>
-									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==4}">
-										<div class="formProgress-done">
+										
+										</h:panelGroup>
+										
+										<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()!=4 and DetailsBeanCourseRepeat.detailedDTO.step.getID()!=10}">
+								<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Staff" />
+											</div>
+										</div>
+										
+										</h:panelGroup>
+									
+									
+								</li>
+								
+								<li>
+									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==0 || 
+									DetailsBeanCourseRepeat.detailedDTO.step.getID()==2|| DetailsBeanCourseRepeat.detailedDTO.step.getID()==1 ||
+									 DetailsBeanCourseRepeat.detailedDTO.step.getID()==6 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==3
+									 || DetailsBeanCourseRepeat.detailedDTO.step.getID()==5}">
+										<div class="formProgress-todo">
 						    				<br/>
 											<h:outputLabel value="Finalized" /><br/>
 											<div class="otherInfo">
 												<h:outputLabel value="Admission Staff" /><br/>
 					    						<h:outputLabel value="#{DetailsBeanCourseRepeat.admissionHActionDetails.friendlyDate}" />
 					    					</div>
+					    				</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Finalized" /><br/>
+											#{DetailsBeanCourseRepeat.detailedDTO.actionDTO.get(DetailsBeanCourseRepeat.detailedDTO.actionDTO.size()-1).actionType.name}<br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Admission Staff" /><br/>
+					    						<h:outputLabel value="#{DetailsBeanCourseRepeat.admissionHActionDetails.friendlyDate}" />
+					    					</div>
+					    				</div>
+									</h:panelGroup>
+									
+									
+									<h:panelGroup rendered="#{DetailsBeanCourseRepeat.detailedDTO.step.getID()==10}">
+										<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Closed" /><br/>
+											
 					    				</div>
 									</h:panelGroup>
 								</li>
@@ -396,9 +358,9 @@
 							<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanCourseRepeat.approve}" rendered="#{DetailsBeanCourseRepeat.oldMood!=true and DetailsBeanCourseRepeat.admissionDeptMood==false }" class="greenBtn" />
 							<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanCourseRepeat.refuse}" rendered="#{DetailsBeanCourseRepeat.oldMood!=true and DetailsBeanCourseRepeat.admissionDeptMood==false }" class="redBtn" />
 							<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanCourseRepeat.markAsDone}" rendered="#{DetailsBeanCourseRepeat.oldMood==false and DetailsBeanCourseRepeat.admissionDeptMood==true and !DetailsBeanCourseRepeat.audit}" ajax="false" update="form growl" class="greenBtn" />
-		   				   <p:commandButton value="Revert" 
+		   				 <!--   <p:commandButton value="Revert" 
 							rendered="#{!DetailsBeanCourseRepeat.oldMood and !DetailsBeanCourseRepeat.audit}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
-							
+							 -->
 							<h:panelGroup rendered="#{!DetailsBeanCourseRepeat.oldMood and !DetailsBeanCourseRepeat.audit}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
 							</h:panelGroup>
 							<p:commandButton value="Proceed" title="Proceed" actionListener="#{DetailsBeanCourseRepeat.proceed}" rendered="#{DetailsBeanCourseRepeat.audit}" ajax="false" update="form growl" class="greenBtn" />

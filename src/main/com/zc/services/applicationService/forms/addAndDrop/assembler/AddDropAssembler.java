@@ -231,9 +231,12 @@ public class AddDropAssembler  {
 		
 		try{
 		Courses addedCourse=new Courses();
+		
 		 form.setCourseLab(dto.getCourseLab());
-		addedCourse.setId(dto.getAddedCourse().getId());
+		if(dto.getAddedCourse()!=null) {
+		 addedCourse.setId(dto.getAddedCourse().getId());
 		form.setAddedCourse(addedCourse);
+		}
 		}
 		catch(Exception ex)
 		{

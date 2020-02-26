@@ -31,26 +31,26 @@ public enum FormsStatusEnum {
 			return "Inactive";
 		}
 	},
-	Second_Phase(2, "Phase 2") {
+	Second_Phase(2, "Phase 2 without penalty") {
 		
 		public int getID() {
 			return 2;
 		}
 		
 		public String getName() {
-			return "Phase 2";
+			return "Phase 2 without penalty";
 		}
 		
 		
 	},
-	Third_Phase(3,"Phase 3") {
+	Third_Phase(3,"Phase 3 with penalty") {
 		@Override
 		public int getID() {
 			return 3;
 		}
 		
 		public String getName() {
-			return "Phase 3";
+			return "Phase 3 with penalty";
 		}
 	},
 	

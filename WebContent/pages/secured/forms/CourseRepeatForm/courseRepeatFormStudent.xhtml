@@ -65,6 +65,9 @@
 								<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable:nextStatus:filter"/>
 							</p:column>
 				
+				<p:column width="185" id="delete" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:commandButton value="Close" actionListener="#{CourseRepeatStudentBean.closeFormCourseRepeat(forms.id)}" escape="false"/>
+							</p:column>
 						</p:dataTable>
 					</p:panel>
 				</div>

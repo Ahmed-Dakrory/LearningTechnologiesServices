@@ -33,6 +33,7 @@ import main.com.zc.services.presentation.forms.CourseRepeat.facade.ICourseRepeat
 import main.com.zc.services.presentation.forms.CourseRepeat.facade.ICourseRepeatAdminFacade;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
+import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
 import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
@@ -402,7 +403,9 @@ public class DetailsBean {
 	        	 refuseAdmissionHead();
 	        	 break;
 	        	 
-	        
+	         case "AdmissionD": 
+	          	 refuseAdmissionDep();
+	          	 break;
 			 }
 		 }
 		 
@@ -1723,7 +1726,128 @@ public class DetailsBean {
 		    	}
 		    	
 		}
-		 public void cancel()
+		
+		 public void refuseAdmissionDep()
+		 {
+	   		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+			{
+			if(authentication.getName().equals(Constants.ADMISSION_DEPT))
+			{
+	    	try{
+	    		CourseRepeatDTO dto=getDetailedDTO();
+	    		if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
+				{
+					dto.setNotifyAt(null);
+				}
+
+	    		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+	    	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	    	dto.setPerformed(true);
+	   	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		    String date = sdf.format(Calendar.getInstance().getTime());
+		   
+		  
+			
+	System.out.println("DakroryNew: 11");
+	boolean existed=false;
+	int index=0;
+	for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
+	{
+	   System.out.println("Dakrory: "+String.valueOf(getDetailedDTO().getActionDTO().get(i).getInstructorID()));
+	if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+	{
+		
+	    existed=true;
+	    index=i;
+		break;
+	}	
+	}
+	if(existed){
+
+		System.out.println("DakroryNew: 21");
+		dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Refused);
+		dto=facade.updateStatusOfForm(dto);
+		if(dto!=null)
+		{
+			//init();
+			JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+			try {
+					FacesContext.getCurrentInstance().getExternalContext().redirect
+					("courseRepeatFormAdmissionDept.xhtml?id="+dto.getId());
+					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			sharedAcademicPetFacade.notifayNextStepOwner(dto);
+			}
+		else {
+			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+		}
+	}
+	//Defing new action row
+	else {
+
+		System.out.println("DakroryNew: 3");
+	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+	newAction.setActionType(PetitionActionTypeEnum.Refused);
+	newAction.setDate(Calendar.getInstance());
+	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+	newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+	newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+	newAction.setPetitionID(dto.getId());
+	if(getNewComment()!=null)
+	{
+		if(!getNewComment().trim().equals(""))
+		{
+			newAction.setComment(getNewComment());
+		}	
+	}
+
+
+	dto.getActionDTO().add(newAction);
+
+	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	sharedAcademicPetFacade.notifayNextStepOwner(dto);
+
+	}
+
+					
+			
+			dto=facade.updateStatusOfForm(dto);
+
+	    	System.out.println("DakroryNew: 7");
+	    	if(dto!=null)
+	    	{
+	    	 	init();
+	    	 	FacesContext.getCurrentInstance().getExternalContext().redirect
+				("courseRepeatFormAdmissionDept.xhtml?id="+dto.getId()+"&action=refuse");
+	        		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Done!");
+	        		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+	    	}
+	    	else {
+	    		JavaScriptMessagesHandler.RegisterErrorMessage(null, " failed!");
+	    	}
+	    	}
+	    	catch(Exception ex)
+	    	{
+	    		ex.printStackTrace();
+	    		JavaScriptMessagesHandler.RegisterErrorMessage(null, " failed!");
+	    		
+	    	}
+	    	
+	    }
+			else{
+				JavaScriptMessagesHandler.RegisterErrorMessage(null, "Allowed only for registrar");
+			}
+			
+			}
+		 }
+	   	
+		public void cancel()
 			{
 				 switch (casesID) {
 		         case "Ins":  //Approve Of Instructor
@@ -1789,7 +1913,7 @@ public class DetailsBean {
 			
 			}
 		
-		 public void markAsDone()
+		public void markAsDone()
 		 {
 				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 				if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -1804,157 +1928,83 @@ public class DetailsBean {
 					}
 		    	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
 		    	dto.setPerformed(true);
+		    	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
 		   	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			    String date = sdf.format(Calendar.getInstance().getTime());
 			   
-			    boolean refusedByAdmissionDept=false;
-			    boolean approvedByAdmissionDept=false;
-			    for(int i=0;i<getDetailedDTO().getActionDTO().size();i++){
-			    	if(getDetailedDTO().getActionDTO().get(i).getActionType()!=null)
-			    	{
-			    	if(getDetailedDTO().getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
-			    	{
-			    		refusedByAdmissionDept=true;
-			    		break;
-			    	}
-			    	}
-			    }
-			    for(int i=0;i<getDetailedDTO().getActionDTO().size();i++){
-			    	if(getDetailedDTO().getActionDTO().get(i).getActionType()!=null)
-			    	{
-			    	if(getDetailedDTO().getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved))
-			    	{
-			    		approvedByAdmissionDept=true;
-			    		break;
-			    	}
-			    	}
-			    }
-				if(refusedByAdmissionDept)
-				{
+			  
+				
+		System.out.println("DakroryNew: 11");
+		boolean existed=false;
+		int index=0;
+	   for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
+	   {
+		   System.out.println("Dakrory: "+String.valueOf(getDetailedDTO().getActionDTO().get(i).getInstructorID()));
+	    if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+	    {
+	   	
+		    existed=true;
+		    index=i;
+	   	break;
+	    }	
+	   }
+		if(existed){
 
-					boolean existed=false;
-					int index=0;
-	                for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
-	                {
-	                 if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
-	                 {
-	                	
-		    		    existed=true;
-		    		    index=i;
-	                	break;
-	                 }	
-	                }
-					if(existed){
-						dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-	            		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
-	    	    		dto=facade.updateStatusOfForm(dto);
-	    		    	if(dto!=null)
-	    		    	{
-	    		    		//init();
-	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "refused successfully");
-	    		    		try {
-	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("courseRepeatFormAdmissionDept.xhtml?id="+dto.getId());
-	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "refused successfully");
-	    		 				} catch (IOException e) {
-	    		 					// TODO Auto-generated catch block
-	    		 					e.printStackTrace();
-	    		 				}
-	    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-	    		    		}
-	    		    	else {
-	    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
-	    		    	}
+	    	System.out.println("DakroryNew: 21");
+			dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+			dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+			dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Approved);
+			dto=facade.updateStatusOfForm(dto);
+	   	if(dto!=null)
+	   	{
+	   		//init();
+	   		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+	   		try {
+						FacesContext.getCurrentInstance().getExternalContext().redirect
+						("courseRepeatFormAdmissionDept.xhtml?id="+dto.getId());
+						JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					//Defing new action row
-					else {
-					PetitionsActionsDTO newAction=new PetitionsActionsDTO();
-					newAction.setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
-					newAction.setDate(Calendar.getInstance());
-					newAction.setFormType(FormTypesEnum.REPEATECOURSE);
-					newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
-					newAction.setPetitionID(dto.getId());
-					if(getNewComment()!=null)
-					{
-						if(!getNewComment().trim().equals(""))
-						{
-							newAction.setComment(getNewComment());
-						}	
-					}
-					
-					
-					dto.getActionDTO().add(newAction);
-				
-			
-					
-					}
-				}
-				if(approvedByAdmissionDept)
-				{
-					boolean existed=false;
-					int index=0;
-	                for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
-	                {
-	                 if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
-	                 {
-	                	
-		    		    existed=true;
-		    		    index=i;
-	                	break;
-	                 }	
-	                }
-					if(existed){
-						dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
-	            		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Mark_As_Done_Approving);
-	    	    		dto=facade.updateStatusOfForm(dto);
-	    		    	if(dto!=null)
-	    		    	{
-	    		    		//init();
-	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
-	    		    		try {
-	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("courseRepeatFormAdmissionDept.xhtml?id="+dto.getId());
-	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
-	    		 				} catch (IOException e) {
-	    		 					// TODO Auto-generated catch block
-	    		 					e.printStackTrace();
-	    		 				}
-	    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
-	    		    		}
-	    		    	else {
-	    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
-	    		    	}
-					}
-					//Defing new action row
-					else {
-					PetitionsActionsDTO newAction=new PetitionsActionsDTO();
-					newAction.setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
-					newAction.setDate(Calendar.getInstance());
-					newAction.setFormType(FormTypesEnum.REPEATECOURSE);
-					newAction.setPetitionID(dto.getId());
-					newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
-					if(getNewComment()!=null)
-					{
-						if(!getNewComment().trim().equals(""))
-						{
-							newAction.setComment(getNewComment());
-						}	
-					}
-					
-					
-					dto.getActionDTO().add(newAction);
-				
-			
-					
-					}
-					
-				}
-				
-			    dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	   		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+	   		}
+	   	else {
+	   		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+	   	}
+		}
+		//Defing new action row
+		else {
+
+	    	System.out.println("DakroryNew: 3");
+		PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+		newAction.setActionType(PetitionActionTypeEnum.Approved);
+		newAction.setDate(Calendar.getInstance());
+		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+		newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+		newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+		newAction.setPetitionID(dto.getId());
+		if(getNewComment()!=null)
+		{
+			if(!getNewComment().trim().equals(""))
+			{
+				newAction.setComment(getNewComment());
+			}	
+		}
+		
+		
+		dto.getActionDTO().add(newAction);
+
+	    dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+		
+		}
+
 						
 				
 				dto=facade.updateStatusOfForm(dto);
-				
+
+		    	System.out.println("DakroryNew: 7");
 		    	if(dto!=null)
 		    	{
 		    	 	init();
@@ -1981,6 +2031,7 @@ public class DetailsBean {
 				
 				}
 		 }
+		
 			public void notifyUser()
 			{
 				try{

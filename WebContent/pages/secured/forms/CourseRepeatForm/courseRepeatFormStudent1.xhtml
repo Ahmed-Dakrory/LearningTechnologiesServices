@@ -44,7 +44,7 @@
 							rendered="#{FormsStatusBean.courseRepeat}"/>
 							
 						</p:tabMenu>
-						<p:dataTable var="forms" value="#{CourseRepeatStudentBean.archievedForms}" selectionMode="multiple" selection="#{CourseRepeatStudentBean.selectedArchievedForms}" rowKey="#{forms.id}" sortMode="multiple" 
+						<p:dataTable var="forms" value="#{CourseRepeatStudentBean.archievedForms}" selectionMode="single" selection="#{CourseRepeatStudentBean.selectedArchievedForms}" rowKey="#{forms.id}" sortMode="multiple" 
 							filteredValue="#{CourseRepeatStudentBean.filteredArchievedForms}" widgetVar="formsTable" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
 							<p:ajax event="rowSelect" listener="#{CourseRepeatStudentBean.onRowSelect}" />
 							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">

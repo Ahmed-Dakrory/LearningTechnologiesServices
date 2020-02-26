@@ -160,7 +160,7 @@ public class CourseRepeatAssembler {
 				}*/
 			}else if(form.getStep().equals(PetitionStepsEnum.CLOSED))
 			{
-				dto.setCurrentStatus("Closed By Admission Department: "+form.getStatus());
+				dto.setCurrentStatus("Closed");
 			
 			}
 		  dto.setNotifyAt(form.getInsNotifyDate());  

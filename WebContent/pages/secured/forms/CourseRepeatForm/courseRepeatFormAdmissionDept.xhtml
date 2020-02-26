@@ -24,8 +24,10 @@
 						<p:tabMenu activeIndex="0">
 						    <p:menuitem value="Pending Petitions" url="/pages/secured/forms/CourseRepeatForm/courseRepeatFormAdmissionDept.xhtml"/>
 							<p:menuitem value="Old Petitions" url="/pages/secured/forms/CourseRepeatForm/courseRepeatFormAdmissionDept1.xhtml" />
-					       	<p:menuitem value="Audit Petitions" url="/pages/secured/forms/CourseRepeatForm/auditPetitions.xhtml"/>
+					      <!--  	<p:menuitem value="Audit Petitions" url="/pages/secured/forms/CourseRepeatForm/auditPetitions.xhtml"/>
+						
 							<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/CourseRepeatForm/inprogressPetitions.xhtml" />
+						 -->
 						</p:tabMenu>
 					<h:panelGroup id="ListView" rendered="#{!CourseRepeatAdmissionDeptBean.detailView}">
 						<p:dataTable var="forms" value="#{CourseRepeatAdmissionDeptBean.pendingForms}" selectionMode="single" selection="#{CourseRepeatAdmissionDeptBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple" 

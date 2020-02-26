@@ -24,14 +24,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.CourseRepeat.dto.CourseRepeatDTO;
+import main.com.zc.services.presentation.forms.CourseRepeat.facade.ICourseRepeatActionsSharedFacade;
 import main.com.zc.services.presentation.forms.CourseRepeat.facade.ICourseRepeatStudentFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IStudentAcademicPetFacade;
+import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
+import main.com.zc.services.presentation.forms.overloadRequest.facade.IOverloadRequestActionsSharedFacade;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.AttachmentDownloaderHelper;
 import main.com.zc.shared.JavaScriptMessagesHandler;
@@ -51,6 +56,11 @@ public class CourseRepeatStudentBean {
 	
 	@ManagedProperty("#{CourseRepeatStudentFacadeImpl}")
 	private ICourseRepeatStudentFacade facade;
+	
+	
+	@ManagedProperty("#{ICourseRepeatActionsSharedFacade}")
+	private ICourseRepeatActionsSharedFacade facadeCourseRepeat;
+	
 	
 	@ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
 	private IGetLoggedInStudentDataFacade studentDataFacade;
@@ -82,6 +92,11 @@ public class CourseRepeatStudentBean {
 	private Integer selectedNewSem;
 	private Integer selectedOldSem;
 	private String grade;
+	
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
+    
 	private UploadedFile attachmentFile;
 	private List<BaseDTO> semesters;
 	private List<BaseDTO> semesterLst;
@@ -156,6 +171,24 @@ public class CourseRepeatStudentBean {
 
 		}
 	
+	public void closeFormCourseRepeat(int id) {
+		CourseRepeatDTO overLoadReq = facadeCourseRepeat.getByID(id);
+		overLoadReq.setStep(PetitionStepsEnum.CLOSED);
+		overLoadReq.setStatus(PetitionStepsEnum.CLOSED.getName());
+		overLoadReq.setPerformed(true);
+		facadeCourseRepeat.updateStatusOfForm(overLoadReq);
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null,"Request with Id "+String.valueOf(id)+" has been closed");
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect
+			("courseRepeatFormStudent.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void fillArchievedLst()
 	{
 		archievedForms=new ArrayList<CourseRepeatDTO>();
@@ -202,14 +235,21 @@ public class CourseRepeatStudentBean {
 			    StudentDTO student=new StudentDTO();
 				student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());
 				
+				StudentProfileDTO profile = profileFacade.getCurrentPRofileByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
+				 if(profile!=null) {
+			        	if(validProfileToSubmit(profile)) {
+					
+					MajorDTO major=profile.getMajor();
+					if(major!=null) {
+						
+						dto.setMajor(major);
+					}
+
 		        dto.setStudent(student);
 		        CoursesDTO course =new CoursesDTO();
 		        course.setId(getSelectedCourseID());
 				dto.setCourse(course);
 				
-				MajorDTO major =new MajorDTO();
-				major.setId(getSelectedMajorID());
-				dto.setMajor(major);
 				
 				if(getSelectedNewSem()==0)
 					dto.setNewSem(SemesterEnum.Fall);
@@ -230,11 +270,12 @@ public class CourseRepeatStudentBean {
 					dto.setOldSem(SemesterEnum.Winter);
 				
 				
-				dto.setMobile(getMobileNo());
+				dto.setMobile(profile.getMobile());
 			
-				dto.setStatus(PetitionStepsEnum.AUDITING.getName());
+
+				dto.setStatus(PetitionStepsEnum.ADMISSION_PROCESSING.getName());
 				dto.setSubmissionDate(Calendar.getInstance());
-				dto.setStep(PetitionStepsEnum.AUDITING);
+				dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 				
 				dto.setReason(getReason());
 				
@@ -261,7 +302,9 @@ public class CourseRepeatStudentBean {
 		        {
 		        	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can't Be Submitted");
 		        }
-		        
+			        	}
+			        	
+				 }
 			}
 		}
 		 else 
@@ -272,6 +315,15 @@ public class CourseRepeatStudentBean {
 		catch(Exception ex){
 			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can not Be Submitted");
 		}
+	}
+	
+	
+	private boolean validProfileToSubmit(StudentProfileDTO profile) {
+		// TODO Auto-generated method stub
+		if(profile.getGpa()<3 && profile.getCompletedCreditHrs()>65) {
+			return true;
+		}
+		return true;
 	}
 	
 	public void showDetails(CourseRepeatDTO form)
@@ -632,6 +684,26 @@ public class CourseRepeatStudentBean {
 
 	public void setMajorFacade(IMajorsFacade majorFacade) {
 		this.majorFacade = majorFacade;
+	}
+
+
+	public StudentProfileFacadeImpl getProfileFacade() {
+		return profileFacade;
+	}
+
+
+	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+		this.profileFacade = profileFacade;
+	}
+
+
+	public ICourseRepeatActionsSharedFacade getFacadeCourseRepeat() {
+		return facadeCourseRepeat;
+	}
+
+
+	public void setFacadeCourseRepeat(ICourseRepeatActionsSharedFacade facadeCourseRepeat) {
+		this.facadeCourseRepeat = facadeCourseRepeat;
 	}
 
 

@@ -107,7 +107,7 @@ public class AcademicPetitionAssembler {
 		}
 		else if(form.getStep().equals(PetitionStepsEnum.CLOSED))
 		{
-			dto.setCurStatus("Closed By Admission Department: "+form.getStatus());
+			dto.setCurStatus("Closed");
 		
 		}
 		dto.setTitle(form.getTitle());

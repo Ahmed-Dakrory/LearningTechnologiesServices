@@ -45,7 +45,7 @@
 						</p:tabMenu>
 						<div class="tabWrapper">
 							<h:panelGrid columns="2">
-							
+							<!-- 
 								<p:outputLabel value="Major" for="majors"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="majors" value="#{CourseRepeatStudentBean.selectedMajorID}" required="true" requiredMessage="Please select major">
@@ -54,7 +54,8 @@
 									</p:selectOneMenu>
 									<p:message for="majors" />
 								</h:panelGroup>
-								
+								 
+								 
 								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
 								<h:panelGroup class="marginLeft_12">
 									<p:inputText required="true" id="mobileNO" value="#{CourseRepeatStudentBean.mobileNo}"
@@ -65,6 +66,9 @@
 									</p:inputText>
 									<p:message for="mobileNO" />
 								</h:panelGroup>
+								
+								-->
+								 
 								<p:outputLabel value="Reason for repeating the course" for="reason" />
 								<h:panelGroup class="marginLeft_12">
 									<p:inputTextarea required="true" requiredMessage="Please enter your reason" id="reason" value="#{CourseRepeatStudentBean.reason}" maxlength="500" validatorMessage="Only 500 Characters allowed" >
@@ -115,7 +119,7 @@
 									 	</p:inputText>	
 									<p:message for="grade" />								
 								</h:panelGroup>
-								
+								 
 								<p:outputLabel value="Semester at which it was first taken" for="oldSem" />
 								<h:panelGroup class="marginLeft_12">
 								<p:selectOneMenu required="true" requiredMessage="Please select semester" id="oldSem" value="#{CourseRepeatStudentBean.selectedOldSem}">

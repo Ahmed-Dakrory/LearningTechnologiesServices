@@ -30,12 +30,12 @@
 						 	<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase2.xhtml"
 						 	rendered="#{FormsStatusBean.dropAddPhase2}"
 						 	/>
-						 		<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase1.xhtml"
+						 	<!-- 	<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/dropAndAdd/addDropStudentPhase1.xhtml"
 						 	rendered="#{FormsStatusBean.dropAdd}"
-						 	/>	</p:tabMenu>
+						 	/> -->	</p:tabMenu>
 						<div class="tabWrapper">
 							<h:panelGrid columns="2">
-								<p:outputLabel value="Major" for="majors"/>
+								<!-- <p:outputLabel value="Major" for="majors"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="majors" value="#{DropAddBean.selectedMajorId}" required="true" requiredMessage="Please select major">
 										<f:selectItem itemLabel="Select Major" />
@@ -52,6 +52,8 @@
 									</p:inputText>
 									<p:message for="mobileNO" />
 								</h:panelGroup>
+								
+								 -->
 								<p:outputLabel value="Your Request" for="request"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="request" value="#{DropAddBean.selectedAction}" required="true" requiredMessage="Please select action">
@@ -79,7 +81,7 @@
 										<li>&nbsp;</li>
 										<li><p:selectBooleanCheckbox value="#{DropAddBean.repeatedCourse}" /><p:outputLabel value="You are repeating this course" /></li>
 									</ul>
-									<ul class="formLine"> 
+									<!-- <ul class="formLine"> 
 										<li>&nbsp;</li>
 										<li><p:selectBooleanCheckbox value="#{DropAddBean.hasCourseLab}" >
 									  		<p:ajax update="writeAdd" />
@@ -91,7 +93,7 @@
 										<p:message for="courseLabTextAdd"/>
 										</p:panel></li>
 										
-									</ul>
+									</ul> -->
 									<ul class="formLine">
 										<li><p:outputLabel value="Attachment: "/></li>
 										<li class="paddingTop_12">
@@ -125,7 +127,7 @@
 										<li>&nbsp;</li>
 										<li><p:selectBooleanCheckbox value="#{DropAddBean.repeatedCourse}" /><p:outputLabel value="You are repeating this course" /></li>
 									</ul>
-											<ul class="formLine"> 
+									<!-- 		<ul class="formLine"> 
 										<li>&nbsp;</li>
 										<li><p:selectBooleanCheckbox value="#{DropAddBean.hasCourseLab}" >
 									  		<p:ajax update="writeDrop" />
@@ -137,7 +139,7 @@
 										<p:message for="courseLabTextDrop"/>
 										</p:panel></li>
 										
-									</ul>
+									</ul> -->
 									<ul class="formLine">
 										<li><p:outputLabel value="Attachment:"/></li>
 										<li class="paddingTop_12">

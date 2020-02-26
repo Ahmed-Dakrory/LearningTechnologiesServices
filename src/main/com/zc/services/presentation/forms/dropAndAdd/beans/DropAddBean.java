@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
 import main.com.zc.services.domain.shared.enumurations.AddDropFormTypesEnum;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.configuration.bean.FormsStatusBean;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
@@ -36,6 +37,7 @@ import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.AttachmentDownloaderHelper;
 import main.com.zc.shared.JavaScriptMessagesHandler;
@@ -110,7 +112,10 @@ public class DropAddBean {
 	private Boolean repeatedCourse;
 	private Boolean hasCourseLab;
 	private String courseLab;
-	
+	private String mail;
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
 
 	@PostConstruct
 	public void init()
@@ -231,215 +236,218 @@ public class DropAddBean {
     	init();
     }
     public void submitRequest( Integer choice)
-	{
-	try{
-		DropAddFormDTO request=new DropAddFormDTO();
-		
-		if(	formsStatusBean.isDropAdd())
-		{
-			request.setStep(PetitionStepsEnum.UNDER_PROCESSING);
-			request.setStatus(PetitionStepsEnum.UNDER_PROCESSING.getName()+" By Admission Department");
-		}
-		else {
-			request.setStep(PetitionStepsEnum.UNDER_REVIEW);
-			request.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
-		}
+   	{
+   	try{
+   		DropAddFormDTO request=new DropAddFormDTO();
+   		
+   		if(	formsStatusBean.isDropAdd())
+   		{
+   			request.setStep(PetitionStepsEnum.UNDER_PROCESSING);
+   			request.setStatus(PetitionStepsEnum.UNDER_PROCESSING.getName()+" By Admission Department");
+   		}
+   		else {
+   			request.setStep(PetitionStepsEnum.UNDER_REVIEW);
+   			request.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+   		}
+   		StudentProfileDTO profile = profileFacade.getCurrentPRofileByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
+		 if(profile!=null) {
+	        	
 			
-    	if(choice==1)//Add Action
-	{
-		CoursesDTO course=new CoursesDTO();
-		course.setId(getSelectedAddCourseID());
-		request.setAddedCourse(course);
-		request.setSubmittedDate(Calendar.getInstance());
-		request.setPhone(getMobile());
-		MajorDTO major=new MajorDTO();
-		major.setId(getSelectedMajorId());
-		request.setMajor(major);
-		StudentDTO student=new StudentDTO();
-		student.setId(getPersonDTO().getId());
-		student.setFacultyId(getPersonDTO().getFileNo());
-        student.setMail(getPersonDTO().getEmail());
-        student.setName(getPersonDTO().getNameInEng());
-        request.setStudent(student);
-        request.setType(AddDropFormTypesEnum.ADD);
-        request.setRepeatedCourse(getRepeatedCourse());
-        request.setCourseLab(getCourseLab());
-        if(this.attachmentFile != null)
-		{
-			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
-			request.setAttachments(attachment);
-		}
-        
-        request=facade.addForm(request);
-        if(request!=null)
-        {
-        	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
-        	init();
-        	
-        	FacesContext.getCurrentInstance().getExternalContext().redirect
-			("addDropStudent.xhtml?id="+request.getId());
-        	sharedAcademicPetFacade.notifayNextStepOwner(request);	
-              }
-        else 
-        {
-        	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can't Be Submitted");
-        }
-		
-	}
-	else if(choice==2)//Drop
-	{
-		request.setType(AddDropFormTypesEnum.DROP);
-		CoursesDTO course=new CoursesDTO();
-		course.setId(getSelectedDropCourseID());
-		request.setDropCourse(course);
-		request.setSubmittedDate(Calendar.getInstance());
-		request.setPhone(getMobile());
-		MajorDTO major=new MajorDTO();
-		major.setId(getSelectedMajorId());
-		request.setMajor(major);
-			StudentDTO student=new StudentDTO();
-		student.setId(getPersonDTO().getId());
-		student.setFacultyId(getPersonDTO().getFileNo());
-        student.setMail(getPersonDTO().getEmail());
-        student.setName(getPersonDTO().getNameInEng());
-        request.setStudent(student);
-         request.setRepeatedCourse(getRepeatedCourse());
-        request.setCourseLab(getCourseLab());
-        if(this.attachmentFile != null)
-		{
-			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
-			request.setAttachments(attachment);
-		}
-        //TODO Comment it in phase one and two
-       /* if(getSelectedInsID()!=null)
-        {
-        InstructorDTO insDTO=new InstructorDTO();
-        insDTO.setId(getSelectedInsID());
-        
-        request.setDroppedCourseIns(insDTO);
-        }
-        */
-        request=facade.addForm(request);
-        if(request!=null)
-        {
-        	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
-        	init();
-        	FacesContext.getCurrentInstance().getExternalContext().redirect
-			("addDropStudent.xhtml?id="+request.getId());
-        	sharedAcademicPetFacade.notifayNextStepOwner(request);	
-        	}
-        else 
-        {
-        	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can Be Submitted");
-        }
-	}
-	else if(choice==3)//Drop And Add
-	{
-		request.setType(AddDropFormTypesEnum.DROPANDADD);
-		CoursesDTO added=new CoursesDTO();
-		added.setId(getSelectedAddCourseID());
-		request.setAddedCourse(added);
-		CoursesDTO droped=new CoursesDTO();
-		droped.setId(getSelectedDropCourseID());
-		request.setDropCourse(droped);
-		request.setSubmittedDate(Calendar.getInstance());
-		request.setPhone(getMobile());
-		MajorDTO major=new MajorDTO();
-		major.setId(getSelectedMajorId());
-		request.setMajor(major);
-		StudentDTO student=new StudentDTO();
-		student.setId(getPersonDTO().getId());
-		student.setFacultyId(getPersonDTO().getFileNo());
-        student.setMail(getPersonDTO().getEmail());
-        student.setName(getPersonDTO().getNameInEng());
-        request.setStudent(student);
-        request.setAddedSection(addedSection);
-        request.setDroppedSection(droppedSection);
-        request.setRepeatedCourse(getRepeatedCourse());
-        request.setCourseLab(getCourseLab());
-        if(this.attachmentFile != null)
-		{
-			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
-			request.setAttachments(attachment);
-		}
-        
-        request=facade.addForm(request);
-        
-		
-		
-        
-      
-        
-        if(request!=null)
-        {
-        	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
-        	init();
-        	FacesContext.getCurrentInstance().getExternalContext().redirect
-			("addDropStudent.xhtml?id="+request.getId());
-        	sharedAcademicPetFacade.notifayNextStepOwner(request);	
-        	}
-      
-       
-	}
-    	
-	else if(choice==4)//Drop phase 3 
-	{
-		request.setType(AddDropFormTypesEnum.DROP);
-		CoursesDTO course=new CoursesDTO();
-		course.setId(getSelectedDropCourseID());
-		request.setDropCourse(course);
-		request.setSubmittedDate(Calendar.getInstance());
-		request.setPhone(getMobile());
-		MajorDTO major=new MajorDTO();
-		major.setId(getSelectedMajorId());
-		request.setMajor(major);
-		StudentDTO student=new StudentDTO();
-		student.setId(getPersonDTO().getId());
-		student.setFacultyId(getPersonDTO().getFileNo());
-        student.setMail(getPersonDTO().getEmail());
-        student.setName(getPersonDTO().getNameInEng());
-        request.setStudent(student);
-        request.setRepeatedCourse(getRepeatedCourse());
-        request.setCourseLab(getCourseLab());
-        if(this.attachmentFile != null)
-		{
-			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
-			request.setAttachments(attachment);
-		}
-       
-       if(getSelectedInsID()!=null)
-        {
-        InstructorDTO insDTO=new InstructorDTO();
-        insDTO.setId(getSelectedInsID());
-        
-        request.setDroppedCourseIns(insDTO);
-        request.setPhase(3);
-        }
-        
-        request=facade.addForm(request);
-        
-        if(request!=null)
-        {
-        	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
-        	init();
-        	FacesContext.getCurrentInstance().getExternalContext().redirect
-			("addDropStudent.xhtml?id="+request.getId());
-        	request.setPhase(3);
-        	sharedAcademicPetFacade.notifayNextStepOwner(request);	
-        	}
-        else 
-        {
-        	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can Be Submitted");
-        }
-	}
-    	}
-	catch(Exception ex)
-	{
-		ex.printStackTrace();
-		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Unexpected Error");
-	}
-		
-	}
+			MajorDTO major=profile.getMajor();
+			if(major!=null) {
+				
+				request.setMajor(major);
+			}	
+       	if(choice==1)//Add Action
+   	{
+   		CoursesDTO course=new CoursesDTO();
+   		course.setId(getSelectedAddCourseID());
+   		request.setAddedCourse(course);
+   		request.setSubmittedDate(Calendar.getInstance());
+   		StudentDTO student=new StudentDTO();
+   		student.setId(getPersonDTO().getId());
+   		student.setFacultyId(getPersonDTO().getFileNo());
+           student.setMail(getPersonDTO().getEmail());
+           student.setName(getPersonDTO().getNameInEng());
+           student.setStudentProfileDTO(profile);
+           request.setStudent(student);
+           request.setType(AddDropFormTypesEnum.ADD);
+           request.setRepeatedCourse(getRepeatedCourse());
+           request.setCourseLab(getCourseLab());
+           if(this.attachmentFile != null)
+   		{
+   			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
+   			request.setAttachments(attachment);
+   		}
+           
+           request=facade.addForm(request);
+           if(request!=null)
+           {
+           	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
+           	init();
+           	
+           	FacesContext.getCurrentInstance().getExternalContext().redirect
+   			("addDropStudent.xhtml?id="+request.getId());
+           	sharedAcademicPetFacade.notifayNextStepOwner(request);	
+                 }
+           else 
+           {
+           	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can't Be Submitted");
+           }
+   		
+   	}
+   	else if(choice==2)//Drop
+   	{
+   		request.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
+			request.setStatus(PetitionStepsEnum.ADMISSION_PROCESSING.getName());
+   		request.setType(AddDropFormTypesEnum.DROP);
+   		CoursesDTO course=new CoursesDTO();
+   		course.setId(getSelectedDropCourseID());
+   		request.setDropCourse(course);
+   		request.setSubmittedDate(Calendar.getInstance());
+   			StudentDTO student=new StudentDTO();
+   		student.setId(getPersonDTO().getId());
+   		student.setFacultyId(getPersonDTO().getFileNo());
+           student.setMail(getPersonDTO().getEmail());
+           student.setName(getPersonDTO().getNameInEng());
+           student.setStudentProfileDTO(profile);
+           request.setStudent(student);
+            request.setRepeatedCourse(getRepeatedCourse());
+           request.setCourseLab(getCourseLab());
+           if(this.attachmentFile != null)
+   		{
+   			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
+   			request.setAttachments(attachment);
+   		}
+           //TODO Comment it in phase one and two
+          /* if(getSelectedInsID()!=null)
+           {
+           InstructorDTO insDTO=new InstructorDTO();
+           insDTO.setId(getSelectedInsID());
+           
+           request.setDroppedCourseIns(insDTO);
+           }
+           */
+           request=facade.addForm(request);
+           if(request!=null)
+           {
+           	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
+           	init();
+           	FacesContext.getCurrentInstance().getExternalContext().redirect
+   			("addDropStudent.xhtml?id="+request.getId());
+           	sharedAcademicPetFacade.notifayNextStepOwner(request);	
+           	}
+           else 
+           {
+           	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can Be Submitted");
+           }
+   	}
+   	else if(choice==3)//Drop And Add
+   	{
+   		request.setType(AddDropFormTypesEnum.DROPANDADD);
+   		CoursesDTO added=new CoursesDTO();
+   		added.setId(getSelectedAddCourseID());
+   		request.setAddedCourse(added);
+   		CoursesDTO droped=new CoursesDTO();
+   		droped.setId(getSelectedDropCourseID());
+   		request.setDropCourse(droped);
+   		request.setSubmittedDate(Calendar.getInstance());
+   		StudentDTO student=new StudentDTO();
+   		student.setId(getPersonDTO().getId());
+   		student.setFacultyId(getPersonDTO().getFileNo());
+           student.setMail(getPersonDTO().getEmail());
+           student.setName(getPersonDTO().getNameInEng());
+           student.setStudentProfileDTO(profile);
+           request.setStudent(student);
+           request.setAddedSection(addedSection);
+           request.setDroppedSection(droppedSection);
+           request.setRepeatedCourse(getRepeatedCourse());
+           request.setCourseLab(getCourseLab());
+           if(this.attachmentFile != null)
+   		{
+   			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
+   			request.setAttachments(attachment);
+   		}
+           
+           request=facade.addForm(request);
+           
+   		
+   		
+           
+         
+           
+           if(request!=null)
+           {
+           	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
+           	init();
+           	FacesContext.getCurrentInstance().getExternalContext().redirect
+   			("addDropStudent.xhtml?id="+request.getId());
+           	sharedAcademicPetFacade.notifayNextStepOwner(request);	
+           	}
+         
+          
+   	}
+       	
+   	else if(choice==4)//Drop phase 3 
+   	{
+   		request.setType(AddDropFormTypesEnum.DROP);
+   		CoursesDTO course=new CoursesDTO();
+   		course.setId(getSelectedDropCourseID());
+   		request.setDropCourse(course);
+   		request.setSubmittedDate(Calendar.getInstance());
+   		request.setPhone(getMobile());
+   		StudentDTO student=new StudentDTO();
+   		student.setId(getPersonDTO().getId());
+   		student.setFacultyId(getPersonDTO().getFileNo());
+           student.setMail(getPersonDTO().getEmail());
+           student.setName(getPersonDTO().getNameInEng());
+           student.setStudentProfileDTO(profile);
+           request.setStudent(student);
+           request.setRepeatedCourse(getRepeatedCourse());
+           request.setCourseLab(getCourseLab());
+           if(this.attachmentFile != null)
+   		{
+   			AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
+   			request.setAttachments(attachment);
+   		}
+          
+          if(getSelectedInsID()!=null)
+           {
+           InstructorDTO insDTO=new InstructorDTO();
+           insDTO.setId(getSelectedInsID());
+           
+           request.setDroppedCourseIns(insDTO);
+           request.setPhase(3);
+           }
+           
+           request=facade.addForm(request);
+           
+           if(request!=null)
+           {
+           	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Form has been submitted successfully");
+           	init();
+           	FacesContext.getCurrentInstance().getExternalContext().redirect
+   			("addDropStudent.xhtml?id="+request.getId());
+           	request.setPhase(3);
+           	sharedAcademicPetFacade.notifayNextStepOwner(request);	
+           	}
+           else 
+           {
+           	JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can Be Submitted");
+           }
+   	}
+       	}
+   	}
+   	catch(Exception ex)
+   	{
+   		ex.printStackTrace();
+   		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Unexpected Error");
+   	}
+   		
+   	}
+    
+    
+    
     
     public void upload(FileUploadEvent event) {  
 	    // Do what you want with the file      
@@ -556,8 +564,8 @@ public class DropAddBean {
 		{
 			
 			
-			String mail = authentication.getName();
-			
+			mail = authentication.getName();
+			System.out.print("Dakrory: "+String.valueOf(mail));
 			return studentDataFacade.getPersonByPersonMail(mail);
 		}
 		
@@ -902,6 +910,22 @@ public class DropAddBean {
 
 		public void setFormsStatusBean(FormsStatusBean formsStatusBean) {
 			this.formsStatusBean = formsStatusBean;
+		}
+
+		public StudentProfileFacadeImpl getProfileFacade() {
+			return profileFacade;
+		}
+
+		public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+			this.profileFacade = profileFacade;
+		}
+
+		public String getMail() {
+			return mail;
+		}
+
+		public void setMail(String mail) {
+			this.mail = mail;
 		}
 
 		
