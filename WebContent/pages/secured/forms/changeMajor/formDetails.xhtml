@@ -59,7 +59,7 @@
 						<!-- More Actions buttons -->
 						<h:panelGroup id="actionBtnsGrid">
 							<ul class="moreActionBtns">
-								<li>
+							<!-- 	<li>
 									<p:commandButton id="forwardBtn" value="Forward to Instructor" title="Forward" type="button" rendered="#{!DetailsBeanChangeMajor.oldMood and DetailsBeanChangeMajor.renderForward}" icon="icon-forward" styleClass="forwardBtn"/>
 					           		<p:overlayPanel id="instructorsPanel" for="forwardBtn" hideEffect="fade" dynamic="true" class="forwardOverlay">
 		          						<p:selectOneListbox id="basic" value="#{DetailsBeanChangeMajor.selectedInstructor}">
@@ -75,7 +75,7 @@
 										<p:watermark for="reminddate" value="Select Date" id="watermark" /><br/>
 							        	<p:commandButton value="Save Reminder" title="Save Reminder" actionListener="#{DetailsBeanChangeMajor.saveReminder}" ajax="false" update="form growl" />
 									</p:overlayPanel>
-								</li>
+								</li> -->
 								<li><p:commandButton value="Print" title="Print" type="button" icon="icon-print">
 								 <p:printer target=":mainForm:printForm:printGrid" />
 								 </p:commandButton></li>

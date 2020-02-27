@@ -39,6 +39,8 @@
 									<p:message for="majors" />
 								</h:panelGroup>
 								</ui:remove>
+								
+								<!--  
 								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
 								<h:panelGroup class="marginLeft_12">
 									<p:inputText required="true" id="mobileNO" value="#{changeMajorStudentBean.mobile}"
@@ -49,6 +51,8 @@
 									</p:inputText>
 									<p:message for="mobileNO" />
 								</h:panelGroup>
+								
+								
 								<p:outputLabel value="GPA" for="gpa" />
 								<h:panelGroup class="marginLeft_12">
 									<p:inputText required="true" converterMessage="Please enter digits only" id="gpa" requiredMessage="Please Enter GPA" 
@@ -57,7 +61,9 @@
 										<f:validateDoubleRange minimum="0.0" maximum="10.0" />
 									</p:inputText>
 									<p:message for="gpa" />
-								</h:panelGroup>		 
+								</h:panelGroup>	
+								
+									 -->
 							  	<p:outputLabel value="Current Major" for="curMajor"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu required="true" requiredMessage="Please select major" id="curMajor" value="#{changeMajorStudentBean.selectedCurMajorId}">

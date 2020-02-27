@@ -21,12 +21,14 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.changeMajor.facade.IChangeMajorStudentFacade;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.AttachmentDownloaderHelper;
 import main.com.zc.shared.JavaScriptMessagesHandler;
@@ -48,7 +50,9 @@ public class ChangeMajorStudentBean {
 	private ISharedAcademicPetFacade sharedAcademicPetFacade;
     @ManagedProperty("#{IMajorsFacade}")
   	private IMajorsFacade majorFacade;
-    
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
 	private List<ChangeMajorDTO> pendingForms;
 	private List<ChangeMajorDTO> archievedForms;
 	private ChangeMajorDTO selectedPendingForms;
@@ -173,7 +177,9 @@ public class ChangeMajorStudentBean {
 		{
 			String mail = authentication.getName();
 			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
-				
+				 StudentProfileDTO profile = profileFacade.getCurrentPRofileByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
+
+			        if(profile!=null) {
 			    StudentDTO student=new StudentDTO();
 				student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());
 				student.setFacultyId(studentDataFacade.getPersonByPersonMail(mail).getFileNo());
@@ -182,7 +188,7 @@ public class ChangeMajorStudentBean {
 		        request.setStudent(student);
 		        request.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
 		        request.setSubmissionDate(Calendar.getInstance());
-				request.setMobile(getMobile());
+				request.setMobile(profile.getMobile());
 				MajorDTO major=new MajorDTO();
 				major.setId(getSelectedMajorId());
 				request.setMajor(major);
@@ -203,7 +209,7 @@ public class ChangeMajorStudentBean {
 		        request.setNewSpecialization(getNewSpec());
 		        request.setDoubleSpecialization(getDoubleSpec());
 		        request.setMoreDetails(getMoreDetails());
-		        request.setGpa(getGpa());
+		        request.setGpa(profile.getGpa());
 		        
 		        if(this.attachmentFile != null)
 				{
@@ -227,6 +233,9 @@ public class ChangeMajorStudentBean {
 		        	JavaScriptMessagesHandler.RegisterErrorMessage(null,"Form Can't Be Submitted" );
 		        }
 		        
+			}else {
+				JavaScriptMessagesHandler.RegisterErrorMessage(null, "Form Can not Be Submitted");
+			}
 			}
 		}
 		 else 
@@ -419,6 +428,12 @@ public class ChangeMajorStudentBean {
 	}
 	public void setCurrentmajorsLst(List<MajorDTO> currentmajorsLst) {
 		this.currentmajorsLst = currentmajorsLst;
+	}
+	public StudentProfileFacadeImpl getProfileFacade() {
+		return profileFacade;
+	}
+	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+		this.profileFacade = profileFacade;
 	}
 	
 }
