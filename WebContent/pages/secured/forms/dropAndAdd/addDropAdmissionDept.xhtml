@@ -24,7 +24,7 @@
 						<p:tabMenu activeIndex="0">
 							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmissionDept.xhtml" />
 							<p:menuitem value="Old Petitions" url="/pages/secured/forms/dropAndAdd/addDropAdmissionDept1.xhtml"/>
-							<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/dropAndAdd/inprogressPetitions.xhtml" />
+							<!-- <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/dropAndAdd/inprogressPetitions.xhtml" /> -->
                         </p:tabMenu>
 					<h:panelGroup id="ListView" rendered="#{!dropAddAdmissionDeptBean.detailView}">
 						<p:dataTable rowStyleClass="#{forms.acceptRefuseCssName}" var="forms" value="#{dropAddAdmissionDeptBean.pendingForms}" selectionMode="single" selection="#{dropAddAdmissionDeptBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple" 

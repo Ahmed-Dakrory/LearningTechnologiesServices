@@ -41,7 +41,7 @@ import org.hibernate.annotations.NamedQuery;
 			+ " (d.droppedCourseIns.id IS NOT NULL and d.droppedCourseIns.id= :id)) and d.forwardTOIns IS NULL) or d.forwardTOIns.id = :id ORDER BY d.id DESC"),
 	@NamedQuery(name = "DropAddForm.getDeanPending", query = "FROM DropAddForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 1 and ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
 	@NamedQuery(name = "DropAddForm.getAdHeadPending", query = "FROM DropAddForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 2 and ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
-	@NamedQuery(name = "DropAddForm.getAdDeptPending", query = "FROM DropAddForm c where (c.performed = 0 or c.performed IS NULL) and (c.step = 3 OR c.step = 9) and ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
+	@NamedQuery(name = "DropAddForm.getAdDeptPending", query = "FROM DropAddForm c where (c.performed = 0 or c.performed IS NULL) and (c.step = 3 OR c.step = 9 OR c.step = 1) and ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
 /*	@NamedQuery(name = "DropAddForm.getInstructorPending", query = "SELECT new main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject"
 			+ "( c.major.headOfMajorId , COUNT(c)) FROM DropAddForm c where (c.performed = 0 or c.performed IS NULL) "
 			+ "and c.step = 0  and ( :forDailyMAil = true  OR c.insNotifyDate IS Null ) GROUP BY c.major.headOfMajorId "),*/

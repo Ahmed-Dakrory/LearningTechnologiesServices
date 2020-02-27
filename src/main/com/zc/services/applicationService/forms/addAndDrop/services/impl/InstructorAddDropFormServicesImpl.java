@@ -56,11 +56,13 @@ public class InstructorAddDropFormServicesImpl implements IInstructorAddDropForm
 			
 			//TODO Comment it in phase three
 			List<DropAddForm> allForms=addDropRepository.getByDropppedCourseIns(insID);
-			
+
 		for(int i=0;i<allForms.size();i++)
 		{
+
 			if(allForms.get(i).getPerformed()==null)
 			{
+
 				if(allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_REVIEW)||allForms.get(i).getStep().equals(PetitionStepsEnum.INSTRUCTOR))
 				{
 					// first add list of actions to this petition 

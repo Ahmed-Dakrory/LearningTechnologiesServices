@@ -102,12 +102,17 @@ public class AddDropAssembler  {
 				//dto.setCurrentStatus("Reviewed By Course Instructor");
 			
 			}
-			dto.setNextStatus("Reviewing By Dean of Strategic Enrollment Management");
+			dto.setCurrentStatus("Waiting Action From Registrar");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
 		{
 			dto.setCurrentStatus("Reviewed By Dean of Strategic Enrollment Management");
 			dto.setNextStatus("Reviewing By Admission Head");
+		}
+		else 	if(form.getStep().equals(PetitionStepsEnum.CLOSED))
+		{
+			dto.setCurrentStatus("Closed");
+			dto.setNextStatus("");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{

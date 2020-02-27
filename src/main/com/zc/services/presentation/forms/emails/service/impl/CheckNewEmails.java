@@ -42,6 +42,7 @@ import main.com.zc.services.presentation.forms.emails.service.ICheckNewMails;
 import main.com.zc.shared.appService.IGetInstructorDataAppService;
 import main.com.zc.shared.appService.IPersonGetDataAppService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.ContextLoaderListener;
@@ -1611,12 +1612,15 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 				
 				
 				try {
+					if (recipentList.get(i).toLowerCase().startsWith("s-")||StringUtils.isNumeric(recipentList.get(i).substring(0, 4))) {
 					if(studentDataService.getPersonByPersonMail(recipentList.get(i))!=null) {
 			    if(studentDataService.getPersonByPersonMail(recipentList.get(i))!=null)
 			    {
 			    	newhtmlText=htmlText.replace("$name$", studentDataService.getPersonByPersonMail(recipentList.get(i)).getNameInEng());
 			    }
 					}
+					}	
+					
 }catch(Error e) {
 					
 				}

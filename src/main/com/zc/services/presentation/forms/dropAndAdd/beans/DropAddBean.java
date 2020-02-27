@@ -28,9 +28,11 @@ import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfi
 import main.com.zc.services.presentation.configuration.bean.FormsStatusBean;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.forms.CourseRepeat.facade.ICourseRepeatActionsSharedFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IStudentAcademicPetFacade;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
+import main.com.zc.services.presentation.forms.dropAndAdd.facade.IAddDropActionsFacade;
 import main.com.zc.services.presentation.forms.dropAndAdd.facade.IStudentAddDropFormFacade;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
@@ -55,6 +57,11 @@ public class DropAddBean {
 
 	@ManagedProperty("#{StudentAddDropFormFacadeImpl}")
 	private IStudentAddDropFormFacade facade;
+	
+	
+	@ManagedProperty("#{IAddDropActionsFacade}")
+	private IAddDropActionsFacade facadeActionsAddDrop;
+	
 	
 	@ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
 	private IGetLoggedInStudentDataFacade studentDataFacade;
@@ -155,6 +162,27 @@ public class DropAddBean {
 			System.out.println("Not redirect");
 		}
 	}
+	
+	
+	
+	public void closeFormAddDrop(int id) {
+		DropAddFormDTO overLoadReq = facadeActionsAddDrop.getByID(id);
+		overLoadReq.setStep(PetitionStepsEnum.CLOSED);
+		overLoadReq.setStatus(PetitionStepsEnum.CLOSED.getName());
+		overLoadReq.setPerformed(true);
+		facadeActionsAddDrop.updateStatusOfForm(overLoadReq);
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null,"Request with Id "+String.valueOf(id)+" has been closed");
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect
+			("addDropStudent.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	public void fillPendingForms()
 	{
@@ -390,6 +418,8 @@ public class DropAddBean {
        	
    	else if(choice==4)//Drop phase 3 
    	{
+   		request.setStep(PetitionStepsEnum.UNDER_REVIEW);
+		request.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
    		request.setType(AddDropFormTypesEnum.DROP);
    		CoursesDTO course=new CoursesDTO();
    		course.setId(getSelectedDropCourseID());
@@ -926,6 +956,18 @@ public class DropAddBean {
 
 		public void setMail(String mail) {
 			this.mail = mail;
+		}
+
+
+
+		public IAddDropActionsFacade getFacadeActionsAddDrop() {
+			return facadeActionsAddDrop;
+		}
+
+
+
+		public void setFacadeActionsAddDrop(IAddDropActionsFacade facadeActionsAddDrop) {
+			this.facadeActionsAddDrop = facadeActionsAddDrop;
 		}
 
 		

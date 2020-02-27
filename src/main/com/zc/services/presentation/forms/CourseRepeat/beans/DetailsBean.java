@@ -1796,7 +1796,7 @@ public class DetailsBean {
 	newAction.setActionType(PetitionActionTypeEnum.Refused);
 	newAction.setDate(Calendar.getInstance());
 	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
-	newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+	newAction.setFormType(FormTypesEnum.REPEATECOURSE);
 	newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
 	newAction.setPetitionID(dto.getId());
 	if(getNewComment()!=null)
@@ -1981,7 +1981,7 @@ public class DetailsBean {
 		newAction.setActionType(PetitionActionTypeEnum.Approved);
 		newAction.setDate(Calendar.getInstance());
 		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
-		newAction.setFormType(FormTypesEnum.OVERLOADREQUEST);
+		newAction.setFormType(FormTypesEnum.REPEATECOURSE);
 		newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
 		newAction.setPetitionID(dto.getId());
 		if(getNewComment()!=null)

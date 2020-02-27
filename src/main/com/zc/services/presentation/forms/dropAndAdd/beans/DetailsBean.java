@@ -4,6 +4,7 @@
 package main.com.zc.services.presentation.forms.dropAndAdd.beans;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -240,12 +241,131 @@ public class DetailsBean {
         	 refuseAdmissionHead();
         	 break;
         	 
+         case "AdmissionD":  
+        	 refuseAdmissionDep();
+        	 break;
+        	 
         
 		 }
 	 }
 	 
 	 
-	 
+	 public void refuseAdmissionDep()
+	 {
+   		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+		if(authentication.getName().equals(Constants.ADMISSION_DEPT))
+		{
+    	try{
+    		DropAddFormDTO dto=getDetailedDTO();
+    		if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
+			{
+				dto.setNotifyAt(null);
+			}
+
+    		dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+    	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+    	dto.setPerformed(true);
+   	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    String date = sdf.format(Calendar.getInstance().getTime());
+	   
+	  
+		
+boolean existed=false;
+int index=0;
+for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
+{
+if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+{
+	
+    existed=true;
+    index=i;
+	break;
+}	
+}
+if(existed){
+
+	dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+	dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+	dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Refused);
+	dto=facade.updateStatusOfForm(dto);
+	if(dto!=null)
+	{
+		//init();
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+		try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect
+				("addDropAdmissionDept.xhtml?id="+dto.getId());
+				JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+		}
+	else {
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+	}
+}
+//Defing new action row
+else {
+
+PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+newAction.setActionType(PetitionActionTypeEnum.Refused);
+newAction.setDate(Calendar.getInstance());
+dto.setStatus(PetitionStepsEnum.ADMISSION_DEPT.getName());
+newAction.setFormType(FormTypesEnum.DROPADD);
+newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+newAction.setPetitionID(dto.getId());
+if(getNewComment()!=null)
+{
+	if(!getNewComment().trim().equals(""))
+	{
+		newAction.setComment(getNewComment());
+	}	
+}
+
+
+dto.getActionDTO().add(newAction);
+
+dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+sharedAcademicPetFacade.notifayNextStepOwner(dto);
+
+}
+
+				
+		
+		dto=facade.updateStatusOfForm(dto);
+
+    	System.out.println("DakroryNew: 7");
+    	if(dto!=null)
+    	{
+    	 	init();
+    	 	FacesContext.getCurrentInstance().getExternalContext().redirect
+			("addDropAdmissionDept.xhtml?id="+dto.getId()+"&action=refuse");
+        		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Done!");
+        		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+    	}
+    	else {
+    		JavaScriptMessagesHandler.RegisterErrorMessage(null, " failed!");
+    	}
+    	}
+    	catch(Exception ex)
+    	{
+    		ex.printStackTrace();
+    		JavaScriptMessagesHandler.RegisterErrorMessage(null, " failed!");
+    		
+    	}
+    	
+    }
+		else{
+			JavaScriptMessagesHandler.RegisterErrorMessage(null, "Allowed only for registrar");
+		}
+		
+		}
+	 }
+   	
 	 
 	 public void approveIns()
 	 {
@@ -1797,6 +1917,65 @@ public class DetailsBean {
 				
 			}
 			
+			
+			if(!approvedByAdmissionDept && !refusedByAdmissionDept) {
+				int index =0;
+				boolean existed = false;
+				for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
+                {
+                 if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+                 {
+                	
+	    		    existed=true;
+	    		    index=i;
+                	break;
+                 }	
+                }
+				if(existed){
+					dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
+            		dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Approved);
+    	    		dto=facade.updateStatusOfForm(dto);
+    		    	if(dto!=null)
+    		    	{
+    		    		//init();
+    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+    		    		try {
+    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+    		 					("addDropAdmissionDept.xhtml?id="+dto.getId());
+    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+    		 				} catch (IOException e) {
+    		 					// TODO Auto-generated catch block
+    		 					e.printStackTrace();
+    		 				}
+    		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+    		    		}
+    		    	else {
+    		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+    		    	}
+				}
+				//Defing new action row
+				else {
+				PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+				newAction.setActionType(PetitionActionTypeEnum.Approved);
+				newAction.setDate(Calendar.getInstance());
+				newAction.setFormType(FormTypesEnum.DROPADD);
+				newAction.setPetitionID(dto.getId());
+				newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+				if(getNewComment()!=null)
+				{
+					if(!getNewComment().trim().equals(""))
+					{
+						newAction.setComment(getNewComment());
+					}	
+				}
+				
+				
+				dto.getActionDTO().add(newAction);
+			
+		
+				
+				}
+			}
 		    dto.setStep(PetitionStepsEnum.ADMISSION_DEPT);
 					
 			

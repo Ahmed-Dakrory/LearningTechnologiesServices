@@ -35,7 +35,7 @@
 						</p:tabMenu>
 						<div class="tabWrapper">
 							<h:panelGrid columns="2">
-								<p:outputLabel value="Major" for="majors"/>
+							<!-- 	<p:outputLabel value="Major" for="majors"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="majors" value="#{DropAddBean.selectedMajorId}" required="true" requiredMessage="Please select major">
 										<f:selectItem itemLabel="Select Major" />
@@ -51,7 +51,7 @@
 										<f:validateLength minimum="8" maximum="11"/>
 									</p:inputText>
 									<p:message for="mobileNO" />
-								</h:panelGroup>
+								</h:panelGroup>-->
 								<p:outputLabel value="Your Request" for="request"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="request" value="#{DropAddBean.selectedAction}" required="true" requiredMessage="Please select action">
@@ -61,7 +61,7 @@
 									</p:selectOneMenu>
 									<p:message for="request" />
 								</h:panelGroup>
-							</h:panelGrid>
+							</h:panelGrid> 
 							<!-- FORM - Add Course -->
 							<p:panel id="pnl" class="subPanel">
 								<p:panel header="Add Course" id="addCoursePnl" rendered="#{DropAddBean.showAddPnl}">
@@ -128,7 +128,7 @@
 										<li>&nbsp;</li>
 										<li><p:selectBooleanCheckbox value="#{DropAddBean.repeatedCourse}" /><p:outputLabel value="You are repeating this course" /></li>
 									</ul>
-											<ul class="formLine"> 
+										<!-- 	<ul class="formLine"> 
 										<li>&nbsp;</li>
 										<li><p:selectBooleanCheckbox value="#{DropAddBean.hasCourseLab}" >
 									  		<p:ajax update="writeDrop" />
@@ -140,7 +140,7 @@
 										<p:message for="courseLabTextDrop"/>
 										</p:panel></li>
 										
-									</ul>
+									</ul> -->
 									<ul class="formLine">
 										<li><p:outputLabel value="Instructor Name" for="instruc"/></li>
 										<li>

@@ -71,7 +71,7 @@
 						<!-- More Actions buttons -->
 						<h:panelGroup id="actionBtnsGrid">
 							<ul class="moreActionBtns">
-								<li>
+								<!-- <li>
 									<p:commandButton id="forwardBtn" value="Forward to Instructor" title="Forward" type="button" rendered="#{!DetailsBeanDropAdd.oldMood and DetailsBeanDropAdd.renderForward}" icon="icon-forward" styleClass="forwardBtn" />
 					           		<p:overlayPanel id="instructorsPanel" for="forwardBtn" hideEffect="fade" dynamic="true" class="forwardOverlay">
 		          						<p:selectOneListbox id="basic" value="#{DetailsBeanDropAdd.selectedInstructor}">
@@ -80,7 +80,7 @@
 										<p:commandButton value="Forward to instructor" title="Forward to instructor"
 										 action="#{DetailsBeanDropAdd.forwardPetition}" ajax="false" update="form growl" />
 									</p:overlayPanel>
-								</li>
+								</li> 
 								<li>
 									<p:commandButton id="reminderBtn" value="Remind me" title="Remind me" type="button" rendered="#{DetailsBeanDropAdd.renderRemindMe and  !DetailsBeanDropAdd.oldMood}" icon="icon-reminder" />
 					           		<p:overlayPanel id="remindMeDatePanel" for="reminderBtn" hideEffect="fade" dynamic="true" class="remindOverlay">
@@ -88,7 +88,7 @@
 										<p:watermark for="reminddate" value="Select Date" id="watermark" /><br/>
 							        	<p:commandButton value="Save Reminder" title="Save Reminder" actionListener="#{DetailsBeanDropAdd.saveReminder}" ajax="false" update="form growl" />
 									</p:overlayPanel>
-								</li>
+								</li>-->
 								<li><p:commandButton value="Print" title="Print" type="button" icon="icon-print">
 								<p:printer target=":mainForm:printForm:printGrid" />
 								</p:commandButton></li>
@@ -111,8 +111,8 @@
 										<p:commandButton icon="icon_attach" title="Attachment" disabled="#{DetailsBeanDropAdd.detailedDTO.attachments == null}" process="@this" ajax="false" action="#{DetailsBeanDropAdd.downloadAttachments(DetailsBeanDropAdd.detailedDTO)}" />
 									 	<div class="floatR actionBtns marginRight_18">
 											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanDropAdd.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanDropAdd.adminView}" class="blueBtn" />
-								 			<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanDropAdd.approve}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false }" class="greenBtn" />
-								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanDropAdd.refuse}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false }" class="redBtn" />
+								 			<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanDropAdd.approve}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==false and DetailsBeanDropAdd.detailedDTO.step.getID() == 3}" class="greenBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanDropAdd.refuse}" rendered="#{DetailsBeanDropAdd.oldMood!=true and DetailsBeanDropAdd.admissionDeptMood==true }" class="redBtn" />
 											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanDropAdd.markAsDone}" rendered="#{DetailsBeanDropAdd.oldMood==false and DetailsBeanDropAdd.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
 											<p:commandButton value="Revert" 
 											rendered="#{!FormsStatusBean.dropAdd and !DetailsBeanDropAdd.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
@@ -156,6 +156,18 @@
 													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.gpa}" />
 													<h:outputLabel value="Current Major" />
 													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.major.majorName}" />
+													<h:outputLabel value="Student Email" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.mail}" />
+												</h:panelGrid>
+											</td>
+											
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Concentration" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.concentration.name}" />
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.minor}" />
 												</h:panelGrid>
 											</td>
 									
@@ -195,7 +207,10 @@
 								</li>
 								
 								<!-- 
-    						 --><li>
+    						 -->
+    						 
+    						
+    						 <li style="display:#{ DetailsBeanDropAdd.detailedDTO.droppedCourseIns!=null and DetailsBeanDropAdd.detailedDTO.step.getID()!=10 ?'inline-block':'none'};">
 									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0}">
 										<div class="formProgress-todo">
 											<br/>
@@ -216,7 +231,7 @@
 										</div>
 									</h:panelGroup>
 									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==2 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+									<h:panelGroup rendered="#{(DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==2 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4)  }">
 							    		<div class="formProgress-done">
 							    			<br/>
 							    			<h:outputLabel value="#{DetailsBeanDropAdd.instructorActionDetails.actionType.name}" /><br/>
@@ -238,9 +253,11 @@
 							    			</h:panelGroup>
 							    		</div>
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==1|| DetailsBeanDropAdd.detailedDTO.step.getID()==6}">
+								</li>
+								
+								<!-- 
+								<li style="display:#{  (DetailsBeanDropAdd.detailedDTO.step.getID()!=3 and DetailsBeanDropAdd.detailedDTO.step.getID()!=4 and DetailsBeanDropAdd.detailedDTO.step.getID()!=10)?'inline-block':'none'};">
+									<h:panelGroup rendered="#{(DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==1|| DetailsBeanDropAdd.detailedDTO.step.getID()==6) }">
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
@@ -249,8 +266,8 @@
 											</div>
 										</div>
 									</h:panelGroup>
-									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==2 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+								
+									<h:panelGroup rendered="#{(DetailsBeanDropAdd.detailedDTO.step.getID()==2 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4) }">
 										<div class="formProgress-done">
 							    			<br/>
 											<h:outputLabel value="#{DetailsBeanDropAdd.deanActionDetails.actionType.name}" /><br/>
@@ -261,8 +278,18 @@
 			    							</div>
 			    						</div>
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
+								</li>-->
+								
+							
+    					
+    						
+
+
+
+
+								<!-- 
+
+								<li style="display:#{  (DetailsBeanDropAdd.detailedDTO.step.getID()!=3 and DetailsBeanDropAdd.detailedDTO.step.getID()!=4 and DetailsBeanDropAdd.detailedDTO.step.getID()!=10)?'inline-block':'none'};">
 									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==2|| DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==6}">
 										<div class="formProgress-todo">
 											<br/>
@@ -271,8 +298,7 @@
 												<h:outputLabel value="Admission Head" />
 											</div>
 										</div>
-									</h:panelGroup>
-									<!-- OR -->										
+									</h:panelGroup>								
 									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==3 || DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
 										<div class="formProgress-done">
 							    			<br/>
@@ -283,9 +309,14 @@
 					    		    		</div>
 					   			    	</div>
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==2|| DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==3}">
+								</li>
+								 -->
+								
+								
+								
+    						 
+    						 <li style="display:#{  (DetailsBeanDropAdd.detailedDTO.step.getID()==3 or DetailsBeanDropAdd.detailedDTO.step.getID()==4 or DetailsBeanDropAdd.detailedDTO.step.getID()==1 or DetailsBeanDropAdd.detailedDTO.step.getID()==0 )?'inline-block':'none'};">
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || DetailsBeanDropAdd.detailedDTO.step.getID()==2|| DetailsBeanDropAdd.detailedDTO.step.getID()==1 || DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==3 }">
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
@@ -305,7 +336,48 @@
 					    					</div>
 					    				</div>
 									</h:panelGroup>
-								</li></h:panelGroup>
+								</li>
+								
+								
+								
+									<li style="display:#{  (DetailsBeanDropAdd.detailedDTO.step.getID()==3 or DetailsBeanDropAdd.detailedDTO.step.getID()==1 or DetailsBeanDropAdd.detailedDTO.step.getID()==4 or DetailsBeanDropAdd.detailedDTO.step.getID()==10 or DetailsBeanDropAdd.detailedDTO.step.getID()==0)?'inline-block':'none'};">
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==0 || 
+									DetailsBeanDropAdd.detailedDTO.step.getID()==2|| DetailsBeanDropAdd.detailedDTO.step.getID()==1 ||
+									 DetailsBeanDropAdd.detailedDTO.step.getID()==6 || DetailsBeanDropAdd.detailedDTO.step.getID()==3
+									 || DetailsBeanDropAdd.detailedDTO.step.getID()==5|| DetailsBeanDropAdd.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+						    				<br/>
+											<h:outputLabel value="Finalized" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Admission Staff" /><br/>
+					    						<h:outputLabel value="#{DetailsBeanDropAdd.admissionHActionDetails.friendlyDate}" />
+					    					</div>
+					    				</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Finalized" /><br/>
+											#{DetailsBeanDropAdd.detailedDTO.actionDTO.get(DetailsBeanDropAdd.detailedDTO.actionDTO.size()-1).actionType.name}<br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Admission Staff" /><br/>
+					    						<h:outputLabel value="#{DetailsBeanDropAdd.admissionHActionDetails.friendlyDate}" />
+					    					</div>
+					    				</div>
+									</h:panelGroup>
+									
+									
+									<h:panelGroup rendered="#{DetailsBeanDropAdd.detailedDTO.step.getID()==10}">
+										<div class="formProgress-done">
+						    				<br/>
+											<h:outputLabel value="Closed" /><br/>
+											
+					    				</div>
+									</h:panelGroup>
+								</li>
+								
+								</h:panelGroup>
 							</ol>
 						</div>
 						<!-- Petition Details -->

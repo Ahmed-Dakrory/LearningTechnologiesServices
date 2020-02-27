@@ -149,7 +149,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					PetitionStepsEnum.INSTRUCTOR)) {
 				// Notify DEAN
 				instructor = instructorRepository
-						.getByMail(Constants.DEAN_OF_STRATEGIC);
+						.getByMail(Constants.ADMISSION_DEPT);
 				// Notify Student
 				studentDTO = new StudentDTO();
 				studentDTO.setMail(coursePetition.getPerson().getData()
@@ -175,7 +175,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							+ coursePetition.getCourse().getCourseCoordinator()
 									.getName();
 				}*/
-				studentContent += "<br/> The next step is the Dean approval";
+				studentContent += "<br/> The next step is the Admission Aproval";
 				
 			} else if (coursePetition.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
@@ -349,7 +349,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					PetitionStepsEnum.INSTRUCTOR)) {
 				// Notify DEAN
 				instructor = instructorRepository
-						.getByMail(Constants.DEAN_OF_STRATEGIC);
+						.getByMail(Constants.ADMISSION_DEPT);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -391,7 +391,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 									.getName();
 					
 				}*/
-				studentContent += "<br/> The next step is the Dean approval";
+				studentContent += "<br/> The next step is the Admission Approval";
 			} else if (dropAddForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
