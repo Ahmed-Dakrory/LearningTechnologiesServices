@@ -43,6 +43,10 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	@Autowired
 	IPersonGetDataAppService personAPPService;
 	
+
+
+	
+	 
 	@Override
 	public List<DashboardElement> fillAdminDashboardElements()
 	{
@@ -85,31 +89,24 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		}
 		else
 		{
-			//user email
-			switch (userMail) 
-			{
-			case Constants.ADMISSION_DEPT:
-				fillAdmissionDepartmentDashboard(elements);
-				break;
-			case Constants.ADMISSION_HEAD:
-				fillAddmissionHeadDashboard(elements);
-				break;
-			case Constants.DEAN_OF_STRATEGIC:
-				fillDeanDashboardStrategic(elements,userMail);
-				break;
-			case Constants.DEAN_OF_ACADEMIC:
-				fillDeanDashboardAcademic(elements,userMail);
-				break;
-			case Constants.PROVOST:
-				fillProvostDashboard(elements, userMail);
-				break;
-			case Constants.LTS_SYSTEM_ADMIN:
-				fillAdminDashboard(elements);
-				break;
-			default: //instructor mail
-				fillInstructorDashboard(elements, userMail);
-				break;
-			}
+			
+			 //user email
+			 if(userMail.equalsIgnoreCase(Constants.DEAN_OF_STRATEGIC)) {
+				 fillDeanDashboardStrategic(elements,userMail);
+			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_HEAD)) {
+				 fillAddmissionHeadDashboard(elements);
+			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_DEPT)) {
+				 fillAdmissionDepartmentDashboard(elements);
+			 }else if(userMail.equalsIgnoreCase(Constants.DEAN_OF_ACADEMIC)) {
+				 fillDeanDashboardAcademic(elements,userMail);
+			 }else if(userMail.equalsIgnoreCase(Constants.PROVOST)) {
+				 fillProvostDashboard(elements, userMail);
+			 }else if(userMail.equalsIgnoreCase(Constants.LTS_SYSTEM_ADMIN)) {
+				 fillAdminDashboard(elements);
+			 }else {
+				 fillInstructorDashboard(elements, userMail);
+			 }
+			
 		}
 		
 		return elements;

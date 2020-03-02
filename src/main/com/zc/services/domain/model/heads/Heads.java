@@ -68,6 +68,9 @@ public class Heads {
 	public static int DEAN_OF_STRATIGIC_ENROLLEMENT=3;
 	public static int ASSOCIATE_DEAN=4;
 	public static int REGISTRAR_STAFF=5;
+	public static int Regist_Head=6;
+	public static int DEAN_OF_ACADEMIC=7;
+	public static int PROVOST=8;
 	
 	@Column(name="departmentType")
     private Integer type;
@@ -121,6 +124,12 @@ public class Heads {
 			return "VICE DIRECTOR FOR SCIENCE";
 		}else if(type==DEAN_OF_STRATIGIC_ENROLLEMENT) {
 			return "DEAN OF STRATIGIC ENROLLEMENT";
+		}else if(type==Regist_Head) {
+			return "Registrar Head";
+		}else if(type==DEAN_OF_ACADEMIC) {
+			return "DEAN OF ACADEMIC";
+		}else if(type==PROVOST) {
+			return "PROVOST";
 		}else {
 			return "REGISTRAR STAFF";
 		}

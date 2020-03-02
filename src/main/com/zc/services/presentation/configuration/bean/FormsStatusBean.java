@@ -42,6 +42,7 @@ public class FormsStatusBean {
 	private boolean dropAddPhase2;
 	private boolean dropAddPhase3;
 	private boolean changeMajor;
+	private boolean readmission;
 	private boolean overloadRequest;
 	private boolean courseRepeat;
 	private boolean incompleteGrade;
@@ -341,6 +342,23 @@ public class FormsStatusBean {
 	}
 	public void setChangeMajor(boolean changeMajor) {
 		this.changeMajor = changeMajor;
+	}
+	
+	
+	public boolean isReadmission() {
+		FormsStatusDTO form=facade.getById(19);
+		if(form.getStatus().equals(FormsStatusEnum.Active))
+		{
+			return true;
+		}
+		else if(form.getStatus().equals(FormsStatusEnum.Inactive))
+		{
+			return false;
+		}
+		else return false;
+	}
+	public void setReadmission(boolean readmission) {
+		this.readmission = readmission;
 	}
 	public boolean isOverloadRequest() {
 		FormsStatusDTO form=facade.getById(4);

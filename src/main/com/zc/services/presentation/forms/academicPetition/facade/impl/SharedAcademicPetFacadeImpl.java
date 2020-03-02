@@ -5,6 +5,7 @@ package main.com.zc.services.presentation.forms.academicPetition.facade.impl;
 
 import main.com.zc.services.applicationService.shared.service.ISharedNotifyService;
 import main.com.zc.services.presentation.forms.CourseRepeat.dto.CourseRepeatDTO;
+import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
@@ -132,6 +133,19 @@ public class SharedAcademicPetFacadeImpl implements ISharedAcademicPetFacade{
 	@Override
 	public void notifyAt(ChangeConcentrationDTO changeConcenDTO, String name) throws Exception {
 		sharedNotifyService.notifyAt(changeConcenDTO,name);
+		
+	}
+
+	@Override
+	public void notifayNextStepOwner(ReadmissionDTO dto) {
+		// TODO Auto-generated method stub
+		sharedNotifyService.notifayNextStepOwner(dto);
+	}
+
+	@Override
+	public void notifyAt(ReadmissionDTO readmissionDTO, String name) throws Exception {
+		// TODO Auto-generated method stub
+		sharedNotifyService.notifyAt(readmissionDTO,name);
 		
 	}
 

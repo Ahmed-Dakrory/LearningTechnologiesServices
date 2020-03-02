@@ -37,7 +37,7 @@ public enum PetitionStepsEnum {
 		}
 		@Override
 		public String getName() {
-			return "Dean has taken action";
+			return "Dean of strategic enrollment has taken action";
 		}
 		
 	}
@@ -133,7 +133,18 @@ public enum PetitionStepsEnum {
 				return "Closed";
 			}
 			}
+		,
+		DEAN_OF_ACADIMICS(12) {
+			@Override
+			public int getID() {
+				return 12;
+			}
+			@Override
+			public String getName() {
+				return "Dean of Academics has taken action";
+			}
 			
+		}	
 	,AUDITING(11) {
 		@Override
 		public int getID() {

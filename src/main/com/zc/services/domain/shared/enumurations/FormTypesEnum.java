@@ -102,6 +102,17 @@ public enum FormTypesEnum {
 			return "General Feedback";
 		}
 	}
+	
+	,	READMISSION(9) {
+		@Override
+		public int getID() {
+			return 9;
+		}
+		@Override
+		public String getName() {
+			return "Readmission";
+		}
+	}
 	;
 public abstract int getID();
 public abstract String getName();

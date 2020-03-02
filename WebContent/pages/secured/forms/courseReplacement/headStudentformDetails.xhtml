@@ -61,11 +61,21 @@
 														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.major.majorName}" />
 														<h:outputLabel value="Current Major Type" />
 														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.getMajorType(HeadDetailsBeanChangeCourseComfirmation.major.type)}" />
-															<h:outputLabel value="Concentration" />
-														<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.concentration.name}" />
+														
 														</h:panelGrid>
 												</td>
 										
+												<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Concentration" />
+													<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.concentration.name}" />
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.studentProfileDTO.minor}" />
+												<h:outputLabel value="Student Email" />
+													<h:outputLabel value="#{HeadDetailsBeanChangeCourseComfirmation.student.mail}" />
+												</h:panelGrid>
+											</td>
 											</tr> 
 										</table>
 								</li>

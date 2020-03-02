@@ -23,6 +23,8 @@ public class SendMailThread extends Thread{
 	public void run() {
 		
 		CheckNewEmails checkNewMails=new CheckNewEmails();
+
+		System.out.println("Dakrory:OKYa 3");
 		checkNewMails.notifyNextStepOwner(this.recipentMail, this.recipentName, this.content, this.title);
 		
 	}

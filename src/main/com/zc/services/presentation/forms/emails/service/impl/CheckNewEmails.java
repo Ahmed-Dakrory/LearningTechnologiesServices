@@ -1564,8 +1564,12 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 
 	public boolean sendEmail(List<String> recipentList, String htmlText,
 			String title) {
+
+		System.out.println("Dakrory:OKYa before NotNull");
 		if (recipentList != null)
 		{
+
+			System.out.println("Dakrory:OKYa NotNull");
 			for(int i=0;i<recipentList.size();i++){
 		try {
 			ApplicationContext springContext = WebApplicationContextUtils
@@ -1601,6 +1605,8 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 				//addressTo[0] = new javax.mail.internet.InternetAddress("mshoieb@zewailcity.edu.eg");
 				String newhtmlText="";
 				try {
+
+					System.out.println("Dakrory:OKYa NotNull "+String.valueOf(recipentList.get(i)));
 					if(insDataService.getInsByMailNew(recipentList.get(i))!=null) {
 			    if(insDataService.getInsByMailNew(recipentList.get(i)).getId()!=null){
 				 newhtmlText=htmlText.replace("$name$", insDataService.getInsByMailNew(recipentList.get(i)).getName());

@@ -11,7 +11,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class Constants implements IConstants {
-	  
+
+		
+		
+		
+		
+		
 	
 	public static final String ATTENDANCE_STATUS_ABSENCE = "Absence";
 	public static final String ATTENDANCE_STATUS_ATTENDED = "Attended";
@@ -44,26 +49,26 @@ public class Constants implements IConstants {
 	public static final Integer DEAN_OF_STUDENTS_ID=6;
 	public static final String DEAN_OF_STUDENTS_NAME="Dr. Ashraf Badawi";
 	*/
-	public static final String DEAN_OF_STRATEGIC="mabdrabou@zewailcity.edu.eg";
-	public static final Integer DEAN_OF_STRATEGIC_ID=1379;
-	public static final String DEAN_OF_STRATEGIC_NAME="Dr. Mahmoud Abd Rabouh";
-	public static final String DEAN_OF_ACADEMIC="tibrahim@zewailcity.edu.eg";
-	public static final Integer DEAN_OF_ACADEMIC_ID=20;
-	public static final String DEAN_OF_ACADEMIC_NAME="Dr. Tarek Ibrahim";
+	public static  String DEAN_OF_STRATEGIC;//"mabdrabou@zewailcity.edu.eg";
+	public static  Integer DEAN_OF_STRATEGIC_ID;//1379;
+	public static  String DEAN_OF_STRATEGIC_NAME;//"Dr. Mahmoud Abd Rabouh";
+	public static  String DEAN_OF_ACADEMIC;//"tibrahim@zewailcity.edu.eg";
+	public static  Integer DEAN_OF_ACADEMIC_ID;//20;
+	public static  String DEAN_OF_ACADEMIC_NAME;//"Dr. Tarek Ibrahim";
 	
 	
 	
-	public static final String ADMISSION_HEAD="ghazem@zewailcity.edu.eg";
-	public static final Integer ADMISSION_HEAD_ID=888;
+	public static  String ADMISSION_HEAD;//"ghazem@zewailcity.edu.eg";
+	public static  Integer ADMISSION_HEAD_ID;//888;
 	
-	public static final String ADMISSION_HEAD_NAME="Mrs. Ghada";
-	public static final String ADMISSION_DEPT="registrar@zewailcity.edu.eg";
-	public static final Integer ADMISSION_DEPT_ID=999;
+	public static  String ADMISSION_HEAD_NAME;//"Mrs. Ghada";
+	public static  String ADMISSION_DEPT;//"registrar@zewailcity.edu.eg";
+	public static  Integer ADMISSION_DEPT_ID;//999;
 	public static final String CHANGE_MAJOR_YASMINE="yasmine@zewailcity.edu.eg";
 	public static final String CHANGE_MAJOR_HEND="hend@zewailcity.edu.eg";
-	public static final String PROVOST="sobbaya@zewailcity.edu.eg";
-	public static final Integer PROVOST_ID=21;
-	public static final String PROVOST_NAME="Dr. Salah Obayya";
+	public static  String PROVOST;//"sobbaya@zewailcity.edu.eg";
+	public static  Integer PROVOST_ID;//21;
+	public static  String PROVOST_NAME;//"Dr. Salah Obayya";
 	public static final String LTS_SYSTEM_ADMIN="lts-admin@zewailcity.edu.eg";
 	public static final String LTS_FEEDBACK_HANDLER="lts-admin@zewailcity.edu.eg";
 	public static final String GRADUATION_FORM_EMAIL="graduation@zewailcity.edu.eg";

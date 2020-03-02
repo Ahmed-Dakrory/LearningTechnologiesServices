@@ -7,6 +7,8 @@
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/templates/loginContent.xhtml">
 	<ui:define name="content">
+	
+	#{loginBean.refresh()}
 		<h:form id="form" prependId="false">
 			<p:growl id="growl" showDetail="true" sticky="true"
 				rendered="#{not facesContext.validationFailed}" />

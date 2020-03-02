@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change Major and/or Specialization - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Change Major and/or Specialization" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="2">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/readmission/readmissionStudent.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/readmission/readmissionStudent1.xhtml"/>
+							<p:menuitem value="+ New Petition" title="Add New Petition" class="new" url="/pages/secured/forms/readmission/readmissionStudent2.xhtml"
+							rendered="#{FormsStatusBean.readmission}"/>
+						</p:tabMenu>
+						<div class="tabWrapper">
+						<ui:remove>	<p style="font-weight:bold;color:red">Student must come to the office of admissions to fill the planing card and complete their registration.</p></ui:remove><br/>
+							<h:panelGrid columns="2">
+							<ui:remove>
+								<p:outputLabel value="Major" for="majors"/>
+								<h:panelGroup class="marginLeft_12">
+									<p:selectOneMenu id="majors" value="#{readmissionStudentBean.selectedMajorId}" required="true" requiredMessage="Please select major">
+										<f:selectItem itemLabel="Select Major" />
+										<f:selectItems var="major" value="#{readmissionStudentBean.majorsLst}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
+									</p:selectOneMenu>
+									<p:message for="majors" />
+								</h:panelGroup>
+								</ui:remove>
+								
+								<!--  
+								<p:outputLabel value="Mobile/Phone" for="mobileNO" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputText required="true" id="mobileNO" value="#{readmissionStudentBean.mobile}"
+									 validatorMessage="Please Enter Digits only minimum 8 digits maximum 11" 
+									 requiredMessage="Please enter mobile" size="40" class="input290px">
+										<f:validateDoubleRange />
+									 <f:validateLength minimum="8" maximum="11"/>
+									</p:inputText>
+									<p:message for="mobileNO" />
+								</h:panelGroup>
+								
+								
+								<p:outputLabel value="GPA" for="gpa" />
+								<h:panelGroup class="marginLeft_12">
+									<p:inputText required="true" converterMessage="Please enter digits only" id="gpa" requiredMessage="Please Enter GPA" 
+									value="#{readmissionStudentBean.gpa}" size="40" class="input290px"
+									validatorMessage="Please enter digits only">
+										<f:validateDoubleRange minimum="0.0" maximum="10.0" />
+									</p:inputText>
+									<p:message for="gpa" />
+								</h:panelGroup>	
+								
+									 -->
+							  
+							  	<p:outputLabel value="More Details" for="moreDetails" />
+							  	<h:panelGroup class="marginLeft_12 maxCharc">
+									<p:inputTextarea id="moreDetails" value="#{readmissionStudentBean.moreDetails}" maxlength="500" validatorMessage="Only 500 Characters allowed" >
+									<f:validateLength maximum="500"/>
+									</p:inputTextarea>
+									<p:message for="moreDetails"/>
+		                         	<span>Maximum Characters: 500</span>
+								</h:panelGroup>
+								<p:outputLabel value="Attachment:"/>
+		                        <h:panelGrid columns="3" class="marginLeft_12">
+		                         	<p:fileUpload fileUploadListener="#{readmissionStudentBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton" description="Attachment"
+										auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+	                         		<p:outputLabel id="attachmentFileNameLable" value="#{readmissionStudentBean.attachmentFileName}" class="marginLeft_18" />
+	                         		<p:commandButton id="attachmentFileRemoveButton" value="remove" action="#{readmissionStudentBean.removeAttachment}" disabled="#{readmissionStudentBean.attachmentFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable"/>
+	                         	</h:panelGrid>
+	                         	<span>&nbsp;</span>
+	                         	<h:panelGroup>
+	                         		<span class="allowedExt">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/> &nbsp; &nbsp; &nbsp;Maximum size: 500KB</span>
+	                         	</h:panelGroup>
+							</h:panelGrid>
+							<br/>
+							<p:commandButton value="Submit Request" actionListener="#{readmissionStudentBean.submitRequest}" process="@form" ajax="false" class="blueBtn marginLeft_152" /> 
+						</div>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox"></ui:define>
+	</ui:composition>
+</html>

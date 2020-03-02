@@ -60,9 +60,9 @@ public class OverloadRquestAssembler {
 		
 		try{
 			CoursesDTO course=new CoursesDTO();
-			course.setId(form.getCourse().getId());
+			/*course.setId(form.getCourse().getId());
 			course.setName(form.getCourse().getName());
-			dto.setCourse(course);
+			dto.setCourse(course);*/
 		}
 		catch(Exception ex)
 		{

@@ -24,6 +24,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import main.com.zc.security.AuthenticationService;
+import main.com.zc.services.domain.model.heads.Heads;
+import main.com.zc.services.domain.person.model.Employee;
+import main.com.zc.services.domain.person.model.IEmployeeRepository;
+import main.com.zc.services.domain.person.service.repository.IEmployeeRepositoryImpl;
+import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
+import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.appService.IConfirmationStepAppService;
 import main.com.zc.shared.appService.ILoginAppService;
@@ -36,6 +42,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -98,6 +105,23 @@ public class LoginBean {
 	@ManagedProperty(value = "#{confirmationStepAppServiceImpl}")
 	private IConfirmationStepAppService confirmAPPService;
 
+	@ManagedProperty("#{headsFacadeImpl}")
+   	private HeadsAppServiceImpl headFacades; 
+	
+
+	
+	
+	public static Heads head ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee  ADMISSION_DEPTEm =null;//= instructorRepository.getById(head.getHeadPersonId().getId());
+	public static Heads head1 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee  ADMISSION_HEADEm =null;// instructorRepository.getById(head1.getHeadPersonId().getId());
+	public static Heads head2 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee  DEAN_OF_ACADEMICEm =null;// instructorRepository.getById(head2.getHeadPersonId().getId());
+	public static Heads head3 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee  PROVOSTEm =null;// instructorRepository.getById(head3.getHeadPersonId().getId());
+	public static Heads head4 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee DEAN_OF_STRATEGICEm =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
+	
 	@PostConstruct
 	public void init() {
 		registerMood = false;
@@ -108,8 +132,44 @@ public class LoginBean {
 		cancelRegisteration();
 		setImage(null);
 	//	loginfacade.changeAllPasswords();
+		
+		refresh();
 	}
 
+	public void refresh() {
+
+		head = headFacades.getByType(Heads.REGISTRAR_STAFF);
+		ADMISSION_DEPTEm = head.getHeadPersonId();
+		head1 = headFacades.getByType(Heads.Regist_Head);
+		ADMISSION_HEADEm = head1.getHeadPersonId();
+		head2 = headFacades.getByType(Heads.DEAN_OF_ACADEMIC);
+		DEAN_OF_ACADEMICEm = head2.getHeadPersonId();
+		head3 = headFacades.getByType(Heads.PROVOST);
+		PROVOSTEm = head3.getHeadPersonId();
+		head4 = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+		DEAN_OF_STRATEGICEm = head4.getHeadPersonId();
+		
+		Constants.DEAN_OF_STRATEGIC=DEAN_OF_STRATEGICEm.getMail();//"mabdrabou@zewailcity.edu.eg";
+		Constants.DEAN_OF_STRATEGIC_ID=DEAN_OF_STRATEGICEm.getId();//1379;
+		Constants.DEAN_OF_STRATEGIC_NAME=DEAN_OF_STRATEGICEm.getName();//"Dr. Mahmoud Abd Rabouh";
+		Constants.DEAN_OF_ACADEMIC=DEAN_OF_ACADEMICEm.getMail();//"tibrahim@zewailcity.edu.eg";
+		Constants.DEAN_OF_ACADEMIC_ID=DEAN_OF_ACADEMICEm.getId();//20;
+		Constants.DEAN_OF_ACADEMIC_NAME=DEAN_OF_ACADEMICEm.getName();//"Dr. Tarek Ibrahim";
+		
+
+		System.out.println("Ahmed:"+String.valueOf(Constants.DEAN_OF_STRATEGIC_ID));
+		System.out.println("Ahmed:"+String.valueOf(Constants.DEAN_OF_STRATEGIC));
+		
+		Constants.ADMISSION_HEAD=ADMISSION_HEADEm.getMail();//"ghazem@zewailcity.edu.eg";
+		Constants.ADMISSION_HEAD_ID=ADMISSION_HEADEm.getId();//888;
+		
+		Constants.ADMISSION_HEAD_NAME=ADMISSION_HEADEm.getName();//"Mrs. Ghada";
+		Constants.ADMISSION_DEPT=ADMISSION_DEPTEm.getMail();//"registrar@zewailcity.edu.eg";
+		Constants.ADMISSION_DEPT_ID=ADMISSION_DEPTEm.getId();//999;
+		Constants.PROVOST=PROVOSTEm.getMail();//"sobbaya@zewailcity.edu.eg";
+		Constants.PROVOST_ID=PROVOSTEm.getId();//21;
+		Constants.PROVOST_NAME=PROVOSTEm.getName();//"Dr. Salah Obayya";
+	}
 	public String login() {
 		try {
 			// System.out.println("HI >>>>> ");
@@ -824,4 +884,16 @@ public class LoginBean {
 	public void setRememberMe(Boolean rememberMe) {
 		this.rememberMe = rememberMe;
 	}
+
+	public HeadsAppServiceImpl getHeadFacades() {
+		return headFacades;
+	}
+
+	public void setHeadFacades(HeadsAppServiceImpl headFacades) {
+		this.headFacades = headFacades;
+	}
+
+	
+
+	
 }
