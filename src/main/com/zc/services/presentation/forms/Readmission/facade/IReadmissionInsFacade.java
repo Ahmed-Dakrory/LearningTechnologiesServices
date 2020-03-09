@@ -19,6 +19,7 @@ public interface IReadmissionInsFacade {
 	public ReadmissionDTO updateStatusOfForm(ReadmissionDTO dto);
 	public ReadmissionDTO getByID(Integer id);
 	public List<ReadmissionDTO> getPendingFormsOfDean();
+	public List<ReadmissionDTO> getPendingFormsOfDeanAcademics();
 	public List<ReadmissionDTO> getArchievedFormsOfDean();
 	public void addComment(Integer id, String comment);
 	public List<InstructorDTO> fillInsLst();

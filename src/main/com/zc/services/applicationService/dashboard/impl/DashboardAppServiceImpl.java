@@ -6,6 +6,8 @@ package main.com.zc.services.applicationService.dashboard.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ManagedProperty;
+
 import main.com.zc.services.applicationService.dashboard.IDashboardAppService;
 import main.com.zc.services.applicationService.forms.CourseRepeat.services.ICourseRepeatAdminService;
 import main.com.zc.services.applicationService.forms.CourseRepeat.services.ICourseRepeatAdmissionDeptService;
@@ -16,6 +18,7 @@ import main.com.zc.services.applicationService.forms.academicPetition.services.I
 import main.com.zc.services.applicationService.forms.academicPetition.services.IStudentAcademicPetitionService;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.IAdminAddDropFormService;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.IStudentAddDropFormServices;
+import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
 import main.com.zc.services.applicationService.forms.changeMajor.services.IAdminChangeMajorService;
 import main.com.zc.services.applicationService.forms.changeMajor.services.IStudentChangeMajorService;
 import main.com.zc.services.applicationService.forms.incompleteGrade.service.IIncompleteGradeAdminService;
@@ -25,6 +28,9 @@ import main.com.zc.services.applicationService.forms.incompleteGrade.service.IIn
 import main.com.zc.services.applicationService.forms.incompleteGrade.service.IIncompleteGradeStudentService;
 import main.com.zc.services.applicationService.forms.overloadRequest.services.IAdminOverloadRequestService;
 import main.com.zc.services.applicationService.forms.overloadRequest.services.IStudentOverloadRequestService;
+import main.com.zc.services.applicationService.forms.readmission.assembler.ReadmissionAssembler;
+import main.com.zc.services.applicationService.forms.readmission.services.IAdminReadmissionService;
+import main.com.zc.services.applicationService.forms.readmission.services.IStudentReadmissionService;
 import main.com.zc.services.applicationService.forms.tAJuniorProgram.service.IJuniorTAServiceInstructor;
 import main.com.zc.services.applicationService.forms.tAJuniorProgram.service.ITAJuniorProgramServiceStudent;
 import main.com.zc.services.domain.person.model.IEmployeeRepository;
@@ -36,14 +42,23 @@ import main.com.zc.services.domain.petition.model.IAddDropFormRepository;
 import main.com.zc.services.domain.petition.model.IChangeMajorFormRep;
 import main.com.zc.services.domain.petition.model.ICoursePetitionRep;
 import main.com.zc.services.domain.petition.model.IOverloadRequestRep;
+import main.com.zc.services.domain.petition.model.IPetitionsActionsRep;
+import main.com.zc.services.domain.petition.model.IReadmissionFormRep;
 import main.com.zc.services.domain.petition.model.OverloadRequest;
+import main.com.zc.services.domain.petition.model.PetitionsActions;
+import main.com.zc.services.domain.petition.model.ReadmissionForm;
+import main.com.zc.services.domain.shared.Constants;
+import main.com.zc.services.domain.shared.enumurations.FormTypesEnum;
 import main.com.zc.services.presentation.forms.CourseRepeat.dto.CourseRepeatDTO;
+import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
+import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionInsFacade;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject;
 import main.com.zc.services.presentation.forms.incompleteGrade.dto.IncompleteGradeDTO;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
+import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
 import main.com.zc.services.presentation.forms.tAJuniorProgram.dto.TAJuniorProgramDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,9 +80,13 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	
 	@Autowired
 	IChangeMajorFormRep changeMajorRep;
-	
+
 	@Autowired
 	IOverloadRequestRep overloadRequestRep;
+	
+
+	@Autowired
+	IReadmissionFormRep readmissionRep;
 	
 	@Autowired
 	IAdmissionAdminAcademicPetService adminAcademicPetAppServ;
@@ -75,6 +94,9 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	IAdminAddDropFormService adminAddDropAppServ;
 	@Autowired
 	IAdminChangeMajorService adminChangeMajorAppServ;
+	
+	@Autowired
+	IAdminReadmissionService adminReadmissionAppServ;
 	@Autowired
 	IAdminOverloadRequestService adminOverloadRequestAppServ;
 	
@@ -84,6 +106,8 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	IStudentAddDropFormServices studentAddDropAppServ;
 	@Autowired
 	IStudentChangeMajorService studentChangeMajorAppServ;
+	@Autowired
+	IStudentReadmissionService studentReadmissionAppServ;
 	@Autowired
 	IStudentOverloadRequestService studentOverloadRequestAppServ;
 	
@@ -101,7 +125,9 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	@Autowired
 	ICourseRepeatAdminService adminCourseRepeatServ;
 	
-	
+
+	@Autowired
+	IPetitionsActionsRep actionRep;
 	/**
 	 * @author Omnya
 	 * 
@@ -621,6 +647,319 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 				ex.toString();
 				return 0;
 			}
+	}
+
+	
+
+	
+	@Override
+	public Integer getAdminReadmissionPending() {
+		List<ReadmissionDTO> forms = adminReadmissionAppServ.getPendingPetitionsOfstuent();
+		if(forms != null)
+			return forms.size();
+		else
+			return 0;
+
+	}
+
+	@Override
+	public Integer getAdminReadmissionOld() {
+		List<ReadmissionDTO> forms = adminReadmissionAppServ.getArchievedPetitionsOfstuent();
+		if(forms != null)
+			return forms.size();
+		else
+			return 0;
+
+	}
+
+	@Override
+	public Integer getInstructorReadmissionPending(Integer employeId,String mail) {
+		
+		if(employeId.equals(Constants.ADMISSION_DEPT_ID)) {
+			List<ReadmissionForm> data =getPendingFormsOfAdmission();
+			return Integer.valueOf(data.size());
+		}else if(employeId.equals(Constants.DEAN_OF_ACADEMIC_ID)) {
+			List<ReadmissionDTO> data = getPendingFormsOfDeanOfAcademic();
+			return Integer.valueOf(data.size()); 
+		}else if(employeId.equals(Constants.DEAN_OF_STRATEGIC_ID)) {
+			List<ReadmissionDTO> data = getPendingFormsOfDean();
+			return Integer.valueOf(data.size());
+		}
+		
+		//if not found
+		return 0;
+	}
+
+    ReadmissionAssembler assem=new ReadmissionAssembler();
+public List<ReadmissionDTO> getPendingFormsOfDean() {
+		
+		List<ReadmissionDTO> filterdDTO=new ArrayList<ReadmissionDTO>();
+		try{
+			List<ReadmissionForm> allForms=readmissionRep.getAll();
+		for(int i=0;i<allForms.size();i++)
+		{
+			
+			if(allForms.get(i).getPerformed()==null)
+			{
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
+				{
+					// first add list of actions to this petition 
+					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+					List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+					if(actions!=null)
+					{
+						for(int a=0;a<actions.size();a++)
+						{
+							PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+							actionDTO.setId(actions.get(a).getId());
+							actionDTO.setComment(actions.get(a).getComment());
+							actionDTO.setDate(actions.get(a).getDate());
+							actionDTO.setFormType(actions.get(a).getFormType());
+							if(actions.get(a).getInstructor()!=null)
+							actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+							actionDTO.setPetitionID(actions.get(a).getPetitionID());
+							actionDTO.setActionType(actions.get(a).getActionType());
+							if(actions.get(a).getInstructor()!=null)
+							actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+							actionsDTO.add(actionDTO);
+						}
+					}
+					ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+					dto.setActionDTO(actionsDTO);
+					
+				     filterdDTO.add(dto);
+				}
+			}
+			else if(allForms.get(i).getPerformed()!=true)
+			{
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
+				{
+					// first add list of actions to this petition 
+					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+					List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+					if(actions!=null)
+					{
+						for(int a=0;a<actions.size();a++)
+						{
+							PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+							actionDTO.setId(actions.get(a).getId());
+							actionDTO.setComment(actions.get(a).getComment());
+							actionDTO.setDate(actions.get(a).getDate());
+							actionDTO.setFormType(actions.get(a).getFormType());
+							if(actions.get(a).getInstructor()!=null)
+							actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+							actionDTO.setPetitionID(actions.get(a).getPetitionID());
+							actionDTO.setActionType(actions.get(a).getActionType());
+							if(actions.get(a).getInstructor()!=null)
+							actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+							actionsDTO.add(actionDTO);
+						}
+					}
+					ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+					dto.setActionDTO(actionsDTO);
+					
+				     filterdDTO.add(dto);
+				}
+			}
+		}
+		
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return filterdDTO;
+	}
+
+
+public List<ReadmissionDTO> getPendingFormsOfDeanOfAcademic() {
+	
+	List<ReadmissionDTO> filterdDTO=new ArrayList<ReadmissionDTO>();
+	try{
+		List<ReadmissionForm> allForms=readmissionRep.getAll();
+	for(int i=0;i<allForms.size();i++)
+	{
+		
+		if(allForms.get(i).getPerformed()==null)
+		{
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
+			{
+				// first add list of actions to this petition 
+				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+				if(actions!=null)
+				{
+					for(int a=0;a<actions.size();a++)
+					{
+						PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+						actionDTO.setId(actions.get(a).getId());
+						actionDTO.setComment(actions.get(a).getComment());
+						actionDTO.setDate(actions.get(a).getDate());
+						actionDTO.setFormType(actions.get(a).getFormType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+						actionDTO.setPetitionID(actions.get(a).getPetitionID());
+						actionDTO.setActionType(actions.get(a).getActionType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+						actionsDTO.add(actionDTO);
+					}
+				}
+				ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+				dto.setActionDTO(actionsDTO);
+				
+			     filterdDTO.add(dto);
+			}
+		}
+		else if(allForms.get(i).getPerformed()!=true)
+		{
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
+			{
+				// first add list of actions to this petition 
+				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+				if(actions!=null)
+				{
+					for(int a=0;a<actions.size();a++)
+					{
+						PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+						actionDTO.setId(actions.get(a).getId());
+						actionDTO.setComment(actions.get(a).getComment());
+						actionDTO.setDate(actions.get(a).getDate());
+						actionDTO.setFormType(actions.get(a).getFormType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+						actionDTO.setPetitionID(actions.get(a).getPetitionID());
+						actionDTO.setActionType(actions.get(a).getActionType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+						actionsDTO.add(actionDTO);
+					}
+				}
+				ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+				dto.setActionDTO(actionsDTO);
+				
+			     filterdDTO.add(dto);
+			}
+		}
+	}
+	
+	}
+	catch(Exception ex)
+	{
+		ex.printStackTrace();
+	}
+	return filterdDTO;
+}
+
+	
+
+public List<ReadmissionForm> getPendingFormsOfAdmission() {
+	
+	List<ReadmissionForm> filterdDTO=new ArrayList<ReadmissionForm>();
+	try{
+		List<ReadmissionForm> allForms=readmissionRep.getAll();
+	for(int i=0;i<allForms.size();i++)
+	{
+		if(allForms.get(i).getPerformed()==null)
+		{
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
+			{
+				// first add list of actions to this petition 
+				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+				if(actions!=null)
+				{
+					for(int a=0;a<actions.size();a++)
+					{
+						PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+						actionDTO.setId(actions.get(a).getId());
+						actionDTO.setComment(actions.get(a).getComment());
+						actionDTO.setDate(actions.get(a).getDate());
+						actionDTO.setFormType(actions.get(a).getFormType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+						actionDTO.setPetitionID(actions.get(a).getPetitionID());
+						actionDTO.setActionType(actions.get(a).getActionType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+						actionsDTO.add(actionDTO);
+					}
+				}
+				ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+				dto.setActionDTO(actionsDTO);
+				
+			     filterdDTO.add(allForms.get(i));
+			}
+		}
+		else if(allForms.get(i).getPerformed()!=true)
+		{
+			if(allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
+			{
+				// first add list of actions to this petition 
+				List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+				List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+				if(actions!=null)
+				{
+					for(int a=0;a<actions.size();a++)
+					{
+						PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+						actionDTO.setId(actions.get(a).getId());
+						actionDTO.setComment(actions.get(a).getComment());
+						actionDTO.setDate(actions.get(a).getDate());
+						actionDTO.setFormType(actions.get(a).getFormType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+						actionDTO.setPetitionID(actions.get(a).getPetitionID());
+						actionDTO.setActionType(actions.get(a).getActionType());
+						if(actions.get(a).getInstructor()!=null)
+						actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+						actionsDTO.add(actionDTO);
+					}
+				}
+				ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+				dto.setActionDTO(actionsDTO);
+				
+			     filterdDTO.add(allForms.get(i));
+			}
+		}
+	}
+	
+	}
+	catch(Exception ex)
+	{
+		ex.printStackTrace();
+	}
+	return filterdDTO;
+}
+
+
+	@Override
+	public Integer getStudentReadmissionPending(Integer studentId) {
+		List<ReadmissionDTO> forms = studentReadmissionAppServ.getPendingPetitionsOfstuent(studentId);
+		if(forms != null)
+			return forms.size();
+		else
+			return 0;
+
+	}
+
+	@Override
+	public List<ReadmissionForm> getDeanReadmissionPending() {
+		List<ReadmissionForm> forms = readmissionRep.getDeanPendingReadmissionForm(true);
+		return forms;
+	}
+
+	@Override
+	public List<ReadmissionForm> getAdmissionHeadReadmissionPending() {
+		List<ReadmissionForm> forms = readmissionRep.getAdmissionHeadPendingReadmissionForm(true);
+		return forms;
+	}
+
+	@Override
+	public List<ReadmissionForm> getAdmissionDepartmentReadmissionPending() {
+		List<ReadmissionForm> forms = getPendingFormsOfAdmission();
+		return forms;
 	}
 	
 	

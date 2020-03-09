@@ -17,6 +17,7 @@ public interface IInstructorReadmissionService {
 	public List<ReadmissionDTO> getArchievedFormsOfInstructor(Integer insID);
 	public ReadmissionDTO updateStatusOfForm(ReadmissionDTO dto);
 	public List<ReadmissionDTO> getPendingFormsOfDean();
+	public List<ReadmissionDTO> getPendingFormsOfDeanOfAcademic();
 	public List<ReadmissionDTO> getArchievedFormsOfDean();
 	public ReadmissionDTO getByID(Integer id);
 	public void addComment(Integer id, String comment);

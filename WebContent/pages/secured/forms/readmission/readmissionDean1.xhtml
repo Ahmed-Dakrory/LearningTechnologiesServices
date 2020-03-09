@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Change Major and/or Specialization - LT Online Services</ui:define>
+		<ui:define name="title">Readmission</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
@@ -26,21 +26,45 @@
 						</p:selectOneMenu>
 					<h:panelGroup id="pageContent">
 						<p:panel id="mainPnl">
-							<p:tabMenu activeIndex="#{(ReadmissionInstructorBean.detailView)?2:0}" id="ins">
-								<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean.xhtml" rendered="#{ReadmissionInstructorBean.showIns}"/>
-								<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean1.xhtml" rendered="#{ReadmissionInstructorBean.showIns}"/>
-								<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" />
-						
-							
+							<p:tabMenu activeIndex="#{(ReadmissionInstructorBean.detailView)?2:1}" id="ins">
+									<p:menuitem value="Pending Petitions" url="/pages/secured/forms/readmission/readmissionDean.xhtml" rendered="#{ReadmissionInstructorBean.showIns}"/>
+								<p:menuitem value="Old Petitions" url="/pages/secured/forms/readmission/readmissionDean1.xhtml" rendered="#{ReadmissionInstructorBean.showIns}"/>
+								<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/readmission/inprogressPetitions.xhtml" />
+								
 						</p:tabMenu>
+									<h:panelGrid column="1">
+								<p:selectOneMenu id="course" value="#{ReadmissionInstructorBean.selectedSemester}"
+								 required="true" requiredMessage="Please select semester" style="width:200px">
+									<f:selectItem itemLabel="Select Semester" />
+									<f:selectItems var="sem" value="#{ReadmissionInstructorBean.semesterLst}" 
+									itemLabel="#{sem.name}" itemValue="#{sem.id}" />
+									<p:ajax update="pendingDatatable year" listener="#{ReadmissionInstructorBean.ininttialzieYear}" />
+								</p:selectOneMenu>
+								<p:message for="course" />
+								
+								<p:selectOneMenu id="year" value="#{ReadmissionInstructorBean.selectedYear}"
+								 required="true" requiredMessage="Please select year" style="width:200px">
+									<f:selectItem itemLabel="Select Year" />
+									<f:selectItems var="sem" value="#{ReadmissionInstructorBean.yearLst}" 
+									itemLabel="#{sem}" itemValue="#{sem}" />
+									<p:ajax update="pendingDatatable export" listener="#{ReadmissionInstructorBean.getPetitionsBySemester}" />
+								</p:selectOneMenu>
+								<p:message for="year" />
+							</h:panelGrid>
+						<p:commandButton id="export" value="Export" title="Generate" actionListener="#{ReadmissionInstructorBean.exportExcelReport}" 
+						 ajax="false" class="blueBtn" />
+						 
+						 
 				<h:panelGroup id="ListView" rendered="#{!ReadmissionInstructorBean.detailView}">
-							<p:dataTable var="forms" value="#{ReadmissionInstructorBean.pendingFormsDeanAcademic}" selectionMode="single" 
-							selection="#{ReadmissionInstructorBean.selectedPendingFormsDean}" rowKey="#{forms.id}" sortMode="multiple" 
-							filteredValue="#{ReadmissionInstructorBean.filteredPendingFormsDean}" widgetVar="formsTable" id="pendingDatatable" scrollable="true" rowStyleClass="#{forms.acceptRefuseCssName}">
+							<p:dataTable var="forms" value="#{ReadmissionInstructorBean.archievedFormsDean}" selectionMode="single" 
+							selection="#{ReadmissionInstructorBean.selectedArchievedFormsDean}" rowKey="#{forms.id}" sortMode="multiple" 
+							filteredValue="#{ReadmissionInstructorBean.filteredArchievedFormsDean}" widgetVar="formsTable" id="pendingDatatable" scrollable="true" rowStyleClass="#{forms.acceptRefuseCssName}">
 							<p:ajax event="rowSelect" listener="#{ReadmissionInstructorBean.onRowSelectDean}" />
-								<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
-								<h:outputText value="#{forms.id}" />
-								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							<p:column width="130" id="formID" sortBy="#{forms.id}"
+							filterBy="#{forms.id}">
+							<h:outputText value="#{forms.id}" />
+							<p:watermark value="ID"
+								forElement="mainForm:form:pendingDatatable:formID:filter" />
 							</p:column>
 							<p:column width="200" id="student" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}">
 								<h:outputText value="#{forms.student.name}" />
@@ -56,7 +80,6 @@
 								<p:watermark value="Major" forElement="mainForm:form:pendingDatatable:major:filter"/>
 							</p:column>
 							</ui:remove>
-							
 							<p:column width="185" id="curStatus" sortBy="#{forms.currentStatus}" filterBy="#{forms.currentStatus}">
 								<h:outputText value="#{forms.currentStatus}" />
 								<p:watermark value="Current Status" forElement="mainForm:form:pendingDatatable:curStatus:filter"/>
@@ -65,10 +88,9 @@
 								<h:outputText value="#{forms.nextStatus}" escape="false"/>
 								<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable:nextStatus:filter"/>
 							</p:column>
-							
-								
-							</p:dataTable>
-					</h:panelGroup>	
+
+						</p:dataTable>
+						</h:panelGroup>	
 			
 						</p:panel>
 				</h:panelGroup>	</p:panel>

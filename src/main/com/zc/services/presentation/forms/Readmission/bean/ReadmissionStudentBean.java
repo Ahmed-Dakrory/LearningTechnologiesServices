@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
 import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
+import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionActionsFacade;
 import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionStudentFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
@@ -51,6 +52,12 @@ public class ReadmissionStudentBean {
     @ManagedProperty("#{IMajorsFacade}")
   	private IMajorsFacade majorFacade;
 
+	@ManagedProperty("#{IReadmissionActionsFacade}")
+	private IReadmissionActionsFacade facadeReadmission;
+	
+
+    
+    
     @ManagedProperty("#{IStudentProfileFacade}")
     private StudentProfileFacadeImpl profileFacade;
 	private List<ReadmissionDTO> pendingForms;
@@ -107,6 +114,25 @@ public class ReadmissionStudentBean {
 			}
 		}
 	}
+	
+	public void closeFormReadmission(int id) {
+		ReadmissionDTO readmission = facadeReadmission.getByID(id);
+		readmission.setStep(PetitionStepsEnum.CLOSED);
+		readmission.setStatus(PetitionStepsEnum.CLOSED.getName());
+		readmission.setPerformed(true);
+		facadeReadmission.updateStatusOfForm(readmission);
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null,"Request with Id "+String.valueOf(id)+" has been closed");
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect
+			("readmissionStudent.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void fillArchievedPetitionsLst()
 	{archievedForms=new ArrayList<ReadmissionDTO>();
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -357,6 +383,12 @@ public class ReadmissionStudentBean {
 	}
 	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
 		this.profileFacade = profileFacade;
+	}
+	public IReadmissionActionsFacade getFacadeReadmission() {
+		return facadeReadmission;
+	}
+	public void setFacadeReadmission(IReadmissionActionsFacade facadeReadmission) {
+		this.facadeReadmission = facadeReadmission;
 	}
 	
 }

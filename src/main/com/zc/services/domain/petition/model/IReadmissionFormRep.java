@@ -29,6 +29,8 @@ public interface IReadmissionFormRep {
 	public List<ReadmissionForm> getOldSummer(Integer year);
 	public List<ReadmissionForm> getOldSpring(Integer year);
 	public List<ReadmissionForm> getOldFall(Integer year);
+	
+	public List<PendingPetitionCountObject> getInstructorPendingReadmissionPetition(Integer employID, boolean forDailyMAil ) ;
 	/**
 	 * retrieve count of ReadmissionForm  with step INSTRUCTOR(1)
 	 * and performed =0 ---running on flow

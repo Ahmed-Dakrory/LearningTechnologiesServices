@@ -73,5 +73,11 @@ public class ReadmissionInsFacadeImpl implements IReadmissionInsFacade{
 		return service.forwardPetition(dto);
 	}
 
+	@Override
+	public List<ReadmissionDTO> getPendingFormsOfDeanAcademics() {
+		// TODO Auto-generated method stub
+		return service.getPendingFormsOfDeanOfAcademic();
+	}
+
 	
 }

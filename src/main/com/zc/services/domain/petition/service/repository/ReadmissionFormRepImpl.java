@@ -263,4 +263,11 @@ public class ReadmissionFormRepImpl implements IReadmissionFormRep{
 				return null;
 			}
 	}
+
+	@Override
+	public List<PendingPetitionCountObject> getInstructorPendingReadmissionPetition(Integer employID, boolean forDailyMAil) {
+		Query query = sessionFactory.getCurrentSession().getNamedQuery(
+				"ReadmissionForm.getInstructorPending").setInteger("employID", employID).setBoolean("forDailyMAil", forDailyMAil);
+		return query.list();
+	}
 }

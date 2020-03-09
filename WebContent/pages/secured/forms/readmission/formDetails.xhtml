@@ -50,8 +50,7 @@
 							
                             <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/readmission/inprogressPetitions.xhtml" 
                            	rendered="#{DetailsBeanReadmission.casesID.equals('AdmissionD')
-                           	||DetailsBeanReadmission.casesID.equals('AdmissionH')||
-                           	DetailsBeanReadmission.casesID.equals('Dean')}"/>
+                           	||DetailsBeanReadmission.casesID.equals('AdmissionH')}"/>
 							
 							<p:menuitem value="Petition Details" title="Petition Details" disabled="true" />
 							
@@ -97,8 +96,8 @@
 										<p:commandButton icon="icon_attach" title="Attachment" disabled="#{DetailsBeanReadmission.detailedDTO.attachments == null}" process="@this" ajax="false" action="#{DetailsBeanReadmission.downloadAttachments(DetailsBeanReadmission.detailedDTO)}" />
 									 	<div class="floatR actionBtns marginRight_18">
 											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanReadmission.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanReadmission.adminView}" class="blueBtn" />
-											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanReadmission.approve}" rendered="#{DetailsBeanReadmission.oldMood!=true and DetailsBeanReadmission.admissionDeptMood==true }" class="greenBtn" />
-								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanReadmission.refuse}" rendered="#{DetailsBeanReadmission.oldMood!=true and DetailsBeanReadmission.admissionDeptMood==true }" class="redBtn" />
+											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanReadmission.approve}" rendered="#{DetailsBeanReadmission.oldMood!=true  }" class="greenBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanReadmission.refuse}" rendered="#{DetailsBeanReadmission.oldMood!=true  }" class="redBtn" />
 							<!-- 				<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanReadmission.markAsDone}" rendered="#{DetailsBeanReadmission.oldMood==false and DetailsBeanReadmission.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
 									    	 -->
 									    	<!-- <p:commandButton value="Revert" 
@@ -164,37 +163,76 @@
 						<div class="formProgressWrapper">
 							<ol class="formProgress">
     							<li>
+    							<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()!=10}">
     								<div class="formProgress-done">
     									<br/>
 										<h:outputLabel value="Under Review" /><br/>
 									</div>
-								</li><!-- 
+									
+									</h:panelGroup>
+									
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==10}">
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Closed" /><br/>
+									</div>
+									
+									</h:panelGroup>
+								</li>
+								<!-- 
     						 --><li>
 									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0}">
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">
-												<h:outputLabel value="#{DetailsBeanReadmission.detailedDTO.newMajor.headOfMajor.name}" /><br/>
-							    				<h:outputLabel value="Program Advisor" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Admission Staff" />
 											</div>
 										</div>
 									</h:panelGroup>
 									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==6 || DetailsBeanReadmission.detailedDTO.step.getID()==1 || DetailsBeanReadmission.detailedDTO.step.getID()==2 || DetailsBeanReadmission.detailedDTO.step.getID()==3 || DetailsBeanReadmission.detailedDTO.step.getID()==4}">
-							    		<div class="formProgress-done">
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==12 or DetailsBeanReadmission.detailedDTO.step.getID()==2 or DetailsBeanReadmission.detailedDTO.step.getID()==4}">
+									
+									<div class="formProgress-done">
 							    			<br/>
-							    			<h:outputLabel value="#{DetailsBeanReadmission.instructorActionDetails.actionType.name}" /><br/>
-							    			<div class="otherInfo">
-							    				<h:outputLabel value="#{DetailsBeanReadmission.instructorActionDetails.instructorName}" /><br/>
-							    				<h:outputLabel value="Program Advisor" /><br/>
-							    				<h:outputLabel value="#{DetailsBeanReadmission.instructorActionDetails.friendlyDate}" />
-							    			</div>
-							    		</div>
+											<h:outputLabel value="#{DetailsBeanReadmission.admissionDActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="#{DetailsBeanReadmission.admissionDActionDetails.instructorName}" /><br/>
+			    								<h:outputLabel value="#{DetailsBeanReadmission.admissionDActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+										
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0 || DetailsBeanReadmission.detailedDTO.step.getID()==1|| DetailsBeanReadmission.detailedDTO.step.getID()==6}">
+								</li>
+								<!-- 
+    						 -->
+    						 <li>
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0 or DetailsBeanReadmission.detailedDTO.step.getID()==12 }">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">	
+												<h:outputLabel value="Dean of Academics" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==2 or DetailsBeanReadmission.detailedDTO.step.getID()==4}">
+									
+									<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanReadmission.deanAcademicsActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="#{DetailsBeanReadmission.deanAcademicsActionDetails.instructorName}" /><br/>
+			    								<h:outputLabel value="#{DetailsBeanReadmission.deanAcademicsActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+										
+									</h:panelGroup>
+								</li>
+    						 
+    						 <li>
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0 || DetailsBeanReadmission.detailedDTO.step.getID()==2|| DetailsBeanReadmission.detailedDTO.step.getID()==12}">
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
@@ -204,7 +242,8 @@
 										</div>
 									</h:panelGroup>
 									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==2 || DetailsBeanReadmission.detailedDTO.step.getID()==3 || DetailsBeanReadmission.detailedDTO.step.getID()==4}">
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==4}">
+									
 										<div class="formProgress-done">
 							    			<br/>
 											<h:outputLabel value="#{DetailsBeanReadmission.deanActionDetails.actionType.name}" /><br/>
@@ -215,50 +254,29 @@
 			    							</div>
 			    						</div>
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0 || DetailsBeanReadmission.detailedDTO.step.getID()==2|| DetailsBeanReadmission.detailedDTO.step.getID()==1 || DetailsBeanReadmission.detailedDTO.step.getID()==6}">
+								</li>
+								
+								
+								<!-- 
+    						 -->
+    						 
+    						 
+    						 <li>
+									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0 || DetailsBeanReadmission.detailedDTO.step.getID()==2|| DetailsBeanReadmission.detailedDTO.step.getID()==12}">
 										<div class="formProgress-todo">
 											<br/>
-											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">	
-												<h:outputLabel value="Admission Head" />
-											</div>
-										</div>
-									</h:panelGroup>
-									<!-- OR -->		
-																
-									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==3 || DetailsBeanReadmission.detailedDTO.step.getID()==4}">
-										<div class="formProgress-done">
-							    			<br/>
-											<h:outputLabel value="#{DetailsBeanReadmission.admissionHActionDetails.actionType.name}" /><br/>
-											<div class="otherInfo">
-					    		       			<h:outputLabel value="Admission Head" /><br/>
-					    		    			<h:outputLabel value="#{DetailsBeanReadmission.admissionHActionDetails.friendlyDate}" />
-					    		    		</div>
-					   			    	</div>
-									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
-									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==0 || DetailsBeanReadmission.detailedDTO.step.getID()==2|| DetailsBeanReadmission.detailedDTO.step.getID()==1 || DetailsBeanReadmission.detailedDTO.step.getID()==6 || DetailsBeanReadmission.detailedDTO.step.getID()==3}">
-										<div class="formProgress-todo">
-											<br/>
-											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">	
-												<h:outputLabel value="Admission Staff" />
-											</div>
+											<h:outputLabel value="Finalized" /><br/>
+											
 										</div>
 									</h:panelGroup>
 									<!-- OR -->
 									<h:panelGroup rendered="#{DetailsBeanReadmission.detailedDTO.step.getID()==4}">
+									
 										<div class="formProgress-done">
-						    				<br/>
+							    			<br/>
 											<h:outputLabel value="Finalized" /><br/>
-											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
-					    						<h:outputLabel value="#{DetailsBeanReadmission.admissionHActionDetails.friendlyDate}" />
-					    					</div>
-					    				</div>
+											
+			    						</div>
 									</h:panelGroup>
 								</li>
 							</ol>

@@ -308,7 +308,7 @@ public class InstructorReadmissionServiceImpl implements IInstructorReadmissionS
 		{
 			if(allForms.get(i).getPerformed()==null)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS)||allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 				{
 					// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
@@ -339,7 +339,7 @@ public class InstructorReadmissionServiceImpl implements IInstructorReadmissionS
 			}
 			else if(allForms.get(i).getPerformed()!=true)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS)||allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 				{
 					// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
@@ -547,6 +547,87 @@ public class InstructorReadmissionServiceImpl implements IInstructorReadmissionS
 				return null;
 			}
 	}
+
+	@Override
+	public List<ReadmissionDTO> getPendingFormsOfDeanOfAcademic() {
+			
+			List<ReadmissionDTO> filterdDTO=new ArrayList<ReadmissionDTO>();
+			try{
+				List<ReadmissionForm> allForms=rep.getAll();
+			for(int i=0;i<allForms.size();i++)
+			{
+				if(allForms.get(i).getPerformed()==null)
+				{
+					if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
+					{
+						// first add list of actions to this petition 
+						List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+						List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+						if(actions!=null)
+						{
+							for(int a=0;a<actions.size();a++)
+							{
+								PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+								actionDTO.setId(actions.get(a).getId());
+								actionDTO.setComment(actions.get(a).getComment());
+								actionDTO.setDate(actions.get(a).getDate());
+								actionDTO.setFormType(actions.get(a).getFormType());
+								if(actions.get(a).getInstructor()!=null)
+								actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+								actionDTO.setPetitionID(actions.get(a).getPetitionID());
+								actionDTO.setActionType(actions.get(a).getActionType());
+								if(actions.get(a).getInstructor()!=null)
+								actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+								actionsDTO.add(actionDTO);
+							}
+						}
+						ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+						dto.setActionDTO(actionsDTO);
+						
+					     filterdDTO.add(dto);
+					}
+				}
+				else if(allForms.get(i).getPerformed()!=true)
+				{
+					if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
+					{
+						// first add list of actions to this petition 
+						List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.READMISSION.getValue());
+						List<PetitionsActionsDTO> actionsDTO=new ArrayList<PetitionsActionsDTO>();
+						if(actions!=null)
+						{
+							for(int a=0;a<actions.size();a++)
+							{
+								PetitionsActionsDTO actionDTO=new PetitionsActionsDTO();
+								actionDTO.setId(actions.get(a).getId());
+								actionDTO.setComment(actions.get(a).getComment());
+								actionDTO.setDate(actions.get(a).getDate());
+								actionDTO.setFormType(actions.get(a).getFormType());
+								if(actions.get(a).getInstructor()!=null)
+								actionDTO.setInstructorID(actions.get(a).getInstructor().getId());
+								actionDTO.setPetitionID(actions.get(a).getPetitionID());
+								actionDTO.setActionType(actions.get(a).getActionType());
+								if(actions.get(a).getInstructor()!=null)
+								actionDTO.setInstructorName(actions.get(a).getInstructor().getName());
+								actionsDTO.add(actionDTO);
+							}
+						}
+						ReadmissionDTO dto=assem.toDTO(allForms.get(i));
+						dto.setActionDTO(actionsDTO);
+						
+					     filterdDTO.add(dto);
+					}
+				}
+			}
+			
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+			return filterdDTO;
+		}
+
 
 
 }

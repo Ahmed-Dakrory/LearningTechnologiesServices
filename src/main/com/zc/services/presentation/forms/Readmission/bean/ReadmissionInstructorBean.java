@@ -51,6 +51,7 @@ public class ReadmissionInstructorBean {
 	private ReadmissionDTO selectedArchievedForms;
 	private List<ReadmissionDTO> filteredArchievedForms;
 	private List<ReadmissionDTO> pendingFormsDean;
+	private List<ReadmissionDTO> pendingFormsDeanAcademic;
 	private List<ReadmissionDTO> archievedFormsDean;
 	private ReadmissionDTO selectedPendingFormsDean;
 	private List<ReadmissionDTO> filteredPendingFormsDean;
@@ -162,6 +163,8 @@ public class ReadmissionInstructorBean {
 		fillArchievedForms();
 		pendingFormsDean=new ArrayList<ReadmissionDTO>();
 		fillPendingFormsDean();
+		pendingFormsDeanAcademic=new ArrayList<ReadmissionDTO>();
+		fillPendingFormsDeanAcademic();
 		archievedFormsDean=new ArrayList<ReadmissionDTO>();
 		//fillArchievedFormsDean();
 		userTypesLst=new ArrayList<BaseDTO>();
@@ -291,6 +294,19 @@ public class ReadmissionInstructorBean {
     	}
     }
     
+    public void fillPendingFormsDeanAcademic() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			
+			pendingFormsDeanAcademic=  facade.getPendingFormsOfDeanAcademics();
+		    if(pendingFormsDeanAcademic==null)
+		    {
+		    	JavaScriptMessagesHandler.RegisterErrorMessage(null, 	"Error In getting Petitions");
+		    }
+		}
+    }
     public void fillPendingFormsDean()
     {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -362,9 +378,20 @@ public class ReadmissionInstructorBean {
     			FacesContext.getCurrentInstance().getExternalContext().redirect
 				("formDetails.xhtml?id="+dto.getId()+"&cases=Dean&oldMood=1");
     		}
-    		else 
-			FacesContext.getCurrentInstance().getExternalContext().redirect
-			("formDetails.xhtml?id="+dto.getId()+"&cases=Dean");
+    		else {
+    			
+    			 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    				if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+    				{
+			if(authentication.getName().equalsIgnoreCase(Constants.DEAN_OF_ACADEMIC)) {
+    			FacesContext.getCurrentInstance().getExternalContext().redirect
+			("formDetails.xhtml?id="+dto.getId()+"&cases=DeanAcad");
+			}else {
+				FacesContext.getCurrentInstance().getExternalContext().redirect
+				("formDetails.xhtml?id="+dto.getId()+"&cases=Dean");
+			}
+    		}
+    		}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -801,6 +828,12 @@ public class ReadmissionInstructorBean {
 	}
 	public void setReportsFacade(IReportsFacade reportsFacade) {
 		this.reportsFacade = reportsFacade;
+	}
+	public List<ReadmissionDTO> getPendingFormsDeanAcademic() {
+		return pendingFormsDeanAcademic;
+	}
+	public void setPendingFormsDeanAcademic(List<ReadmissionDTO> pendingFormsDeanAcademic) {
+		this.pendingFormsDeanAcademic = pendingFormsDeanAcademic;
 	}
 	
 

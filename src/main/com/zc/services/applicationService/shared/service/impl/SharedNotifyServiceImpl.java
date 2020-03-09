@@ -2832,12 +2832,12 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							.getByMail(Constants.ADMISSION_DEPT);
 
 					studentContent = "We would like to inform you that your Readmission Petition with ID:"
-							+ readmissionForm.getId() + " <br/>"+PetitionStepsEnum.UNDER_REVIEW.getName();
+							+ readmissionForm.getId() + " <br/>"+ "Waiting Registrar Action";
 					String titleold = "Readmission  "
 							+ readmissionForm.getId();
 					List<String> oldRecipent = new ArrayList<String>();
 					// Notify Student
-					studentDTO = new StudentDTO();
+					studentDTO = new StudentDTO(); 
 					studentDTO.setMail(readmissionForm.getStudent().getData()
 							.getMail());
 					studentDTO.setName(readmissionForm.getStudent().getData()
@@ -2859,7 +2859,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					PetitionStepsEnum.DEAN_OF_ACADIMICS)) {
 				// Notify DEAN
 				instructor = instructorRepository
-						.getByMail(Constants.DEAN_OF_STRATEGIC);
+						.getByMail(Constants.DEAN_OF_ACADEMIC);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -2887,11 +2887,11 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							+ " " + insname;
 				}*/
 				
-				studentContent += "<br/> The next step is the Dean approval";
+				studentContent += "<br/> The next step is the Dean of Academics approval";
 			} else if (readmissionForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.DEAN_OF_STRATEGIC);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -2899,7 +2899,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getMail());
 				studentDTO.setName(readmissionForm.getStudent().getData()
 						.getNameInEnglish());
-				studentTitle = "Readmission and/or Specialization "
+				studentTitle = "Readmission "
 						+ readmissionForm.getId();
 
 				studentContent = "We would like to inform you that the current Status of your Readmission Petition with ID:"
@@ -2910,7 +2910,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.contains(Constants.PETITION_STATUS_REFUSED_BY_DEAN)) {
 					studentContent += Constants.PETITION_STATUS_REFUSED_BY_DEAN;
 				}*/
-				studentContent += "<br/> The next step is the Admission Head approval";
+				studentContent += "<br/> The next step is the Dean of Strategic approval";
 			} else if (readmissionForm.getStep().equals(
 					PetitionStepsEnum.ADMISSION_DEPT)) {
 				

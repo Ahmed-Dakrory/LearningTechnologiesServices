@@ -94,7 +94,7 @@ public class ReadmissionDTO {
 			{
 				for(int i=0;i<getActionDTO().size();i++)
 				{
-					if(getActionDTO().get(i).getInstructorID().equals(getNewMajor().getHeadOfMajor().getId()))
+					if(getActionDTO().get(i).getInstructorID().equals(Constants.DEAN_OF_ACADEMIC_ID))
 					{
 						if(getActionDTO().get(i).getActionType()!=null)
 						{
