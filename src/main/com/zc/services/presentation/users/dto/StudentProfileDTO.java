@@ -16,8 +16,9 @@ public class StudentProfileDTO {
 	private Integer  id;
 
 	private MajorDTO major;
-	
+
 	private String minor;
+	private String transcript;
 	
 	private Concentration concentration;
 	
@@ -40,6 +41,9 @@ public class StudentProfileDTO {
 	private byte[] studentImage;
 	
 	private Double gpa;
+	
+
+	private Double attempt_credit_hours;
 	
 	public Integer getId() {
 		return id;
@@ -150,6 +154,22 @@ public class StudentProfileDTO {
 
 	public void setMinor(String minor) {
 		this.minor = minor;
+	}
+
+	public String getTranscript() {
+		return transcript;
+	}
+
+	public void setTranscript(String transcript) {
+		this.transcript = transcript;
+	}
+
+	public Double getAttempt_credit_hours() {
+		return attempt_credit_hours;
+	}
+
+	public void setAttempt_credit_hours(Double attempt_credit_hours) {
+		this.attempt_credit_hours = attempt_credit_hours;
 	}
 	
 	

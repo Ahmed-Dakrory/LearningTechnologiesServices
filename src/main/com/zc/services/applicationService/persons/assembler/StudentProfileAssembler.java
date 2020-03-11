@@ -29,6 +29,8 @@ public class StudentProfileAssembler {
 		dto.setGpa(profile.getGpa());
 		dto.setConcentration(profile.getConcentration());
 		dto.setMinor(profile.getMinor());
+		dto.setTranscript(profile.getTranscript());
+		dto.setAttempt_credit_hours(profile.getAttempt_credit_hours());
 	try
 		{
 			StudentDTO student=new StudentDTO();
@@ -71,6 +73,8 @@ public class StudentProfileAssembler {
 		profile.setGpa(dto.getGpa());
 		profile.setConcentration(dto.getConcentration());
 		profile.setMinor(dto.getMinor());
+		profile.setTranscript(dto.getTranscript());
+		profile.setAttempt_credit_hours(dto.getAttempt_credit_hours());
 		try
 		{
 			Student student=new Student();

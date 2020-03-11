@@ -69,9 +69,13 @@ public class StudentProfile {
 	
 	@Column(name="CURRENT_CREDIT_HRS")
 	private Double currentCreditHrs;
-	
+
 	@Column(name="COMPLETED_CREDIT_HRS")
 	private Double completedCreditHrs;
+	
+
+	@Column(name="attempt_credit_hours")
+	private Double attempt_credit_hours;
 	
 	@Column(name="REPEATED_COURSES")
 	private Integer repeatedCourses;
@@ -99,6 +103,9 @@ public class StudentProfile {
 
 	@Column(name="minor")
 	private String minor;
+	
+	@Column(name="transcript")
+	private String transcript;
 	
 
 	public Integer getId() {
@@ -229,6 +236,30 @@ public class StudentProfile {
 
 	public void setMinor(String minor) {
 		this.minor = minor;
+	}
+
+
+
+	public String getTranscript() {
+		return transcript;
+	}
+
+
+
+	public void setTranscript(String transcript) {
+		this.transcript = transcript;
+	}
+
+
+
+	public Double getAttempt_credit_hours() {
+		return attempt_credit_hours;
+	}
+
+
+
+	public void setAttempt_credit_hours(Double attempt_credit_hours) {
+		this.attempt_credit_hours = attempt_credit_hours;
 	}
 	
 	

@@ -857,6 +857,34 @@ if (count ==3) { // course code
 						
 					}
 					
+					if (count == 14) {// Attempt_credit_hours
+						
+						 
+
+						try {
+							
+							studentProfileDTO.setAttempt_credit_hours(Double.valueOf(getTheValueFromCell(cell)));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
+					
+					
+					if (count == 15) {// Attempt_credit_hours
+						
+						 
+
+						try {
+							
+							studentProfileDTO.setTranscript(getTheValueFromCell(cell));
+						}catch (Exception ex) { //
+						}
+					    	
+						
+					}
+					
 				
 
 				
@@ -971,6 +999,8 @@ if (count ==3) { // course code
 					profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
 					profile.setGpa(student.getStudentProfileDTO().getGpa());
 					profile.setMinor(student.getStudentProfileDTO().getMinor());
+					profile.setTranscript(student.getStudentProfileDTO().getTranscript());
+					profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
 					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 					profile.setMajor(major);
 					profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
@@ -985,6 +1015,8 @@ if (count ==3) { // course code
 					profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
 					profile.setGpa(student.getStudentProfileDTO().getGpa());
 					profile.setMinor(student.getStudentProfileDTO().getMinor());
+					profile.setTranscript(student.getStudentProfileDTO().getTranscript());
+					profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
 					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 					profile.setMajor(major);
 					profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
@@ -1002,6 +1034,8 @@ if (count ==3) { // course code
 				profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
 				profile.setGpa(student.getStudentProfileDTO().getGpa());
 				profile.setMinor(student.getStudentProfileDTO().getMinor());
+				profile.setTranscript(student.getStudentProfileDTO().getTranscript());
+				profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
 				Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 				profile.setMajor(major);
 				profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
