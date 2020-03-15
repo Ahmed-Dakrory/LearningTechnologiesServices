@@ -17,4 +17,5 @@ public interface IAdminIntenedMajorService {
 	public List<IntendedMajorSurveyDTO> getAll();
 	public List<IntendedMajorSurveyDTO> getbyMajorIDAndYearAndSemester(Integer id, Integer year, Integer semester);
 	public List<IntendedMajorSurveyDTO> getByYearAndSemester(Integer year, Integer semester);
+	public IntendedMajorSurveyDTO update(IntendedMajorSurveyDTO dto);
 }

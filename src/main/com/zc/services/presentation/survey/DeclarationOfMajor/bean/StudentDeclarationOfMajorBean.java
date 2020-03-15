@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
+import main.com.zc.services.domain.survey.model.OfficialMajor;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
 import main.com.zc.services.presentation.survey.DeclarationOfMajor.facade.IStudentDeclarationOfMajorFacade;
 import main.com.zc.services.presentation.survey.intendedMajor.dto.IntendedMajorSurveyDTO;
@@ -142,6 +143,7 @@ public class StudentDeclarationOfMajorBean {
 						MajorDTO major=new MajorDTO();
 						major.setId(getSelectedMajor());
 						dto.setMajor(major);
+						dto.setState(OfficialMajor.STATE_Waiting);
 						dto=facade.update(dto);
 					}
 					else {
@@ -153,6 +155,7 @@ public class StudentDeclarationOfMajorBean {
 				StudentDTO student=new StudentDTO();
 				student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());
 				dto.setStudent(student);
+				dto.setState(OfficialMajor.STATE_Waiting);
 				dto=facade.submit(dto);
 					}
 				if(dto!=null)

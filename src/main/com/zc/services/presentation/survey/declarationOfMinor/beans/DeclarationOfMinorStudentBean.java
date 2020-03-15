@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.survey.declarationOfConcentration.beans;
+package main.com.zc.services.presentation.survey.declarationOfMinor.beans;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import javax.faces.model.SelectItemGroup;
 
 import main.com.zc.services.domain.survey.model.OfficialMajor;
 import main.com.zc.services.presentation.shared.IMajorsFacade;
-import main.com.zc.services.presentation.survey.declarationOfConcentration.facade.IDeclarationOfConcentrationFacade;
+import main.com.zc.services.presentation.survey.declarationOfMinor.facade.IDeclarationOfMinorFacade;
 import main.com.zc.services.presentation.survey.intendedMajor.dto.IntendedMajorSurveyDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
@@ -31,24 +31,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author omnya
  *
  */
-@ManagedBean(name="DeclarationOfConcentrationStudentBean")
+@ManagedBean(name="DeclarationOfMinorStudentBean")
 @ViewScoped
-public class DeclarationOfConcentrationStudentBean {
+public class DeclarationOfMinorStudentBean {
 
 	 private List<SelectItem> concentrationLst;
-	 private Integer selectedConcentration;  
+	 private Integer selectedMinor;  
 	 private String mobile;
      private boolean updateMood;
 	 private boolean renderInputs;
-	 private String selectedConcentrationName;
-	 private IntendedMajorSurveyDTO studentConcentration;
+	 private String selectedMinorName;
+	 private IntendedMajorSurveyDTO studentMinor;
 	 private List<BaseDTO> concentrationsDTOLst;
 	 
 	 @ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
 		private IGetLoggedInStudentDataFacade studentDataFacade;
 	 
-	 @ManagedProperty("#{IDeclarationOfConcentrationFacade}")
-		private IDeclarationOfConcentrationFacade facade;
+	 @ManagedProperty("#{IDeclarationOfMinorFacade}")
+		private IDeclarationOfMinorFacade facade;
 	 
 	 @ManagedProperty("#{IMajorsFacade}")
 		private IMajorsFacade majorFacade;
@@ -67,13 +67,16 @@ public class DeclarationOfConcentrationStudentBean {
 			String mail = authentication.getName();
 			if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
 				
-					studentConcentration=facade.getByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
+					studentMinor=facade.getByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
 						
-					
-					if(studentConcentration.getId()!=null)
+					if(studentMinor!=null) {
+					if(studentMinor.getId()!=null)
 					updateMood=true;
 					else 
 						updateMood= false;
+					}else {
+						updateMood= false;
+					}
 	
 			}}}
 		catch(Exception ex)
@@ -85,13 +88,13 @@ public class DeclarationOfConcentrationStudentBean {
 	public void fillConcentrartionLst()
 	{
 		List<BaseDTO> concentrations=new ArrayList<BaseDTO>();
-		//concentrations=facade.getAllConcentrations();
+		//concentrations=facade.getAllMinors();
 		   List<MajorDTO> majors=new ArrayList<MajorDTO>();
 		   majors=majorFacade.getAvailableOnly();
 		   
 		   for(int i=0;i<majors.size();i++)
 		   {
-			   concentrations=facade.getConcentrationsByMajor(majors.get(i).getId());
+			   concentrations=facade.getMinorsByMajor(majors.get(i).getId());
 			   if(concentrations.size()>0){
 				SelectItemGroup g1 = new SelectItemGroup(majors.get(i).getMajorName());
 				List<SelectItem> items=new ArrayList<SelectItem>();
@@ -144,28 +147,28 @@ public class DeclarationOfConcentrationStudentBean {
 		}*/
 		/*SelectItemGroup g1 = new SelectItemGroup("Biomedical Sciences");
         g1.setSelectItems(new SelectItem[]
-        	   {new SelectItem((Integer)1, "Computational Biology and Genomics Concentration"),
-        		new SelectItem((Integer)2, "Molecular Cell Biology Concentration"), 
-        		new SelectItem((Integer)3, "Drug Design and Development Concentration")});
-                new SelectItem((Integer)4,"Medical Science Concentration");
+        	   {new SelectItem((Integer)1, "Computational Biology and Genomics Minor"),
+        		new SelectItem((Integer)2, "Molecular Cell Biology Minor"), 
+        		new SelectItem((Integer)3, "Drug Design and Development Minor")});
+                new SelectItem((Integer)4,"Medical Science Minor");
         SelectItemGroup g2 = new SelectItemGroup("PYSICS OF Earth and Universe");
         g2.setSelectItems(new SelectItem[] 
-        		{new SelectItem((Integer)5, "Astrophysics Concentration"),
-        		new SelectItem((Integer)6, "High Energy Physics Concentration"), 
-        		new SelectItem((Integer)7, "Earth and Atmospheric Sciences Concentration")});
+        		{new SelectItem((Integer)5, "Astrophysics Minor"),
+        		new SelectItem((Integer)6, "High Energy Physics Minor"), 
+        		new SelectItem((Integer)7, "Earth and Atmospheric Sciences Minor")});
          
         concentrationLst = new ArrayList<SelectItem>();
         concentrationLst.add(g1);
         concentrationLst.add(g2);
 	*/
        /* concentrationsDTOLst=new ArrayList<BaseDTO>();
-        concentrationsDTOLst.add(new BaseDTO(1,"Computational Biology and Genomics Concentration"));
-        concentrationsDTOLst.add(new BaseDTO(2,"Molecular Cell Biology Concentration"));
-        concentrationsDTOLst.add(new BaseDTO(3,"Drug Design and Development Concentration"));
-        concentrationsDTOLst.add(new BaseDTO(4,"Medical Science Concentration"));
-        concentrationsDTOLst.add(new BaseDTO(5,"Astrophysics Concentration"));
-        concentrationsDTOLst.add(new BaseDTO(6,"High Energy Physics Concentration"));
-        concentrationsDTOLst.add(new BaseDTO(7,"Earth and Atmospheric Sciences Concentration"));*/
+        concentrationsDTOLst.add(new BaseDTO(1,"Computational Biology and Genomics Minor"));
+        concentrationsDTOLst.add(new BaseDTO(2,"Molecular Cell Biology Minor"));
+        concentrationsDTOLst.add(new BaseDTO(3,"Drug Design and Development Minor"));
+        concentrationsDTOLst.add(new BaseDTO(4,"Medical Science Minor"));
+        concentrationsDTOLst.add(new BaseDTO(5,"Astrophysics Minor"));
+        concentrationsDTOLst.add(new BaseDTO(6,"High Energy Physics Minor"));
+        concentrationsDTOLst.add(new BaseDTO(7,"Earth and Atmospheric Sciences Minor"));*/
 	}
 
 
@@ -180,11 +183,12 @@ public class DeclarationOfConcentrationStudentBean {
 				/*if(Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2014")||Integer.toString(studentDataFacade.getPersonByPersonMail(mail).getFileNo()).startsWith("2013"))
 				{*/
 					IntendedMajorSurveyDTO dto=new IntendedMajorSurveyDTO();
-					if(getStudentConcentration().getId()!=null)
+					if(studentMinor!=null) {
+					if(getStudentMinor().getId()!=null)
 					{
-						dto=getStudentConcentration();
+						dto=getStudentMinor();
 						dto.setMobile(getMobile());
-						BaseDTO con=new BaseDTO(getSelectedConcentration());
+						BaseDTO con=new BaseDTO(getSelectedMinor());
 						dto.setConcentration(con);
 						dto.setState(OfficialMajor.STATE_Waiting);
 						dto=facade.update(dto);
@@ -192,7 +196,7 @@ public class DeclarationOfConcentrationStudentBean {
 					else {
 				
 				dto.setMobile(getMobile());
-				BaseDTO con=new BaseDTO(getSelectedConcentration());
+				BaseDTO con=new BaseDTO(getSelectedMinor());
 				dto.setConcentration(con);
 			
 			    
@@ -202,6 +206,21 @@ public class DeclarationOfConcentrationStudentBean {
 				dto.setState(OfficialMajor.STATE_Waiting);
 				dto=facade.submit(dto);
 					}
+					}else {
+						
+						
+						dto.setMobile(getMobile());
+						BaseDTO con=new BaseDTO(getSelectedMinor());
+						dto.setConcentration(con);
+					
+					    
+						StudentDTO student=new StudentDTO();
+						student.setId(studentDataFacade.getPersonByPersonMail(mail).getId());
+						dto.setStudent(student);
+						dto.setState(OfficialMajor.STATE_Waiting);
+						dto=facade.submit(dto);
+					}
+					
 				if(dto!=null)
 				{
 					JavaScriptMessagesHandler.RegisterNotificationMessage(null,"Form has been submitted successfully" );
@@ -231,20 +250,20 @@ public class DeclarationOfConcentrationStudentBean {
 	{
         renderInputs=true;
         updateMood=false;
-		setSelectedConcentration(getStudentConcentration().getConcentration().getId());
-		setMobile(getStudentConcentration().getMobile());
-		getConcentarationByID(getSelectedConcentration());
+		setSelectedMinor(getStudentMinor().getConcentration().getId());
+		setMobile(getStudentMinor().getMobile());
+		getMinorByID(getSelectedMinor());
 		FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("mainForm:form:mainPanel:inputs");
 		FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("mainForm:form:updatePanel:updatePnl");
 		
 	}
 
-	public void getConcentarationByID(Integer concentrationID)
+	public void getMinorByID(Integer concentrationID)
 	{
 		try{
 		BaseDTO concen=new BaseDTO();
-		concen=facade.getConcentrationById(concentrationID);
-		setSelectedConcentrationName(concen.getName());
+		concen=facade.getMinorById(concentrationID);
+		setSelectedMinorName(concen.getName());
 		}
 		catch(Exception ex)
 		{
@@ -254,27 +273,27 @@ public class DeclarationOfConcentrationStudentBean {
 		{
 			if(((Integer)concentrationsDTOLst.get(i).getId()).equals(concentrationID))
 			{
-				setSelectedConcentrationName(concentrationsDTOLst.get(i).getName());
+				setSelectedMinorName(concentrationsDTOLst.get(i).getName());
 				break;
 			}
 		}*/
 	}
 
-	public List<SelectItem> getConcentrationLst() {
+	public List<SelectItem> getMinorLst() {
 		return concentrationLst;
 	}
 
-	public void setConcentrationLst(List<SelectItem> concentrationLst) {
+	public void setMinorLst(List<SelectItem> concentrationLst) {
 		this.concentrationLst = concentrationLst;
 	}
 
-	public Integer getSelectedConcentration() {
-		return selectedConcentration;
+	public Integer getSelectedMinor() {
+		return selectedMinor;
 	}
 
 
-	public void setSelectedConcentration(Integer selectedConcentration) {
-		this.selectedConcentration = selectedConcentration;
+	public void setSelectedMinor(Integer selectedMinor) {
+		this.selectedMinor = selectedMinor;
 	}
 
 	public String getMobile() {
@@ -301,12 +320,12 @@ public class DeclarationOfConcentrationStudentBean {
 		this.renderInputs = renderInputs;
 	}
 
-	public IntendedMajorSurveyDTO getStudentConcentration() {
-		return studentConcentration;
+	public IntendedMajorSurveyDTO getStudentMinor() {
+		return studentMinor;
 	}
 
-	public void setStudentConcentration(IntendedMajorSurveyDTO studentConcentration) {
-		this.studentConcentration = studentConcentration;
+	public void setStudentMinor(IntendedMajorSurveyDTO studentMinor) {
+		this.studentMinor = studentMinor;
 	}
 
 	public IGetLoggedInStudentDataFacade getStudentDataFacade() {
@@ -317,30 +336,30 @@ public class DeclarationOfConcentrationStudentBean {
 		this.studentDataFacade = studentDataFacade;
 	}
 
-	public IDeclarationOfConcentrationFacade getFacade() {
+	public IDeclarationOfMinorFacade getFacade() {
 		return facade;
 	}
 
-	public void setFacade(IDeclarationOfConcentrationFacade facade) {
+	public void setFacade(IDeclarationOfMinorFacade facade) {
 		this.facade = facade;
 	}
 
-	public String getSelectedConcentrationName() {
-		if(getStudentConcentration()!=null)
-		getConcentarationByID(getStudentConcentration().getConcentration().getId());
+	public String getSelectedMinorName() {
+		if(getStudentMinor()!=null)
+		getMinorByID(getStudentMinor().getConcentration().getId());
 		
-		return selectedConcentrationName;
+		return selectedMinorName;
 	}
 
-	public void setSelectedConcentrationName(String selectedConcentrationName) {
-		this.selectedConcentrationName = selectedConcentrationName;
+	public void setSelectedMinorName(String selectedMinorName) {
+		this.selectedMinorName = selectedMinorName;
 	}
 
-	public List<BaseDTO> getConcentrationsDTOLst() {
+	public List<BaseDTO> getMinorsDTOLst() {
 		return concentrationsDTOLst;
 	}
 
-	public void setConcentrationsDTOLst(List<BaseDTO> concentrationsDTOLst) {
+	public void setMinorsDTOLst(List<BaseDTO> concentrationsDTOLst) {
 		this.concentrationsDTOLst = concentrationsDTOLst;
 	}
 

@@ -62,6 +62,15 @@ public class OfficialMajor {
 	@Column(name="SEMESTER")
 	private SemesterEnum semester;
 	
+	@Column(name="state")
+	private Integer state;
+	
+
+	public static int STATE_Waiting = 0;
+	public static int STATE_ACCEPTED = 1;
+	public static int STATE_Refused = 2;
+	
+	
 	public OfficialMajor() {
 		super();
 	}
@@ -112,6 +121,14 @@ public class OfficialMajor {
 
 	public void setSemester(SemesterEnum semester) {
 		this.semester = semester;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 	

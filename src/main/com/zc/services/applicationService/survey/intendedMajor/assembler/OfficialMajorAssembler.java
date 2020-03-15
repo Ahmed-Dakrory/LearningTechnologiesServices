@@ -21,6 +21,7 @@ public class OfficialMajorAssembler {
 		IntendedMajorSurveyDTO dto=new IntendedMajorSurveyDTO();
 		dto.setId(survey.getId());
 		dto.setMobile(survey.getMobile());
+		dto.setState(survey.getState());
 		try
 		{
 		MajorDTO major=new MajorDTO();
@@ -56,6 +57,7 @@ public class OfficialMajorAssembler {
 		OfficialMajor survey=new OfficialMajor();
 		survey.setId(dto.getId());
 		survey.setMobile(dto.getMobile());
+		survey.setState(dto.getState());
 		try
 		{
 		Majors major=new Majors();

@@ -26,6 +26,7 @@ public class IntendedMajorSurveyDTO {
 	
 	private Integer year;
 	private Integer semester;
+	private Integer state;
 	
 	public Integer getId() {
 		return id;
@@ -83,7 +84,24 @@ public class IntendedMajorSurveyDTO {
 		this.semester = semester;
 	}
 
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
 
 
+	public String getStateString() {
+		if(state == 0) {
+			return "Waiting Action...";
+		}else if(state == 1) {
+			return "Accepted";
+		}else if(state == 2) {
+			return "Refused";
+		}
+		return "";
+	}
 	
 }

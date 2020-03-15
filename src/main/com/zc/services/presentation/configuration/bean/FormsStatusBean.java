@@ -47,6 +47,7 @@ public class FormsStatusBean {
 	private boolean courseRepeat;
 	private boolean incompleteGrade;
 	private boolean declarationOfConcentration;
+	private boolean declarationOfMinor;
 	private boolean declarationOfMajor;
 	private boolean intendedMajor;
 	private boolean taJuniorProg;
@@ -452,6 +453,57 @@ public class FormsStatusBean {
 	}
 	public void setDeclarationOfConcentration(boolean declarationOfConcentration) {
 		this.declarationOfConcentration = declarationOfConcentration;
+	}
+	
+	
+	
+	public boolean isDeclarationOfMinor() {
+		FormsStatusDTO form=facade.getById(20);
+		if(form.getStatus().equals(FormsStatusEnum.Active))
+		{
+			//TODO check on levels too
+			Authentication authentication = SecurityContextHolder.getContext()
+					.getAuthentication();
+			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+			{   
+				String mail = authentication.getName();
+				if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4)))
+				{
+					PersonDataDTO student= studentDataFacade.getPersonByPersonMail(mail);
+					//if(Integer.toString(student.getFileNo()).startsWith("")
+					 List<Integer> settings=form.getLevels();
+					 boolean exist=false;
+					 for(int i=0;i<settings.size();i++)
+					 {
+						if(settings.get(i).equals(student.getLevelID()))
+						{
+							exist= true;
+							break;
+							
+						}
+						
+					 }
+					 if(exist)
+					 {
+						 return true;
+					 }
+					 else return false;
+					
+				}
+					
+				else return false;
+			}
+			else return false;
+		
+		}
+		else if(form.getStatus().equals(FormsStatusEnum.Inactive))
+		{
+			return false;
+		}
+		else return false;
+	}
+	public void setDeclarationOfMinor(boolean declarationOfMinor) {
+		this.declarationOfMinor = declarationOfMinor;
 	}
 	public List<String> getLevels() {
 		return levels;

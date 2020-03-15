@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Declaration of Minor - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Majors" />
+							<p:menuitem value="Declaration Of Minor Results" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+				<h:panelGroup id="selectionPanel">
+									<table class="marginLeft_12">
+										<tr>
+											<td style="padding:0;">
+												<p:selectOneMenu id="semester" value="#{DeclarationOfMinorResultsBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+													<f:selectItem itemLabel="Select Semester" />
+													<f:selectItems var="semester" value="#{DeclarationOfMinorResultsBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+													<ui:remove>	<p:ajax listener="#{DeclarationOfMinorResultsBean.fillYearLst}" update="year"/></ui:remove>	
+												</p:selectOneMenu>
+												<p:message for="semester" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+												<p:selectOneMenu id="year" value="#{DeclarationOfMinorResultsBean.selectedYear}" required="true" requiredMessage="Please select year">
+													<f:selectItem itemLabel="Select Year" />
+													<f:selectItems var="year" value="#{DeclarationOfMinorResultsBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+													<ui:remove><p:ajax listener="#{DeclarationOfMinorResultsBean.updateChart}" update="chart"/></ui:remove>
+												</p:selectOneMenu>
+												<p:message for="year" />
+											</td>
+											<td width="12">&nbsp;</td>
+											<td>
+											<p:commandButton value="Generate" process="selectionPanel" action="#{DeclarationOfMinorResultsBean.updateChart}"
+											update="selectionPanel"/>
+											</td>
+										</tr>
+									</table>
+									<h:panelGroup  id="chart" rendered="#{DeclarationOfMinorResultsBean.renderChart}" styleClass="declrationResultPie">
+									
+										<p:pieChart value="#{DeclarationOfMinorResultsBean.resultsChart}" legendPosition="w"
+												 showDataLabels="true"/>
+										
+												</h:panelGroup>
+								</h:panelGroup>
+								
+					<p:panel id="mainPanel" >
+						</p:panel>
+						</div>
+					
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

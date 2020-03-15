@@ -1173,11 +1173,21 @@ public class LeftNavigationMenuBean {
 		}
 		else 
 		{
-
-			if(authentication.getName().toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
-					authentication.getName().toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||
-					authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
-					authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+			boolean isMajorHead=false;
+			List<MajorDTO> majors=majorfacade.getAll();
+			for(int i=0;i<majors.size();i++){
+				MajorDTO major=majors.get(i);
+				if(authentication.getName().toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+				{
+					
+					isMajorHead=true;
+					
+				}
+			}
+				if(( authentication.getName().toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
+						authentication.getName().toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||isMajorHead||
+						authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+						authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase())))
 			{
 				
 				currentMenuId = "Declaration of Major Results Students";
@@ -1651,6 +1661,27 @@ public String navigateToDeclarationOfConcentrationStudent()
 }
 	else 	return "pages/public/login.xhtml?faces-redirect=true";
 	}
+
+
+public String navigateToDeclarationOfMinorStudent()
+{
+	Authentication authentication = SecurityContextHolder.getContext()
+			.getAuthentication();
+	if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+	{
+		
+		
+		  currentMenuId = "Dec of Con";
+	
+	
+				return "/pages/secured/survey/declarationOfMinor/declarationOfMinor.xhtml?faces-redirect=true";
+			
+		
+			
+		
+}
+	else 	return "pages/public/login.xhtml?faces-redirect=true";
+	}
 public String navigateToDeclarationOfConcentrationResults()
 {
 	Authentication authentication = SecurityContextHolder.getContext()
@@ -1670,6 +1701,27 @@ public String navigateToDeclarationOfConcentrationResults()
 }
 	else 	return "pages/public/login.xhtml?faces-redirect=true";
 	}
+
+
+public String navigateToDeclarationOfMinorResults()
+{
+	Authentication authentication = SecurityContextHolder.getContext()
+			.getAuthentication();
+	if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+	{
+		
+		
+		  currentMenuId = "Dec of Minor Results";
+	
+	
+				return "/pages/secured/survey/declarationOfMinor/declarationOfMinorResults.xhtml?faces-redirect=true";
+			
+		
+			
+		
+}
+	else 	return "pages/public/login.xhtml?faces-redirect=true";
+	}
 public String navigateToDeclarationOfConcentrationStudents()
 {
 	Authentication authentication = SecurityContextHolder.getContext()
@@ -1682,6 +1734,27 @@ public String navigateToDeclarationOfConcentrationStudents()
 	
 	
 				return "/pages/secured/survey/declarationOfConcentration/declarationOfConcentrationStudents.xhtml?faces-redirect=true";
+			
+		
+			
+		
+}
+	else 	return "pages/public/login.xhtml?faces-redirect=true";
+	}
+
+
+public String navigateToDeclarationOfMinorStudents()
+{
+	Authentication authentication = SecurityContextHolder.getContext()
+			.getAuthentication();
+	if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+	{
+		
+		
+		  currentMenuId = "Dec of Minor Students";
+	
+	
+				return "/pages/secured/survey/declarationOfMinor/declarationOfMinorStudents.xhtml?faces-redirect=true";
 			
 		
 			
@@ -2088,13 +2161,27 @@ else
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   String mail = authentication.getName();
+		
+		boolean isMajorHead=false;
+		List<MajorDTO> majors=majorfacade.getAll();
+		for(int i=0;i<majors.size();i++){
+			MajorDTO major=majors.get(i);
+			if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+			{
+				
+				isMajorHead=true;
+				
+			}
+		}
 			if(( mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
-				mail.toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||
+				mail.toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||isMajorHead||
 				mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
 				mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase())))
 			{
 			return true;
 			}
+			
+			
 			else return false;
 		}
 		else return false;

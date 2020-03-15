@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.survey.declarationOfConcentration.beans;
+package main.com.zc.services.presentation.survey.declarationOfMinor.beans;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import javax.faces.context.FacesContext;
 import main.com.zc.services.domain.survey.model.OfficialMajor;
 import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
-import main.com.zc.services.presentation.survey.declarationOfConcentration.facade.IDeclarationOfConcentrationFacade;
+import main.com.zc.services.presentation.survey.declarationOfMinor.facade.IDeclarationOfMinorFacade;
 import main.com.zc.services.presentation.survey.intendedMajor.dto.IntendedMajorSurveyDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
@@ -31,18 +31,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author omnya
  *
  */
-@ManagedBean(name="DeclarationOfConcentrationResultsBean")
+@ManagedBean(name="DeclarationOfMinorResultsBean")
 @SessionScoped
-public class DeclarationOfConcentrationResultsBean {
+public class DeclarationOfMinorResultsBean {
 
 	private List<IntendedMajorSurveyDTO> results;
-	private List<BaseDTO> concentrationsDTOLst;
+	private List<BaseDTO> minorsDTOLst;
 	PieChartModel resultsChart = new PieChartModel();
 	private List<IntendedMajorSurveyDTO> students;
 	private IntendedMajorSurveyDTO selectedStudents;
 	private List<IntendedMajorSurveyDTO> filteredStudents;
-	@ManagedProperty("#{IDeclarationOfConcentrationFacade}")
-	private IDeclarationOfConcentrationFacade facade;
+	@ManagedProperty("#{IDeclarationOfMinorFacade}")
+	private IDeclarationOfMinorFacade facade;
 	private List<BaseDTO> semesterLst;
 	private Integer selectedSemester;
 	private Integer selectedYear;
@@ -70,8 +70,8 @@ public class DeclarationOfConcentrationResultsBean {
 	{
 		 fillSemesterLst();
 		 fillYearLst();
-		    concentrationsDTOLst=new ArrayList<BaseDTO>();
-		    concentrationsDTOLst=facade.getAllConcentrations();
+		    minorsDTOLst=new ArrayList<BaseDTO>();
+		    minorsDTOLst=facade.getAllMinors();
 	       /* fillPieChart();
 	        fillResultsTable();*/
 	}
@@ -95,11 +95,11 @@ public class DeclarationOfConcentrationResultsBean {
 	}
 	public void fillPieChart()
 	{
-		  for(int i=0;i<concentrationsDTOLst.size();i++)
+		  for(int i=0;i<minorsDTOLst.size();i++)
 		  {
 			  List<IntendedMajorSurveyDTO> majorResult=new ArrayList<IntendedMajorSurveyDTO>();
-				majorResult=facade.getAllByConcentrationIDAndYearAndSemester(concentrationsDTOLst.get(i).getId(),getSelectedYear(),getSelectedSemester());
-				resultsChart.set(concentrationsDTOLst.get(i).getName() +" ------------- "+majorResult.size()+" Students", majorResult.size());
+				majorResult=facade.getAllByMinorIDAndYearAndSemester(minorsDTOLst.get(i).getId(),getSelectedYear(),getSelectedSemester());
+				resultsChart.set(minorsDTOLst.get(i).getName() +" ------------- "+majorResult.size()+" Students", majorResult.size());
 		  }
 	}
 	public void fillResultsTable()
@@ -114,11 +114,11 @@ public class DeclarationOfConcentrationResultsBean {
 		resultsChart = new PieChartModel();
 		results=new ArrayList<IntendedMajorSurveyDTO>();
 		renderChart=true;
-		 for(int i=0;i<concentrationsDTOLst.size();i++)
+		 for(int i=0;i<minorsDTOLst.size();i++)
 		  {
 			  List<IntendedMajorSurveyDTO> majorResult=new ArrayList<IntendedMajorSurveyDTO>();
-				majorResult=facade.getAllByConcentrationIDAndYearAndSemester(concentrationsDTOLst.get(i).getId(),getSelectedYear(),getSelectedSemester());
-				resultsChart.set(concentrationsDTOLst.get(i).getName() +" ------------- "+majorResult.size()+" Students", majorResult.size());
+				majorResult=facade.getAllByMinorIDAndYearAndSemester(minorsDTOLst.get(i).getId(),getSelectedYear(),getSelectedSemester());
+				resultsChart.set(minorsDTOLst.get(i).getName() +" ------------- "+majorResult.size()+" Students", majorResult.size());
 		  }
 	}
 	
@@ -202,16 +202,16 @@ try {
 		this.resultsChart = resultsChart;
 	}
 	public List<BaseDTO> getConcentrationsDTOLst() {
-		return concentrationsDTOLst;
+		return minorsDTOLst;
 	}
-	public void setConcentrationsDTOLst(List<BaseDTO> concentrationsDTOLst) {
-		this.concentrationsDTOLst = concentrationsDTOLst;
+	public void setConcentrationsDTOLst(List<BaseDTO> minorsDTOLst) {
+		this.minorsDTOLst = minorsDTOLst;
 	}
 
-	public IDeclarationOfConcentrationFacade getFacade() {
+	public IDeclarationOfMinorFacade getFacade() {
 		return facade;
 	}
-	public void setFacade(IDeclarationOfConcentrationFacade facade) {
+	public void setFacade(IDeclarationOfMinorFacade facade) {
 		this.facade = facade;
 	}
 	public List<IntendedMajorSurveyDTO> getStudents() {

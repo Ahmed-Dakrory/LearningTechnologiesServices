@@ -3,21 +3,31 @@
  */
 package main.com.zc.services.presentation.survey.intendedMajor.bean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.chart.PieChartModel;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import main.com.zc.services.presentation.elections.dto.ElectionResultDTO;
+import main.com.zc.services.domain.survey.model.OfficialMajor;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
+import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
+import main.com.zc.services.presentation.survey.DeclarationOfMajor.facade.IStudentDeclarationOfMajorFacade;
 import main.com.zc.services.presentation.survey.intendedMajor.dto.IntendedMajorSurveyDTO;
 import main.com.zc.services.presentation.survey.intendedMajor.facade.IAdminIntenedMajorFacade;
 import main.com.zc.services.presentation.survey.intendedMajor.facade.IStudentIntendedMajorFacade;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
+import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
 /**
@@ -25,7 +35,7 @@ import main.com.zc.shared.presentation.dto.BaseDTO;
  *
  */
 @ManagedBean(name="AdminIntenedMajorBean")
-@ViewScoped
+@SessionScoped
 public class AdminIntenedMajorBean {
 
 	List<IntendedMajorSurveyDTO> results;
@@ -35,6 +45,10 @@ public class AdminIntenedMajorBean {
 	PieChartModel resultsChart = new PieChartModel();
 	@ManagedProperty("#{IAdminIntenedMajorFacade}")
 	private IAdminIntenedMajorFacade facade;
+	
+	@ManagedProperty("#{IStudentDeclarationOfMajorFacade}")
+	private IStudentDeclarationOfMajorFacade facadeDeclarationOfMajor;
+	
 	@ManagedProperty("#{IStudentIntendedMajorFacade}")
 	private IStudentIntendedMajorFacade majorFacade;
 	private List<BaseDTO> semesterLst;
@@ -45,6 +59,16 @@ public class AdminIntenedMajorBean {
 	private List<Integer> yearLst;
 	private boolean renderChart;
 	private boolean renderTable;
+	private IntendedMajorSurveyDTO studentOfMajor;
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
+
+	@ManagedProperty("#{IMajorsFacade}")
+	private MajorsFacadeImpl majorfacade2;
+	
+	private boolean canAccept=false;
+	
 	@PostConstruct
 	public void init()
 	{
@@ -98,6 +122,65 @@ public class AdminIntenedMajorBean {
 			majorResult=facade.getbyMajorIDAndYearAndSemester(majors.get(i).getId(), getSelectedYear(),getSelectedSemester());
 			resultsChart.set(majors.get(i).getMajorName() +" ------------- "+majorResult.size()+" Students", majorResult.size());
 			
+		}
+	}
+	
+	public void approve() {
+		studentOfMajor.setState(OfficialMajor.STATE_ACCEPTED);
+		facadeDeclarationOfMajor.update(studentOfMajor);
+		
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Major Selection Accepted!");
+	}
+	
+	public void refuse() {
+		studentOfMajor.setState(OfficialMajor.STATE_Refused);
+		facadeDeclarationOfMajor.update(studentOfMajor);
+		
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Major Selection Refused!");
+	}
+	public void onRowSelect(SelectEvent event) {  
+	  	try {
+	  		studentOfMajor=(IntendedMajorSurveyDTO) event.getObject();
+
+	  		studentOfMajor = facadeDeclarationOfMajor.getByStudentID(studentOfMajor.getStudent().getId());
+			showDetails(studentOfMajor);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}  
+	private void showDetails(IntendedMajorSurveyDTO selectedDTO) {
+		// TODO Auto-generated method stub
+		StudentProfileDTO profileStudentSelected = profileFacade.getCurrentPRofileByStudentID(selectedDTO.getStudent().getId());
+		selectedDTO.getStudent().setStudentProfileDTO(profileStudentSelected);
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+		MajorDTO major=majorfacade2.getById(selectedDTO.getMajor().getId());
+		
+			if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+			{
+				canAccept=true;
+				
+				
+			}
+		
+		
+		
+try {
+    		
+			FacesContext.getCurrentInstance().getExternalContext().redirect
+			("formDetails.xhtml");
+		
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
 		}
 	}
 	public void updateTable()
@@ -194,6 +277,37 @@ public class AdminIntenedMajorBean {
 	}
 	public void setRenderTable(boolean renderTable) {
 		this.renderTable = renderTable;
+	}
+	public StudentProfileFacadeImpl getProfileFacade() {
+		return profileFacade;
+	}
+	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+		this.profileFacade = profileFacade;
+	}
+	
+	public IntendedMajorSurveyDTO getStudentOfMajor() {
+		return studentOfMajor;
+	}
+	public void setStudentOfMajor(IntendedMajorSurveyDTO studentOfMajor) {
+		this.studentOfMajor = studentOfMajor;
+	}
+	public MajorsFacadeImpl getMajorfacade2() {
+		return majorfacade2;
+	}
+	public void setMajorfacade2(MajorsFacadeImpl majorfacade2) {
+		this.majorfacade2 = majorfacade2;
+	}
+	public boolean isCanAccept() {
+		return canAccept;
+	}
+	public void setCanAccept(boolean canAccept) {
+		this.canAccept = canAccept;
+	}
+	public IStudentDeclarationOfMajorFacade getFacadeDeclarationOfMajor() {
+		return facadeDeclarationOfMajor;
+	}
+	public void setFacadeDeclarationOfMajor(IStudentDeclarationOfMajorFacade facadeDeclarationOfMajor) {
+		this.facadeDeclarationOfMajor = facadeDeclarationOfMajor;
 	}
 	
 

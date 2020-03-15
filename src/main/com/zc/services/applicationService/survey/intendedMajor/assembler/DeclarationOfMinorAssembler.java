@@ -5,7 +5,7 @@ package main.com.zc.services.applicationService.survey.intendedMajor.assembler;
 
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.survey.model.Concentration;
-import main.com.zc.services.domain.survey.model.DeclarationOfConcentration;
+import main.com.zc.services.domain.survey.model.DeclarationOfMinor;
 import main.com.zc.services.presentation.survey.intendedMajor.dto.IntendedMajorSurveyDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
@@ -14,18 +14,22 @@ import main.com.zc.shared.presentation.dto.BaseDTO;
  * @author omnya
  *
  */
-public class DeclarationOfConcentrationAssembler {
+public class DeclarationOfMinorAssembler {
 
-	public IntendedMajorSurveyDTO toDTO(DeclarationOfConcentration survey)
+	public IntendedMajorSurveyDTO toDTO(DeclarationOfMinor survey)
 	{
+		
 		IntendedMajorSurveyDTO dto=new IntendedMajorSurveyDTO();
-		dto.setId(survey.getId());
+		
+		if(survey!=null) {
+			dto.setId(survey.getId());
+		
 		dto.setMobile(survey.getMobile());
 		dto.setState(survey.getState());
 		try{
 		BaseDTO concentration=new BaseDTO();
-		concentration.setId(survey.getConcentartion().getId());
-		concentration.setName(survey.getConcentartion().getName());
+		concentration.setId(survey.getMinor().getId());
+		concentration.setName(survey.getMinor().getName());
 		dto.setConcentration(concentration);
 		}
 		catch(Exception ex)
@@ -48,11 +52,15 @@ public class DeclarationOfConcentrationAssembler {
 			System.out.println("Error in attach student ");
 		}
 		return dto;
+		}else {
+			return null;
+		}
+		
 
 	}
-	public DeclarationOfConcentration toEntity(IntendedMajorSurveyDTO  dto)
+	public DeclarationOfMinor toEntity(IntendedMajorSurveyDTO  dto)
 	{
-		DeclarationOfConcentration survey=new DeclarationOfConcentration();
+		DeclarationOfMinor survey=new DeclarationOfMinor();
 		survey.setId(dto.getId());
 		survey.setMobile(dto.getMobile());
 		survey.setState(dto.getState());
@@ -60,7 +68,7 @@ public class DeclarationOfConcentrationAssembler {
 		{
 			Concentration concentration=new Concentration();
 			concentration.setId(dto.getConcentration().getId());
-			survey.setConcentartion(concentration);
+			survey.setMinor(concentration);
 			
 		}
 		catch(Exception ex)

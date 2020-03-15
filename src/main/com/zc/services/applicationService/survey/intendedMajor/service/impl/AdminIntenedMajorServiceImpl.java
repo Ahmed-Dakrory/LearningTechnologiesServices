@@ -13,7 +13,6 @@ import main.com.zc.services.applicationService.survey.intendedMajor.assembler.In
 import main.com.zc.services.applicationService.survey.intendedMajor.service.IAdminIntenedMajorService;
 import main.com.zc.services.domain.survey.model.IIntendedMajorSurveyRep;
 import main.com.zc.services.domain.survey.model.IntendedMajorSurvey;
-import main.com.zc.services.domain.survey.model.OfficialMajor;
 import main.com.zc.services.presentation.survey.intendedMajor.dto.IntendedMajorSurveyDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
@@ -114,6 +113,14 @@ public class AdminIntenedMajorServiceImpl implements IAdminIntenedMajorService{
 			ex.printStackTrace();
 		}
 		return dtos;
+	}
+
+	@Override
+	public IntendedMajorSurveyDTO update(IntendedMajorSurveyDTO dto) {
+		// TODO Auto-generated method stub
+		IntendedMajorSurvey survey =  assem.toEntity(dto);
+		rep.update(survey);
+		return null;
 	}
 	}
 

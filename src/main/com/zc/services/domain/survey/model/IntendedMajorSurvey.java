@@ -59,6 +59,10 @@ public class IntendedMajorSurvey {
 	@Column(name="YEAR")
 	private Integer year;
 	
+
+	@Column(name="state")
+	private Integer state;
+	
 	@Column(name="SEMESTER")
 	private SemesterEnum semester;
 	
@@ -112,6 +116,14 @@ public class IntendedMajorSurvey {
 
 	public void setSemester(SemesterEnum semester) {
 		this.semester = semester;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 	

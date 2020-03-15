@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Minor Intended Form Details - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Minor Student Selected" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{DeclarationOfMinorResultsBean.studentOfMajor.student.id}" rendered="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.studentImage != null }" />
+									<p:graphicImage library="images" name="icon_user.png" rendered="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.studentImage == null }" />
+								</li>
+								<li>
+								
+								
+									<div class="userName">
+										
+											
+											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DeclarationOfMinorResultsBean.approve}" rendered="#{DeclarationOfMinorResultsBean.canAccept }" class="greenBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DeclarationOfMinorResultsBean.refuse}" rendered="#{DeclarationOfMinorResultsBean.canAccept }" class="redBtn" />
+											
+											
+									
+										
+										
+										
+										<br/>
+									 </div>
+									 
+									
+									
+									  
+									 <table>
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="ID" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.facultyId}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.mobile}" />
+												</h:panelGrid>
+											</td>
+											
+											
+											<td width="48">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.completedCreditHrs}" />
+													<h:outputLabel value="Registered hrs." />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.registeredCreditHrs}" />
+													<h:outputLabel value="Repeated Courses" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.repeatedCourses}" />
+												</h:panelGrid>
+											</td>
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.gpa}" />
+													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.major.majorName}" />
+													<h:outputLabel value="Student Email" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.mail}" />
+												</h:panelGrid>
+											</td>
+											
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.concentration.name}" />
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.student.studentProfileDTO.minor}" />
+												</h:panelGrid>
+											</td>
+										</tr> 
+									</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						<!-- Petition Progress -->
+						
+						<div class="formProgressWrapper">
+							<ol class="formProgress">
+							
+							
+							<li>	<h:panelGroup >
+									<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Waiting" /><br/>
+									</div></h:panelGroup>
+								</li>
+    							<li>	<h:panelGroup rendered="#{DeclarationOfMinorResultsBean.studentOfMajor.state!=0}">
+									<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="#{DeclarationOfMinorResultsBean.studentOfMajor.stateString}" /><br/>
+									</div></h:panelGroup>
+								</li>
+								
+    							
+									
+								
+
+							
+								
+								
+								
+							</ol>
+						</div>
+						<!-- 
+						<div class="actionBtns bottomBtns">
+						
+						
+							<h:panelGroup rendered="#{DeclarationOfMinorResultsBean.casesID.equals('Dean')}">
+								<p:selectBooleanCheckbox value="#{DeclarationOfMinorResultsBean.studentOfMajor.provostRequired}" />
+								<h:outputLabel value="Inform Provost with petition" />
+							</h:panelGroup>
+							<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DeclarationOfMinorResultsBean.approve}" rendered="#{DeclarationOfMinorResultsBean.oldMood!=true and DeclarationOfMinorResultsBean.admissionDeptMood==false }" class="greenBtn" />
+							<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DeclarationOfMinorResultsBean.refuse}" rendered="#{DeclarationOfMinorResultsBean.oldMood!=true and DeclarationOfMinorResultsBean.admissionDeptMood==false }" class="redBtn" />
+							<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DeclarationOfMinorResultsBean.markAsDone}" rendered="#{DeclarationOfMinorResultsBean.oldMood==false and DeclarationOfMinorResultsBean.admissionDeptMood==true and !DeclarationOfMinorResultsBean.audit}" ajax="false" update="form growl" class="greenBtn" />
+			
+											<h:panelGroup rendered="#{!DeclarationOfMinorResultsBean.oldMood and !DeclarationOfMinorResultsBean.audit}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
+											</h:panelGroup>
+									<p:commandButton value="Proceed" title="Proceed" actionListener="#{DeclarationOfMinorResultsBean.proceed}" rendered="#{DeclarationOfMinorResultsBean.audit}" ajax="false" update="form growl" class="greenBtn" />
+											<p:commandButton value="Decline" 
+											rendered="#{DeclarationOfMinorResultsBean.audit}"  onclick="declineDlg.show()"  Value="Decline the petition"  class="yellowBtn"/>
+											
+											<h:panelGroup rendered="#{DeclarationOfMinorResultsBean.audit}"><a href="#" class="tooltipNote" data-tooltip="It will prevent the pettion from going throw it's flow."></a>
+											</h:panelGroup>
+									
+												
+						</div>	-->	
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

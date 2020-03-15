@@ -22,20 +22,20 @@ import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
  */
 @NamedQueries({
 
-	@NamedQuery(name = "DeclarationOfConcentration.getAll", query = "SELECT d FROM DeclarationOfConcentration d ORDER BY d.id DESC"),
-	@NamedQuery(name = "DeclarationOfConcentration.getById", query = "from DeclarationOfConcentration d where d.id = :id "),
-	@NamedQuery(name = "DeclarationOfConcentration.getByStudentID", query = "from DeclarationOfConcentration d where d.student.id = :id"),
-	@NamedQuery(name = "DeclarationOfConcentration.getByConcentrationID", query = "from DeclarationOfConcentration d where d.concentartion = :id"),
-	@NamedQuery(name = "DeclarationOfConcentration.getAllByYearAndSemester", query = "from DeclarationOfConcentration d where d.year = :year AND  d.semester = :semester"),
-	@NamedQuery(name = "DeclarationOfConcentration.getAllByConcentrationIDAndYearAndSemester", query = "from DeclarationOfConcentration d where d.concentartion = :id And d.year = :year AND  d.semester = :semester"),
-	@NamedQuery(name = "DeclarationOfConcentration.getByStudentIDAndYearAndSemester", query = "from DeclarationOfConcentration d where d.year = :year AND  d.semester = :semester AND d.student.id = :id")
+	@NamedQuery(name = "DeclarationOfMinor.getAll", query = "SELECT d FROM DeclarationOfMinor d ORDER BY d.id DESC"),
+	@NamedQuery(name = "DeclarationOfMinor.getById", query = "from DeclarationOfMinor d where d.id = :id "),
+	@NamedQuery(name = "DeclarationOfMinor.getByStudentID", query = "from DeclarationOfMinor d where d.student.id = :id"),
+	@NamedQuery(name = "DeclarationOfMinor.getByMinorID", query = "from DeclarationOfMinor d where d.minor = :id"),
+	@NamedQuery(name = "DeclarationOfMinor.getAllByYearAndSemester", query = "from DeclarationOfMinor d where d.year = :year AND  d.semester = :semester"),
+	@NamedQuery(name = "DeclarationOfMinor.getAllByMinorIDAndYearAndSemester", query = "from DeclarationOfMinor d where d.minor = :id And d.year = :year AND  d.semester = :semester"),
+	@NamedQuery(name = "DeclarationOfMinor.getByStudentIDAndYearAndSemester", query = "from DeclarationOfMinor d where d.year = :year AND  d.semester = :semester AND d.student.id = :id")
 	
 	
 	
 	})
 @Entity
-@Table(name = "declaration_of_concentration")
-public class DeclarationOfConcentration {
+@Table(name = "declaration_of_minor")
+public class DeclarationOfMinor {
 
 	@Id
 	@GeneratedValue
@@ -48,8 +48,8 @@ public class DeclarationOfConcentration {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "CONCENTRATION")
-	private Concentration concentartion;
+	@JoinColumn(name = "MINOR")
+	private Concentration minor;
 
 	@ManyToOne
 	@JoinColumn(name = "STUDENT_ID")
@@ -88,14 +88,7 @@ public class DeclarationOfConcentration {
 		this.student = student;
 	}
 
-	public Concentration getConcentartion() {
-		return concentartion;
-	}
-
-	public void setConcentartion(Concentration concentartion) {
-		this.concentartion = concentartion;
-	}
-
+	
 	public Integer getYear() {
 		return year;
 	}
@@ -120,7 +113,15 @@ public class DeclarationOfConcentration {
 		this.state = state;
 	}
 
+	public Concentration getMinor() {
+		return minor;
+	}
 
+	public void setMinor(Concentration minor) {
+		this.minor = minor;
+	}
+
+	
 	
 	
 	

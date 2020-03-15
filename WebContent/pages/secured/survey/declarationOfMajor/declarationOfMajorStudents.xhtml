@@ -55,7 +55,7 @@
 							rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15">
 						
-						
+						<p:ajax event="rowSelect" listener="#{AdminIntenedMajorBean.onRowSelect}" />
 
 						<p:column width="130" id="name" sortBy="#{forms.student.name}" filterBy="#{forms.student.name}" class="txtLeft">
 								<h:outputText value="#{forms.student.name}" />
@@ -80,6 +80,13 @@
 								<h:outputText value="#{forms.major.majorName}" />
 								<f:facet name="header">
 								 <h:outputText value="Major" />
+								</f:facet>
+							</p:column>
+							
+							<p:column width="185" id="state" sortBy="#{forms.stateString}" filterBy="#{forms.stateString}" class="txtLeft">
+								<h:outputText value="#{forms.stateString}" />
+								<f:facet name="header">
+								 <h:outputText value="STATE" />
 								</f:facet>
 							</p:column>
 						

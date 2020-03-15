@@ -43,5 +43,10 @@ public class AdminIntenedMajorFacadeImpl implements IAdminIntenedMajorFacade {
 		
 		return service.getByYearAndSemester(year, semester);
 	}
+	@Override
+	public IntendedMajorSurveyDTO update(IntendedMajorSurveyDTO dto) {
+		// TODO Auto-generated method stub
+		return service.update(dto);
+	}
 
 }

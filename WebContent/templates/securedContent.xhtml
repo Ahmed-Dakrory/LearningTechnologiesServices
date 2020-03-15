@@ -69,6 +69,15 @@
                          <p:commandLink ajax="false" immediate="true" value="Declaration Of Concentration Students"
                           rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}" action="#{leftNavigationMenuBean.navigateToDeclarationOfConcentrationStudents}" 
 							  class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con Students')}"/>
+							  
+							  
+						  <p:commandLink ajax="false" immediate="true" value="Declaration Of Minor Results" rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}"
+							 action="#{leftNavigationMenuBean.navigateToDeclarationOfMinorResults}"  
+							 class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con Results')}"/>
+                      
+                         <p:commandLink ajax="false" immediate="true" value="Declaration Of Minor Students"
+                          rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}" action="#{leftNavigationMenuBean.navigateToDeclarationOfMinorStudents}" 
+							  class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con Students')}"/>
 					
 							 </h:panelGrid>
 						<h:panelGroup  rendered="#{(FormsStatusBean.declarationOfConcentration and leftNavigationMenuBean.studentModeDeclarationOfConcentration)
@@ -79,6 +88,14 @@
 						 action="#{leftNavigationMenuBean.navigateToDeclarationOfConcentrationStudent}"
 							 rendered="#{FormsStatusBean.declarationOfConcentration}" 
 							 class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con')}"/>
+							 
+							 
+							  <p:commandLink ajax="false" immediate="true" value="Declaration Of Minor" 
+						 action="#{leftNavigationMenuBean.navigateToDeclarationOfMinorStudent}"
+							 rendered="#{FormsStatusBean.declarationOfMinor}" 
+							 class="tallLink #{leftNavigationMenuBean.getActiveCssName('Dec of Con')}"/>
+							 
+							 
 	                     <p:commandLink ajax="false" immediate="true" value="Planned Major" action="#{leftNavigationMenuBean.renderIntendedMajorSurvey}"
 							  rendered="#{FormsStatusBean.intendedMajor and leftNavigationMenuBean.studentModeIntendedMajor}"  class="#{leftNavigationMenuBean.getActiveCssName('Intended Major')}"/>
 	                      <p:commandLink ajax="false" immediate="true" value="Declaration of Major"
