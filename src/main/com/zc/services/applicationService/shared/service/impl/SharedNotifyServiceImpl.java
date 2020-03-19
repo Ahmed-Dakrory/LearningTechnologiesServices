@@ -364,10 +364,10 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 
 				if(actions.size()==0)
-					studentContent = "We would like to inform you that the current Status of your Add/Drop Petition with ID:"
+					studentContent = "We would like to inform you that the current Status of your Drop Petition with ID:"
 							+ dropAddForm.getId() + " is : <br/> Under Reveiw";
 				else
-				studentContent = "We would like to inform you that the current Status of your Add/Drop Petition with ID:"
+				studentContent = "We would like to inform you that the current Status of your Drop Petition with ID:"
 						+ dropAddForm.getId() + " is : <br/> "+status;
 			/*	if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_INS)) {
 					
@@ -410,10 +410,10 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 
 				if(actions.size()==0)
-				studentContent = "We would like to inform you that the current Status of your Add/Drop Petition with ID:"
+				studentContent = "We would like to inform you that the current Status of your Drop Petition with ID:"
 						+ dropAddForm.getId() + " is : <br/> Under Review";
 				else 
-					studentContent = "We would like to inform you that the current Status of your Add/Drop Petition with ID:"
+					studentContent = "We would like to inform you that the current Status of your Drop Petition with ID:"
 							+ dropAddForm.getId() + " is : <br/> "+status;
 					
 				/*if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_DEAN)) {
@@ -437,10 +437,10 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 
 				if(actions.size()==0)
-				studentContent = "We would like to inform you that the current Status of your Add/Drop Petition with ID:"
+				studentContent = "We would like to inform you that the current Status of your Drop Petition with ID:"
 						+ dropAddForm.getId() + " is : <br/> Under Review";
 				else
-					studentContent = "We would like to inform you that the current Status of your Add/Drop Petition with ID:"
+					studentContent = "We would like to inform you that the current Status of your Drop Petition with ID:"
 							+ dropAddForm.getId() + " is : <br/> "+status;
 					
 				/*if (status
@@ -461,9 +461,9 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 
 				if(actions.size()==0)
-				studentContent = "We would like to inform you that your Add/Drop Petition with ID:"
+				studentContent = "We would like to inform you that your Drop Petition with ID:"
 						+ dropAddForm.getId() + "  <br/> ";
-				studentContent = "We would like to inform you that your Add/Drop Petition with ID:"
+				studentContent = "We would like to inform you that your Drop Petition with ID:"
 						+ dropAddForm.getId() + "  <br/> "+status;
 				
 				/*if (status
@@ -475,9 +475,9 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					studentContent += Constants.PETITION_STATUS_REFUSED_BY_DEPARTMENT;
 				}*/
 				}
-			title = "New Add/Drop Petition " + dropAddForm.getId();
-			studentTitle = "Add/Drop Petition " + dropAddForm.getId();
-			content = "We would like to inform you that you have a new Add/Drop Petition with ID:"
+			title = "New Drop Petition " + dropAddForm.getId();
+			studentTitle = "Drop Petition " + dropAddForm.getId();
+			content = "We would like to inform you that you have a new Drop Petition with ID:"
 					+ dropAddForm.getId() + " needs an action.";
 			
 			content += "<br/><br/> Student ID: "
@@ -1606,8 +1606,8 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					     }
 				}
 
-		String title = "Add/Drop Petition Reminder " + dropAddForm.getId();
-		String content  = "We would like to inform you that you have a  Add/Drop Petition with ID:"
+		String title = "Drop Petition Reminder " + dropAddForm.getId();
+		String content  = "We would like to inform you that you have a  Drop Petition with ID:"
 				+ dropAddForm.getId() + " needs an action.";
 		//Student Detail
 		content += "<br/><br/> Student ID: "

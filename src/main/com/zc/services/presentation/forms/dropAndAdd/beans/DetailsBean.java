@@ -2595,7 +2595,7 @@ sharedAcademicPetFacade.notifayNextStepOwner(dto);
 			
 			if(dto!=null)
 			{
-				String email="Kindly be informed that, the reverted Add/Drop Petition With id:"+getDetailedDTO().getId()+" has been updated by the student"+
+				String email="Kindly be informed that, the reverted Drop Petition With id:"+getDetailedDTO().getId()+" has been updated by the student"+
 						",So kindly check the system to take the appropriate action on the petition";
 							List<String> sender=new ArrayList<String>();
 							InstructorDTO ins=getInsDataFacade.getInsByPersonID(getDetailedDTO().getMajor().getHeadOfMajor().getId());
@@ -2607,7 +2607,7 @@ sharedAcademicPetFacade.notifayNextStepOwner(dto);
 							sender.add(ins.getMail());
 							SendMailThread sendMailThread = new SendMailThread(
 									sender, getDetailedDTO().getMajor().getHeadOfMajor().getName(),
-									email+"</b>", "Add/Drop Petition-Revert-ID:"+getDetailedDTO().getId());
+									email+"</b>", "Drop Petition-Revert-ID:"+getDetailedDTO().getId());
 							sendMailThread.start();
 							FacesContext.getCurrentInstance().getExternalContext().redirect
 							("addDropStudent.xhtml?id="+dto.getId());

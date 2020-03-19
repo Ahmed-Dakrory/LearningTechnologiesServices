@@ -117,16 +117,16 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillDeanDashboardStrategic(List<DashboardElement> elements,String mail)
 	{
 		//petition
-		List<CoursePetition> courseForms = dashboardAppServ.getDeanAcademicPetitionsPending();
-		Integer count = 0;
-		if(courseForms != null)
-			count = courseForms.size();
-		count += dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//List<CoursePetition> courseForms = dashboardAppServ.getDeanAcademicPetitionsPending();
+		//Integer count = 0;
+		//if(courseForms != null)
+		//	count = courseForms.size();
+		//count += dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
 		List<DropAddForm> dropAddForms = dashboardAppServ.getDeanAddDropPending();
-		count = 0;
+		Integer count = 0;
 		if(dropAddForms != null)
 			count = dropAddForms.size();
 		count += dashboardAppServ.getInstructorAddDropPending(mail);
@@ -182,16 +182,16 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillDeanDashboard(List<DashboardElement> elements,String mail)
 	{
 		//petition
-		List<CoursePetition> courseForms = dashboardAppServ.getDeanAcademicPetitionsPending();
-		Integer count = 0;
-		if(courseForms != null)
-			count = courseForms.size();
-		count += dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//List<CoursePetition> courseForms = dashboardAppServ.getDeanAcademicPetitionsPending();
+		//Integer count = 0;
+		//if(courseForms != null)
+		//	count = courseForms.size();
+		//count += dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
 		List<DropAddForm> dropAddForms = dashboardAppServ.getDeanAddDropPending();
-		count = 0;
+		Integer count = 0;
 		if(dropAddForms != null)
 			count = dropAddForms.size();
 		count += dashboardAppServ.getInstructorAddDropPending(mail);
@@ -250,11 +250,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	{
 	
 		//petition
-			Integer	count = dashboardAppServ.getInstructorAcademicPetitionsPending(mail);	
-			elements.add(new AcademicPetitionDashboardElement(count.toString()));
+			//Integer	count = dashboardAppServ.getInstructorAcademicPetitionsPending(mail);	
+			//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 				
 				//addDrop
-				count = dashboardAppServ.getInstructorAddDropPending(mail);
+		Integer count = dashboardAppServ.getInstructorAddDropPending(mail);
 				elements.add(new AddDropDashboardElement(count.toString()));
 				
 				//changeMajor
@@ -297,16 +297,16 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillAddmissionHeadDashboard(List<DashboardElement> elements)
 	{
 		//petition
-		List<CoursePetition> courseForms = dashboardAppServ.getAdmissionHeadAcademicPetitionsPending();
-		Integer count = 0;
-		if(courseForms != null)
-			count = courseForms.size();
+		//List<CoursePetition> courseForms = dashboardAppServ.getAdmissionHeadAcademicPetitionsPending();
+		//Integer count = 0;
+		//if(courseForms != null)
+		//	count = courseForms.size();
 		
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
 		List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionHeadAddDropPending();
-		count = 0;
+		Integer count = 0;
 		if(dropAddForms != null)
 			count = dropAddForms.size();
 		
@@ -353,16 +353,16 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillAdmissionDepartmentDashboard(List<DashboardElement> elements)
 	{
 		//petition
-		List<CoursePetition> courseForms = dashboardAppServ.getAdmissionDepartmentAcademicPetitionsPending();
-		Integer count = 0;
-		if(courseForms != null)
-			count = courseForms.size();
+		//List<CoursePetition> courseForms = dashboardAppServ.getAdmissionDepartmentAcademicPetitionsPending();
+		//Integer count = 0;
+		//if(courseForms != null)
+		//	count = courseForms.size();
 		
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
 		List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionDepartmentAddDropPending();
-		count = 0;
+		Integer count = 0;
 		if(dropAddForms != null)
 			count = dropAddForms.size();
 		
@@ -410,11 +410,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillProvostDashboard(List<DashboardElement> elements,String mail)
 	{
 		//petition
-		Integer count =  dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//Integer count =  dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
-		count = dashboardAppServ.getInstructorAddDropPending(mail);
+		Integer count = dashboardAppServ.getInstructorAddDropPending(mail);
 		elements.add(new AddDropDashboardElement(count.toString()));
 		
 		//changeMajor
@@ -444,11 +444,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillInstructorDashboard(List<DashboardElement> elements,String mail)
 	{
 		//petition
-		Integer count =  dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//Integer count =  dashboardAppServ.getInstructorAcademicPetitionsPending(mail);
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
-		count = dashboardAppServ.getInstructorAddDropPending(mail);
+		Integer count = dashboardAppServ.getInstructorAddDropPending(mail);
 		elements.add(new AddDropDashboardElement(count.toString()));
 		
 		//changeMajor
@@ -527,13 +527,13 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillAdminDashboardStratgic(List<DashboardElement> elements)
 	{
 		//petition
-				Integer count =  dashboardAppServ.getAdminAcademicPetitionsPending();
-				Integer all = count + dashboardAppServ.getAdminAcademicPetitionsOld();
-				elements.add(new AcademicPetitionDashboardElement(count.toString() + "/" +all.toString()));
+				//Integer count =  dashboardAppServ.getAdminAcademicPetitionsPending();
+				//Integer all = count + dashboardAppServ.getAdminAcademicPetitionsOld();
+				//elements.add(new AcademicPetitionDashboardElement(count.toString() + "/" +all.toString()));
 				
 				//addDrop
-				count = dashboardAppServ.getAdminAddDropPending();
-				all = count + dashboardAppServ.getAdminAddDropOld();
+				Integer count = dashboardAppServ.getAdminAddDropPending();
+				Integer all = count + dashboardAppServ.getAdminAddDropOld();
 				elements.add(new AddDropDashboardElement(count.toString() + "/" +all.toString()));
 				
 				//changeMajor
@@ -577,11 +577,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 	private void fillStudentDashboard(List<DashboardElement> elements,Integer studentId)
 	{
 		//petition
-		Integer count =  dashboardAppServ.getStudentAcademicPetitionsPending(studentId);
-		elements.add(new AcademicPetitionDashboardElement(count.toString()));
+		//Integer count =  dashboardAppServ.getStudentAcademicPetitionsPending(studentId);
+		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
-		count = dashboardAppServ.getStudentAddDropPending(studentId);
+		Integer count = dashboardAppServ.getStudentAddDropPending(studentId);
 		elements.add(new AddDropDashboardElement(count.toString()));
 		
 		//changeMajor

@@ -4,6 +4,6 @@ public class AddDropDashboardElement extends DashboardElement
 {
 	public AddDropDashboardElement(String value)
 	{
-		super("Add/Drop", value, "newAddDrop", "newAddDrop");
+		super("Drop", value, "newAddDrop", "newAddDrop");
 	}
 }
