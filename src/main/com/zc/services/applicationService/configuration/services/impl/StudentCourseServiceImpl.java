@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Cell;
@@ -453,6 +454,31 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 	}
 
 
+	 public String getTheValueFromCell2(Cell cell) {
+		 String returnedValue="";
+		 switch (cell.getCellType()) {
+		 
+		 case Cell.CELL_TYPE_BLANK:
+        	 returnedValue = "";
+             break;
+         case Cell.CELL_TYPE_STRING:
+        	 returnedValue = String.valueOf(cell.getStringCellValue());
+             break;
+         case Cell.CELL_TYPE_NUMERIC:
+        	 Long number = (long) cell.getNumericCellValue();
+        	 returnedValue = String.valueOf(number);
+             break;
+         case Cell.CELL_TYPE_BOOLEAN:
+        	 returnedValue = String.valueOf(cell.getBooleanCellValue());
+             break;
+         
+         default :
+
+         }
+		 return returnedValue;
+	 }
+	 
+	
 	@Override
 	public List<CoursesDTO> parseCoursesFile(InputStream input) {
 		List<CoursesDTO> dataList = new ArrayList<CoursesDTO>();
@@ -465,110 +491,133 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 			XSSFSheet sheet = workbook.getSheetAt(0);
 
 			// Iterate through each rows one by one
-
-			Iterator<Row> rowIterator = sheet.iterator();
-
-			while (rowIterator.hasNext()) {
-				Row row = rowIterator.next();
-				// For each row, iterate through all the columns
-				Iterator<Cell> cellIterator = row.cellIterator();
+			int rowsNumbers = sheet.getLastRowNum();
+			 for(int i=1;i<rowsNumbers+1;i++) {
+					Row row = sheet.getRow(i);
 				CoursesDTO course=new CoursesDTO();
-				
-				int count = 0;
-				while (cellIterator.hasNext()) {
-					Cell cell = cellIterator.next();
-					count++;
-				
+				String instructorName = "";
+				String instructorEmail = "";
+				boolean instructorExist=false;
+
+				Employee inst = null;
+				for (int withNewCount=0;withNewCount<row.getLastCellNum();withNewCount++) {
+					Cell cell = row.getCell(withNewCount);
+
+					int count = withNewCount+1;
                   
 					if (count == 1) { // Year
 						
-						switch (cell.getCellType()) {
-						case Cell.CELL_TYPE_NUMERIC:
-						{ 
-						try {
-							course.setYear(Integer.parseInt(cell
-									.getStringCellValue()));
-						} catch (Exception ex) {
-						}
+						
 			
-							 break;
-							 
-						}
-						case Cell.CELL_TYPE_STRING:
-						{
+							
+						
 						/*	System.out.print(cell.getStringCellValue());*/
 							try{
-								course.setYear(Integer.parseInt(cell.getStringCellValue()));
+								course.setYear(Integer.parseInt(getTheValueFromCell2(cell)));
 							}
 							catch(Exception ex)
 							{
 								ex.printStackTrace();
 								
 							}
-						}
+						
 						
 						}
-					}
+					
 
 					
 
 					if (count ==2) {//semester
-						switch (cell.getCellType()) {
 	
-						
-						      
-						case Cell.CELL_TYPE_STRING:
-							if (cell.getStringCellValue().equals("SPRG"))
+							if (getTheValueFromCell2(cell).equals("SPRG"))
 								course.setSemester(SemesterEnum.Spring);
-							else if (cell.getStringCellValue().equals("FALL"))
+							else if (getTheValueFromCell2(cell).equals("FALL"))
 								course.setSemester(SemesterEnum.Fall);
-							else if (cell.getStringCellValue().equals("SUM"))
+							else if (getTheValueFromCell2(cell).equals("SUM"))
 								course.setSemester(SemesterEnum.Summer);
 						    
 						
-							break;
-						}
 					}
 
 if (count ==3) { // course code
 						
-						switch (cell.getCellType()) {
-						
-						case Cell.CELL_TYPE_STRING:
-							
-							course.setName(cell.getStringCellValue());
+							course.setName(getTheValueFromCell2(cell));
 						      
 						
-							break;
-						}
 					
 						
 						
 						
 					}
 
-	if (count ==10) { // course code
-		
-		switch (cell.getCellType()) {
-		
-		case Cell.CELL_TYPE_STRING:
-			
-			course.setClo(cell.getStringCellValue());
-		      
-		
-			break;
-		}
+if (count ==10) { // course code
+	
+		course.setClo(getTheValueFromCell2(cell));
+	      
+	
 
-	
-	
-	
 }
 
+if (count ==11) { // course code
+	
+		
+		 instructorEmail = getTheValueFromCell2(cell);
+
+			//System.out.println("Exist1: "+String.valueOf(instructorEmail));
+		if(!instructorEmail.equalsIgnoreCase("")) {
+			//System.out.println("Exist2: "+String.valueOf(instructorEmail));
+			inst =  insRep.getByMail(instructorEmail);
+			if(inst!=null) {
+				//System.out.println("Exist3: "+String.valueOf(inst.getMail()));
+			instructorExist = true;
+			}
+		}
+		
+	
+		
+
+}
+
+
+if (count ==12) { // course code
+	
+		
+		instructorName = getTheValueFromCell2(cell);
+		if (!instructorExist) {
+		if(!instructorName.equalsIgnoreCase("")) {
+			
+				inst = new Employee();
+				MailSetting mS=new MailSetting();
+				mS.setNotifyMe(true);
+				mS.setEveryDays(1);
+				mS.setLastNotify(new Date());
+				mailSettingRep.add(mS);
+				
+				inst.setMailSetting(mS);
+				inst.setName(instructorName);
+				inst.setMail(instructorEmail);
+				inst.setType(1);
+				insRep.add(inst);
+			}
+		}
+		
+
+}
+
+if(inst!=null) {
+	
+course.setCourseCoordinator(inst);
+InstructorDTO inDTO = new InstructorDTO();
+inDTO.setMail(inst.getMail());
+inDTO.setName(inst.getName());
+inDTO.setEmpType(inst.getType());
+course.setCoordinator(inDTO);
+}
 
 				}
 					dataList.add(course);
 				
-				System.out.println("");
+//				System.out.println("");
 			}
 
 			input.close();
@@ -603,7 +652,18 @@ if (count ==3) { // course code
 				courseObj.setSemester(List.get(i).getSemester());
 				courseObj.setYear(List.get(i).getYear());
 				courseObj.setClo(List.get(i).getClo());
+				courseObj.setCourseCoordinator(List.get(i).getCourseCoordinator());
+				List<Courses_Instructors> instList =new ArrayList<Courses_Instructors>();
+				Courses_Instructors cInst = new Courses_Instructors();
+				cInst.setInstructor(List.get(i).getCourseCoordinator());
+				cInst.setCourse(courseObj);
+				
+				
+				instList.add(cInst);
+				
+				courseObj.setCourseInstructor(instList);
 				Integer addedCourse=courseRep.add(courseObj);
+				courseInsRep.add(cInst);
 				courseObj=courseRep.getById(addedCourse);
 				CoursesDTO dto=new CoursesDTO();
 				dto.setId(courseObj.getId());
@@ -611,6 +671,8 @@ if (count ==3) { // course code
 				dto.setYear(courseObj.getYear());
 				dto.setSemester(courseObj.getSemester());
 				dto.setClo(courseObj.getClo());
+				dto.setCourseCoordinator(courseObj.getCourseCoordinator());
+				
 				addedCoursesLst.add(dto);
 				
 			}
@@ -1075,6 +1137,8 @@ if (count ==3) { // course code
 				courseObj.setSemester(originalList.get(i).getSemester());
 				courseObj.setYear(originalList.get(i).getYear());
 				courseObj.setClo(originalList.get(i).getClo());
+				courseObj.setCourseCoordinator(originalList.get(i).getCourseCoordinator());
+		System.out.println("DataNew: "+String.valueOf(originalList.get(i).getName() + "  ," +originalList.get(i).getCourseCoordinator().getMail()));
 				
 			/*	Integer addedCourse=courseRep.add(courseObj);
 				courseObj=courseRep.getById(addedCourse);

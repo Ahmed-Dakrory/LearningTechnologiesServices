@@ -31,11 +31,15 @@
 						<tr>
 							<td><h:outputLabel value="Select File"/> &nbsp;&nbsp;</td>
 							<td>
+							
 								<h:form enctype="multipart/form-data" id="filesForm">
 									<p:fileUpload mode="simple" skinSimple="true" value="#{ImportCoursesBean.file}" />
 									<h:message for="file" />
 								
 									<h:commandButton id="submit"  action="#{ImportCoursesBean.parseFile}" value="Upload File"
+									 update="pageForm:studentCourseTable pageForm:resultText" styleClass="blueBtn" process="@form"/>
+									 &nbsp;&nbsp;
+									 <h:commandButton   action="#{ImportCoursesBean.init}" value="Refresh"
 									 update="pageForm:studentCourseTable pageForm:resultText" styleClass="blueBtn" process="@form"/>
 									<h:outputText value="#{ImportCoursesBean.statusMessage}" rendered="#{not empty ImportCoursesBean.statusMessage}"/>
 								</h:form>
@@ -52,6 +56,10 @@
 							<p:column width="130" id="course" sortBy="#{row.name}" filterBy="#{row.name}">
 								<h:outputText value="#{row.name}" />
 								<p:watermark value="Course" forElement="pageForm:studentCourseTable:course:filter"/>
+							</p:column>
+							<p:column width="130" id="instructor" sortBy="#{row.courseCoordinator.name}" filterBy="#{row.courseCoordinator.name}">
+								<h:outputText value="#{row.courseCoordinator.name}" />
+								<p:watermark value="Instructor" forElement="pageForm:studentCourseTable:instructor:filter"/>
 							</p:column>
 							<p:column width="130" id="year" sortBy="#{row.year}" filterBy="#{row.year}">
 								<h:outputText value="#{row.year}" />

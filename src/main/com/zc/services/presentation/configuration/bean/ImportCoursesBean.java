@@ -63,10 +63,10 @@ public class ImportCoursesBean {
 		    list.clear();
 		    list.addAll(map.values());
 		    courses=facade.getNewCourses(list);
-		    for(int i=0;i<courses.size();i++) {
-		    	System.out.println("Ahmed: "+String.valueOf(courses.get(i).getName()));
-		    	System.out.println("Ahmed: "+String.valueOf(courses.get(i).getClo()));
-		    }
+		    //for(int i=0;i<courses.size();i++) {
+		    	//System.out.println("Ahmed: "+String.valueOf(courses.get(i).getName()));
+		    	//System.out.println("Ahmed: "+String.valueOf(courses.get(i).getCourseCoordinator().getMail()));
+		    //}
 			System.out.println("Size : "+list.size());
 			resultText=true;
 			//courses=facade.saveCourses(list);

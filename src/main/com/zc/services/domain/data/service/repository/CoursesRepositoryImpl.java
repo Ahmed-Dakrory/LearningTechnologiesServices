@@ -127,7 +127,12 @@ public class CoursesRepositoryImpl implements ICoursesRepository {
 
 			@SuppressWarnings("unchecked")
 			List<Courses> results = query.list();
-			return results.get(0);
+			if(results.size()>0) {
+
+				return results.get(0);	
+			}else {
+				return null;
+			}
 			}
 			catch(Exception ex)
 			{
