@@ -11,6 +11,7 @@ import main.com.zc.services.applicationService.forms.overloadRequest.services.IO
 import main.com.zc.services.applicationService.persons.service.IStudentProfileService;
 import main.com.zc.services.applicationService.shared.service.ISharedNotifyService;
 import main.com.zc.services.domain.person.model.IEmployeeRepository;
+import main.com.zc.services.domain.data.model.StudentProfile;
 import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.petition.model.CoursePetition;
 import main.com.zc.services.domain.petition.model.IOverloadRequestRep;
@@ -21,6 +22,7 @@ import main.com.zc.services.domain.shared.enumurations.FormTypesEnum;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
 import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,7 +74,10 @@ public class OverloadRequestActionsSharedServiceImpl implements IOverloadRequest
 				}
 			}
 			dto=assem.toDTO(form);
-			dto.getStudent().setStudentProfileDTO(studentProfileService.getCurrentPRofileByStudentID(form.getStudent().getId()));
+			StudentProfileDTO profile = studentProfileService.getCurrentPRofileByStudentID(form.getStudent().getId());
+			dto.getStudent().setStudentProfileDTO(profile);
+			System.out.println("StudentID: "+String.valueOf(form.getStudent().getId()));
+			System.out.println("Profile: "+String.valueOf(profile.getId()));
 			dto.setActionDTO(actionsDTO);
 			
 			}
