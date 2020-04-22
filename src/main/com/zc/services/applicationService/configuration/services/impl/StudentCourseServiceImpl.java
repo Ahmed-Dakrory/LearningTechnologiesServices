@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.exception.ConstraintViolationException;
@@ -82,6 +83,30 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 	IMajorRepository majorRep;
 	
 	CourseStudentAssembler assem=new CourseStudentAssembler();
+	
+	public String getTheValueFromCellType(Cell cell) {
+		 String returnedValue="";
+		 switch (cell.getCellType()) {
+		case Cell.CELL_TYPE_BLANK:
+       	 returnedValue = "";
+            break;
+        case Cell.CELL_TYPE_STRING:
+       	 returnedValue = String.valueOf(cell.getStringCellValue());
+            break;
+        case Cell.CELL_TYPE_NUMERIC:
+       	 Long number = (long) cell.getNumericCellValue();
+       	 returnedValue = String.valueOf(number);
+            break;
+        case Cell.CELL_TYPE_BOOLEAN:
+       	 returnedValue = String.valueOf(cell.getBooleanCellValue());
+            break;
+        
+        default :
+
+        }
+		 return returnedValue;
+	 }
+	
 	@Override
 	public List<StudentCourseDTO> praseFile(InputStream input)throws IOException
 	  {
@@ -92,135 +117,77 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 			XSSFWorkbook workbook = new XSSFWorkbook(input);
 
 			// Get first/desired sheet from the workbook
-			XSSFSheet sheet = workbook.getSheetAt(0);
+			 Sheet sheet = workbook.getSheetAt(0);
 
-			// Iterate through each rows one by one
-
-			Iterator<Row> rowIterator = sheet.iterator();
-
-			while (rowIterator.hasNext()) {
+			 int rowsNumbers = sheet.getLastRowNum();
+			 for(int i=1;i<rowsNumbers+1;i++) {
+					Row row = sheet.getRow(i);
 				
-				Row row = rowIterator.next();
-				if(row.getRowNum()==0 || row.getRowNum()==1||
-						row.getRowNum()==2||row.getRowNum()==3||row.getRowNum()==4||row.getRowNum()==5||
-						row.getRowNum()==6||row.getRowNum()==7||row.getRowNum()==8||row.getRowNum()==9){
-					   continue; //just skip the rows if row number is 0 or 8
-					  }
-				// For each row, iterate through all the columns
-				Iterator<Cell> cellIterator = row.cellIterator();
 				StudentCourseDTO dto=new StudentCourseDTO();
 				  StudentDTO student=new StudentDTO();
                   CoursesDTO course=new CoursesDTO();
-				int count = 1;
-				while (cellIterator.hasNext()) {
-					Cell cell = cellIterator.next();
-					count++;
+                  for (int count=0;count<row.getLastCellNum();count++) {
+						Cell cell = row.getCell(count);
+						
+						int withNewCount = count+1;
 				
                   
-					if (count == 2) { // file No 
-						
-						switch (cell.getCellType()) {
-						case Cell.CELL_TYPE_NUMERIC:
-						{ /*System.out.print(cell.getNumericCellValue()
-														 + "\t\t");*/
-							String dec = new BigDecimal(
-									cell.getNumericCellValue()).toString();
-							try{
-								
-							/* System.out.print(Integer.parseInt(dec)+1 +
-							 "\t\t");*/
-							 student.setFacultyId((int)cell.getNumericCellValue());
-							}
-							catch(Exception ex)
-							{
-								ex.printStackTrace();
-								
-							}
-			
-							 break;
+					if (withNewCount == 1) { // file No 
+						System.out.println("ID: "+String.valueOf(count));
+						try {
+							student.setFacultyId(Integer.valueOf(getTheValueFromCellType(cell)));
+						}catch (Exception ex) { //
+						}
 							 
-						}
-						case Cell.CELL_TYPE_STRING:
-						{
-						/*	System.out.print(cell.getStringCellValue());*/
-							try{
-								student.setFacultyId(Integer.parseInt(cell.getStringCellValue()));
-							}
-							catch(Exception ex)
-							{
-								ex.printStackTrace();
-								
-							}
-						}
+							
+			
 						
-						}
 					}
 
 					
 
-					if (count ==6) {// Mail
-						switch (cell.getCellType()) {
-	
-						case Cell.CELL_TYPE_STRING:
-							
-						 
-						      
-						    	student.setMail(cell.getStringCellValue());
-						    
-						
-							break;
+					if (withNewCount ==2) {// Mail
+						try {
+							student.setMail(getTheValueFromCellType(cell));
+						}catch (Exception ex) { //
 						}
 					}
 
-					if (count == 9) { // course code
+					if (withNewCount == 3) { // course code
 						
-						switch (cell.getCellType()) {
-						
-						case Cell.CELL_TYPE_STRING:
-							
-							System.out.print(cell.getStringCellValue());
-							course.setName(cell.getStringCellValue());
-						      
-						
-							break;
-						}
-					
-						
-						
+							   
+							try {
+								course.setName(getTheValueFromCellType(cell));
+							}catch (Exception ex) { //
+							}
 						
 					}
 
-					if (count == 16) { // year
+					if (withNewCount == 4) { // year
 				
 						
-						switch (cell.getCellType()) {
-
-						case Cell.CELL_TYPE_STRING:
-							try {
-								course.setYear(Integer.parseInt(cell
-										.getStringCellValue()));
-							} catch (Exception ex) {
-							}
-
-
-							break;
-						}
+								try {
+									course.setYear(Integer.parseInt(getTheValueFromCellType(cell)));
+								}catch (Exception ex) { //
+								}
 					}
 
-					if (count == 17) { // semester
-						
-						switch (cell.getCellType()) {
-
-						case Cell.CELL_TYPE_STRING:
-							if (cell.getStringCellValue().equals("SPRG"))
+					if (withNewCount == 5) { // semester
+						try {
+							String sem = getTheValueFromCellType(cell);
+							if (sem.equals("SPRG"))
 								course.setSemester(SemesterEnum.Spring);
-							else if (cell.getStringCellValue().equals("FALL"))
+							else if (sem.equals("FALL"))
 								course.setSemester(SemesterEnum.Fall);
-							else if (cell.getStringCellValue().equals("SUM"))
+							else if (sem.equals("SUM"))
 								course.setSemester(SemesterEnum.Summer);
 
 							break;
+						}catch (Exception ex) { //
 						}
+						
+							
+						
 					}
 				
 				}
