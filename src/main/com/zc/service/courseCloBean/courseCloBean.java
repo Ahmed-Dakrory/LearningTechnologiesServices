@@ -35,6 +35,8 @@ import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.configuration.facade.IStudentCourseFacade;
+import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
@@ -57,7 +59,8 @@ public class courseCloBean implements Serializable{
 	
  
 	 
-
+	@ManagedProperty("#{IStudentCourseFacade}")
+   	private IStudentCourseFacade facadeStudendCourses; 
 
 	@ManagedProperty(value = "#{course_cloFacadeImpl}")
 	private course_cloAppServiceImpl course_cloFacade;
@@ -478,8 +481,26 @@ public class courseCloBean implements Serializable{
 
 
 	public void getListOfCoursesByYearAndSemester() {
-
-		listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+		if(aStudentAccount) {
+		Integer studentId = studentThisAccount.getId();
+		System.out.println(studentId);
+		//listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+		List<CoursesDTO> courseOfStudent = facadeStudendCourses.getCoursesOfStudent(studentId);
+		List<course_clo> allcoursesCloOfStudent = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+		listOfAllCourses =new ArrayList<course_clo>();
+		for(int i=0;i<courseOfStudent.size();i++) {
+			for(int j=0;j<allcoursesCloOfStudent.size();j++) {
+				if(courseOfStudent.get(i).getId() == allcoursesCloOfStudent.get(j).getId()) {
+					listOfAllCourses.add(allcoursesCloOfStudent.get(j));
+					//System.out.println("Dakrory: courseId"+courseOfStudent.get(i).getId()+" course: "+allcoursesCloOfStudent.get(j).getId());
+					
+				}
+			}
+		}
+		}else {
+			listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+			
+		}
 	}
 	
 	public void refresh(){
@@ -1081,6 +1102,14 @@ public class courseCloBean implements Serializable{
 
 	public void setFacadeSettings(IFormsStatusFacade facadeSettings) {
 		this.facadeSettings = facadeSettings;
+	}
+
+	public IStudentCourseFacade getFacadeStudendCourses() {
+		return facadeStudendCourses;
+	}
+
+	public void setFacadeStudendCourses(IStudentCourseFacade facadeStudendCourses) {
+		this.facadeStudendCourses = facadeStudendCourses;
 	}
 
 

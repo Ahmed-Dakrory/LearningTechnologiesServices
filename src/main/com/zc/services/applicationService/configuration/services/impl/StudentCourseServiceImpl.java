@@ -1175,7 +1175,7 @@ course.setCoordinator(inDTO);
 	public List<CoursesDTO> getCoursesOfStudent(Integer studenID) {
 		List<CourseStudent> objects=new ArrayList<CourseStudent>();
 		List<CoursesDTO> dtos=new ArrayList<CoursesDTO>();
-		objects=courseStudentRep.getByStudentID(studenID);
+		objects=courseStudentRep.getByStudentID(studenID); 
 		for(int i=0;i<objects.size();i++)
 		{
 			CoursesDTO dto=new CoursesDTO();
