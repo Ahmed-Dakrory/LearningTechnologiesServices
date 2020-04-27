@@ -96,11 +96,13 @@
 						
 						<!-- Student Info -->
 						<h:panelGroup id="studentInfoGrid">
+						<div class="imageholder" style="   text-align: center;">
+								<p:graphicImage  width="250" height="250"  value="/images/?path=#{DetailsBeanCourseRepeat.detailedDTO.student.id}" rendered="#{DetailsBeanCourseRepeat.detailedDTO.image != null }" />
+									<p:graphicImage  width="250" height="250"  library="images" name="icon_user.png" rendered="#{DetailsBeanCourseRepeat.detailedDTO.image == null }" />
+								
+						</div>
 							<ul class="studentInfo">
-								<li>
-									<p:graphicImage value="/images/?path=#{DetailsBeanCourseRepeat.detailedDTO.student.id}" rendered="#{DetailsBeanCourseRepeat.detailedDTO.image != null }" />
-									<p:graphicImage library="images" name="icon_user.png" rendered="#{DetailsBeanCourseRepeat.detailedDTO.image == null }" />
-								</li>
+								
 								<li>
 									<div class="userName">
 										<h:outputLabel value="#{DetailsBeanCourseRepeat.detailedDTO.student.name}" />

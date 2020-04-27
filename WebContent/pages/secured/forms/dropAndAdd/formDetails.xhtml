@@ -100,11 +100,14 @@
 						</h:panelGroup>
 						<!-- Student Info -->
 						<h:panelGroup id="studentInfoGrid">
+						<div class="imageholder" style="   text-align: center;">
+							<p:graphicImage width="250" height="250" value="/images/?path=#{DetailsBeanDropAdd.detailedDTO.student.id}" rendered="#{DetailsBeanDropAdd.detailedDTO.image != null }" />
+									<p:graphicImage width="250" height="250" library="images" name="icon_user.png" rendered="#{DetailsBeanDropAdd.detailedDTO.image == null }" />
+								
+						</div>
+									
 							<ul class="studentInfo">
-								<li>
-									<p:graphicImage value="/images/?path=#{DetailsBeanDropAdd.detailedDTO.student.id}" rendered="#{DetailsBeanDropAdd.detailedDTO.image != null }" />
-									<p:graphicImage library="images" name="icon_user.png" rendered="#{DetailsBeanDropAdd.detailedDTO.image == null }" />
-								</li>
+								
 								<li>
 									<div class="userName">
 										<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.name}" />
@@ -138,7 +141,6 @@
 													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.mobile}" />
 												</h:panelGrid>
 											</td>
-													<td width="5">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="Completed hrs." />
@@ -149,7 +151,6 @@
 													<h:outputLabel value="#{DetailsBeanDropAdd.detailedDTO.student.studentProfileDTO.repeatedCourses}" />
 												</h:panelGrid>
 											</td>
-											<td width="5">&nbsp;</td>
 											<td valign="top">
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
@@ -161,7 +162,6 @@
 												</h:panelGrid>
 											</td>
 											
-											<td width="5">&nbsp;</td>
 											<td valign="top">
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="Concentration" />

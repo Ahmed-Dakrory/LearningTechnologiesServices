@@ -105,11 +105,13 @@
 						
 						<!-- Student Info -->
 						<h:panelGroup id="studentInfoGrid">
+						<div class="imageholder" style="   text-align: center;">
+									<p:graphicImage  width="250" height="250" value="/images/?path=#{DetailsBeanOverloadRequest.detailedDTO.student.id}" rendered="#{DetailsBeanOverloadRequest.detailedDTO.image != null }" />
+									<p:graphicImage  width="250" height="250" library="images" name="icon_user.png" rendered="#{DetailsBeanOverloadRequest.detailedDTO.image == null }" />
+								
+						</div>
 							<ul class="studentInfo">
-								<li>
-									<p:graphicImage value="/images/?path=#{DetailsBeanOverloadRequest.detailedDTO.student.id}" rendered="#{DetailsBeanOverloadRequest.detailedDTO.image != null }" />
-									<p:graphicImage library="images" name="icon_user.png" rendered="#{DetailsBeanOverloadRequest.detailedDTO.image == null }" />
-								</li>
+								
 								<li>
 									<div class="userName">
 										<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.name}" />
