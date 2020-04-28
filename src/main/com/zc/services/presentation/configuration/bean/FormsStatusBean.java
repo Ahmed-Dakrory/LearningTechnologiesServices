@@ -424,7 +424,7 @@ public class FormsStatusBean {
 					 boolean exist=false;
 					 for(int i=0;i<settings.size();i++)
 					 {
-						if(settings.get(i).equals(student.getLevelID()))
+						if(settings.get(i).equals(student.getLevelID())||student.getLevelID()==null)
 						{
 							exist= true;
 							break;
@@ -475,7 +475,7 @@ public class FormsStatusBean {
 					 boolean exist=false;
 					 for(int i=0;i<settings.size();i++)
 					 {
-						if(settings.get(i).equals(student.getLevelID()))
+						if(settings.get(i).equals(student.getLevelID())||student.getLevelID()==null)
 						{
 							exist= true;
 							break;
@@ -556,7 +556,7 @@ public class FormsStatusBean {
 					 boolean exist=false;
 					 for(int i=0;i<settings.size();i++)
 					 {
-						if(settings.get(i).equals(student.getLevelID()))
+						if(settings.get(i).equals(student.getLevelID())||student.getLevelID()==null)
 						{
 							exist= true;
 							break;

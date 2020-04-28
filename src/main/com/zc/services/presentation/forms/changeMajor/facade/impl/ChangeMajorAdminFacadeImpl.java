@@ -68,7 +68,7 @@ public class ChangeMajorAdminFacadeImpl implements IChangeMajorAdminFacade {
 	public void notifyNextUser(ChangeMajorDTO dto) {
 		ChangeMajorForm form = rep.getById(dto.getId());
 		String content="We would like to inform you that you have change of major form of id "+form.getId()+" needs an action" +
-				"<br/> To access the petitions please visit : http://lts.zclt.info/LearningTechnologiesServices/pages/public/login.xhtml";
+				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
 		String title="New Change of major form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 		{

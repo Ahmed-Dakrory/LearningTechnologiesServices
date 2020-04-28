@@ -45,8 +45,9 @@
 						<p:panel id="updatePanel" rendered="#{StudentDeclarationOfMajorBean.updateMood}">
 							<div class="tabWrapper">
 								<h:panelGrid columns="2" id="updatePnl">
-									<p:outputLabel value="Your Major is:    #{StudentDeclarationOfMajorBean.studentMajor.major.majorName}" /><br/>
-									<p:commandButton value="Change" action="#{StudentDeclarationOfMajorBean.preUpdate()}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>
+									<p:outputLabel value="Your Choose Major is:    #{StudentDeclarationOfMajorBean.studentMajor.major.majorName}" /><br/>
+									<!--  <p:commandButton value="Change" action="#{StudentDeclarationOfMajorBean.preUpdate()}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>-->
+								<p:commandButton value="Show Details" action="#{AdminIntenedMajorBean.onStudentSelect}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>
 								</h:panelGrid>
 							</div>
 						</p:panel>

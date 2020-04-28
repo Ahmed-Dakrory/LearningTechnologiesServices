@@ -118,6 +118,7 @@ public class StudentDeclarationOfMajorBean {
 		
 		
 	}
+	
 	public void fillMajors()
 	{
 		majors=new ArrayList<MajorDTO>();

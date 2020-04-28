@@ -23,11 +23,13 @@
 						
 						<!-- Student Info -->
 						<h:panelGroup id="studentInfoGrid">
+						<div class="imageholder" style="   text-align: center;">
+									<p:graphicImage width="250" height="250"  value="/images/?path=#{AdminIntenedMajorBean.studentOfMajor.student.id}" rendered="#{AdminIntenedMajorBean.studentOfMajor.student.studentProfileDTO.studentImage != null }" />
+									<p:graphicImage width="250" height="250"  library="images" name="icon_user.png" rendered="#{AdminIntenedMajorBean.studentOfMajor.student.studentProfileDTO.studentImage == null }" />
+								
+						</div>
 							<ul class="studentInfo">
-								<li>
-									<p:graphicImage value="/images/?path=#{AdminIntenedMajorBean.studentOfMajor.student.id}" rendered="#{AdminIntenedMajorBean.studentOfMajor.student.studentProfileDTO.studentImage != null }" />
-									<p:graphicImage library="images" name="icon_user.png" rendered="#{AdminIntenedMajorBean.studentOfMajor.student.studentProfileDTO.studentImage == null }" />
-								</li>
+								
 								<li>
 								
 								

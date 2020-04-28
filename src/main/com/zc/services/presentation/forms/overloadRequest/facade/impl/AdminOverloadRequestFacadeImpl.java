@@ -65,7 +65,7 @@ public class AdminOverloadRequestFacadeImpl implements IAdminOverloadRequestFaca
 	public void notifyNextUser(OverloadRequestDTO dto) {
 		OverloadRequest form = overloadRequestRep.getById(dto.getId());
 		String content="We would like to inform you that you have Overload request petition of id "+form.getId()+" needs an action" +
-				"<br/> To access the petitions please visit : http://lts.zclt.info/LearningTechnologiesServices/pages/public/login.xhtml";
+				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
 
 	    String title="New Overload request form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))

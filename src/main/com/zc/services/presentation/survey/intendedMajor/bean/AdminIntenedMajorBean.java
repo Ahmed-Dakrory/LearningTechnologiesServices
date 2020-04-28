@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.chart.PieChartModel;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import main.com.zc.services.presentation.survey.intendedMajor.facade.IAdminInten
 import main.com.zc.services.presentation.survey.intendedMajor.facade.IStudentIntendedMajorFacade;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
+import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
@@ -43,6 +45,11 @@ public class AdminIntenedMajorBean {
 	private IntendedMajorSurveyDTO selectedStudents;
 	private List<IntendedMajorSurveyDTO> filteredStudents;
 	PieChartModel resultsChart = new PieChartModel();
+	
+
+	@ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
+	private IGetLoggedInStudentDataFacade studentDataFacade;
+	
 	@ManagedProperty("#{IAdminIntenedMajorFacade}")
 	private IAdminIntenedMajorFacade facade;
 	
@@ -138,8 +145,28 @@ public class AdminIntenedMajorBean {
 		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Major Selection Refused!");
 	}
+	public void onStudentSelect() {
+		try { 
+			
+				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+			{
+				String mail = authentication.getName();
+				if(mail.startsWith("S-")||mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4))){
+					
+
+	  		studentOfMajor = facadeDeclarationOfMajor.getByStudentID(studentDataFacade.getPersonByPersonMail(mail).getId());
+			showDetails(studentOfMajor);
+				}
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void onRowSelect(SelectEvent event) {  
-	  	try {
+	  	try { 
 	  		studentOfMajor=(IntendedMajorSurveyDTO) event.getObject();
 
 	  		studentOfMajor = facadeDeclarationOfMajor.getByStudentID(studentOfMajor.getStudent().getId());
@@ -309,6 +336,12 @@ try {
 	public void setFacadeDeclarationOfMajor(IStudentDeclarationOfMajorFacade facadeDeclarationOfMajor) {
 		this.facadeDeclarationOfMajor = facadeDeclarationOfMajor;
 	}
+	public IGetLoggedInStudentDataFacade getStudentDataFacade() {
+		return studentDataFacade;
+	}
+	public void setStudentDataFacade(IGetLoggedInStudentDataFacade studentDataFacade) {
+		this.studentDataFacade = studentDataFacade;
+	}
 	
-
+	
 }

@@ -62,7 +62,7 @@ public class IncompleteGradeAdminFacadeImpl implements IIncompleteGradeAdminFaca
 	public void notifyNextUser(IncompleteGradeDTO dto) {
 		IncompleteGrade form =rep.getById(dto.getId());
 		String content="We would like to inform you that you have incomplete grade petition of id "+form.getId()+" needs an action" +
-				"<br/> To access the petitions please visit : http://lts.zclt.info/LearningTechnologiesServices/pages/public/login.xhtml";
+				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
 
 		String title="New Incomplete Grade Form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
