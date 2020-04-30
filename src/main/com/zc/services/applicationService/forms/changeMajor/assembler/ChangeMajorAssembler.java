@@ -48,7 +48,7 @@ public class ChangeMajorAssembler {
 			dto.setCurrentStatus("Under Review By Dean of Academics");
 			dto.setNextStatus("Reviewing By Student Finance Department");
 		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
+		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 		{
 			dto.setCurrentStatus("Under Review By Student Finance Department");
 			dto.setNextStatus("Reviewing By Admission Department");

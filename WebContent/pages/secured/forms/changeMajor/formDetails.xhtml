@@ -23,34 +23,34 @@
 						<p:tabMenu id="ins" activeIndex="#{(DetailsBeanChangeMajor.casesID.equals('Dean') || 
 						 	DetailsBeanChangeMajor.casesID.equals('AdmissionD') || DetailsBeanChangeMajor.casesID.equals('AdmissionH')||
 						 		 DetailsBeanChangeMajor.casesID.equals('Stduent'))?3:2}">
-							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorIns.xhtml"
+							<p:menuitem value="Pending Petitions" url="changeMajorIns.xhtml"
 							 rendered="#{DetailsBeanChangeMajor.casesID.equals('Ins')}"/>
-							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean.xhtml" 
+							<p:menuitem value="Pending Petitions" url="changeMajorDean.xhtml" 
                              rendered="#{DetailsBeanChangeMajor.casesID.equals('Dean')}"/>
-							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorAdmissionHead.xhtml" 
+							<p:menuitem value="Pending Petitions" url="changeMajorAdmissionHead.xhtml" 
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('AdmissionH')}"/>
-							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorAdmission.xhtml" 
+							<p:menuitem value="Pending Petitions" url="changeMajorAdmission.xhtml" 
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('AdmissionD')}"/>
-							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorStudent.xhtml" 
+							<p:menuitem value="Pending Petitions" url="changeMajorStudent.xhtml" 
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('Stduent')}"/>
 							
-							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorIns1.xhtml"
+							<p:menuitem value="Old Petitions" url="changeMajorIns1.xhtml"
 							 rendered="#{DetailsBeanChangeMajor.casesID.equals('Ins')}"/>
-							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean1.xhtml" 
+							<p:menuitem value="Old Petitions" url="changeMajorDean1.xhtml" 
                              rendered="#{DetailsBeanChangeMajor.casesID.equals('Dean')}"/>
-							<p:menuitem value="Old Petitions" url="pages/secured/forms/changeMajor/changeMajorAdmissionHead1.xhtml" 
+							<p:menuitem value="Old Petitions" url="changeMajorAdmissionHead1.xhtml" 
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('AdmissionH')}"/>
-							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorAdmission1.xhtml" 
+							<p:menuitem value="Old Petitions" url="changeMajorAdmission1.xhtml" 
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('AdmissionD')}"/>
-							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorStudent1.xhtml" 
+							<p:menuitem value="Old Petitions" url="changeMajorStudent1.xhtml" 
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('Stduent')}"/>
                             
-                            <p:menuitem value="+ New Petition" title="New Petition" class="new" url="/pages/secured/forms/changeMajor/changeMajorStudent2.xhtml"
+                            <p:menuitem value="+ New Petition" title="New Petition" class="new" url="changeMajorStudent2.xhtml"
 							rendered="#{DetailsBeanChangeMajor.casesID.equals('Stduent')}"/>
 							
-                            <p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" 
+                            <p:menuitem value="Submitted Petitions" url="inprogressPetitions.xhtml" 
                            	rendered="#{DetailsBeanChangeMajor.casesID.equals('AdmissionD')
-                           	||DetailsBeanChangeMajor.casesID.equals('AdmissionH')||
+                           	||
                            	DetailsBeanChangeMajor.casesID.equals('Dean')}"/>
 							
 							<p:menuitem value="Petition Details" title="Petition Details" disabled="true" />
@@ -99,9 +99,10 @@
 										<p:commandButton icon="icon_attach" title="Attachment" disabled="#{DetailsBeanChangeMajor.detailedDTO.attachments == null}" process="@this" ajax="false" action="#{DetailsBeanChangeMajor.downloadAttachments(DetailsBeanChangeMajor.detailedDTO)}" />
 									 	<div class="floatR actionBtns marginRight_18">
 											<p:commandButton value="Notify User To Take Action" title="Notify Next User To Take Action" actionListener="#{DetailsBeanChangeMajor.notifyUser}" ajax="false" update="form" rendered="#{DetailsBeanChangeMajor.adminView}" class="blueBtn" />
-											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanChangeMajor.approve}" rendered="#{DetailsBeanChangeMajor.oldMood!=true and (DetailsBeanChangeMajor.detailedDTO.step.getID()==9||DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1)}" class="greenBtn" />
-								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanChangeMajor.refuse}" rendered="#{DetailsBeanChangeMajor.oldMood!=true and (DetailsBeanChangeMajor.detailedDTO.step.getID()==9||DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1) }" class="redBtn" />
-											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBeanChangeMajor.markAsDone}" rendered="#{DetailsBeanChangeMajor.oldMood==false and DetailsBeanChangeMajor.detailedDTO.step.getID()!=9 and DetailsBeanChangeMajor.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
+											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBeanChangeMajor.approve}" rendered="#{DetailsBeanChangeMajor.oldMood!=true and (DetailsBeanChangeMajor.detailedDTO.step.getID()==9||DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1||DetailsBeanChangeMajor.detailedDTO.step.getID()==12)}" class="greenBtn" />
+								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBeanChangeMajor.refuse}" rendered="#{DetailsBeanChangeMajor.oldMood!=true and (DetailsBeanChangeMajor.detailedDTO.step.getID()==9||DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1||DetailsBeanChangeMajor.detailedDTO.step.getID()==12) }" class="redBtn" />
+											<p:commandButton value="Mark as Done" title="Mark as Done Accepted" actionListener="#{DetailsBeanChangeMajor.markAsDone}" rendered="#{DetailsBeanChangeMajor.oldMood==false and DetailsBeanChangeMajor.detailedDTO.step.getID()!=9 and DetailsBeanChangeMajor.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
+									    	<p:commandButton value="Mark as Done Refused" title="Mark as Done Refused" actionListener="#{DetailsBeanChangeMajor.markAsDoneRefused}" rendered="#{DetailsBeanChangeMajor.oldMood==false and DetailsBeanChangeMajor.detailedDTO.step.getID()!=9 and DetailsBeanChangeMajor.admissionDeptMood==true}" ajax="false" update="form growl" class="redBtn" />
 									    	
 									    	<!-- <p:commandButton value="Revert" 
 											rendered="#{!DetailsBeanChangeMajor.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
@@ -199,13 +200,13 @@
 									</h:panelGroup>
 									<!-- OR -->		
 																
-									<h:panelGroup rendered="#{  DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1}">
+									<h:panelGroup rendered="#{  DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1||DetailsBeanChangeMajor.detailedDTO.step.getID()==12||DetailsBeanChangeMajor.detailedDTO.step.getID()==3|| DetailsBeanChangeMajor.detailedDTO.step.getID()==4}">
 										<div class="formProgress-done">
 							    			<br/>
-											<h:outputLabel value="#{DetailsBeanChangeMajor.admissionHActionDetails.actionType.name}" /><br/>
+											<h:outputLabel value="#{DetailsBeanChangeMajor.admissionDFirstStepActionDetails.actionType.name}" /><br/>
 											<div class="otherInfo">
 					    		       			<h:outputLabel value="Registrar" /><br/>
-					    		    			<h:outputLabel value="#{DetailsBeanChangeMajor.admissionHActionDetails.friendlyDate}" />
+					    		    			<h:outputLabel value="#{DetailsBeanChangeMajor.admissionDFirstStepActionDetails.friendlyDate}" />
 					    		    		</div>
 					   			    	</div>
 									</h:panelGroup>
@@ -224,7 +225,7 @@
 										</div>
 									</h:panelGroup>
 									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==1}">
+									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==1||DetailsBeanChangeMajor.detailedDTO.step.getID()==12||DetailsBeanChangeMajor.detailedDTO.step.getID()==3|| DetailsBeanChangeMajor.detailedDTO.step.getID()==4}">
 							    		<div class="formProgress-done">
 							    			<br/>
 							    			<h:outputLabel value="#{DetailsBeanChangeMajor.instructorActionDetails.actionType.name}" /><br/>
@@ -254,7 +255,7 @@
 										</div>
 									</h:panelGroup>
 									<!-- OR -->
-									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==2  || DetailsBeanChangeMajor.detailedDTO.step.getID()==4}">
+									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==12||DetailsBeanChangeMajor.detailedDTO.step.getID()==3|| DetailsBeanChangeMajor.detailedDTO.step.getID()==4}">
 										<div class="formProgress-done">
 							    			<br/>
 											<h:outputLabel value="#{DetailsBeanChangeMajor.deanActionDetails.actionType.name}" /><br/>
@@ -269,10 +270,37 @@
     						 -->
     						 
     						 
+    						  <!-- 
+    						 --><li>
+									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==9 || DetailsBeanChangeMajor.detailedDTO.step.getID()==0||DetailsBeanChangeMajor.detailedDTO.step.getID()==1||DetailsBeanChangeMajor.detailedDTO.step.getID()==12}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="Student Finance Department" />
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==3|| DetailsBeanChangeMajor.detailedDTO.step.getID()==4}">
+										<div class="formProgress-done">
+							    			<br/>
+											<h:outputLabel value="#{DetailsBeanChangeMajor.admissionHActionDetails.actionType.name}" /><br/>
+											<div class="otherInfo">
+			    								<h:outputLabel value="#{DetailsBeanChangeMajor.admissionHActionDetails.instructorName}" /><br/>
+			    		    					<h:outputLabel value="Student Finance Department" /><br/>
+			    								<h:outputLabel value="#{DetailsBeanChangeMajor.admissionHActionDetails.friendlyDate}" />
+			    							</div>
+			    						</div>
+									</h:panelGroup>
+								</li><!-- 
+    						 -->
+    						 
+    						 
     						 
     						 
     						 <li>
-									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==9 || DetailsBeanChangeMajor.detailedDTO.step.getID()==0|| DetailsBeanChangeMajor.detailedDTO.step.getID()==1 || DetailsBeanChangeMajor.detailedDTO.step.getID()==6 || DetailsBeanChangeMajor.detailedDTO.step.getID()==3}">
+									<h:panelGroup rendered="#{DetailsBeanChangeMajor.detailedDTO.step.getID()==9 || DetailsBeanChangeMajor.detailedDTO.step.getID()==0|| DetailsBeanChangeMajor.detailedDTO.step.getID()==1 ||DetailsBeanChangeMajor.detailedDTO.step.getID()==12|| DetailsBeanChangeMajor.detailedDTO.step.getID()==3}">
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
@@ -286,9 +314,10 @@
 										<div class="formProgress-done">
 						    				<br/>
 											<h:outputLabel value="Finalized" /><br/>
+											<h:outputLabel value="#{DetailsBeanChangeMajor.admissionDActionDetails.actionType.name}" /><br/>
 											<div class="otherInfo">
 												<h:outputLabel value="Admission Staff" /><br/>
-					    						<h:outputLabel value="#{DetailsBeanChangeMajor.admissionHActionDetails.friendlyDate}" />
+					    						<h:outputLabel value="#{DetailsBeanChangeMajor.admissionDActionDetails.friendlyDate}" />
 					    					</div>
 					    				</div>
 									</h:panelGroup>

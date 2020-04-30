@@ -97,6 +97,8 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				 fillDeanDashboardStrategic(elements,userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_HEAD)) {
 				 fillAddmissionHeadDashboard(elements);
+			 }else if(userMail.equalsIgnoreCase(Constants.Financial_DEP)) {
+				 fillAddmissionFinanceDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_DEPT)) {
 				 fillAdmissionDepartmentDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.DEAN_OF_ACADEMIC)) {
@@ -298,6 +300,61 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 			
 	}
 	
+	private void fillAddmissionFinanceDashboard(List<DashboardElement> elements) {
+		//petition
+				//List<CoursePetition> courseForms = dashboardAppServ.getAdmissionHeadAcademicPetitionsPending();
+				//Integer count = 0;
+				//if(courseForms != null)
+				//	count = courseForms.size();
+				
+				//elements.add(new AcademicPetitionDashboardElement(count.toString()));
+				
+				//addDrop
+				/*List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionHeadAddDropPending();
+				Integer count = 0;
+				if(dropAddForms != null)
+					count = dropAddForms.size();
+				
+				elements.add(new AddDropDashboardElement(count.toString()));
+				*/
+				//changeMajor
+						List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
+						Integer count = 0;
+						if(changMajorForms != null)
+							count = changMajorForms.size();
+						
+						elements.add(new ChangeMajorDashboardElement(count.toString()));
+						
+						//readmission
+						/*List<ReadmissionForm> readmissionForms = dashboardAppServ.getAdmissionHeadReadmissionPending();
+						count = 0;
+						if(readmissionForms != null)
+							count = readmissionForms.size();
+						
+						elements.add(new ReadmissionDashboardElement(count.toString()));*/
+				
+				//overload
+				/*List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionHeadOverloadRequestPending();
+				count = 0;
+				if(overloadRequestForms != null)
+					count = overloadRequestForms.size();
+				
+				elements.add(new OverloadRequestDashboardElement(count.toString()));
+				
+				//course repeat
+				count = dashboardAppServ.getAdmissionHeadCourseRepeatPending();
+				elements.add(new CourseRepeatDashboardElement(count.toString()));
+				*/
+				
+				/**
+				 * @author Omnya
+				 *
+				 *Incomplete grade dashboard 
+				 */
+				/*count = dashboardAppServ.getAdmissionHeadIncompleteGradePending();
+				elements.add(new IncompleteGradeDashboardElement(count.toString()));*/
+	}
+	
 	private void fillAddmissionHeadDashboard(List<DashboardElement> elements)
 	{
 		//petition
@@ -309,31 +366,31 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		//elements.add(new AcademicPetitionDashboardElement(count.toString()));
 		
 		//addDrop
-		List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionHeadAddDropPending();
+		/*List<DropAddForm> dropAddForms = dashboardAppServ.getAdmissionHeadAddDropPending();
 		Integer count = 0;
 		if(dropAddForms != null)
 			count = dropAddForms.size();
 		
-		elements.add(new AddDropDashboardElement(count.toString()));
+		elements.add(new AddDropDashboardElement(count.toString()));*/
 		
 		//changeMajor
-				List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
+			/*	List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
 				count = 0;
 				if(changMajorForms != null)
 					count = changMajorForms.size();
 				
-				elements.add(new ChangeMajorDashboardElement(count.toString()));
+				elements.add(new ChangeMajorDashboardElement(count.toString()));*/
 				
 				//readmission
-				List<ReadmissionForm> readmissionForms = dashboardAppServ.getAdmissionHeadReadmissionPending();
+				/*List<ReadmissionForm> readmissionForms = dashboardAppServ.getAdmissionHeadReadmissionPending();
 				count = 0;
 				if(readmissionForms != null)
 					count = readmissionForms.size();
 				
-				elements.add(new ReadmissionDashboardElement(count.toString()));
+				elements.add(new ReadmissionDashboardElement(count.toString()));*/
 		
 		//overload
-		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionHeadOverloadRequestPending();
+		/*List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionHeadOverloadRequestPending();
 		count = 0;
 		if(overloadRequestForms != null)
 			count = overloadRequestForms.size();
@@ -343,15 +400,15 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		//course repeat
 		count = dashboardAppServ.getAdmissionHeadCourseRepeatPending();
 		elements.add(new CourseRepeatDashboardElement(count.toString()));
-		
+		*/
 		
 		/**
 		 * @author Omnya
 		 *
 		 *Incomplete grade dashboard 
 		 */
-		count = dashboardAppServ.getAdmissionHeadIncompleteGradePending();
-		elements.add(new IncompleteGradeDashboardElement(count.toString()));
+		/*count = dashboardAppServ.getAdmissionHeadIncompleteGradePending();
+		elements.add(new IncompleteGradeDashboardElement(count.toString()));*/
 	}
 	
 	private void fillAdmissionDepartmentDashboard(List<DashboardElement> elements)

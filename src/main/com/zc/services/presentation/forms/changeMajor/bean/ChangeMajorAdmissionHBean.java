@@ -115,7 +115,7 @@ public class ChangeMajorAdmissionHBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.equals(Constants.ADMISSION_HEAD)){
+			if(mail.equals(Constants.Financial_DEP)){
 				pendingForms=facade.getPendingFormsOfAdmissionHead();
 			}
 			else {

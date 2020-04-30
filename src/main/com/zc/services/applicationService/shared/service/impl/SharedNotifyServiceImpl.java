@@ -691,7 +691,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							+ " " + insname;
 				}*/
 				
-				studentContent += "<br/> The next step is the Dean of Academic approval";
+				studentContent += "<br/> The next step is the Student Finance Department approval";
 			}/* else if (changeMajorForm.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
@@ -740,6 +740,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 				studentContent += "<br/> The next step is the Admission Department approval";
 			} else if (changeMajorForm.getStep().equals(
 					PetitionStepsEnum.ADMISSION_DEPT)) {
+				System.out.println("SendData");
 				if (changeMajorForm.getNewMajor() != null
 						&& changeMajorForm
 								.getStatus()

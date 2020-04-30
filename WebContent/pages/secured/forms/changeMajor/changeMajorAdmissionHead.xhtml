@@ -24,8 +24,8 @@
 						<p:tabMenu activeIndex="#{(ChangeMajorAdmissionHBean.detailView)?2:0}">
 							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorAdmissionHead.xhtml"/>
 							<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorAdmissionHead1.xhtml" />
-							<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" />
-						
+						<!-- 	<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" />
+						 -->
 						</p:tabMenu>
 					
 						<p:dataTable var="forms" value="#{ChangeMajorAdmissionHBean.pendingForms}" selectionMode="single" selection="#{ChangeMajorAdmissionHBean.selectedPendingForms}" rowKey="#{forms.id}" sortMode="multiple" 

@@ -66,7 +66,7 @@ public class AdmissionDeptChangeMajorServiceImpl implements IAdmissionDeptChange
 		{
 			if(allForms.get(i).getPerformed()==null)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_DEPT)||allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_PROCESSING))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)||allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_PROCESSING))
 				{
 					// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.CHANGEMAJOR.getValue());

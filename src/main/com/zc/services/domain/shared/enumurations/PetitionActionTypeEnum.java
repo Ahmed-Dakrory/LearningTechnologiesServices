@@ -59,7 +59,7 @@ public enum PetitionActionTypeEnum {
 		}
 		
 		public String getName() {
-			return "The request is finalized";
+			return "The request is finalized With Approve";
 		}
 		
 		
@@ -71,7 +71,7 @@ public enum PetitionActionTypeEnum {
 		}
 		
 		public String getName() {
-			return "The request is finalized";
+			return "The request is finalized With Refuse";
 		}
 		
 		
