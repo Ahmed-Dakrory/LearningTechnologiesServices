@@ -22,6 +22,7 @@ import main.com.zc.services.applicationService.shared.service.impl.SendMailThrea
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormTypesEnum;
 import main.com.zc.services.domain.shared.enumurations.PetitionActionTypeEnum;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IAdmissionAdminAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
@@ -30,6 +31,7 @@ import main.com.zc.services.presentation.forms.changeMajor.facade.IChangeMajorAc
 import main.com.zc.services.presentation.forms.changeMajor.facade.IChangeMajorAdminFacade;
 import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.AttachmentDownloaderHelper;
@@ -68,6 +70,10 @@ public class DetailsBean {
     @ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
     private IGetLoggedInStudentDataFacade studentDataFacade;
     
+    
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
     
     private ChangeMajorDTO detailedDTO;
 	private List<InstructorDTO> instructors;
@@ -130,7 +136,7 @@ public class DetailsBean {
 		}
 		}
 		
-		catch(Exception ex)
+		catch(Error ex)
 		{
 			ex.printStackTrace();
 		}
@@ -140,6 +146,58 @@ public class DetailsBean {
 			ex.printStackTrace();
 		}
 	}
+
+	public void saveToProfile() {
+		StudentProfileDTO profile = profileFacade.getCurrentPRofileByStudentID(detailedDTO.getStudent().getId());
+
+        if(profile!=null) {
+        	if(this.attachmentTranscriptFile != null)
+			{
+				AttachmentDTO attachment = new AttachmentDTO(attachmentTranscriptFile.getFileName(), attachmentTranscriptFile.getContents());
+				profile.setAttachmentTranscript(attachment);
+				profileFacade.update(profile);
+				detailedDTO.getStudent().setStudentProfileDTO(profile);
+	        	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Transcript Saved Correctly");
+			}
+        }
+	}
+	private UploadedFile attachmentTranscriptFile;
+
+	public UploadedFile getAttachmentTranscriptFile() {
+	    return attachmentTranscriptFile;
+	}
+
+	public void setAttachmentTranscriptFile(UploadedFile file) {
+	    this.attachmentTranscriptFile = file;
+	}
+	 
+	public void uploadTranscript(FileUploadEvent event) {  
+	    // Do what you want with the file      
+		setAttachmentTranscriptFile(event.getFile());
+
+	    try {
+		} catch (Exception e) {
+		}
+	}  
+
+	public void removeAttachmentTranscript()
+	{
+		setAttachmentTranscriptFile(null);
+	}
+	
+	public String getAttachmentTranscriptFileName()
+	{
+		if(attachmentTranscriptFile == null)
+			return "None";
+		else
+			return attachmentTranscriptFile.getFileName();
+	}
+
+	public void downloadTranscript(ChangeMajorDTO form)
+	{
+		AttachmentDownloaderHelper.createHTTPDownlodFileResponse(form.getStudent().getStudentProfileDTO().getAttachmentTranscript());
+	}
+	
 	public void fillInstructorsLst()
 	    {
 		 instructors=new ArrayList<InstructorDTO>();
@@ -181,6 +239,10 @@ public class DetailsBean {
         	 appoveAdmissionHead();
         	 break;
         	 
+         case "AdmissionD":  
+        	 appoveAdmissionDep();
+        	 break;
+        	 
         
 		 }
 	 }
@@ -205,9 +267,449 @@ public class DetailsBean {
         	 refuseAdmissionHead();
         	 break;
         	 
+         case "AdmissionD":
+        	 refuseAdmissionDep();
+        	 break;
+        	 
         
 		 }
 	 }
+	 
+	 public void appoveAdmissionDep()
+	 {
+	 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+ 	try{
+ 	ChangeMajorDTO dto=getDetailedDTO();
+ 	if(!dto.getStep().equals(PetitionStepsEnum.UNDER_PROCESSING))
+		{
+			dto.setNotifyAt(null);
+		}
+ //	InstructorDTO loggedInInstructor=getInsDataFacade.getInsByPersonMail(authentication.getName());
+ 	// 1- get action of petition
+ 	
+ 	//2- loop on actions 
+ 	boolean actionExistBefore=false;
+ 	int index=0;
+ 	if(dto.getActionDTO().size()>0){
+ 		
+ 	for(int i=0;i<dto.getActionDTO().size();i++)
+ 	{
+ 		actionExistBefore=false;
+ 		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
+ 		
+ 			
+ 		if(dto.getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_DEPT_ID))
+ 		{
+ 			actionExistBefore=true;
+ 			index=i;
+ 			break;
+ 			
+ 			
+ 		}
+ 		}
+ 	
+ 		if(actionExistBefore)
+	    	{
+	    		//4- then we've two cases 
+ 			//5- a) the petition already approved 
+ 			if(dto.getActionDTO().get(index).getActionType()!=null)
+ 			{
+ 			if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)&&dto.getReverted()!=true)
+ 			{
+ 				  JavaScriptMessagesHandler.RegisterWarningMessage(null, "Already Approved Before !");
+ 			}
+ 		
+ 			//6- b) the petition already refused
+ 			else if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Refused)||
+ 					dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.REVERT)||dto.getReverted()==true)
+ 			{
+ 				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Approved);
+ 		   		
+ 				dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+    			dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+ 	    				
+ 	    		dto=facade.updateStatusOfForm(dto);
+ 		    	if(dto!=null)
+ 		    	{
+ 		    		//init();
+ 		    		
+ 		    		try {
+ 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+ 		 					("changeMajorAdmission.xhtml?id="+dto.getId()+"&action=approve");
+ 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+ 		 				} catch (IOException e) {
+ 		 					// TODO Auto-generated catch block
+ 		 					e.printStackTrace();
+ 		 				}
+ 		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+ 		    		}
+ 		    	else {
+ 		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+ 		    	}
+ 		    	
+ 		    	
+ 		    	
+ 		    	
+ 			}
+ 			}
+ 			else 
+ 			{
+ 				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Approved);
+ 		   		
+ 				dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+    			dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+	    				
+	    		dto=facade.updateStatusOfForm(dto);
+		    	if(dto!=null)
+		    	{
+		    		//init();
+		    		
+		    		try {
+		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+		 					("changeMajorAdmission.xhtml?id="+dto.getId()+"&action=approve");
+		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+		 				} catch (IOException e) {
+		 					// TODO Auto-generated catch block
+		 					e.printStackTrace();
+		 				}
+		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+		    		}
+		    	else {
+		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+		    	}
+ 			}
+ 		
+	    	}
+ 		// else there is no previous actions
+ 		else 
+ 		{
+ 			//8- add new action object 
+ 			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+ 			newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
+ 			newAction.setDate(Calendar.getInstance());
+ 			newAction.setFormType(FormTypesEnum.CHANGEMAJOR);
+ 			newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+ 			newAction.setPetitionID(dto.getId());
+ 			if(getNewComment()!=null)
+ 			{
+ 				if(!getNewComment().trim().equals(""))
+ 				{
+ 					newAction.setComment(getNewComment());
+ 				}	
+ 			}
+ 			
+ 			
+ 			dto.getActionDTO().add(newAction);
+ 			dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+			dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+				
+ 			
+ 			dto=facade.updateStatusOfForm(dto);
+ 		    	if(dto!=null)
+ 		    	{
+ 		    		//init();
+ 		    		
+ 		    		try {
+ 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+ 		 					("changeMajorAdmission.xhtml?id="+dto.getId()+"&action=approve");
+ 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+ 		 				} catch (IOException e) {
+ 		 					// TODO Auto-generated catch block
+ 		 					e.printStackTrace();
+ 		 				}
+ 		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+ 		    		}
+ 		    	else {
+ 		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+ 		    	}
+ 		    	
+ 		    
+ 		    
+ 		    	
+ 		}
+
+ 	}
+ 	
+ 	
+ 	else 
+ 	{
+ 		
+ 	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+		newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
+		newAction.setDate(Calendar.getInstance());
+		newAction.setFormType(FormTypesEnum.CHANGEMAJOR);
+		newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+		newAction.setPetitionID(dto.getId());
+		if(getNewComment()!=null)
+		{
+			if(!getNewComment().trim().equals(""))
+			{
+				newAction.setComment(getNewComment());
+				
+			    
+			    
+			    	
+			}	
+		}
+ 	
+		
+		dto.getActionDTO().add(newAction);
+		dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+		dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+		
+		dto=facade.updateStatusOfForm(dto);
+	    	if(dto!=null)
+	    	{
+	    		//init();
+	    		
+	    		try {
+	 					FacesContext.getCurrentInstance().getExternalContext().redirect
+	 					("changeMajorAdmission.xhtml?id="+dto.getId()+"&action=approve");
+	 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
+	 				} catch (IOException e) {
+	 					// TODO Auto-generated catch block
+	 					e.printStackTrace();
+	 				}
+	    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+	    		}
+	    	else {
+	    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+	    	}
+	    	
+ 	}
+
+	
+ 
+ 	
+ 	
+ 	
+ 	}
+ 	catch(Exception ex)
+ 	{
+ 		ex.printStackTrace();
+ 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Approving is failed!");
+ 	}
+ 	}
+ 	
+}
+public void refuseAdmissionDep()
+{
+
+
+	 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+ 	try{
+ 	ChangeMajorDTO dto=getDetailedDTO();
+ 	if(!dto.getStep().equals(PetitionStepsEnum.UNDER_PROCESSING))
+		{
+			dto.setNotifyAt(null);
+		}
+ 	//InstructorDTO loggedInInstructor=getInsDataFacade.getInsByPersonMail(authentication.getName());
+ 	// 1- get action of petition
+ 	
+ 	//2- loop on actions 
+ 	boolean actionExistBefore=false;
+ 	int index=0;
+ 	if(dto.getActionDTO().size()>0){
+ 		
+ 	for(int i=0;i<dto.getActionDTO().size();i++)
+ 	{
+ 		actionExistBefore=false;
+ 		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
+ 		if(dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
+ 				dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
+ 		{
+ 			actionExistBefore=true;
+ 			index=i;
+ 			break;
+ 			
+ 			
+ 		}
+ 	}
+ 		if(actionExistBefore)
+	    	{
+	    		//4- then we've two cases 
+ 			//5- a) the petition already approved 
+ 			if(dto.getActionDTO().get(index).getActionType()!=null)
+ 			{
+ 			if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Refused)&&dto.getReverted()!=true)
+ 			{
+ 				  JavaScriptMessagesHandler.RegisterWarningMessage(null, "Already Refused Before !");
+ 			}
+ 		
+ 			//6- b) the petition already refused
+ 			else if(dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
+ 					dto.getActionDTO().get(index).getActionType().equals(PetitionActionTypeEnum.REVERT)||dto.getReverted()==true)
+ 			{
+ 				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
+ 		   		
+ 				dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+    			dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+ 	    				
+ 	    		dto=facade.updateStatusOfForm(dto);
+ 		    	if(dto!=null)
+ 		    	{
+ 		    		//init();
+ 		    		
+ 		    		try {
+ 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+ 		 					("changeMajorAdmission.xhtml?id="+dto.getId());
+ 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+ 		 				} catch (IOException e) {
+ 		 					// TODO Auto-generated catch block
+ 		 					e.printStackTrace();
+ 		 				}
+ 		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+ 		    		}
+ 		    	else {
+ 		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+ 		    	}
+ 		    	
+ 		    	
+ 		    	
+ 		    	
+ 			}
+ 			}
+ 			else 
+ 			{
+ 				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.Admission_Refused);
+ 		   		
+ 				dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+    			dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+	    				
+	    		dto=facade.updateStatusOfForm(dto);
+		    	if(dto!=null)
+		    	{
+		    		//init();
+		    		
+		    		try {
+		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+		 					("changeMajorAdmission.xhtml?id="+dto.getId());
+		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+		 				} catch (IOException e) {
+		 					// TODO Auto-generated catch block
+		 					e.printStackTrace();
+		 				}
+		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+		    		}
+		    	else {
+		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+		    	}
+ 			}
+ 			
+	    	}
+ 		// else there is no previous actions
+ 		else 
+ 		{
+ 			//8- add new action object 
+ 			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+ 			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
+ 			newAction.setDate(Calendar.getInstance());
+ 			newAction.setFormType(FormTypesEnum.CHANGEMAJOR);
+ 			newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+ 			newAction.setPetitionID(dto.getId());
+ 			if(getNewComment()!=null)
+ 			{
+ 				if(!getNewComment().trim().equals(""))
+ 				{
+ 					newAction.setComment(getNewComment());
+ 				}	
+ 			}
+ 			
+ 			
+ 			dto.getActionDTO().add(newAction);
+ 			dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+			dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+				
+ 			
+ 			dto=facade.updateStatusOfForm(dto);
+ 		    	if(dto!=null)
+ 		    	{
+ 		    		//init();
+ 		    		
+ 		    		try {
+ 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
+ 		 					("changeMajorAdmission.xhtml?id="+dto.getId());
+ 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+ 		 				} catch (IOException e) {
+ 		 					// TODO Auto-generated catch block
+ 		 					e.printStackTrace();
+ 		 				}
+ 		    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+ 		    		}
+ 		    	else {
+ 		    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+ 		    	}
+ 		}
+
+ 	
+ 	
+ 	}
+ 	else 
+ 	{
+ 		
+ 	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
+		newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
+		newAction.setDate(Calendar.getInstance());
+		newAction.setFormType(FormTypesEnum.CHANGEMAJOR);
+		newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
+		newAction.setPetitionID(dto.getId());
+		if(getNewComment()!=null)
+		{
+			if(!getNewComment().trim().equals(""))
+			{
+				newAction.setComment(getNewComment());
+			}	
+		}
+ 
+		
+		dto.getActionDTO().add(newAction);
+		dto.setStep(PetitionStepsEnum.UNDER_REVIEW);
+		dto.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+		
+		dto=facade.updateStatusOfForm(dto);
+	    	if(dto!=null)
+	    	{
+	    		//init();
+	    		
+	    		try {
+	 					FacesContext.getCurrentInstance().getExternalContext().redirect
+	 					("changeMajorAdmission.xhtml?id="+dto.getId());
+	 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
+	 				} catch (IOException e) {
+	 					// TODO Auto-generated catch block
+	 					e.printStackTrace();
+	 				}
+	    		sharedAcademicPetFacade.notifayNextStepOwner(dto);
+	    		}
+	    	else {
+	    		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+	    	}
+	
+ 	}
+		
+ 	}
+ 
+ 
+ 	
+ 
+ 	
+ 	
+ 	
+ 	
+ 	catch(Exception ex)
+ 	{
+ 		ex.printStackTrace();
+ 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Refusing is failed!");
+ 	}
+ 	}
+ 	
+}
 	 public void approveIns()
 	 {
 		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -648,7 +1150,7 @@ public class DetailsBean {
 				
 	    	try{
 	    	ChangeMajorDTO dto=getDetailedDTO();
-	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN))
+	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 			{
 				dto.setNotifyAt(null);
 			}
@@ -700,7 +1202,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.DEAN_APPROVED);
 	    		   		
-	    	    			dto.setStep(PetitionStepsEnum.DEAN);
+	    	    			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
 	    	    				
 	    	    		dto=facade.updateStatusOfForm(dto);
 	    		    	if(dto!=null)
@@ -730,7 +1232,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.DEAN_APPROVED);
 	    		   		
-    	    			dto.setStep(PetitionStepsEnum.DEAN);
+    	    			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
     	    				
     	    		dto=facade.updateStatusOfForm(dto);
     		    	if(dto!=null)
@@ -774,7 +1276,7 @@ public class DetailsBean {
 	    			
 	    			
 	    			dto.getActionDTO().add(newAction);
-	    			dto.setStep(PetitionStepsEnum.DEAN);
+	    			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
 	 				
 	    	 		
 	    	 		dto=facade.updateStatusOfForm(dto);
@@ -823,7 +1325,7 @@ public class DetailsBean {
 			
 			
 			dto.getActionDTO().add(newAction);
-			dto.setStep(PetitionStepsEnum.DEAN);
+			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
 				
 	 		
 	 		dto=facade.updateStatusOfForm(dto);
@@ -871,7 +1373,7 @@ public class DetailsBean {
 				
 	    	try{
 	    	ChangeMajorDTO dto=getDetailedDTO();
-	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN))
+	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 			{
 				dto.setNotifyAt(null);
 			}
@@ -925,7 +1427,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.DEAN_REFUSED);
 	    		   		
-	    	    			dto.setStep(PetitionStepsEnum.DEAN);
+	    	    			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
 	    	    				
 	    	    		dto=facade.updateStatusOfForm(dto);
 	    		    	if(dto!=null)
@@ -955,7 +1457,7 @@ public class DetailsBean {
 	    			{
 	    				dto.getActionDTO().get(index).setActionType(PetitionActionTypeEnum.DEAN_REFUSED);
 	    		   		
-    	    			dto.setStep(PetitionStepsEnum.DEAN);
+    	    			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
     	    				
     	    		dto=facade.updateStatusOfForm(dto);
     		    	if(dto!=null)
@@ -998,7 +1500,7 @@ public class DetailsBean {
 	    			
 	    			
 	    			dto.getActionDTO().add(newAction);
-	    			dto.setStep(PetitionStepsEnum.DEAN);
+	    			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
 	 				
 	    	 		
 	    	 		dto=facade.updateStatusOfForm(dto);
@@ -1047,7 +1549,7 @@ public class DetailsBean {
 			
 			
 			dto.getActionDTO().add(newAction);
-			dto.setStep(PetitionStepsEnum.DEAN);
+			dto.setStep(PetitionStepsEnum.DEAN_OF_ACADIMICS);
 				
 	 		
 	 		dto=facade.updateStatusOfForm(dto);
@@ -2661,5 +3163,15 @@ public class DetailsBean {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public StudentProfileFacadeImpl getProfileFacade() {
+		return profileFacade;
+	}
+
+	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+		this.profileFacade = profileFacade;
+	}
+	
+	
 	
 }

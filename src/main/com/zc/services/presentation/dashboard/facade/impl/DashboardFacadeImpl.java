@@ -133,13 +133,13 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		elements.add(new AddDropDashboardElement(count.toString()));
 		
 		//changeMajor
-				List<ChangeMajorForm> changMajorForms = dashboardAppServ.getDeanChangeMajorPending();
+				Integer changMajorForms =  dashboardAppServ.getInstructorChangeMajorPending(mail);
 				count = 0;
 				if(changMajorForms != null)
-					count = changMajorForms.size();
-				count += dashboardAppServ.getInstructorChangeMajorPending(mail);
-				elements.add(new ChangeMajorDashboardElement(count.toString()));
+					count = changMajorForms;
 				
+				
+				elements.add(new ChangeMajorDashboardElement(count.toString()));
 	//readmission
 				List<ReadmissionForm> readmissionForms = dashboardAppServ.getDeanReadmissionPending();
 				count = 0;
@@ -258,7 +258,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				elements.add(new AddDropDashboardElement(count.toString()));
 				
 				//changeMajor
-				count = dashboardAppServ.getInstructorChangeMajorPending(mail);
+				List<ChangeMajorForm> changMajorForms = dashboardAppServ.getDeanChangeMajorPending();
+				count = 0;
+				if(changMajorForms != null)
+					count = changMajorForms.size();
+				count += dashboardAppServ.getInstructorChangeMajorPending(mail);
 				elements.add(new ChangeMajorDashboardElement(count.toString()));
 				
 				//readmission

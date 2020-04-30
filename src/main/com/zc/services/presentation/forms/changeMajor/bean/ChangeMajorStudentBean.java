@@ -68,9 +68,9 @@ public class ChangeMajorStudentBean {
 	private Integer selectedCurMajorId;
 	private Integer selectedNewMajorId;
 	private String curSpec;
-	private String doubleSpec;
+	private String question1;
 	private String newSpec;
-	private String moreDetails;
+	private String question2;
 
 	
 	@PostConstruct
@@ -89,8 +89,8 @@ public class ChangeMajorStudentBean {
 	    setSelectedCurMajorId(0);
 	    setNewSpec(null);
 	    setCurSpec(null);
-	    setDoubleSpec(null);
-	    setMoreDetails(null);
+	    setQuestion1(null);
+	    setQuestion2(null);
 	    setGpa(null);
 	    HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		//StringBuffer url=origRequest.getRequestURL();
@@ -163,8 +163,8 @@ public class ChangeMajorStudentBean {
 	}  
 	public void submitRequest()
 	{
-		if(getSelectedNewMajorId()==0&&(getNewSpec().trim().equals("")||getNewSpec()==null)
-				&&(getCurSpec().trim().equals("")||getCurSpec()==null)&&(getDoubleSpec().trim().equals("")||getDoubleSpec()==null))
+		if(getSelectedNewMajorId()==0
+				||(getQuestion1().trim().equals("")||getQuestion1()==null))
 		{
 			JavaScriptMessagesHandler.RegisterWarningMessage(null, "Can't submit empty form");
 		}
@@ -186,13 +186,13 @@ public class ChangeMajorStudentBean {
 		        student.setMail(studentDataFacade.getPersonByPersonMail(mail).getEmail());
 		        student.setName(studentDataFacade.getPersonByPersonMail(mail).getNameInEng());
 		        request.setStudent(student);
-		        request.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
+		        request.setStatus(PetitionStepsEnum.ADMISSION_PROCESSING.getName());
 		        request.setSubmissionDate(Calendar.getInstance());
 				request.setMobile(profile.getMobile());
 				MajorDTO major=new MajorDTO();
 				major.setId(getSelectedMajorId());
 				request.setMajor(major);
-				request.setStep(PetitionStepsEnum.UNDER_REVIEW);
+				request.setStep(PetitionStepsEnum.UNDER_PROCESSING);
 				if(getSelectedCurMajorId()!=0)
 				{
 				MajorDTO curmajor=new MajorDTO();
@@ -207,8 +207,8 @@ public class ChangeMajorStudentBean {
 				}
 		        request.setCurSpecialization(getCurSpec());
 		        request.setNewSpecialization(getNewSpec());
-		        request.setDoubleSpecialization(getDoubleSpec());
-		        request.setMoreDetails(getMoreDetails());
+		        request.setQuestion1(getQuestion1());
+		        request.setQuestion2(getQuestion2());
 		        request.setGpa(profile.getGpa());
 		        
 		        if(this.attachmentFile != null)
@@ -353,25 +353,27 @@ public class ChangeMajorStudentBean {
 	public void setCurSpec(String curSpec) {
 		this.curSpec = curSpec;
 	}
-	public String getDoubleSpec() {
-		return doubleSpec;
-	}
-	public void setDoubleSpec(String doubleSpec) {
-		this.doubleSpec = doubleSpec;
-	}
+	
 	public String getNewSpec() {
 		return newSpec;
 	}
 	public void setNewSpec(String newSpec) {
 		this.newSpec = newSpec;
 	}
-	public String getMoreDetails() {
-		return moreDetails;
-	}
-	public void setMoreDetails(String moreDetails) {
-		this.moreDetails = moreDetails;
-	}
+	
 
+	public String getQuestion1() {
+		return question1;
+	}
+	public void setQuestion1(String question1) {
+		this.question1 = question1;
+	}
+	public String getQuestion2() {
+		return question2;
+	}
+	public void setQuestion2(String question2) {
+		this.question2 = question2;
+	}
 	public ISharedAcademicPetFacade getSharedAcademicPetFacade() {
 		return sharedAcademicPetFacade;
 	}

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import main.com.zc.services.applicationService.configuration.assembler.CourseStudentAssembler;
 import main.com.zc.services.applicationService.configuration.services.IStudentCourseService;
+import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
 import main.com.zc.services.domain.configurations.model.CourseStudent;
 import main.com.zc.services.domain.configurations.model.ICourseStudentRep;
 import main.com.zc.services.domain.data.model.Courses;
@@ -900,22 +901,6 @@ course.setCoordinator(inDTO);
 					}
 					
 					
-					
-					if (count == 15) {// Attempt_credit_hours
-						
-						 
-
-						try {
-							
-							studentProfileDTO.setTranscript(getTheValueFromCell(cell));
-						}catch (Exception ex) { //
-						}
-					    	
-						
-					}
-					
-				
-
 				
 				}
 			
@@ -1028,7 +1013,10 @@ course.setCoordinator(inDTO);
 					profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
 					profile.setGpa(student.getStudentProfileDTO().getGpa());
 					profile.setMinor(student.getStudentProfileDTO().getMinor());
-					profile.setTranscript(student.getStudentProfileDTO().getTranscript());
+
+					AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
+					profile.setAttachmentTranscript(attachmentAssm.toEntity(student.getStudentProfileDTO().getAttachmentTranscript()));
+					
 					profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
 					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 					profile.setMajor(major);
@@ -1044,7 +1032,10 @@ course.setCoordinator(inDTO);
 					profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
 					profile.setGpa(student.getStudentProfileDTO().getGpa());
 					profile.setMinor(student.getStudentProfileDTO().getMinor());
-					profile.setTranscript(student.getStudentProfileDTO().getTranscript());
+
+					AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
+					profile.setAttachmentTranscript(attachmentAssm.toEntity(student.getStudentProfileDTO().getAttachmentTranscript()));
+					
 					profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
 					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 					profile.setMajor(major);
@@ -1063,7 +1054,11 @@ course.setCoordinator(inDTO);
 				profile.setCurrentCreditHrs(student.getStudentProfileDTO().getRegisteredCreditHrs());
 				profile.setGpa(student.getStudentProfileDTO().getGpa());
 				profile.setMinor(student.getStudentProfileDTO().getMinor());
-				profile.setTranscript(student.getStudentProfileDTO().getTranscript());
+				
+				AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
+				profile.setAttachmentTranscript(attachmentAssm.toEntity(student.getStudentProfileDTO().getAttachmentTranscript()));
+				
+				
 				profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
 				Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 				profile.setMajor(major);

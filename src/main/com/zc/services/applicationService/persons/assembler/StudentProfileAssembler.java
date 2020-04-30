@@ -3,6 +3,7 @@
  */
 package main.com.zc.services.applicationService.persons.assembler;
 
+import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
 import main.com.zc.services.domain.data.model.StudentProfile;
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.petition.model.Majors;
@@ -29,7 +30,8 @@ public class StudentProfileAssembler {
 		dto.setGpa(profile.getGpa());
 		dto.setConcentration(profile.getConcentration());
 		dto.setMinor(profile.getMinor());
-		dto.setTranscript(profile.getTranscript());
+		AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
+		dto.setAttachmentTranscript(attachmentAssm.toDTO(profile.getAttachmentTranscript()));
 		dto.setAttempt_credit_hours(profile.getAttempt_credit_hours());
 	try
 		{
@@ -73,7 +75,10 @@ public class StudentProfileAssembler {
 		profile.setGpa(dto.getGpa());
 		profile.setConcentration(dto.getConcentration());
 		profile.setMinor(dto.getMinor());
-		profile.setTranscript(dto.getTranscript());
+
+		AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
+		profile.setAttachmentTranscript(attachmentAssm.toEntity(dto.getAttachmentTranscript()));
+		
 		profile.setAttempt_credit_hours(dto.getAttempt_credit_hours());
 		try
 		{

@@ -606,7 +606,7 @@ public class LeftNavigationMenuBean {
 				
 					
 					
-					if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()))
+					if(mail.toLowerCase().equals(Constants.DEAN_OF_ACADEMIC.toLowerCase()))
 					{
 						if(getInsDataFacade.isPA(mail))
 						{
@@ -615,7 +615,7 @@ public class LeftNavigationMenuBean {
 						else 
 							return "/pages/secured/forms/changeMajor/changeMajorDean.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.Financial_DEP.toLowerCase()))
 					{
 						return "/pages/secured/forms/changeMajor/changeMajorAdmissionHead.xhtml?faces-redirect=true";
 					}

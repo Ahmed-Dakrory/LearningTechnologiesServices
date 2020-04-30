@@ -79,7 +79,7 @@
 										<f:selectItems var="newMajor" value="#{changeMajorStudentBean.majorsLst}" itemLabel="#{newMajor.majorName}" itemValue="#{newMajor.id}" />
 									</p:selectOneMenu>
 								</h:panelGroup>
-								<p:outputLabel value="Current Specialization" for="curSpec" />
+								<!-- <p:outputLabel value="Current Specialization" for="curSpec" />
 								<h:panelGroup class="marginLeft_12">
 									<p:inputText id="curSpec" value="#{changeMajorStudentBean.curSpec}" size="40"/>
 								</h:panelGroup>	
@@ -99,6 +99,29 @@
 									<p:message for="moreDetails"/>
 		                         	<span>Maximum Characters: 500</span>
 								</h:panelGroup>
+								
+								 -->
+								 
+								 <p:outputLabel value="Why do you want to change your major?" for="question1" />
+							 	
+							 	<h:panelGroup class="marginLeft_12 maxCharc">
+									<p:inputTextarea id="question1" value="#{changeMajorStudentBean.question1}" maxlength="500" validatorMessage="Only 500 Characters allowed" >
+									<f:validateLength maximum="500"/>
+									</p:inputTextarea>
+									<p:message for="question1"/>
+		                         	<span>Maximum Characters: 500</span>
+								</h:panelGroup>
+									
+							  	<p:outputLabel value="More Details" for="moreDetails" />
+							  	<h:panelGroup class="marginLeft_12 maxCharc">
+									<p:inputTextarea id="moreDetails" value="#{changeMajorStudentBean.question2}" maxlength="500" validatorMessage="Only 500 Characters allowed" >
+									<f:validateLength maximum="500"/>
+									</p:inputTextarea>
+									<p:message for="moreDetails"/>
+		                         	<span>Maximum Characters: 500</span>
+								</h:panelGroup>
+								
+								
 								<p:outputLabel value="Attachment:"/>
 		                        <h:panelGrid columns="3" class="marginLeft_12">
 		                         	<p:fileUpload fileUploadListener="#{changeMajorStudentBean.upload}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton" description="Attachment"

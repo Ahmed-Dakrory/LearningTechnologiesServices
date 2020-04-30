@@ -74,9 +74,9 @@ public class FormDTO implements Serializable{
 
 	private String newSpecialization;
 
-	private String doubleSpecialization;
+	private String question1;
 
-	private String moreDetails;
+	private String question2;
 
 	private String reason;
 
@@ -249,20 +249,21 @@ public class FormDTO implements Serializable{
 		this.newSpecialization = newSpecialization;
 	}
 
-	public String getDoubleSpecialization() {
-		return doubleSpecialization;
+
+	public String getQuestion1() {
+		return question1;
 	}
 
-	public void setDoubleSpecialization(String doubleSpecialization) {
-		this.doubleSpecialization = doubleSpecialization;
+	public void setQuestion1(String question1) {
+		this.question1 = question1;
 	}
 
-	public String getMoreDetails() {
-		return moreDetails;
+	public String getQuestion2() {
+		return question2;
 	}
 
-	public void setMoreDetails(String moreDetails) {
-		this.moreDetails = moreDetails;
+	public void setQuestion2(String question2) {
+		this.question2 = question2;
 	}
 
 	public StudentDTO getStudent() {

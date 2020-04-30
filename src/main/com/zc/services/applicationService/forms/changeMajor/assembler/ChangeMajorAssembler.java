@@ -29,7 +29,41 @@ public class ChangeMajorAssembler {
 		dto.setReverted(form.getReverted());
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 		{
-			dto.setCurrentStatus("Under Review");
+			if(form.getForwardTOIns()!=null)
+			{
+				dto.setCurrentStatus("Under Review By " +form.getForwardTOIns().getName());
+			}
+			else {
+			if(form.getNewMajor().getHeadOfMajorId() != null)
+				dto.setCurrentStatus("Under Review By " + form.getNewMajor().getHeadOfMajorId().getName() + " (Program Advisor)");
+			else
+				dto.setCurrentStatus("Under Review By Program Advisor");
+			}
+			dto.setNextStatus("Reviewing By Dean of Academics");
+			
+			
+		}
+		else 	if(form.getStep().equals(PetitionStepsEnum.INSTRUCTOR))
+		{
+			dto.setCurrentStatus("Under Review By Dean of Academics");
+			dto.setNextStatus("Reviewing By Student Finance Department");
+		}
+		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
+		{
+			dto.setCurrentStatus("Under Review By Student Finance Department");
+			dto.setNextStatus("Reviewing By Admission Department");
+		}
+		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
+		{
+			dto.setCurrentStatus("Under Review By Admission Department");
+			
+			
+			dto.setNextStatus("Finalized");
+			
+			
+		}else 	if(form.getStep().equals(PetitionStepsEnum.UNDER_PROCESSING))
+		{
+			dto.setCurrentStatus("Under Review By Registrar");
 			if(form.getForwardTOIns()!=null)
 			{
 				dto.setNextStatus("Reviewing By " + form.getForwardTOIns().getName());
@@ -40,30 +74,7 @@ public class ChangeMajorAssembler {
 			else
 				dto.setNextStatus("Reviewing By Program Advisor");
 			}
-		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.INSTRUCTOR))
-		{
-			if(form.getForwardTOIns()!=null)
-			{
-				dto.setCurrentStatus("Reviewed By " +form.getForwardTOIns().getName());
-			}
-			else {
-			if(form.getNewMajor().getHeadOfMajorId() != null)
-				dto.setCurrentStatus("Reviewed By " + form.getNewMajor().getHeadOfMajorId().getName() + " (Program Advisor)");
-			else
-				dto.setCurrentStatus("Reviewed By Program Advisor");
-			}
-			dto.setNextStatus("Reviewing By Dean of Strategic Enrollment Management");
-		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
-		{
-			dto.setCurrentStatus("Reviewed By Dean of Strategic Enrollment Management");
-			dto.setNextStatus("Reviewing By Admission Head");
-		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
-		{
-			dto.setCurrentStatus("Reviewed By Admission Head");
-			dto.setNextStatus("Action taken Admission Department");
+			
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 		{
@@ -135,10 +146,10 @@ public class ChangeMajorAssembler {
 						System.out.println("Can't add student to petitions");
 					}
 			  dto.setGpa(form.getGpa());
-			  dto.setMoreDetails(form.getMoreDetails());
+			  dto.setQuestion1(form.getQuestion1());
 			  dto.setCurSpecialization(form.getCurSpecialization());
 			  dto.setNewSpecialization(form.getNewSpecialization());
-			  dto.setDoubleSpecialization(form.getDoubleSpecialization());
+			  dto.setQuestion2(form.getQuestion2());
 			  
 			  AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
 			  dto.setAttachments(attachmentAssm.toDTO(form.getAttachments()));
@@ -217,10 +228,10 @@ public class ChangeMajorAssembler {
 						System.out.println("Can't add student to petitions");
 					}
 			  form.setGpa(dto.getGpa());
-			  form.setMoreDetails(dto.getMoreDetails());
+			  form.setQuestion1(dto.getQuestion1());
 			  form.setCurSpecialization(dto.getCurSpecialization());
 			  form.setNewSpecialization(dto.getNewSpecialization());
-			  form.setDoubleSpecialization(dto.getDoubleSpecialization());
+			  form.setQuestion2(dto.getQuestion2());
 			  
 			  AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
 			  form.setAttachments(attachmentAssm.toEntity(dto.getAttachments()));

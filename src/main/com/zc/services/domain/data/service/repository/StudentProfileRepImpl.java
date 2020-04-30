@@ -163,7 +163,7 @@ public class StudentProfileRepImpl implements IStudentProfileRep{
 				return null;
 			}
 			}
-			catch(Exception ex)
+			catch(Error ex)
 			{
 				
 				ex.printStackTrace();

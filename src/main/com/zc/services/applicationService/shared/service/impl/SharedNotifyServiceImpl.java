@@ -581,38 +581,56 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 		
 			if (changeMajorForm.getStep()
 					.equals(PetitionStepsEnum.UNDER_REVIEW)) {
+				
 				// Notify Instructor
 				if (changeMajorForm.getNewMajor() != null) {
-					instructor = changeMajorForm.getNewMajor()
+						instructor = changeMajorForm.getNewMajor()
 							.getHeadOfMajorId();
 
 					Employee instructorold = changeMajorForm.getCurMajor()
 							.getHeadOfMajorId();
-					String contentold = "We would like to inform you that the Student: "
-							+ changeMajorForm.getStudent().getData()
-									.getNameInEnglish()
-							+ " submitted pettion to Change Major from "
-							+ changeMajorForm.getCurMajor().getMajorName()
-							+ " to "
-							+ changeMajorForm.getNewMajor().getMajorName();
+					
 					String titleold = "Change Major and/or Specialization "
 							+ changeMajorForm.getId();
 					List<String> oldRecipent = new ArrayList<String>();
 					oldRecipent.add(instructorold.getMail());
 					SendMailThread sendMailThreadold = new SendMailThread(
-							oldRecipent, instructorold.getName(), contentold,
+							oldRecipent, instructorold.getName(), content,
 							titleold);
-					sendMailThreadold.start();
+					/*sendMailThreadold.start();*/
 				} else {
 					instructor = changeMajorForm.getCurMajor()
 							.getHeadOfMajorId();
 
 				}
-			} else if (changeMajorForm.getStep().equals(
+			}  else if (changeMajorForm.getStep().equals(
+					PetitionStepsEnum.UNDER_PROCESSING)) {
+				// Notify ADMISSION_DEPT
+				instructor = instructorRepository
+						.getByMail(Constants.ADMISSION_DEPT);
+
+				// Notify Student
+				studentDTO = new StudentDTO();
+				studentDTO.setMail(changeMajorForm.getStudent().getData()
+						.getMail());
+				studentDTO.setName(changeMajorForm.getStudent().getData()
+						.getNameInEnglish());
+
+				studentContent = "We would like to inform you that the current Status of your Change Major Petition with ID:"
+						+ changeMajorForm.getId() + " is : <br/> "+status;
+			/*	if (status
+						.contains(Constants.PETITION_STATUS_APPROVED_BY_ADMISSION_HEAD)) {
+					studentContent += Constants.PETITION_STATUS_APPROVED_BY_ADMISSION_HEAD;
+				} else if (status
+						.contains(Constants.PETITION_STATUS_REFUSED_BY_ADMISSION_HEAD)) {
+					studentContent += Constants.PETITION_STATUS_REFUSED_BY_ADMISSION_HEAD;
+				}*/
+				studentContent += "<br/> The next step is the Admission Department approval";
+			}else if (changeMajorForm.getStep().equals(
 					PetitionStepsEnum.INSTRUCTOR)) {
 				// Notify DEAN
 				instructor = instructorRepository
-						.getByMail(Constants.DEAN_OF_STRATEGIC);
+						.getByMail(Constants.DEAN_OF_ACADEMIC);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -640,11 +658,44 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							+ " " + insname;
 				}*/
 				
-				studentContent += "<br/> The next step is the Dean approval";
-			} else if (changeMajorForm.getStep().equals(PetitionStepsEnum.DEAN)) {
+				studentContent += "<br/> The next step is the Dean of Academic approval";
+			}else if (changeMajorForm.getStep().equals(
+					PetitionStepsEnum.DEAN_OF_ACADIMICS)) {
+				// Notify DEAN
+				instructor = instructorRepository
+						.getByMail(Constants.Financial_DEP);
+
+				// Notify Student
+				studentDTO = new StudentDTO();
+				studentDTO.setMail(changeMajorForm.getStudent().getData()
+						.getMail());
+				studentDTO.setName(changeMajorForm.getStudent().getData()
+						.getNameInEnglish());
+
+				studentContent = "We would like to inform you that the current Status of your Change Major Petition with ID:"
+						+ changeMajorForm.getId() + " is : <br/> ";
+				/*String insname = "";
+				if (changeMajorForm.getNewMajor() != null) {
+					insname = changeMajorForm.getNewMajor().getHeadOfMajorId()
+							.getName();
+				} else {
+					insname = changeMajorForm.getCurMajor().getHeadOfMajorId()
+							.getName();
+				}
+				if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_INS)) {
+					studentContent += Constants.PETITION_STATUS_APPROVED_BY_INS
+							+ " " + insname;
+				} else if (status
+						.contains(Constants.PETITION_STATUS_REFUSED_BY_INS)) {
+					studentContent += Constants.PETITION_STATUS_REFUSED_BY_INS
+							+ " " + insname;
+				}*/
+				
+				studentContent += "<br/> The next step is the Dean of Academic approval";
+			}/* else if (changeMajorForm.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.ADMISSION_DEPT);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -657,14 +708,14 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 
 				studentContent = "We would like to inform you that the current Status of your Change Major Petition with ID:"
 						+ changeMajorForm.getId() + " is : <br/> "+status;
-			/*	if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_DEAN)) {
+				if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_DEAN)) {
 					studentContent += Constants.PETITION_STATUS_APPROVED_BY_DEAN;
 				} else if (status
 						.contains(Constants.PETITION_STATUS_REFUSED_BY_DEAN)) {
 					studentContent += Constants.PETITION_STATUS_REFUSED_BY_DEAN;
-				}*/
+				}
 				studentContent += "<br/> The next step is the Admission Head approval";
-			} else if (changeMajorForm.getStep().equals(
+			} */else if (changeMajorForm.getStep().equals(
 					PetitionStepsEnum.ADMISSION_PROCESSING)) {
 				// Notify ADMISSION_DEPT
 				instructor = instructorRepository

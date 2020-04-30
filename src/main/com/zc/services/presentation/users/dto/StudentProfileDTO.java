@@ -3,8 +3,10 @@
  */
 package main.com.zc.services.presentation.users.dto;
 
+import main.com.zc.services.domain.petition.model.Attachments;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
 import main.com.zc.services.domain.survey.model.Concentration;
+import main.com.zc.shared.presentation.dto.AttachmentDTO;
 
 /**
  * @author omnya
@@ -18,7 +20,7 @@ public class StudentProfileDTO {
 	private MajorDTO major;
 
 	private String minor;
-	private String transcript;
+	private AttachmentDTO attachmentTranscript;
 	
 	private Concentration concentration;
 	
@@ -156,12 +158,14 @@ public class StudentProfileDTO {
 		this.minor = minor;
 	}
 
-	public String getTranscript() {
-		return transcript;
+	
+
+	public AttachmentDTO getAttachmentTranscript() {
+		return attachmentTranscript;
 	}
 
-	public void setTranscript(String transcript) {
-		this.transcript = transcript;
+	public void setAttachmentTranscript(AttachmentDTO attachmentTranscript) {
+		this.attachmentTranscript = attachmentTranscript;
 	}
 
 	public Double getAttempt_credit_hours() {

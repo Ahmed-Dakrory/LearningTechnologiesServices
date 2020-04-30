@@ -311,10 +311,10 @@ public class FormDTOAssembler  {
 						System.out.println("Can't add student to petitions");
 					}
 			  dto.setGpa(form.getGpa());
-			  dto.setMoreDetails(form.getMoreDetails());
+			  dto.setQuestion1(form.getQuestion1());
 			  dto.setCurSpecialization(form.getCurSpecialization());
 			  dto.setNewSpecialization(form.getNewSpecialization());
-			  dto.setDoubleSpecialization(form.getDoubleSpecialization());
+			  dto.setQuestion2(form.getQuestion2());
 			  
 			  AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
 			  dto.setAttachments(attachmentAssm.toDTO(form.getAttachments()));

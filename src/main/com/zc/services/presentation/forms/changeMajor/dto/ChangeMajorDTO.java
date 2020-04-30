@@ -60,10 +60,10 @@ public class ChangeMajorDTO {
 	private String newSpecialization;
 	
 	
-	private String doubleSpecialization;
+	private String question1;
 	
 	
-	private String moreDetails;
+	private String question2;
 	
 	
 	
@@ -320,14 +320,7 @@ public class ChangeMajorDTO {
 	}
 
 
-	public String getDoubleSpecialization() {
-		return doubleSpecialization;
-	}
-
-
-	public void setDoubleSpecialization(String doubleSpecialization) {
-		this.doubleSpecialization = doubleSpecialization;
-	}
+	
 
 
 	public MajorDTO getMajor() {
@@ -364,16 +357,25 @@ public class ChangeMajorDTO {
 		this.student = student;
 	}
 
-    public String getMoreDetails() {
-		return moreDetails;
+    
+
+
+
+	public String getQuestion1() {
+		return question1;
 	}
 
-
-	public void setMoreDetails(String moreDetails) {
-		this.moreDetails = moreDetails;
+	public void setQuestion1(String question1) {
+		this.question1 = question1;
 	}
 
+	public String getQuestion2() {
+		return question2;
+	}
 
+	public void setQuestion2(String question2) {
+		this.question2 = question2;
+	}
 
 	public StudentDTO getStudent() {
 		return student;

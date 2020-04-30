@@ -3,6 +3,7 @@
  */
 package main.com.zc.services.domain.data.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.petition.model.Attachments;
 import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
 import main.com.zc.services.domain.survey.model.Concentration;
@@ -104,8 +106,10 @@ public class StudentProfile {
 	@Column(name="minor")
 	private String minor;
 	
-	@Column(name="transcript")
-	private String transcript;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "attachmentTranscript_ID")
+	private Attachments attachmentTranscript;
+
 	
 
 	public Integer getId() {
@@ -240,14 +244,17 @@ public class StudentProfile {
 
 
 
-	public String getTranscript() {
-		return transcript;
+	
+
+
+	public Attachments getAttachmentTranscript() {
+		return attachmentTranscript;
 	}
 
 
 
-	public void setTranscript(String transcript) {
-		this.transcript = transcript;
+	public void setAttachmentTranscript(Attachments attachmentTranscript) {
+		this.attachmentTranscript = attachmentTranscript;
 	}
 
 

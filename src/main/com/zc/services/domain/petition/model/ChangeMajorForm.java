@@ -35,7 +35,7 @@ import main.com.zc.services.domain.person.model.Student;
 	@NamedQuery(name = "ChangeMajorForm.getOldByPA", query = "from ChangeMajorForm d where d.newMajor.headOfMajorId.id= :id or d.forwardTOIns.id =:id ORDER BY d.id DESC"),
 	@NamedQuery(name = "ChangeMajorForm.getDeanPending", query = "FROM ChangeMajorForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 1 and  ( :forDailyMAil = true   OR c.insNotifyDate IS Null )"),
 	@NamedQuery(name = "ChangeMajorForm.getAdHeadPending", query = "FROM ChangeMajorForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 2 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
-	@NamedQuery(name = "ChangeMajorForm.getAdDeptPending", query = "FROM ChangeMajorForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 3 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
+	@NamedQuery(name = "ChangeMajorForm.getAdDeptPending", query = "FROM ChangeMajorForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 9 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
 	@NamedQuery(name = "ChangeMajorForm.getInstructorPending", query = "SELECT new main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject( c.newMajor.headOfMajorId , COUNT(c)) FROM ChangeMajorForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 0  and ( :forDailyMAil = true  OR c.insNotifyDate IS Null ) GROUP BY c.newMajor.headOfMajorId  "),
 	@NamedQuery(name = "ChangeMajorForm.getPendingJob", query = "FROM ChangeMajorForm c where (c.performed = 0 or c.performed IS NULL)  and  c.insNotifyDate IS Not Null and c.insSendMail IS NULL"),
 	@NamedQuery(name = "ChangeMajorForm.getHistory", query = "FROM ChangeMajorForm c where c.performed = 1 and ((:searchType = 2) OR ( ( :searchType = 0 OR c.student.fileNo = :studentId )  and (:searchType = 1 OR c.student.data.NameInEnglish Like :studentName))) ORDER BY c.id DESC"),
@@ -93,11 +93,11 @@ public class ChangeMajorForm {
 	@Column(name="NEW_SPEC")
 	private String newSpecialization;
 	
-	@Column(name="DOUBLE_SPEC")
-	private String doubleSpecialization;
+	@Column(name="question1")
+	private String question1;
 	
-	@Column(name="MORE_DETAILS")
-	private String moreDetails;
+	@Column(name="question2")
+	private String question2;
 	
 	@ManyToOne
 	@JoinColumn(name = "STUDENT_ID")
@@ -215,20 +215,22 @@ public class ChangeMajorForm {
 		this.newSpecialization = newSpecialization;
 	}
 
-	public String getDoubleSpecialization() {
-		return doubleSpecialization;
+	
+
+	public String getQuestion1() {
+		return question1;
 	}
 
-	public void setDoubleSpecialization(String doubleSpecialization) {
-		this.doubleSpecialization = doubleSpecialization;
+	public void setQuestion1(String question1) {
+		this.question1 = question1;
 	}
 
-	public String getMoreDetails() {
-		return moreDetails;
+	public String getQuestion2() {
+		return question2;
 	}
 
-	public void setMoreDetails(String moreDetails) {
-		this.moreDetails = moreDetails;
+	public void setQuestion2(String question2) {
+		this.question2 = question2;
 	}
 
 	public Student getStudent() {
