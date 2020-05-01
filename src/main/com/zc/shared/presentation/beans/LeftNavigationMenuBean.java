@@ -642,7 +642,7 @@ public class LeftNavigationMenuBean {
 	}
 
 	
-	
+
 	public String renderReadmission()
 	{
 		currentMenuId = "Readmission";
@@ -680,6 +680,61 @@ public class LeftNavigationMenuBean {
 					else if(mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN.toLowerCase()))
 					{
 						return "/pages/secured/forms/readmission/readmissionAdmin.xhtml?faces-redirect=true";
+					}
+					else 
+					{
+						return "/pages/public/login.xhtml?faces-redirect=true";
+					}
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+
+	
+	
+
+	public String renderCourseReplacement()
+	{
+		currentMenuId = "CourseReplacement";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				
+				return "/pages/secured/forms/course_replacement_form/course_replacement_formStudent.xhtml?faces-redirect=true";
+			
+			}
+			else
+			{
+				
+					
+					
+					if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()))
+					{
+						
+							return "/pages/secured/forms/course_replacement_form/course_replacement_formDean.xhtml?faces-redirect=true";
+					}
+					else if(mail.toLowerCase().equals(Constants.DEAN_OF_ACADEMIC.toLowerCase()))
+					{
+						return "/pages/secured/forms/course_replacement_form/course_replacement_formDeanOfAcad.xhtml?faces-redirect=true";
+					}
+					else if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+					{
+						System.out.println("Dakrory: Play");
+						return "/pages/secured/forms/course_replacement_form/course_replacement_formAdmission.xhtml?faces-redirect=true";
+					}
+					else if(mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN.toLowerCase()))
+					{
+						return "/pages/secured/forms/course_replacement_form/course_replacement_formAdmin.xhtml?faces-redirect=true";
 					}
 					else 
 					{

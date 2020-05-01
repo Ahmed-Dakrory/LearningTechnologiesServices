@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change Major and/or Specialization - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Petitions" />
+							<p:menuitem value="Change Major and/or Specialization" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel id="petitionPanel">
+						<p:tabMenu activeIndex="1">
+							<p:menuitem value="Pending Petitions" url="/pages/secured/forms/course_replacement_form/course_replacement_formStudent.xhtml"/>
+							<p:menuitem value="Old Petitions" url="/pages/secured/forms/course_replacement_form/course_replacement_formStudent1.xhtml"/>
+							<p:menuitem value="+ New Petition" title="New Petition" class="new" url="/pages/secured/forms/course_replacement_form/course_replacement_formStudent2.xhtml"
+							rendered="#{FormsStatusBean.course_replacement_form}"/>
+							
+						</p:tabMenu>
+						<p:dataTable var="forms" value="#{course_replacement_formStudentBean.archievedForms}" selectionMode="single" selection="#{course_replacement_formStudentBean.selectedArchievedForms}" rowKey="#{forms.id}" sortMode="multiple" 
+							filteredValue="#{course_replacement_formStudentBean.filteredArchievedForms}" widgetVar="formsTable" id="pendingDatatable" rowStyleClass="#{forms.acceptRefuseCssName}">
+							<p:ajax event="rowSelect" listener="#{course_replacement_formStudentBean.onRowSelect}" />
+							<p:column width="130" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:pendingDatatable:formID:filter" />
+							</p:column>
+							<p:column width="130" id="date" sortBy="#{forms.friendlyDate}" filterBy="#{forms.friendlyDate}">
+								<h:outputText value="#{forms.friendlyDate}" />
+								<p:watermark value="Date" forElement="mainForm:form:pendingDatatable:date:filter"/>
+							</p:column>
+							<p:column width="185" id="curStatus" sortBy="#{forms.currentStatus}" filterBy="#{forms.currentStatus}">
+								<h:outputText value="#{forms.currentStatus}" />
+								<p:watermark value="Current Status" forElement="mainForm:form:pendingDatatable:curStatus:filter"/>
+							</p:column>
+							<p:column width="185" id="nextStatus" sortBy="#{forms.nextStatus}" filterBy="#{forms.nextStatus}">
+								<h:outputText value="#{forms.nextStatus} #{(forms.nextStatus.contains('Approved By Admission Department'))?' &lt;br &gt; Please visit the admission office  &lt;br &gt;to complete your registration plan':''}" escape="false"/>
+								<p:watermark value="Next Status" forElement="mainForm:form:pendingDatatable:nextStatus:filter"/>
+							</p:column>
+
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+
+   		</ui:define>
+	</ui:composition>
+</html>

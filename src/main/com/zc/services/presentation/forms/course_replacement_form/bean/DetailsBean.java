@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.forms.Readmission.bean;
+package main.com.zc.services.presentation.forms.course_replacement_form.bean;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,9 +22,9 @@ import main.com.zc.services.applicationService.shared.service.impl.SendMailThrea
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormTypesEnum;
 import main.com.zc.services.domain.shared.enumurations.PetitionActionTypeEnum;
-import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
-import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionActionsFacade;
-import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionAdminFacade;
+import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
+import main.com.zc.services.presentation.forms.course_replacement_form.facade.Icourse_replacement_formActionsFacade;
+import main.com.zc.services.presentation.forms.course_replacement_form.facade.Icourse_replacement_formAdminFacade;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IAdmissionAdminAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
@@ -48,29 +48,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author Omnya
  * @author Eman
  */
-@ManagedBean(name="DetailsBeanReadmission")
+@ManagedBean(name="DetailsBeancourse_replacement_form")
 @ViewScoped
 public class DetailsBean {
 
 	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
    	private IGetLoggedInInstructorData getInsDataFacade;
    	
-	@ManagedProperty("#{IReadmissionActionsFacade}")
-	private IReadmissionActionsFacade facade;
+	@ManagedProperty("#{Icourse_replacement_formActionsFacade}")
+	private Icourse_replacement_formActionsFacade facade;
 	
 	
     @ManagedProperty("#{SharedAcademicPetFacadeImpl}")
    	private ISharedAcademicPetFacade sharedAcademicPetFacade;
     
-    @ManagedProperty("#{ReadmissionAdminFacadeImpl}")
-	private IReadmissionAdminFacade adminFacade;
+    @ManagedProperty("#{course_replacement_formAdminFacadeImpl}")
+	private Icourse_replacement_formAdminFacade adminFacade;
     
 
     @ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
     private IGetLoggedInStudentDataFacade studentDataFacade;
     
     
-    private ReadmissionDTO detailedDTO;
+    private course_replacement_formDTO detailedDTO;
 	private List<InstructorDTO> instructors;
 	private Integer selectedInstructor;
 	private String newComment;
@@ -203,7 +203,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.INSTRUCTOR))
 			{
 				dto.setNotifyAt(null);
@@ -309,7 +309,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Approved);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -358,7 +358,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
  			newAction.setActionType(PetitionActionTypeEnum.Approved);
  			newAction.setDate(Calendar.getInstance());
- 			newAction.setFormType(FormTypesEnum.READMISSION);
+ 			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
  			newAction.setInstructorID(loggedInInstructor.getId());
  			newAction.setPetitionID(dto.getId());
  			if(getNewComment()!=null)
@@ -452,7 +452,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 			{
 				dto.setNotifyAt(null);
@@ -503,7 +503,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionAdmission.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -534,7 +534,7 @@ public class DetailsBean {
     		    		try {
     		    			if(casesID.equals("AdmissionD"))
     		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-    		 					("readmissionAdmission.xhtml?id="+dto.getId());
+    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
     		    			
     		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
     		 				} catch (IOException e) {
@@ -556,7 +556,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Approved);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -578,7 +578,7 @@ public class DetailsBean {
 	    		    		//init();
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionAdmission.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    	    		    		
 	    		 				} catch (IOException e) {
@@ -605,7 +605,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
  			newAction.setActionType(PetitionActionTypeEnum.Approved);
  			newAction.setDate(Calendar.getInstance());
- 			newAction.setFormType(FormTypesEnum.READMISSION);
+ 			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
  			newAction.setInstructorID(loggedInInstructor.getId());
  			newAction.setPetitionID(dto.getId());
  			if(getNewComment()!=null)
@@ -628,7 +628,7 @@ public class DetailsBean {
  		    		
  		    		try {
  		 					FacesContext.getCurrentInstance().getExternalContext().redirect
- 		 					("readmissionAdmission.xhtml?id="+dto.getId());
+ 		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
  		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
  		 				} catch (IOException e) {
  		 					
@@ -667,7 +667,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 			{
 				dto.setNotifyAt(null);
@@ -718,7 +718,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -749,7 +749,7 @@ public class DetailsBean {
     		    		try {
     		    			if(casesID.equals("DeanAcad"))
     		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
     		    			
     		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
     		 				} catch (IOException e) {
@@ -771,7 +771,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Approved);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -793,7 +793,7 @@ public class DetailsBean {
 	    		    		//init();
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    	    		    		
 	    		 				} catch (IOException e) {
@@ -820,7 +820,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
  			newAction.setActionType(PetitionActionTypeEnum.Approved);
  			newAction.setDate(Calendar.getInstance());
- 			newAction.setFormType(FormTypesEnum.READMISSION);
+ 			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
  			newAction.setInstructorID(loggedInInstructor.getId());
  			newAction.setPetitionID(dto.getId());
  			if(getNewComment()!=null)
@@ -843,7 +843,7 @@ public class DetailsBean {
  		    		
  		    		try {
  		 					FacesContext.getCurrentInstance().getExternalContext().redirect
- 		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+ 		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
  		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
  		 				} catch (IOException e) {
  		 					
@@ -880,7 +880,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 			{
 				dto.setNotifyAt(null);
@@ -933,7 +933,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -964,7 +964,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -986,7 +986,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Refused);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -1008,7 +1008,7 @@ public class DetailsBean {
 	    		    		//init();
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    	    		    		
 	    		 				} catch (IOException e) {
@@ -1035,7 +1035,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 			newAction.setActionType(PetitionActionTypeEnum.Refused);
 			newAction.setDate(Calendar.getInstance());
-			newAction.setFormType(FormTypesEnum.READMISSION);
+			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 			newAction.setInstructorID(loggedInInstructor.getId());
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
@@ -1058,7 +1058,7 @@ public class DetailsBean {
 		    		
 		    		try {
 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 		 				} catch (IOException e) {
 		 					
@@ -1096,7 +1096,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 			{
 				dto.setNotifyAt(null);
@@ -1149,7 +1149,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionAdmission.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -1180,7 +1180,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionAdmission.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -1202,7 +1202,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Refused);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -1224,7 +1224,7 @@ public class DetailsBean {
 	    		    		//init();
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionAdmission.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    	    		    		
 	    		 				} catch (IOException e) {
@@ -1251,7 +1251,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
  			newAction.setActionType(PetitionActionTypeEnum.Refused);
  			newAction.setDate(Calendar.getInstance());
- 			newAction.setFormType(FormTypesEnum.READMISSION);
+ 			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
  			newAction.setInstructorID(loggedInInstructor.getId());
  			newAction.setPetitionID(dto.getId());
  			if(getNewComment()!=null)
@@ -1274,7 +1274,7 @@ public class DetailsBean {
  		    		
  		    		try {
  		 					FacesContext.getCurrentInstance().getExternalContext().redirect
- 		 					("readmissionAdmission.xhtml?id="+dto.getId());
+ 		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());
  		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
  		 				} catch (IOException e) {
  		 					
@@ -1312,7 +1312,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN))
 			{
 				dto.setNotifyAt(null);
@@ -1374,7 +1374,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDean.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -1404,7 +1404,7 @@ public class DetailsBean {
     		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
     		    		try {
     		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-    		 					("readmissionDean.xhtml?id="+dto.getId());
+    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
     		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
     		 				} catch (IOException e) {
     		 					// TODO Auto-generated catch block
@@ -1426,7 +1426,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.DEAN_APPROVED);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -1448,7 +1448,7 @@ public class DetailsBean {
 	    		    		//init();
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDean.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 	    	    		    		
 	    		 				} catch (IOException e) {
@@ -1475,7 +1475,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 			newAction.setActionType(PetitionActionTypeEnum.DEAN_APPROVED);
 			newAction.setDate(Calendar.getInstance());
-			newAction.setFormType(FormTypesEnum.READMISSION);
+			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 			newAction.setInstructorID(loggedInInstructor.getId());
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
@@ -1498,7 +1498,7 @@ public class DetailsBean {
 		    		
 		    		try {
 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		 					("readmissionDean.xhtml?id="+dto.getId());
+		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Approved successfully");
 		 				} catch (IOException e) {
 		 					
@@ -1535,7 +1535,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.DEAN))
 			{
 				dto.setNotifyAt(null);
@@ -1599,7 +1599,7 @@ public class DetailsBean {
 	    		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDean.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    		 				} catch (IOException e) {
 	    		 					// TODO Auto-generated catch block
@@ -1629,7 +1629,7 @@ public class DetailsBean {
     		    		JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
     		    		try {
     		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-    		 					("readmissionDean.xhtml?id="+dto.getId());
+    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
     		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
     		 				} catch (IOException e) {
     		 					// TODO Auto-generated catch block
@@ -1650,7 +1650,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.DEAN_REFUSED);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(loggedInInstructor.getId());
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -1672,7 +1672,7 @@ public class DetailsBean {
 	    		    		//init();
 	    		    		try {
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-	    		 					("readmissionDean.xhtml?id="+dto.getId());
+	    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 	    		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 	    	    		    		
 	    		 				} catch (IOException e) {
@@ -1699,7 +1699,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 			newAction.setActionType(PetitionActionTypeEnum.DEAN_REFUSED);
 			newAction.setDate(Calendar.getInstance());
-			newAction.setFormType(FormTypesEnum.READMISSION);
+			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 			newAction.setInstructorID(loggedInInstructor.getId());
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
@@ -1722,7 +1722,7 @@ public class DetailsBean {
 		    		
 		    		try {
 		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		 					("readmissionDean.xhtml?id="+dto.getId());
+		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 		 					JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Refused successfully");
 		 				} catch (IOException e) {
 		 					
@@ -1761,7 +1761,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
 				dto.setNotifyAt(null);
@@ -1867,7 +1867,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -1916,7 +1916,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 			newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
 			newAction.setDate(Calendar.getInstance());
-			newAction.setFormType(FormTypesEnum.READMISSION);
+			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
@@ -1980,7 +1980,7 @@ public class DetailsBean {
 			{
 				
 	    	try{
-	    	ReadmissionDTO dto=getDetailedDTO();
+	    	course_replacement_formDTO dto=getDetailedDTO();
 	    	if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
 				dto.setNotifyAt(null);
@@ -2084,7 +2084,7 @@ public class DetailsBean {
 	    			PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 	    			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
 	    			newAction.setDate(Calendar.getInstance());
-	    			newAction.setFormType(FormTypesEnum.READMISSION);
+	    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	    			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
@@ -2129,7 +2129,7 @@ public class DetailsBean {
 	    	PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
 			newAction.setDate(Calendar.getInstance());
-			newAction.setFormType(FormTypesEnum.READMISSION);
+			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
@@ -2191,7 +2191,7 @@ public class DetailsBean {
 			if(authentication.getName().equals(Constants.ADMISSION_DEPT))
 			{
 	    	try{
-	    		ReadmissionDTO dto=getDetailedDTO();
+	    		course_replacement_formDTO dto=getDetailedDTO();
 	    		if(!dto.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 				{
 					dto.setNotifyAt(null);
@@ -2262,7 +2262,7 @@ public class DetailsBean {
 				PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 				newAction.setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
 				newAction.setDate(Calendar.getInstance());
-				newAction.setFormType(FormTypesEnum.READMISSION);
+				newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 				newAction.setPetitionID(dto.getId());
 				newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
 				if(getNewComment()!=null)
@@ -2321,7 +2321,7 @@ public class DetailsBean {
 				PetitionsActionsDTO newAction=new PetitionsActionsDTO();
 				newAction.setActionType(PetitionActionTypeEnum.Mark_As_Done_Refusing);
 				newAction.setDate(Calendar.getInstance());
-				newAction.setFormType(FormTypesEnum.READMISSION);
+				newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 				newAction.setPetitionID(dto.getId());
 				newAction.setInstructorID(Constants.ADMISSION_DEPT_ID);
 				if(getNewComment()!=null)
@@ -2391,7 +2391,7 @@ public class DetailsBean {
 	         case "Dean": 
 	        		try {
 	        			FacesContext.getCurrentInstance().getExternalContext().redirect
-	        			("readmissionDean.xhtml?faces-redirect=true");
+	        			("course_replacement_formDean.xhtml?faces-redirect=true");
 	        		} catch (IOException e) {
 	        			// TODO Auto-generated catch block
 	        			e.printStackTrace();
@@ -2455,7 +2455,7 @@ public class DetailsBean {
 			    	{
 			    		InstructorDTO loggedInIns=getInsDataFacade.getInsByPersonMail(authentication.getName());
 			    	
-			    		ReadmissionDTO dto=getDetailedDTO();
+			    		course_replacement_formDTO dto=getDetailedDTO();
 			    		InstructorDTO forwardInsTo=new InstructorDTO();
 			    		forwardInsTo.setId(getSelectedInstructor());
 			    		dto.setForwardTOIns(forwardInsTo);
@@ -2501,11 +2501,11 @@ public class DetailsBean {
 			    	}}
 		}
 
-	 public void downloadAttachments(ReadmissionDTO form)
+	 public void downloadAttachments(course_replacement_formDTO form)
 		{
 			AttachmentDownloaderHelper.createHTTPDownlodFileResponse(form.getAttachments());
 		}
-	 public void addComment(ReadmissionDTO dto) {
+	 public void addComment(course_replacement_formDTO dto) {
 			try {
 				if (newComment == null || newComment.equals("")) {
 					JavaScriptMessagesHandler.RegisterErrorMessage(null,"Please, Write Your Comment");
@@ -2608,7 +2608,7 @@ public class DetailsBean {
 				sender.add(getDetailedDTO().getStudent().getMail());
 				SendMailThread sendMailThread = new SendMailThread(
 						sender, stundet.getNameInEng(),
-						email, "Readmission form - new comment");
+						email, "Course Replacement form - new comment");
 				sendMailThread.start();
 				}catch(Exception ex){
 					ex.printStackTrace();
@@ -2659,7 +2659,7 @@ public class DetailsBean {
 					try{
 						InstructorDTO loggedInInstructor=getInsDataFacade.getInsByPersonMail(authentication.getName());
 						
-		    	ReadmissionDTO dto=getDetailedDTO();
+		    	course_replacement_formDTO dto=getDetailedDTO();
 		    	dto.setReverted(true);
 
 		    	// 1- get action of petition
@@ -2711,7 +2711,7 @@ public class DetailsBean {
 			    		 					("changeMajorIns.xhtml?id="+dto.getId());
 			    		 			else if(casesID.equals("Dean"))
 				    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-				    		 					("readmissionDean.xhtml?id="+dto.getId());
+				    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 			    		 			else if(casesID.equals("AdmissionD"))
 		    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
 		    		 					("changeMajorAdmission.xhtml?id="+dto.getId());		
@@ -2750,7 +2750,7 @@ public class DetailsBean {
 		    		 					("changeMajorIns.xhtml?id="+dto.getId());
 		    		 			else if(casesID.equals("Dean"))
 			    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-			    		 					("readmissionDean.xhtml?id="+dto.getId());
+			    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 		    		 			else if(casesID.equals("AdmissionD"))
 	    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
 	    		 					("changeMajorAdmission.xhtml?id="+dto.getId());		
@@ -2778,7 +2778,7 @@ public class DetailsBean {
 	    				revertedBefore = false;
 
 		    			newAction.setDate(Calendar.getInstance());
-		    			newAction.setFormType(FormTypesEnum.READMISSION);
+		    			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 		    			newAction.setInstructorID(loggedInInstructor.getId());
 		    			newAction.setPetitionID(dto.getId());
 		    			newAction.setComment(getContent());
@@ -2793,19 +2793,19 @@ public class DetailsBean {
 		    		    		try {
 		    		    			if(casesID.equals("AdmissionH"))
 		    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		    		 					("readmissionAdmissionHead.xhtml?id="+dto.getId());
+		    		 					("course_replacement_formAdmissionHead.xhtml?id="+dto.getId());
 		    		    			else if(casesID.equals("Ins"))
 			    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-			    		 					("readmissionIns.xhtml?id="+dto.getId());
+			    		 					("course_replacement_formIns.xhtml?id="+dto.getId());
 		    		    			else if(casesID.equals("Dean"))
 		    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		    		 					("readmissionDean.xhtml?id="+dto.getId());
+		    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 		    		    			else if(casesID.equals("DeanOfAcad"))
 		    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		    		 					("readmissionDeanOfAcad.xhtml?id="+dto.getId());
+		    		 					("course_replacement_formDeanOfAcad.xhtml?id="+dto.getId());
 			    		 			else if(casesID.equals("AdmissionD"))
 		    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		    		 					("readmissionAdmission.xhtml?id="+dto.getId());		
+		    		 					("course_replacement_formAdmission.xhtml?id="+dto.getId());		
 		    		    	
 		    		    			JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Reverted successfully");
 		    		    			sendRevertemail();
@@ -2829,7 +2829,7 @@ public class DetailsBean {
 				revertedBefore = false;
 
 	 			newAction.setDate(Calendar.getInstance());
-	 			newAction.setFormType(FormTypesEnum.READMISSION);
+	 			newAction.setFormType(FormTypesEnum.COURSE_REPLACEMENT_FORM);
 	 			newAction.setInstructorID(loggedInInstructor.getId());
 	 			newAction.setPetitionID(dto.getId());
 	 			newAction.setComment(getContent());
@@ -2851,7 +2851,7 @@ public class DetailsBean {
 	    		 					("changeMajorIns.xhtml?id="+dto.getId());
 	    		 			else if(casesID.equals("Dean"))
 		    		 					FacesContext.getCurrentInstance().getExternalContext().redirect
-		    		 					("readmissionDean.xhtml?id="+dto.getId());
+		    		 					("course_replacement_formDean.xhtml?id="+dto.getId());
 	    		 			else if(casesID.equals("AdmissionD"))
     		 					FacesContext.getCurrentInstance().getExternalContext().redirect
     		 					("changeMajorAdmission.xhtml?id="+dto.getId());		
@@ -2946,7 +2946,7 @@ public class DetailsBean {
 			try{
 				
 			//1- Update the petition
-			ReadmissionDTO dto=getDetailedDTO();
+			course_replacement_formDTO dto=getDetailedDTO();
 			if(this.attachmentFile != null)
 			{
 				AttachmentDTO attachment = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
@@ -2994,10 +2994,10 @@ public class DetailsBean {
 	}
 
 	
-	public IReadmissionActionsFacade getFacade() {
+	public Icourse_replacement_formActionsFacade getFacade() {
 		return facade;
 	}
-	public void setFacade(IReadmissionActionsFacade facade) {
+	public void setFacade(Icourse_replacement_formActionsFacade facade) {
 		this.facade = facade;
 	}
 	public ISharedAcademicPetFacade getSharedAcademicPetFacade() {
@@ -3008,10 +3008,10 @@ public class DetailsBean {
 		this.sharedAcademicPetFacade = sharedAcademicPetFacade;
 	}
 	
-	public ReadmissionDTO getDetailedDTO() {
+	public course_replacement_formDTO getDetailedDTO() {
 		return detailedDTO;
 	}
-	public void setDetailedDTO(ReadmissionDTO detailedDTO) {
+	public void setDetailedDTO(course_replacement_formDTO detailedDTO) {
 		this.detailedDTO = detailedDTO;
 	}
 	public List<InstructorDTO> getInstructors() {
@@ -3341,10 +3341,10 @@ public class DetailsBean {
 	public void setAdminView(boolean adminView) {
 		this.adminView = adminView;
 	}
-	public IReadmissionAdminFacade getAdminFacade() {
+	public Icourse_replacement_formAdminFacade getAdminFacade() {
 		return adminFacade;
 	}
-	public void setAdminFacade(IReadmissionAdminFacade adminFacade) {
+	public void setAdminFacade(Icourse_replacement_formAdminFacade adminFacade) {
 		this.adminFacade = adminFacade;
 	}
 	public IGetLoggedInStudentDataFacade getStudentDataFacade() {

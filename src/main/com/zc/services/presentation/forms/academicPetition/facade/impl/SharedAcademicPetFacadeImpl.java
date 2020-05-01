@@ -10,6 +10,7 @@ import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetiti
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.changeOfConcentration.dto.ChangeConcentrationDTO;
+import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.incompleteGrade.dto.IncompleteGradeDTO;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
@@ -147,6 +148,18 @@ public class SharedAcademicPetFacadeImpl implements ISharedAcademicPetFacade{
 		// TODO Auto-generated method stub
 		sharedNotifyService.notifyAt(readmissionDTO,name);
 		
+	}
+
+	@Override
+	public void notifayNextStepOwner(course_replacement_formDTO dto) {
+		// TODO Auto-generated method stub
+				sharedNotifyService.notifayNextStepOwner(dto);
+	}
+
+	@Override
+	public void notifyAt(course_replacement_formDTO course_replacement_formDTO, String name) throws Exception {
+		// TODO Auto-generated method stub
+				sharedNotifyService.notifyAt(course_replacement_formDTO,name);
 	}
 
 

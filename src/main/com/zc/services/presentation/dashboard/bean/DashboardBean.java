@@ -77,6 +77,8 @@ public class DashboardBean
 			return leftNavigationMenuBean.renderChangeMajor();
 		else if(url.equals("newReadmission"))
 			return leftNavigationMenuBean.renderReadmission();
+		else if(url.equals("newcourse_replacement_form"))
+			return leftNavigationMenuBean.renderCourseReplacement();
 		else if(url.equals("newOverload"))
 			return leftNavigationMenuBean.renderOverLoadReq();
 		else if(url.equals("newCourseRepeat"))

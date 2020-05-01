@@ -26,12 +26,14 @@ import main.com.zc.services.domain.petition.model.IPetitionsActionsRep;
 import main.com.zc.services.domain.petition.model.IReadmissionFormRep;
 import main.com.zc.services.domain.petition.model.IRepeatCourseFormRep;
 import main.com.zc.services.domain.petition.model.ITAJuniorProgramRep;
+import main.com.zc.services.domain.petition.model.Icourse_replacement_formFormRep;
 import main.com.zc.services.domain.petition.model.IncompleteGrade;
 import main.com.zc.services.domain.petition.model.OverloadRequest;
 import main.com.zc.services.domain.petition.model.PetitionsActions;
 import main.com.zc.services.domain.petition.model.ReadmissionForm;
 import main.com.zc.services.domain.petition.model.RepeatCourseForm;
 import main.com.zc.services.domain.petition.model.TAJuniorProgram;
+import main.com.zc.services.domain.petition.model.course_replacement_formForm;
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormTypesEnum;
 import main.com.zc.services.domain.shared.enumurations.PetitionActionTypeEnum;
@@ -40,6 +42,7 @@ import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.changeOfConcentration.dto.ChangeConcentrationDTO;
+import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.emails.model.MailJob;
 import main.com.zc.services.presentation.forms.emails.model.MailJobDetail;
@@ -70,6 +73,8 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 	IChangeMajorFormRep changeMajorFormRep;
 	@Autowired
 	IReadmissionFormRep readmissionFormRep;
+	@Autowired
+	Icourse_replacement_formFormRep course_replacement_formFormRep;
 	@Autowired
 	IOverloadRequestRep overloadRequestRep;
 	@Autowired
@@ -3083,6 +3088,274 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 				"ReadmissionForm", readmissionForm.getId(),
 				readmissionForm.getInsNotifyDate());
 
+	}
+	
+	
+	public void notifayAtDate(course_replacement_formForm course_replacement_formForm,
+			Employee instructor) throws Exception {
+		// will get list of actions 
+				List<PetitionsActions> actions=petitionActionRep.getByPetitionIDAndForm(course_replacement_formForm.getId(),FormTypesEnum.COURSE_REPLACEMENT_FORM.getValue());
+				//Loop on actions 
+				String status="";
+				for(int i=0;i<actions.size();i++)
+				{
+					//String =action type + instructor name + date +<br/>
+					     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					     String date = sdf.format(actions.get(i).getDate().getTime());
+					     if(actions.get(i).getInstructor()!=null)
+					status+=actions.get(i).getActionType().getName()+" By "+actions.get(i).getInstructor().getName() +" (Date :"+date+")"+"<br/>";
+					     else 
+					     {
+					    	 if(actions.get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
+					    			 actions.get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
+					    	 {
+					    		 status+=actions.get(i).getActionType().getName()+" By "+"Admission Head " +"(Date :"+date+")"+"<br/>";
+					    	 }
+					    	 else 
+					    		 if(actions.get(i).getActionType().equals(PetitionActionTypeEnum.Mark_As_Done_Approving)||
+					    				 actions.get(i).getActionType().equals(PetitionActionTypeEnum.Mark_As_Done_Refusing))
+						    	 {
+						    		 status+=actions.get(i).getActionType().getName()+" By "+"Registrar " +"(Date :"+date+")"+"<br/>";
+						    	 }
+					     }
+				}
+	/*	String status = readmissionForm.getStatus()
+				.replace(Constants.PETITION_STATUS_UNDER_REVIEW, "")
+				.replace("\n", "<br/>");*/
+		
+		String title = "course replacement Petition Reminder "
+				+ course_replacement_formForm.getId();
+		String content = "We would like to inform you that you have a  course replacement Petition with ID:"
+				+ course_replacement_formForm.getId() + " needs an action.";
+		//Student Detail
+		content += "<br/><br/> Student ID: "
+				+ course_replacement_formForm.getStudent().getFileNo()
+				+ "<br/> Student Name: "
+				+ course_replacement_formForm.getStudent().getData()
+						.getNameInEnglish()
+		+ "<br/>";
+		if(status!=null && !status.equals(""))
+		content +="<br/><br/> Petition Status :"+ status;
+		List<String> instructorMailRecipent = new ArrayList<String>();
+		if (instructor.getMail().equals(Constants.ADMISSION_DEPT)) {
+			instructorMailRecipent.add(instructor.getMail());
+			instructorMailRecipent.add("raramzy@zewailcity.edu.eg");
+			instructorMailRecipent.add("htharwat@zewailcity.edu.eg");
+			instructorMailRecipent.add("dmohy@zewailcity.edu.eg");
+			instructorMailRecipent.add("smohsen@zewailcity.edu.eg");
+		} else {
+			instructorMailRecipent.add(instructor.getMail());
+		}
+
+		createMailJob(instructor.getName(),title, content, instructorMailRecipent,
+				"course_replacement_formForm", course_replacement_formForm.getId(),
+				course_replacement_formForm.getInsNotifyDate());
+
+	}
+
+	@Override
+	public void notifayNextStepOwner(course_replacement_formDTO dto) {
+
+		try {
+			course_replacement_formForm course_replacement_formForm = course_replacement_formFormRep.getById(dto
+					.getId());
+			Employee instructor = null;
+			String content = "";
+			String title = "";
+			StudentDTO studentDTO = null;
+			String studentContent = "";
+			String studentTitle = "";
+			/*String status = readmissionForm.getStatus()
+					.replace(Constants.PETITION_STATUS_UNDER_REVIEW, "")
+					.replace("\n", "<br/>");*/
+			// will get list of actions 
+			List<PetitionsActions> actions=petitionActionRep.getByPetitionIDAndForm(dto.getId(),FormTypesEnum.COURSE_REPLACEMENT_FORM.getValue());
+			//Loop on actions 
+			String status="";
+			for(int i=0;i<actions.size();i++)
+			{
+				//String =action type + instructor name + date +<br/>
+				     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				     String date = sdf.format(actions.get(i).getDate().getTime());
+				     if(actions.get(i).getInstructor()!=null)
+				status+=actions.get(i).getActionType().getName()+" By "+actions.get(i).getInstructor().getName() +" (Date :"+date+")"+"<br/>";
+				     else 
+				     {
+				    	 if(actions.get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
+				    			 actions.get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
+				    	 {
+				    		 status+=actions.get(i).getActionType().getName()+" By "+"Admission Head " +"(Date :"+date+")"+"<br/>";
+				    	 }
+				    	 else 
+				    		 if(actions.get(i).getActionType().equals(PetitionActionTypeEnum.Mark_As_Done_Approving)||
+				    				 actions.get(i).getActionType().equals(PetitionActionTypeEnum.Mark_As_Done_Refusing))
+					    	 {
+					    		 status+=actions.get(i).getActionType().getName()+" By "+"Admission Department " +"(Date :"+date+")"+"<br/>";
+					    	 }
+				     }
+			}
+			
+			List<String> instructorMailRecipent = new ArrayList<String>();
+			List<String> studentMailRecipent = new ArrayList<String>();
+			title = "New Course Replacement "
+					+ course_replacement_formForm.getId();
+			studentTitle = "Course Replacement "
+					+ course_replacement_formForm.getId();
+			content = "We would like to inform you that you have a new Course Replacement   Petition with ID:"
+					+ course_replacement_formForm.getId()
+					+ " needs an action.";
+			
+			content += "<br/><br/> Student ID: "
+					+ course_replacement_formForm.getStudent().getFileNo()
+					+ "<br/> Student Name: "
+					+ course_replacement_formForm.getStudent().getData()
+							.getNameInEnglish()
+			+ "<br/>";
+			if(status!=null && !status.equals(""))
+			content +="<br/><br/> Petition Status :"+ status;
+		System.out.println("Dakrory:OKYa");
+			if (course_replacement_formForm.getStep()
+					.equals(PetitionStepsEnum.UNDER_REVIEW)) {
+					instructor = instructorRepository
+							.getByMail(Constants.ADMISSION_DEPT);
+
+					studentContent = "We would like to inform you that your Course Replacement Petition with ID:"
+							+ course_replacement_formForm.getId() + " <br/>"+ "Waiting Registrar Action";
+					String titleold = "Course Replacement "
+							+ course_replacement_formForm.getId();
+					List<String> oldRecipent = new ArrayList<String>();
+					// Notify Student
+					studentDTO = new StudentDTO(); 
+					studentDTO.setMail(course_replacement_formForm.getStudent().getData()
+							.getMail());
+					studentDTO.setName(course_replacement_formForm.getStudent().getData()
+							.getNameInEnglish());
+					
+					oldRecipent.add(studentDTO.getMail());
+					SendMailThread sendMailThreadold = new SendMailThread(
+							oldRecipent, studentDTO.getName(), studentContent,
+							titleold);
+
+					sendMailThreadold.start();
+					
+					SendMailThread sendMailThreadnew = new SendMailThread(
+							oldRecipent, instructor.getName(), content,
+							titleold);
+					sendMailThreadnew.start();
+				
+			} else if (course_replacement_formForm.getStep().equals(
+					PetitionStepsEnum.DEAN_OF_ACADIMICS)) {
+				// Notify DEAN
+				instructor = instructorRepository
+						.getByMail(Constants.DEAN_OF_ACADEMIC);
+
+				// Notify Student
+				studentDTO = new StudentDTO();
+				studentDTO.setMail(course_replacement_formForm.getStudent().getData()
+						.getMail());
+				studentDTO.setName(course_replacement_formForm.getStudent().getData()
+						.getNameInEnglish());
+
+				studentContent = "We would like to inform you that the current Status of your Course Replacement Petition with ID:"
+						+ course_replacement_formForm.getId() + " is : <br/> ";
+				/*String insname = "";
+				if (readmissionForm.getNewMajor() != null) {
+					insname = readmissionForm.getNewMajor().getHeadOfMajorId()
+							.getName();
+				} else {
+					insname = readmissionForm.getCurMajor().getHeadOfMajorId()
+							.getName();
+				}
+				if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_INS)) {
+					studentContent += Constants.PETITION_STATUS_APPROVED_BY_INS
+							+ " " + insname;
+				} else if (status
+						.contains(Constants.PETITION_STATUS_REFUSED_BY_INS)) {
+					studentContent += Constants.PETITION_STATUS_REFUSED_BY_INS
+							+ " " + insname;
+				}*/
+				
+				studentContent += "<br/> The next step is the Dean of Academics approval";
+			} else if (course_replacement_formForm.getStep().equals(PetitionStepsEnum.DEAN)) {
+				// Notify ADMISSION_HEAD
+				instructor = instructorRepository
+						.getByMail(Constants.DEAN_OF_STRATEGIC);
+
+				// Notify Student
+				studentDTO = new StudentDTO();
+				studentDTO.setMail(course_replacement_formForm.getStudent().getData()
+						.getMail());
+				studentDTO.setName(course_replacement_formForm.getStudent().getData()
+						.getNameInEnglish());
+				studentTitle = "Course Replacement "
+						+ course_replacement_formForm.getId();
+
+				studentContent = "We would like to inform you that the current Status of your Course Replacement Petition with ID:"
+						+ course_replacement_formForm.getId() + " is : <br/> "+status;
+			/*	if (status.contains(Constants.PETITION_STATUS_APPROVED_BY_DEAN)) {
+					studentContent += Constants.PETITION_STATUS_APPROVED_BY_DEAN;
+				} else if (status
+						.contains(Constants.PETITION_STATUS_REFUSED_BY_DEAN)) {
+					studentContent += Constants.PETITION_STATUS_REFUSED_BY_DEAN;
+				}*/
+				studentContent += "<br/> The next step is the Dean of Strategic approval";
+			} else if (course_replacement_formForm.getStep().equals(
+					PetitionStepsEnum.ADMISSION_DEPT)) {
+				
+				// Notify Student
+				studentDTO = new StudentDTO();
+				studentDTO.setMail(course_replacement_formForm.getStudent().getData()
+						.getMail());
+				studentDTO.setName(course_replacement_formForm.getStudent().getData()
+						.getNameInEnglish());
+
+				studentContent = "We would like to inform you that your Readmission Petition with ID:"
+						+ course_replacement_formForm.getId() + " <br/>"+status;
+			/*	if (status
+						.contains(Constants.PETITION_STATUS_APPROVED_BY_DEPARTMENT)) {
+					studentContent += Constants.PETITION_STATUS_APPROVED_BY_DEPARTMENT;
+				} else if (status
+						.contains(Constants.PETITION_STATUS_REFUSED_BY_DEPARTMENT)) {
+					studentContent += Constants.PETITION_STATUS_REFUSED_BY_DEPARTMENT;
+				}*/
+				}
+			
+			if (instructor != null) {
+				if (instructor.getMail().equals(Constants.ADMISSION_DEPT)) {
+					instructorMailRecipent.add(instructor.getMail());
+					instructorMailRecipent.add("raramzy@zewailcity.edu.eg");
+					instructorMailRecipent.add("htharwat@zewailcity.edu.eg");
+					instructorMailRecipent.add("dmohy@zewailcity.edu.eg");
+					instructorMailRecipent.add("smohsen@zewailcity.edu.eg");
+				} else {
+					instructorMailRecipent.add(instructor.getMail());
+				}
+				SendMailThread sendMailThread = new SendMailThread(
+						instructorMailRecipent, instructor.getName(), content,
+						title);
+				sendMailThread.start();
+			}
+			if (studentDTO != null) {
+				studentMailRecipent.add(studentDTO.getMail());
+				SendMailThread sendMailThread = new SendMailThread(
+						studentMailRecipent, studentDTO.getName(),
+						studentContent, studentTitle);
+				sendMailThread.start();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void notifyAt(course_replacement_formDTO detailedForm, String name) throws Exception {
+		// TODO Auto-generated method stub
+		course_replacement_formForm course_replacement_formForm = course_replacement_formFormRep
+				.getById(detailedForm.getId());
+		course_replacement_formForm.setInsNotifyDate(detailedForm.getNotifyAt());
+		course_replacement_formFormRep.update(course_replacement_formForm);
+		notifayAtDate(course_replacement_formForm, instructorRepository.getByMail(name));
 	}
 
 }

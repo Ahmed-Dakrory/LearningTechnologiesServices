@@ -10,6 +10,7 @@ import main.com.zc.services.domain.petition.model.CoursePetition;
 import main.com.zc.services.domain.petition.model.DropAddForm;
 import main.com.zc.services.domain.petition.model.OverloadRequest;
 import main.com.zc.services.domain.petition.model.ReadmissionForm;
+import main.com.zc.services.domain.petition.model.course_replacement_formForm;
 
 /**
  * @author Momen
@@ -21,6 +22,7 @@ public interface IDashboardAppService
 	public List<DropAddForm> getDeanAddDropPending();
 	public List<ChangeMajorForm> getDeanChangeMajorPending();
 	public List<ReadmissionForm> getDeanReadmissionPending();
+	public List<course_replacement_formForm> getDeancourse_replacement_formPending();
 	public List<OverloadRequest> getDeanOverloadRequestPending();
 	public Integer getDeanCourseRepeatPending();
 	public Integer getDeanIncompleteGradePending();/** @author Omnya */
@@ -31,6 +33,7 @@ public interface IDashboardAppService
 	public List<ChangeMajorForm> getAdmissionHeadChangeMajorPending();
 	public List<OverloadRequest> getAdmissionHeadOverloadRequestPending();
 	public List<ReadmissionForm> getAdmissionHeadReadmissionPending();
+	public List<course_replacement_formForm> getAdmissionHeadcourse_replacement_formPending();
 	public Integer getAdmissionHeadCourseRepeatPending();
 	public Integer getAdmissionHeadIncompleteGradePending();/** @author Omnya */
 	
@@ -41,6 +44,7 @@ public interface IDashboardAppService
 	public Integer getAdmissionDepartmentCourseRepeatPending();
 	public Integer getAdmissionDepartmentIncompleteGradePending(); /** @author Omnya */
 	public List<ReadmissionForm> getAdmissionDepartmentReadmissionPending();
+	public List<course_replacement_formForm> getAdmissionDepartmentcourse_replacement_formPending();
 	
 	
 	public List<OverloadRequest> getProvostOverloadRequestPending();
@@ -59,6 +63,8 @@ public interface IDashboardAppService
 	public Integer getAdminIncompleteGradeOld();/** @author Omnya */
 	public Integer getAdminReadmissionPending();/** @author Omnya */
 	public Integer getAdminReadmissionOld();/** @author Dakrory */
+	public Integer getAdmincourse_replacement_formPending();/** @author Omnya */
+	public Integer getAdmincourse_replacement_formOld();/** @author Dakrory */
 	
 	public Integer getInstructorAcademicPetitionsPending(String mail);
 	public Integer getInstructorAddDropPending(String mail);
@@ -68,6 +74,7 @@ public interface IDashboardAppService
 	public Integer getInstructorIncompleteGradePending(String mail);/** @author Omnya */
 	public Integer getInstructorJuniorTAPending(String mail);/** @author Omnya */
 	public Integer getInstructorReadmissionPending(Integer employId,String mail);/** @author Dakrory */
+	public Integer getInstructorcourse_replacement_formPending(Integer employId,String mail);/** @author Dakrory */
 	
 	public Integer getStudentAcademicPetitionsPending(Integer studentId);
 	public Integer getStudentAddDropPending(Integer studentId);
@@ -77,6 +84,7 @@ public interface IDashboardAppService
 	public Integer getStudentIncompleteGradePending(Integer studentId);/** @author Omnya */
 	public Integer getStudentJuniorTAPending(Integer studentId);/** @author Omnya */
 	public Integer getStudentReadmissionPending(Integer studentId);/** @author Dakrory */
+	public Integer getStudentcourse_replacement_formPending(Integer studentId);/** @author Dakrory */
 	
 	
 	

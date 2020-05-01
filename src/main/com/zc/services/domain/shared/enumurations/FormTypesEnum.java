@@ -112,6 +112,15 @@ public enum FormTypesEnum {
 		public String getName() {
 			return "Readmission";
 		}
+	},	COURSE_REPLACEMENT_FORM(10) {
+		@Override
+		public int getID() {
+			return 10;
+		}
+		@Override
+		public String getName() {
+			return "course Replacement Form";
+		}
 	}
 	;
 public abstract int getID();

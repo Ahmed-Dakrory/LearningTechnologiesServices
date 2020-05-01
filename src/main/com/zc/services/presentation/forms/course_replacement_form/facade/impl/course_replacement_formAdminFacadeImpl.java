@@ -1,19 +1,19 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.forms.Readmission.facade.impl;
+package main.com.zc.services.presentation.forms.course_replacement_form.facade.impl;
 
 import java.util.List;
 
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
-import main.com.zc.services.applicationService.forms.readmission.assembler.ReadmissionAssembler;
-import main.com.zc.services.applicationService.forms.readmission.services.IAdminReadmissionService;
+import main.com.zc.services.applicationService.forms.course_replacement_form.assembler.course_replacement_formAssembler;
+import main.com.zc.services.applicationService.forms.course_replacement_form.services.IAdmincourse_replacement_formService;
 import main.com.zc.services.applicationService.shared.service.ISharedNotifyService;
-import main.com.zc.services.domain.petition.model.ReadmissionForm;
-import main.com.zc.services.domain.petition.model.IReadmissionFormRep;
+import main.com.zc.services.domain.petition.model.Icourse_replacement_formFormRep;
+import main.com.zc.services.domain.petition.model.course_replacement_formForm;
 import main.com.zc.services.domain.shared.Constants;
-import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
-import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionAdminFacade;
+import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
+import main.com.zc.services.presentation.forms.course_replacement_form.facade.Icourse_replacement_formAdminFacade;
 import main.com.zc.services.presentation.forms.shared.facade.ISendEmailFacade;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,47 +23,47 @@ import org.springframework.stereotype.Service;
  * @author momen
  *
  */
-@Service("ReadmissionAdminFacadeImpl")
-public class ReadmissionAdminFacadeImpl implements IReadmissionAdminFacade {
+@Service("course_replacement_formAdminFacadeImpl")
+public class course_replacement_formAdminFacadeImpl implements Icourse_replacement_formAdminFacade {
 
 	@Autowired
-	IAdminReadmissionService service;
+	IAdmincourse_replacement_formService service;
 	
 	@Autowired
 	ISharedNotifyService notifySevice;
 	
 	@Autowired
-	IReadmissionFormRep rep;
+	Icourse_replacement_formFormRep rep;
 	
 	@Autowired
 	ISendEmailFacade sendEmailFacade;
 	
-	ReadmissionAssembler assembler = new ReadmissionAssembler();
+	course_replacement_formAssembler assembler = new course_replacement_formAssembler();
 	
 	@Override
-	public ReadmissionDTO updateRequest(ReadmissionDTO dto) {
+	public course_replacement_formDTO updateRequest(course_replacement_formDTO dto) {
 	
 		return service.updateRequest(dto);
 	}
 
 	@Override
-	public List<ReadmissionDTO> getPendingPetitionsOfstuent() {
+	public List<course_replacement_formDTO> getPendingPetitionsOfstuent() {
 	
 		return service.getPendingPetitionsOfstuent();
 	}
 
 	@Override
-	public List<ReadmissionDTO> getArchievedPetitionsOfstuent() {
+	public List<course_replacement_formDTO> getArchievedPetitionsOfstuent() {
 	
 		return service.getArchievedPetitionsOfstuent();
 	}
 
 	@Override
-	public void notifyNextUser(ReadmissionDTO dto) {
-		ReadmissionForm form = rep.getById(dto.getId());
+	public void notifyNextUser(course_replacement_formDTO dto) {
+		course_replacement_formForm form = rep.getById(dto.getId());
 		String content="We would like to inform you that you have change of major form of id "+form.getId()+" needs an action" +
 				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
-		String title="New Readmission form with ID("+form.getId()+")";
+		String title="New Course Replacement form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 		{
 			sendEmailFacade.sendEmail(Constants.DEAN_OF_ACADEMIC_NAME

@@ -8,6 +8,7 @@ import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.changeOfConcentration.dto.ChangeConcentrationDTO;
+import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.incompleteGrade.dto.IncompleteGradeDTO;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
@@ -28,6 +29,7 @@ public interface ISharedAcademicPetFacade {
 
 	void notifayNextStepOwner(OverloadRequestDTO dto);
 	void notifayNextStepOwner(ReadmissionDTO dto);
+	void notifayNextStepOwner(course_replacement_formDTO dto);
 	
 	
 	
@@ -48,6 +50,7 @@ public interface ISharedAcademicPetFacade {
 	void notifyAt(ChangeMajorDTO changeMajorDTO, String name)throws Exception;;
 	
 	void notifyAt(ReadmissionDTO readmissionDTO, String name)throws Exception;;
+	void notifyAt(course_replacement_formDTO course_replacement_formDTO, String name)throws Exception;;
 
 	void notifyAt(CourseRepeatDTO courseRepeatDTO, String name)throws Exception;
 

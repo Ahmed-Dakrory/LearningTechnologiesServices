@@ -17,6 +17,7 @@ import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.changeOfConcentration.dto.ChangeConcentrationDTO;
+import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.incompleteGrade.dto.IncompleteGradeDTO;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
@@ -39,8 +40,9 @@ public interface ISharedNotifyService {
 	void notifayNextStepOwner(ChangeMajorDTO dto);
 
 	void notifayNextStepOwner(OverloadRequestDTO dto);
-	
+
 	void notifayNextStepOwner(ReadmissionDTO dto);
+	void notifayNextStepOwner(course_replacement_formDTO dto);
 
 	/**
 	 * @author omnya.alaa
@@ -94,6 +96,7 @@ public interface ISharedNotifyService {
 	void notifyAt(ChangeMajorDTO detailedForm, String name) throws Exception;
 
 	void notifyAt(ReadmissionDTO detailedForm, String name) throws Exception;
+	void notifyAt(course_replacement_formDTO detailedForm, String name) throws Exception;
 
 	void notifyAt(OverloadRequestDTO detailedForm, String name)
 			throws Exception;

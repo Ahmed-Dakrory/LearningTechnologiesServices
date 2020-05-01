@@ -43,6 +43,7 @@ public class FormsStatusBean {
 	private boolean dropAddPhase3;
 	private boolean changeMajor;
 	private boolean readmission;
+	private boolean course_replacement_form;
 	private boolean overloadRequest;
 	private boolean courseRepeat;
 	private boolean incompleteGrade;
@@ -346,6 +347,21 @@ public class FormsStatusBean {
 	}
 	
 	
+	public boolean isCourse_replacement_form() {
+		FormsStatusDTO form=facade.getById(21);
+		if(form.getStatus().equals(FormsStatusEnum.Active))
+		{
+			return true;
+		}
+		else if(form.getStatus().equals(FormsStatusEnum.Inactive))
+		{
+			return false;
+		}
+		else return false;
+	}
+	public void setCourse_replacement_form(boolean course_replacement_form) {
+		this.course_replacement_form = course_replacement_form;
+	}
 	public boolean isReadmission() {
 		FormsStatusDTO form=facade.getById(19);
 		if(form.getStatus().equals(FormsStatusEnum.Active))
