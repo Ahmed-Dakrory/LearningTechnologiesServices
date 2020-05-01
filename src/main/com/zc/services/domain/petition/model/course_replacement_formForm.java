@@ -35,7 +35,9 @@ import main.com.zc.services.domain.person.model.Student;
 	@NamedQuery(name = "course_replacement_formForm.getOldByPA", query = "from course_replacement_formForm d where  d.forwardTOIns.id =:id ORDER BY d.id DESC"),
 	@NamedQuery(name = "course_replacement_formForm.getDeanPending", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 1 and  ( :forDailyMAil = true   OR c.insNotifyDate IS Null )"),
 	@NamedQuery(name = "course_replacement_formForm.getDeanAcadPending", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 1 and  ( :forDailyMAil = true   OR c.insNotifyDate IS Null )"),
-	@NamedQuery(name = "course_replacement_formForm.getAdHeadPending", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 2 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
+	@NamedQuery(name = "course_replacement_formForm.getAccredEngPending", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 2 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
+	@NamedQuery(name = "course_replacement_formForm.getAccredSciPending", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 2 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
+	@NamedQuery(name = "course_replacement_formForm.getInstructorPending", query = "SELECT new main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject( c.newMajor.headOfMajorId , COUNT(c)) FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 1  and ( :forDailyMAil = true  OR c.insNotifyDate IS Null ) GROUP BY c.newMajor.headOfMajorId  "),
 	@NamedQuery(name = "course_replacement_formForm.getAdDeptPending", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL) and c.step = 3 and  ( :forDailyMAil = true  OR c.insNotifyDate IS Null )"),
 	@NamedQuery(name = "course_replacement_formForm.getPendingJob", query = "FROM course_replacement_formForm c where (c.performed = 0 or c.performed IS NULL)  and  c.insNotifyDate IS Not Null and c.insSendMail IS NULL"),
 	@NamedQuery(name = "course_replacement_formForm.getHistory", query = "FROM course_replacement_formForm c where c.performed = 1 and ((:searchType = 2) OR ( ( :searchType = 0 OR c.student.fileNo = :studentId )  and (:searchType = 1 OR c.student.data.NameInEnglish Like :studentName))) ORDER BY c.id DESC"),
@@ -64,6 +66,10 @@ public class course_replacement_formForm {
 	
 	@Column(name="STATUS")
 	private String status;
+	
+	@Column(name = "science_or_engineering")
+	private Integer science_or_engineering;
+	
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ATTACHMENT_ID")
@@ -114,10 +120,31 @@ public class course_replacement_formForm {
 	@Column(name="REVERTED")
 	private Boolean reverted;
 	
+	@ManyToOne
+	@JoinColumn(name = "NEW_MAJOR")
+	private Majors newMajor;
+	
+
+	public static Integer SCIENCE_UNIT_ACCEDITION = 0;
+	public static Integer ENGINEERING_UNIT_ACCEDITION = 1;
 	
 	public course_replacement_formForm() {
 		super();
 	}
+
+	
+	
+	public Integer getScience_or_engineering() {
+		return science_or_engineering;
+	}
+
+
+
+	public void setScience_or_engineering(Integer science_or_engineering) {
+		this.science_or_engineering = science_or_engineering;
+	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -248,6 +275,14 @@ public class course_replacement_formForm {
 
 	public void setReverted(Boolean reverted) {
 		this.reverted = reverted;
+	}
+
+	public Majors getNewMajor() {
+		return newMajor;
+	}
+
+	public void setNewMajor(Majors newMajor) {
+		this.newMajor = newMajor;
 	}
 
 	

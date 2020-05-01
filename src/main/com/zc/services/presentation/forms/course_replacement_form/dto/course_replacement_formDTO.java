@@ -63,6 +63,8 @@ public class course_replacement_formDTO {
 
 	private String nextStatus;
 	
+	private Integer science_or_engineering;
+	
 	private String friendlyDate;
 	private String currentStatus;
 	   private InstructorDTO forwardTOIns;
@@ -421,5 +423,17 @@ public class course_replacement_formDTO {
 	public void setReverted(Boolean reverted) {
 		this.reverted = reverted;
 	}
+
+	public Integer getScience_or_engineering() {
+		return science_or_engineering;
+	}
+
+	public void setScience_or_engineering(Integer science_or_engineering) {
+		this.science_or_engineering = science_or_engineering;
+	}
+
+	
+	
+	
 	
 }

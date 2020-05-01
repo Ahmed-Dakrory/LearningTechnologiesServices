@@ -21,6 +21,7 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.applicationService.forms.addAndDrop.services.PetitionStepsEnum;
+import main.com.zc.services.domain.petition.model.course_replacement_formForm;
 import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.course_replacement_form.facade.Icourse_replacement_formActionsFacade;
@@ -70,6 +71,7 @@ public class course_replacement_formStudentBean {
 	private List<MajorDTO> majorsLst;
 	private List<MajorDTO> currentmajorsLst;
 	private Integer selectedMajorId;
+	private Integer sci_Eng;
 	private String courseFinished;
 	private String toReplaceCourse;
 
@@ -196,10 +198,12 @@ public class course_replacement_formStudentBean {
 		        request.setStudent(student);
 		        request.setStatus(PetitionStepsEnum.UNDER_REVIEW.getName());
 		        request.setSubmissionDate(Calendar.getInstance());
-				MajorDTO major=new MajorDTO();
-				major.setId(getSelectedMajorId());
+		        
+				request.setNewMajor(profile.getMajor());
+				System.out.println("Ahmed Dakrory: "+profile.getMajor().getId());
 				request.setStep(PetitionStepsEnum.UNDER_REVIEW);
-				
+				request.setScience_or_engineering(sci_Eng);
+				System.out.println("Ahmed Dakrory sci_Eng: "+sci_Eng);
 		        request.setCourseFinished(getCourseFinished());
 		        request.setToReplaceCourse(getToReplaceCourse());
 		        
@@ -398,5 +402,12 @@ public class course_replacement_formStudentBean {
 	public void setFacadecourse_replacement_form(Icourse_replacement_formActionsFacade facadecourse_replacement_form) {
 		this.facadecourse_replacement_form = facadecourse_replacement_form;
 	}
+	public Integer getSci_Eng() {
+		return sci_Eng;
+	}
+	public void setSci_Eng(Integer sci_Eng) {
+		this.sci_Eng = sci_Eng;
+	}
+	
 	
 }

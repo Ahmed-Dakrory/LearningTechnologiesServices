@@ -31,7 +31,9 @@ public interface Icourse_replacement_formFormRep {
 	public List<course_replacement_formForm> getOldSpring(Integer year);
 	public List<course_replacement_formForm> getOldFall(Integer year);
 	
-	public List<PendingPetitionCountObject> getInstructorPendingcourse_replacement_formPetition(Integer employID, boolean forDailyMAil ) ;
+	public List<PendingPetitionCountObject> getInstructorPendingcourse_replacement_formPetition(boolean forDailyMAil) ;
+	public List<course_replacement_formForm> getAccredEngPendingcourse_replacement_formPetition(boolean forDailyMAil) ;
+	public List<course_replacement_formForm> getAccredSciPendingcourse_replacement_formPetition(boolean forDailyMAil) ;
 	/**
 	 * retrieve count of course_replacement_formForm  with step INSTRUCTOR(1)
 	 * and performed =0 ---running on flow

@@ -5,8 +5,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Change Major and/or Specialization - LT Online Services</ui:define>
+		<ui:define name="title">Course Replacment - LT Online Services</ui:define>
 		<ui:define name="content">
+		<style>
+		.maxCharc span, span.allowedExt {
+     margin-left: 0px; 
+    font-size: 12px;
+    color: #e29494;
+}
+		</style>
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
 				<ul class="header">
@@ -64,7 +71,16 @@
 								</h:panelGroup>	
 								
 									 -->
-							  
+							  <p:outputLabel value="Science or Engineer" for="SciOrEng" />
+							  	<h:panelGroup class="marginLeft_12 maxCharc">
+									<p:selectOneMenu style="width:300px" id="SciOrEng" value="#{course_replacement_formStudentBean.sci_Eng}"  >
+									<f:selectItem  itemLabel="Science" itemValue="0"/>
+									<f:selectItem  itemLabel="Engineer" itemValue="1"/>
+									</p:selectOneMenu>
+									<p:message for="SciOrEng"/>
+								</h:panelGroup>
+								
+								
 							  	<p:outputLabel value="To Replace Course" for="toReplaceCourse" />
 							  	<h:panelGroup class="marginLeft_12 maxCharc">
 									<p:inputText id="toReplaceCourse" value="#{course_replacement_formStudentBean.toReplaceCourse}" maxlength="15" validatorMessage="Only 15 Characters allowed" >

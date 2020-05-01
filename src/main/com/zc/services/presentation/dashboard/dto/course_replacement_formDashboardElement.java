@@ -4,6 +4,6 @@ public class course_replacement_formDashboardElement extends DashboardElement
 {
 	public course_replacement_formDashboardElement(String value)
 	{
-		super("Course Replacement", value, "newcourse_replacement_form", "newcourse_replacement_form");
+		super("Course Replacement", value, "newOverload", "newcourse_replacement_form");
 	}
 }

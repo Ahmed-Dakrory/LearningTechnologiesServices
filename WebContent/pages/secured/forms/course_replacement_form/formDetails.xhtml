@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Change Major Details - LT Online Services</ui:define>
+		<ui:define name="title">Course Replacement Details - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Petitions" />
-							<p:menuitem value="Change Major" disabled="true" />
+							<p:menuitem value="Course Replacement" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -206,6 +206,41 @@
 										
 									</h:panelGroup>
 								</li>
+								
+								
+								
+								
+								
+								
+								 
+    						 <li>
+									<h:panelGroup rendered="#{DetailsBeancourse_replacement_form.detailedDTO.step.getID()==9 || DetailsBeancourse_replacement_form.detailedDTO.step.getID()==0}">
+										<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Reviewing" /><br/>
+											<div class="otherInfo">
+												<h:outputLabel value="#{DetailsBeancourse_replacement_form.detailedDTO.newMajor.headOfMajor.name}" /><br/>
+							    				<h:outputLabel value="Program Advisor" /><br/>
+											</div>
+										</div>
+									</h:panelGroup>
+									<!-- OR -->
+									<h:panelGroup rendered="#{DetailsBeancourse_replacement_form.detailedDTO.step.getID()==1||DetailsBeancourse_replacement_form.detailedDTO.step.getID()==12||DetailsBeancourse_replacement_form.detailedDTO.step.getID()==3|| DetailsBeancourse_replacement_form.detailedDTO.step.getID()==4}">
+							    		<div class="formProgress-done">
+							    			<br/>
+							    			<h:outputLabel value="#{DetailsBeancourse_replacement_form.instructorActionDetails.actionType.name}" /><br/>
+							    			<div class="otherInfo">
+							    				<h:outputLabel value="#{DetailsBeancourse_replacement_form.instructorActionDetails.instructorName}" /><br/>
+							    				<h:outputLabel value="Program Advisor" /><br/>
+							    				<h:outputLabel value="#{DetailsBeancourse_replacement_form.instructorActionDetails.friendlyDate}" />
+							    			</div>
+							    		</div>
+									</h:panelGroup>
+								</li>
+								
+								
+								
+								
 								<!-- 
     						 -->
     						 <li>
@@ -213,8 +248,9 @@
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
-											<div class="otherInfo">	
-												<h:outputLabel value="Dean of Academics" />
+											<div class="otherInfo">
+												<h:outputLabel value="#{DetailsBeancourse_replacement_form.insAccredition.name}" /><br/>
+							    				<h:outputLabel value="Head of Accredition" /><br/>
 											</div>
 										</div>
 									</h:panelGroup>

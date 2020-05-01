@@ -7,9 +7,12 @@ import main.com.zc.services.applicationService.forms.addAndDrop.services.Petitio
 import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
 import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.petition.model.course_replacement_formForm;
+import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
 
 /**
@@ -26,31 +29,68 @@ public class course_replacement_formAssembler {
 		dto.setReverted(form.getReverted());
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 		{
-			dto.setCurrentStatus("Under Review");
-			dto.setNextStatus("Reviewing By Registrar");
+			dto.setCurrentStatus("Under Review By Registrar");
 			if(form.getForwardTOIns()!=null)
 			{
-				dto.setCurrentStatus("Reviewing By " + form.getForwardTOIns().getName());
+				dto.setNextStatus("Reviewing By " + form.getForwardTOIns().getName());
+			}
+			else {
+			if(form.getNewMajor().getHeadOfMajorId() != null)
+				dto.setNextStatus("Reviewing By " + form.getNewMajor().getHeadOfMajorId().getName() + " (Program Advisor)");
+			else
+				dto.setNextStatus("Reviewing By Program Advisor");
 			}
 			
 		}
-		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
+		else if(form.getStep().equals(PetitionStepsEnum.ACCREDITION_ENG))
 		{
-				dto.setCurrentStatus("Reviewed By Registrar");
-
-				dto.setNextStatus("Reviewing By Dean of Academics");
+			String ENG_SCI = "";
 			
+				ENG_SCI = Constants.ACCREDITION_ENG_NAME;
 			
+			dto.setCurrentStatus("Reviewing By Head Of Accredition: " +ENG_SCI);
+			dto.setNextStatus("Reviewing By Dean of Strategic Enrollment Management");
+		}
+		else if(form.getStep().equals(PetitionStepsEnum.ACCREDITION_Science))
+		{
+			String ENG_SCI = "";
+			
+				ENG_SCI = Constants.ACCREDITION_SCI_NAME;
+			
+			dto.setCurrentStatus("Reviewing By Head Of Accredition: " +ENG_SCI);
+			dto.setNextStatus("Reviewing By Dean of Strategic Enrollment Management");
 		}
 		
 		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
 		{
-			dto.setCurrentStatus("Reviewed By Dean of Academics");
-			dto.setNextStatus("Reviewing By Dean of Strategic Enrollment Management");
-		}else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
+			dto.setCurrentStatus("Reviewing By Dean of Strategic Enrollment Management");
+
+			dto.setNextStatus("Reviewing By Registrar");
+		}
+		else 	if(form.getStep().equals(PetitionStepsEnum.INSTRUCTOR))
 		{
-			dto.setCurrentStatus("Reviewed By Dean of Strategic Enrollment Management");
-			dto.setNextStatus("");
+			if(form.getForwardTOIns()!=null)
+			{
+				dto.setCurrentStatus("Reviewing By " + form.getForwardTOIns().getName());
+			}
+			else {
+			if(form.getNewMajor().getHeadOfMajorId() != null)
+				dto.setCurrentStatus("Reviewing By " + form.getNewMajor().getHeadOfMajorId().getName() + " (Program Advisor)");
+			else
+				dto.setCurrentStatus("Reviewing By Program Advisor");
+			}
+			String ENG_SCI = "";
+			if(dto.getScience_or_engineering()==course_replacement_formForm.SCIENCE_UNIT_ACCEDITION) {
+				ENG_SCI = Constants.ACCREDITION_SCI_NAME;
+			}else {
+				ENG_SCI = Constants.ACCREDITION_ENG_NAME;
+			}
+			dto.setNextStatus("Reviewing By Head Of Accredition: " +ENG_SCI);
+		}
+		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
+		{
+			dto.setCurrentStatus("Reviewing By Registrar");
+			dto.setNextStatus("Finished");
 		}else 	if(form.getStep().equals(PetitionStepsEnum.CLOSED))
 		{
 			dto.setCurrentStatus("Closed");
@@ -60,16 +100,7 @@ public class course_replacement_formAssembler {
 		
 		dto.setStatus(form.getStatus());
 		
-		/* try{
-				MajorDTO major=new MajorDTO();
-				major.setId(form.getMajor().getId());
-				major.setMajorName(form.getMajor().getMajorName());
-				dto.setMajor(major);
-		        }
-		    	catch(Exception ex)
-				{
-					System.out.println("Can't add major to petitions");
-				}*/
+		
 		
 		 
 				
@@ -94,6 +125,22 @@ public class course_replacement_formAssembler {
 					}
 			  dto.setCourseFinished(form.getCourseFinished());
 			  dto.setToReplaceCourse(form.getToReplaceCourse());
+			  
+			  try{
+					MajorDTO newMajor=new MajorDTO();
+					newMajor.setId(form.getNewMajor().getId());
+					newMajor.setMajorName(form.getNewMajor().getMajorName());
+					InstructorDTO ins=new InstructorDTO();
+					ins.setId(form.getNewMajor().getHeadOfMajorId().getId());
+					ins.setName(form.getNewMajor().getHeadOfMajorId().getName());
+					ins.setMail(form.getNewMajor().getHeadOfMajorId().getMail());
+					newMajor.setHeadOfMajor(ins);
+					dto.setNewMajor(newMajor);
+			        }
+			    	catch(Exception ex)
+					{
+						System.out.println("Can't add major to petitions");
+					}
 			 
 			  AttachmentsAssembler attachmentAssm = new AttachmentsAssembler();
 			  dto.setAttachments(attachmentAssm.toDTO(form.getAttachments()));
@@ -126,16 +173,18 @@ public class course_replacement_formAssembler {
 		
 		form.setStatus(dto.getStatus());
 		
-		/* try{
-				Majors major=new Majors();
-				major.setId(dto.getMajor().getId());
-				major.setMajorName(dto.getMajor().getMajorName());
-				form.setMajor(major);
-		        }
-		    	catch(Exception ex)
-				{
-					System.out.println("Can't add major to petitions");
-				}*/
+		try{
+			Majors newMajor=new Majors();
+			newMajor.setId(dto.getNewMajor().getId());
+			//newMajor.setMajorName(dto.getNewMajor().getMajorName());
+			form.setNewMajor(newMajor);
+	        }
+	    	catch(Exception ex)
+			{
+				System.out.println("Can't add major to petitions");
+			}
+		
+		form.setScience_or_engineering(dto.getScience_or_engineering());
 		
 		 
 		 

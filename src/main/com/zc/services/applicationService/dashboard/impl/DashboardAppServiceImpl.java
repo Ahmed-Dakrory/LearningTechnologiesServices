@@ -42,10 +42,12 @@ import main.com.zc.services.domain.petition.model.DropAddForm;
 import main.com.zc.services.domain.petition.model.IAddDropFormRepository;
 import main.com.zc.services.domain.petition.model.IChangeMajorFormRep;
 import main.com.zc.services.domain.petition.model.ICoursePetitionRep;
+import main.com.zc.services.domain.petition.model.IMajorRepository;
 import main.com.zc.services.domain.petition.model.IOverloadRequestRep;
 import main.com.zc.services.domain.petition.model.IPetitionsActionsRep;
 import main.com.zc.services.domain.petition.model.IReadmissionFormRep;
 import main.com.zc.services.domain.petition.model.Icourse_replacement_formFormRep;
+import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.petition.model.OverloadRequest;
 import main.com.zc.services.domain.petition.model.PetitionsActions;
 import main.com.zc.services.domain.petition.model.ReadmissionForm;
@@ -56,6 +58,8 @@ import main.com.zc.services.presentation.forms.CourseRepeat.dto.CourseRepeatDTO;
 import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
+import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
+import main.com.zc.services.presentation.forms.courseReplacement.courseReplacementRepository;
 import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject;
@@ -63,7 +67,6 @@ import main.com.zc.services.presentation.forms.incompleteGrade.dto.IncompleteGra
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
 import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
 import main.com.zc.services.presentation.forms.tAJuniorProgram.dto.TAJuniorProgramDTO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,6 +86,16 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	
 	@Autowired
 	IChangeMajorFormRep changeMajorRep;
+	
+	
+	@Autowired
+	IMajorRepository majorRep;
+	
+	@Autowired
+	IEmployeeRepository emplRep;
+	
+	@Autowired
+	courseReplacementRepository courseReplacementRep;
 
 	@Autowired
 	IOverloadRequestRep overloadRequestRep;
@@ -1292,17 +1305,97 @@ public List<ReadmissionForm> getPendingFormsOfAdmission() {
 		return forms;
 	}
 
-	@Override
-	public List<course_replacement_formForm> getAdmissionHeadcourse_replacement_formPending() {
-		List<course_replacement_formForm> forms = course_replacement_formRep.getAdmissionHeadPendingcourse_replacement_formForm(true);
-		return forms;
-	}
+	
 
 	@Override
 	public List<course_replacement_formForm> getAdmissionDepartmentcourse_replacement_formPending() {
 		List<course_replacement_formForm> forms = getPendingFormsOfAdmissionCRF();
 		return forms;
 	}
+
+	@Override
+	public Integer getInstructorHeadcourse_replacement_formPending(String mail) {
+		
+		List<PendingPetitionCountObject> data = course_replacement_formRep.getInstructorPendingcourse_replacement_formPetition(true);
+		for (PendingPetitionCountObject pendingPetitionCountObject : data) 
+			if(pendingPetitionCountObject.getInstructor().getMail().equalsIgnoreCase(mail))
+				return Integer.valueOf(pendingPetitionCountObject.getPetionCount().toString());
+		
+		//if not found
+		return 0;
+	}
+
+	@Override
+	public Integer getDeanCourseReplacementFormsPending() {
+		// TODO Auto-generated method stub
+		List<courseReplacement> pendingFormsList = courseReplacementRep.getAllForStep(courseReplacement.STEP_DeanOfStratigicEnrollment);
+
+		return pendingFormsList.size();
+	}
+
+	@Override
+	public Integer getAdmissionDepartmentCourseReplacementFormsPending() {
+		// TODO Auto-generated method stub
+		List<courseReplacement> pendingFormsList = courseReplacementRep.getAllForStep(courseReplacement.STEP_Registerar);
+		
+		
+		return pendingFormsList.size();
+	}
+
+	@Override
+	public Integer getAdmissionDepartmentCourseReplacementFormsAuditing() {
+		List<courseReplacement> auditingFormList = courseReplacementRep.getAllForStep(courseReplacement.STEP_AUDITING);
+		
+		return auditingFormList.size();
+	}
+
+	@Override
+	public Integer getInstructorCourseReplacementForms( String mail) {
+		// TODO Auto-generated method stub
+		//this mean the head of major
+		Employee empl = emplRep.getByMail(mail);
+		List<Majors> majorDetails=majorRep.getByInsID(empl.getId());
+		for(int i=0;i<majorDetails.size();i++) {
+			if(majorDetails.get(i).getHeadOfMajorId().getMail().equals(mail)){
+				List<courseReplacement> pendingFormsList = courseReplacementRep.getAllForStepAndMajorId(majorDetails.get(i).getId(), courseReplacement.STEP_MajorHead);
+				return pendingFormsList.size();
+			}
+		}
+		return 0;
+		
+	}
+
+	@Override
+	public Integer getStudentCourseReplacementForms(Integer studentId) {
+		// TODO Auto-generated method stub
+		List<courseReplacement> all =new ArrayList<>();
+
+		List<courseReplacement> courseChangeComfirmations = courseReplacementRep.getByStudentId(studentId);
+		for(int i=0;i<courseChangeComfirmations.size();i++) {
+			courseReplacement cR= courseChangeComfirmations.get(i);
+			if(cR.getAction()==courseReplacement.STATE_INPROCESS) {
+				all.add(cR);
+			}
+		}
+		return all.size();
+	}
+
+	@Override
+	public Integer getAccreditionEngHeadCourseReplacementPending() {
+			
+				List<courseReplacement> pendingFormsList = courseReplacementRep.getAllForStepAndType(courseReplacement.TYPE_ENGINEERING, courseReplacement.STEP_DirectorOfAccredition);
+				return pendingFormsList.size();
+			
+	}
+
+	@Override
+	public Integer getAccreditionSciHeadCourseReplacementPending() {
+		// TODO Auto-generated method stub
+		List<courseReplacement> pendingFormsList = courseReplacementRep.getAllForStepAndType(courseReplacement.TYPE_SCIENCE, courseReplacement.STEP_DirectorOfAccredition);
+		return pendingFormsList.size();
+	}
+
+	
 
 	
 }

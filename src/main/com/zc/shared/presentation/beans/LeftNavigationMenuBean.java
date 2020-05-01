@@ -118,6 +118,7 @@ public class LeftNavigationMenuBean {
 	
 	
 	private boolean cloAvailable=false;
+	private boolean showCourseReplacement=false;
 	
 	@PostConstruct
 	public void init() {
@@ -241,6 +242,24 @@ public class LeftNavigationMenuBean {
 			return;
 		}
 		
+	}
+
+
+
+	public boolean isShowCourseReplacement() {
+		 FormsStatusEnum settings=formStatus.getById(21).getStatus();
+		 Integer active=settings.getValue();
+		 if(isHeadOrStudent() && active == FormsStatusEnum.Active.getValue()) {
+			 return true;
+		 }
+		 
+		 return false;
+	}
+
+
+
+	public void setShowCourseReplacement(boolean showCourseReplacement) {
+		this.showCourseReplacement = showCourseReplacement;
 	}
 
 

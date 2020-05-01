@@ -275,18 +275,25 @@ public class HeadDetailsBean {
 		
 		}else if(stepNow==courseReplacement.STEP_DeanOfStratigicEnrollment){
 			
-			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			/*selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_DeanOfStratigicEnrollment+1);
 			EmailToSendTo=getEmailByState(courseReplacement.STEP_DeanOfStratigicEnrollment+1);
 			sendEmailForStudent(getNameByState(courseReplacement.STEP_DeanOfStratigicEnrollment+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
-		
-		}else if(stepNow==courseReplacement.STEP_AssociateDean){
+		*/
 			
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Registerar);
 			EmailToSendTo=getEmailByState(courseReplacement.STEP_Registerar);
 			sendEmailForStudent(getNameByState(courseReplacement.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
 		
+			
+		}else if(stepNow==courseReplacement.STEP_AssociateDean){
+			
+		/*	selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Registerar);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_Registerar);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		*/
 		}else if(stepNow==courseReplacement.STEP_Registerar){
 
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_ACCEPTED);

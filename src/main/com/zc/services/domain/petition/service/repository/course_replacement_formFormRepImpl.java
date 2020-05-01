@@ -6,7 +6,6 @@ package main.com.zc.services.domain.petition.service.repository;
 import java.util.List;
 
 import main.com.zc.services.domain.petition.model.course_replacement_formForm;
-import main.com.zc.services.domain.petition.model.CoursePetition;
 import main.com.zc.services.domain.petition.model.Icourse_replacement_formFormRep;
 import main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject;
 
@@ -180,7 +179,7 @@ public class course_replacement_formFormRepImpl implements Icourse_replacement_f
 				"course_replacement_formForm.getDeanAcadPending").setBoolean("forDailyMAil", forDailyMAil);
 		return query.list();
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<course_replacement_formForm> getcourse_replacement_formFormJob() {
 		Query query = sessionFactory.getCurrentSession().getNamedQuery(
@@ -204,7 +203,7 @@ public class course_replacement_formFormRepImpl implements Icourse_replacement_f
 				return null;
 			}
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<course_replacement_formForm> getcourse_replacement_formFormHistory(Integer studentId,
 			String studentName) {
@@ -263,11 +262,32 @@ public class course_replacement_formFormRepImpl implements Icourse_replacement_f
 				return null;
 			}
 	}
-
+ 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<PendingPetitionCountObject> getInstructorPendingcourse_replacement_formPetition(Integer employID, boolean forDailyMAil) {
+	public List<PendingPetitionCountObject> getInstructorPendingcourse_replacement_formPetition(boolean forDailyMAil) {
+		
 		Query query = sessionFactory.getCurrentSession().getNamedQuery(
-				"course_replacement_formForm.getInstructorPending").setInteger("employID", employID).setBoolean("forDailyMAil", forDailyMAil);
+				"course_replacement_formForm.getInstructorPending").setBoolean("forDailyMAil", forDailyMAil);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<course_replacement_formForm> getAccredEngPendingcourse_replacement_formPetition(boolean forDailyMAil) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory.getCurrentSession().getNamedQuery(
+				"course_replacement_formForm.getAccredEngPending").setBoolean("forDailyMAil", forDailyMAil);
+		
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<course_replacement_formForm> getAccredSciPendingcourse_replacement_formPetition(boolean forDailyMAil) {
+		// TODO Auto-generated method stub
+		Query query = sessionFactory.getCurrentSession().getNamedQuery(
+				"course_replacement_formForm.getAccredSciPending").setBoolean("forDailyMAil", forDailyMAil);
 		return query.list();
 	}
 }

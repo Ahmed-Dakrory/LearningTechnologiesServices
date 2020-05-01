@@ -25,6 +25,7 @@ import main.com.zc.services.presentation.dashboard.dto.OverloadRequestDashboardE
 import main.com.zc.services.presentation.dashboard.dto.ReadmissionDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.course_replacement_formDashboardElement;
 import main.com.zc.services.presentation.dashboard.facade.IDashboardFacade;
+import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
 import main.com.zc.shared.appService.IPersonGetDataAppService;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
@@ -109,6 +110,10 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				 fillProvostDashboard(elements, userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.LTS_SYSTEM_ADMIN)) {
 				 fillAdminDashboard(elements);
+			 }else if(userMail.equalsIgnoreCase(Constants.ACCREDITION_ENG_DEP)) {
+				 fillAccredEngDashboard(elements);
+			 }else if(userMail.equalsIgnoreCase(Constants.ACCREDITION_SCI_DEP)) {
+				 fillAccredSciDashboard(elements);
 			 }else {
 				 fillInstructorDashboard(elements, userMail);
 			 }
@@ -153,11 +158,10 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				elements.add(new ReadmissionDashboardElement(count.toString()));
 		
 				//course_replacement_form
-				List<course_replacement_formForm> course_replacement_formForms = dashboardAppServ.getDeancourse_replacement_formPending();
+				Integer course_replacement_formForms = dashboardAppServ.getDeanCourseReplacementFormsPending();
 				count = 0;
 				if(changMajorForms != null)
-					count = course_replacement_formForms.size();
-				count += dashboardAppServ.getInstructorcourse_replacement_formPending(Constants.DEAN_OF_STRATEGIC_ID,mail);
+					count = course_replacement_formForms;
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
 		
 		//overload
@@ -191,6 +195,41 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		elements.add(new JuniorTADashboardElement(count.toString()));
 		
 	}
+	
+	
+	private void fillAccredEngDashboard(List<DashboardElement> elements)
+	{
+		
+		Integer count=0;
+		//course replacement
+				Integer formsCR =  dashboardAppServ.getAccreditionEngHeadCourseReplacementPending();
+				count = 0;
+				if(formsCR != null)
+					count = formsCR;
+				
+				
+				elements.add(new course_replacement_formDashboardElement(count.toString()));
+				
+	}
+	
+	
+	private void fillAccredSciDashboard(List<DashboardElement> elements)
+	{
+		
+		Integer count=0;
+		//course replacement
+				Integer formsCR =  dashboardAppServ.getAccreditionSciHeadCourseReplacementPending();
+				count = 0;
+				if(formsCR != null)
+					count = formsCR;
+				
+				
+				elements.add(new course_replacement_formDashboardElement(count.toString()));
+				
+		
+	}
+	
+
 	private void fillDeanDashboard(List<DashboardElement> elements,String mail)
 	{
 		//petition
@@ -291,9 +330,6 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				elements.add(new ReadmissionDashboardElement(count.toString()));
 				
 				
-				//course_replacement_form
-				count = dashboardAppServ.getInstructorcourse_replacement_formPending(Constants.DEAN_OF_ACADEMIC_ID,mail);
-				elements.add(new course_replacement_formDashboardElement(count.toString()));
 				
 				
 				//overload
@@ -474,10 +510,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				
 				
 				//course_replacement_form
-				List<course_replacement_formForm> course_replacement_formForms = dashboardAppServ.getAdmissionDepartmentcourse_replacement_formPending();
+				Integer course_replacement_formForms = dashboardAppServ.getAdmissionDepartmentCourseReplacementFormsAuditing();
+				Integer course_replacement_formForms2 = dashboardAppServ.getAdmissionDepartmentCourseReplacementFormsPending();
 				count = 0;
 				if(course_replacement_formForms != null)
-					count = course_replacement_formForms.size();
+					count = course_replacement_formForms+course_replacement_formForms2;
 				
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
 				
@@ -555,9 +592,10 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				count = dashboardAppServ.getInstructorChangeMajorPending(mail);
 				elements.add(new ChangeMajorDashboardElement(count.toString()));
 				
-				//changeMajor
-				//count = dashboardAppServ.getInstructorReadmissionPending(mail);
-				//elements.add(new ReadmissionDashboardElement(count.toString()));
+				//courseReplacement
+				count = dashboardAppServ.getInstructorCourseReplacementForms( mail);
+				elements.add(new course_replacement_formDashboardElement(count.toString()));
+		
 		
 		//overload
 		count = dashboardAppServ.getInstructorOverloadRequestPending(mail);
@@ -707,7 +745,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		
 				
 				//course_replacement_form
-				count = dashboardAppServ.getStudentcourse_replacement_formPending(studentId);
+				count = dashboardAppServ.getStudentCourseReplacementForms(studentId);
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
 		
 				

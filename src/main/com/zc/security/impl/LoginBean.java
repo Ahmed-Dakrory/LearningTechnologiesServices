@@ -123,6 +123,10 @@ public class LoginBean {
 	public static Employee DEAN_OF_STRATEGICEm =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	public static Heads head5 ;//= headRep.getByType(Heads.Regist_Head);
 	public static Employee FinancialDepEm =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
+	public static Heads head6 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee AccredEn =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
+	public static Heads head7 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee AccredSci =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	
 	
 	@PostConstruct
@@ -153,6 +157,10 @@ public class LoginBean {
 		DEAN_OF_STRATEGICEm = head4.getHeadPersonId();
 		head5 = headFacades.getByType(Heads.FINANCIAL_DEP);
 		FinancialDepEm = head5.getHeadPersonId();
+		head6 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
+		AccredEn = head6.getHeadPersonId();
+		head7 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
+		AccredSci = head7.getHeadPersonId();
 		
 		Constants.DEAN_OF_STRATEGIC=DEAN_OF_STRATEGICEm.getMail();//"mabdrabou@zewailcity.edu.eg";
 		Constants.DEAN_OF_STRATEGIC_ID=DEAN_OF_STRATEGICEm.getId();//1379;
@@ -171,6 +179,17 @@ public class LoginBean {
 		Constants.Financial_DEP=FinancialDepEm.getMail();//"ghazem@zewailcity.edu.eg";
 		Constants.Financial_DEP_ID=FinancialDepEm.getId();//888;
 		Constants.Financial_DEP_NAME=FinancialDepEm.getName();//"Mrs. Ghada";
+		
+		
+		Constants.ACCREDITION_ENG_DEP=AccredEn.getMail();//"ghazem@zewailcity.edu.eg";
+		Constants.ACCREDITION_ENG_ID=AccredEn.getId();//888;
+		Constants.ACCREDITION_ENG_NAME=AccredEn.getName();//"Mrs. Ghada";
+		
+		
+		Constants.ACCREDITION_SCI_DEP=AccredSci.getMail();//"ghazem@zewailcity.edu.eg";
+		Constants.ACCREDITION_SCI_ID=AccredSci.getId();//888;
+		Constants.ACCREDITION_SCI_NAME=AccredSci.getName();//"Mrs. Ghada";
+		
 		
 		Constants.ADMISSION_HEAD_NAME=ADMISSION_HEADEm.getName();//"Mrs. Ghada";
 		Constants.ADMISSION_DEPT=ADMISSION_DEPTEm.getMail();//"registrar@zewailcity.edu.eg";

@@ -145,17 +145,37 @@ public enum PetitionStepsEnum {
 			}
 			
 		}	
-	,AUDITING(11) {
-		@Override
-		public int getID() {
-			return 11;
+		,AUDITING(11) {
+			@Override
+			public int getID() {
+				return 11;
+			}
+			@Override
+			public String getName() {
+				return "Auditing";
+			}
+			
+		},ACCREDITION_ENG(12) {
+			@Override
+			public int getID() {
+				return 12;
+			}
+			@Override
+			public String getName() {
+				return "Accredition Engineering";
+			}
+			
+		},ACCREDITION_Science(13) {
+			@Override
+			public int getID() {
+				return 13;
+			}
+			@Override
+			public String getName() {
+				return "Accredition Science";
+			}
+			
 		}
-		@Override
-		public String getName() {
-			return "Auditing";
-		}
-		
-	}
 	;
 public abstract int getID();
 public abstract String getName();

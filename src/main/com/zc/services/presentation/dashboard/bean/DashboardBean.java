@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.dashboard.dto.DashboardElement;
 import main.com.zc.services.presentation.dashboard.facade.IDashboardFacade;
+import main.com.zc.services.presentation.forms.courseReplacement.HeadDetailsBean;
 import main.com.zc.shared.presentation.beans.LeftNavigationMenuBean;
 
 /**
@@ -78,7 +79,7 @@ public class DashboardBean
 		else if(url.equals("newReadmission"))
 			return leftNavigationMenuBean.renderReadmission();
 		else if(url.equals("newcourse_replacement_form"))
-			return leftNavigationMenuBean.renderCourseReplacement();
+			return leftNavigationMenuBean.renderChangeCourseConfirmation(HeadDetailsBean.PENDING_PAGE);
 		else if(url.equals("newOverload"))
 			return leftNavigationMenuBean.renderOverLoadReq();
 		else if(url.equals("newCourseRepeat"))

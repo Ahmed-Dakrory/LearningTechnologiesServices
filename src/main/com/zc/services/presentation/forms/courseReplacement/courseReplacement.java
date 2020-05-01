@@ -135,8 +135,8 @@ public class courseReplacement {
 	private Integer formStep;
 	
 
-	public static int TYPE_ENGINEERING=0;
-	public static int TYPE_SCIENCE=1;
+	public static int TYPE_ENGINEERING=1;
+	public static int TYPE_SCIENCE=2;
 	@Column(name = "type")
 	private Integer type;
 	

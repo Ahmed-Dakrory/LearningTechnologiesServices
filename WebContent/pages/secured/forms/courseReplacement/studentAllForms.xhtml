@@ -117,7 +117,7 @@
                		<p:outputLabel value = "#{CCC.studentInTake}" style="width:150px;"/>
            		</div>
             </p:column>
-            
+           <!-- 
             <p:column>
                <f:facet name = "header">Course Regarded As</f:facet>
                <div align="center">
@@ -125,7 +125,7 @@
             	</div>
             </p:column>
             
-            
+             -->
             <p:column>
                <f:facet name = "header">State</f:facet>
                <div align="center">
@@ -140,7 +140,7 @@
 			</p:column>
          </p:dataTable>
          
-          <p:commandButton value="+ New Course" type="button" title="Add New Course Comfirmation" styleClass="greenBtn"
+          <p:commandButton rendered="#{leftNavigationMenuBean.showCourseReplacement}" value="+ New Course" type="button" title="Add New Course Comfirmation" styleClass="greenBtn"
 			 			 onclick="addCourseComfirmationDlg.show();" />
 			
 		</div>
@@ -204,7 +204,7 @@
 			        
 					<br/>  		
 					
-					
+					<!-- 
 					<h:outputLabel value="Course Req regarded as:" />
 					<br></br>		
 			        <p:selectOneMenu
@@ -217,7 +217,7 @@
 						<f:selectItem itemLabel="Collateral Req" itemValue="3" />
 					</p:selectOneMenu>  	
 			          			
-			          			
+			          			 -->
 			          			 <br/>
 							
 					</div>
