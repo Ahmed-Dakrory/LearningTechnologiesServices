@@ -64,7 +64,7 @@ public class AdminAddDropFormFacadeImpl implements IAdminAddDropFormFacade{
 	public void notifyNextUser(DropAddFormDTO dto) {
 		DropAddForm form = dropAddRep.getById(dto.getId());
 		String content="We would like to inform you that you have add/drop petition of id "+form.getId()+" needs an action" +
-				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
+				"<br/> To access the petitions please visit : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
 
 	    String title="New Drop/Add Form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))

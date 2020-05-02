@@ -62,7 +62,7 @@ public class course_replacement_formAdminFacadeImpl implements Icourse_replaceme
 	public void notifyNextUser(course_replacement_formDTO dto) {
 		course_replacement_formForm form = rep.getById(dto.getId());
 		String content="We would like to inform you that you have change of major form of id "+form.getId()+" needs an action" +
-				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
+				"<br/> To access the petitions please visit : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
 		String title="New Course Replacement form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 		{

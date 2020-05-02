@@ -78,7 +78,7 @@ public class CourseRepeatAdminFacadeImpl implements ICourseRepeatAdminFacade {
 	public void notifyNextUser(CourseRepeatDTO dto) {
 		RepeatCourseForm form = rep.getById(dto.getId());
 		String content="We would like to inform you that you have repeat course petition of id "+form.getId()+" needs an action" +
-				"<br/> To access the petitions please visit : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
+				"<br/> To access the petitions please visit : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml";
 	
 		String title="New Repeat Course Form with ID("+form.getId()+")";
 		if(form.getStep().equals(PetitionStepsEnum.UNDER_REVIEW))

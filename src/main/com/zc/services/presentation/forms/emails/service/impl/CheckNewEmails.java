@@ -224,7 +224,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ academicPetLst.get(i).getCourse()
 											.getName()
 									+ " </span><br/><br/>"
-									+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
+									+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
 									+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 									+ "<span style=color:#676767>Center for Learning Technologies</span>"
 									+ "</div>"
@@ -288,7 +288,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 								+ "<span style=color:#676767><b>For Course : "
 								+ academicPetLst.get(i).getCourse().getName()
 								+ " </span><br/><br/>"
-								+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
+								+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
 								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 								+ "<span style=color:#676767>Center for Learning Technologies</span>"
 								+ "</div>"
@@ -375,7 +375,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 		// + dropDownLst.get(i).getCourse().getName()
 		// + " </span><br/><br/>"
 		// +
-		// "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/dropAndAdd/addDropIns.xhtml </span><br/><br/>"
+		// "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/dropAndAdd/addDropIns.xhtml </span><br/><br/>"
 		// + "<span style=color:#676767>Thank you, </span><br/><br/>"
 		// + "<span style=color:#676767>Center for Learning Technologies</span>"
 		// + "</div>"
@@ -464,7 +464,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 		// + dropDownLst.get(i).getCourse().getName()
 		// + " </span><br/><br/>"
 		// +
-		// "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/dropAndAdd/addDropIns.xhtml </span><br/><br/>"
+		// "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/dropAndAdd/addDropIns.xhtml </span><br/><br/>"
 		// + "<span style=color:#676767>Thank you, </span><br/><br/>"
 		// + "<span style=color:#676767>Center for Learning Technologies</span>"
 		// + "</div>"
@@ -562,7 +562,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 		// .getNameInEnglish()
 		// + " </span><br/><br/>"
 		// +
-		// "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
+		// "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
 		// + "<span style=color:#676767>Thank you, </span><br/><br/>"
 		// + "<span style=color:#676767>Center for Learning Technologies</span>"
 		// + "</div>"
@@ -646,7 +646,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 		// .getNameInEnglish()
 		// + " </span><br/><br/>"
 		// +
-		// "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
+		// "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/academicPetition/InstructorCoursePetitionPage.xhtml </span><br/><br/>"
 		// + "<span style=color:#676767>Thank you, </span><br/><br/>"
 		// + "<span style=color:#676767>Center for Learning Technologies</span>"
 		// + "</div>"
@@ -732,7 +732,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ overload.get(i).getStudent().getData()
 											.getNameInEnglish()
 									+ " </span><br/><br/>"
-									+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml </span><br/><br/>"
+									+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml </span><br/><br/>"
 									+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 									+ "<span style=color:#676767>Center for Learning Technologies</span>"
 									+ "</div>"
@@ -794,7 +794,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 								+ overload.get(i).getStudent().getData()
 										.getNameInEnglish()
 								+ " </span><br/><br/>"
-								+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml </span><br/><br/>"
+								+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml </span><br/><br/>"
 								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 								+ "<span style=color:#676767>Center for Learning Technologies</span>"
 								+ "</div>"
@@ -886,7 +886,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 								+ "<span style=color:#676767>We would like to inform you that you have "
 								+ overLoad.size()
 								+ " pending Overload Request(s)  needs an action</span><br/><br/>"
-								+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml </span><br/><br/>"
+								+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/secured/forms/overloadRequest/overloadRequestInstructor.xhtml </span><br/><br/>"
 								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 								+ "<span style=color:#676767>Center for Learning Technologies</span>"
 								+ "</div>"
@@ -972,7 +972,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ "<span style=color:#676767>We would like to inform you that you have "
 									+ overLoad
 									+ " pending Overload Request(s)  needs an action</span><br/><br/>"
-									+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+									+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 									+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 									+ "<span style=color:#676767>Center for Learning Technologies</span>"
 									+ "</div>"
@@ -1051,7 +1051,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ "<span style=color:#676767>We would like to inform you that you have "
 									+ changeMajor
 									+ " pending Change Major petition(s)  needs an action</span><br/><br/>"
-									+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+									+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 									+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 									+ "<span style=color:#676767>Center for Learning Technologies</span>"
 									+ "</div>"
@@ -1130,7 +1130,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ "<span style=color:#676767>We would like to inform you that you have "
 									+ dropAdd
 									+ " pending drop/add petition(s)  needs an action</span><br/><br/>"
-									+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+									+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 									+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 									+ "<span style=color:#676767>Center for Learning Technologies</span>"
 									+ "</div>"
@@ -1209,7 +1209,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ "<span style=color:#676767>We would like to inform you that you have "
 									+ acdimec
 									+ " pending academic petition(s)  needs an action</span><br/><br/>"
-									+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+									+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 									+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 									+ "<span style=color:#676767>Center for Learning Technologies</span>"
 									+ "</div>"
@@ -1315,7 +1315,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ " petition(s)</span><br/><br/>";
 						}
 						
-						htmlText += "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+						htmlText += "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 								+ "<span style=color:#676767>Center for Learning Technologies</span>"
 								+ "</div>"
@@ -1420,7 +1420,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ " petition(s)</span><br/><br/>";
 						}
 						
-						htmlText += "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+						htmlText += "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 								+ "<span style=color:#676767>Center for Learning Technologies</span>"
 								+ "</div>"
@@ -1523,7 +1523,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 									+ overLoad.size()
 									+ " petition(s)</span><br/><br/>";
 						}
-						htmlText += "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+						htmlText += "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 								+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 								+ "<span style=color:#676767>Center for Learning Technologies</span>"
 								+ "</div>"
@@ -1704,7 +1704,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 				+ "<span style=color:#676767>"
 				+ content
 				+ "</span><br/><br/>"
-				+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+				+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 				+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 				+ "<span style=color:#676767>Center for Learning Technologies</span>"
 				+ "</div>"
@@ -1751,7 +1751,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 				+ "<span style=color:#676767>"
 				+ content
 				+ "</span><br/><br/>"
-				+ "<span style=color:#676767><b>To access the System : http://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
+				+ "<span style=color:#676767><b>To access the System : https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml </span><br/><br/>"
 				+ "<span style=color:#676767>Thank you, </span><br/><br/>"
 				+ "<span style=color:#676767>Center for Learning Technologies</span>"
 				+ "</div>"
