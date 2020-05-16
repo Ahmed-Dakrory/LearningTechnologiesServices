@@ -1,5 +1,6 @@
 package main.com.zc.shared.presentation.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormsStatusEnum;
+import main.com.zc.services.presentation.configuration.bean.ImportStudentsBean;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.forms.courseReplacement.HeadDetailsBean;
@@ -31,6 +33,7 @@ import main.com.zc.services.presentation.survey.lectureObjectiveFeedback.bean.Fi
 import main.com.zc.services.presentation.survey.midTermEvaluation.bean.MidtermEvaluationSubmission;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
+import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.services.presentation.users.facade.impl.StudentFacadeImpl;
@@ -120,6 +123,9 @@ public class LeftNavigationMenuBean {
 	private boolean cloAvailable=false;
 	private boolean showCourseReplacement=false;
 	
+	
+	@ManagedProperty("#{ImportStudentsBean}")
+	ImportStudentsBean import_student_Bean;
 	@PostConstruct
 	public void init() {
 		
@@ -1470,7 +1476,10 @@ public class LeftNavigationMenuBean {
 			
 			
 			  currentMenuId = "Import Students";
-		
+
+			  import_student_Bean.setNewStudents(new ArrayList<StudentDTO>());
+			  import_student_Bean.setOldStudents(new ArrayList<StudentDTO>());
+			  import_student_Bean.setStudents(new ArrayList<StudentDTO>());
 		
 					return "/pages/secured/config/studentsWithCourses.xhtml?faces-redirect=true";
 				
@@ -2874,7 +2883,20 @@ else
 		this.cloAvailable = cloAvailable;
 	}
 
-	
+
+
+	public ImportStudentsBean getImport_student_Bean() {
+		return import_student_Bean;
+	}
+
+
+
+	public void setImport_student_Bean(ImportStudentsBean import_student_Bean) {
+		this.import_student_Bean = import_student_Bean;
+	}
+
+
+
 	
 }
  

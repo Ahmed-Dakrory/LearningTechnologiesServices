@@ -460,7 +460,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 
 			// Iterate through each rows one by one
 			int rowsNumbers = sheet.getLastRowNum();
-			 for(int i=1;i<rowsNumbers+1;i++) {
+			 for(int i=1;i<rowsNumbers;i++) {
 					Row row = sheet.getRow(i);
 				CoursesDTO course=new CoursesDTO();
 				String instructorName = "";
@@ -695,7 +695,7 @@ course.setCoordinator(inDTO);
 			int rowsNumbers = sheet.getLastRowNum();
 			
 			
-			 for(int i=0;i<rowsNumbers+1;i++) {
+			 for(int i=1;i<rowsNumbers+1;i++) {
 					Row row = sheet.getRow(i);
 				// For each row, iterate through all the columns
 				Iterator<Cell> cellIterator = row.cellIterator();
@@ -709,15 +709,16 @@ course.setCoordinator(inDTO);
 				
                   
 					if (count == 1) { // file No 
-						
+						System.out.println("Value i = "+i+" count: 1, Value"+getTheValueFromCell(cell));
 						
 							try{
-								student.setFacultyId(Integer.parseInt(getTheValueFromCell(cell)));
+								String data = getTheValueFromCell(cell);
+								if(!data.equalsIgnoreCase("")) {
+								student.setFacultyId((int)Double.parseDouble(data));
+								}
 							}
-							catch(Exception ex)
-							{
-								ex.printStackTrace();
-								
+							catch (Error ex) { //
+								System.out.println(ex);
 							}
 						
 					}
@@ -727,7 +728,8 @@ course.setCoordinator(inDTO);
 					if (count ==2) {// Name
 						try {
 						    	student.setName(getTheValueFromCell(cell));
-						}catch (Exception ex) { //
+						}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
@@ -737,7 +739,8 @@ course.setCoordinator(inDTO);
 						 
 							try {
 								student.setMail(getTheValueFromCell(cell));
-							}catch (Exception ex) { //
+							}catch (Error ex) { //
+								System.out.println(ex);
 							}
 						    
 					}
@@ -748,7 +751,7 @@ course.setCoordinator(inDTO);
 
 						try {
 						    	student.setPhone(getTheValueFromCell(cell));
-						}catch (Exception ex) { //
+						}catch (Error ex) { //
 						}
 					    	
 						
@@ -759,8 +762,11 @@ course.setCoordinator(inDTO);
 						 
 
 						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							studentProfileDTO.setGpa(Double.valueOf(getTheValueFromCell(cell)));
-						}catch (Exception ex) { //
+							}
+						}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
@@ -772,8 +778,11 @@ course.setCoordinator(inDTO);
 						 
 
 						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							studentProfileDTO.setRegisteredCreditHrs(Double.valueOf(getTheValueFromCell(cell)));
-						}catch (Exception ex) { //
+							}
+							}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
@@ -785,31 +794,38 @@ course.setCoordinator(inDTO);
 						 
 
 						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							studentProfileDTO.setCompletedCreditHrs(Double.valueOf(getTheValueFromCell(cell)));
-						}catch (Exception ex) { //
+							}
+							}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
 					}
 					
-					if (count ==8) {// Year
+					if (count ==9) {// Year
 						
 						 
 
 						try {
-							studentProfileDTO.setYear(Integer.valueOf(getTheValueFromCell(cell)));
-						}catch (Exception ex) { //
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
+							studentProfileDTO.setYear((int)Double.parseDouble(getTheValueFromCell(cell)));
+							}
+							}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
 					}
 					
 					
-					if (count == 9) {// Semester
+					if (count == 10) {// Semester
 						
 						 
 
 						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							SemesterEnum semester =SemesterEnum.Fall;
 							if(getTheValueFromCell(cell).toLowerCase().contains("sprg")) {
 								semester =SemesterEnum.Spring;
@@ -822,33 +838,9 @@ course.setCoordinator(inDTO);
 							}
 							
 							studentProfileDTO.setSemester(semester);
-						}catch (Exception ex) { //
-						}
-					    	
-						
-					}
-					
-
-					if (count == 10) {// Minor
-						
-						 
-
-						try {
-							studentProfileDTO.setMinor(getTheValueFromCell(cell));
-						}catch (Exception ex) { //
-						}
-					    	
-						
-					}
-					
-					
-					if (count == 11) {// Repeated Courses
-						
-						 
-
-						try {
-							studentProfileDTO.setRepeatedCourses(Integer.valueOf(getTheValueFromCell(cell)));
-						}catch (Exception ex) { //
+							}
+						}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
@@ -856,45 +848,105 @@ course.setCoordinator(inDTO);
 					
 					
 					
-					if (count == 12) {// Concentration
+					if (count == 11) {// Major  or Program
 						
 						 
 
 						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							Concentration con=concentratioRep.getByName(getTheValueFromCell(cell));
-							studentProfileDTO.setConcentration(con);
+							if(con!=null) {
 							MajorDTO major = new MajorDTO();
 							major.setId(con.getParent().getId());
 							major.setMajorName(con.getParent().getMajorName());
 							studentProfileDTO.setMajor(major);
-						}catch (Exception ex) { //
+							}
+							}
+						}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
 					}
 					
 					
-					if (count == 13) {// address
+					
+
+					if (count == 12) {// Minor
 						
 						 
 
 						try {
-							
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
+							studentProfileDTO.setMinor(getTheValueFromCell(cell));
+							}
+						}catch (Error ex) { //
+							System.out.println(ex);
+						}
+					    	
+						
+					}
+					
+					
+					if (count == 13) {// Repeated Courses
+						
+						 
+
+						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
+							studentProfileDTO.setRepeatedCourses((int)Double.parseDouble(getTheValueFromCell(cell)));
+							}
+							}catch (Error ex) { //
+							System.out.println(ex);
+						}
+					    	
+						
+					}
+					
+					
+					
+					if (count == 14) {// Concentration
+						
+						 
+
+						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
+							Concentration con=concentratioRep.getByName(getTheValueFromCell(cell));
+							studentProfileDTO.setConcentration(con);
+							}
+						}catch (Error ex) { //
+							System.out.println(ex);
+						}
+					    	
+						
+					}
+					
+					
+					if (count == 15) {// address
+						
+						 
+
+						try {
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							student.setAddress(getTheValueFromCell(cell));
-						}catch (Exception ex) { //
+							}
+						}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
 					}
 					
-					if (count == 14) {// Attempt_credit_hours
+					if (count == 7) {// Attempt_credit_hours
 						
 						 
 
 						try {
-							
+							if(!getTheValueFromCell(cell).equalsIgnoreCase("")) {
 							studentProfileDTO.setAttempt_credit_hours(Double.valueOf(getTheValueFromCell(cell)));
-						}catch (Exception ex) { //
+							}
+							}catch (Error ex) { //
+							System.out.println(ex);
 						}
 					    	
 						
@@ -912,7 +964,6 @@ course.setCoordinator(inDTO);
 			}
 
 			input.close();
-		 dataList.remove(0);
 				return dataList;
 		 
 	
@@ -934,7 +985,7 @@ course.setCoordinator(inDTO);
         	 returnedValue = String.valueOf(cell.getStringCellValue());
              break;
          case Cell.CELL_TYPE_NUMERIC:
-        	 Long number = (long) cell.getNumericCellValue();
+        	 float number = (float) cell.getNumericCellValue();
         	 returnedValue = String.valueOf(number);
              break;
          case Cell.CELL_TYPE_BOOLEAN:

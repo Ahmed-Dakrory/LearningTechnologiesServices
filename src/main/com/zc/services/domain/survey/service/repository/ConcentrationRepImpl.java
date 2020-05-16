@@ -161,7 +161,11 @@ public class ConcentrationRepImpl implements IConcentrationRep {
 
 			@SuppressWarnings("unchecked")
 			List<Concentration> results = query.list();
+			if(results.size()>0) {
 			return results.get(0);
+			}else {
+				return null;
+			}
 			}
 			catch(Exception ex)
 			{

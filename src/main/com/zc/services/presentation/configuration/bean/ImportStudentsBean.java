@@ -68,6 +68,8 @@ public class ImportStudentsBean {
 		 try {
 			inputStream=file.getInputstream();
 			List<StudentDTO> list=facade.praseStudentFile(inputStream);
+
+			//System.out.println("Ahmed Dakrory1: List: "+String.valueOf(list.size()));
 			//list.remove(list.get(list.size()-1));
 		    students=list;
 		    Map<Integer, StudentDTO> map = new LinkedHashMap();
@@ -77,7 +79,7 @@ public class ImportStudentsBean {
 		    list.clear();
 		    list.addAll(map.values());
 
-			System.out.println("Ahmed Dakrory1: List: "+String.valueOf(list.size()));
+			//System.out.println("Ahmed Dakrory2: List: "+String.valueOf(list.size()));
 		    students=list;
 			System.out.println("Size : "+students.size());
 			// see if students existed in database or not 
