@@ -95,7 +95,7 @@ public class IntendedMajorSurveyDTO {
 
 	public String getStateString() {
 		if(state == 0) {
-			return "Waiting Action...";
+			return "Waiting For Action...";
 		}else if(state == 1) {
 			return "Accepted";
 		}else if(state == 2) {

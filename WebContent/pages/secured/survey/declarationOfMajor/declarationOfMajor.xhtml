@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Declaration of major - LT Online Services</ui:define>
+		<ui:define name="title">Declaration of Program - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
@@ -13,8 +13,8 @@
 					<li>
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
-					    	<p:menuitem value="Majors" />
-							<p:menuitem value="Declaration of Major" disabled="true" />
+					    	<p:menuitem value="Programs" />
+							<p:menuitem value="Declaration of Program" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -30,10 +30,10 @@
 										</p:inputText>
 										<p:message for="mobileNO" />
 									</h:panelGroup>
-									<p:outputLabel value="Major" for="majors"/>
+									<p:outputLabel value="Program" for="majors"/>
 									<h:panelGroup class="marginLeft_12">
 										<p:selectOneMenu id="majors" value="#{StudentDeclarationOfMajorBean.selectedMajor}" required="true" requiredMessage="Please select major">
-											<f:selectItem itemLabel="Select Major" />
+											<f:selectItem itemLabel="Select Program" />
 											<f:selectItems var="major" value="#{StudentDeclarationOfMajorBean.majorsLst}"  />
 										</p:selectOneMenu>
 										<p:message for="majors" />
@@ -45,7 +45,7 @@
 						<p:panel id="updatePanel" rendered="#{StudentDeclarationOfMajorBean.updateMood}">
 							<div class="tabWrapper">
 								<h:panelGrid columns="2" id="updatePnl">
-									<p:outputLabel value="Your Choose Major is:    #{StudentDeclarationOfMajorBean.studentMajor.major.majorName}" /><br/>
+									<p:outputLabel value="Your Choose Program is:    #{StudentDeclarationOfMajorBean.studentMajor.major.majorName}" /><br/>
 									<!--  <p:commandButton value="Change" action="#{StudentDeclarationOfMajorBean.preUpdate()}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>-->
 								<p:commandButton value="Show Details" action="#{AdminIntenedMajorBean.onStudentSelect}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>
 								</h:panelGrid>

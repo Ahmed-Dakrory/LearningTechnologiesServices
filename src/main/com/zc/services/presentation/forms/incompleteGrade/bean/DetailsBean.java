@@ -162,6 +162,7 @@ public class DetailsBean {
          case "Ins":  //Approve Of Instructor
         	 
          {
+        	 
         	 approveIns();
          }
                   break;
@@ -283,7 +284,7 @@ public class DetailsBean {
 	    	    		//else
 	    				if(loggedInInstructor.getId().equals(dto.getInstructor().getId()))
 	    	    		{
-	    	    			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+	    	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	    	    				}
 	    	    		dto=facade.updateStatusOfForm(dto);
 	    		    	if(dto!=null)
@@ -327,7 +328,7 @@ public class DetailsBean {
 	    	    		*/
 	    				if(loggedInInstructor.getId().equals(dto.getInstructor().getId()))
 	    				{
-	    	    			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+	    	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	    	    				}
 	    	    		dto=facade.updateStatusOfForm(dto);
 	    		    	if(dto!=null)
@@ -379,7 +380,7 @@ public class DetailsBean {
 	        		else*/
 	    			if(loggedInInstructor.getId().equals(dto.getInstructor().getId()))
 	        		{
-	        			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+	        			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	        				
 	        		}
 	        		dto=facade.updateStatusOfForm(dto);
@@ -435,7 +436,7 @@ public class DetailsBean {
         		else*/
     			if(loggedInInstructor.getId().equals(dto.getInstructor().getId()))
         		{
-        			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+        			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
         				
         		}
         		dto=facade.updateStatusOfForm(dto);
@@ -541,7 +542,7 @@ public class DetailsBean {
 		    	//11- b) the logged-in instructor is n't PA >> set step = instructor of the course
 	    		//else
 				
-	    			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	    		
 	    		dto=facade.updateStatusOfForm(dto);
 		    	if(dto!=null)
@@ -582,7 +583,7 @@ public class DetailsBean {
 					
 				
 	    		
-	    			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+	    			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 	    				}
 	    		dto=facade.updateStatusOfForm(dto);
 		    	if(dto!=null)
@@ -635,7 +636,7 @@ public class DetailsBean {
 		//	else
 			if(loggedInInstructor.getId().equals(dto.getInstructor().getId()))
 			{
-				dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+				dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 					
 			}
 			dto=facade.updateStatusOfForm(dto);
@@ -690,7 +691,7 @@ public class DetailsBean {
 		//else
 		if(loggedInInstructor.getId().equals(dto.getInstructor().getId()))
 		{
-			dto.setStep(PetitionStepsEnum.INSTRUCTOR_OF_COURSE);
+			dto.setStep(PetitionStepsEnum.ADMISSION_PROCESSING);
 				
 		}
 		dto=facade.updateStatusOfForm(dto);
@@ -730,6 +731,7 @@ public class DetailsBean {
 	
 	
 	}
+
 	public void cancel()
 	{
 		 switch (casesID) {

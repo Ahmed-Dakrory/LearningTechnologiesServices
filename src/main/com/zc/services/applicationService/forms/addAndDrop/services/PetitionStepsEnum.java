@@ -49,7 +49,7 @@ public enum PetitionStepsEnum {
 			}
 			@Override
 			public String getName() {
-				return "Waiting Action From Registrar";
+				return "Waiting For Action From Registrar";
 			}
 			
 		}

@@ -144,7 +144,7 @@ public class CourseRepeatAssembler {
 			}
 			else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 			{
-				dto.setCurrentStatus("Waiting Action From Registrar");
+				dto.setCurrentStatus("Waiting For Action From Registrar");
 				dto.setNextStatus("Finished");
 
 			}

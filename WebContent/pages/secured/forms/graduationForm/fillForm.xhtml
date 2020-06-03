@@ -149,7 +149,7 @@
 							<p:outputLabel value="Program" for="majormenu"/>
 							<h:panelGroup id="major">
 								<p:selectOneMenu required="true" requiredMessage="Please select the major"  style="width:315px;" id="majormenu" value="#{graduationInformationBean.addedForm.major.id}" filter="true" filterMatchMode="startsWith">
-									<f:selectItem itemLabel="Select major" />
+									<f:selectItem itemLabel="Select Program" />
 									<f:selectItems var="major" value="#{graduationInformationBean.majors}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
 									<p:ajax global="false" update="concentration" listener="#{graduationInformationBean.fillConcentrartionLst}" />
 								</p:selectOneMenu>

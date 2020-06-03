@@ -63,10 +63,10 @@
 						
 							<h:panelGrid columns="2">
 							
-								<p:outputLabel value="Major" for="majors"/>
+								<p:outputLabel value="Program" for="majors"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="majors" value="#{IncompleteGradeStudentBean.selectedMajorID}" required="true" requiredMessage="Please select major">
-										<f:selectItem itemLabel="Select Major" />
+										<f:selectItem itemLabel="Select Program" />
 										<f:selectItems var="major" value="#{IncompleteGradeStudentBean.majorLst}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
 									</p:selectOneMenu>
 									<p:message for="majors" />

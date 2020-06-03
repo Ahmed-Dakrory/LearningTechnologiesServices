@@ -4,6 +4,6 @@ public class ChangeMajorDashboardElement extends DashboardElement
 {
 	public ChangeMajorDashboardElement(String value)
 	{
-		super("Change Major", value, "newChangeMajor", "newChangeMajor");
+		super("Change Program", value, "newChangeMajor", "newChangeMajor");
 	}
 }

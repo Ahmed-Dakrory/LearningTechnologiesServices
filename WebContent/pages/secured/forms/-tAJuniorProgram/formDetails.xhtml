@@ -124,7 +124,7 @@
 											<td width="48">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
@@ -137,7 +137,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.student.studentProfileDTO.major.majorName}" />
 												</h:panelGrid>
 											</td>
@@ -239,7 +239,7 @@
 						<table class="petitionDetails">
 					
 						    <tr>
-						    <td><h:outputLabel value="Major:" /></td>
+						    <td><h:outputLabel value="Program: " /></td>
 							<td><h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.major.majorName}" /></td>
 						    </tr>
 						    
@@ -337,7 +337,7 @@
 				<h:outputLabel value="Contact" />
 	    		<h:outputLabel value="Date" />
 				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.friendlyDate}" />
-				<h:outputLabel value="Major:" />
+				<h:outputLabel value="Program:" />
 				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.major.majorName}" />
 				<h:outputLabel value="Course:"/>
 				<h:outputLabel value="#{DetailsBeanJuniorTA.detailedDTO.course.name}" />

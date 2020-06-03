@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Change Major and/or Specialization - LT Online Services</ui:define>
+		<ui:define name="title">Change Program and/or Specialization - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Petitions" />
-							<p:menuitem value="Change Major and/or Specialization" disabled="true" />
+							<p:menuitem value="Change Program and/or Specialization" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -30,10 +30,10 @@
 						<ui:remove>	<p style="font-weight:bold;color:red">Student must come to the office of admissions to fill the planing card and complete their registration.</p></ui:remove><br/>
 							<h:panelGrid columns="2">
 							<ui:remove>
-								<p:outputLabel value="Major" for="majors"/>
+								<p:outputLabel value="Program" for="majors"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="majors" value="#{changeMajorStudentBean.selectedMajorId}" required="true" requiredMessage="Please select major">
-										<f:selectItem itemLabel="Select Major" />
+										<f:selectItem itemLabel="Select Program" />
 										<f:selectItems var="major" value="#{changeMajorStudentBean.majorsLst}" itemLabel="#{major.majorName}" itemValue="#{major.id}" />
 									</p:selectOneMenu>
 									<p:message for="majors" />
@@ -64,18 +64,18 @@
 								</h:panelGroup>	
 								
 									 -->
-							  	<p:outputLabel value="Current Major" for="curMajor"/>
+							  	<p:outputLabel value="Current Program" for="curMajor"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu required="true" requiredMessage="Please select major" id="curMajor" value="#{changeMajorStudentBean.selectedCurMajorId}">
-										<f:selectItem itemLabel="Select Major" />
+										<f:selectItem itemLabel="Select Program" />
 										<f:selectItems var="curMajor" value="#{changeMajorStudentBean.currentmajorsLst}" itemLabel="#{curMajor.majorName}" itemValue="#{curMajor.id}" />
 									</p:selectOneMenu>
 									<p:message for="curMajor" />
 								</h:panelGroup>
-								<p:outputLabel value="New Major" for="newMajor"/>
+								<p:outputLabel value="New Program" for="newMajor"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="newMajor" value="#{changeMajorStudentBean.selectedNewMajorId}">
-										<f:selectItem itemLabel="Select Major" />
+										<f:selectItem itemLabel="Select Program" />
 										<f:selectItems var="newMajor" value="#{changeMajorStudentBean.majorsLst}" itemLabel="#{newMajor.majorName}" itemValue="#{newMajor.id}" />
 									</p:selectOneMenu>
 								</h:panelGroup>
@@ -102,7 +102,7 @@
 								
 								 -->
 								 
-								 <p:outputLabel value="Why do you want to change your major?" for="question1" />
+								 <p:outputLabel value="Why do you want to change your Program?" for="question1" />
 							 	
 							 	<h:panelGroup class="marginLeft_12 maxCharc">
 									<p:inputTextarea id="question1" value="#{changeMajorStudentBean.question1}" maxlength="500" validatorMessage="Only 500 Characters allowed" >

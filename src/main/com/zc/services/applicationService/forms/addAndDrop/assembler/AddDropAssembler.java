@@ -102,7 +102,7 @@ public class AddDropAssembler  {
 				//dto.setCurrentStatus("Reviewed By Course Instructor");
 			
 			}
-			dto.setCurrentStatus("Waiting Action From Registrar");
+			dto.setCurrentStatus("Waiting For Action From Registrar");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
 		{
@@ -116,7 +116,7 @@ public class AddDropAssembler  {
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
-			dto.setCurrentStatus("Waiting Action From Registrar");
+			dto.setCurrentStatus("Waiting For Action From Registrar");
 			dto.setNextStatus("Finished");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))

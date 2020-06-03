@@ -868,7 +868,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
                 
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
+						+ overLoadRequest.getId() + " is : <br/> Waiting For Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -900,7 +900,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
+						+ overLoadRequest.getId() + " is : <br/> Waiting For Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -925,7 +925,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
+						+ overLoadRequest.getId() + " is : <br/> Waiting For Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -950,7 +950,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 						.getNameInEnglish());
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
-						+ overLoadRequest.getId() + " is : <br/> Waiting Action From Registrar";
+						+ overLoadRequest.getId() + " is : <br/> Waiting For Action From Registrar";
 				else 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 							+ overLoadRequest.getId() + " is : <br/> "+status;
@@ -978,7 +978,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 				if(actions.size()==0)
 				studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"
 						+ overLoadRequest.getId()
-						+ " is : <br/> Waiting Action From Registrar";
+						+ " is : <br/> Waiting For Action From Registrar";
 				else 
 
 					studentContent = "We would like to inform you that the current Status of your OverLoad Request with ID:"

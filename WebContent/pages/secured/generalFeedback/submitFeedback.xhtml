@@ -45,13 +45,13 @@
 											
 												</h:panelGroup>
 												<h:panelGroup id="majorLabel" >
-													<p:outputLabel value="Major" for="majormenu" rendered="#{fillFeedbackFormBean.submittedFeedback.categoryID==1}"/>		
+													<p:outputLabel value="Program" for="majormenu" rendered="#{fillFeedbackFormBean.submittedFeedback.categoryID==1}"/>		
 														</h:panelGroup>
 											<h:panelGroup id="major" >
 										 						&nbsp;&nbsp;			
-												<p:selectOneMenu required="true" requiredMessage="Please select major"  style="width: 315px;" id="majormenu"
+												<p:selectOneMenu required="true" requiredMessage="Please select Program"  style="width: 315px;" id="majormenu"
 												value="#{fillFeedbackFormBean.submittedFeedback.major.id}" rendered="#{fillFeedbackFormBean.submittedFeedback.categoryID==1}">
-													<f:selectItem itemLabel="Select major" />
+													<f:selectItem itemLabel="Select Program" />
 													<f:selectItems var="major" value="#{fillFeedbackFormBean.majorLst}" itemLabel="#{major.majorName}"
 													 itemValue="#{major.id}" />
 												</p:selectOneMenu>

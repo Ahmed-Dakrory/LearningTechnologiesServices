@@ -90,7 +90,7 @@ public class AcademicPetitionAssembler {
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
-			dto.setCurStatus("Waiting Action From Registrar");
+			dto.setCurStatus("Waiting For Action From Registrar");
 			dto.setNextStatus("Finished");
 		}
 		else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))

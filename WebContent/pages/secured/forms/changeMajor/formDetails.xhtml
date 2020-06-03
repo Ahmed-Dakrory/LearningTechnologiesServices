@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Change Major Details - LT Online Services</ui:define>
+		<ui:define name="title">Change Program Details - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Petitions" />
-							<p:menuitem value="Change Major" disabled="true" />
+							<p:menuitem value="Change Program" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -128,7 +128,7 @@
 														<td width="5">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
@@ -141,7 +141,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.student.studentProfileDTO.major.majorName}" />
 													<h:outputLabel value="Student Email" />
 													<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.student.mail}" />												
@@ -305,7 +305,7 @@
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">	
-												<h:outputLabel value="Admission Staff" />
+												<h:outputLabel value="Registrar Staff" />
 											</div>
 										</div>
 									</h:panelGroup>
@@ -316,7 +316,7 @@
 											<h:outputLabel value="Finalized" /><br/>
 											<h:outputLabel value="#{DetailsBeanChangeMajor.admissionDActionDetails.actionType.name}" /><br/>
 											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
+												<h:outputLabel value="Registrar Staff" /><br/>
 					    						<h:outputLabel value="#{DetailsBeanChangeMajor.admissionDActionDetails.friendlyDate}" />
 					    					</div>
 					    				</div>
@@ -386,12 +386,12 @@
 							<td><h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.gpa}" /></td>
 						</tr>
 						<tr>
-				    		<td><h:outputLabel value="Current Major" /></td>
+				    		<td><h:outputLabel value="Current Program" /></td>
 							
 							<td><h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.curMajor.majorName}" /></td>
 							</tr>
 							<tr>
-				    		<td><h:outputLabel value="New Major" /></td>
+				    		<td><h:outputLabel value="New Program" /></td>
 							
 							<td><h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.newMajor.majorName}" /></td>
 							</tr>
@@ -410,7 +410,7 @@
 							</tr>
 							 -->
 							<tr>
-							<td><h:outputLabel value="Why do you want to change major?" /></td>
+							<td><h:outputLabel value="Why do you want to change Program?" /></td>
 							
 							<td><h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.question1}" /></td>
 							</tr>
@@ -503,9 +503,9 @@
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.friendlyDate}" />
 				<h:outputLabel value="GPA" />
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.gpa}" />
-				<h:outputLabel value="Current Major" />
+				<h:outputLabel value="Current Program" />
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.curMajor.majorName}" />
-				<h:outputLabel value="New Major" />
+				<h:outputLabel value="New Program" />
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.newMajor.majorName}" />
 				<!-- 
 				<h:outputLabel value="Current Specialization" />
@@ -513,7 +513,7 @@
 				<h:outputLabel value="New Specialization" />
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.newSpecialization}" />
 				 -->
-				<h:outputLabel value="Why do you want to change major?" />
+				<h:outputLabel value="Why do you want to change Program?" />
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.question1}" />
 				<h:outputLabel value="More Details" />
 				<h:outputLabel value="#{DetailsBeanChangeMajor.detailedDTO.question2}" />
@@ -581,7 +581,7 @@
 								-->
 								
 								
-							 	<p:outputLabel value="Why do you want to change major?" for="doubleSpec" />
+							 	<p:outputLabel value="Why do you want to change Program?" for="doubleSpec" />
 							 	<h:panelGroup class="marginLeft_12">
 									<p:inputText id="doubleSpec" value="#{DetailsBeanChangeMajor.detailedDTO.question1}" size="40"/>
 								</h:panelGroup>

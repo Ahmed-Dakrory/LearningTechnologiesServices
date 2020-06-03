@@ -107,9 +107,9 @@
 											<p:commandButton value="Approve" title="Approve" ajax="false" actionListener="#{DetailsBean.approve}" rendered="#{DetailsBean.oldMood!=true and DetailsBean.admissionDeptMood==false}" class="greenBtn" />
 								    		<p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBean.refuse}" rendered="#{DetailsBean.oldMood!=true and DetailsBean.admissionDeptMood==false}" class="redBtn" />
 											<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBean.markAsDone}" rendered="#{DetailsBean.oldMood==false and DetailsBean.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
-											<p:commandButton value="Revert" 
+											<!-- <p:commandButton value="Revert" 
 							rendered="#{!DetailsBean.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
-							
+							 -->
 							<h:panelGroup rendered="#{!DetailsBean.oldMood}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
 							</h:panelGroup>
 								
@@ -132,7 +132,7 @@
 											<td width="48">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DetailsBean.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DetailsBean.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
@@ -145,7 +145,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DetailsBean.detailedDTO.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DetailsBean.detailedDTO.student.studentProfileDTO.major.majorName}" />
 												</h:panelGrid>
 											</td>
@@ -218,6 +218,8 @@
 								</li><!-- 
     						 -->
     						 </ui:remove>
+    						 
+    						 <!-- 
     						 <li>
 									<h:panelGroup rendered="#{DetailsBean.detailedDTO.step.getID()==0 || 
 									DetailsBean.detailedDTO.step.getID()==1|| DetailsBean.detailedDTO.step.getID()==6}">
@@ -228,8 +230,9 @@
 												<h:outputLabel value="Dean of Strategic Enrollment Management" />
 											</div>
 										</div>
-									</h:panelGroup>
+									</h:panelGroup> -->
 									<!-- OR -->
+									<!-- 
 									<h:panelGroup rendered="#{DetailsBean.detailedDTO.step.getID()==2 || DetailsBean.detailedDTO.step.getID()==3 || DetailsBean.detailedDTO.step.getID()==4}">
 										<div class="formProgress-done">
 											<br/>
@@ -241,8 +244,9 @@
 					    					</div>
 										</div>
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
+								</li> -->
+								<!-- 
+    						 --><!-- <li>
 									<h:panelGroup rendered="#{DetailsBean.detailedDTO.step.getID()==0 || DetailsBean.detailedDTO.step.getID()==2|| DetailsBean.detailedDTO.step.getID()==1 || DetailsBean.detailedDTO.step.getID()==6}">
 										<div class="formProgress-todo">
 											<br/>
@@ -251,8 +255,9 @@
 												<h:outputLabel value="Admission Head" />
 											</div>
 										</div>
-									</h:panelGroup>
+									</h:panelGroup> -->
 									<!-- OR -->
+									<!-- 
 									<h:panelGroup rendered="#{DetailsBean.detailedDTO.step.getID()==3 || DetailsBean.detailedDTO.step.getID()==4}">
 										<div class="formProgress-done">
 											<br/>
@@ -263,14 +268,17 @@
 					    			    	</div>
 										</div>
 									</h:panelGroup>
-								</li><!-- 
-    						 --><li>
+								</li> --><!-- 
+    						 -->
+    						 
+    						 
+    						 <li>
 									<h:panelGroup rendered="#{DetailsBean.detailedDTO.step.getID()==0 || DetailsBean.detailedDTO.step.getID()==2|| DetailsBean.detailedDTO.step.getID()==1 || DetailsBean.detailedDTO.step.getID()==6 || DetailsBean.detailedDTO.step.getID()==3}">
 										<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" />
+												<h:outputLabel value="Registrar Staff" />
 											</div>
 										</div>
 									</h:panelGroup>
@@ -280,7 +288,7 @@
 											<br/>
 											<h:outputLabel value="Finalized" /><br/>
 											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
+												<h:outputLabel value="Registrar Staff" /><br/>
 						    					<h:outputLabel value="#{DetailsBean.admissionHActionDetails.friendlyDate}" />
 					    					</div>
 										</div>
@@ -367,9 +375,9 @@
 					    <p:commandButton value="Refuse" title="Refuse" ajax="false" actionListener="#{DetailsBean.refuse}" rendered="#{DetailsBean.oldMood!=true and DetailsBean.admissionDeptMood==false}" class="redBtn" />
 						<p:commandButton value="Mark as Done" title="Mark as Done" actionListener="#{DetailsBean.markAsDone}"
 									  rendered="#{DetailsBean.oldMood==false and DetailsBean.admissionDeptMood==true}" ajax="false" update="form growl" class="greenBtn" />
-								<p:commandButton value="Revert" 
+							<!-- 	<p:commandButton value="Revert" 
 							rendered="#{!DetailsBean.oldMood}"  onclick="revertDlg.show()"  Value="Revert the petition"  class="yellowBtn"/>
-							
+							 -->
 							<h:panelGroup rendered="#{!DetailsBean.oldMood}"><a href="#" class="tooltipNote" data-tooltip="It will reverse the petition back to the student and reset it to (Under Review) status"></a>
 							</h:panelGroup>
 							

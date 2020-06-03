@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Change Major Details - LT Online Services</ui:define>
+		<ui:define name="title">Readmission Details - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Petitions" />
-							<p:menuitem value="Change Major" disabled="true" />
+							<p:menuitem value="Readmission" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -126,7 +126,7 @@
 														<td width="5">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
@@ -139,7 +139,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.major.majorName}" />
 													<h:outputLabel value="Student Email" />
 													<h:outputLabel value="#{DetailsBeanReadmission.detailedDTO.student.mail}" />												
@@ -188,7 +188,7 @@
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">	
-												<h:outputLabel value="Admission Staff" />
+												<h:outputLabel value="Registrar Staff" />
 											</div>
 										</div>
 									</h:panelGroup>
@@ -294,6 +294,52 @@
 							<tr>
 							
 						</tr>
+								<tr>
+						<h:panelGroup rendered="#{DetailsBeanReadmission.admissionDeptMood==true}">
+						<td>
+						<p:outputLabel value="Transcript:"/>
+						</td>
+						<td>
+		                        <h:panelGrid columns="5" class="marginLeft_12">
+		                         	<p:fileUpload fileUploadListener="#{DetailsBeanReadmission.uploadTranscript}" allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx|png|jpg|bmp|gif)$/" sizeLimit="500000" update="attachmentFileNameLable attachmentFileRemoveButton attachmentsave " description="Attachment"
+										auto="true" mode="advanced" multiple="false" uploadLabel="Upload Attachment" cancelLabel="cancel" />
+	                         		<p:outputLabel id="attachmentFileNameLable" value="#{DetailsBeanReadmission.attachmentTranscriptFileName}" class="marginLeft_18" />
+	                         		<p:commandButton id="attachmentFileRemoveButton" value="remove" action="#{DetailsBeanReadmission.removeAttachmentTranscript}" disabled="#{DetailsBeanReadmission.attachmentTranscriptFile == null}" ajax="true" class="removeAttach marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable attachmentsave "/>
+	                         		<p:commandButton id="attachmentsave" value="Save" action="#{DetailsBeanReadmission.saveToProfile}" disabled="#{DetailsBeanReadmission.attachmentTranscriptFile == null}" ajax="true" class=" marginLeft_18" process="@this" update="attachmentFileRemoveButton attachmentFileNameLable attachmentsave "/>
+	                         	
+	                         	</h:panelGrid>
+	                         	<span>&nbsp;</span>
+	                         	<h:panelGroup>
+	                         		<span class="allowedExt">Allowed file types: .pdf, .doc, .docx, .xls, .xlsx, .png, .jpg, .bmp, .gif <br/> &nbsp; &nbsp; &nbsp;Maximum size: 500KB</span>
+	                         	</h:panelGroup>
+					
+          </td>
+						</h:panelGroup>
+						</tr>
+						
+						
+						<tr>
+						<h:panelGroup id="imageTranscript">
+								<td><h:outputLabel value="Student Transcript" rendered="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript != null}"/></td>
+								<td class="attachmentBtn">
+									<!-- pdf -->
+									<p:commandButton icon="icon_pdf" rendered="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript != null and (DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('.pdf'))}"
+									title="PDF Attachment" process="@this" ajax="false" action="#{DetailsBeanReadmission.downloadTranscript(DetailsBeanReadmission.detailedDTO)}" />
+									<!-- doc, docx -->
+									<p:commandButton icon="icon_word" title="MS Word Attachment" rendered="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript != null and (DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('doc') 
+									|| DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('.docx'))}" 
+									 process="@this" ajax="false" action="#{DetailsBeanReadmission.downloadTranscript(DetailsBeanReadmission.detailedDTO)}" />
+									<!-- xls, xlsx -->
+									<p:commandButton icon="icon_excel" title="MS Excel Attachment" rendered="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript != null and (DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('xls') 
+									|| DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('.xlsx'))}"
+									 process="@this" ajax="false" action="#{DetailsBeanReadmission.downloadTranscript(DetailsBeanReadmission.detailedDTO)}" />
+									<!-- png, jpg, bmp, gif -->
+									<p:commandButton icon="icon_image" title="Image Attachment"  rendered="#{DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript != null and (DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('png') 
+									|| DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('.jpg') || DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('bmp') || DetailsBeanReadmission.detailedDTO.student.studentProfileDTO.attachmentTranscript.name.endsWith('gif'))}"
+									 process="@this" ajax="false" action="#{DetailsBeanReadmission.downloadTranscript(DetailsBeanReadmission.detailedDTO)}" />
+								</td>
+								</h:panelGroup>
+							</tr>
 						
 				    		<tr>
 				    			<td><h:outputLabel value="More Details" /></td>

@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Intended Majors - LT Online Services</ui:define>
+		<ui:define name="title">Intended Programs - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Intended" />
-							<p:menuitem value="Planned Major" disabled="true" />
+							<p:menuitem value="Planned Program" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -30,10 +30,10 @@
 										</p:inputText>
 										<p:message for="mobileNO" />
 									</h:panelGroup>
-									<p:outputLabel value="Major" for="majors"/>
+									<p:outputLabel value="Program" for="majors"/>
 									<h:panelGroup class="marginLeft_12">
 										<p:selectOneMenu id="majors" value="#{StudentIntendedMajorBean.selectedMajor}" required="true" requiredMessage="Please select major">
-											<f:selectItem itemLabel="Select Major" />
+											<f:selectItem itemLabel="Select Program" />
 											<f:selectItems var="major" value="#{StudentIntendedMajorBean.majorsLst}"  />
 										</p:selectOneMenu>
 										<p:message for="majors" />
@@ -45,7 +45,7 @@
 						<p:panel id="updatePanel" rendered="#{StudentIntendedMajorBean.updateMood}">
 							<div class="tabWrapper">
 								<h:panelGrid columns="2" id="updatePnl">
-									<p:outputLabel value="Your Major is:    #{StudentIntendedMajorBean.studentMajor.major.majorName}" /><br/>
+									<p:outputLabel value="Your Program is:    #{StudentIntendedMajorBean.studentMajor.major.majorName}" /><br/>
 									<p:commandButton value="Change" action="#{StudentIntendedMajorBean.preUpdate()}" ajax="false" class="blueBtn" update=":mainForm:form:majors"/>
 								</h:panelGrid>
 							</div>

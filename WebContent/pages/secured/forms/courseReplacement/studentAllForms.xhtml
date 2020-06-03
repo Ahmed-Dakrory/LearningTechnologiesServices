@@ -46,7 +46,7 @@
 														<td width="48">&nbsp;</td>
 												<td>
 													<h:panelGrid columns="2" class="student">
-														<h:outputLabel value="Completed hrs." />
+														<h:outputLabel value="Earned Credit hrs." />
 														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.completedCreditHrs}" />
 														<h:outputLabel value="Registered hrs." />
 														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.registeredCreditHrs}" />
@@ -57,9 +57,9 @@
 												<td width="48">&nbsp;</td>
 												<td valign="top">
 													<h:panelGrid columns="2" class="student">
-														<h:outputLabel value="Current Major" />
+														<h:outputLabel value="Current Program" />
 														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.major.majorName}" />
-														<h:outputLabel value="Current Major Type" />
+														<h:outputLabel value="Current Program Type" />
 														<h:outputLabel value="#{courseReplacementBean.getMajorType(courseReplacementBean.major.type)}" />
 														<h:outputLabel value="Concentration" />
 														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.concentration.name}" />
@@ -211,9 +211,9 @@
 						value="#{courseReplacementBean.newCourseComfirmation.courseCountAs}"
 						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
 						effect="fade" filter="true" filterMatchMode="startsWith">
-						<f:selectItem itemLabel="Major Req" itemValue="0" />
+						<f:selectItem itemLabel="Program Req" itemValue="0" />
 						<f:selectItem itemLabel="Humanities" itemValue="1" />
-						<f:selectItem itemLabel="Major Elective" itemValue="2" />
+						<f:selectItem itemLabel="Program Elective" itemValue="2" />
 						<f:selectItem itemLabel="Collateral Req" itemValue="3" />
 					</p:selectOneMenu>  	
 			          			

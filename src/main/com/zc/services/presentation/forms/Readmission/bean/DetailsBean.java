@@ -22,15 +22,18 @@ import main.com.zc.services.applicationService.shared.service.impl.SendMailThrea
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.FormTypesEnum;
 import main.com.zc.services.domain.shared.enumurations.PetitionActionTypeEnum;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionActionsFacade;
 import main.com.zc.services.presentation.forms.Readmission.facade.IReadmissionAdminFacade;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.facade.IAdmissionAdminAcademicPetFacade;
 import main.com.zc.services.presentation.forms.academicPetition.facade.ISharedAcademicPetFacade;
+import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
 import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.AttachmentDownloaderHelper;
@@ -50,7 +53,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 @ManagedBean(name="DetailsBeanReadmission")
 @ViewScoped
-public class DetailsBean {
+public class DetailsBean { 
 
 	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
    	private IGetLoggedInInstructorData getInsDataFacade;
@@ -69,6 +72,9 @@ public class DetailsBean {
     @ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
     private IGetLoggedInStudentDataFacade studentDataFacade;
     
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+    private StudentProfileFacadeImpl profileFacade;
     
     private ReadmissionDTO detailedDTO;
 	private List<InstructorDTO> instructors;
@@ -142,6 +148,58 @@ public class DetailsBean {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void saveToProfile() {
+		StudentProfileDTO profile = profileFacade.getCurrentPRofileByStudentID(detailedDTO.getStudent().getId());
+
+        if(profile!=null) {
+        	if(this.attachmentTranscriptFile != null)
+			{
+				AttachmentDTO attachment = new AttachmentDTO(attachmentTranscriptFile.getFileName(), attachmentTranscriptFile.getContents());
+				profile.setAttachmentTranscript(attachment);
+				profileFacade.update(profile);
+				detailedDTO.getStudent().setStudentProfileDTO(profile);
+	        	JavaScriptMessagesHandler.RegisterNotificationMessage(null, "Transcript Saved Correctly");
+			}
+        }
+	}
+	private UploadedFile attachmentTranscriptFile;
+
+	public UploadedFile getAttachmentTranscriptFile() {
+	    return attachmentTranscriptFile;
+	}
+
+	public void setAttachmentTranscriptFile(UploadedFile file) {
+	    this.attachmentTranscriptFile = file;
+	}
+	 
+	public void uploadTranscript(FileUploadEvent event) {  
+	    // Do what you want with the file      
+		setAttachmentTranscriptFile(event.getFile());
+
+	    try {
+		} catch (Exception e) {
+		}
+	}  
+
+	public void removeAttachmentTranscript()
+	{
+		setAttachmentTranscriptFile(null);
+	}
+	
+	public String getAttachmentTranscriptFileName()
+	{
+		if(attachmentTranscriptFile == null)
+			return "None";
+		else
+			return attachmentTranscriptFile.getFileName();
+	}
+
+	public void downloadTranscript(ReadmissionDTO form)
+	{
+		AttachmentDownloaderHelper.createHTTPDownlodFileResponse(form.getStudent().getStudentProfileDTO().getAttachmentTranscript());
+	}
+	
 	public void fillInstructorsLst()
 	    {
 		 instructors=new ArrayList<InstructorDTO>();
@@ -3365,5 +3423,15 @@ public class DetailsBean {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public StudentProfileFacadeImpl getProfileFacade() {
+		return profileFacade;
+	}
+
+	public void setProfileFacade(StudentProfileFacadeImpl profileFacade) {
+		this.profileFacade = profileFacade;
+	}
+	
+	
 	
 }

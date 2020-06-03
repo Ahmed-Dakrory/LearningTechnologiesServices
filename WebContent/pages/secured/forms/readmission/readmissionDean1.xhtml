@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Petitions" />
-							<p:menuitem value="Change Major and/or Specialization" disabled="true" />
+							<p:menuitem value="Readmission" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -77,7 +77,7 @@
 							<ui:remove>
 							<p:column width="200" id="major" sortBy="#{forms.curMajor.majorName}" filterBy="#{forms.curMajor.majorName}">
 								<h:outputText value="#{forms.curMajor.majorName}" />
-								<p:watermark value="Major" forElement="mainForm:form:pendingDatatable:major:filter"/>
+								<p:watermark value="Program" forElement="mainForm:form:pendingDatatable:major:filter"/>
 							</p:column>
 							</ui:remove>
 							<p:column width="185" id="curStatus" sortBy="#{forms.currentStatus}" filterBy="#{forms.currentStatus}">

@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Major Intended Form Details - LT Online Services</ui:define>
+		<ui:define name="title">Program Intended Form Details - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -14,7 +14,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Petitions" />
-							<p:menuitem value="Major Student Selected" disabled="true" />
+							<p:menuitem value="Program Student Selected" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -63,7 +63,7 @@
 											<td width="48">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DeclarationOfConcentrationResultsBean.studentOfMajor.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DeclarationOfConcentrationResultsBean.studentOfMajor.student.studentProfileDTO.registeredCreditHrs}" />
@@ -76,7 +76,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DeclarationOfConcentrationResultsBean.studentOfMajor.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DeclarationOfConcentrationResultsBean.studentOfMajor.student.studentProfileDTO.major.majorName}" />
 													<h:outputLabel value="Student Email" />
 													<h:outputLabel value="#{DeclarationOfConcentrationResultsBean.studentOfMajor.student.mail}" />

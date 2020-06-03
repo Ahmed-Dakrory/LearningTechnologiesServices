@@ -30,11 +30,11 @@
 						<div class="tabWrapper">
 							<h:panelGrid columns="2">
 							
-								<p:outputLabel value="Major" for="majors"/>
+								<p:outputLabel value="Program" for="majors"/>
 								<h:panelGroup class="marginLeft_12">
 									<p:selectOneMenu id="majors" value="#{changeOfConcentrationStudentBean.selectedMajorId}"
-									 required="true" requiredMessage="Please select your major">
-										<f:selectItem itemLabel="Select Major" />
+									 required="true" requiredMessage="Please select your Program">
+										<f:selectItem itemLabel="Select Program" />
 										<f:selectItems var="major" value="#{changeOfConcentrationStudentBean.majorsLst}" 
 										itemLabel="#{major.majorName}" itemValue="#{major.id}" />
 										<p:ajax listener="#{changeOfConcentrationStudentBean.fillConcentrations}" update=":mainForm:form:cons :mainForm:form:newCons" />	

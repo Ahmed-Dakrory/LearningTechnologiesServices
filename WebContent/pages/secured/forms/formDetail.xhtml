@@ -103,7 +103,7 @@
 	</h:panelGroup>
 	<h:panelGroup id="changeMajor"
 		rendered="#{petitionBean.formDetail.formTypesEnum.value == 2}">
-		<!-- 				start			Change  Major  -->
+		<!-- 				start			Change  Program  -->
 		<ul class="dialogLine">
 			<li><h:outputLabel value="GPA:" /></li>
 			<li><h:outputLabel value="#{petitionBean.formDetail.gpa}" /></li>
@@ -115,7 +115,7 @@
 		</h:panelGroup>
 		<br />
 		<h:panelGroup>
-			<h:outputLabel value="New Major:" class="bold" />
+			<h:outputLabel value="New Program:" class="bold" />
 			<br />
 			<h:outputLabel value="#{petitionBean.formDetail.newMajor.majorName}" />
 		</h:panelGroup>
@@ -144,13 +144,13 @@
 				<p:inputTextarea value="#{petitionBean.formDetail.moreDetails}"
 					disabled="true" /></li>
 		</ul>
-		<!-- 				End			Change  Major  -->
+		<!-- 				End			Change  Program  -->
 	</h:panelGroup>
 	<h:panelGroup id="repeatCourse"
 		rendered="#{petitionBean.formDetail.formTypesEnum.value == 1}">
 		<!-- 				start			Repeat Course  -->
 		<h:panelGroup>
-			<h:outputLabel value="Major:" class="bold" />
+			<h:outputLabel value="Program:" class="bold" />
 			<br />
 			<h:outputLabel value="#{petitionBean.formDetail.major.majorName}" />
 		</h:panelGroup>

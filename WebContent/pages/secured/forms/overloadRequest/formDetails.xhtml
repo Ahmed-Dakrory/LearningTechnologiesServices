@@ -159,7 +159,7 @@
 											<td width="1">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
@@ -172,7 +172,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.studentProfileDTO.major.majorName}" />
 													<h:outputLabel value="Student Email" />
 													<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.student.mail}" />
@@ -210,7 +210,7 @@
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">	
-												<h:outputLabel value="Admission Staff" />
+												<h:outputLabel value="Registrar Staff" />
 											</div>
 										</div>
 										
@@ -229,7 +229,7 @@
 						    				<br/>
 											<h:outputLabel value="Finalized" /><br/>
 											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
+												<h:outputLabel value="Registrar Staff" /><br/>
 					    						<h:outputLabel value="#{DetailsBeanOverloadRequest.admissionHActionDetails.friendlyDate}" />
 					    					</div>
 					    				</div>
@@ -241,7 +241,7 @@
 											<h:outputLabel value="Finalized" /><br/>
 											#{DetailsBeanOverloadRequest.detailedDTO.actionDTO.get(DetailsBeanOverloadRequest.detailedDTO.actionDTO.size()-1).actionType.name}<br/>
 											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
+												<h:outputLabel value="Registrar Staff" /><br/>
 					    						<h:outputLabel value="#{DetailsBeanOverloadRequest.admissionHActionDetails.friendlyDate}" />
 					    					</div>
 					    				</div>
@@ -270,7 +270,7 @@
 						    </tr>
 						    </h:panelGroup>
 						    <tr>
-						    <td><h:outputLabel value="Major" /></td>
+						    <td><h:outputLabel value="Program" /></td>
 							<td><h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.major.majorName}" /></td>
 						    </tr>
 						    <!-- 
@@ -387,7 +387,7 @@
 				<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.mobile}" />
 		   		<h:outputLabel value="Date" />
 				<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.friendlyDate}" />
-				<h:outputLabel value="Major" />
+				<h:outputLabel value="Program" />
 				<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.major.majorName}" />
 				<h:outputLabel value="Academic Year" />
 				<h:outputLabel value="#{DetailsBeanOverloadRequest.detailedDTO.year}" />

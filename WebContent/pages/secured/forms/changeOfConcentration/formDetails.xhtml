@@ -92,7 +92,7 @@
 														<td width="5">&nbsp;</td>
 											<td>
 												<h:panelGrid columns="2" class="student">
-													<h:outputLabel value="Completed hrs." />
+													<h:outputLabel value="Earned Credit hrs." />
 													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.completedCreditHrs}" />
 													<h:outputLabel value="Registered hrs." />
 													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.registeredCreditHrs}" />
@@ -105,7 +105,7 @@
 												<h:panelGrid columns="2" class="student">
 													<h:outputLabel value="GPA" />
 													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.gpa}" />
-													<h:outputLabel value="Current Major" />
+													<h:outputLabel value="Current Program" />
 													<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.student.studentProfileDTO.major.majorName}" />
 												</h:panelGrid>
 											</td>
@@ -176,7 +176,7 @@
 											<br/>
 											<h:outputLabel value="Reviewing" /><br/>
 											<div class="otherInfo">	
-												<h:outputLabel value="Admission Staff" />
+												<h:outputLabel value="Registrar Staff" />
 											</div>
 										</div>
 									</h:panelGroup>
@@ -186,7 +186,7 @@
 						    				<br/>
 											<h:outputLabel value="Finalized" /><br/>
 											<div class="otherInfo">
-												<h:outputLabel value="Admission Staff" /><br/>
+												<h:outputLabel value="Registrar Staff" /><br/>
 					    						<h:outputLabel value="#{DetailsBeanChangeConcentration.admissionDActionDetails.friendlyDate}" />
 					    					</div>
 					    				</div>
@@ -197,7 +197,7 @@
 						<!-- Petition Details -->
 						<table class="petitionDetails">
 							<tr>
-				    		<td><h:outputLabel value="Major" /></td>
+				    		<td><h:outputLabel value="Program" /></td>
 							
 							<td><h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.major.majorName}" /></td>
 							</tr>
@@ -298,7 +298,7 @@
 				<h:outputLabel	value="#{DetailsBeanChangeConcentration.detailedDTO.student.facultyId}" />
 				<h:outputLabel value="Date" />
 				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.friendlyDate}" />
-				<h:outputLabel value="Major" />
+				<h:outputLabel value="Program" />
 				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.major.majorName}" />
 				<h:outputLabel value="More Details" />
 				<h:outputLabel value="#{DetailsBeanChangeConcentration.detailedDTO.moreDetails}" />

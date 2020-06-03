@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Declaration of Major - LT Online Services</ui:define>
+		<ui:define name="title">Declaration of Program - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
@@ -13,8 +13,8 @@
 					<li>
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
-					    	<p:menuitem value="Majors" />
-							<p:menuitem value="Declaration Of Majors Results" disabled="true" />
+					    	<p:menuitem value="Programs" />
+							<p:menuitem value="Declaration Of Programs Results" disabled="true" />
 						</p:breadCrumb>
 					</li>
 				</ul>
