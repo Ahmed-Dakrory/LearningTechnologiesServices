@@ -136,7 +136,12 @@ public class Course_InstructorRepositoryImpl implements ICourse_InstructorReposi
 
 		@SuppressWarnings("unchecked")
 		List<Courses_Instructors> results = query.list();
-		return results.get(0);
+		if(results!=null ) {
+			if(results.size()>0 ) {
+				return results.get(0);
+			}
+		}
+		return null;
 	}
 
 	@Override

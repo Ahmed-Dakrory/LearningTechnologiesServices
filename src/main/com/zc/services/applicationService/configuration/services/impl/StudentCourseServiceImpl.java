@@ -460,7 +460,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 
 			// Iterate through each rows one by one
 			int rowsNumbers = sheet.getLastRowNum();
-			 for(int i=1;i<rowsNumbers;i++) {
+			 for(int i=0;i<=rowsNumbers;i++) {
 					Row row = sheet.getRow(i);
 				CoursesDTO course=new CoursesDTO();
 				String instructorName = "";
@@ -615,6 +615,7 @@ course.setCoordinator(inDTO);
 				
 			if(course==null)
 			{
+				System.out.println("New"+String.valueOf(List.get(i).getName()));
 				Courses courseObj=new Courses();
 				courseObj.setName(List.get(i).getName());
 				courseObj.setSemester(List.get(i).getSemester());
@@ -646,6 +647,40 @@ course.setCoordinator(inDTO);
 			}
 			else // course exists before 
 			{
+				
+				if(course.getId()!=null) {
+					Courses courseObj=new Courses();
+					courseObj.setName(List.get(i).getName());
+					courseObj.setSemester(List.get(i).getSemester());
+					courseObj.setYear(List.get(i).getYear());
+					courseObj.setClo(List.get(i).getClo());
+					courseObj.setCourseCoordinator(List.get(i).getCourseCoordinator());
+					List<Courses_Instructors> instList =new ArrayList<Courses_Instructors>();
+					Courses_Instructors cInst = new Courses_Instructors();
+					cInst.setInstructor(List.get(i).getCourseCoordinator());
+					courseObj.setId(course.getId());
+					cInst.setCourse(courseObj);
+					
+					
+					instList.add(cInst);
+					
+					courseObj.setCourseInstructor(instList);
+					Courses_Instructors cI = courseInsRep.getByCourseIdAndInsId(course.getId(), List.get(i).getCourseCoordinator().getId());
+					if(cI==null) {
+					courseInsRep.add(cInst);
+					//System.out.println("Ok"+String.valueOf(course.getId())+", "+List.get(i).getCourseCoordinator().getId());
+					courseObj=courseRep.getById(course.getId());
+					CoursesDTO dto=new CoursesDTO();
+					dto.setId(courseObj.getId());
+					dto.setName(courseObj.getName());
+					dto.setYear(courseObj.getYear());
+					dto.setSemester(courseObj.getSemester());
+					dto.setClo(courseObj.getClo());
+					dto.setCourseCoordinator(courseObj.getCourseCoordinator());
+					
+					addedCoursesLst.add(dto);
+					}
+				}
 				if(course.getId()==null)
 				{
 					Courses courseObj=new Courses();

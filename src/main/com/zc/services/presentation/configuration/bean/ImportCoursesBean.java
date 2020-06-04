@@ -6,9 +6,12 @@ package main.com.zc.services.presentation.configuration.bean;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -54,15 +57,40 @@ public class ImportCoursesBean {
 		 InputStream inputStream = null;
 		 try {
 			inputStream=file.getInputstream();
-			list=facade.parseCoursesFile(inputStream);
-			 
-		    Map<String, CoursesDTO> map = new LinkedHashMap();
-		    for (CoursesDTO ays : list) {
+			list=facade.parseCoursesFile(inputStream); 
+
+		    System.out.println("AhmedLists: "+String.valueOf(list.size()));
+		    
+		    courses=facade.getNewCourses(list);
+		    System.out.println("AhmedCourses: "+String.valueOf(courses.size()));
+		    List<CoursesDTO> addedCoursesLst=new ArrayList<CoursesDTO>();
+		    if(courses!=null) {
+		    	if(courses.size()>0) {
+		    addedCoursesLst.add(courses.get(0));
+		    	}
+		 }
+		    for(int i = 0;i<courses.size();i++) {
+		    	boolean isExist = false; 
+		    	for(int j=0;j<addedCoursesLst.size();j++) {
+		    		boolean isEmploySame = courses.get(i).getCourseCoordinator().getMail().equalsIgnoreCase(addedCoursesLst.get(j).getCourseCoordinator().getMail());
+		    		boolean isCourseSame = courses.get(i).getName().equalsIgnoreCase(addedCoursesLst.get(j).getName());
+		    		//System.out.println(courses.get(i).getName()+", "+addedCoursesLst.get(j).getName()+",Sep:::: "+courses.get(i).getCourseCoordinator().getMail()+" , "+addedCoursesLst.get(j).getCourseCoordinator().getMail());
+		    		if((isCourseSame&&isEmploySame)) {
+		    			isExist = true;
+		    		}
+		    	}
+		    	if(!isExist) {
+		    		addedCoursesLst.add(courses.get(i));
+		    	}
+		    }
+		    courses.clear();
+		    courses.addAll(addedCoursesLst);
+		    /*Map<String, CoursesDTO> map = new LinkedHashMap();
+		    for (CoursesDTO ays : courses) {
 		      map.put(ays.getName(), ays);
 		    }
-		    list.clear();
-		    list.addAll(map.values());
-		    courses=facade.getNewCourses(list);
+		    courses.clear();
+		    courses.addAll(map.values());*/
 		    //for(int i=0;i<courses.size();i++) {
 		    	//System.out.println("Ahmed: "+String.valueOf(courses.get(i).getName()));
 		    	//System.out.println("Ahmed: "+String.valueOf(courses.get(i).getCourseCoordinator().getMail()));
