@@ -77,8 +77,8 @@ public class ConfirmationStepAppServiceImpl implements IConfirmationStepAppServi
 					            +"</ul>"
 					        	+"</div>";
 				
-				String from = "LearningTechnologies@zewailcity.edu.eg";
-		        String pass = "DELF-651984@dr";
+					String from = "learningtechnologies@zewailcity.edu.eg";
+			        String pass = "DELF-651984@dr";
 				
 				// TODO Auto-generated method stub
 				 Properties props = System.getProperties();

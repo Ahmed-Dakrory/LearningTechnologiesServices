@@ -432,8 +432,8 @@ public class LoginBean {
 	private static boolean sendFromGMail( final  InternetAddress[] toAddress, final String subject, final String body,final String problemMessage,final String successMessage) {
 		 
 				
-				String from = "LearningTechnologies@zewailcity.edu.eg";
-		        String pass = "DELF-651984@dr";
+		String from = "learningtechnologies@zewailcity.edu.eg";
+        String pass = "DELF-651984@dr";
 				
 				// TODO Auto-generated method stub
 				 Properties props = System.getProperties();
