@@ -196,6 +196,12 @@ public class instructorSurveyBean implements Serializable{
 			ans_Categ0[i].setCourseId(selectedCourse);
 			ans_Categ0[i].setInstructorId(selectedInstructor);
 			ans_Categ0[i].setStudentId(studentThisAccount);
+			instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), ques_Categ0.get(i).getId());
+			if(answer!=null) {
+				ans_Categ0[i].setId(answer.getId());
+				ans_Categ0[i].setAns(answer.getAns());
+			}
+			
 		}
 		ans_Categ1 =new instructor_survey_ans[ques_Categ1.size()];
 		for(int i=0;i<ans_Categ1.length;i++) {
@@ -203,6 +209,11 @@ public class instructorSurveyBean implements Serializable{
 			ans_Categ1[i].setCourseId(selectedCourse);
 			ans_Categ1[i].setInstructorId(selectedInstructor);
 			ans_Categ1[i].setStudentId(studentThisAccount);
+			instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), ques_Categ1.get(i).getId());
+			if(answer!=null) {
+				ans_Categ1[i].setId(answer.getId());
+				ans_Categ1[i].setAns(answer.getAns());
+			}
 		}
 		ans_Categ2 =new instructor_survey_ans[ques_Categ2.size()];
 		for(int i=0;i<ans_Categ2.length;i++) {
@@ -210,6 +221,11 @@ public class instructorSurveyBean implements Serializable{
 			ans_Categ2[i].setCourseId(selectedCourse);
 			ans_Categ2[i].setInstructorId(selectedInstructor);
 			ans_Categ2[i].setStudentId(studentThisAccount);
+			instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), ques_Categ2.get(i).getId());
+			if(answer!=null) {
+				ans_Categ2[i].setId(answer.getId());
+				ans_Categ2[i].setAns(answer.getAns());
+			}
 		}
 		ans_Categ3 =new instructor_survey_ans[ques_Categ3.size()];
 		for(int i=0;i<ans_Categ3.length;i++) {
@@ -217,6 +233,11 @@ public class instructorSurveyBean implements Serializable{
 			ans_Categ3[i].setCourseId(selectedCourse);
 			ans_Categ3[i].setInstructorId(selectedInstructor);
 			ans_Categ3[i].setStudentId(studentThisAccount);
+			instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), ques_Categ3.get(i).getId());
+			if(answer!=null) {
+				ans_Categ3[i].setId(answer.getId());
+				ans_Categ3[i].setAns(answer.getAns());
+			}
 		}
 		ans_Categ4 =new instructor_survey_ans[ques_Categ4.size()];
 		for(int i=0;i<ans_Categ4.length;i++) {
@@ -224,6 +245,11 @@ public class instructorSurveyBean implements Serializable{
 			ans_Categ4[i].setCourseId(selectedCourse);
 			ans_Categ4[i].setInstructorId(selectedInstructor);
 			ans_Categ4[i].setStudentId(studentThisAccount);
+			instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), ques_Categ4.get(i).getId());
+			if(answer!=null) {
+				ans_Categ4[i].setId(answer.getId());
+				ans_Categ4[i].setAns(answer.getAns());
+			}
 		}
 		ans_Categ5 =new instructor_survey_ans[ques_Categ5.size()];
 		for(int i=0;i<ans_Categ5.length;i++) {
@@ -231,17 +257,36 @@ public class instructorSurveyBean implements Serializable{
 			ans_Categ5[i].setCourseId(selectedCourse);
 			ans_Categ5[i].setInstructorId(selectedInstructor);
 			ans_Categ5[i].setStudentId(studentThisAccount);
+			instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), ques_Categ5.get(i).getId());
+			if(answer!=null) {
+				ans_Categ5[i].setId(answer.getId());
+				ans_Categ5[i].setAns(answer.getAns());
+			}
 		}
 		comment1ans =new instructor_survey_ans();
 		comment1ans.setCourseId(selectedCourse);
 		comment1ans.setInstructorId(selectedInstructor);
 		comment1ans.setStudentId(studentThisAccount);
+		instructor_survey_ans answer = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), comment1Ques.get(0).getId());
+		if(answer!=null) {
+			if(answer.getComment()!=null) {
+				comment1ans.setId(answer.getId());
+				comment1ans.setComment(answer.getComment());
+			}
+		}
 		
 		
 		comment2ans =new instructor_survey_ans();
 		comment2ans.setCourseId(selectedCourse);
 		comment2ans.setInstructorId(selectedInstructor);
 		comment2ans.setStudentId(studentThisAccount);
+		instructor_survey_ans answer2 = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), comment2Ques.get(0).getId());
+		if(answer2!=null) {
+			if(answer2.getComment()!=null) {
+				comment2ans.setId(answer.getId());
+			comment2ans.setComment(answer2.getComment());
+			}
+		}
 		
 	}
 

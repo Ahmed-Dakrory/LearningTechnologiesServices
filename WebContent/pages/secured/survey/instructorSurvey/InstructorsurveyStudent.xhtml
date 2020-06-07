@@ -72,6 +72,9 @@ body {font-family: Arial;}
 						</p:panel>
 						
 						<p:panel id="instructorsPanel" >
+						<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Semester: #{(instructorSurveyBean.semesterSelected==0)?'Fall':''} #{(instructorSurveyBean.semesterSelected==1)?'Spring':''} #{(instructorSurveyBean.semesterSelected==2)?'Summer':''} #{instructorSurveyBean.yearSelected}
+							</div>
 						<div style="    font-size: 20px;    font-weight: 600;">	Select the Instructor or TA: </div>
 								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.selectedInstructor.id}" >
 									<f:ajax listener="#{instructorSurveyBean.fillQuestion()}" render=" form:surveyPanel "/>

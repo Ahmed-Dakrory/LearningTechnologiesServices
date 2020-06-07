@@ -131,6 +131,24 @@ public class instructor_survey_ansAppServiceImpl implements Iinstructor_survey_a
 
 
 
+	@Override
+	public instructor_survey_ans getAllByCourseAndInstructorAndStudentAndQuestion(int courseId, int instructorId,
+			int studentId, int questionId) {
+		// TODO Auto-generated method stub
+				try{
+					instructor_survey_ans so=instructor_survey_ansDataRepository.getAllByCourseAndInstructorAndStudentAndQuestion(courseId, instructorId,studentId, questionId) ;
+					
+					return so;
+					}
+					catch(Exception ex)
+					{
+						ex.printStackTrace();
+						return null;
+					}
+	}
+
+
+
 	
 
 	

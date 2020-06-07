@@ -52,6 +52,11 @@ import main.com.zc.services.domain.person.model.Student;
 	@NamedQuery(name="instructor_survey_ans.getAllByCourseAndInstructorAndStudent",
 	query = "from instructor_survey_ans d where d.courseId.id = :courseId and d.instructorId.id = :instructorId and d.studentId.id = :studentId"
 			)
+	
+	,
+	@NamedQuery(name="instructor_survey_ans.getAllByCourseAndInstructorAndStudentAndQuestion",
+	query = "from instructor_survey_ans d where d.courseId.id = :courseId and d.instructorId.id = :instructorId and d.studentId.id = :studentId and d.quesId.id = :questionId"
+			)
 		
 	
 })

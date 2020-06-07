@@ -137,6 +137,24 @@ public class instructor_survey_ansRepositoryImpl implements instructor_survey_an
 		 }
 	}
 
+	@Override
+	public instructor_survey_ans getAllByCourseAndInstructorAndStudentAndQuestion(int courseId, int instructorId,
+			int studentId, int questionId) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllByCourseAndInstructorAndStudentAndQuestion")
+				 .setInteger("courseId",courseId)
+				 .setInteger("instructorId", instructorId)
+				 .setInteger("studentId", studentId)
+		 .setInteger("questionId", questionId);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results.get(0);
+		 }else{
+			 return null;
+		 }
+	}
+
 	
 
 
