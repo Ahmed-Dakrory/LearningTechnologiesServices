@@ -121,6 +121,7 @@ public class LeftNavigationMenuBean {
 	
 	
 	private boolean cloAvailable=false;
+	private boolean instructorSurveyAvailable=false;
 	private boolean showCourseReplacement=false;
 	
 	
@@ -132,6 +133,7 @@ public class LeftNavigationMenuBean {
 
 		currentMenuId = "Dashboard";
 		cloAvailable =(formStatus.getById(18).getStatus().getValue())==0?true:false;
+		instructorSurveyAvailable=(formStatus.getById(22).getStatus().getValue())==0?true:false;
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -469,6 +471,40 @@ public class LeftNavigationMenuBean {
 			{
 
 				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+		
+	
+	}
+
+	
+	
+	public String renderInstructorSurvey() // for Academic Petition
+	{
+		currentMenuId = "Instructor Survey";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				
+				return "/pages/secured/survey/instructorSurvey/InstructorsurveyStudent.xhtml?faces-redirect=true";
+			
+			}
+			else
+			{
+
+				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
 			
 			}
 			
@@ -2881,6 +2917,18 @@ else
 
 	public void setCloAvailable(boolean cloAvailable) {
 		this.cloAvailable = cloAvailable;
+	}
+
+
+
+	public boolean isInstructorSurveyAvailable() {
+		return instructorSurveyAvailable;
+	}
+
+
+
+	public void setInstructorSurveyAvailable(boolean instructorSurveyAvailable) {
+		this.instructorSurveyAvailable = instructorSurveyAvailable;
 	}
 
 

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+		
+		<style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab div {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab div:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab div.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+
+		#{instructorSurveyBean.refresh()}
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Courses Instructor Evaluation" disabled="true" />
+							<p:menuitem value="#{instructorSurveyBean.studentThisAccount.data.getNameInEnglish()}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+						<p:panel id="petitionPanel">
+						<h:selectOneMenu value="#{instructorSurveyBean.selectedCourse.id}">
+							<f:ajax listener="#{instructorSurveyBean.selectTheIstructorForThisCourse()}" render="form:surveyPanel form:instructorsPanel"/>
+							<f:selectItems value="#{instructorSurveyBean.allStudentCoursesthisPeriod}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+						</h:selectOneMenu>
+						 
+						</p:panel>
+						
+						<p:panel id="instructorsPanel" >
+						<div style="    font-size: 20px;    font-weight: 600;">	Select the Instructor or TA: </div>
+								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.selectedInstructor.id}" >
+									<f:ajax listener="#{instructorSurveyBean.fillQuestion()}" render=" form:surveyPanel "/>
+									<f:selectItems value="#{instructorSurveyBean.allInstructorForThisCourse}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+									<f:selectItems value="#{instructorSurveyBean.allTAsForThisCourse}" var="data2" itemLabel="#{data2.name}" itemValue="#{data2.id}" />
+						
+								</p:selectOneRadio>
+								
+						</p:panel>
+						
+						
+						<p:panel id="surveyPanel" style="display:#{instructorSurveyBean.selectedInstructor.id!=null?'block':'none'};">
+						
+						<div class="tab">
+						  <div class="tablinks" onclick="opentab(event, 'categ1')">Overall Experience</div>
+						  <div class="tablinks" onclick="opentab(event, 'categ2')">Course Organization</div>
+						  <div class="tablinks" onclick="opentab(event, 'categ3')">Presentation of Content</div>
+						  <div class="tablinks" onclick="opentab(event, 'categ4')">Interaction &amp; Discussion</div>
+						  <div class="tablinks" onclick="opentab(event, 'categ5')">Assessment Methods (assignments, projects, quizzes, exams…etc.)</div>
+						  <div class="tablinks" onclick="opentab(event, 'categ6')">Attitude towards Students</div>
+						  <div class="tablinks" onclick="opentab(event, 'Comments')">Comments</div>
+						</div>
+						
+						<div id="categ1" class="tabcontent">
+							<ui:repeat var="quesType0" varStatus="status" value="#{instructorSurveyBean.ques_Categ0}">
+								<h3>  #{quesType0.ques}</h3>
+								
+							    <p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.ans_Categ0[status.index].ans}" >
+								
+									<f:selectItem itemLabel="Excellent" itemValue="4" />
+						            <f:selectItem itemLabel="Very good" itemValue="3" />
+						            <f:selectItem itemLabel="good" itemValue="2" />
+						            <f:selectItem itemLabel="Fair" itemValue="1" />
+						            <f:selectItem itemLabel="Needs Improvement" itemValue="0" />
+								</p:selectOneRadio>
+							</ui:repeat>
+						</div>
+						
+						<div id="categ2" class="tabcontent">
+							<ui:repeat var="quesType1" varStatus="status" value="#{instructorSurveyBean.ques_Categ1}">
+								<h3>  #{quesType1.ques}</h3>
+								
+							    <p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.ans_Categ1[status.index].ans}" >
+								
+									<f:selectItem itemLabel="Excellent" itemValue="4" />
+						            <f:selectItem itemLabel="Very good" itemValue="3" />
+						            <f:selectItem itemLabel="good" itemValue="2" />
+						            <f:selectItem itemLabel="Fair" itemValue="1" />
+						            <f:selectItem itemLabel="Needs Improvement" itemValue="0" />
+								</p:selectOneRadio>
+							</ui:repeat>
+						</div>
+						
+						<div id="categ3" class="tabcontent">
+							<ui:repeat var="quesType2" varStatus="status" value="#{instructorSurveyBean.ques_Categ2}">
+								<h3>  #{quesType2.ques}</h3>
+								
+							    <p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.ans_Categ2[status.index].ans}" >
+								
+									<f:selectItem itemLabel="Excellent" itemValue="4" />
+						            <f:selectItem itemLabel="Very good" itemValue="3" />
+						            <f:selectItem itemLabel="good" itemValue="2" />
+						            <f:selectItem itemLabel="Fair" itemValue="1" />
+						            <f:selectItem itemLabel="Needs Improvement" itemValue="0" />
+								</p:selectOneRadio>
+							</ui:repeat>
+						</div>
+						
+						<div id="categ4" class="tabcontent">
+							<ui:repeat var="quesType3" varStatus="status" value="#{instructorSurveyBean.ques_Categ3}">
+								<h3>  #{quesType3.ques}</h3>
+								
+							    <p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.ans_Categ3[status.index].ans}" >
+								
+									<f:selectItem itemLabel="Excellent" itemValue="4" />
+						            <f:selectItem itemLabel="Very good" itemValue="3" />
+						            <f:selectItem itemLabel="good" itemValue="2" />
+						            <f:selectItem itemLabel="Fair" itemValue="1" />
+						            <f:selectItem itemLabel="Needs Improvement" itemValue="0" />
+								</p:selectOneRadio>
+							</ui:repeat>
+						</div>
+						
+						<div id="categ5" class="tabcontent">
+							<ui:repeat var="quesType4" varStatus="status" value="#{instructorSurveyBean.ques_Categ4}">
+								<h3>  #{quesType4.ques}</h3>
+								
+							    <p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.ans_Categ4[status.index].ans}" >
+								
+									<f:selectItem itemLabel="Excellent" itemValue="4" />
+						            <f:selectItem itemLabel="Very good" itemValue="3" />
+						            <f:selectItem itemLabel="good" itemValue="2" />
+						            <f:selectItem itemLabel="Fair" itemValue="1" />
+						            <f:selectItem itemLabel="Needs Improvement" itemValue="0" />
+								</p:selectOneRadio>
+							</ui:repeat>
+						</div>
+						
+						<div id="categ6" class="tabcontent">
+							<ui:repeat var="quesType5" varStatus="status" value="#{instructorSurveyBean.ques_Categ5}">
+								<h3>  #{quesType5.ques}</h3>
+								
+							    <p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.ans_Categ5[status.index].ans}" >
+								
+									<f:selectItem itemLabel="Excellent" itemValue="4" />
+						            <f:selectItem itemLabel="Very good" itemValue="3" />
+						            <f:selectItem itemLabel="good" itemValue="2" />
+						            <f:selectItem itemLabel="Fair" itemValue="1" />
+						            <f:selectItem itemLabel="Needs Improvement" itemValue="0" />
+								</p:selectOneRadio>
+							</ui:repeat>
+						</div>
+						
+						<div id="Comments" class="tabcontent">
+							
+								<h3>#{instructorSurveyBean.comment1Ques.get(0).ques}</h3>
+							    <p:inputTextarea value="#{instructorSurveyBean.comment1ans.comment}"></p:inputTextarea>
+							    
+							    
+							    <h3>#{instructorSurveyBean.comment2Ques.get(0).ques}</h3>
+							    <p:inputTextarea value="#{instructorSurveyBean.comment2ans.comment}"></p:inputTextarea>
+							    
+							
+						</div>
+						
+						
+							
+				<p:commandButton value="submit" actionListener="#{instructorSurveyBean.submitResult}"/>
+						</p:panel>
+				
+				</div>
+				
+			</h:form>
+			
+			<script>
+function opentab(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i &lt; tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i &lt; tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+		</ui:define>
+	</ui:composition>
+</html>
