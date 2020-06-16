@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Instructor Evaluation - LT Online Services</ui:define>
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
 		<ui:define name="content">
 		<style>
 		.tdClass {
@@ -18,7 +18,7 @@
     text-align: center;
 }
 		</style>
-		#{instructorSurveyBean.refresh()}
+		#{courseCloBean.refresh()}
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
 				<ul class="header">
@@ -26,7 +26,7 @@
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Feedback" />
-							<p:menuitem value="Courses Instructor Evaluation" disabled="true" />
+							<p:menuitem value="Courses CLO Evaluation" disabled="true" />
 							<p:menuitem value="Evaluation Results" disabled="true" />
 						</p:breadCrumb>
 					</li>
@@ -38,27 +38,38 @@
 							
 					<h:panelGroup id="pageContent">
 						<p:panel id="petitionPanel">
-						<h:selectOneMenu value="#{instructorSurveyBean.selectedInstructor.id}">
-						<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
-						<f:selectItems value="#{instructorSurveyBean.allInstructorListOfAnswers}" var="data" itemLabel="#{data.instructorId.name}" itemValue="#{data.instructorId.id}" />
+						<h:selectOneMenu value="#{courseCloBean.selectedCourse.id}">
+						<f:ajax listener="#{courseCloBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+						<f:selectItems value="#{courseCloBean.listOfAllCourses}" var="data" itemLabel="#{data.course_code}" itemValue="#{data.id}" />
 						</h:selectOneMenu>
 						 
 						 
 						</p:panel>
-						  <p:commandButton value="Generate Total Result Sheet" ajax="false"   action="#{instructorSurveyBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
+						 <p:commandButton  value="Generate Total Result Sheet" ajax="false"   action="#{courseCloBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
 						
 						
 						<p:panel id="surveyPanel" >
-						<p:panel rendered="true">
-							
-							
+						<p:panel rendered="#{courseCloBean.selectedCourse.id!=null}">
+							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Code: #{courseCloBean.selectedCourse.course_code}
+								
+							</div>
+							<br></br>
+							<br></br>
+							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Semester: #{courseCloBean.selectedCourse.semester}
+							</div>
 							
 							<br></br>
-							<p:panel rendered="true">
+							<br></br>
+							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Year: #{courseCloBean.selectedCourse.year}
+							</div>
+							
+							<br></br>
+							<p:panel rendered="#{courseCloBean.selectedCourse.clo1!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
-							<p:commandButton value="Generate Total Comments Sheet for instructor" ajax="false"   action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
-						
 									<br></br>
 									<table>
 									<thead>
@@ -66,19 +77,19 @@
 										<td class="tdClass" style="background: #c1a570;">
 										
 										</td>
-									<td  class="tdClass" colspan="2">
+									<td  class="tdClass" style="" colspan="2">
 											<div>Excellent</div>
 										</td>
-										<td class="tdClass"  colspan="2">
+										<td class="tdClass" style=""  colspan="2">
 											<div>Very good</div>
 										</td>
-										<td class="tdClass"  colspan="2">
+										<td class="tdClass" style=""  colspan="2">
 											<div>good</div>
 										</td>
-										<td class="tdClass"   colspan="2">
+										<td class="tdClass"  style=""  colspan="2">
 											<div>Fair</div>
 										</td>
-										<td class="tdClass"   colspan="2">
+										<td class="tdClass"  style=""  colspan="2">
 											<div>Needs Improvement</div>
 										</td>
 										
@@ -88,11 +99,10 @@
 									</tr>
 									</thead>
 									<tbody>
-									
-									<ui:repeat var="clo" value="#{instructorSurveyBean.resultsPersonPercntageClo}">
+									<ui:repeat var="clo" value="#{courseCloBean.resultsPersonPercntageClo}">
 										<tr style="display:#{clo.numberOfPersons>0}">
-											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'};width: 32%;">
-												<div> #{instructorSurveyBean.allquestionThisYearAndSemester.get(clo.cloNumber-1).ques}</div>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">
+												<div>CLO #{clo.cloNumber}</div>
 											</td>
 											
 											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
@@ -130,7 +140,6 @@
 							
 						 </p:panel>
 						</p:panel>
-						
 						
 						
 					</h:panelGroup>

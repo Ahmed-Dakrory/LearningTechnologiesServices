@@ -11,6 +11,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
+import main.com.zc.service.instructor_survey_ans.instructor_survey_ans;
+import main.com.zc.service.instructor_survey_ques.instructor_survey_ques;
+
 
 public class ReportFileGeneration {
 
@@ -19,13 +22,16 @@ public class ReportFileGeneration {
 	HSSFRow row;
 	HSSFCell cell;
 	List<cloThreshold> allCoursesThresoldResults;
-	
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofins;
 	public ReportFileGeneration(List<cloThreshold> allCoursesThresoldResults,HSSFWorkbook wb,HSSFSheet sheet) {
 		// TODO Auto-generated constructor stub
 		this.workbook=wb;
 		this.sheet=sheet;
 		this.allCoursesThresoldResults=allCoursesThresoldResults;
 	}
+
+
+	
 
 
 	public static String toFraction(float d, int factor) {
@@ -55,34 +61,19 @@ public class ReportFileGeneration {
 	}
 	
 	
-	public void generateReport(){
-		sheet.setColumnWidth(0, 3000);
-		sheet.setColumnWidth(1, 3000);
-		sheet.setColumnWidth(2, 5000);
-		sheet.setColumnWidth(3, 3000);
-		sheet.setColumnWidth(4, 5000);
-		sheet.setColumnWidth(5, 3000);
-		sheet.setColumnWidth(6, 5000);
-		sheet.setColumnWidth(7, 3000);
-		sheet.setColumnWidth(8, 5000);
-		sheet.setColumnWidth(9, 3000);
-		sheet.setColumnWidth(10, 5000);
-		sheet.setColumnWidth(11, 3000);
-		sheet.setColumnWidth(12, 5000);
-		sheet.setColumnWidth(13, 3000);
-		sheet.setColumnWidth(14, 5000);
-		sheet.setColumnWidth(15, 3000);
-		sheet.setColumnWidth(16, 5000);
-		sheet.setColumnWidth(17, 3000);
-		sheet.setColumnWidth(18, 5000);
-		sheet.setColumnWidth(19, 3000);
-		sheet.setColumnWidth(20, 5000);
+	public void generateReport(List<instructor_survey_ques>  instructor_survey_ques){
+		sheet.setColumnWidth(0, 7000);
+		for (int i=1;i<=instructor_survey_ques.size()-2;i++) {
+
+			sheet.setColumnWidth(i, 7000);
+		}
+	
 		
-		titleOfSheet();
+		titleOfSheet(instructor_survey_ques);
 	}
 	
 	
-	public void titleOfSheet(){
+	public void titleOfSheet(List<instructor_survey_ques>  instructor_survey_ques){
 		
 		//Title	
 		HSSFCellStyle style = workbook.createCellStyle();
@@ -101,15 +92,15 @@ public class ReportFileGeneration {
 	    
 	    
 	    row = sheet.createRow(0);
-	    for(int i=0;i<20;i++) {
+	    for(int i=0;i<instructor_survey_ques.size()-2;i++) {
 	    	cell = row.createCell(2*i+1);
 		    row.getCell(2*i+1).setCellStyle(style);
-		    cell.setCellValue("CLO "+String.valueOf(i+1));
+		    cell.setCellValue(instructor_survey_ques.get(i).getQues());
 		    
 		    
 		    cell = row.createCell(2*i+2);
 		    row.getCell(2*i+2).setCellStyle(style);
-		    cell.setCellValue("CLO "+String.valueOf(i+1)+" Persons");
+		    cell.setCellValue("Number of Persons");
 	    }
 	 
 	    
@@ -129,7 +120,7 @@ public class ReportFileGeneration {
 		    
 		   cell = row.createCell(0);
 		   row.getCell(0).setCellStyle(style);
-		   cell.setCellValue(allCoursesThresoldResults.get(i).getSelectedCourse().getCourse_code());
+		   cell.setCellValue(allCoursesThresoldResults.get(i).getListOfCourseAnswers().get(0).getInstructorId().getName());
 		   for(int j=0;j<20;j++) {
 			  int cell_column_index_Percentage = 2*j+1;
 			  int cell_column_index_Person = 2*j+2;

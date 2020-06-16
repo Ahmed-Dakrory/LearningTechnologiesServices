@@ -32,7 +32,7 @@ import org.hibernate.annotations.NamedQuery;
 			)
 	,
 	@NamedQuery(name="instructor_survey_ques.getAllByYearAndSemestar",
-	query = "from instructor_survey_ques d where d.year = :year and d.semester = :semester"
+	query = "from instructor_survey_ques d where d.year = :year and d.semester = :semester order by d.category"
 			)
 	,
 	@NamedQuery(name="instructor_survey_ques.getAllByYearAndSemestarAndCategory",

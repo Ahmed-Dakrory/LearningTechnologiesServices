@@ -149,6 +149,55 @@ public class instructor_survey_ansAppServiceImpl implements Iinstructor_survey_a
 
 
 
+	@Override
+	public List<instructor_survey_ans> getAllForAllInstructorForYearAndSemester(int semester, int year) {
+		try{
+			List<instructor_survey_ans> course=instructor_survey_ansDataRepository.getAllForAllInstructorForYearAndSemester(semester, year);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
+	@Override
+	public List<instructor_survey_ans> getAllByInstructorForYearAndSemester(int semester, int year, int instructorId) {
+		try{
+			List<instructor_survey_ans> course=instructor_survey_ansDataRepository.getAllByInstructorForYearAndSemester(semester, year, instructorId);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
+	@Override
+	public List<instructor_survey_ans> getAllByInstructorForYearAndSemesterandCategory(int semester, int year,
+			int instructorId, int category) {
+		try{
+			List<instructor_survey_ans> course=instructor_survey_ansDataRepository.getAllByInstructorForYearAndSemesterandCategory(semester, year, instructorId,category);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 	
 
 	

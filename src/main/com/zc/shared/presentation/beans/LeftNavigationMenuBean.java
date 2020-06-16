@@ -466,11 +466,17 @@ public class LeftNavigationMenuBean {
 				
 				return "/pages/secured/survey/clo/cloStudent.xhtml?faces-redirect=true";
 			
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_ENG_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
 			}
 			else
 			{
 
-				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
+				return "/pages/secured/survey/clo/cloCourseResultInstructor.xhtml?faces-redirect=true";
 			
 			}
 			
@@ -500,13 +506,20 @@ public class LeftNavigationMenuBean {
 				
 				return "/pages/secured/survey/instructorSurvey/InstructorsurveyStudent.xhtml?faces-redirect=true";
 			
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_ENG_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
 			}
 			else
 			{
 
-				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
+				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResultInstructor.xhtml?faces-redirect=true";
 			
 			}
+			
 			
 		}
 		else

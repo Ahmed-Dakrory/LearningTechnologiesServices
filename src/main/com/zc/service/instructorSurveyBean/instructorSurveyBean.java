@@ -1,5 +1,6 @@
 package main.com.zc.service.instructorSurveyBean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,12 +10,19 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import main.com.zc.service.instructorSurveyBean.ReportFileGeneration;
+import main.com.zc.service.instructorSurveyBean.cloThreshold;
+import main.com.zc.service.instructorSurveyBean.cloResult;
 import main.com.zc.service.instructor_survey_ans.Iinstructor_survey_ansAppService;
 import main.com.zc.service.instructor_survey_ans.instructor_survey_ans;
 import main.com.zc.service.instructor_survey_ques.Iinstructor_survey_quesAppService;
@@ -23,12 +31,15 @@ import main.com.zc.service.student.IStudentGetDataAppService;
 import main.com.zc.services.domain.data.model.Courses;
 import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.shared.Constants;
+import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.ICourseInstructorFacade;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.configuration.facade.IStudentCourseFacade;
 import main.com.zc.services.presentation.survey.courseEval.facade.ICourseEvalAnswersFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 
 @ManagedBean(name = "instructorSurveyBean")
@@ -78,6 +89,12 @@ public class instructorSurveyBean implements Serializable{
 	@ManagedProperty("#{instructor_survey_ansFacadeImpl}")
 	private Iinstructor_survey_ansAppService instructor_survey_ansFacade;
 	
+	
+
+	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
+   	private IGetLoggedInInstructorData getInsDataFacade;
+	
+	
 	Student studentThisAccount;
 	boolean aStudentAccount = false;
 	
@@ -117,9 +134,22 @@ public class instructorSurveyBean implements Serializable{
 	List<instructor_survey_ques> comment2Ques;
 	instructor_survey_ans comment2ans;
 	
+	
+	
+	List<instructor_survey_ans> allInstructorListOfAnswers;
+	
+	
+
+	private List<cloResult> resultsPersonPercntageClo;
+
+	List<instructor_survey_ans> listOfCourseAnswers;
+	List<instructor_survey_ques> allquestionThisYearAndSemester;
+	
+	
 	@PostConstruct
 	public void init() {
 
+		selectedInstructor =new Employee();
 		refresh();
 		
 		
@@ -128,7 +158,10 @@ public class instructorSurveyBean implements Serializable{
 
 	public void refresh() {
 		// TODO Auto-generated method stub
-
+		FormsStatusDTO settingCLO = facadeSettings.getById(18);
+		semesterSelected = Integer.valueOf(settingCLO.getSemester().getId());
+		
+		yearSelected = settingCLO.getYear();
 		selectedCourse = new Courses();
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -367,8 +400,178 @@ public class instructorSurveyBean implements Serializable{
 	}
 	private void dootherProcendure(String mail) {
 		// TODO Auto-generated method stub
+		//All Accredition
+		if(mail.toLowerCase().equals(Constants.ACCREDITION_ENG_DEP.toLowerCase()))
+		{
+			allInstructorListOfAnswers = instructor_survey_ansFacade.getAllForAllInstructorForYearAndSemester(semesterSelected, yearSelected);
+			
+		}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+		{
+			allInstructorListOfAnswers = instructor_survey_ansFacade.getAllForAllInstructorForYearAndSemester(semesterSelected, yearSelected);
+			
+		}else {
+			InstructorDTO inst = getInsDataFacade.getInsByPersonMail(mail);
+			selectedInstructor = new Employee();
+			selectedInstructor.setMail(mail);
+			selectedInstructor.setId(inst.getId());
+			selectedInstructor.setName(inst.getName());
+			List<instructor_survey_ans> buffer = instructor_survey_ansFacade.getAllByInstructorForYearAndSemester(semesterSelected, yearSelected,inst.getId());
+			allInstructorListOfAnswers = new ArrayList<instructor_survey_ans>();
+			
+			if(buffer!=null && buffer.size()>0) {
+			allInstructorListOfAnswers.add(buffer.get(0));
+			selectTheCourseResults();
+			
+			}
+		}
+	}
+
+	
+public void selectTheCourseResults() {
+		
+
+		resultsPersonPercntageClo=new ArrayList<cloResult>();
+		
+		
+		
+		listOfCourseAnswers=instructor_survey_ansFacade.getAllByInstructorForYearAndSemester(semesterSelected, yearSelected, selectedInstructor.getId());
+		
+		
+		
+		if(listOfCourseAnswers!=null) {
+			
+			allquestionThisYearAndSemester = instructor_survey_quesFacade.getAllByYearAndSemestar(yearSelected, semesterSelected);
+		
+			
+			//Construct ALL question cloResults
+		for(int i=0;i<allquestionThisYearAndSemester.size()-2;i++) {
+
+			resultsPersonPercntageClo.add(new cloResult(i+1));
+		}
+		
+		for(int i=0;i<listOfCourseAnswers.size();i++) {
+			if(listOfCourseAnswers.get(i).getAns()!=null) {
+				Integer res =listOfCourseAnswers.get(i).getAns();
+				cloResult clo = null;
+				for(int j=0;j<allquestionThisYearAndSemester.size();j++) {
+
+					if(allquestionThisYearAndSemester.get(j).getId().equals(listOfCourseAnswers.get(i).getQuesId().getId())) {
+
+						
+						
+						clo=resultsPersonPercntageClo.get(j);
+						clo.numberOfPersons=clo.numberOfPersons+1;
+						int[] numberOfPersonForEachGrade=clo.getEachGradeCloPersons();
+						
+						numberOfPersonForEachGrade[res]=numberOfPersonForEachGrade[res]+1;
+						clo.setEachGradeCloPersons(numberOfPersonForEachGrade);
+						clo=resultsPersonPercntageClo.get(j);
+						resultsPersonPercntageClo.set(j,clo);
+						
+						
+					}
+					
+				}
+				
+			
+				
+				
+			}
+			
+		}
+		
+		
+		
+		for(int i=0;i<resultsPersonPercntageClo.size();i++) {
+			cloResult cR= resultsPersonPercntageClo.get(i);
+			for(int j=0;j<resultsPersonPercntageClo.get(i).percentage.length;j++) {
+				if(resultsPersonPercntageClo.get(i).getNumberOfPersons()!=0) {
+					cR.percentage[j]= ((float)cR.getEachGradeCloPersons()[j])/((float) cR.getNumberOfPersons())*100;
+					
+				}
+			}
+			
+			resultsPersonPercntageClo.set(i, cR);
+		}
+
+		
+		
+		}
 		
 	}
+	
+
+
+public void getListOfAllCoursesThreshold() {
+	allquestionThisYearAndSemester = instructor_survey_quesFacade.getAllByYearAndSemestar(yearSelected, semesterSelected);
+	
+	List<cloThreshold> allCoursesThresoldResults=new ArrayList<cloThreshold>();
+	for(int i=0;i<allInstructorListOfAnswers.size();i++) {
+		instructor_survey_ques courseCLO = instructor_survey_quesFacade.getById(allInstructorListOfAnswers.get(i).getQuesId().getId());
+		listOfCourseAnswers=instructor_survey_ansFacade.getAllByInstructorForYearAndSemester(semesterSelected, yearSelected, allInstructorListOfAnswers.get(i).getInstructorId().getId());
+		System.out.println("Ahmed Result: ");
+		cloThreshold course_threshold=new cloThreshold(listOfCourseAnswers, courseCLO,allquestionThisYearAndSemester.size(),allquestionThisYearAndSemester);
+		allCoursesThresoldResults.add(course_threshold);
+	}
+	
+	if(allCoursesThresoldResults.size()>0) {
+		generateFile(allCoursesThresoldResults,allquestionThisYearAndSemester);
+	}
+}
+
+public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instructor_survey_ques> allquestionThisYearAndSemester){
+	 HSSFWorkbook workbook = new HSSFWorkbook();
+	    HSSFSheet sheet = workbook.createSheet();
+	    
+	    ReportFileGeneration reportFileGeneration=new ReportFileGeneration(allCoursesThresoldResults,workbook, sheet);
+	    
+	    reportFileGeneration.generateReport(allquestionThisYearAndSemester);
+
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    ExternalContext externalContext = facesContext.getExternalContext();
+	    externalContext.setResponseContentType("application/vnd.ms-excel");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+
+	    try {
+			workbook.write(externalContext.getResponseOutputStream());
+			System.out.println("Done");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+	    facesContext.responseComplete();
+}
+
+
+
+public void generateFileOfComments(){
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive = instructor_survey_ansFacade.getAllByInstructorForYearAndSemesterandCategory(semesterSelected, yearSelected, selectedInstructor.getId(),6);
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsNegative = instructor_survey_ansFacade.getAllByInstructorForYearAndSemesterandCategory(semesterSelected, yearSelected, selectedInstructor.getId(),7);
+	 HSSFWorkbook workbook = new HSSFWorkbook();
+	    HSSFSheet sheet = workbook.createSheet();
+	    
+	    ReportFileGenerationComments reportFileGeneration=new ReportFileGenerationComments(allanswersThisYearAndSemesterofinsPositive,allanswersThisYearAndSemesterofinsNegative,workbook, sheet);
+	    
+	    reportFileGeneration.generateReport();
+
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    ExternalContext externalContext = facesContext.getExternalContext();
+	    externalContext.setResponseContentType("application/vnd.ms-excel");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+
+	    try {
+			workbook.write(externalContext.getResponseOutputStream());
+			System.out.println("Done");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+	    facesContext.responseComplete();
+}
+
+
 
 
 	public IStudentCourseFacade getFacadeStudendCourses() {
@@ -758,6 +961,56 @@ public class instructorSurveyBean implements Serializable{
 
 	public void setComment2ans(instructor_survey_ans comment2ans) {
 		this.comment2ans = comment2ans;
+	}
+
+
+	public List<instructor_survey_ans> getAllInstructorListOfAnswers() {
+		return allInstructorListOfAnswers;
+	}
+
+
+	public void setAllInstructorListOfAnswers(List<instructor_survey_ans> allInstructorListOfAnswers) {
+		this.allInstructorListOfAnswers = allInstructorListOfAnswers;
+	}
+
+
+	public List<cloResult> getResultsPersonPercntageClo() {
+		return resultsPersonPercntageClo;
+	}
+
+
+	public void setResultsPersonPercntageClo(List<cloResult> resultsPersonPercntageClo) {
+		this.resultsPersonPercntageClo = resultsPersonPercntageClo;
+	}
+
+
+	public List<instructor_survey_ans> getListOfCourseAnswers() {
+		return listOfCourseAnswers;
+	}
+
+
+	public void setListOfCourseAnswers(List<instructor_survey_ans> listOfCourseAnswers) {
+		this.listOfCourseAnswers = listOfCourseAnswers;
+	}
+
+
+	public List<instructor_survey_ques> getAllquestionThisYearAndSemester() {
+		return allquestionThisYearAndSemester;
+	}
+
+
+	public void setAllquestionThisYearAndSemester(List<instructor_survey_ques> allquestionThisYearAndSemester) {
+		this.allquestionThisYearAndSemester = allquestionThisYearAndSemester;
+	}
+
+
+	public IGetLoggedInInstructorData getGetInsDataFacade() {
+		return getInsDataFacade;
+	}
+
+
+	public void setGetInsDataFacade(IGetLoggedInInstructorData getInsDataFacade) {
+		this.getInsDataFacade = getInsDataFacade;
 	}
 	
 	

@@ -32,11 +32,15 @@ import main.com.zc.service.courseClo.course_clo;
 import main.com.zc.service.courseClo.course_cloAppServiceImpl;
 import main.com.zc.service.student.IStudentGetDataAppService;
 import main.com.zc.services.domain.person.model.Student;
+import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.domain.shared.enumurations.SemesterEnum;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.configuration.facade.IStudentCourseFacade;
+import main.com.zc.services.presentation.survey.courseEval.facade.ICourseEvalAnswersFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
+import main.com.zc.services.presentation.users.dto.InstructorDTO;
+import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.shared.JavaScriptMessagesHandler;
 
@@ -83,8 +87,13 @@ public class courseCloBean implements Serializable{
 	@ManagedProperty("#{IStudentGetDataAppService}")
 	private IStudentGetDataAppService studentFacade;
 	
+	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
+   	private IGetLoggedInInstructorData getInsDataFacade;
 
-    
+	@ManagedProperty("#{ICourseEvalAnswersFacade}")
+	private ICourseEvalAnswersFacade coursesFacade;
+	
+	
 	List<clo_survey_ans> listOfStudentAnswers;
 	List<clo_survey_ans> listOfCourseAnswers;
 
@@ -481,7 +490,18 @@ public class courseCloBean implements Serializable{
 
 
 	public void getListOfCoursesByYearAndSemester() {
-		if(aStudentAccount) {
+		
+		
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				doStudentProcendure(mail) ;
 		Integer studentId = studentThisAccount.getId();
 		System.out.println(studentId);
 		//listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
@@ -497,10 +517,36 @@ public class courseCloBean implements Serializable{
 				}
 			}
 		}
-		}else {
+		}else if(mail.toLowerCase().equals(Constants.ACCREDITION_ENG_DEP.toLowerCase()))
+		{
 			listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
-			
+		}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+		{
+			listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+		}else {
+			InstructorDTO inst = getInsDataFacade.getInsByPersonMail(mail);
+			System.out.println("Instructor name: "+inst.getName());
+			List<CoursesDTO> courseOfInstructor =coursesFacade.getCoursesByInsID(inst.getId());
+			List<course_clo> allcoursesClo = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+			listOfAllCourses =new ArrayList<course_clo>();
+			for(int i=0;i<courseOfInstructor.size();i++) {
+				for(int j=0;j<allcoursesClo.size();j++) {
+					if(courseOfInstructor.get(i).getId() == allcoursesClo.get(j).getId()) {
+						listOfAllCourses.add(allcoursesClo.get(j));
+						//System.out.println("Dakrory: courseId"+courseOfStudent.get(i).getId()+" course: "+allcoursesCloOfStudent.get(j).getId());
+						
+					}
+				}
+			}
 		}
+		
+		if(listOfAllCourses!=null) {
+			if(listOfAllCourses.size()==1) {
+				selectedCourse.setId(listOfAllCourses.get(0).getId());
+				selectTheCourseResults();
+			}
+		}
+	}
 	}
 	
 	public void refresh(){
@@ -511,6 +557,8 @@ public class courseCloBean implements Serializable{
 		yearSelected = settingCLO.getYear();
 		
 		System.out.println("Dakrory: Year"+yearSelected+"Semestar: "+semesterSelected);
+		
+		
 		getListOfCoursesByYearAndSemester();
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -1110,6 +1158,24 @@ public class courseCloBean implements Serializable{
 
 	public void setFacadeStudendCourses(IStudentCourseFacade facadeStudendCourses) {
 		this.facadeStudendCourses = facadeStudendCourses;
+	}
+
+	
+
+	public IGetLoggedInInstructorData getGetInsDataFacade() {
+		return getInsDataFacade;
+	}
+
+	public void setGetInsDataFacade(IGetLoggedInInstructorData getInsDataFacade) {
+		this.getInsDataFacade = getInsDataFacade;
+	}
+
+	public ICourseEvalAnswersFacade getCoursesFacade() {
+		return coursesFacade;
+	}
+
+	public void setCoursesFacade(ICourseEvalAnswersFacade coursesFacade) {
+		this.coursesFacade = coursesFacade;
 	}
 
 

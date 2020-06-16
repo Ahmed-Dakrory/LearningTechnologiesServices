@@ -155,6 +155,55 @@ public class instructor_survey_ansRepositoryImpl implements instructor_survey_an
 		 }
 	}
 
+	@Override
+	public List<instructor_survey_ans> getAllForAllInstructorForYearAndSemester(int semester, int year) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllForAllInstructorForYearAndSemester")
+				 .setInteger("semester",semester)
+				 .setInteger("year", year);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	@Override
+	public List<instructor_survey_ans> getAllByInstructorForYearAndSemester(int semester, int year, int instructorId) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllByInstructorForYearAndSemester")
+				 .setInteger("semester",semester)
+				 .setInteger("year", year)
+				 .setInteger("instructorId", instructorId);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	@Override
+	public List<instructor_survey_ans> getAllByInstructorForYearAndSemesterandCategory(int semester, int year,
+			int instructorId, int category) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllByInstructorForYearAndSemesterandCategory")
+				 .setInteger("semester",semester)
+				 .setInteger("year", year)
+				 .setInteger("instructorId", instructorId)
+				 .setInteger("category", category);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
 	
 
 

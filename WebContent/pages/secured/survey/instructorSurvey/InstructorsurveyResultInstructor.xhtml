@@ -38,10 +38,7 @@
 							
 					<h:panelGroup id="pageContent">
 						<p:panel id="petitionPanel">
-						<h:selectOneMenu value="#{instructorSurveyBean.selectedInstructor.id}">
-						<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
-						<f:selectItems value="#{instructorSurveyBean.allInstructorListOfAnswers}" var="data" itemLabel="#{data.instructorId.name}" itemValue="#{data.instructorId.id}" />
-						</h:selectOneMenu>
+						
 						 
 						 
 						</p:panel>
@@ -57,7 +54,7 @@
 							<p:panel rendered="true">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
-							<p:commandButton value="Generate Total Comments Sheet for instructor" ajax="false"   action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
+							<p:commandButton value="Generate Total Comments Sheet" ajax="false"   action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
 						
 									<br></br>
 									<table>
