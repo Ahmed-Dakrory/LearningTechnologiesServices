@@ -136,8 +136,8 @@
 				    rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToLectureObjectivesFeedback}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Lecture Objectives Result')}"/>
-					<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.cloAvailable}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
-				    <p:commandLink ajax="false" immediate="true" value="Instructor Survey" rendered="#{leftNavigationMenuBean.instructorSurveyAvailable}" action="#{leftNavigationMenuBean.renderInstructorSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
+					<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.isCloWork()}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
+				    <p:commandLink ajax="false" immediate="true" value="Instructor Survey" rendered="#{leftNavigationMenuBean.isInstructorSurveyWork()}" action="#{leftNavigationMenuBean.renderInstructorSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 				
 				
 					<h3>Petitions</h3>

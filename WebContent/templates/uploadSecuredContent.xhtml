@@ -38,7 +38,9 @@
 						<h3>Feedback</h3>
 						<p:commandLink ajax="false" immediate="true" value="Feedback Form"  action="#{leftNavigationMenuBean.renderGenFeedback}" class="#{leftNavigationMenuBean.getActiveCssName('Feedback Form')}" />
 						<p:commandLink ajax="false" immediate="true" value="Submitted Feedbacks" rendered="#{leftNavigationMenuBean.admin}" action="#{leftNavigationMenuBean.renderShowFeedback}" class="#{leftNavigationMenuBean.getActiveCssName('Submitted Feedback')}"/>
-						<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.cloAvailable}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
+						<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.isCloWork()}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
+                         <p:commandLink ajax="false" immediate="true" value="Instructor Survey" rendered="#{leftNavigationMenuBean.isInstructorSurveyWork()}" action="#{leftNavigationMenuBean.renderInstructorSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
+				
                         <h3>Petitions</h3>
 						<!-- <p:commandLink ajax="false" immediate="true" value="Academic Petition" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderAcademicPet}"  class="#{leftNavigationMenuBean.getActiveCssName('Academic Petition')}"/>
                          -->

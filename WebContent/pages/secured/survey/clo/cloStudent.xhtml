@@ -26,10 +26,10 @@
 							
 					<h:panelGroup id="pageContent">
 						<p:panel id="petitionPanel">
-						<h:selectOneMenu value="#{courseCloBean.selectedCourse.id}">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{courseCloBean.selectedCourse.id}">
 						<f:ajax listener="#{courseCloBean.selectTheAnswerForthisCourseAndStudent()}" render="form:surveyPanel"/>
 						<f:selectItems value="#{courseCloBean.listOfAllCourses}" var="data" itemLabel="#{data.course_code}" itemValue="#{data.id}" />
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						 
 						</p:panel>
 						

@@ -41,6 +41,7 @@ import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
+import main.com.zc.shared.JavaScriptMessagesHandler;
 
 @ManagedBean(name = "instructorSurveyBean")
 @ViewScoped
@@ -397,6 +398,9 @@ public class instructorSurveyBean implements Serializable{
 		if(!comment2ans.getComment().equalsIgnoreCase("")) {
 			instructor_survey_ansFacade.addinstructor_survey_ans(comment2ans);
 			}
+		
+
+		 JavaScriptMessagesHandler.RegisterNotificationMessage(null, " Your Survey have been saved Successfully");
 	}
 	private void dootherProcendure(String mail) {
 		// TODO Auto-generated method stub

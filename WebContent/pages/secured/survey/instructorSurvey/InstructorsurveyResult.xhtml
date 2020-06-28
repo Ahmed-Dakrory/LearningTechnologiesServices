@@ -38,10 +38,10 @@
 							
 					<h:panelGroup id="pageContent">
 						<p:panel id="petitionPanel">
-						<h:selectOneMenu value="#{instructorSurveyBean.selectedInstructor.id}">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedInstructor.id}">
 						<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
 						<f:selectItems value="#{instructorSurveyBean.allInstructorListOfAnswers}" var="data" itemLabel="#{data.instructorId.name}" itemValue="#{data.instructorId.id}" />
-						</h:selectOneMenu>
+						</p:selectOneMenu>
 						 
 						 
 						</p:panel>

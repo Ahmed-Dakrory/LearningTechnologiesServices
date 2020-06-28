@@ -132,8 +132,7 @@ public class LeftNavigationMenuBean {
 		
 
 		currentMenuId = "Dashboard";
-		cloAvailable =(formStatus.getById(18).getStatus().getValue())==0?true:false;
-		instructorSurveyAvailable=(formStatus.getById(22).getStatus().getValue())==0?true:false;
+		
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -253,7 +252,71 @@ public class LeftNavigationMenuBean {
 	}
 
 
+	public boolean isCloWork() {
 
+		cloAvailable =(formStatus.getById(18).getStatus().getValue())==0?true:false;
+		
+			
+			Authentication authentication = SecurityContextHolder.getContext()
+					.getAuthentication();
+			String mail = authentication.getName();
+			FacesContext.getCurrentInstance()
+					.getExternalContext();
+			
+			
+			if (!authentication.getPrincipal().equals("anonymousUser"))
+			{
+				if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+					{
+						cloAvailable =(formStatus.getById(18).getStatus().getValue())==0?true:false;
+					}else {
+						if((formStatus.getById(18).getStatus().getValue())==0||(formStatus.getById(18).getStatus().getValue())==2) {
+							cloAvailable = true;
+						}else {
+							cloAvailable = false;
+						}
+					}
+	
+			}
+			
+			
+		
+		
+		return cloAvailable;
+	}
+	
+	
+	public boolean isInstructorSurveyWork() {
+
+		
+		instructorSurveyAvailable=(formStatus.getById(22).getStatus().getValue())==0?true:false;
+			Authentication authentication = SecurityContextHolder.getContext()
+					.getAuthentication();
+			String mail = authentication.getName();
+			FacesContext.getCurrentInstance()
+					.getExternalContext();
+			
+			
+			if (!authentication.getPrincipal().equals("anonymousUser"))
+			{
+				if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+					{
+					instructorSurveyAvailable =(formStatus.getById(22).getStatus().getValue())==0?true:false;
+					}else {
+						if((formStatus.getById(22).getStatus().getValue())==0||(formStatus.getById(22).getStatus().getValue())==2) {
+							instructorSurveyAvailable = true;
+						}else {
+							instructorSurveyAvailable = false;
+						}
+					}
+	
+			}
+			
+			
+		
+		
+		return instructorSurveyAvailable;
+	}
 	public boolean isShowCourseReplacement() {
 		 FormsStatusEnum settings=formStatus.getById(21).getStatus();
 		 Integer active=settings.getValue();
