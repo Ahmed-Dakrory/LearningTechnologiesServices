@@ -1,5 +1,6 @@
 package main.com.zc.service.instructorSurveyBean;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -22,13 +23,16 @@ public class ReportFileGenerationComments {
 	HSSFCell cell;
 	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive;
 	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsnegaitive;
-	public ReportFileGenerationComments(List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive,List<instructor_survey_ans> allanswersThisYearAndSemesterofinsnegaitive, HSSFWorkbook workbook2,
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsTA;
+	public ReportFileGenerationComments(List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive,List<instructor_survey_ans> allanswersThisYearAndSemesterofinsnegaitive,List<instructor_survey_ans> allanswersThisYearAndSemesterofinsTA,
+			HSSFWorkbook workbook2,
 			HSSFSheet sheet2) {
 		// TODO Auto-generated constructor stub
 		this.workbook=workbook2;
 		this.sheet=sheet2;
 		this.allanswersThisYearAndSemesterofinsPositive=allanswersThisYearAndSemesterofinsPositive;
 		this.allanswersThisYearAndSemesterofinsnegaitive=allanswersThisYearAndSemesterofinsnegaitive;
+		this.allanswersThisYearAndSemesterofinsTA=allanswersThisYearAndSemesterofinsTA;
 	}
 
 
@@ -60,10 +64,11 @@ public class ReportFileGenerationComments {
 	
 	
 	public void generateReport(){
-		sheet.setColumnWidth(0, 7000);
-		for (int i=1;i<=2;i++) {
+		sheet.setColumnWidth(0, 11000);
+		sheet.setColumnWidth(1, 7000);
+		for (int i=2;i<=4;i++) {
 
-			sheet.setColumnWidth(i, 7000);
+			sheet.setColumnWidth(i, 19000);
 		}
 	
 		titleOfSheet();
@@ -90,18 +95,24 @@ public class ReportFileGenerationComments {
 	    
 	    row = sheet.createRow(0);
 	    for(int i=0;i<1;i++) {
-	    	cell = row.createCell(2*i+1);
-		    row.getCell(2*i+1).setCellStyle(style);
+	    	cell = row.createCell(2*i+2);
+		    row.getCell(2*i+2).setCellStyle(style);
 		    cell.setCellValue("Positive Comments");
 		    
 		    
-		    cell = row.createCell(2*i+2);
-		    row.getCell(2*i+2).setCellStyle(style);
+		    cell = row.createCell(2*i+3);
+		    row.getCell(2*i+3).setCellStyle(style);
 		    cell.setCellValue("Negative Comments");
+		    
+		    
+		    cell = row.createCell(2*i+4);
+		    row.getCell(2*i+4).setCellStyle(style);
+		    cell.setCellValue("TA Comments");
 	    }
 	 
 	    int negSize = 0;
 	    int posSize = 0;
+	    int TaSize = 0;
 	    int sizeoflist=0;
 	    
 	    
@@ -111,27 +122,57 @@ public class ReportFileGenerationComments {
 	    	
 	    }
 	    
-	    if(allanswersThisYearAndSemesterofinsPositive!=null) {
-	    	
-	    	posSize = allanswersThisYearAndSemesterofinsPositive.size();
-	    	
-	    }
+		if(allanswersThisYearAndSemesterofinsPositive!=null) {
+			    	
+			  posSize = allanswersThisYearAndSemesterofinsPositive.size();
+			    	
+		}
+
+		if(allanswersThisYearAndSemesterofinsTA!=null) {
+			
+			TaSize = allanswersThisYearAndSemesterofinsTA.size();
+			
+		}
 	    
-	    if(posSize>=negSize) {
-	    	sizeoflist=posSize;
-	    }
+		
+		int[] nums={posSize,negSize,TaSize};
+		Arrays.sort(nums);
+		
+	    sizeoflist=nums[nums.length-1];
+	    
 	    
 
 		
 	    
 	    if(allanswersThisYearAndSemesterofinsPositive!=null && posSize>0) {
-			   cell = row.createCell(0);
+	    	cell = row.createCell(0);
 			   row.getCell(0).setCellStyle(style);
 			   cell.setCellValue(allanswersThisYearAndSemesterofinsPositive.get(0).getInstructorId().getName());
+			   
+			   
+			   cell = row.createCell(1);
+			   row.getCell(1).setCellStyle(style);
+			   cell.setCellValue(allanswersThisYearAndSemesterofinsPositive.get(0).getCourseId().getName());
+			   
 		    }else if(allanswersThisYearAndSemesterofinsnegaitive!=null && negSize>0) {
 		    	cell = row.createCell(0);
 				   row.getCell(0).setCellStyle(style);
 				   cell.setCellValue(allanswersThisYearAndSemesterofinsnegaitive.get(0).getInstructorId().getName());
+				   
+
+				   cell = row.createCell(1);
+				   row.getCell(1).setCellStyle(style);
+				   cell.setCellValue(allanswersThisYearAndSemesterofinsnegaitive.get(1).getCourseId().getName());
+			    
+		    }else if(allanswersThisYearAndSemesterofinsTA!=null && TaSize>0) {
+		    	cell = row.createCell(0);
+				   row.getCell(0).setCellStyle(style);
+				   cell.setCellValue(allanswersThisYearAndSemesterofinsTA.get(0).getInstructorId().getName());
+				   
+
+				   cell = row.createCell(1);
+				   row.getCell(1).setCellStyle(style);
+				   cell.setCellValue(allanswersThisYearAndSemesterofinsTA.get(1).getCourseId().getName());
 			    
 		    }
 	    
@@ -145,8 +186,9 @@ public class ReportFileGenerationComments {
 		
 		    
 		    
-		   int cell_column_index_Percentage = 1;
-			  int cell_column_index_Person = 2;
+		   int cell_column_index_Percentage = 2;
+			  int cell_column_index_Person = 3;
+			  int cell_column_index_PersonTA = 4;
 
 			  if(allanswersThisYearAndSemesterofinsPositive!=null) {
 					if(i < allanswersThisYearAndSemesterofinsPositive.size()) {
@@ -162,7 +204,16 @@ public class ReportFileGenerationComments {
 					  row.getCell(cell_column_index_Person).setCellStyle(style2);
 					  cell.setCellValue(allanswersThisYearAndSemesterofinsnegaitive.get(i).getComment());
 					}
-				}	 
+				}	
+			  
+			  
+			  if(allanswersThisYearAndSemesterofinsTA!=null) {
+					if(i < allanswersThisYearAndSemesterofinsTA.size()) {
+					  cell = row.createCell(cell_column_index_PersonTA);
+					  row.getCell(cell_column_index_PersonTA).setCellStyle(style2);
+					  cell.setCellValue(allanswersThisYearAndSemesterofinsTA.get(i).getComment());
+					}
+				}	
 			  
 			  
 				

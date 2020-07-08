@@ -123,6 +123,8 @@ public class courseCloBean implements Serializable{
 	private List<cloResult> resultsPersonPercntageClo;
 	
 	
+	
+	private boolean showNowForInstructors=false;
 	@PostConstruct
 	public void init() {
 
@@ -552,11 +554,15 @@ public class courseCloBean implements Serializable{
 	public void refresh(){
 		
 		FormsStatusDTO settingCLO = facadeSettings.getById(18);
+		
+		/**
+		 * if the setting equal phase 3 then show all results for instructors
+		 */
+		showNowForInstructors = (settingCLO.getStatus().getValue()==3);
 		semesterSelected = Integer.valueOf(settingCLO.getSemester().getId());
 		
 		yearSelected = settingCLO.getYear();
 		
-		System.out.println("Dakrory: Year"+yearSelected+"Semestar: "+semesterSelected);
 		
 		
 		getListOfCoursesByYearAndSemester();
@@ -569,7 +575,6 @@ public class courseCloBean implements Serializable{
 			{
 				//Student
 				aStudentAccount = true;
-				System.out.println("1Dakrory: "+String.valueOf(mail));
 				doStudentProcendure(mail);
 			
 			}
@@ -1176,6 +1181,15 @@ public class courseCloBean implements Serializable{
 
 	public void setCoursesFacade(ICourseEvalAnswersFacade coursesFacade) {
 		this.coursesFacade = coursesFacade;
+	}
+
+
+	public boolean isShowNowForInstructors() {
+		return showNowForInstructors;
+	}
+
+	public void setShowNowForInstructors(boolean showNowForInstructors) {
+		this.showNowForInstructors = showNowForInstructors;
 	}
 
 

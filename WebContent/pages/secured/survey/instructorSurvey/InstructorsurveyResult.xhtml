@@ -33,10 +33,35 @@
 				</ul>
 				<div class="pannelWrapper">
 				
-			
+						
 							
 							
 					<h:panelGroup id="pageContent">
+					
+					<p:panel id="coursesPanel">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedCourse.id}">
+							<f:ajax listener="#{instructorSurveyBean.selectTheIstructorForThisCourse()}" render="form:surveyPanel form:instructorsPanel"/>
+							<f:selectItems value="#{instructorSurveyBean.allCoursesthisPeriod}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+						</p:selectOneMenu>
+						 
+						</p:panel>
+						
+						
+						<p:panel id="instructorsPanel" >
+						<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Semester: #{(instructorSurveyBean.semesterSelected==0)?'Fall':''} #{(instructorSurveyBean.semesterSelected==1)?'Spring':''} #{(instructorSurveyBean.semesterSelected==2)?'Summer':''} #{instructorSurveyBean.yearSelected}
+							</div>
+						<div style="    font-size: 20px;    font-weight: 600;">	Select the Instructor or TA: </div>
+								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.selectedInstructor.id}" >
+									<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+									<f:selectItems value="#{instructorSurveyBean.allInstructorForThisCourse}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+									<f:selectItems value="#{instructorSurveyBean.allTAsForThisCourse}" var="data2" itemLabel="#{data2.name}" itemValue="#{data2.id}" />
+						
+								</p:selectOneRadio>
+								
+						</p:panel>
+						
+						<!-- 
 						<p:panel id="petitionPanel">
 						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedInstructor.id}">
 						<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
@@ -44,7 +69,7 @@
 						</p:selectOneMenu>
 						 
 						 
-						</p:panel>
+						</p:panel> -->
 						  <p:commandButton value="Generate Total Result Sheet" ajax="false"   action="#{instructorSurveyBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
 						
 						
@@ -57,7 +82,7 @@
 							<p:panel rendered="true">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
-							<p:commandButton value="Generate Total Comments Sheet for instructor" ajax="false"   action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
+							<p:commandButton value="Generate Total Comments Sheet for instructor and Course" ajax="false"   action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
 						
 									<br></br>
 									<table>

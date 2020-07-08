@@ -270,7 +270,7 @@ public class LeftNavigationMenuBean {
 					{
 						cloAvailable =(formStatus.getById(18).getStatus().getValue())==0?true:false;
 					}else {
-						if((formStatus.getById(18).getStatus().getValue())==0||(formStatus.getById(18).getStatus().getValue())==2) {
+						if((formStatus.getById(18).getStatus().getValue())==0||(formStatus.getById(18).getStatus().getValue())==2||(formStatus.getById(18).getStatus().getValue())==3) {
 							cloAvailable = true;
 						}else {
 							cloAvailable = false;
@@ -303,7 +303,8 @@ public class LeftNavigationMenuBean {
 					{
 					instructorSurveyAvailable =(formStatus.getById(22).getStatus().getValue())==0?true:false;
 					}else {
-						if((formStatus.getById(22).getStatus().getValue())==0||(formStatus.getById(22).getStatus().getValue())==2) {
+						
+						if((formStatus.getById(22).getStatus().getValue())==0||(formStatus.getById(22).getStatus().getValue())==2||(formStatus.getById(22).getStatus().getValue())==3) {
 							instructorSurveyAvailable = true;
 						}else {
 							instructorSurveyAvailable = false;
@@ -535,6 +536,9 @@ public class LeftNavigationMenuBean {
 			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
 			{
 				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.TeachingEffectiveness_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/clo/cloCourseResult.xhtml?faces-redirect=true";
 			}
 			else
 			{
@@ -573,6 +577,9 @@ public class LeftNavigationMenuBean {
 			{
 				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
 			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.TeachingEffectiveness_DEP.toLowerCase()))
 			{
 				return "/pages/secured/survey/instructorSurvey/InstructorsurveyResult.xhtml?faces-redirect=true";
 			}

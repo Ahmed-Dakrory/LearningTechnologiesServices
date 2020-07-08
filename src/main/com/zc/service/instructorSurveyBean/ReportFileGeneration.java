@@ -62,10 +62,11 @@ public class ReportFileGeneration {
 	
 	
 	public void generateReport(List<instructor_survey_ques>  instructor_survey_ques){
-		sheet.setColumnWidth(0, 7000);
-		for (int i=1;i<=instructor_survey_ques.size()-2;i++) {
+		sheet.setColumnWidth(0, 11000);
+		sheet.setColumnWidth(1, 7000);
+		for (int i=2;i<=(2*instructor_survey_ques.size())-5;i++) {
 
-			sheet.setColumnWidth(i, 7000);
+			sheet.setColumnWidth(i, 17000);
 		}
 	
 		
@@ -92,14 +93,23 @@ public class ReportFileGeneration {
 	    
 	    
 	    row = sheet.createRow(0);
-	    for(int i=0;i<instructor_survey_ques.size()-2;i++) {
-	    	cell = row.createCell(2*i+1);
-		    row.getCell(2*i+1).setCellStyle(style);
+	    cell = row.createCell(0);
+	    row.getCell(0).setCellStyle(style);
+	    cell.setCellValue("Instructor");
+	    
+	    cell = row.createCell(1);
+	    row.getCell(1).setCellStyle(style);
+	    cell.setCellValue("Course Code");
+	    
+	    
+	    for(int i=0;i<instructor_survey_ques.size()-3;i++) {
+	    	cell = row.createCell(2*i+2);
+		    row.getCell(2*i+2).setCellStyle(style);
 		    cell.setCellValue(instructor_survey_ques.get(i).getQues());
 		    
 		    
-		    cell = row.createCell(2*i+2);
-		    row.getCell(2*i+2).setCellStyle(style);
+		    cell = row.createCell(2*i+3);
+		    row.getCell(2*i+3).setCellStyle(style);
 		    cell.setCellValue("Number of Persons");
 	    }
 	 
@@ -121,9 +131,15 @@ public class ReportFileGeneration {
 		   cell = row.createCell(0);
 		   row.getCell(0).setCellStyle(style);
 		   cell.setCellValue(allCoursesThresoldResults.get(i).getListOfCourseAnswers().get(0).getInstructorId().getName());
+		   
+		   
+		   cell = row.createCell(1);
+		   row.getCell(1).setCellStyle(style);
+		   cell.setCellValue(allCoursesThresoldResults.get(i).getListOfCourseAnswers().get(0).getCourseId().getName());
+		   
 		   for(int j=0;j<20;j++) {
-			  int cell_column_index_Percentage = 2*j+1;
-			  int cell_column_index_Person = 2*j+2;
+			  int cell_column_index_Percentage = 2*j+2;
+			  int cell_column_index_Person = 2*j+3;
 
 			  cell = row.createCell(cell_column_index_Percentage);
 			  row.getCell(cell_column_index_Percentage).setCellStyle(style2);

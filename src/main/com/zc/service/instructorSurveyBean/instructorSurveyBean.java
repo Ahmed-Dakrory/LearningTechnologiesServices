@@ -134,6 +134,8 @@ public class instructorSurveyBean implements Serializable{
 	instructor_survey_ans comment1ans;
 	List<instructor_survey_ques> comment2Ques;
 	instructor_survey_ans comment2ans;
+	List<instructor_survey_ques> comment3Ques;
+	instructor_survey_ans comment3ans;
 	
 	
 	
@@ -147,6 +149,13 @@ public class instructorSurveyBean implements Serializable{
 	List<instructor_survey_ques> allquestionThisYearAndSemester;
 	
 	
+	//Used For Only this instructor
+	List<instructor_survey_ans> allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor;
+	@ManagedProperty("#{IFormsStatusFacade}")
+   	private IFormsStatusFacade formStatus; 
+	
+	
+	private boolean showNowForInstructors=false;
 	@PostConstruct
 	public void init() {
 
@@ -158,12 +167,18 @@ public class instructorSurveyBean implements Serializable{
 
 
 	public void refresh() {
+		
+		/**
+		 * if the setting equal phase 3 then show all results for instructors
+		 */
+		showNowForInstructors = (formStatus.getById(22).getStatus().getValue()==3);
 		// TODO Auto-generated method stub
 		FormsStatusDTO settingCLO = facadeSettings.getById(18);
 		semesterSelected = Integer.valueOf(settingCLO.getSemester().getId());
 		
 		yearSelected = settingCLO.getYear();
 		selectedCourse = new Courses();
+		 allCoursesthisPeriod = coursesFacade.getCoursesByYearAndSemester(semesterSelected, yearSelected);
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -176,7 +191,7 @@ public class instructorSurveyBean implements Serializable{
 				allStudentCoursesthisPeriod = new ArrayList<CoursesDTO>();
 				studentThisAccount=studentFacade.getStudentByPersonMail(mail);
 				List<CoursesDTO> allStudentCourses = facadeStudendCourses.getCoursesOfStudent(studentThisAccount.getId());
-				 allCoursesthisPeriod = coursesFacade.getCoursesByYearAndSemester(semesterSelected, yearSelected);
+				
 				 if(allStudentCourses!=null) {
 					 for(int i=0;i<allStudentCourses.size();i++) {
 						 if(allCoursesthisPeriod!=null) {
@@ -222,7 +237,8 @@ public class instructorSurveyBean implements Serializable{
 		ques_Categ5 = instructor_survey_quesFacade.getAllByYearAndSemestarAndCategory(yearSelected, semesterSelected, 5);
 		comment1Ques = instructor_survey_quesFacade.getAllByYearAndSemestarAndCategory(yearSelected, semesterSelected,6);
 		comment2Ques = instructor_survey_quesFacade.getAllByYearAndSemestarAndCategory(yearSelected, semesterSelected,7);
-	
+		comment3Ques = instructor_survey_quesFacade.getAllByYearAndSemestarAndCategory(yearSelected, semesterSelected,8);
+		
 		
 		ans_Categ0 =new instructor_survey_ans[ques_Categ0.size()];
 		for(int i=0;i<ans_Categ0.length;i++) {
@@ -317,8 +333,21 @@ public class instructorSurveyBean implements Serializable{
 		instructor_survey_ans answer2 = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), comment2Ques.get(0).getId());
 		if(answer2!=null) {
 			if(answer2.getComment()!=null) {
-				comment2ans.setId(answer.getId());
+				comment2ans.setId(answer2.getId());
 			comment2ans.setComment(answer2.getComment());
+			}
+		}
+		
+		
+		comment3ans =new instructor_survey_ans();
+		comment3ans.setCourseId(selectedCourse);
+		comment3ans.setInstructorId(selectedInstructor);
+		comment3ans.setStudentId(studentThisAccount);
+		instructor_survey_ans answer3 = instructor_survey_ansFacade.getAllByCourseAndInstructorAndStudentAndQuestion(selectedCourse.getId(), selectedInstructor.getId(), studentThisAccount.getId(), comment3Ques.get(0).getId());
+		if(answer3!=null) {
+			if(answer3.getComment()!=null) {
+				comment3ans.setId(answer3.getId());
+			comment3ans.setComment(answer3.getComment());
 			}
 		}
 		
@@ -399,9 +428,16 @@ public class instructorSurveyBean implements Serializable{
 			instructor_survey_ansFacade.addinstructor_survey_ans(comment2ans);
 			}
 		
+		comment3ans.setDate(Calendar.getInstance());
+		comment3ans.setQuesId(comment3Ques.get(0));
+		if(!comment3ans.getComment().equalsIgnoreCase("")) {
+			instructor_survey_ansFacade.addinstructor_survey_ans(comment3ans);
+			}
 
 		 JavaScriptMessagesHandler.RegisterNotificationMessage(null, " Your Survey have been saved Successfully");
 	}
+	
+	
 	private void dootherProcendure(String mail) {
 		// TODO Auto-generated method stub
 		//All Accredition
@@ -410,6 +446,10 @@ public class instructorSurveyBean implements Serializable{
 			allInstructorListOfAnswers = instructor_survey_ansFacade.getAllForAllInstructorForYearAndSemester(semesterSelected, yearSelected);
 			
 		}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+		{
+			allInstructorListOfAnswers = instructor_survey_ansFacade.getAllForAllInstructorForYearAndSemester(semesterSelected, yearSelected);
+			
+		}else if(mail.toLowerCase().equals(Constants.TeachingEffectiveness_DEP.toLowerCase()))
 		{
 			allInstructorListOfAnswers = instructor_survey_ansFacade.getAllForAllInstructorForYearAndSemester(semesterSelected, yearSelected);
 			
@@ -424,6 +464,12 @@ public class instructorSurveyBean implements Serializable{
 			
 			if(buffer!=null && buffer.size()>0) {
 			allInstructorListOfAnswers.add(buffer.get(0));
+			//Loop over Courses for this instructor
+			allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor = instructor_survey_ansFacade.getAllByInstructorForYearAndSemesterGroupbyCourseId(inst.getId(),yearSelected,semesterSelected);
+			selectedCourse =new Courses();
+			selectedCourse.setId(allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor.get(0).getCourseId().getId());
+			selectedCourse.setCourseCoordinator(selectedInstructor);
+			selectedCourse.setName(allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor.get(0).getCourseId().getName());
 			selectTheCourseResults();
 			
 			}
@@ -438,7 +484,7 @@ public void selectTheCourseResults() {
 		
 		
 		
-		listOfCourseAnswers=instructor_survey_ansFacade.getAllByInstructorForYearAndSemester(semesterSelected, yearSelected, selectedInstructor.getId());
+		listOfCourseAnswers=instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemester(selectedCourse.getId(),selectedInstructor.getId(),yearSelected, semesterSelected);
 		
 		
 		
@@ -448,7 +494,7 @@ public void selectTheCourseResults() {
 		
 			
 			//Construct ALL question cloResults
-		for(int i=0;i<allquestionThisYearAndSemester.size()-2;i++) {
+		for(int i=0;i<allquestionThisYearAndSemester.size()-3;i++) {
 
 			resultsPersonPercntageClo.add(new cloResult(i+1));
 		}
@@ -510,12 +556,18 @@ public void getListOfAllCoursesThreshold() {
 	allquestionThisYearAndSemester = instructor_survey_quesFacade.getAllByYearAndSemestar(yearSelected, semesterSelected);
 	
 	List<cloThreshold> allCoursesThresoldResults=new ArrayList<cloThreshold>();
+	//Loop over instructor
 	for(int i=0;i<allInstructorListOfAnswers.size();i++) {
+		//Loop over Courses for this instructor
+		List<instructor_survey_ans> allcoursesForThisInstructor_thisYear_thisSemester = instructor_survey_ansFacade.getAllByInstructorForYearAndSemesterGroupbyCourseId(allInstructorListOfAnswers.get(i).getInstructorId().getId(),yearSelected,semesterSelected);
+		for(int j=0;j<allcoursesForThisInstructor_thisYear_thisSemester.size();j++) {
 		instructor_survey_ques courseCLO = instructor_survey_quesFacade.getById(allInstructorListOfAnswers.get(i).getQuesId().getId());
-		listOfCourseAnswers=instructor_survey_ansFacade.getAllByInstructorForYearAndSemester(semesterSelected, yearSelected, allInstructorListOfAnswers.get(i).getInstructorId().getId());
-		System.out.println("Ahmed Result: ");
+		listOfCourseAnswers=instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemester(allcoursesForThisInstructor_thisYear_thisSemester.get(j).getCourseId().getId(), allInstructorListOfAnswers.get(i).getInstructorId().getId(), yearSelected, semesterSelected);
+
+
 		cloThreshold course_threshold=new cloThreshold(listOfCourseAnswers, courseCLO,allquestionThisYearAndSemester.size(),allquestionThisYearAndSemester);
 		allCoursesThresoldResults.add(course_threshold);
+		}
 	}
 	
 	if(allCoursesThresoldResults.size()>0) {
@@ -550,12 +602,13 @@ public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instr
 
 
 public void generateFileOfComments(){
-	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive = instructor_survey_ansFacade.getAllByInstructorForYearAndSemesterandCategory(semesterSelected, yearSelected, selectedInstructor.getId(),6);
-	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsNegative = instructor_survey_ansFacade.getAllByInstructorForYearAndSemesterandCategory(semesterSelected, yearSelected, selectedInstructor.getId(),7);
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,6);
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsNegative = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,7);
+	List<instructor_survey_ans> allanswersThisYearAndSemesterofTAs = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,8);
 	 HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet sheet = workbook.createSheet();
 	    
-	    ReportFileGenerationComments reportFileGeneration=new ReportFileGenerationComments(allanswersThisYearAndSemesterofinsPositive,allanswersThisYearAndSemesterofinsNegative,workbook, sheet);
+	    ReportFileGenerationComments reportFileGeneration=new ReportFileGenerationComments(allanswersThisYearAndSemesterofinsPositive,allanswersThisYearAndSemesterofinsNegative,allanswersThisYearAndSemesterofTAs ,workbook, sheet);
 	    
 	    reportFileGeneration.generateReport();
 
@@ -1016,6 +1069,59 @@ public void generateFileOfComments(){
 	public void setGetInsDataFacade(IGetLoggedInInstructorData getInsDataFacade) {
 		this.getInsDataFacade = getInsDataFacade;
 	}
+
+
+	public List<instructor_survey_ques> getComment3Ques() {
+		return comment3Ques;
+	}
+
+
+	public void setComment3Ques(List<instructor_survey_ques> comment3Ques) {
+		this.comment3Ques = comment3Ques;
+	}
+
+
+	public instructor_survey_ans getComment3ans() {
+		return comment3ans;
+	}
+
+
+	public void setComment3ans(instructor_survey_ans comment3ans) {
+		this.comment3ans = comment3ans;
+	}
+
+
+	public List<instructor_survey_ans> getAllcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor() {
+		return allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor;
+	}
+
+
+	public void setAllcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor(
+			List<instructor_survey_ans> allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor) {
+		this.allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor = allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor;
+	}
+
+
+	public IFormsStatusFacade getFormStatus() {
+		return formStatus;
+	}
+
+
+	public void setFormStatus(IFormsStatusFacade formStatus) {
+		this.formStatus = formStatus;
+	}
+
+
+	public boolean isShowNowForInstructors() {
+		return showNowForInstructors;
+	}
+
+
+	public void setShowNowForInstructors(boolean showNowForInstructors) {
+		this.showNowForInstructors = showNowForInstructors;
+	}
+
+
 	
 	
 	

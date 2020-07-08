@@ -72,6 +72,7 @@ public class Heads {
 	public static int DEAN_OF_ACADEMIC=7;
 	public static int PROVOST=8;
 	public static int FINANCIAL_DEP=9;
+	public static int TeachingEffectiveness_DEP=10;
 	
 	@Column(name="departmentType")
     private Integer type;
@@ -133,6 +134,8 @@ public class Heads {
 			return "PROVOST";
 		}else if(type==FINANCIAL_DEP) {
 			return "FINANCIAL DEP";
+		}else if(type==TeachingEffectiveness_DEP) {
+			return "Teaching Effectiveness DEP";
 		}else {
 			return "REGISTRAR STAFF";
 		}

@@ -204,6 +204,62 @@ public class instructor_survey_ansRepositoryImpl implements instructor_survey_an
 		 }
 	}
 
+	@Override
+	public List<instructor_survey_ans> getAllByCourseAndInstructorAndYearAndSemester(int courseId, int instructorId,
+			int year, int semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllByCourseAndInstructorAndYearAndSemester")
+				 .setInteger("courseId",courseId)
+				 .setInteger("instructorId", instructorId)
+				 .setInteger("year", year)
+				 .setInteger("semester", semester);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	
+
+	@Override
+	public List<instructor_survey_ans> getAllByInstructorForYearAndSemesterGroupbyCourseId(int instructorId, int year,
+			int semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllByInstructorForYearAndSemesterGroupbyCourseId")
+				 .setInteger("semester",semester)
+				 .setInteger("year", year)
+				 .setInteger("instructorId", instructorId);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	@Override
+	public List<instructor_survey_ans> getAllByCourseAndInstructorAndYearAndSemesterAndCategory(int courseId,
+			int instructorId, int year, int semester, int category) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_survey_ans.getAllByCourseAndInstructorAndYearAndSemesterAndCategory")
+				 .setInteger("courseId",courseId)
+				 .setInteger("instructorId", instructorId)
+				 .setInteger("year", year)
+				 .setInteger("semester", semester)
+				 .setInteger("category", category);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
 	
 
 
