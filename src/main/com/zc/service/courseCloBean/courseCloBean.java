@@ -525,6 +525,9 @@ public class courseCloBean implements Serializable{
 		}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
 		{
 			listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
+		}else if(mail.toLowerCase().equals(Constants.TeachingEffectiveness_DEP.toLowerCase()))
+		{
+			listOfAllCourses = course_cloFacade.getAllByYearAndSemestar(yearSelected,semesterSelected);
 		}else {
 			InstructorDTO inst = getInsDataFacade.getInsByPersonMail(mail);
 			System.out.println("Instructor name: "+inst.getName());

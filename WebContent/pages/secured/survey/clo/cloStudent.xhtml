@@ -33,7 +33,7 @@
 						 
 						</p:panel>
 						
-						
+						<p:growl id="growl" showDetail="false"  life="10000"/>
 						<p:panel id="surveyPanel" >
 						<p:panel rendered="#{courseCloBean.selectedCourse.id!=null}">
 							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
@@ -57,7 +57,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo1!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo1}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo1}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo1 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo1}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -71,7 +71,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo2!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo2}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo2}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo2 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo2}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -86,7 +86,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo3!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo3}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo3}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo3 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo3}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -99,7 +99,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo4!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo4}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo4}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo4 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo4}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -112,7 +112,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo5!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo5}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo5}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo5 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo5}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -125,7 +125,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo6!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo6}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo6}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo6 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo6}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -138,7 +138,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo7!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo7}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo7}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo7 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo7}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -152,7 +152,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo8!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo8}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo8}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo8 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo8}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -165,7 +165,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo9!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo9}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo9}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo9 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo9}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -178,7 +178,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo10!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo10}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo10}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo10 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo10}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -191,7 +191,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo11!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo11}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo11}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo11 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo11}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -204,7 +204,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo12!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo12}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo12}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo12 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo12}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -217,7 +217,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo13!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo13}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo13}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo13 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo13}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -230,7 +230,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo14!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo14}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo14}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo14 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo14}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -243,7 +243,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo15!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo15}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo15}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo15 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo15}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -256,7 +256,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo16!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo16}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo16}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo16 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo16}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -269,7 +269,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo17!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo17}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo17}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo17 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo17}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -282,7 +282,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo18!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo18}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo18}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo18 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo18}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -295,7 +295,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo19!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo19}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo19}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo19 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo19}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -309,7 +309,7 @@
 							<p:panel rendered="#{courseCloBean.selectedCourse.clo20!=null}">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	- #{courseCloBean.selectedCourse.clo20}</div>
-								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo20}" >
+								<p:selectOneRadio required="true" requiredMessage="Selection of Clo20 is required" style="    margin-left: 5%;    margin-top: 1%;" value="#{courseCloBean.selectedAnswerForStudentAndCourse.clo20}" >
 								
 									<f:selectItem itemLabel="Excellent" itemValue="5" />
 						            <f:selectItem itemLabel="Very good" itemValue="4" />
@@ -322,7 +322,7 @@
 							<br></br>
 							
 							<br></br>
-							<p:commandButton value="Submit the Survy" action="#{courseCloBean.submitTheSurvey()}"/>
+							<p:commandButton value="Submit the Survy" action="#{courseCloBean.submitTheSurvey()}" update="form:growl"/>
 						 </p:panel>
 						</p:panel>
 						

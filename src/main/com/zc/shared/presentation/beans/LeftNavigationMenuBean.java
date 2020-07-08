@@ -171,11 +171,13 @@ public class LeftNavigationMenuBean {
 				String head4Mail="";
 				String head5Mail="";
 				String head6Mail="";
+				String head7Mail="";
 				Heads  typeHead2 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
 				Heads  typeHead3 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
 				Heads  typeHead4 = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
 				Heads  typeHead5 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
 				Heads  typeHead6 = headFacades.getByType(Heads.REGISTRAR_STAFF);
+				Heads  typeHead7 = headFacades.getByType(Heads.TeachingEffectiveness_DEP);
 				
 				
 				if(typeHead2!=null) {
@@ -203,6 +205,11 @@ public class LeftNavigationMenuBean {
 		
 				}
 				
+				if(typeHead7!=null) {
+					head7Mail=typeHead7.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
 				if(mail.toLowerCase().equals(head2Mail))
 				{
 					//Engineering
@@ -227,6 +234,11 @@ public class LeftNavigationMenuBean {
 					return;
 				}
 				else if(mail.toLowerCase().equals(head6Mail))
+				{
+
+					headOrStudent=true;
+					return;
+				}else if(mail.toLowerCase().equals(head7Mail))
 				{
 
 					headOrStudent=true;
