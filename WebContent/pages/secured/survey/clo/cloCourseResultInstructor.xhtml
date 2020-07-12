@@ -45,7 +45,7 @@
 						 
 						 
 						</p:panel>
-						 <p:commandButton  value="Generate Total Result Sheet" ajax="false"   action="#{courseCloBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
+						 <p:commandButton  value="Export survey results statistics" ajax="false" rendered=":#{courseCloBean.showNowForInstructors}"  action="#{courseCloBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
 						
 						
 						<p:panel id="surveyPanel" >

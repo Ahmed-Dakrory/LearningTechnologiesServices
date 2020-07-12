@@ -586,7 +586,7 @@ public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instr
 	    FacesContext facesContext = FacesContext.getCurrentInstance();
 	    ExternalContext externalContext = facesContext.getExternalContext();
 	    externalContext.setResponseContentType("application/vnd.ms-excel");
-	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Survey_results_statistics-My_courses.xls\"");
 
 	    try {
 			workbook.write(externalContext.getResponseOutputStream());
@@ -615,7 +615,7 @@ public void generateFileOfComments(){
 	    FacesContext facesContext = FacesContext.getCurrentInstance();
 	    ExternalContext externalContext = facesContext.getExternalContext();
 	    externalContext.setResponseContentType("application/vnd.ms-excel");
-	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Comments-My_courses.xls\"");
 
 	    try {
 			workbook.write(externalContext.getResponseOutputStream());

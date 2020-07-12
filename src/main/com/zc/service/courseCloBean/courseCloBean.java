@@ -170,7 +170,7 @@ public class courseCloBean implements Serializable{
 		    FacesContext facesContext = FacesContext.getCurrentInstance();
 		    ExternalContext externalContext = facesContext.getExternalContext();
 		    externalContext.setResponseContentType("application/vnd.ms-excel");
-		    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"my.xls\"");
+		    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Survey_results_statistics.xls\"");
 
 		    try {
 				workbook.write(externalContext.getResponseOutputStream());
