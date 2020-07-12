@@ -55,7 +55,7 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/org.springframework.transaction-3.0.5.RELEASE.jar" sourcepath="/home/heba/.m2/repository/org/springframework/spring-tx/3.0.5.RELEASE/spring-tx-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/org.springframework.web-3.0.5.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/persistence-api-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/primefaces-3.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-3.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/servlet-api-2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.5.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/slf4j-log4j12-1.5.6.jar"/>
@@ -94,5 +94,8 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Ahmed.Dakrory/Desktop/primefaces-7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ahmed.Dakrory/Desktop/primefaces-6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Ahmed.Dakrory/Desktop/primefaces-extensions-6.2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

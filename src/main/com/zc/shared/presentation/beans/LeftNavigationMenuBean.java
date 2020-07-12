@@ -15,6 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import main.com.zc.security.impl.LoginBean;
+import main.com.zc.service.academic_advising_instructor.aa_instructor;
+import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
+import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
+import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
 import main.com.zc.services.domain.model.heads.Heads;
 import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
@@ -119,6 +123,13 @@ public class LeftNavigationMenuBean {
 	@ManagedProperty("#{IStudentFacade}")
     private StudentFacadeImpl studentFacadeImpl;
 	
+	
+
+	@ManagedProperty(value = "#{aa_student_profileFacadeImpl}")
+	private aa_student_profileAppServiceImpl aa_student_profileFacade;
+	
+	@ManagedProperty(value = "#{aa_instructorFacadeImpl}")
+	private aa_instructorAppServiceImpl aa_instructorFacade;
 	
 	private boolean cloAvailable=false;
 	private boolean instructorSurveyAvailable=false;
@@ -297,6 +308,88 @@ public class LeftNavigationMenuBean {
 		return cloAvailable;
 	}
 	
+	
+	public boolean InAcademicAdvising() {
+
+		FormsStatusDTO settingform = formStatus.getById(23);
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String mail = authentication.getName();
+		FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))
+		{
+			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+				{
+				aa_student_profile studentProfile = aa_student_profileFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+				if(studentProfile !=null) {
+					return true;
+				}else {
+					return false;
+				}
+				
+				
+				}else {
+					aa_instructor instructor = aa_instructorFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+					if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+					{
+						return true;
+					}else if(instructor!=null){
+						return true;
+					}else {
+						return false;
+					}
+				}
+
+		}else {
+			return false;
+		}
+		
+		
+	}
+	
+	public String renderAcademicAdvising() {
+		FormsStatusDTO settingform = formStatus.getById(23);
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String mail = authentication.getName();
+		FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))
+		{
+			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+				{
+				aa_student_profile studentProfile = aa_student_profileFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+				if(studentProfile !=null) {
+					return"/pages/secured/academic_advising/studentProfile.xhtml?faces-redirect=true";
+				}else {
+					return "/pages/public/login.xhtml?faces-redirect=true";
+				}
+				
+				
+				}else {
+					aa_instructor instructor = aa_instructorFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+					
+					if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+					{
+						return"/pages/secured/academic_advising/registrar.xhtml?faces-redirect=true";
+					}else if(instructor!=null)
+					{
+						return"/pages/secured/academic_advising/instructor.xhtml?faces-redirect=true";
+					}else {
+						return "/pages/public/login.xhtml?faces-redirect=true";
+					}
+				}
+
+		}else {
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+		
+	}
 	
 	public boolean isInstructorSurveyWork() {
 
@@ -3036,6 +3129,26 @@ else
 
 	public void setImport_student_Bean(ImportStudentsBean import_student_Bean) {
 		this.import_student_Bean = import_student_Bean;
+	}
+
+
+	public aa_student_profileAppServiceImpl getAa_student_profileFacade() {
+		return aa_student_profileFacade;
+	}
+
+
+	public void setAa_student_profileFacade(aa_student_profileAppServiceImpl aa_student_profileFacade) {
+		this.aa_student_profileFacade = aa_student_profileFacade;
+	}
+
+
+	public aa_instructorAppServiceImpl getAa_instructorFacade() {
+		return aa_instructorFacade;
+	}
+
+
+	public void setAa_instructorFacade(aa_instructorAppServiceImpl aa_instructorFacade) {
+		this.aa_instructorFacade = aa_instructorFacade;
 	}
 
 

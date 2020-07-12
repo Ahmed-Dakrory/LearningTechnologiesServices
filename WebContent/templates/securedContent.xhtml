@@ -38,7 +38,8 @@
 					<p:commandLink ajax="false" immediate="true" value="Account Settings" action="#{leftNavigationMenuBean.renderAccountSetting}" class="#{leftNavigationMenuBean.getActiveCssName('Account Settings')}"/>
 					
 					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.isStudent()}" value="Student Profile" action="#{leftNavigationMenuBean.renderStudentProfile}" class="#{leftNavigationMenuBean.getActiveCssName('Student Profile')}"/>
-				
+					<p:commandLink ajax="false" immediate="true" value="Academic Advising" rendered="#{leftNavigationMenuBean.InAcademicAdvising()}" action="#{leftNavigationMenuBean.renderAcademicAdvising}" class="#{leftNavigationMenuBean.getActiveCssName('Feedback Form')}" />
+						
 					
 					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.isStudentGraduationForm()}" 
 					value="Graduation Form" action="#{leftNavigationMenuBean.renderGraduationForm}" class="#{leftNavigationMenuBean.getActiveCssName('Graduation Form')}"/>

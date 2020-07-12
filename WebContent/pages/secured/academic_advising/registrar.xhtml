@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Academic Advising</ui:define>
+		<ui:define name="content">
+		
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+		<style>
+
+.cardImage{
+  max-width: 440px;
+    max-height: 254px;
+    width: auto;
+    height: 450px;
+}
+
+
+
+
+	
+	</style>
+	
+			<ul class="header">
+				<li>
+					<h:form style="background: white;">
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Academic Advising" />
+						</p:breadCrumb>
+						
+						<div class="container">
+						
+						<div class="row">
+						
+						<div  class="col-md-4 text-center " >
+				
+					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
+					  <div class="card">
+					     		<h:graphicImage class="cardImage" value="/resources/images/126-1269371_student-list-icon-png.png" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat"/>
+					    
+					    
+					     <div class="coursedetails">
+					       <h3><a href="registrarListOfStudents.xhtml" style="font-family: cursive;font-stretch: expanded;color: #696262;font-weight: bold;font-size: initial;font-family: initial;">List of Students</a></h3>
+					    	
+					    
+					     </div>
+					  </div>
+					</div>
+					
+					
+					
+				</div>
+				
+				
+				
+				
+				
+				<div  class="col-md-4 text-center " >
+				
+					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
+					  <div class="card">
+					     		<h:graphicImage class="cardImage" value="/resources/images/schedule.jpg" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat"/>
+					     
+					    
+					    
+					     <div class="coursedetails">
+					       <h3><a href="/pages/public/courseDetails.xhtml?id=#{o.id}" style="font-family: cursive;font-stretch: expanded;color: #696262;font-weight: bold;font-size: initial;font-family: initial;">Students Schedule</a></h3>
+					    	
+					    
+					     </div>
+					  </div>
+					</div>
+					
+					
+					
+				</div>
+				
+						</div>
+				
+					</div>
+					</h:form>
+				</li>
+			</ul>
+			
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>
