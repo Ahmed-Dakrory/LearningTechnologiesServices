@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Academic Advising</ui:define>
+		<ui:define name="content">
+		
+		<h:outputScript library="JSEffect" name="JS/jquery.js" />
+		
+		
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Academic Advising" />
+						</p:breadCrumb>
+					</h:form>
+					
+					<h:form id="myForm" style="background:white;">
+					
+					<p:growl id="msgs" showDetail="true"/>
+					<h:panelGroup >
+							<p:panel>
+								<table>
+										<tr>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Date of Meeting" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedDateData.date}" />
+													<h:outputLabel value="Zewail city ID" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.zewailcity_id}" />
+													<h:outputLabel value="Mob./Phone" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.phone}" />
+							    				</h:panelGrid>
+											</td>
+														<td width="5">&nbsp;</td>
+											<td>
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Name" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.name}" />
+													<h:outputLabel value="Mail" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.mail}" />
+													<h:outputLabel value="Address" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.address}" />
+												</h:panelGrid>
+											</td>
+												<td width="5">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="GPA" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.gpa}" />
+													<h:outputLabel value="Current Program" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.major}" />
+													<h:outputLabel value="Concentration" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.concentration}" />												
+												</h:panelGrid>
+											</td>
+							
+							
+											<td width="5">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{aaRegistrarBean.selectedStudent.minor}" />
+												</h:panelGrid>
+											</td>
+										</tr> 
+									</table>
+							</p:panel>		
+									
+									
+									<p:panel class="mt-3  p-3">
+									
+									<h:outputLabel value="Advisor Message" />
+									<br></br>
+									<p:inputTextarea disabled="true"  style=" width: 59%;" rows="3" value="#{aaRegistrarBean.selectedDateData.instructorMessege}"></p:inputTextarea>
+									
+									
+									
+									
+									<br></br>
+									<br></br>
+									
+									
+									<h:outputLabel value="Student Message" />
+									<br></br>
+									<p:inputTextarea disabled="true"  style=" width: 59%;" rows="3" value="#{aaRegistrarBean.selectedDateData.studentMessege}"></p:inputTextarea>
+									
+									
+									<br></br>
+									<br></br>
+									
+									
+									<h:outputLabel value="Comments" />
+									<br></br>
+									<p:inputTextarea disabled="true" style=" width: 59%; height: 163px;" rows="5" cols="30" counter="commentsdisplay" maxlength="1025" counterTemplate="{0} characters remaining." autoResize="false"  value="#{aaRegistrarBean.selectedDateData.comments}"></p:inputTextarea>
+									<br />
+    								<h:outputText style="    margin-left: 47%;" id="commentsdisplay" />
+									
+									
+									<br></br>
+									<br></br>
+									
+									
+									<h:outputLabel value="Recommendations" />
+									<br></br>
+									<p:inputTextarea disabled="true"  style=" width: 59%; height: 163px;" rows="5" cols="30" counter="recommendationsdisplay" maxlength="1025" counterTemplate="{0} characters remaining." autoResize="false" value="#{aaRegistrarBean.selectedDateData.recommendations}"></p:inputTextarea>
+									<br />
+    								<h:outputText style="    margin-left: 47%;" id="recommendationsdisplay" />
+									</p:panel>
+							
+					</h:panelGroup>
+					<p:panel class="p-3">
+					<div class="row">
+					<div class="col-md-2">
+						
+					</div>
+					
+					<div class="col-md-2">
+						
+					</div>
+					
+					<div class="col-md-1">
+					
+					
+					</div>
+					
+					<div class="col-md-1">
+					<p:commandButton onclick="window.history.back();" value="Back"></p:commandButton>
+					
+					</div>
+					</div>
+						
+					
+						
+					
+					</p:panel>
+					</h:form>
+				</li>
+			</ul>
+			
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>

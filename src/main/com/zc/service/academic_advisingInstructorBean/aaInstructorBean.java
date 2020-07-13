@@ -1,18 +1,24 @@
 package main.com.zc.service.academic_advisingInstructorBean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import main.com.zc.service.academic_advisingInstructorsDates.copy.aa_instructor_date;
-import main.com.zc.service.academic_advisingInstructorsDates.copy.aa_instructor_dateAppServiceImpl;
+import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
+import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateAppServiceImpl;
 import main.com.zc.service.academic_advising_instructor.aa_instructor;
 import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
@@ -21,7 +27,7 @@ import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 
 @ManagedBean(name = "aaInstructorBean")
-@ViewScoped
+@SessionScoped
 public class aaInstructorBean implements Serializable{
 	
 	
@@ -60,7 +66,7 @@ public class aaInstructorBean implements Serializable{
 
 	private List<aa_instructor_date> allinstructorDates;
 	
-	
+	private aa_instructor_date selectedDateData;
 
 	@PostConstruct
 	public void init() {
@@ -73,7 +79,7 @@ public class aaInstructorBean implements Serializable{
 	
 	public void getAllInstructorDates() {
 		FormsStatusDTO settingform = facadeSettings.getById(23);
-		allinstructorDates = aa_instructor_dateFacade.getAllByYearAndSemester( settingform.getYear(), settingform.getSemester().getName());
+		allinstructorDates = aa_instructor_dateFacade.getByInstructorIdAndYearAndSemester(thisInstrutorAccount.getId(),String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 	}
 	
 	
@@ -95,6 +101,69 @@ public class aaInstructorBean implements Serializable{
 		getAllInstructorDates();
 	}
 
+	public void deleteDateSchedule(int index) {
+		try {
+			aa_instructor_dateFacade.delete(allinstructorDates.get(index));
+			allinstructorDates.remove(index);
+			FacesMessage msg = new FacesMessage("Deleted", "Date With "+String.valueOf(allinstructorDates.get(index).getId())+" deleted");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			FacesMessage msg = new FacesMessage("Problem", "Date With "+String.valueOf(allinstructorDates.get(index).getId())+" not deleted");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void goToStudentProfileMeeting(int idOfDate) {
+		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
+		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
+
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/pages/secured/academic_advising/studentProfile_Ins.xhtml");
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	}
+	
+	public void saveDataOfthisMeeting() {
+		selectedDateData.setDatelastComment(new Date());
+		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
+		FacesMessage msg = new FacesMessage("Saved", "Meeting Data with "+String.valueOf(selectedDateData.getId())+" Saved");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	
+	public void finishThisMeeting() {
+		selectedDateData.setDatelastComment(new Date());
+		selectedDateData.setState(aa_instructor_date.State_Finished);
+		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
+		FacesMessage msg = new FacesMessage("Finished", "Meeting Data with "+String.valueOf(selectedDateData.getId())+" has been Finished");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	public void addNewSchedule() {
+
+		FormsStatusDTO settingform = facadeSettings.getById(23);
+		aa_instructor_date dateSchedule = new aa_instructor_date();
+		dateSchedule.setDate(new Date());
+		dateSchedule.setYear(String.valueOf(settingform.getYear()));
+		dateSchedule.setSemester(settingform.getSemester().getName());
+		dateSchedule.setInstructor(thisInstrutorAccount);
+		allinstructorDates.add(dateSchedule);
+		aa_instructor_dateFacade.addaa_instructor_date(allinstructorDates.get(allinstructorDates.size()-1));
+		FacesMessage msg = new FacesMessage("Added", "Date With "+String.valueOf(allinstructorDates.get(allinstructorDates.size()-1).getId())+" Added");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	public void saveDateSchedule(int index) {
+		aa_instructor_dateFacade.addaa_instructor_date(allinstructorDates.get(index));
+		FacesMessage msg = new FacesMessage("Saved", "Date With "+String.valueOf(allinstructorDates.get(index).getId())+" saved");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 	public IFormsStatusFacade getFacadeSettings() {
 		return facadeSettings;
 	}
@@ -153,6 +222,14 @@ public class aaInstructorBean implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public aa_instructor_date getSelectedDateData() {
+		return selectedDateData;
+	}
+
+	public void setSelectedDateData(aa_instructor_date selectedDateData) {
+		this.selectedDateData = selectedDateData;
 	}
 
 

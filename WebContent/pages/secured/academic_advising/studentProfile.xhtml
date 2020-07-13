@@ -11,6 +11,10 @@
 	<ui:composition template="/templates/uploadSecuredContent.xhtml">
 		<ui:define name="title">Academic Advising</ui:define>
 		<ui:define name="content">
+		<script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
+<link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+		<link rel="stylesheet" href="#{resource['css:jquery.datetimepicker.css']}" />
+		
 			<ul class="header">
 				<li>
 					<h:form>
@@ -19,8 +23,25 @@
 					    	<p:menuitem value="Academic Advising" />
 						</p:breadCrumb>
 					</h:form>
+					
+					<p:panel>
+					<h:inputText id="datePicker" class="form-control" value=""></h:inputText>
+
+					</p:panel>
+					
 				</li>
 			</ul>
+			
+		<h:outputScript library="JSEffect" name="JS/jquery.js" />
+		<h:outputScript library="JSEffect" name="JS/jquery.datetimepicker.full.js" />
+			
+			<script>
+			 $("#datePicker" ).datetimepicker({
+			        dateFormat: 'yy-mm-dd',
+			        timeFormat: 'HH:mm:ss'
+			  }).attr('readonly', 'readonly');
+			</script>
+			
 			
 		</ui:define>
 		

@@ -92,10 +92,10 @@ public class aa_instructor_studentsRepositoryImpl implements aa_instructor_stude
 
 
 	@Override
-	public List<aa_instructor_students> getAllByYearAndSemester(int year,  String semester) {
+	public List<aa_instructor_students> getAllByYearAndSemester(String year,  String semester) {
 		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getAllByYearAndSemester")
 				 .setString("semester",semester)
-				 .setInteger("year", year);
+				 .setString("year", year);
 
 		 @SuppressWarnings("unchecked")
 		List<aa_instructor_students> results=query.list();
@@ -107,16 +107,34 @@ public class aa_instructor_studentsRepositoryImpl implements aa_instructor_stude
 	}
 
 	@Override
-	public List<aa_instructor_students> getByInstructorIdAndYearAndSemester(int id, int year, String semester) {
+	public List<aa_instructor_students> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
 		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByInstructorIdAndYearAndSemester")
 				 .setString("semester",semester)
-				 .setInteger("year", year)
+				 .setString("year", year)
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")
 		List<aa_instructor_students> results=query.list();
 		 if(results.size()!=0){
 			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	@Override
+	public aa_instructor_students getByStudentIdAndYearAndSemester(int id, String year, String semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByStudentIdAndYearAndSemester")
+				 .setString("semester",semester)
+				 .setString("year", year)
+				 .setInteger("id", id);
+
+		 @SuppressWarnings("unchecked")
+		List<aa_instructor_students> results=query.list();
+
+		 if(results.size()!=0){
+
+			 return results.get(0);
 		 }else{
 			 return null;
 		 }

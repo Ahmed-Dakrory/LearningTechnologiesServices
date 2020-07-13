@@ -102,10 +102,10 @@ public class aa_student_profileRepositoryImpl implements aa_student_profileRepos
 	
 
 	@Override
-	public List<aa_student_profile> getAllByYearAndSemester(int year,  String semester) {
+	public List<aa_student_profile> getAllByYearAndSemester(String year,  String semester) {
 		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_student_profile.getAllByYearAndSemester")
 				 .setString("semester",semester)
-				 .setInteger("year", year);
+				 .setString("year", year);
 
 		 @SuppressWarnings("unchecked")
 		List<aa_student_profile> results=query.list();
@@ -117,10 +117,10 @@ public class aa_student_profileRepositoryImpl implements aa_student_profileRepos
 	}
 
 	@Override
-	public aa_student_profile getByMailAndYearAndSemester(String mail, int year, String semester) {
+	public aa_student_profile getByMailAndYearAndSemester(String mail, String year, String semester) {
 		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_student_profile.getByMailAndYearAndSemester")
 				 .setString("semester",semester)
-				 .setInteger("year", year)
+				 .setString("year", year)
 				 .setString("mail", mail);
 
 		 @SuppressWarnings("unchecked")

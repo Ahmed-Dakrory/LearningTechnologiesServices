@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Academic Advising</ui:define>
+		<ui:define name="content">
+		<style>
+		.p-5{
+		
+		padding:19px;
+		}
+		</style>
+			<ul class="header">
+				<li>
+					<h:form id="pageForm" class="p-5" style="background: white;">
+					<p:growl id="msgs" showDetail="true"/>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Academic Advising" />
+						</p:breadCrumb>
+						
+						<table>
+							<tr>
+								<td>
+									<p:selectOneMenu id="semester" value="#{aaRegistrarBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{aaRegistrarBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.name}" />
+										<p:ajax listener="#{aaRegistrarBean.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{aaRegistrarBean.selectedYear}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{aaRegistrarBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax update="action"/>	
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="action" value="#{aaRegistrarBean.selectedAction}" required="true" requiredMessage="Please select Action">
+										<f:selectItem itemLabel="Select Action" />
+										<f:selectItem itemLabel="Finished"  itemValue="Finished" />
+										<f:selectItem itemLabel="Cancelled" itemValue="Cancelled" />
+										<f:selectItem itemLabel="Reserved" itemValue="Reserved" />
+										<p:ajax listener="#{aaRegistrarBean.getAllListOfDates}" update="studentTable"/>
+									</p:selectOneMenu>
+									<p:message for="action" />
+								</td>
+								
+								</tr>
+							</table>
+						
+						
+						
+						
+						
+				<p:dataTable var="row"  value="#{aaRegistrarBean.allinstructorDates}" selectionMode="single" rowKey="#{row.id}" 
+							sortMode="multiple" widgetVar="studentProfile" id="studentTable" resizableColumns="true" rows="100" paginator="true"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+								<!--  <p:ajax event="rowSelect" listener="#{aaRegistrarBean.onRowSelect}" /> -->
+								
+								<p:column width="105" id="zewailcity_id" sortBy="#{row.student.zewailcity_id}" filterBy="#{row.student.zewailcity_id}">
+								
+									<h:outputText value="#{row.student.zewailcity_id}" />
+						          
+									<f:facet name="header">
+										<h:outputText value="zewail Id" />
+									</f:facet>
+								</p:column>
+								
+							<p:column width="260" id="name" sortBy="#{row.student.name}" filterBy="#{row.student.name}">
+								
+									<h:outputText value="#{row.student.name}" />
+						            
+								<f:facet name="header">
+								<h:outputText value="Name of the Student" />
+							</f:facet>
+								</p:column>
+								
+								<p:column width="228" id="mail" sortBy="#{row.student.mail}" filterBy="#{row.student.mail}">
+									
+						               <h:outputText value="#{row.student.mail}" />
+						               
+										<f:facet name="header">
+											<h:outputText value="Mail of the Student" />
+										</f:facet>
+							</p:column>
+								
+								
+								
+									<p:column width="110" id="date" sortBy="#{row.date}" filterBy="#{row.date}">
+									
+						                <h:outputText value="#{row.date}" />
+						              
+										<f:facet name="header">
+											<h:outputText value="date" />
+										</f:facet>
+							</p:column>
+							
+							
+								<p:column width="170" id="InstructorName" sortBy="#{row.instructor.name}" filterBy="#{row.instructor.name}">
+									
+						               <h:outputText value="#{row.instructor.name}" />
+						              
+										<f:facet name="header">
+											<h:outputText value="Instructor Name" />
+										</f:facet>
+							</p:column>
+							
+							
+								<p:column width="53" id="gpa" sortBy="#{row.student.gpa}" filterBy="#{row.student.gpa}">
+								
+									<h:outputText value="#{row.student.gpa}" />
+						            
+									<f:facet name="header">
+										<h:outputText value="gpa" />
+									</f:facet>
+								</p:column>
+								
+								
+								<p:column width="53" id="state" sortBy="#{row.state}" filterBy="#{row.state}">
+								
+									<h:outputText value="#{row.state}" />
+						            
+									<f:facet name="header">
+										<h:outputText value="state" />
+									</f:facet>
+								</p:column>
+								
+								
+								
+								<p:column width="64" id="action" sortBy="#{row.id}" filterBy="#{row.id}">
+									
+						                
+						                <p:commandButton actionListener="#{aaRegistrarBean.goToStudentProfileMeeting(row.id)}" value="details" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"></p:commandButton>
+						              
+										<f:facet name="header">
+											<h:outputText value="Action" />
+										</f:facet>
+							</p:column>
+							</p:dataTable>
+							
+						
+				
+					
+					</h:form>
+				</li>
+			</ul>
+			
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>

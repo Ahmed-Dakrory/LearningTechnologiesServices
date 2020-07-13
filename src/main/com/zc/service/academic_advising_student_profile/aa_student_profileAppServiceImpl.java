@@ -92,7 +92,7 @@ public class aa_student_profileAppServiceImpl implements Iaa_student_profileAppS
 
 
 	@Override
-	public List<aa_student_profile> getAllByYearAndSemester(int year, String semester) {
+	public List<aa_student_profile> getAllByYearAndSemester(String year, String semester) {
 		try{
 			List<aa_student_profile> course=aa_student_profileDataRepository.getAllByYearAndSemester(year,semester);
 			
@@ -108,7 +108,7 @@ public class aa_student_profileAppServiceImpl implements Iaa_student_profileAppS
 
 
 	@Override
-	public aa_student_profile getByMailAndYearAndSemester(String mail, int year, String semester) {
+	public aa_student_profile getByMailAndYearAndSemester(String mail, String year, String semester) {
 		try{
 			aa_student_profile course=aa_student_profileDataRepository.getByMailAndYearAndSemester(mail, year, semester);
 			

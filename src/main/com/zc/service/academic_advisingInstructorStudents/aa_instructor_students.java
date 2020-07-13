@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
 import main.com.zc.service.academic_advising_instructor.aa_instructor;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 
@@ -39,6 +40,11 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	@NamedQuery(name="aa_instructor_students.getByInstructorIdAndYearAndSemester",
 	query = "from aa_instructor_students d where d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
 			)
+	
+	,
+	@NamedQuery(name="aa_instructor_students.getByStudentIdAndYearAndSemester",
+	query = "from aa_instructor_students d where d.student.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+			)
 	,
 	@NamedQuery(name="aa_instructor_students.getAllByYearAndSemester",
 	query = "from aa_instructor_students d where d.year = :year and Lower(d.semester) = Lower(:semester)"
@@ -61,10 +67,15 @@ public class aa_instructor_students {
 	@JoinColumn(name = "student")
 	private aa_student_profile student;
 	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "instructor")
 	private aa_instructor instructor;
+	
+
+	@ManyToOne
+	@JoinColumn(name = "instructor_date")
+	private aa_instructor_date instructor_date;
 	
 	
 	@Column(name = "year")
@@ -122,6 +133,16 @@ public class aa_instructor_students {
 
 	public void setSemester(String semester) {
 		this.semester = semester;
+	}
+
+
+	public aa_instructor_date getInstructor_date() {
+		return instructor_date;
+	}
+
+
+	public void setInstructor_date(aa_instructor_date instructor_date) {
+		this.instructor_date = instructor_date;
 	}
 
 

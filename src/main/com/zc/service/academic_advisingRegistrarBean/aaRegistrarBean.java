@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -17,13 +17,15 @@ import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
+import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
+import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
 @ManagedBean(name = "aaRegistrarBean")
-@ViewScoped
+@SessionScoped
 public class aaRegistrarBean implements Serializable{
 	
 	
@@ -53,21 +55,49 @@ public class aaRegistrarBean implements Serializable{
 	
 	private List<aa_student_profile> allStudentSelected;
 	
-	private int selectedYear;
+
+	@ManagedProperty(value = "#{aa_instructor_dateFacadeImpl}")
+	private aa_instructor_dateAppServiceImpl aa_instructor_dateFacade;
+	
+	private String selectedYear;
 	private String selectedSemester;
+	private String selectedAction;
 	
 
+	private List<aa_instructor_date> allinstructorDates;
 	private List<BaseDTO> semesterLst;
-	private List<Integer> yearLst;
+	private List<String> yearLst;
+	
+
+	private aa_instructor_date selectedDateData;
 	@PostConstruct
 	public void init() {
-
+		allinstructorDates=new ArrayList<aa_instructor_date>();
 		allStudentSelected =new ArrayList<aa_student_profile>();
 		refresh();
 		
 		
 	}
 	
+	public void goToStudentProfileMeeting(int idOfDate) {
+		System.out.print(idOfDate);
+		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
+		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
+
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/pages/secured/academic_advising/studentProfile_Reg.xhtml");
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	}
+	
+	public void getAllListOfDates() {
+		allinstructorDates = aa_instructor_dateFacade.getByActionAndYearAndSemester(selectedAction, selectedYear, selectedSemester);
+	}
 	public void getAllListOfStudents() {
 		allStudentSelected = aa_student_profileFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
 	}
@@ -111,19 +141,19 @@ public class aaRegistrarBean implements Serializable{
 		semesterLst.add(new BaseDTO(2,"Summer"));
 		//semesterLst.add(new BaseDTO(3,"Winter"));
 		
-		yearLst=new ArrayList<Integer>();
+		yearLst=new ArrayList<String>();
 		for(int i=2013;i<2031;i++)
 		{
-			yearLst.add(i);
+			yearLst.add(String.valueOf(i));
 		}
 	}
 	
 	public void fillYearLst(AjaxBehaviorEvent event)
 	{
-		 yearLst=new ArrayList<Integer>();
+		 yearLst=new ArrayList<String>();
 		for(int i=2013;i<2031;i++)
 		{
-			yearLst.add(i);
+			yearLst.add(String.valueOf(i));
 		}
 	}
 
@@ -137,11 +167,11 @@ public class aaRegistrarBean implements Serializable{
 		this.semesterLst = semesterLst;
 	}
 
-	public List<Integer> getYearLst() {
+	public List<String> getYearLst() {
 		return yearLst;
 	}
 
-	public void setYearLst(List<Integer> yearLst) {
+	public void setYearLst(List<String> yearLst) {
 		this.yearLst = yearLst;
 	}
 
@@ -153,11 +183,11 @@ public class aaRegistrarBean implements Serializable{
 		this.allStudentSelected = allStudentSelected;
 	}
 
-	public int getSelectedYear() {
+	public String getSelectedYear() {
 		return selectedYear;
 	}
 
-	public void setSelectedYear(int selectedYear) {
+	public void setSelectedYear(String selectedYear) {
 		this.selectedYear = selectedYear;
 	}
 
@@ -208,6 +238,45 @@ public class aaRegistrarBean implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+
+	public aa_instructor_dateAppServiceImpl getAa_instructor_dateFacade() {
+		return aa_instructor_dateFacade;
+	}
+
+
+	public void setAa_instructor_dateFacade(aa_instructor_dateAppServiceImpl aa_instructor_dateFacade) {
+		this.aa_instructor_dateFacade = aa_instructor_dateFacade;
+	}
+
+
+	public String getSelectedAction() {
+		return selectedAction;
+	}
+
+
+	public void setSelectedAction(String selectedAction) {
+		this.selectedAction = selectedAction;
+	}
+
+
+	public List<aa_instructor_date> getAllinstructorDates() {
+		return allinstructorDates;
+	}
+
+
+	public void setAllinstructorDates(List<aa_instructor_date> allinstructorDates) {
+		this.allinstructorDates = allinstructorDates;
+	}
+
+	public aa_instructor_date getSelectedDateData() {
+		return selectedDateData;
+	}
+
+	public void setSelectedDateData(aa_instructor_date selectedDateData) {
+		this.selectedDateData = selectedDateData;
+	}
+	
 	
 	
 }

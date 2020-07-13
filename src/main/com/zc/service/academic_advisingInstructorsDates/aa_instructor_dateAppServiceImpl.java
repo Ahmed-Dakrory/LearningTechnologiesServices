@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.com.zc.service.academic_advisingInstructorsDates.copy;
+package main.com.zc.service.academic_advisingInstructorsDates;
 
 
 
@@ -92,7 +92,7 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getAllByYearAndSemester(int year, String semester) {
+	public List<aa_instructor_date> getAllByYearAndSemester(String year, String semester) {
 		try{
 			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getAllByYearAndSemester(year,semester);
 			
@@ -108,9 +108,42 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id, int year, String semester) {
+	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
 		try{
 			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByInstructorIdAndYearAndSemester(id, year, semester);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
+	@Override
+	public List<aa_instructor_date> getByActionAndYearAndSemester(String state, String year, String semester) {
+		try{
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByActionAndYearAndSemester(state, year, semester);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
+	@Override
+	public List<aa_instructor_date> getAllAvailableByInstructorIdAndYearAndSemester(int id, String year,
+			String semester) {
+		try{
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getAllAvailableByInstructorIdAndYearAndSemester(id, year, semester);
 			
 			return course;
 			}

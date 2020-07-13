@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.com.zc.service.academic_advisingInstructorsDates.copy;
+package main.com.zc.service.academic_advisingInstructorsDates;
 
 import java.util.List;
 
@@ -92,10 +92,10 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 
 
 	@Override
-	public List<aa_instructor_date> getAllByYearAndSemester(int year,  String semester) {
+	public List<aa_instructor_date> getAllByYearAndSemester(String year,  String semester) {
 		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getAllByYearAndSemester")
 				 .setString("semester",semester)
-				 .setInteger("year", year);
+				 .setString("year", year);
 
 		 @SuppressWarnings("unchecked")
 		List<aa_instructor_date> results=query.list();
@@ -107,10 +107,43 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 	}
 
 	@Override
-	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id, int year, String semester) {
+	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
 		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByInstructorIdAndYearAndSemester")
 				 .setString("semester",semester)
-				 .setInteger("year", year)
+				 .setString("year", year)
+				 .setInteger("id", id);
+
+		 @SuppressWarnings("unchecked")
+		List<aa_instructor_date> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	@Override
+	public List<aa_instructor_date> getByActionAndYearAndSemester(String state, String year, String semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByActionAndYearAndSemester")
+				 .setString("semester",semester)
+				 .setString("year", year)
+				 .setString("state", state);
+
+		 @SuppressWarnings("unchecked")
+		List<aa_instructor_date> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
+	@Override
+	public List<aa_instructor_date> getAllAvailableByInstructorIdAndYearAndSemester(int id, String year,
+			String semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getAllAvailableByInstructorIdAndYearAndSemester")
+				 .setString("semester",semester)
+				 .setString("year", year)
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")

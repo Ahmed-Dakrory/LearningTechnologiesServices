@@ -323,7 +323,7 @@ public class LeftNavigationMenuBean {
 		{
 			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
 				{
-				aa_student_profile studentProfile = aa_student_profileFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+				aa_student_profile studentProfile = aa_student_profileFacade.getByMailAndYearAndSemester(mail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 				if(studentProfile !=null) {
 					return true;
 				}else {
@@ -363,9 +363,10 @@ public class LeftNavigationMenuBean {
 		{
 			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
 				{
-				aa_student_profile studentProfile = aa_student_profileFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+				aa_student_profile studentProfile = aa_student_profileFacade.getByMailAndYearAndSemester(mail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+				System.out.println("Profile: "+String.valueOf(studentProfile.getId()));
 				if(studentProfile !=null) {
-					return"/pages/secured/academic_advising/studentProfile.xhtml?faces-redirect=true";
+					return"/pages/secured/academic_advising/student.xhtml?faces-redirect=true";
 				}else {
 					return "/pages/public/login.xhtml?faces-redirect=true";
 				}
