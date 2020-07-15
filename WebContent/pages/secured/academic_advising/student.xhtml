@@ -137,7 +137,7 @@ position: absolute;
 				
 					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
 					<div class="closeButton">
-						<p:commandButton update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaStudentBean.deleteDateSchedule(status.index)}" style="width: 27px;height: 27px;border-radius: 15px;background: #5196d04f;" value="X"/>
+						<p:commandButton rendered="#{aaStudentBean.ableToCancel(data.date) and data.state!='Cancelled by Instructor' and data.state!='Cancelled by Student' and data.state!='Finished' and data.state!=null}" update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaStudentBean.cancelthisdate(data.id)}" style="width: 65px;height: 27px;color: white!important;border-radius: 15px;background: #5a8ebb;" value="Cancel"/>
 					</div>
 					
 					<h:panelGroup rendered="#{data.state=='Reserved'}">
@@ -149,7 +149,7 @@ position: absolute;
 								<span  class="nameSpan stateFinished"> #{data.state}  </span>
 					</h:panelGroup>
 					
-					<h:panelGroup rendered="#{data.state=='Cancelled'}">
+					<h:panelGroup rendered="#{data.state=='Cancelled by Instructor' or data.state=='Cancelled by Student' }">
 								<span  class="nameSpan stateCancelled"> #{data.state}  </span>
 					</h:panelGroup>
 					  <div class="card cardData">
@@ -174,10 +174,10 @@ position: absolute;
 					       </h3>
 					    	<div class="row">
 					    	
-					    		<p:commandButton update="@this :myForm:msgs"  style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Save Changes"/>
+					    		<p:commandButton rendered="#{!aaStudentBean.meetingSelected and data.state==null}" update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaStudentBean.selectThisdate(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Select this date"/>
 					    	
 					    	<h:panelGroup rendered="#{data.student!=null}">
-								<p:commandButton style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>
+								<p:commandButton actionListener="#{aaStudentBean.goToStudentProfileMeeting(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>
 							</h:panelGroup>
 					    	</div>
 					    

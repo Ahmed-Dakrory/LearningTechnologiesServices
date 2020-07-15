@@ -42,6 +42,14 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	query = "from aa_instructor_date d where d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
 			)
 	,
+	@NamedQuery(name="aa_instructor_date.getByInstructorIdAndStudentIdAndYearAndSemester",
+	query = "from aa_instructor_date d where d.instructor.id = :instructorId and d.student.id = :studentId and d.year = :year and Lower(d.semester) = Lower(:semester)"
+			)
+	,
+	@NamedQuery(name="aa_instructor_date.getByStudentIdAndYearAndSemester",
+	query = "from aa_instructor_date d where  d.student.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+			)
+	,
 	@NamedQuery(name="aa_instructor_date.getByActionAndYearAndSemester",
 	query = "from aa_instructor_date d where d.state = :state and d.year = :year and Lower(d.semester) = Lower(:semester)"
 			)
@@ -63,7 +71,8 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 public class aa_instructor_date {
 
 	public static String State_Reserved = "Reserved";
-	public static String State_Cancelled = "Cancelled";
+	public static String State_Cancelled_by_Instructor = "Cancelled by Instructor";
+	public static String State_Cancelled_by_Student = "Cancelled by Student";
 	public static String State_Finished = "Finished";
 	
 	@Id

@@ -130,12 +130,28 @@ position: absolute;
 					<div class="container" >
 						
 						<div class="row">
+						
+						<div  class="col-md-3 text-center mt-3" >
+				
+					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
+					
+					  <div class="card cardData">
+					     		<p:commandButton update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaInstructorBean.addNewSchedule()}" style=" font-size: 158px!important;width: 192%;background: beige;height: 318px;" value="+"/>
+					     
+					  </div>
+					</div>
+					
+					
+					
+				</div>
+				
 						<ui:repeat var="data" id="repeater" varStatus="status" value="#{aaInstructorBean.allinstructorDates}">
 						<div  class="col-md-3 text-center mt-3" >
 				
 					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
 					<div class="closeButton">
-						<p:commandButton update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaInstructorBean.deleteDateSchedule(status.index)}" style="width: 27px;height: 27px;border-radius: 15px;background: #5196d04f;" value="X"/>
+						<p:commandButton rendered="#{data.state==null}" update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaInstructorBean.deleteDateSchedule(status.index)}" style="width: 27px;height: 27px;border-radius: 15px;background: #5196d04f;" value="X"/>
+						<p:commandButton rendered="#{data.state!=null and data.state!='Finished' and data.state!='Cancelled by Instructor' and data.state!='Cancelled by Student'}" update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaInstructorBean.cancelthisdate(data.id)}" style="width: 65px;height: 27px;color: white!important;border-radius: 15px;background: #5a8ebb;" value="Cancel"/>
 					</div>
 					
 					<h:panelGroup rendered="#{data.state=='Reserved'}">
@@ -147,7 +163,7 @@ position: absolute;
 								<span  class="nameSpan stateFinished"> #{data.state}  </span>
 					</h:panelGroup>
 					
-					<h:panelGroup rendered="#{data.state=='Cancelled'}">
+					<h:panelGroup rendered="#{data.state=='Cancelled by Instructor' or data.state=='Cancelled by Student' }">
 								<span  class="nameSpan stateCancelled"> #{data.state}  </span>
 					</h:panelGroup>
 					  <div class="card cardData">
@@ -172,7 +188,7 @@ position: absolute;
 					       </h3>
 					    	<div class="row">
 					    	
-					    		<p:commandButton update="@this :myForm:msgs" actionListener="#{aaInstructorBean.saveDateSchedule(status.index)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Save Changes"/>
+					    		<p:commandButton rendered="#{data.state==null}" update="@this :myForm:msgs" actionListener="#{aaInstructorBean.saveDateSchedule(status.index)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Save Changes"/>
 					    	
 					    	<h:panelGroup rendered="#{data.student!=null}">
 								<p:commandButton actionListener="#{aaInstructorBean.goToStudentProfileMeeting(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>
@@ -195,19 +211,7 @@ position: absolute;
 							</script>
 				</ui:repeat>
 				
-				<div  class="col-md-3 text-center mt-3" >
 				
-					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
-					
-					  <div class="card cardData">
-					     		<p:commandButton update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaInstructorBean.addNewSchedule()}" style=" font-size: 158px!important;width: 192%;background: beige;height: 318px;" value="+"/>
-					     
-					  </div>
-					</div>
-					
-					
-					
-				</div>
 						</div>
 				
 					</div>

@@ -1,13 +1,19 @@
 package main.com.zc.service.academic_advisingStudentBean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +25,7 @@ import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateA
 import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 
@@ -64,8 +71,9 @@ public class aaStudentBean implements Serializable{
 	private aa_instructorAppServiceImpl aa_instructorFacade;
 
 	private List<aa_instructor_date> allinstructorDates;
-	
+	private aa_instructor_date selectedDateData;
 	private boolean meetingSelected=false;
+	
 	@PostConstruct
 	public void init() {
 
@@ -76,8 +84,41 @@ public class aaStudentBean implements Serializable{
 	}
 	
 	
+	public void cancelthisdate(int dateId) {
+		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
+		dateForStudentAndInstructor.setState(aa_instructor_date.State_Cancelled_by_Student);
+		dateForStudentAndInstructor.setDateStudentLastAction(new Date());
+		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
+		FormsStatusDTO settingform = facadeSettings.getById(23);
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent.setInstructor_date(null);
+		instructor_studentsFacade.addaa_instructor_students(selectedInstructorForThisStudent);
+		Constants.sendEmailNotificationForThisEmailWithMessage(dateForStudentAndInstructor.getInstructor().getName(), "Academic Advising Meeting Cancelled", "A Student has cancelled the meeting with date "+String.valueOf(dateForStudentAndInstructor.getDate()), dateForStudentAndInstructor.getInstructor().getMail());
+		
+		refresh();
+		FacesMessage msg = new FacesMessage("Cancelled", "Your Meeting has been cancelled");
+	    FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 	
+	
+	public void selectThisdate(int dateId) {
+		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
+		dateForStudentAndInstructor.setState(aa_instructor_date.State_Reserved);
+		dateForStudentAndInstructor.setDateStudentLastAction(new Date());
+		dateForStudentAndInstructor.setStudent(selectedStudent);
+		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
+		FormsStatusDTO settingform = facadeSettings.getById(23);
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent.setInstructor_date(dateForStudentAndInstructor);
+		instructor_studentsFacade.addaa_instructor_students(selectedInstructorForThisStudent);
+		Constants.sendEmailNotificationForThisEmailWithMessage(dateForStudentAndInstructor.getInstructor().getName(), "Academic Advising Meeting Selected", "A Student has select meeting with date "+String.valueOf(dateForStudentAndInstructor.getDate()), dateForStudentAndInstructor.getInstructor().getMail());
+		
+		refresh();
+		FacesMessage msg = new FacesMessage("Reserved", "Your Meeting has been reserved");
+	    FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 	public void refresh(){
+		meetingSelected = false;
 		FormsStatusDTO settingform = facadeSettings.getById(23);
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
@@ -90,22 +131,79 @@ public class aaStudentBean implements Serializable{
 
 				selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 				if(selectedInstructorForThisStudent.getInstructor_date()==null) {
-				allinstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorIdAndYearAndSemester(selectedInstructorForThisStudent.getInstructor().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
-				meetingSelected = true;
+					allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorIdAndYearAndSemester(selectedInstructorForThisStudent.getInstructor().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					if(allNullInstructorDates!=null) {
+						if(allNullInstructorDates.size()>0) {
+							if(allinstructorDates==null) {
+								allinstructorDates =new ArrayList<aa_instructor_date>();
+							}
+							allinstructorDates.addAll(allNullInstructorDates);
+						}
+					}
+				 
 				}else {
 					allinstructorDates = new ArrayList<aa_instructor_date>();
-					meetingSelected=false;
+					
+					allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					
+					meetingSelected=true;
 					
 				}
 				}
 		}
 		
 	}
+	public void goToStudentProfileMeeting(int idOfDate) {
+//		System.out.print(idOfDate);
+		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
+		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
+
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/pages/secured/academic_advising/studentProfile.xhtml");
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	}
+
+	//1 minute = 60 seconds
+	//1 hour = 60 x 60 = 3600
+	//1 day = 3600 x 24 = 86400
+	public boolean ableToCancel(Date dateMeeting){
+		
+		
+		Date endDate =new Date();
+	    //milliseconds
+	    long different = dateMeeting.getTime() - endDate.getTime();
 
 
+	    long secondsInMilli = 1000;
+	    long minutesInMilli = secondsInMilli * 60;
+	    long hoursInMilli = minutesInMilli * 60;
 
+	    //long elapsedDays = different / daysInMilli;
+	    //different = different % daysInMilli;
+
+	    long elapsedHours = different / hoursInMilli;
+
+//	    System.out.println(elapsedHours);
+	    if((elapsedHours)>24) {
+			return true;
+		}else {
+			return false;
+		}
+	    
+
+	}
 	
 	
+	
+	
+
 	public boolean isMeetingSelected() {
 		return meetingSelected;
 	}
@@ -216,6 +314,16 @@ public class aaStudentBean implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+
+	public aa_instructor_date getSelectedDateData() {
+		return selectedDateData;
+	}
+
+
+	public void setSelectedDateData(aa_instructor_date selectedDateData) {
+		this.selectedDateData = selectedDateData;
 	}
 	
 	

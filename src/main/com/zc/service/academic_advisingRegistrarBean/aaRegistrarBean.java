@@ -80,7 +80,7 @@ public class aaRegistrarBean implements Serializable{
 	}
 	
 	public void goToStudentProfileMeeting(int idOfDate) {
-		System.out.print(idOfDate);
+//		System.out.print(idOfDate);
 		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
 		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
 

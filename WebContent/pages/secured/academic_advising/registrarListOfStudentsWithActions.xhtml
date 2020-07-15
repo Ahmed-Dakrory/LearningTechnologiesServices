@@ -50,7 +50,8 @@
 									<p:selectOneMenu id="action" value="#{aaRegistrarBean.selectedAction}" required="true" requiredMessage="Please select Action">
 										<f:selectItem itemLabel="Select Action" />
 										<f:selectItem itemLabel="Finished"  itemValue="Finished" />
-										<f:selectItem itemLabel="Cancelled" itemValue="Cancelled" />
+										<f:selectItem itemLabel="Cancelled by Student" itemValue="Cancelled by Student" />
+										<f:selectItem itemLabel="Cancelled by Instructor" itemValue="Cancelled by Instructor" />
 										<f:selectItem itemLabel="Reserved" itemValue="Reserved" />
 										<p:ajax listener="#{aaRegistrarBean.getAllListOfDates}" update="studentTable"/>
 									</p:selectOneMenu>

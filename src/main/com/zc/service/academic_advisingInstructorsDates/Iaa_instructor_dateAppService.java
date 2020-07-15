@@ -15,7 +15,9 @@ public interface Iaa_instructor_dateAppService {
 	public List<aa_instructor_date> getAll();
 	public List<aa_instructor_date> getAllByYearAndSemester(String year,String semester);
 	public List<aa_instructor_date> getByActionAndYearAndSemester(String state,String year,String semester);
+	public List<aa_instructor_date> getByStudentIdAndYearAndSemester(int id,String year,String semester);
 	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id,String year,String semester);
+	public aa_instructor_date getByInstructorIdAndStudentIdAndYearAndSemester(int idInstructor,int idStudent,String year,String semester);
 	public List<aa_instructor_date> getAllAvailableByInstructorIdAndYearAndSemester(int id,String year,String semester);
 	public aa_instructor_date addaa_instructor_date(aa_instructor_date data);
 	public aa_instructor_date getById(int id);

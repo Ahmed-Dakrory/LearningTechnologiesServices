@@ -17,12 +17,15 @@ import javax.faces.context.FacesContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_students;
+import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_studentsAppServiceImpl;
 import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
 import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateAppServiceImpl;
 import main.com.zc.service.academic_advising_instructor.aa_instructor;
 import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 
@@ -61,12 +64,18 @@ public class aaInstructorBean implements Serializable{
 	@ManagedProperty(value = "#{aa_instructorFacadeImpl}")
 	private aa_instructorAppServiceImpl aa_instructorFacade;
 
+
+	@ManagedProperty(value = "#{aa_instructor_studentsFacadeImpl}")
+	private aa_instructor_studentsAppServiceImpl instructor_studentsFacade;
+	
+	
 	private aa_instructor thisInstrutorAccount;
 	private aa_student_profile selectedStudent;
 
 	private List<aa_instructor_date> allinstructorDates;
 	
 	private aa_instructor_date selectedDateData;
+	private aa_instructor_students selectedInstructorForThisStudent;
 
 	@PostConstruct
 	public void init() {
@@ -116,6 +125,24 @@ public class aaInstructorBean implements Serializable{
 		
 	}
 	
+	
+	public void cancelthisdate(int dateId) {
+		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
+		dateForStudentAndInstructor.setState(aa_instructor_date.State_Cancelled_by_Instructor);
+		dateForStudentAndInstructor.setDatelastComment(new Date());
+		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
+		FormsStatusDTO settingform = facadeSettings.getById(23);
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(dateForStudentAndInstructor.getStudent().getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent.setInstructor_date(null);
+		instructor_studentsFacade.addaa_instructor_students(selectedInstructorForThisStudent);
+		Constants.sendEmailNotificationForThisEmailWithMessage(selectedInstructorForThisStudent.getStudent().getName(), "Academic Advising Cancelation", "Your academic advising Meeting has Been Cancelled", selectedInstructorForThisStudent.getStudent().getMail());
+		refresh();
+		FacesMessage msg = new FacesMessage("Cancelled", "The Meeting has been cancelled");
+	    FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	
+	
 	public void goToStudentProfileMeeting(int idOfDate) {
 		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
 		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
@@ -134,6 +161,8 @@ public class aaInstructorBean implements Serializable{
 	public void saveDataOfthisMeeting() {
 		selectedDateData.setDatelastComment(new Date());
 		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
+		Constants.sendEmailNotificationForThisEmailWithMessage(selectedDateData.getStudent().getName(), "Academic Advising Change", "Your academic advising Meeting has Been Modified", selectedDateData.getStudent().getMail());
+		
 		FacesMessage msg = new FacesMessage("Saved", "Meeting Data with "+String.valueOf(selectedDateData.getId())+" Saved");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
@@ -143,11 +172,16 @@ public class aaInstructorBean implements Serializable{
 		selectedDateData.setDatelastComment(new Date());
 		selectedDateData.setState(aa_instructor_date.State_Finished);
 		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
+		Constants.sendEmailNotificationForThisEmailWithMessage(selectedDateData.getStudent().getName(), "Academic Advising Finishing", "Your academic advising Meeting has Been Finished You can see your meeting results", selectedDateData.getStudent().getMail());
+		
 		FacesMessage msg = new FacesMessage("Finished", "Meeting Data with "+String.valueOf(selectedDateData.getId())+" has been Finished");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	public void addNewSchedule() {
 
+		if(allinstructorDates==null) {
+			allinstructorDates =new ArrayList<aa_instructor_date>();
+		}
 		FormsStatusDTO settingform = facadeSettings.getById(23);
 		aa_instructor_date dateSchedule = new aa_instructor_date();
 		dateSchedule.setDate(new Date());
@@ -161,6 +195,7 @@ public class aaInstructorBean implements Serializable{
 	}
 	public void saveDateSchedule(int index) {
 		aa_instructor_dateFacade.addaa_instructor_date(allinstructorDates.get(index));
+		
 		FacesMessage msg = new FacesMessage("Saved", "Date With "+String.valueOf(allinstructorDates.get(index).getId())+" saved");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
@@ -230,6 +265,22 @@ public class aaInstructorBean implements Serializable{
 
 	public void setSelectedDateData(aa_instructor_date selectedDateData) {
 		this.selectedDateData = selectedDateData;
+	}
+
+	public aa_instructor_studentsAppServiceImpl getInstructor_studentsFacade() {
+		return instructor_studentsFacade;
+	}
+
+	public void setInstructor_studentsFacade(aa_instructor_studentsAppServiceImpl instructor_studentsFacade) {
+		this.instructor_studentsFacade = instructor_studentsFacade;
+	}
+
+	public aa_instructor_students getSelectedInstructorForThisStudent() {
+		return selectedInstructorForThisStudent;
+	}
+
+	public void setSelectedInstructorForThisStudent(aa_instructor_students selectedInstructorForThisStudent) {
+		this.selectedInstructorForThisStudent = selectedInstructorForThisStudent;
 	}
 
 
