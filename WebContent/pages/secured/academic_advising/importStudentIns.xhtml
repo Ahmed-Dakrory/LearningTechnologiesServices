@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Import Student Instructor - LT Online Services</ui:define>
+		<ui:define name="content">
+			<ul class="header">
+				<li>
+					<h:form>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Configuration" />
+							<p:menuitem value="Import  Student Instructor" disabled="true" />
+						</p:breadCrumb>
+					</h:form>
+				</li>
+			</ul>
+			<div class="pannelWrapper">
+				<p:panel class="attendance">
+					<table>
+						<tr>
+							<td colspan="3"><h4>Import File</h4></td>
+						</tr>
+						<tr>
+							<td><h:outputLabel value="Select File"/> &nbsp;&nbsp;</td>
+							<td>
+							
+								<h:form enctype="multipart/form-data" id="filesForm">
+									<p:fileUpload mode="simple" skinSimple="true" value="#{aaLTBean.file}" />
+									<h:message for="file" />
+								
+									<h:commandButton id="submit"  action="#{aaLTBean.parseFile}" value="Upload File"
+									 update="pageForm:studentCourseTable pageForm:resultText" styleClass="blueBtn" process="@form"/>
+									 &nbsp;&nbsp;
+									 <h:commandButton   action="#{aaLTBean.init}" value="Refresh"
+									 update="pageForm:studentCourseTable pageForm:resultText" styleClass="blueBtn" process="@form"/>
+									<h:outputText value="#{aaLTBean.statusMessage}" rendered="#{not empty aaLTBean.statusMessage}"/>
+								</h:form>
+							</td>
+						</tr>
+					</table>
+					<h:outputLabel rendered="#{aaLTBean.resultText}" id="resultText"
+					value="Result : #{aaLTBean.studentInst.size()} new course(s) of parsed file size #{aaLTBean.list.size()} "/>
+					<h:form id="pageForm">
+					<p:panel><h3>Imported student Inst</h3><br/></p:panel>
+						<p:dataTable var="row" value="#{aaLTBean.studentInst}"  rowKey="#{row.id}" sortMode="multiple" widgetVar="studentCourse" id="studentCourseTable" resizableColumns="true" rows="10" paginator="true"
+					 	paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,20,40,60,80,100" paginatorPosition="top" currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+							
+							
+							<p:column width="130" id="student" sortBy="#{row.student.name}" filterBy="#{row.student.name}">
+								<h:outputText value="#{row.student.name}" />
+								<p:watermark value="student" forElement="pageForm:studentCourseTable:student:filter"/>
+							</p:column>
+							
+							<p:column width="130" id="instructor" sortBy="#{row.instructor.name}" filterBy="#{row.instructor.name}">
+								<h:outputText value="#{row.instructor.name}" />
+								<p:watermark value="Instructor" forElement="pageForm:studentCourseTable:instructor:filter"/>
+							</p:column>
+							
+							
+						</p:dataTable>
+								<p:commandButton id="save" actionListener="#{aaLTBean.saveCourse}" value="Save New student Inst" 
+						update="studentCourseTable "  process="@form" rendered="#{aaLTBean.resultText}"/>
+					</h:form>
+				</p:panel>
+					
+					
+			</div>
+		</ui:define>
+		<ui:define name="confirmDialogBox">
+
+			
+   		</ui:define>
+	</ui:composition>
+</html>

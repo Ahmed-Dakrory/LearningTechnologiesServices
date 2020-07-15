@@ -336,6 +336,8 @@ public class LeftNavigationMenuBean {
 					if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 					{
 						return true;
+					}else if(mail.toLowerCase().equals(Constants.AcademicAdvising_DEP.toLowerCase())){
+						return true;
 					}else if(instructor!=null){
 						return true;
 					}else {
@@ -348,6 +350,9 @@ public class LeftNavigationMenuBean {
 		}
 		
 		
+	}
+	public String goAcademicAdvisingLTSAdmin() {
+			return "/pages/secured/academic_advising/importStudentIns.xhtml?faces-redirect=true";
 	}
 	
 	public String renderAcademicAdvising() {
@@ -376,6 +381,9 @@ public class LeftNavigationMenuBean {
 					aa_instructor instructor = aa_instructorFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
 					
 					if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+					{
+						return"/pages/secured/academic_advising/registrar.xhtml?faces-redirect=true";
+					}else if(mail.toLowerCase().equals(Constants.AcademicAdvising_DEP.toLowerCase()))
 					{
 						return"/pages/secured/academic_advising/registrar.xhtml?faces-redirect=true";
 					}else if(instructor!=null)

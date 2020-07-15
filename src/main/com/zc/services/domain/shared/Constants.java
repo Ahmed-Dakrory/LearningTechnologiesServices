@@ -76,10 +76,15 @@ public class Constants implements IConstants {
 	public static  Integer Financial_DEP_ID;//888;
 	public static  String Financial_DEP_NAME;//"Mrs. Ghada";
 	
-	
+
 	public static  String TeachingEffectiveness_DEP;//"ghazem@zewailcity.edu.eg";
 	public static  Integer TeachingEffectiveness_DEP_ID;//888;
 	public static  String TeachingEffectiveness_DEP_NAME;//"Mrs. Ghada";
+	
+
+	public static  String AcademicAdvising_DEP;//"ghazem@zewailcity.edu.eg";
+	public static  Integer AcademicAdvising_DEP_ID;//888;
+	public static  String AcademicAdvising_DEP_NAME;//"Mrs. Ghada";
 	
 	
 	public static  String ACCREDITION_ENG_DEP;//"ghazem@zewailcity.edu.eg";
@@ -111,8 +116,8 @@ public class Constants implements IConstants {
 				+ "<ul style=margin:0;padding:0;>"
 				+ "<li style=list-style:none;float:left;width:700px;margin:0;>"
 				+ "	<ul style=margin:0;padding:0;width:700px;margin-top:18px;>"
-				+ "<li style=list-style:none;float:left;width:260px;padding:0;><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/zewailLogo.png\"  style=\"width:131px\" alt=Zewail City of Science and Technology /></li>"
-				+ "<li style=list-style:none;float:right;width:121px;padding:0;><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/welocome_logo.png\"  style=\"width:131px\" alt=Center for Learning Technologies style=margin-top:4px; /></li>"
+				+ "<li style=list-style:none;float:left;width:260px;padding:0;><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/zewailLogo.png\"  style=\"width:55px\" alt=Zewail City of Science and Technology /></li>"
+				+ "<li style=list-style:none;float:right;width:121px;padding:0;><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/welocome_logo.png\"  style=\"width:118px\" alt=Center for Learning Technologies style=margin-top:4px; /></li>"
 				+ "</ul>"
 				+ "</li>"
 				+ "<li style=list-style:none;float:left;width:700px;background:#f1f2f2;margin:15px 0 24px 0;padding:1px 0;>&nbsp;</li>"
@@ -129,14 +134,14 @@ public class Constants implements IConstants {
 				+ "<span style=color:#676767>Center for Learning Technologies</span>"
 				+ "</div>"
 				+ "</li>"
-				+ "<li style=list-style:none;float:left;width:700px;margin-bottom:4px;background:#ececec;>"
+				+ "<li style=\"list-style:none;float:left;width:700px;margin-bottom:4px;background:#ececec\">"
 				+ "<ul style=margin:0;padding:0;>"
-				+ "<li style=list-style:none;float:left;width:134px;margin:0;padding:18px 36px !important;color:#717070;>"
-				+ "<a href=http://www.zclt.info/ title=Center for Learning Technologies><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/zewailLogo.png\" style=\\\"width:131px\\\" alt=Center for Learning Technologies /></a><br/>"
+				+ "<li style=\"list-style: none; float:left; width:134px; margin:0; padding:18px 36px !important; color:#717070;\">"
+				+ "<a href=http://www.zclt.info/ title=Center for Learning Technologies><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/zewailLogo.png\" style=\"width:61px\" alt=Center for Learning Technologies /></a><br/>"
 				+ "<span style=color:#404040;font-size:11px;>Giving Fuel to Innovation</span>"
 				+ "</li>"
-				+ "<li style=list-style:none;float:right;width:59px;margin:0;padding:18px 36px !important;color:#717070;>"
-				+ "<a href=http://www.zewailcity.edu.eg/ title=Zewail City of Science and Technology><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/welocome_logo.png\" style=\"width:131px\"  alt=Zewail City of Science and Technology /></a>"
+				+ "<li style=\"list-style:none;float:right;margin:0;padding:18px;\">"
+				+ "<a href=http://www.zewailcity.edu.eg/ title=Zewail City of Science and Technology><img src=\"https://lts.zewailcity.edu.eg/LearningTechnologiesServices/resources/images/welocome_logo.png\" style=\"width:145px\"  alt=Zewail City of Science and Technology /></a>"
 				+ "</li>"
 				+ "</ul>"
 				+ "</li>"

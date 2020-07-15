@@ -139,6 +139,22 @@ public class aa_instructor_studentsAppServiceImpl implements Iaa_instructor_stud
 
 
 
+	@Override
+	public aa_instructor_students getByStudentEmailAndYearAndSemester(String mail, String year, String semester) {
+		try{
+			aa_instructor_students course=aa_instructor_studentsDataRepository.getByStudentEmailAndYearAndSemester(mail, year, semester);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 	
 
 	

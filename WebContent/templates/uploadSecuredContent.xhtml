@@ -92,6 +92,11 @@
 				    class="#{leftNavigationMenuBean.getActiveCssName('Forms Settings')}"/>
 				    
 				    
+				     <p:commandLink ajax="false" immediate="true" value="Academic Advising" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.goAcademicAdvisingLTSAdmin}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Forms Settings')}"/>
+				    
+				    
 				     <p:commandLink ajax="false" immediate="true" value="CLO Survey Config" rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToAddCourseSurvey}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey Config')}"/>

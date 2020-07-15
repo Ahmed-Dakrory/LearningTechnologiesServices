@@ -46,6 +46,10 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	query = "from aa_instructor_students d where d.student.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
 			)
 	,
+	@NamedQuery(name="aa_instructor_students.getByStudentEmailAndYearAndSemester",
+	query = "from aa_instructor_students d where d.student.mail = :mail and d.year = :year and Lower(d.semester) = Lower(:semester)"
+			)
+	,
 	@NamedQuery(name="aa_instructor_students.getAllByYearAndSemester",
 	query = "from aa_instructor_students d where d.year = :year and Lower(d.semester) = Lower(:semester)"
 			)

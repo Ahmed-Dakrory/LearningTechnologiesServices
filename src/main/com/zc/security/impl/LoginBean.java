@@ -126,6 +126,8 @@ public class LoginBean {
 	public static Employee AccredSci =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	public static Heads head8 ;//= headRep.getByType(Heads.Regist_Head);
 	public static Employee TeachingEffectiveness =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
+	public static Heads head9 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee AcademicAdvisor =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	
 	
 	@PostConstruct
@@ -162,6 +164,8 @@ public class LoginBean {
 		AccredSci = head7.getHeadPersonId();
 		head8 = headFacades.getByType(Heads.TeachingEffectiveness_DEP);
 		TeachingEffectiveness = head8.getHeadPersonId();
+		head9 = headFacades.getByType(Heads.AcademicAdvisor_DEP);
+		AcademicAdvisor = head9.getHeadPersonId();
 		
 		Constants.DEAN_OF_STRATEGIC=DEAN_OF_STRATEGICEm.getMail();//"mabdrabou@zewailcity.edu.eg";
 		Constants.DEAN_OF_STRATEGIC_ID=DEAN_OF_STRATEGICEm.getId();//1379;
@@ -176,10 +180,16 @@ public class LoginBean {
 		
 		Constants.ADMISSION_HEAD=ADMISSION_HEADEm.getMail();//"ghazem@zewailcity.edu.eg";
 		Constants.ADMISSION_HEAD_ID=ADMISSION_HEADEm.getId();//888;
-		
+
 		Constants.Financial_DEP=FinancialDepEm.getMail();//"ghazem@zewailcity.edu.eg";
 		Constants.Financial_DEP_ID=FinancialDepEm.getId();//888;
 		Constants.Financial_DEP_NAME=FinancialDepEm.getName();//"Mrs. Ghada";
+		
+		
+
+		Constants.AcademicAdvising_DEP=AcademicAdvisor.getMail();//"ghazem@zewailcity.edu.eg";
+		Constants.AcademicAdvising_DEP_ID=AcademicAdvisor.getId();//888;
+		Constants.AcademicAdvising_DEP_NAME=AcademicAdvisor.getName();//"Mrs. Ghada";
 		
 		
 		

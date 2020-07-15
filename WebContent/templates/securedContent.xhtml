@@ -205,6 +205,11 @@
 				      <p:commandLink ajax="false" immediate="true" value="Forms Settings" rendered="#{leftNavigationMenuBean.admin}" 
 					action="#{leftNavigationMenuBean.navigateToForms}" 
 				    class="#{leftNavigationMenuBean.getActiveCssName('Forms Settings')}"/>
+				    
+				      <p:commandLink ajax="false" immediate="true" value="Academic Advising" rendered="#{leftNavigationMenuBean.admin}" 
+					action="#{leftNavigationMenuBean.goAcademicAdvisingLTSAdmin}" 
+				    class="#{leftNavigationMenuBean.getActiveCssName('Forms Settings')}"/>
+				    
 				   <h:panelGroup  rendered="#{leftNavigationMenuBean.booksSysMode}" ><h3>Books System</h3></h:panelGroup>
 				    <p:commandLink ajax="false" immediate="true" value="All Books" rendered="#{leftNavigationMenuBean.booksSysMode}" 
 					action="#{leftNavigationMenuBean.navigateBookSys(1)}" 

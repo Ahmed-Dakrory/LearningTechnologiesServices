@@ -140,6 +140,24 @@ public class aa_instructor_studentsRepositoryImpl implements aa_instructor_stude
 		 }
 	}
 
+	@Override
+	public aa_instructor_students getByStudentEmailAndYearAndSemester(String mail, String year, String semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByStudentEmailAndYearAndSemester")
+				 .setString("semester",semester)
+				 .setString("year", year)
+				 .setString("mail", mail);
+
+		 @SuppressWarnings("unchecked")
+		List<aa_instructor_students> results=query.list();
+
+		 if(results.size()!=0){
+
+			 return results.get(0);
+		 }else{
+			 return null;
+		 }
+	}
+
 
 	
 
