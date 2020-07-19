@@ -572,6 +572,8 @@ public void getListOfAllCoursesThreshold() {
 	
 	if(allCoursesThresoldResults.size()>0) {
 		generateFile(allCoursesThresoldResults,allquestionThisYearAndSemester);
+	}else {
+		 JavaScriptMessagesHandler.RegisterNotificationMessage(null, " You don't have any survey");
 	}
 }
 
@@ -586,7 +588,7 @@ public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instr
 	    FacesContext facesContext = FacesContext.getCurrentInstance();
 	    ExternalContext externalContext = facesContext.getExternalContext();
 	    externalContext.setResponseContentType("application/vnd.ms-excel");
-	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Survey_results_statistics-My_courses.xls\"");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Survey_results_statistics-All.xls\"");
 
 	    try {
 			workbook.write(externalContext.getResponseOutputStream());
@@ -602,10 +604,12 @@ public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instr
 
 
 public void generateFileOfComments(){
+	if(selectedCourse.getId()!=null && selectedInstructor.getId()!=null) {
 	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsPositive = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,6);
 	List<instructor_survey_ans> allanswersThisYearAndSemesterofinsNegative = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,7);
 	List<instructor_survey_ans> allanswersThisYearAndSemesterofTAs = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,8);
-	 HSSFWorkbook workbook = new HSSFWorkbook();
+	if(allanswersThisYearAndSemesterofinsPositive!=null || allanswersThisYearAndSemesterofinsNegative!=null || allanswersThisYearAndSemesterofTAs!=null) { 
+	HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet sheet = workbook.createSheet();
 	    
 	    ReportFileGenerationComments reportFileGeneration=new ReportFileGenerationComments(allanswersThisYearAndSemesterofinsPositive,allanswersThisYearAndSemesterofinsNegative,allanswersThisYearAndSemesterofTAs ,workbook, sheet);
@@ -615,7 +619,7 @@ public void generateFileOfComments(){
 	    FacesContext facesContext = FacesContext.getCurrentInstance();
 	    ExternalContext externalContext = facesContext.getExternalContext();
 	    externalContext.setResponseContentType("application/vnd.ms-excel");
-	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Comments-My_courses.xls\"");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Comments-All.xls\"");
 
 	    try {
 			workbook.write(externalContext.getResponseOutputStream());
@@ -626,6 +630,13 @@ public void generateFileOfComments(){
 			System.out.println(e.toString());
 		}
 	    facesContext.responseComplete();
+	    
+	}else {
+		 JavaScriptMessagesHandler.RegisterNotificationMessage(null, " You don't have any survey");
+	}
+	}else {
+		JavaScriptMessagesHandler.RegisterNotificationMessage(null, " You don't have any survey");
+	}
 }
 
 
