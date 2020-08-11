@@ -97,14 +97,14 @@ public class aaInstructorBean implements Serializable{
 	
 	
 	public void refresh(){
-		FormsStatusDTO settingform = facadeSettings.getById(23);
+		
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
 			
-				thisInstrutorAccount =  aa_instructorFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());	
+				thisInstrutorAccount =  aa_instructorFacade.getByMail(mail);	
 			
 		}
 		getAllInstructorDates();
@@ -129,7 +129,9 @@ public class aaInstructorBean implements Serializable{
 	public void cancelthisdate(int dateId) {
 		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
 		dateForStudentAndInstructor.setState(aa_instructor_date.State_Cancelled_by_Instructor);
-		dateForStudentAndInstructor.setDatelastComment(new Date());
+		selectedStudent.setDatelastComment(new Date());
+
+		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
 		FormsStatusDTO settingform = facadeSettings.getById(23);
 		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(dateForStudentAndInstructor.getStudent().getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
@@ -159,8 +161,9 @@ public class aaInstructorBean implements Serializable{
 	}
 	
 	public void saveDataOfthisMeeting() {
-		selectedDateData.setDatelastComment(new Date());
+		selectedStudent.setDatelastComment(new Date());
 		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
+		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		Constants.sendEmailNotificationForThisEmailWithMessage(selectedDateData.getStudent().getName(), "Academic Advising Change", "Your academic advising Meeting has Been Modified", selectedDateData.getStudent().getMail());
 		
 		FacesMessage msg = new FacesMessage("Saved", "Meeting Data with "+String.valueOf(selectedDateData.getId())+" Saved");
@@ -169,7 +172,7 @@ public class aaInstructorBean implements Serializable{
 	
 	
 	public void finishThisMeeting() {
-		selectedDateData.setDatelastComment(new Date());
+//		selectedDateData.setDatelastComment(new Date());
 		selectedDateData.setState(aa_instructor_date.State_Finished);
 		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
 		Constants.sendEmailNotificationForThisEmailWithMessage(selectedDateData.getStudent().getName(), "Academic Advising Finishing", "Your academic advising Meeting has Been Finished You can see your meeting results", selectedDateData.getStudent().getMail());

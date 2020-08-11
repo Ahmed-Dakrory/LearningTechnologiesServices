@@ -31,12 +31,8 @@ import org.hibernate.annotations.NamedQuery;
 	query = "from aa_instructor d where d.id = :id "
 			)
 	,
-	@NamedQuery(name="aa_instructor.getByMailAndYearAndSemester",
-	query = "from aa_instructor d where d.mail = :mail and d.year = :year and Lower(d.semester) = Lower(:semester)"
-			)
-	,
-	@NamedQuery(name="aa_instructor.getAllByYearAndSemester",
-	query = "from aa_instructor d where d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor.getByMail",
+	query = "from aa_instructor d where d.mail = :mail "
 			)
 	
 	
@@ -65,13 +61,6 @@ public class aa_instructor {
 	private String phone;
 	
 	
-	
-	@Column(name = "year")
-	private String year;
-	
-
-	@Column(name = "semester")
-	private String semester;
 
 
 	public Integer getId() {
@@ -114,25 +103,7 @@ public class aa_instructor {
 	}
 
 
-	public String getYear() {
-		return year;
-	}
-
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-
-	public String getSemester() {
-		return semester;
-	}
-
-
-	public void setSemester(String semester) {
-		this.semester = semester;
-	}
-
+	
 
 	
 	

@@ -97,18 +97,8 @@
 									
 									<h:outputLabel value="Student Message" />
 									<br></br>
-									<p:inputTextarea disabled="true"  style=" width: 59%;" rows="3" value="#{aaStudentBean.selectedDateData.studentMessege}"></p:inputTextarea>
+									<p:inputTextarea disabled="false"  style=" width: 59%;" rows="3" value="#{aaStudentBean.selectedDateData.studentMessege}"></p:inputTextarea>
 									
-									
-									<br></br>
-									<br></br>
-									
-									
-									<h:outputLabel value="Comments" />
-									<br></br>
-									<p:inputTextarea disabled="true" style=" width: 59%; height: 163px;" rows="5" cols="30" counter="commentsdisplay" maxlength="1025" counterTemplate="{0} characters remaining." autoResize="false"  value="#{aaStudentBean.selectedDateData.comments}"></p:inputTextarea>
-									<br />
-    								<h:outputText style="    margin-left: 47%;" id="commentsdisplay" />
 									
 									
 									<br></br>
@@ -126,7 +116,7 @@
 					<p:panel class="p-3">
 					<div class="row">
 					<div class="col-md-2">
-						
+						<p:commandButton update=":myForm:msgs" actionListener="#{aaStudentBean.saveDataOfthisMeeting()}" value="Save"></p:commandButton>
 					</div>
 					
 					<div class="col-md-2">

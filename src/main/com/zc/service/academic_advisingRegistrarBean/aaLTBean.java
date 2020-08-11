@@ -223,7 +223,7 @@ public class aaLTBean implements Serializable{
 						try {
 							data=new aa_instructor_students();
 						selectedStudent = aa_student_profileFacade.getByMailAndYearAndSemester(studentEmail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
-						selectedInstructor = aa_instructorFacade.getByMailAndYearAndSemester(instructorEmail, settingform.getYear(), settingform.getSemester().getName());
+						selectedInstructor = aa_instructorFacade.getByMail(instructorEmail);
 						data.setStudent(selectedStudent);
 						data.setInstructor(selectedInstructor);
 						data.setYear(selectedYear);
@@ -234,7 +234,7 @@ public class aaLTBean implements Serializable{
 						}
 					}else {
 						selectedStudent = aa_student_profileFacade.getByMailAndYearAndSemester(studentEmail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
-						selectedInstructor = aa_instructorFacade.getByMailAndYearAndSemester(instructorEmail, settingform.getYear(), settingform.getSemester().getName());
+						selectedInstructor = aa_instructorFacade.getByMail(instructorEmail);
 						data.setStudent(selectedStudent);
 						data.setInstructor(selectedInstructor);
 						data.setYear(selectedYear);

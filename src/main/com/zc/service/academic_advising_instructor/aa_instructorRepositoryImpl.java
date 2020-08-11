@@ -92,25 +92,8 @@ public class aa_instructorRepositoryImpl implements aa_instructorRepository{
 
 
 	@Override
-	public List<aa_instructor> getAllByYearAndSemester(int year,  String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor.getAllByYearAndSemester")
-				 .setString("semester",semester)
-				 .setInteger("year", year);
-
-		 @SuppressWarnings("unchecked")
-		List<aa_instructor> results=query.list();
-		 if(results.size()!=0){
-			 return results;
-		 }else{
-			 return null;
-		 }
-	}
-
-	@Override
-	public aa_instructor getByMailAndYearAndSemester(String mail, int year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor.getByMailAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setInteger("year", year)
+	public aa_instructor getByMail(String mail) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor.getByMail")
 				 .setString("mail", mail);
 
 		 @SuppressWarnings("unchecked")

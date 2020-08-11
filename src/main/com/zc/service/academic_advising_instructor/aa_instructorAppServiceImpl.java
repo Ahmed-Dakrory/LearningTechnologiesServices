@@ -91,26 +91,13 @@ public class aa_instructorAppServiceImpl implements Iaa_instructorAppService{
 
 
 
-	@Override
-	public List<aa_instructor> getAllByYearAndSemester(int year, String semester) {
-		try{
-			List<aa_instructor> course=aa_instructorDataRepository.getAllByYearAndSemester(year,semester);
-			
-			return course;
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				return null;
-			}
-	}
-
+	
 
 
 	@Override
-	public aa_instructor getByMailAndYearAndSemester(String mail, int year, String semester) {
+	public aa_instructor getByMail(String mail) {
 		try{
-			aa_instructor course=aa_instructorDataRepository.getByMailAndYearAndSemester(mail, year, semester);
+			aa_instructor course=aa_instructorDataRepository.getByMail(mail);
 			
 			return course;
 			}

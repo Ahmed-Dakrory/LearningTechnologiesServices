@@ -332,7 +332,7 @@ public class LeftNavigationMenuBean {
 				
 				
 				}else {
-					aa_instructor instructor = aa_instructorFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+					aa_instructor instructor = aa_instructorFacade.getByMail(mail);
 					if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 					{
 						return true;
@@ -378,7 +378,7 @@ public class LeftNavigationMenuBean {
 				
 				
 				}else {
-					aa_instructor instructor = aa_instructorFacade.getByMailAndYearAndSemester(mail, settingform.getYear(), settingform.getSemester().getName());
+					aa_instructor instructor = aa_instructorFacade.getByMail(mail);
 					
 					if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 					{

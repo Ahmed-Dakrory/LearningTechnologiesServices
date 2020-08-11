@@ -87,7 +87,8 @@ public class aaStudentBean implements Serializable{
 	public void cancelthisdate(int dateId) {
 		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
 		dateForStudentAndInstructor.setState(aa_instructor_date.State_Cancelled_by_Student);
-		dateForStudentAndInstructor.setDateStudentLastAction(new Date());
+		selectedStudent.setDateStudentLastAction(new Date());
+		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
 		FormsStatusDTO settingform = facadeSettings.getById(23);
 		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
@@ -104,7 +105,9 @@ public class aaStudentBean implements Serializable{
 	public void selectThisdate(int dateId) {
 		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
 		dateForStudentAndInstructor.setState(aa_instructor_date.State_Reserved);
-		dateForStudentAndInstructor.setDateStudentLastAction(new Date());
+		selectedStudent.setDateStudentLastAction(new Date());
+
+		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		dateForStudentAndInstructor.setStudent(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
 		FormsStatusDTO settingform = facadeSettings.getById(23);
@@ -201,7 +204,16 @@ public class aaStudentBean implements Serializable{
 	}
 	
 	
-	
+	public void saveDataOfthisMeeting() {
+		selectedStudent.setDateStudentLastAction(new Date());
+
+		aa_student_profileFacade.addaa_student_profile(selectedStudent);
+		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
+		Constants.sendEmailNotificationForThisEmailWithMessage(selectedDateData.getInstructor().getName(), "Academic Advising Change", "Your academic advising Meeting has Been Modified", selectedDateData.getInstructor().getMail());
+		
+		FacesMessage msg = new FacesMessage("Saved", "Meeting Data with "+String.valueOf(selectedDateData.getId())+" Saved");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 	
 
 	public boolean isMeetingSelected() {
