@@ -29,32 +29,32 @@
 						<table>
 							<tr>
 								<td>
-									<p:selectOneMenu id="semester" value="#{aaRegistrarBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+									<p:selectOneMenu id="semester" value="#{aaInstructorBean.selectedSemester}" required="true" requiredMessage="Please select semester">
 										<f:selectItem itemLabel="Select Semester" />
-										<f:selectItems var="semester" value="#{aaRegistrarBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.name}" />
-										<p:ajax listener="#{aaRegistrarBean.fillYearLst}" update="year"/>	
+										<f:selectItems var="semester" value="#{aaInstructorBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.name}" />
+										<p:ajax listener="#{aaInstructorBean.fillYearLst}" update="year"/>	
 									</p:selectOneMenu>
 									<p:message for="semester" />
 								</td>
 								<td width="12">&nbsp;</td>
 								<td>
-									<p:selectOneMenu id="year" value="#{aaRegistrarBean.selectedYear}" required="true" requiredMessage="Please select year">
+									<p:selectOneMenu id="year" value="#{aaInstructorBean.selectedYear}" required="true" requiredMessage="Please select year">
 										<f:selectItem itemLabel="Select Year" />
-										<f:selectItems var="year" value="#{aaRegistrarBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<f:selectItems var="year" value="#{aaInstructorBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
 										<p:ajax update="action"/>	
 									</p:selectOneMenu>
 									<p:message for="year" />
 								</td>
 								<td width="12">&nbsp;</td>
 								<td>
-									<p:selectOneMenu id="action" value="#{aaRegistrarBean.selectedAction}" required="true" requiredMessage="Please select Action">
+									<p:selectOneMenu id="action" value="#{aaInstructorBean.selectedAction}" required="true" requiredMessage="Please select Action">
 										<f:selectItem itemLabel="Select Action" />
 										<f:selectItem itemLabel="Finished"  itemValue="Finished" />
 										<f:selectItem itemLabel="Cancelled by Student" itemValue="Cancelled by Student" />
 										<f:selectItem itemLabel="Cancelled by Instructor" itemValue="Cancelled by Instructor" />
 										<f:selectItem itemLabel="Reserved" itemValue="Reserved" />
 										<f:selectItem itemLabel="All" itemValue="All" />
-										<p:ajax listener="#{aaRegistrarBean.getAllListOfDates}" update="studentTable"/>
+										<p:ajax listener="#{aaInstructorBean.getAllListOfDates}" update="studentTable"/>
 									</p:selectOneMenu>
 									<p:message for="action" />
 								</td>
@@ -66,11 +66,11 @@
 						
 						
 						
-				<p:dataTable var="row"  value="#{aaRegistrarBean.allinstructorDates}" selectionMode="single" rowKey="#{row.id}" 
+				<p:dataTable var="row"  value="#{aaInstructorBean.allinstructorDates}" selectionMode="single" rowKey="#{row.id}" 
 							sortMode="multiple" widgetVar="studentProfile" id="studentTable" resizableColumns="true" rows="100" paginator="true"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
                          	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
-								<!--  <p:ajax event="rowSelect" listener="#{aaRegistrarBean.onRowSelect}" /> -->
+								<!--  <p:ajax event="rowSelect" listener="#{aaInstructorBean.onRowSelect}" /> -->
 								
 								<p:column width="105" id="zewailcity_id" sortBy="#{row.student.zewailcity_id}" filterBy="#{row.student.zewailcity_id}">
 								
@@ -145,7 +145,7 @@
 								<p:column width="64" id="action" sortBy="#{row.id}" filterBy="#{row.id}">
 									
 						                
-						                <p:commandButton actionListener="#{aaRegistrarBean.goToStudentProfileMeeting(row.id)}" value="details" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"></p:commandButton>
+						                <p:commandButton actionListener="#{aaInstructorBean.goToStudentProfileMeeting(row.id)}" value="details" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"></p:commandButton>
 						              
 										<f:facet name="header">
 											<h:outputText value="Action" />

@@ -52,7 +52,6 @@
 						
 						
 						
-						
 				<p:dataTable var="row"  value="#{aaRegistrarBean.allStudentSelected}" selectionMode="single" rowKey="#{row.id}" editable="true" 
 							sortMode="multiple" widgetVar="studentProfile" id="studentTable" resizableColumns="true" rows="100" paginator="true"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
@@ -123,26 +122,9 @@
 										</f:facet>
 							</p:column>
 								
-								<p:column width="123" id="sem" sortBy="#{row.semester}" filterBy="#{row.semester}">
-								<p:cellEditor>
-									<f:facet name="output"><h:outputText value="#{row.semester}" /></f:facet>
-						            <f:facet name="input"><p:inputText value="#{row.semester}" style="width:100%" label="Semester"/></f:facet>
-									</p:cellEditor>
-									<f:facet name="header">
-								<h:outputText value="Semester" />
-							</f:facet>
-								</p:column>
 								
 								
-								<p:column width="50" id="year" sortBy="#{row.year}" filterBy="#{row.year}">
-									<p:cellEditor>
-									<f:facet name="output"><h:outputText value="#{row.year}" /></f:facet>
-						            <f:facet name="input"><p:inputText value="#{row.year}" style="width:100%" label="Year"/></f:facet>
-									</p:cellEditor>
-									<f:facet name="header">
-								<h:outputText value="Year" />
-							</f:facet>
-								</p:column>
+								
 								
 								
 								<p:column width="109" id="phone" sortBy="#{row.phone}" filterBy="#{row.phone}">
@@ -178,6 +160,22 @@
 								
 								
 								
+								<p:column width="173" id="action" sortBy="#{row.id}" filterBy="#{row.id}">
+									
+						                
+						                	<h:commandButton actionListener="#{aaRegistrarBean.goToStudentDates(row.id)}" value="details" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              
+						              
+										<f:facet name="header">
+											<h:outputText value="Action" />
+										</f:facet>
+										
+										
+							</p:column>
+							
+								
+							
+								
 								<p:column style="width:35">
 						            <p:rowEditor />
 						        </p:column>
@@ -185,7 +183,6 @@
 							</p:dataTable>
 							
 						
-				
 					
 					</h:form>
 				</li>

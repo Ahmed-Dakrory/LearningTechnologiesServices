@@ -87,7 +87,7 @@ public class aaStudentBean implements Serializable{
 	public void cancelthisdate(int dateId) {
 		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
 		dateForStudentAndInstructor.setState(aa_instructor_date.State_Cancelled_by_Student);
-		selectedStudent.setDateStudentLastAction(new Date());
+		dateForStudentAndInstructor.setDateStudentLastAction(new Date());
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
 		FormsStatusDTO settingform = facadeSettings.getById(23);
@@ -105,7 +105,7 @@ public class aaStudentBean implements Serializable{
 	public void selectThisdate(int dateId) {
 		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
 		dateForStudentAndInstructor.setState(aa_instructor_date.State_Reserved);
-		selectedStudent.setDateStudentLastAction(new Date());
+		dateForStudentAndInstructor.setDateStudentLastAction(new Date());
 
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		dateForStudentAndInstructor.setStudent(selectedStudent);
@@ -134,7 +134,17 @@ public class aaStudentBean implements Serializable{
 
 				selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 				if(selectedInstructorForThisStudent.getInstructor_date()==null) {
+					/**
+					 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
+					 * 
+					 * Get all Available Dates for the student
+					 */
+					
+					// This is the last dates reserved
 					allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					
+					
+					// This is the unreserved dates
 					List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorIdAndYearAndSemester(selectedInstructorForThisStudent.getInstructor().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 					if(allNullInstructorDates!=null) {
 						if(allNullInstructorDates.size()>0) {
@@ -149,14 +159,67 @@ public class aaStudentBean implements Serializable{
 					allinstructorDates = new ArrayList<aa_instructor_date>();
 					
 					allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					/**
+					 * Find if the last reserved data is finished
+					 * then i will select a new data from unreserved dates
+					 */
+					boolean isDateEnded = isDatesEnded(allinstructorDates);
 					
-					meetingSelected=true;
+					if(!isDateEnded) {
+						// This is the unreserved dates
+						List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorIdAndYearAndSemester(selectedInstructorForThisStudent.getInstructor().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+						if(allNullInstructorDates!=null) {
+							if(allNullInstructorDates.size()>0) {
+								if(allinstructorDates==null) {
+									allinstructorDates =new ArrayList<aa_instructor_date>();
+								}
+								allinstructorDates.addAll(allNullInstructorDates);
+							}
+						}
+						
+					}else {
+						meetingSelected=true;
+					}
+					
 					
 				}
 				}
 		}
 		
 	}
+	private boolean isDatesEnded(List<aa_instructor_date> allinstructorDates2) {
+		// TODO Auto-generated method stub
+		for(int i=0;i<allinstructorDates2.size();i++) {
+			
+			if(allinstructorDates2.get(i).getState().equalsIgnoreCase(aa_instructor_date.State_Reserved)) {
+			Date dateMeeting = allinstructorDates2.get(i).getDate();
+			
+			
+			Date todayNow =new Date();
+		    //milliseconds
+		    long different = dateMeeting.getTime() - todayNow.getTime();
+
+
+		    long secondsInMilli = 1000;
+		    long minutesInMilli = secondsInMilli * 60;
+		    long hoursInMilli = minutesInMilli * 60;
+
+		    //long elapsedDays = different / daysInMilli;
+		    //different = different % daysInMilli;
+
+		    long elapsedHours = different / hoursInMilli;
+
+//		    System.out.println(elapsedHours);
+		    if((elapsedHours)>1) {
+				return true;
+			}
+		    
+			}
+		}
+		return false;
+	}
+
+
 	public void goToStudentProfileMeeting(int idOfDate) {
 //		System.out.print(idOfDate);
 		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
@@ -205,7 +268,7 @@ public class aaStudentBean implements Serializable{
 	
 	
 	public void saveDataOfthisMeeting() {
-		selectedStudent.setDateStudentLastAction(new Date());
+		selectedDateData.setDateStudentLastAction(new Date());
 
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);

@@ -189,6 +189,24 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 		 }
 	}
 
+	@Override
+	public List<aa_instructor_date> getByActionAndInstructorAndYearAndSemester(String state, int idInstructor,
+			String year, String semester) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByActionAndInstructorAndYearAndSemester")
+				 .setString("semester",semester)
+				 .setString("year", year)
+				 .setString("state", state)
+				 .setInteger("id", idInstructor);
+
+		 @SuppressWarnings("unchecked")
+		List<aa_instructor_date> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
 
 	
 

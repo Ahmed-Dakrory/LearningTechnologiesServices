@@ -98,29 +98,6 @@ public class aa_student_profile {
 
 
 	
-	@Column(name = "studentMessege")
-	private String studentMessege;
-	
-
-	@Column(name = "instructorMessege")
-	private String instructorMessege;
-	
-
-	@Column(name = "comments")
-	private String comments;
-	
-
-	@Column(name = "recommendations")
-	private String recommendations;
-
-
-	@Column(name = "dateStudentLastAction")
-	private Date dateStudentLastAction;
-	
-	
-
-	@Column(name = "datelastComment")
-	private Date datelastComment;
 	
 	
 	public Integer getId() {
@@ -243,66 +220,7 @@ public class aa_student_profile {
 	}
 
 
-	public String getStudentMessege() {
-		return studentMessege;
-	}
 
-
-	public void setStudentMessege(String studentMessege) {
-		this.studentMessege = studentMessege;
-	}
-
-
-	public String getInstructorMessege() {
-		return instructorMessege;
-	}
-
-
-	public void setInstructorMessege(String instructorMessege) {
-		this.instructorMessege = instructorMessege;
-	}
-
-
-	public String getComments() {
-		return comments;
-	}
-
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-
-	public String getRecommendations() {
-		return recommendations;
-	}
-
-
-	public void setRecommendations(String recommendations) {
-		this.recommendations = recommendations;
-	}
-
-
-	public Date getDateStudentLastAction() {
-		return dateStudentLastAction;
-	}
-
-
-	public void setDateStudentLastAction(Date dateStudentLastAction) {
-		this.dateStudentLastAction = dateStudentLastAction;
-	}
-
-
-	public Date getDatelastComment() {
-		return datelastComment;
-	}
-
-
-	public void setDatelastComment(Date datelastComment) {
-		this.datelastComment = datelastComment;
-	}
-
-	
 	
 	
 }

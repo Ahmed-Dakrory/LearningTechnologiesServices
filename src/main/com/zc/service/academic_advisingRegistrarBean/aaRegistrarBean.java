@@ -17,10 +17,13 @@ import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
+import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_students;
+import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_studentsAppServiceImpl;
 import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
 import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
@@ -51,6 +54,10 @@ public class aaRegistrarBean implements Serializable{
 	@ManagedProperty(value = "#{aa_student_profileFacadeImpl}")
 	private aa_student_profileAppServiceImpl aa_student_profileFacade;
 
+
+	@ManagedProperty(value = "#{aa_instructor_studentsFacadeImpl}")
+	private aa_instructor_studentsAppServiceImpl instructor_studentsFacade;
+	
 	private aa_student_profile selectedStudent;
 	
 	private List<aa_student_profile> allStudentSelected;
@@ -70,6 +77,12 @@ public class aaRegistrarBean implements Serializable{
 	
 
 	private aa_instructor_date selectedDateData;
+	private aa_instructor_students selectedInstructorForThisStudent;
+	
+
+	private boolean meetingSelected=false;
+	
+	
 	@PostConstruct
 	public void init() {
 		allinstructorDates=new ArrayList<aa_instructor_date>();
@@ -79,8 +92,39 @@ public class aaRegistrarBean implements Serializable{
 		
 	}
 	
+	public void goToStudentDates(int idOfDate) {
+		System.out.print(idOfDate);
+		meetingSelected = false;
+		FormsStatusDTO settingform = facadeSettings.getById(23);
+		
+		selectedStudent = aa_student_profileFacade.getById(idOfDate);
+
+		
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		
+			/**
+			 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
+			 * 
+			 * Get all Available Dates for the student
+			 */
+			
+			// This is the last dates reserved
+			allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+			
+			
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/pages/secured/academic_advising/studentDates.xhtml");
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	}
+	
 	public void goToStudentProfileMeeting(int idOfDate) {
-//		System.out.print(idOfDate);
+		System.out.print(idOfDate);
 		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
 		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
 
@@ -96,8 +140,15 @@ public class aaRegistrarBean implements Serializable{
 	}
 	
 	public void getAllListOfDates() {
-		allinstructorDates = aa_instructor_dateFacade.getByActionAndYearAndSemester(selectedAction, selectedYear, selectedSemester);
+		
+		if(selectedAction.equalsIgnoreCase("All")) {
+			allinstructorDates = aa_instructor_dateFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
+		}else {
+			allinstructorDates = aa_instructor_dateFacade.getByActionAndYearAndSemester(selectedAction, selectedYear, selectedSemester);
+		}
+		
 	}
+	
 	public void getAllListOfStudents() {
 		allStudentSelected = aa_student_profileFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
 	}
@@ -275,6 +326,30 @@ public class aaRegistrarBean implements Serializable{
 
 	public void setSelectedDateData(aa_instructor_date selectedDateData) {
 		this.selectedDateData = selectedDateData;
+	}
+
+	public aa_instructor_studentsAppServiceImpl getInstructor_studentsFacade() {
+		return instructor_studentsFacade;
+	}
+
+	public void setInstructor_studentsFacade(aa_instructor_studentsAppServiceImpl instructor_studentsFacade) {
+		this.instructor_studentsFacade = instructor_studentsFacade;
+	}
+
+	public aa_instructor_students getSelectedInstructorForThisStudent() {
+		return selectedInstructorForThisStudent;
+	}
+
+	public void setSelectedInstructorForThisStudent(aa_instructor_students selectedInstructorForThisStudent) {
+		this.selectedInstructorForThisStudent = selectedInstructorForThisStudent;
+	}
+
+	public boolean isMeetingSelected() {
+		return meetingSelected;
+	}
+
+	public void setMeetingSelected(boolean meetingSelected) {
+		this.meetingSelected = meetingSelected;
 	}
 	
 	

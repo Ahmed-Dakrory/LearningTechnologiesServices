@@ -27,10 +27,6 @@
   
   <style>
 
-[type=button], [type=reset], [type=submit], button {
-    -webkit-appearance: none;
-}
-
 .cardImage{
 max-width: 239px;
     max-height: 209px;
@@ -129,34 +125,18 @@ position: absolute;
 					<h:form id="myForm">
 					
 					<p:growl id="msgs" showDetail="true"/>
+					
 					<p:panel id="panelofSchedules">
-					#{aaInstructorBean.refresh()}
+					<p class="alert alert-info">Please Select a Date From the shown Dates</p>
+					#{aaRegistrarBean.refresh()}
 					<div class="container" >
 						
 						<div class="row">
-						
+						<ui:repeat var="data" id="repeater" varStatus="status" value="#{aaRegistrarBean.allinstructorDates}">
 						<div  class="col-md-3 text-center mt-3" >
 				
 					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
 					
-					  <div class="card cardData">
-					     		<p:commandButton update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaInstructorBean.addNewSchedule()}" style=" font-size: 158px!important;width: 192%;background: beige;height: 318px;" value="+"/>
-					     
-					  </div>
-					</div>
-					
-					
-					
-				</div>
-				
-						<ui:repeat var="data" id="repeater" varStatus="status" value="#{aaInstructorBean.allinstructorDates}">
-						<div  class="col-md-3 text-center mt-3" >
-				
-					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
-					<div class="closeButton">
-						<p:commandButton rendered="#{data.state==null}" update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaInstructorBean.deleteDateSchedule(status.index)}" style="width: 27px;height: 27px;border-radius: 15px;background: #5196d04f;" value="X"/>
-						<p:commandButton rendered="#{data.state!=null and data.state!='Finished' and data.state!='Cancelled by Instructor' and data.state!='Cancelled by Student'}" update=":myForm:panelofSchedules :myForm:msgs"  actionListener="#{aaInstructorBean.cancelthisdate(data.id)}" style="width: 65px;height: 27px;color: white!important;border-radius: 15px;background: #5a8ebb;" value="Cancel"/>
-					</div>
 					
 					<h:panelGroup rendered="#{data.state=='Reserved'}">
 								<span  class="nameSpan stateReserved"> #{data.state}  </span>
@@ -176,9 +156,9 @@ position: absolute;
 					    
 					     <div class="coursedetails">
 					       <h3>
-					       <h:inputText id="datePicker#{status.index}" class="form-control mt-3 inputTimecontroller" value="#{data.date}">
+					       <h:outputText id="datePicker#{status.index}" class="form-control mt-3 inputTimecontroller" value="#{data.date}">
 							<f:convertDateTime pattern="yyyy/MM/dd h:m"/>  
-							</h:inputText>
+							</h:outputText>
 							<h:panelGroup rendered="#{data.student==null}">
 								<span class="nameSpan mr-1 ml-3"> Not Reserved yet</span>
 							</h:panelGroup>
@@ -192,10 +172,10 @@ position: absolute;
 					       </h3>
 					    	<div class="row">
 					    	
-					    		<p:commandButton rendered="#{data.state==null}" update="@this :myForm:msgs" actionListener="#{aaInstructorBean.saveDateSchedule(status.index)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Save Changes"/>
+					    		<p:commandButton rendered="#{!aaRegistrarBean.meetingSelected and data.state==null}" update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaRegistrarBean.selectThisdate(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Select this date"/>
 					    	
 					    	<h:panelGroup rendered="#{data.student!=null}">
-								<p:commandButton actionListener="#{aaInstructorBean.goToStudentProfileMeeting(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>
+								<p:commandButton actionListener="#{aaRegistrarBean.goToStudentProfileMeeting(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>
 							</h:panelGroup>
 					    	</div>
 					    
@@ -206,13 +186,7 @@ position: absolute;
 					
 					
 				</div>
-				<script>
-							 $("input" ).datetimepicker({
-							        dateFormat: 'yy-mm-dd',
-							        timeFormat: 'HH:mm:ss',
-							        step: 1 
-							  }).attr('readonly', 'readonly');
-							</script>
+				
 				</ui:repeat>
 				
 				

@@ -53,6 +53,12 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	@NamedQuery(name="aa_instructor_date.getByActionAndYearAndSemester",
 	query = "from aa_instructor_date d where d.state = :state and d.year = :year and Lower(d.semester) = Lower(:semester)"
 			)
+	
+	,
+	@NamedQuery(name="aa_instructor_date.getByActionAndInstructorAndYearAndSemester",
+	query = "from aa_instructor_date d where d.state = :state and d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+			)
+	
 	,
 	@NamedQuery(name="aa_instructor_date.getAllAvailableByInstructorIdAndYearAndSemester",
 	query = "from aa_instructor_date d where d.state is null and d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
@@ -111,6 +117,33 @@ public class aa_instructor_date {
 
 
 
+	
+
+	@Column(name = "studentMessege")
+	private String studentMessege;
+	
+
+	@Column(name = "instructorMessege")
+	private String instructorMessege;
+	
+
+	@Column(name = "comments")
+	private String comments;
+	
+
+	@Column(name = "recommendations")
+	private String recommendations;
+
+
+	@Column(name = "dateStudentLastAction")
+	private Date dateStudentLastAction;
+	
+	
+
+	@Column(name = "datelastComment")
+	private Date datelastComment;
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -193,6 +226,78 @@ public class aa_instructor_date {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+
+
+	public String getStudentMessege() {
+		return studentMessege;
+	}
+
+
+
+	public void setStudentMessege(String studentMessege) {
+		this.studentMessege = studentMessege;
+	}
+
+
+
+	public String getInstructorMessege() {
+		return instructorMessege;
+	}
+
+
+
+	public void setInstructorMessege(String instructorMessege) {
+		this.instructorMessege = instructorMessege;
+	}
+
+
+
+	public String getComments() {
+		return comments;
+	}
+
+
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+
+
+	public String getRecommendations() {
+		return recommendations;
+	}
+
+
+
+	public void setRecommendations(String recommendations) {
+		this.recommendations = recommendations;
+	}
+
+
+
+	public Date getDateStudentLastAction() {
+		return dateStudentLastAction;
+	}
+
+
+
+	public void setDateStudentLastAction(Date dateStudentLastAction) {
+		this.dateStudentLastAction = dateStudentLastAction;
+	}
+
+
+
+	public Date getDatelastComment() {
+		return datelastComment;
+	}
+
+
+
+	public void setDatelastComment(Date datelastComment) {
+		this.datelastComment = datelastComment;
 	}
 
 

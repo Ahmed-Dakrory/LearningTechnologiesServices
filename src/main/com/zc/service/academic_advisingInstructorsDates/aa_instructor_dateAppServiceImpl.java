@@ -189,6 +189,23 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 
+	@Override
+	public List<aa_instructor_date> getByActionAndInstructorAndYearAndSemester(String state, int idInstructor,
+			String year, String semester) {
+		try{
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByActionAndInstructorAndYearAndSemester(state,idInstructor, year, semester);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 	
 
 	

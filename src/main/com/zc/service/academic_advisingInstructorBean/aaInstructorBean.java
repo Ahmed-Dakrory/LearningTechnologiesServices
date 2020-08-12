@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +29,7 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profileA
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.shared.presentation.dto.BaseDTO;
 
 @ManagedBean(name = "aaInstructorBean")
 @SessionScoped
@@ -73,10 +75,18 @@ public class aaInstructorBean implements Serializable{
 	private aa_student_profile selectedStudent;
 
 	private List<aa_instructor_date> allinstructorDates;
+	private List<BaseDTO> semesterLst;
+	private List<String> yearLst;
 	
 	private aa_instructor_date selectedDateData;
 	private aa_instructor_students selectedInstructorForThisStudent;
 
+	
+
+	private String selectedYear;
+	private String selectedSemester;
+	private String selectedAction;
+	
 	@PostConstruct
 	public void init() {
 
@@ -94,10 +104,35 @@ public class aaInstructorBean implements Serializable{
 	
 
      
+
+	public void fillSemesterLst()
+	{
+		semesterLst=new ArrayList<BaseDTO>();
+		semesterLst.add(new BaseDTO(0,"Fall"));
+		semesterLst.add(new BaseDTO(1,"Spring"));
+		semesterLst.add(new BaseDTO(2,"Summer"));
+		//semesterLst.add(new BaseDTO(3,"Winter"));
+		
+		yearLst=new ArrayList<String>();
+		for(int i=2013;i<2031;i++)
+		{
+			yearLst.add(String.valueOf(i));
+		}
+	}
 	
+	public void fillYearLst(AjaxBehaviorEvent event)
+	{
+		 yearLst=new ArrayList<String>();
+		for(int i=2013;i<2031;i++)
+		{
+			yearLst.add(String.valueOf(i));
+		}
+	}
+
 	
 	public void refresh(){
-		
+
+		fillSemesterLst();
 		Authentication authentication = SecurityContextHolder.getContext()
 				.getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
@@ -129,7 +164,7 @@ public class aaInstructorBean implements Serializable{
 	public void cancelthisdate(int dateId) {
 		aa_instructor_date dateForStudentAndInstructor = aa_instructor_dateFacade.getById(dateId);
 		dateForStudentAndInstructor.setState(aa_instructor_date.State_Cancelled_by_Instructor);
-		selectedStudent.setDatelastComment(new Date());
+		dateForStudentAndInstructor.setDatelastComment(new Date());
 
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
@@ -161,7 +196,7 @@ public class aaInstructorBean implements Serializable{
 	}
 	
 	public void saveDataOfthisMeeting() {
-		selectedStudent.setDatelastComment(new Date());
+		selectedDateData.setDatelastComment(new Date());
 		aa_instructor_dateFacade.addaa_instructor_date(selectedDateData);
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		Constants.sendEmailNotificationForThisEmailWithMessage(selectedDateData.getStudent().getName(), "Academic Advising Change", "Your academic advising Meeting has Been Modified", selectedDateData.getStudent().getMail());
@@ -171,6 +206,19 @@ public class aaInstructorBean implements Serializable{
 	}
 	
 	
+	
+public void getAllListOfDates() {
+		
+		if(selectedAction.equalsIgnoreCase("All")) {
+			allinstructorDates = aa_instructor_dateFacade.getByInstructorIdAndYearAndSemester(thisInstrutorAccount.getId(),selectedYear, selectedSemester);
+		}else {
+
+			allinstructorDates = aa_instructor_dateFacade.getByActionAndInstructorAndYearAndSemester(selectedAction,thisInstrutorAccount.getId(), selectedYear, selectedSemester);
+		}
+		
+	}
+
+
 	public void finishThisMeeting() {
 //		selectedDateData.setDatelastComment(new Date());
 		selectedDateData.setState(aa_instructor_date.State_Finished);
@@ -284,6 +332,46 @@ public class aaInstructorBean implements Serializable{
 
 	public void setSelectedInstructorForThisStudent(aa_instructor_students selectedInstructorForThisStudent) {
 		this.selectedInstructorForThisStudent = selectedInstructorForThisStudent;
+	}
+
+	public String getSelectedYear() {
+		return selectedYear;
+	}
+
+	public void setSelectedYear(String selectedYear) {
+		this.selectedYear = selectedYear;
+	}
+
+	public String getSelectedSemester() {
+		return selectedSemester;
+	}
+
+	public void setSelectedSemester(String selectedSemester) {
+		this.selectedSemester = selectedSemester;
+	}
+
+	public String getSelectedAction() {
+		return selectedAction;
+	}
+
+	public void setSelectedAction(String selectedAction) {
+		this.selectedAction = selectedAction;
+	}
+
+	public List<BaseDTO> getSemesterLst() {
+		return semesterLst;
+	}
+
+	public void setSemesterLst(List<BaseDTO> semesterLst) {
+		this.semesterLst = semesterLst;
+	}
+
+	public List<String> getYearLst() {
+		return yearLst;
+	}
+
+	public void setYearLst(List<String> yearLst) {
+		this.yearLst = yearLst;
 	}
 
 
