@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Academic Advising</ui:define>
+		<ui:define name="content">
+		<script src="https://cdn.alloyui.com/3.0.1/aui/aui-min.js"></script>
+<link href="https://cdn.alloyui.com/3.0.1/aui-css/css/bootstrap.min.css" rel="stylesheet"></link>
+		<link rel="stylesheet" href="#{resource['css:jquery.datetimepicker.css']}" />
+		<h:outputScript library="JSEffect" name="JS/jquery.js" />
+		<h:outputScript library="JSEffect" name="JS/jquery.datetimepicker.full.js" />
+		
+		
+		<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  
+  <style>
+
+.cardImage{
+max-width: 239px;
+    max-height: 209px;
+    width: auto;
+}
+
+
+.cardData{
+border-radius: 15px;
+    width: min-content;
+    }
+.inputTimecontroller{
+width: 69%!important;
+    margin-left: 16%;
+    text-align: center;
+    height: 21px!important;
+    }
+	
+	.nameSpan{
+    font-size: 14px;
+    font-weight: 500;
+    font-family: cursive;
+
+	}
+	
+	.internal .ui-button, .ui-fileupload .ui-button, input[type="submit"].blueBtn, input[type="submit"].grayBtn, input[type="submit"].greenBtn, .cancelBtn, input[type="submit"].cancelBtn, .moodleBtn[type="submit"] {
+    height: 0px;
+    margin: 0px auto; 
+    padding: 0px;
+    border-radius: 8px;
+    border: 0 !important;
+    font: normal 14px "Roboto-Regular","Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif !important;
+    color: #2a2c2e !important;
+}
+
+
+.ui-button-text-only .ui-button-text {
+    padding: 0em 0em;
+}
+
+.stateReserved{
+z-index: 99;
+    background: #099ac5;
+    margin: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    left: -5px;
+    top: -3px;
+    color: white;
+}
+
+.stateCancelled{
+z-index: 99;
+    background: #c53d09;
+    margin: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    left: -5px;
+    top: -3px;
+    color: white;
+}
+
+.stateFinished{
+
+    
+    z-index: 99;
+    background: #85ce58;
+    margin: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    left: -5px;
+    top: -3px;
+    color: black;
+}
+
+.closeButton{
+position: absolute;
+    z-index: 99;
+    right: 21%;
+    margin-top: 13px;
+}
+	</style>
+	
+	
+			<ul class="header">
+				<li>
+					<h:form >
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Academic Advising" />
+						</p:breadCrumb>
+					</h:form>
+					<h:form id="myForm">
+					
+					<p:growl id="msgs" showDetail="true"/>
+					
+					<p:panel id="panelofSchedules">
+					<p class="alert alert-info">Please Select a Date From the shown Dates</p>
+					#{aaInstructorBean.refresh()}
+					<div class="container" >
+						
+						<div class="row">
+						<ui:repeat var="data" id="repeater" varStatus="status" value="#{aaInstructorBean.allinstructorDates}">
+						<div  class="col-md-3 text-center mt-3" >
+				
+					<div class=" containerForCard" data-aos="flip-right" data-aos-duration="1500">
+					
+					
+					<h:panelGroup rendered="#{data.state=='Reserved'}">
+								<span  class="nameSpan stateReserved"> #{data.state}  </span>
+					</h:panelGroup>
+					
+					
+					<h:panelGroup rendered="#{data.state=='Finished'}">
+								<span  class="nameSpan stateFinished"> #{data.state}  </span>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{data.state=='Cancelled by Instructor' or data.state=='Cancelled by Student' }">
+								<span  class="nameSpan stateCancelled"> #{data.state}  </span>
+					</h:panelGroup>
+					  <div class="card cardData">
+					     		<h:graphicImage class="cardImage" value="/resources/images/time_meeting.png" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat"/>
+					    
+					    
+					     <div class="coursedetails">
+					       <h3>
+					       <h:outputText id="datePicker#{status.index}" class="form-control mt-3 inputTimecontroller" value="#{data.date}">
+							<f:convertDateTime pattern="yyyy/MM/dd h:m"/>  
+							</h:outputText>
+							<h:panelGroup rendered="#{data.student==null}">
+								<span class="nameSpan mr-1 ml-3"> Not Reserved yet</span>
+							</h:panelGroup>
+							
+							<h:panelGroup rendered="#{data.student!=null}">
+								<span class="nameSpan mr-1 ml-3"> #{data.student.name}  </span>
+							</h:panelGroup>
+							
+							
+							<br></br>
+					       </h3>
+					    	<div class="row">
+					    	
+					    		<p:commandButton rendered="#{!aaInstructorBean.meetingSelected and data.state==null}" update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaInstructorBean.selectThisdate(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Select this date"/>
+					    	
+					    	<h:panelGroup rendered="#{data.student!=null}">
+								<p:commandButton actionListener="#{aaInstructorBean.goToStudentProfileMeeting(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>
+							</h:panelGroup>
+					    	</div>
+					    
+					     </div>
+					  </div>
+					</div>
+					
+					
+					
+				</div>
+				
+				</ui:repeat>
+				
+				
+						</div>
+				
+					</div>
+					</p:panel>
+					
+				</h:form>
+					
+				</li>
+			</ul>
+			
+			
+			
+			
+			<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>

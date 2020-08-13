@@ -60,7 +60,7 @@ public class aaRegistrarBean implements Serializable{
 	
 	private aa_student_profile selectedStudent;
 	
-	private List<aa_student_profile> allStudentSelected;
+	private List<aa_instructor_students> allStudentSelected;
 	
 
 	@ManagedProperty(value = "#{aa_instructor_dateFacadeImpl}")
@@ -86,7 +86,7 @@ public class aaRegistrarBean implements Serializable{
 	@PostConstruct
 	public void init() {
 		allinstructorDates=new ArrayList<aa_instructor_date>();
-		allStudentSelected =new ArrayList<aa_student_profile>();
+		allStudentSelected =new ArrayList<aa_instructor_students>();
 		refresh();
 		
 		
@@ -150,7 +150,7 @@ public class aaRegistrarBean implements Serializable{
 	}
 	
 	public void getAllListOfStudents() {
-		allStudentSelected = aa_student_profileFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
+		allStudentSelected = instructor_studentsFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
 	}
 	
 	public void onRowSelect(SelectEvent event) {
@@ -170,9 +170,9 @@ public class aaRegistrarBean implements Serializable{
 	
 	public void onRowEdit(RowEditEvent event) {
 		
-		aa_student_profile profileStudent = (aa_student_profile) event.getObject();
-		aa_student_profileFacade.addaa_student_profile(profileStudent);
-        FacesMessage msg = new FacesMessage("Student with Id Edited", String.valueOf(profileStudent.getZewailcity_id()));
+		aa_instructor_students profileStudent = (aa_instructor_students) event.getObject();
+		aa_student_profileFacade.addaa_student_profile(profileStudent.getStudent());
+        FacesMessage msg = new FacesMessage("Student with Id Edited", String.valueOf(profileStudent.getStudent().getZewailcity_id()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
      
@@ -226,11 +226,11 @@ public class aaRegistrarBean implements Serializable{
 		this.yearLst = yearLst;
 	}
 
-	public List<aa_student_profile> getAllStudentSelected() {
+	public List<aa_instructor_students> getAllStudentSelected() {
 		return allStudentSelected;
 	}
 
-	public void setAllStudentSelected(List<aa_student_profile> allStudentSelected) {
+	public void setAllStudentSelected(List<aa_instructor_students> allStudentSelected) {
 		this.allStudentSelected = allStudentSelected;
 	}
 

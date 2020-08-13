@@ -15,6 +15,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.primefaces.event.RowEditEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -86,11 +87,17 @@ public class aaInstructorBean implements Serializable{
 	private String selectedYear;
 	private String selectedSemester;
 	private String selectedAction;
+
+	private List<aa_instructor_students> allStudentSelected;
+
+	private boolean meetingSelected=false;
 	
 	@PostConstruct
 	public void init() {
 
 		allinstructorDates =new ArrayList<aa_instructor_date>();
+
+		allStudentSelected =new ArrayList<aa_instructor_students>();
 		refresh();
 		
 		
@@ -102,7 +109,9 @@ public class aaInstructorBean implements Serializable{
 	}
 	
 	
-
+	public void getAllListOfStudents() {
+		allStudentSelected = instructor_studentsFacade.getByInstructorIdAndYearAndSemester(thisInstrutorAccount.getId(),selectedYear, selectedSemester);
+	}
      
 
 	public void fillSemesterLst()
@@ -129,7 +138,47 @@ public class aaInstructorBean implements Serializable{
 		}
 	}
 
+	public void goToStudentDates(int idOfDate) {
+		System.out.print(idOfDate);
+		meetingSelected = false;
+		FormsStatusDTO settingform = facadeSettings.getById(23);
+		
+		selectedStudent = aa_student_profileFacade.getById(idOfDate);
+
+		
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		
+			/**
+			 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
+			 * 
+			 * Get all Available Dates for the student
+			 */
+			
+			// This is the last dates reserved
+			allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+			
+			
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/pages/secured/academic_advising/studentDatesInstructor.xhtml");
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	}
 	
+	
+public void onRowEdit(RowEditEvent event) {
+		
+		aa_instructor_students profileStudent = (aa_instructor_students) event.getObject();
+		aa_student_profileFacade.addaa_student_profile(profileStudent.getStudent());
+        FacesMessage msg = new FacesMessage("Student with Id Edited", String.valueOf(profileStudent.getStudent().getZewailcity_id()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+
 	public void refresh(){
 
 		fillSemesterLst();
@@ -372,6 +421,22 @@ public void getAllListOfDates() {
 
 	public void setYearLst(List<String> yearLst) {
 		this.yearLst = yearLst;
+	}
+
+	public boolean isMeetingSelected() {
+		return meetingSelected;
+	}
+
+	public void setMeetingSelected(boolean meetingSelected) {
+		this.meetingSelected = meetingSelected;
+	}
+
+	public List<aa_instructor_students> getAllStudentSelected() {
+		return allStudentSelected;
+	}
+
+	public void setAllStudentSelected(List<aa_instructor_students> allStudentSelected) {
+		this.allStudentSelected = allStudentSelected;
 	}
 
 
