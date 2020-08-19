@@ -34,7 +34,7 @@
 				<div class="pannelWrapper">
 				
 			
-							<p:panel id="coursesPanel">
+							<p:panel rendered="#{instructorSurveyBean.resultsPersonPercntageClo.size()!=null}" id="coursesPanel">
 						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedCourse.id}">
 							<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
 							<f:selectItems value="#{instructorSurveyBean.allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor}" var="data" itemLabel="#{data.courseId.name}" itemValue="#{data.courseId.id}" />
@@ -42,8 +42,18 @@
 						 
 						</p:panel>
 							
-					<h:panelGroup id="pageContent">
-						<p:panel id="petitionPanel">
+							
+							<h:panelGroup rendered="#{instructorSurveyBean.resultsPersonPercntageClo.size()==null}" id="Error" >
+								<p:panel style="
+    height: 319px;
+    text-align: center;
+    font-size: 39px;
+    padding-top: 179px;
+">No one make evaluation until now for you</p:panel>
+								
+							</h:panelGroup>
+					<h:panelGroup rendered="#{instructorSurveyBean.resultsPersonPercntageClo.size()!=null}" id="pageContent">
+						<p:panel  id="petitionPanel">
 						
 						 
 						 

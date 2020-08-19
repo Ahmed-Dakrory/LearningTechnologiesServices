@@ -33,10 +33,11 @@
 				</ul>
 				<div class="pannelWrapper">
 				
-			
 							
 							
-					<h:panelGroup id="pageContent">
+
+
+					<h:panelGroup id="pageContent"  >
 						<p:panel id="petitionPanel">
 						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{courseCloBean.selectedCourse.id}">
 						<f:ajax listener="#{courseCloBean.selectTheCourseResults()}" render="form:surveyPanel"/>
@@ -49,7 +50,19 @@
 						
 						
 						<p:panel id="surveyPanel" >
-						<p:panel rendered="#{courseCloBean.selectedCourse.id!=null}">
+						<h:panelGroup rendered="#{courseCloBean.resultsPersonPercntageClo.size()==0}" id="Error" >
+								<p:panel style="
+    height: 319px;
+    text-align: center;
+    font-size: 39px;
+    padding-top: 179px;
+">
+No one make evaluation until now for this course
+
+</p:panel>
+</h:panelGroup>
+
+						<p:panel rendered="#{courseCloBean.selectedCourse.id!=null and courseCloBean.resultsPersonPercntageClo.size()!=0}" >
 							<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
 								Course Code: #{courseCloBean.selectedCourse.course_code}
 								
