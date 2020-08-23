@@ -14,6 +14,13 @@
 		
 		
 		<ui:define name="content">
+		
+		<style>
+		.courseDetails td:first-child {
+    width: 196px;
+    font-weight: bold;
+}
+		</style>
 			<ul class="header">
 				<li>
 					<h:form>
@@ -64,6 +71,36 @@
 									<td><h:outputLabel value="#{BooksBean.detailedBook.remaingCopies} Book(s)"/></td>
 								</tr>
 								
+								
+								<tr>
+									<td>Price Per Copy:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.pricePerCopy}"/></td>
+								</tr>
+								
+								<tr>
+									<td>Program Director Name:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.programDirector.name}"/></td>
+								</tr>
+								
+								<tr>
+									<td>Program Director Email:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.programDirector.mail}"/></td>
+								</tr>
+								
+								<tr>
+									<td>Requester Name:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.requester.name}"/></td>
+								</tr>
+								<tr>
+									<td>Requester Email:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.requester.mail}"/></td>
+								</tr>
+								
+								<tr>
+									<td>Purchase Request:</td>
+									<td><h:outputLabel value="#{BooksBean.detailedBook.purchaseRequest}"/></td>
+								</tr>
+								
 								<tr>
 									<td>History:</td>
 									<td>
@@ -96,27 +133,84 @@
 			   <p:dataTable var="row"  value="#{BooksBean.copiesLst}" selectionMode="single" rowKey="#{row.id}" sortMode="multiple" 
 				widgetVar="studentCourse" id="booksTable" resizableColumns="true" rows="100" paginator="true"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+					 		  rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top" editable="true"
                          	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                         	<p:ajax event="rowEdit" listener="#{BooksBean.editRowDataOfCopy}"  />
+                         	
                          	
 								<p:column width="130" id="code" sortBy="#{row.barCode}" filterBy="#{row.barCode}">
-									<h:outputText value="#{row.barCode}" />
+									 <p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.barCode}" /></f:facet>
+									 	<f:facet name="input"><h:outputText value="#{row.barCode}" style="width:100%"/></f:facet>
+									  </p:cellEditor>
+									
 									<f:facet name="header">	<h:outputText value="Bar Code" /> </f:facet>
 								</p:column>
 								<p:column width="130" id="status" sortBy="#{row.status}" filterBy="#{row.status}">
-									<h:outputText value="#{row.status}" />
+								 	<p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.status}" /></f:facet>
+									 	<f:facet name="input"><h:outputText value="#{row.status}" style="width:100%"/></f:facet>
+									  </p:cellEditor>
+									
 									<f:facet name="header">	<h:outputText value="Status" /> </f:facet>
 								</p:column>
 								
 								<p:column width="130" id="person" sortBy="#{row.lastPerson.nameInEng}" filterBy="#{row.lastPerson.nameInEng}">
-									<h:outputText value="#{row.lastPerson.nameInEng}" />
+									 <p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.lastPerson.nameInEng}" /></f:facet>
+									 	<f:facet name="input"><h:outputText value="#{row.lastPerson.nameInEng}" /></f:facet>
+									  </p:cellEditor>
+									  
+									
 									<f:facet name="header">	<h:outputText value="Name" /> </f:facet>
 								</p:column>
-									<p:column width="130" id="mail" sortBy="#{row.lastPerson.email}" filterBy="#{row.lastPerson.email}">
-									<h:outputText value="#{row.lastPerson.email}" />
+								
+								<p:column width="130" id="mail" sortBy="#{row.lastPerson.email}" filterBy="#{row.lastPerson.email}">
+									 <p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.lastPerson.email}" /></f:facet>
+									 	<f:facet name="input"><h:outputText value="#{row.lastPerson.email}" /></f:facet>
+									  </p:cellEditor>
+									
 									<f:facet name="header">	<h:outputText value="Email" /> </f:facet>
 								</p:column>
+								
+								
+								<p:column width="130" id="purchase" sortBy="#{row.book.purchaseRequest}" filterBy="#{row.book.purchaseRequest}">
+									 <p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.book.purchaseRequest}" /></f:facet>
+									 	<f:facet name="input"><h:outputText value="#{row.book.purchaseRequest}" /></f:facet>
+									  </p:cellEditor>
+									
+									<f:facet name="header">	<h:outputText value="purchase request" /> </f:facet>
+								</p:column>
+								
+								<p:column width="130" id="price" sortBy="#{row.book.pricePerCopy}" filterBy="#{row.book.pricePerCopy}">
+									 <p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.book.pricePerCopy}" /></f:facet>
+									 	<f:facet name="input"><h:outputText value="#{row.book.pricePerCopy}" /></f:facet>
+									  </p:cellEditor>
+									
+									<f:facet name="header">	<h:outputText value="Price" /> </f:facet>
+								</p:column>
+								
+								<p:column width="130" id="condition" sortBy="#{row.condition}" filterBy="#{row.condition}">
+									 <p:cellEditor>
+									 	<f:facet name="output"><h:outputText value="#{row.condition}" /></f:facet>
+									 	<f:facet name="input">
+									 		<p:selectOneMenu  id="conditionSelector" value="#{row.condition}" filter="true" filterMatchMode="contains" required="true"  style="width:250px;">
+												
+												<f:selectItems var="conditionSelector" value="#{BooksBean.conditionList}" itemLabel="#{conditionSelector}" itemValue="#{conditionSelector}" />
+												
+											</p:selectOneMenu>
+										</f:facet>
+									  </p:cellEditor>
+									
+									<f:facet name="header">	<h:outputText value="Price" /> </f:facet>
+								</p:column>
 							
+								<p:column style="width:35px">
+						            <p:rowEditor />
+						        </p:column>
 								</p:dataTable>
 								</p:tab>
 							
@@ -158,8 +252,8 @@
 							</p:selectOneRadio>
 					</h:panelGroup>
 					</div>
-					<li><p:commandButton value="Generate" title="Generate" actionListener="#{BooksBean.generateReport}" ajax="false" onclick="generateCopiesDlg.hide();"
-							  update="dlgForm:addPanel :pageForm:dataPnl" /></li>
+					<li><p:commandButton value="Generate" title="Generate" action="#{BooksBean.generateReport}"  ajax="false" onclick="generateCopiesDlg.hide();"
+							  update="dlgForm:addPanel :pageForm:dataPnl :pageForm:students" /></li>
 					<ul class="dialogFooter">
 						<li><p:commandButton value="Cancel" title="Cancel" onclick="generateCopiesDlg.hide()" immediate="true" class="dialogCancel" /></li>
 						

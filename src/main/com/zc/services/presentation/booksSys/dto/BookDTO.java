@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 
 /**
@@ -15,7 +16,7 @@ import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
  */
 public class BookDTO {
 private Integer id;
-	private String name;
+private String name;
 	
 	private CoursesDTO course;
 	
@@ -33,6 +34,10 @@ private Integer id;
 
     //0 pending , 1 confirmed
 	private Integer status;
+	private String purchaseRequest;
+	private String pricePerCopy;
+	private Employee programDirector;
+	private Employee requester;
 	
 	private List<BooksLogsDTO> logs=new ArrayList<BooksLogsDTO>();
 
@@ -161,6 +166,73 @@ private Integer id;
 	public void setLogs(List<BooksLogsDTO> logs) {
 		this.logs = logs;
 	}
+
+
+
+
+
+	public String getPurchaseRequest() {
+		return purchaseRequest;
+	}
+
+
+
+
+
+	public void setPurchaseRequest(String purchaseRequest) {
+		this.purchaseRequest = purchaseRequest;
+	}
+
+
+
+
+
+	public String getPricePerCopy() {
+		return pricePerCopy;
+	}
+
+
+
+
+
+	public void setPricePerCopy(String pricePerCopy) {
+		this.pricePerCopy = pricePerCopy;
+	}
+
+
+
+
+
+	public Employee getProgramDirector() {
+		return programDirector;
+	}
+
+
+
+
+
+	public void setProgramDirector(Employee programDirector) {
+		this.programDirector = programDirector;
+	}
+
+
+
+
+
+	public Employee getRequester() {
+		return requester;
+	}
+
+
+
+
+
+	public void setRequester(Employee requester) {
+		this.requester = requester;
+	}
+
+
+
 
 	
 

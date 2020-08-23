@@ -30,6 +30,13 @@ public class BookCopiesDTO {
 	
 	private PersonDataDTO lastPerson;
 	
+
+	private String condition;
+	private String price;
+
+	
+
+	
 	public Integer getId() {
 		return id;
 	}
@@ -86,6 +93,29 @@ public class BookCopiesDTO {
 		this.lastPerson = lastPerson;
 	}
 	
+	
+	
+	public String getCondition() {
+		return condition;
+	}
+
+	
+
+	
+
+
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
 	
 	
 	

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import main.com.zc.services.domain.data.model.Courses;
+import main.com.zc.services.domain.person.model.Employee;
+
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -42,6 +44,24 @@ public class Book {
 	@ManyToOne
 	@JoinColumn(name = "COURSE_ID")
 	private Courses course;
+	
+
+	@ManyToOne
+	@JoinColumn(name = "requester_ID")
+	private Employee requester;
+	
+
+	@ManyToOne
+	@JoinColumn(name = "programDirector")
+	private Employee programDirector;
+	
+
+	@Column(name="pricePerCopy")
+	private String pricePerCopy;
+	
+
+	@Column(name="purchaseRequest")
+	private String purchaseRequest;
 	
 	@Column(name="ORIGINAL_COPIES")
 	private Integer originalCopies;
@@ -126,6 +146,38 @@ public class Book {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public Employee getRequester() {
+		return requester;
+	}
+
+	public void setRequester(Employee requester) {
+		this.requester = requester;
+	}
+
+	public Employee getProgramDirector() {
+		return programDirector;
+	}
+
+	public void setProgramDirector(Employee programDirector) {
+		this.programDirector = programDirector;
+	}
+
+	public String getPricePerCopy() {
+		return pricePerCopy;
+	}
+
+	public void setPricePerCopy(String pricePerCopy) {
+		this.pricePerCopy = pricePerCopy;
+	}
+
+	public String getPurchaseRequest() {
+		return purchaseRequest;
+	}
+
+	public void setPurchaseRequest(String purchaseRequest) {
+		this.purchaseRequest = purchaseRequest;
 	}
 	
 	

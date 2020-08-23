@@ -40,9 +40,26 @@ public class BookCopies {
 	@GeneratedValue
 	@Column(name = "ID")
 	private Integer id;
-	
+
 	@Column(name="BAR_CODE")
 	private String barCode;
+	
+
+
+
+	@Column(name="BookCondition")
+	private String condition;
+
+	public static String CONDITION_NEW = "New";
+	public static String CONDITION_Good = "Good";
+	public static String CONDITION_DAMAGED = "Damaged";
+	public static String CONDITION_STUDENT_LOST_IT = "Lost by Student";
+	public static String CONDITION_STUDENT_BOUGHT_IT = "Bought by Student";
+	public static String CONDITION_OUTDATED = "Outdated";
+	public static String[] CONDITIONS = {CONDITION_NEW,CONDITION_Good,CONDITION_DAMAGED,CONDITION_STUDENT_LOST_IT,CONDITION_STUDENT_BOUGHT_IT,CONDITION_OUTDATED};
+
+	@Column(name="Price")
+	private String price;
 	
 	@ManyToOne
 	@JoinColumn(name = "BOOK_ID")
@@ -103,6 +120,22 @@ public class BookCopies {
 
 	public void setStatus(BookStatusEnum status) {
 		this.status = status;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 	

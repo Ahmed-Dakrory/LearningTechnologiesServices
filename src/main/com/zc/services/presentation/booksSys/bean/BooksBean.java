@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -22,6 +23,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_students;
+import main.com.zc.services.domain.booksSys.model.BookCopies;
+import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.shared.enumurations.BookStatusEnum;
 import main.com.zc.services.presentation.booksSys.dto.BookCopiesDTO;
 import main.com.zc.services.presentation.booksSys.dto.BookDTO;
@@ -31,6 +35,7 @@ import main.com.zc.services.presentation.booksSys.dto.BooksLogsDTO;
 import main.com.zc.services.presentation.booksSys.facade.IBookCopiesFacade;
 import main.com.zc.services.presentation.booksSys.facade.IBooksFacade;
 import main.com.zc.services.presentation.booksSys.facade.IBooksLogsFacade;
+import main.com.zc.services.presentation.configuration.facade.ICourseInstructorFacade;
 import main.com.zc.services.presentation.configuration.facade.ICoursesFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
 import main.com.zc.services.presentation.users.dto.InstructorDTO;
@@ -42,6 +47,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -70,6 +76,7 @@ public class BooksBean {
     private boolean increase;
     private boolean withDate;
     private List<BookCopiesDTO> copiesLst;
+    private List<String> conditionList;
 	@ManagedProperty("#{IBooksFacade}")
    	private IBooksFacade facade; 
 	
@@ -85,19 +92,54 @@ public class BooksBean {
 	@ManagedProperty("#{IBookCopiesFacade}")
 	private IBookCopiesFacade copiesFacade;
 	
+	
+
+	@ManagedProperty("#{ICourseInstructorFacade}")
+	private ICourseInstructorFacade courseInsFacade;
+	
+
+    private List<InstructorDTO> listOfEmployees;
+    private int selectedRequester;
+    private int selectedProgramDirector;
+    private String purchaseRequest;
+    private String pricePerBook;
+	
+	
 	@PostConstruct
 	public void init()
 	{
-	bookStudentsDTOs=new ArrayList<BookStudentDTO>();
-	bookInstructorsDTOs=new ArrayList<BookInstructorDTO>();
-	fillBooksList();
-	fillSemesterLst();
+		bookStudentsDTOs=new ArrayList<BookStudentDTO>();
+		bookInstructorsDTOs=new ArrayList<BookInstructorDTO>();
+		fillBooksList();
+		fillSemesterLst();
+		listOfEmployees= courseInsFacade.getAllInstructors();
+		
+		conditionList = new ArrayList<String>();
+		for(int i=0;i<BookCopies.CONDITIONS.length;i++) {
+			conditionList.add(BookCopies.CONDITIONS[i]);
+		}
 	}
+	
 	public void fillBooksList()
 	{
 		books=new ArrayList<BookDTO>();
 		books=facade.getAll();
 	}
+	
+	public void editRowDataOfCopy(RowEditEvent event) {
+		
+	BookCopiesDTO bookCopy = (BookCopiesDTO) event.getObject();
+		copiesFacade.add(bookCopy);
+        FacesMessage msg = new FacesMessage("Book with Id Edited", String.valueOf(bookCopy.getId()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        copiesLst=copiesFacade.getByBookID(getDetailedBook().getId());
+		context.execute("location.reload();");
+    }
+
+
 	public void onRowSelect(SelectEvent event) {  
 	  	try {
 	  		BookDTO selectedDTO=(BookDTO) event.getObject();
@@ -190,12 +232,26 @@ public class BooksBean {
 	}
 	
 	public void createNewBook(){
+		InstructorDTO inst = getInsDataFacade.getInsByPersonID(selectedRequester);
+		Employee selectedRequesterEmployess = new Employee();
+		selectedRequesterEmployess.setMail(inst.getMail());
+		selectedRequesterEmployess.setId(inst.getId());
+		selectedRequesterEmployess.setName(inst.getName());
+		
+		
+		InstructorDTO inst2 = getInsDataFacade.getInsByPersonID(selectedProgramDirector);
+		Employee selectedProgramDirectorEmployess = new Employee();
+		selectedProgramDirectorEmployess.setMail(inst2.getMail());
+		selectedProgramDirectorEmployess.setId(inst2.getId());
+		selectedProgramDirectorEmployess.setName(inst2.getName());
 		
 		try{
 			CoursesDTO course=new CoursesDTO();
 			course.setId(getSelectedCourse());
 			getAddedBook().setCourse(course);
 			getAddedBook().setRemaingCopies(getAddedBook().getOriginalCopies());
+			getAddedBook().setRequester(selectedRequesterEmployess);
+			getAddedBook().setProgramDirector(selectedProgramDirectorEmployess);
 			BookDTO addedBookDTO=facade.add(getAddedBook());
 			// Log the creator
 			BooksLogsDTO logs=new BooksLogsDTO();
@@ -321,11 +377,14 @@ public class BooksBean {
         	row = sheet.createRow((short)i);
         	//TODO 
             //Add New Version to DB 
-        	BookCopiesDTO copyDTO=new BookCopiesDTO();    
+        	BookCopiesDTO copyDTO=new BookCopiesDTO(); 
+        	detailedBook = facade.getById(getDetailedBook().getId());
         	copyDTO.setBook(getDetailedBook());
         	copyDTO.setAddedDate(Calendar.getInstance());
         	copyDTO.setLastOper(Calendar.getInstance());
         	copyDTO.setStatus(BookStatusEnum.FREE);
+        	copyDTO.setCondition(BookCopies.CONDITION_NEW);
+        	copyDTO.setPrice(getDetailedBook().getPricePerCopy());
         	BookCopiesDTO addedCopy= copiesFacade.add(copyDTO);
         	if(addedCopy!=null)
         	{
@@ -393,11 +452,17 @@ public class BooksBean {
       FacesContext faces = FacesContext.getCurrentInstance();
       faces.responseComplete();  
       RequestContext context = RequestContext.getCurrentInstance();
+      copiesLst=copiesFacade.getByBookID(getDetailedBook().getId());
       context.execute("generateCopiesDlg.hide();");
+      context.execute("location.reload();");
       
       //
       RequestContext.getCurrentInstance().update("dlgForm:addPanel");
       FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("dlgForm:addPanel");
+      RequestContext.getCurrentInstance().update("pageForm:dataPnl");
+      FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add(":pageForm:dataPnl");
+      RequestContext.getCurrentInstance().update("pageForm:students");
+      FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add(":pageForm:students");
      
  
     }
@@ -716,4 +781,62 @@ public class BooksBean {
 		this.copiesLst = copiesLst;
 	}
 
+	public ICourseInstructorFacade getCourseInsFacade() {
+		return courseInsFacade;
+	}
+
+	public void setCourseInsFacade(ICourseInstructorFacade courseInsFacade) {
+		this.courseInsFacade = courseInsFacade;
+	}
+
+	public List<InstructorDTO> getListOfEmployees() {
+		return listOfEmployees;
+	}
+
+	public void setListOfEmployees(List<InstructorDTO> listOfEmployees) {
+		this.listOfEmployees = listOfEmployees;
+	}
+
+	public int getSelectedRequester() {
+		return selectedRequester;
+	}
+
+	public void setSelectedRequester(int selectedRequester) {
+		this.selectedRequester = selectedRequester;
+	}
+
+	public int getSelectedProgramDirector() {
+		return selectedProgramDirector;
+	}
+
+	public void setSelectedProgramDirector(int selectedProgramDirector) {
+		this.selectedProgramDirector = selectedProgramDirector;
+	}
+
+	public String getPurchaseRequest() {
+		return purchaseRequest;
+	}
+
+	public void setPurchaseRequest(String purchaseRequest) {
+		this.purchaseRequest = purchaseRequest;
+	}
+
+	public String getPricePerBook() {
+		return pricePerBook;
+	}
+
+	public void setPricePerBook(String pricePerBook) {
+		this.pricePerBook = pricePerBook;
+	}
+
+	public List<String> getConditionList() {
+		return conditionList;
+	}
+
+	public void setConditionList(List<String> conditionList) {
+		this.conditionList = conditionList;
+	}
+
+	
+	
 }

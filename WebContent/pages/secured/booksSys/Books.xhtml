@@ -67,6 +67,23 @@
 									<h:outputText value="#{row.course.name}" />
 									<p:watermark  forElement="pageForm:booksTable:course:filter" value="Course"/>	
 								</p:column>
+								
+								<p:column width="130" id="requester" sortBy="#{row.requester.name}" filterBy="#{row.requester.name}">
+									<h:outputText value="#{row.requester.name}" />
+									<p:watermark  forElement="pageForm:booksTable:requester:filter" value="Requester"/>	
+								</p:column>
+								
+								<p:column width="130" id="pricePerCopy" sortBy="#{row.pricePerCopy}" filterBy="#{row.pricePerCopy}">
+									<h:outputText value="#{row.pricePerCopy}" />
+									<p:watermark  forElement="pageForm:booksTable:pricePerCopy:filter" value="price Per Copy"/>	
+								</p:column>
+								
+								<p:column width="130" id="programDirector" sortBy="#{row.programDirector.name}" filterBy="#{row.programDirector.name}">
+									<h:outputText value="#{row.programDirector.name}" />
+									<p:watermark  forElement="pageForm:booksTable:programDirector:filter" value="program Director"/>	
+								</p:column>
+								
+								
 								<p:column width="130" id="Semester" sortBy="#{row.course.semester.getName()}" filterBy="#{row.course.semester.getName()}">
 									<h:outputText value="#{row.course.semester.getName()}" />
 											<p:watermark  forElement="pageForm:booksTable:Semester:filter" value="Semester"/>	
@@ -99,7 +116,7 @@
 			</ui:define>
 			<ui:define name="confirmDialogBox">
 				<p:dialog widgetVar="addCourseDlg" header="New Book" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="right bottom"
-			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="390" style="width:600px !important">
+			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="600" height="790" style="width:600px !important">
 					<h:form id="dlgForm">
 						<div class="dialogWrapper">
 							<h:panelGroup id="addPanel">
@@ -116,6 +133,53 @@
 			          			  	<p:message for="copies"/>
 			          			 </h:panelGroup>
 			          			 <br/>
+			          			 
+			          			 <b>Program Director and Requester Information:</b><br/><br/>
+			          			 <table>
+									<tr>
+										<td style="padding:0;">
+											<p:selectOneMenu  id="requester" value="#{BooksBean.selectedRequester}" filter="true" filterMatchMode="contains" required="true" requiredMessage="select Requester" style="width:250px;">
+												<f:selectItem itemLabel="Select Requester" />
+												<f:selectItems var="requester" value="#{BooksBean.listOfEmployees}" itemLabel="#{requester.name}" itemValue="#{requester.id}" />
+												
+											</p:selectOneMenu>
+											<p:message for="requester" />
+											
+										</td>
+										<td width="12">&nbsp;</td>
+										<td>
+											<p:selectOneMenu  id="programDirector" value="#{BooksBean.selectedProgramDirector}" filter="true" filterMatchMode="contains" required="true" requiredMessage="select program Director" style="width:250px;">
+												<f:selectItem itemLabel="Select program Director" />
+												<f:selectItems var="programDirector" value="#{BooksBean.listOfEmployees}" itemLabel="#{programDirector.name}" itemValue="#{programDirector.id}" />
+												
+											</p:selectOneMenu>
+											<p:message for="programDirector" />
+										</td>
+										<td width="12">&nbsp;</td>
+										<td>
+											
+										</td>
+									</tr>
+									
+									</table>
+									
+									 <br/>
+			          			 
+			          			 <b>Purchase Information:</b><br/><br/>
+			          			 
+			          			 <h:panelGroup>
+			          				<p:inputText value="#{BooksBean.addedBook.purchaseRequest}" required="true" requiredMessage="insert Purchase Request" id="purchaseRequest" style="width:460px !important;"/>
+			          				<p:watermark for="purchaseRequest" value="Purchase Request" />
+			          				<p:message for="purchaseRequest"/>
+			          			</h:panelGroup>
+			          			
+			          			<h:panelGroup>
+			          				<p:inputText value="#{BooksBean.addedBook.pricePerCopy}" required="true" requiredMessage="insert Price Per Book" id="pricePerBook" style="width:460px !important;"/>
+			          				<p:watermark for="pricePerBook" value="Price Per Book" />
+			          				<p:message for="pricePerBook"/>
+			          			</h:panelGroup>
+			          			
+			          			
 			          			<b>Course Information:</b><br/><br/>
 			          			<table>
 									<tr>

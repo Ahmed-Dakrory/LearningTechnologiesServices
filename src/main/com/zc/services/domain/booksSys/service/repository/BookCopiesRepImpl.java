@@ -46,7 +46,7 @@ public class BookCopiesRepImpl implements IBookCopiesRep {
 				
 				
 					   tx = sess.beginTransaction();
-					     sess.save(copy);
+					     sess.saveOrUpdate(copy);
 					     tx.commit();
 				
 				return copy;

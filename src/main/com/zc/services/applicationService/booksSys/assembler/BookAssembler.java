@@ -24,6 +24,10 @@ public class BookAssembler {
 		dto.setRemaingCopies(book.getRemaingCopies());
 		dto.setStatus(book.getStatus());
 		dto.setName(book.getName());
+		dto.setPricePerCopy(book.getPricePerCopy());
+		dto.setRequester(book.getRequester());
+		dto.setProgramDirector(book.getProgramDirector());
+		dto.setPurchaseRequest(book.getPurchaseRequest());
 		try{
 		Calendar cal=Calendar.getInstance();
 		cal.setTime(book.getFromDate());	
@@ -64,6 +68,12 @@ public class BookAssembler {
 		book.setOriginalCopies(dto.getOriginalCopies());
 		book.setRemaingCopies(dto.getRemaingCopies());
 		book.setStatus(dto.getStatus());
+
+		book.setPricePerCopy(dto.getPricePerCopy());
+		book.setRequester(dto.getRequester());
+		book.setProgramDirector(dto.getProgramDirector());
+		book.setPurchaseRequest(dto.getPurchaseRequest());
+		
 		try{
 		book.setFromDate(dto.getFromDate().getTime());
 		}
