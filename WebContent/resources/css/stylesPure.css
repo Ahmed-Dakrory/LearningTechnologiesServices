@@ -1,7 +1,7 @@
-html{font-size:100%;margin:0;padding:0;}
+html{}
 ul, li{margin:0;padding:0;}
 li{list-style:none;}
-body, .outer body, .internal body{width:100% !important;height:100% !important;margin:0;padding:0;font:normal 14px "Roboto-Regular", "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif !important;color:#2a2c2e;}
+body, .outer body, .internal body{font:normal 14px "Roboto-Regular", "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif !important;}
 .outer body{background:url(../resources/images/bg_outer.jpg) center center fixed no-repeat;background-size:cover;}
 .internal body{background:#f5f8fa !important;overflow-y:auto !important;}
 .ui-datalist-content{border:0 !important;}
@@ -194,10 +194,10 @@ table.policy td:first-child{width:120px;color:#009db1;}
 .ui-breadcrumb a:hover{color:#009db1;}
 .ui-breadcrumb .ui-state-disabled{margin:0 !important;color:#8984b3;font:normal 16px "Roboto-Regular","Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif !important;line-height:30px !important;opacity:1.0;}
 /*BUTTONS*/
-.internal .ui-button, .ui-fileupload .ui-button, input[type="submit"].blueBtn, input[type="submit"].grayBtn, input[type="submit"].greenBtn, .cancelBtn, input[type="submit"].cancelBtn, .moodleBtn[type="submit"]{height:36px;margin:12px auto;padding:0 12px;border-radius:8px;border:0 !important;font:normal 14px "Roboto-Regular","Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif !important;color:#2a2c2e !important;}
+.internal .ui-button, .ui-fileupload .ui-button, input[type="submit"].blueBtn, input[type="submit"].grayBtn, input[type="submit"].greenBtn, .cancelBtn, input[type="submit"].cancelBtn, .moodleBtn[type="submit"]{}
 .internal .ui-button.blueBtn, .internal .ui-button.blueBtn.ui-state-hover, input[type="submit"].blueBtn, input[type="submit"].blueBtn.ui-state-hover{background:#4fc1e9 !important;box-shadow:0 3px #3bafda !important;}
 .internal .ui-button.light_greenBtn, input[type="submit"].light_greenBtn, .internal .ui-button.light_greenBtn.ui-state-hover, input[type="submit"].light_greenBtn.ui-state-hover{background:#82c18a !important;box-shadow:0 3px #55b160 !important;}
-.internal .ui-button.grayBtn, input[type="submit"].grayBtn, .ui-fileupload .ui-button{background:#e8edf0 !important;box-shadow:0 3px #ccd0d2 !important;}
+.internal .ui-button.grayBtn, input[type="submit"].grayBtn, .ui-fileupload .ui-button{}
 .internal .ui-button.redBtn, .internal .ui-button.redBtn.ui-state-hover{background:#e0563a !important;box-shadow:0 3px #cd4428 !important;text-shadow:0px 1px 0px rgba(255, 255, 255, 0.3) !important;}
 .internal .ui-button.redBtn.ui-state-hover, .internal .ui-button.yellowBtn.ui-state-hover, input[type="submit"].yellowBtn.ui-state-hover{color:#fff !important;text-shadow:none !important;}
 .internal .ui-button.yellowBtn, input[type="submit"].yellowBtn{background:#ffce54 !important;box-shadow:0 3px #ecb11f !important;}
@@ -364,7 +364,7 @@ span.ui-dialog-title{margin:0 !important;line-height:50px;text-shadow:none;color
 .ui-selectonemenu-item.ui-state-highlight{background:#009db1 !important;color:#fff;}
 .ui-selectonemenu-item.ui-state-hover{background:#f5f8fa !important;color:#009db1;box-shadow:none !important;}
 .ui-inputfield.ui-state-disabled, .ui-inputtextarea.ui-state-disabled{opacity:0.9 !important;}
-.fileupload-buttonbar, .fileupload-content{padding:0;border:0;background:none;}
+.fileupload-buttonbar, .fileupload-content{}
 .fileupload-content .files{margin:0;}
 .ui-radiobutton-box.ui-state-hover{cursor:pointer;}
 .ui-datepicker{width:256px !important;padding:0 !important;border:solid 1px #e6e9ec !important;border-radius:8px !important;font:normal 14px "Roboto-Regular","Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif !important;}
@@ -384,7 +384,7 @@ span.ui-dialog-title{margin:0 !important;line-height:50px;text-shadow:none;color
 .maxCharc span, span.allowedExt{margin-left:16px;font-size:12px;color:#e29494;}
 .outer span.allowedExt{margin-left:0;}
 .marginLeft_12 .ui-message-error-detail{margin-left:18px;}
-.fileinput-button{margin-top:0 !important;}
+.fileinput-button{}
 .paddingTop_12 table td:first-child{padding-top:0 !important;}
 .ui-selectonemenu-panel{z-index:2000000 !important;}
 .outer .ui-fileupload{margin-top:9px;}

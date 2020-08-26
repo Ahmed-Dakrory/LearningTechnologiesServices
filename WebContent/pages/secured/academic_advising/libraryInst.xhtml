@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/pureTemplate.xhtml">
+		<ui:define name="title">Academic Advising</ui:define>
+		<ui:define name="content">
+		
+		<style>
+		.p-5{
+		
+		padding:19px;
+		}
+		
+		.internal body {
+    background: #ffffff !important;
+    overflow-y: auto !important;
+}
+		</style>
+			<ul class="header">
+				<li>
+					<h:form id="pageForm" class="p-5" style="background: white;">
+					<p:growl id="msgs" showDetail="true"/>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Academic Advising Files" />
+						</p:breadCrumb>
+						
+						
+						
+						
+						
+						<h:panelGroup >
+				<p:dataTable var="row" style="padding-right: 1%;padding-left: 1%;" value="#{aaInstructorBean.allFiles}" selectionMode="single" rowKey="#{row.id}" 
+							sortMode="multiple" widgetVar="studentProfile" id="dataTable" resizableColumns="true" rows="100" paginator="true"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+								<!--  <p:ajax event="rowSelect" listener="#{aaInstructorBean.onRowSelect}" /> -->
+								
+								<p:column width="105" id="id" sortBy="#{row.id}" filterBy="#{row.id}">
+								
+									<h:outputText value="#{row.id}" />
+								
+									<f:facet name="header">
+										<h:outputText value="Id" />
+									</f:facet>
+								</p:column>
+								
+							
+								
+								<p:column width="105" id="name" sortBy="#{row.attachment.name}" filterBy="#{row.attachment.name}">
+								
+									<h:outputText value="#{row.attachment.name}" />
+								
+									<f:facet name="header">
+										<h:outputText value="Name" />
+									</f:facet>
+								</p:column>
+								
+								
+								
+								<p:column width="173" id="download" sortBy="#{row.id}" filterBy="#{row.id}">
+									
+						                
+						                	<h:commandButton actionListener="#{aaInstructorBean.downloadAttachments2(row.attachment)}" value="Download" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              
+						              
+										<f:facet name="header">
+											<h:outputText value="Download" />
+										</f:facet>
+										
+										
+							</p:column>
+							
+							
+								
+							
+
+							</p:dataTable>
+							
+						
+					</h:panelGroup>
+					</h:form>
+				</li>
+			</ul>
+			
+		
+		
+
+
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>

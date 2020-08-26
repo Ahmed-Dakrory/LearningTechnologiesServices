@@ -38,12 +38,12 @@ max-width: 239px;
 border-radius: 15px;
     width: min-content;
     }
-.inputTimecontroller{
-width: 69%!important;
-    margin-left: 16%;
+.inputTimecontroller {
+    width: 80%!important;
+    margin-left: 10%;
     text-align: center;
-    height: 21px!important;
-    }
+    height: 36px!important;
+}
 	
 	.nameSpan{
     font-size: 14px;
@@ -172,7 +172,7 @@ position: absolute;
 					       </h3>
 					    	<div class="row">
 					    	
-					    		<p:commandButton rendered="#{!aaInstructorBean.meetingSelected and data.state==null}" update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaInstructorBean.selectThisdate(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Select this date"/>
+					    		<!-- <p:commandButton rendered="#{!aaInstructorBean.meetingSelected and data.state==null}" update=":myForm:panelofSchedules :myForm:msgs" actionListener="#{aaInstructorBean.selectThisdate(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" value="Select this date"/> -->
 					    	
 					    	<h:panelGroup rendered="#{data.student!=null}">
 								<p:commandButton actionListener="#{aaInstructorBean.goToStudentProfileMeeting(data.id)}" style="    padding: .4em 1em; margin-bottom:12px;height: min-content;background: #1a64a2;color: white!important;" class="nameSpan" value=" Go " ></p:commandButton>

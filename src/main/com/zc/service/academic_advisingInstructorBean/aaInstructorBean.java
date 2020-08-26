@@ -27,9 +27,15 @@ import main.com.zc.service.academic_advising_instructor.aa_instructor;
 import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.service.filesOfLibraries.filesOfLibraries;
+import main.com.zc.service.filesOfLibraries.filesOfLibrariesAppServiceImpl;
+import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
+import main.com.zc.services.domain.petition.model.Attachments;
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.shared.AttachmentDownloaderHelper;
+import main.com.zc.shared.presentation.dto.AttachmentDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
 @ManagedBean(name = "aaInstructorBean")
@@ -50,6 +56,9 @@ public class aaInstructorBean implements Serializable{
 	
 	
  
+
+	@ManagedProperty(value = "#{filesOfLibrariesFacadeImpl}")
+	private filesOfLibrariesAppServiceImpl attachmentsFacade;
 
 
 	@ManagedProperty("#{IFormsStatusFacade}")
@@ -92,12 +101,16 @@ public class aaInstructorBean implements Serializable{
 
 	private boolean meetingSelected=false;
 	
+
+	private List<filesOfLibraries> allFiles;
+	
 	@PostConstruct
 	public void init() {
 
 		allinstructorDates =new ArrayList<aa_instructor_date>();
 
 		allStudentSelected =new ArrayList<aa_instructor_students>();
+		allFiles = new ArrayList<filesOfLibraries>();
 		refresh();
 		
 		
@@ -169,6 +182,12 @@ public class aaInstructorBean implements Serializable{
 		}
 	}
 	
+	public void downloadAttachments2(Attachments form)
+	{
+		AttachmentsAssembler assemb = new AttachmentsAssembler();
+		AttachmentDTO attachmentDto = assemb.toDTO(form);
+		AttachmentDownloaderHelper.createHTTPDownlodFileResponse(attachmentDto);
+	}
 	
 public void onRowEdit(RowEditEvent event) {
 		
@@ -189,7 +208,10 @@ public void onRowEdit(RowEditEvent event) {
 			String mail = authentication.getName();
 			
 				thisInstrutorAccount =  aa_instructorFacade.getByMail(mail);	
-			
+
+				FormsStatusDTO settingform = facadeSettings.getById(23);
+				
+				allFiles = attachmentsFacade.getByYearAndSemester(String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 		}
 		getAllInstructorDates();
 	}
@@ -437,6 +459,22 @@ public void getAllListOfDates() {
 
 	public void setAllStudentSelected(List<aa_instructor_students> allStudentSelected) {
 		this.allStudentSelected = allStudentSelected;
+	}
+
+	public filesOfLibrariesAppServiceImpl getAttachmentsFacade() {
+		return attachmentsFacade;
+	}
+
+	public void setAttachmentsFacade(filesOfLibrariesAppServiceImpl attachmentsFacade) {
+		this.attachmentsFacade = attachmentsFacade;
+	}
+
+	public List<filesOfLibraries> getAllFiles() {
+		return allFiles;
+	}
+
+	public void setAllFiles(List<filesOfLibraries> allFiles) {
+		this.allFiles = allFiles;
 	}
 
 

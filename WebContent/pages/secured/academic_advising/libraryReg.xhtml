@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/pureTemplate.xhtml">
+		<ui:define name="title">Academic Advising</ui:define>
+		<ui:define name="content">
+		
+		<style>
+		.p-5{
+		
+		padding:19px;
+		}
+		
+		.internal body {
+    background: #ffffff !important;
+    overflow-y: auto !important;
+}
+		</style>
+			<ul class="header">
+				<li>
+					<h:form id="pageForm" class="p-5" style="background: white;">
+					<p:growl id="msgs" showDetail="true"/>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Academic Advising Files" />
+						</p:breadCrumb>
+						
+						
+						
+						
+						<table>
+							<tr>
+								<td>
+									<p:selectOneMenu id="semester" value="#{aaRegistrarBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+										<f:selectItem itemLabel="Select Semester" />
+										<f:selectItems var="semester" value="#{aaRegistrarBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.name}" />
+										<p:ajax listener="#{aaRegistrarBean.fillYearLst}" update="year"/>	
+									</p:selectOneMenu>
+									<p:message for="semester" />
+								</td>
+								<td width="12">&nbsp;</td>
+								<td>
+									<p:selectOneMenu id="year" value="#{aaRegistrarBean.selectedYear}" required="true" requiredMessage="Please select year">
+										<f:selectItem itemLabel="Select Year" />
+										<f:selectItems var="year" value="#{aaRegistrarBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{aaRegistrarBean.getAllListOfFiles}" update="dataTable"/>
+									</p:selectOneMenu>
+									<p:message for="year" />
+								</td>
+								
+								</tr>
+							</table>
+						
+						<h:panelGroup>
+								    <p:fileUpload fileUploadListener="#{aaRegistrarBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
+								                  update="messages dataTable" multiple="true" sizeLimit="5000000"  />
+								     
+								    <p:growl id="messages" showDetail="true" />          
+								
+						</h:panelGroup>
+						
+						<h:panelGroup >
+				<p:dataTable var="row" style="padding-right: 1%;padding-left: 1%;" value="#{aaRegistrarBean.allFiles}" selectionMode="single" rowKey="#{row.id}" 
+							sortMode="multiple" widgetVar="studentProfile" id="dataTable" resizableColumns="true" rows="100" paginator="true"
+					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+								<!--  <p:ajax event="rowSelect" listener="#{aaRegistrarBean.onRowSelect}" /> -->
+								
+								<p:column width="105" id="id" sortBy="#{row.id}" filterBy="#{row.id}">
+								
+									<h:outputText value="#{row.id}" />
+								
+									<f:facet name="header">
+										<h:outputText value="Id" />
+									</f:facet>
+								</p:column>
+								
+							
+								
+								<p:column width="105" id="name" sortBy="#{row.attachment.name}" filterBy="#{row.attachment.name}">
+								
+									<h:outputText value="#{row.attachment.name}" />
+								
+									<f:facet name="header">
+										<h:outputText value="Name" />
+									</f:facet>
+								</p:column>
+								
+								
+								
+								<p:column width="173" id="download" sortBy="#{row.id}" filterBy="#{row.id}">
+									
+						                
+						                	<h:commandButton actionListener="#{aaRegistrarBean.downloadAttachments2(row.attachment)}" value="Download" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              
+						              
+										<f:facet name="header">
+											<h:outputText value="Download" />
+										</f:facet>
+										
+										
+							</p:column>
+							
+							
+							<p:column width="173" id="delete" sortBy="#{row.id}" filterBy="#{row.id}">
+									
+						                
+						                	<h:commandButton   actionListener="#{aaRegistrarBean.deleteFile(row.id)}" value="Delete" style="background: #cc2654!important;color: white!important;border-radius: 7px;"/>
+						              
+						              
+										<f:facet name="header">
+											<h:outputText value="Delete" />
+										</f:facet>
+										
+										
+							</p:column>
+							
+								
+							
+
+							</p:dataTable>
+							
+						
+					</h:panelGroup>
+					</h:form>
+				</li>
+			</ul>
+			
+		
+		
+
+
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>

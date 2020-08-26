@@ -14,8 +14,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_students;
 import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_studentsAppServiceImpl;
@@ -23,8 +25,14 @@ import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
 import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.service.filesOfLibraries.filesOfLibraries;
+import main.com.zc.service.filesOfLibraries.filesOfLibrariesAppServiceImpl;
+import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
+import main.com.zc.services.domain.petition.model.Attachments;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.shared.AttachmentDownloaderHelper;
+import main.com.zc.shared.presentation.dto.AttachmentDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 
 @ManagedBean(name = "aaRegistrarBean")
@@ -66,6 +74,10 @@ public class aaRegistrarBean implements Serializable{
 	@ManagedProperty(value = "#{aa_instructor_dateFacadeImpl}")
 	private aa_instructor_dateAppServiceImpl aa_instructor_dateFacade;
 	
+
+	@ManagedProperty(value = "#{filesOfLibrariesFacadeImpl}")
+	private filesOfLibrariesAppServiceImpl attachmentsFacade;
+	
 	private String selectedYear;
 	private String selectedSemester;
 	private String selectedAction;
@@ -81,19 +93,103 @@ public class aaRegistrarBean implements Serializable{
 	
 
 	private boolean meetingSelected=false;
-	
+	private UploadedFile attachmentFile;
+
+
+	private List<filesOfLibraries> allFiles;
 	
 	@PostConstruct
 	public void init() {
 		allinstructorDates=new ArrayList<aa_instructor_date>();
 		allStudentSelected =new ArrayList<aa_instructor_students>();
+		allFiles = new ArrayList<filesOfLibraries>();
 		refresh();
 		
 		
 	}
 	
+	
+	
+	public UploadedFile getAttachmentFile() {
+	    return attachmentFile;
+	}
+
+	public void setAttachmentFile(UploadedFile file) {
+	    this.attachmentFile = file;
+	}
+	 
+	public void handleFileUpload(FileUploadEvent event) {  
+	    // Do what you want with the file   
+		
+        
+	    setAttachmentFile(event.getFile());
+	    if(!selectedSemester.equalsIgnoreCase("") && !selectedYear.equalsIgnoreCase("") ) {
+	    if(this.attachmentFile != null)
+		{
+			AttachmentDTO attachmentDto = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
+			AttachmentsAssembler assemb = new AttachmentsAssembler();
+			Attachments attachment = assemb.toEntity(attachmentDto);
+			filesOfLibraries file =new filesOfLibraries();
+			file.setAttachment(attachment);
+
+			file.setSemester(selectedSemester);
+			file.setYear(selectedYear);
+			attachmentsFacade.addfilesOfLibraries(file);
+			allFiles = attachmentsFacade.getByYearAndSemester(selectedYear, selectedSemester);
+
+			FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}else {
+			FacesMessage msg = new FacesMessage("Error", event.getFile().getFileName() + " not uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	    }else {
+	    	FacesMessage msg = new FacesMessage("Error", "Please select Year and semester");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
+	    
+	}  
+
+	
+	public void deleteFile(int id) {
+		try {
+			attachmentsFacade.delete(attachmentsFacade.getById(id));
+
+			allFiles = attachmentsFacade.getByYearAndSemester(selectedYear, selectedSemester);
+			
+			FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("pageForm:dataTable");
+			FacesMessage msg = new FacesMessage("Successful", "File Has Been Deleted");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			FacesMessage msg = new FacesMessage("Error", e.toString());
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	}
+	public void removeAttachment()
+	{
+		setAttachmentFile(null);
+	}
+
+	public String getAttachmentFileName()
+	{
+		if(attachmentFile == null)
+			return "None";
+		else
+			return attachmentFile.getFileName();
+	}
+
+	public void downloadAttachments2(Attachments form)
+	{
+		AttachmentsAssembler assemb = new AttachmentsAssembler();
+		AttachmentDTO attachmentDto = assemb.toDTO(form);
+		AttachmentDownloaderHelper.createHTTPDownlodFileResponse(attachmentDto);
+	}
+	
+	
 	public void goToStudentDates(int idOfDate) {
-		System.out.print(idOfDate);
 		meetingSelected = false;
 		FormsStatusDTO settingform = facadeSettings.getById(23);
 		
@@ -124,7 +220,6 @@ public class aaRegistrarBean implements Serializable{
 	}
 	
 	public void goToStudentProfileMeeting(int idOfDate) {
-		System.out.print(idOfDate);
 		selectedDateData = aa_instructor_dateFacade.getById(idOfDate);
 		selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
 
@@ -151,6 +246,10 @@ public class aaRegistrarBean implements Serializable{
 	
 	public void getAllListOfStudents() {
 		allStudentSelected = instructor_studentsFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
+	}
+	
+	public void getAllListOfFiles() {
+		allFiles = attachmentsFacade.getByYearAndSemester(selectedYear, selectedSemester);
 	}
 	
 	public void onRowSelect(SelectEvent event) {
@@ -351,6 +450,34 @@ public class aaRegistrarBean implements Serializable{
 	public void setMeetingSelected(boolean meetingSelected) {
 		this.meetingSelected = meetingSelected;
 	}
+
+
+
+	public filesOfLibrariesAppServiceImpl getAttachmentsFacade() {
+		return attachmentsFacade;
+	}
+
+
+
+	public void setAttachmentsFacade(filesOfLibrariesAppServiceImpl attachmentsFacade) {
+		this.attachmentsFacade = attachmentsFacade;
+	}
+
+
+
+	public List<filesOfLibraries> getAllFiles() {
+		return allFiles;
+	}
+
+
+
+	public void setAllFiles(List<filesOfLibraries> allFiles) {
+		this.allFiles = allFiles;
+	}
+
+
+
+	
 	
 	
 	
