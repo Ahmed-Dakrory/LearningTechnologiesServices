@@ -9,12 +9,10 @@ import java.util.List;
 import main.com.zc.services.applicationService.booksSys.assembler.BookAssembler;
 import main.com.zc.services.applicationService.booksSys.assembler.BookStudentAssembler;
 import main.com.zc.services.applicationService.booksSys.service.IBookStudentService;
-import main.com.zc.services.domain.booksSys.model.Book;
 import main.com.zc.services.domain.booksSys.model.BookCopies;
 import main.com.zc.services.domain.booksSys.model.BookStudent;
 import main.com.zc.services.domain.booksSys.model.IBookCopiesRep;
 import main.com.zc.services.domain.booksSys.model.IBookStudentRepository;
-import main.com.zc.services.presentation.booksSys.dto.BookCopiesDTO;
 import main.com.zc.services.presentation.booksSys.dto.BookDTO;
 import main.com.zc.services.presentation.booksSys.dto.BookStudentDTO;
 
@@ -78,6 +76,7 @@ public class BookStudentServiceImpl implements IBookStudentService{
 				BookAssembler bookAssem=new BookAssembler();
 				book=bookAssem.toDTO(copy.getBook());
 				obj.setBook(book);
+				obj.setCondition(copy.getCondition());
 			}
 
 			catch(Exception ex){
@@ -112,6 +111,7 @@ public class BookStudentServiceImpl implements IBookStudentService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){
@@ -141,6 +141,7 @@ public class BookStudentServiceImpl implements IBookStudentService{
 				BookAssembler bookAssem=new BookAssembler();
 				book=bookAssem.toDTO(copy.getBook());
 				dto.setBook(book);
+				dto.setCondition(copy.getCondition());
 			}
 
 			catch(Exception ex){
@@ -170,6 +171,7 @@ public class BookStudentServiceImpl implements IBookStudentService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){
@@ -203,6 +205,7 @@ public class BookStudentServiceImpl implements IBookStudentService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){
@@ -237,6 +240,7 @@ public class BookStudentServiceImpl implements IBookStudentService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){

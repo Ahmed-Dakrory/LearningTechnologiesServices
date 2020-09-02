@@ -56,7 +56,8 @@ public class BookCopies {
 	public static String CONDITION_STUDENT_LOST_IT = "Lost by Student";
 	public static String CONDITION_STUDENT_BOUGHT_IT = "Bought by Student";
 	public static String CONDITION_OUTDATED = "Outdated";
-	public static String[] CONDITIONS = {CONDITION_NEW,CONDITION_Good,CONDITION_DAMAGED,CONDITION_STUDENT_LOST_IT,CONDITION_STUDENT_BOUGHT_IT,CONDITION_OUTDATED};
+	public static String CONDITION_RETURNED_EARLIES = "Returned Earlier";
+	public static String[] CONDITIONS = {CONDITION_NEW,CONDITION_Good,CONDITION_DAMAGED,CONDITION_STUDENT_LOST_IT,CONDITION_STUDENT_BOUGHT_IT,CONDITION_OUTDATED,CONDITION_RETURNED_EARLIES};
 
 	@Column(name="Price")
 	private String price;

@@ -46,6 +46,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 				BookAssembler bookAssem=new BookAssembler();
 				book=bookAssem.toDTO(copy.getBook());
 				obj.setBook(book);
+				obj.setCondition(copy.getCondition());
 			}
 
 			catch(Exception ex){
@@ -87,6 +88,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 				BookAssembler bookAssem=new BookAssembler();
 				book=bookAssem.toDTO(copy.getBook());
 				obj.setBook(book);
+				obj.setCondition(copy.getCondition());
 			}
 
 			catch(Exception ex){
@@ -120,6 +122,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){
@@ -151,6 +154,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 				BookAssembler bookAssem=new BookAssembler();
 				book=bookAssem.toDTO(copy.getBook());
 				dto.setBook(book);
+				dto.setCondition(copy.getCondition());
 			}
 
 			catch(Exception ex){
@@ -179,6 +183,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){
@@ -212,6 +217,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){
@@ -246,6 +252,7 @@ public class BookInstructorServiceImpl implements IBookInstructorService{
 					BookAssembler bookAssem=new BookAssembler();
 					book=bookAssem.toDTO(copy.getBook());
 					dto.setBook(book);
+					dto.setCondition(copy.getCondition());
 				}
 
 				catch(Exception ex){

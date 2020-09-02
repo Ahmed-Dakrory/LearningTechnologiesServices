@@ -111,11 +111,23 @@
 							<p:watermark forElement="pageForm:booksTable:action:filter"
 								value="Action" />
 						</p:column>
+						
+						<p:column  id="condition" sortBy="#{row.condition}"
+							filterBy="#{row.condition}">
+							<h:outputText value="#{row.condition}" />
+							<p:watermark forElement="pageForm:booksTable:condition:filter"
+								value="Condition" />
+						</p:column>
+						
+						
 					<p:column id="btns">
 							<p:commandButton rendered="#{row.action.value==0 and rowIndex==0}"  value="Return"
 								style="background-color: green !important"
 								action="#{BooksReturnBean.returnBookStudent(row)}" update="booksTable"  />
 						</p:column>
+						
+						
+						
 						
 						</p:dataTable>
 						<h3>Staff</h3>
@@ -176,6 +188,13 @@
 								value="Action" />
 						</p:column>
 
+						<p:column  id="condition" sortBy="#{row.condition}"
+							filterBy="#{row.condition}">
+							<h:outputText value="#{row.condition}" />
+							<p:watermark forElement="pageForm:booksTable:condition:filter"
+								value="Condition" />
+						</p:column>
+						
 						<p:column id="btns">
 							<p:commandButton rendered="#{row.action.value==0 and rowIndex==0}" value="Return"
 								style="background-color: green !important"

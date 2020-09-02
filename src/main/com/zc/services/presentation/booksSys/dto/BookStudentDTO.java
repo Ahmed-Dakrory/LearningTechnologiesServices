@@ -26,6 +26,7 @@ public class BookStudentDTO {
 	private String barCode;
 
 	private Calendar date;
+	private String condition;
 
     private String friendlyDate;
 	
@@ -106,6 +107,16 @@ public class BookStudentDTO {
 
 	public void setBarCode(String barCode) {
 		this.barCode = barCode;
+	}
+
+
+	public String getCondition() {
+		return condition;
+	}
+
+
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	
 	

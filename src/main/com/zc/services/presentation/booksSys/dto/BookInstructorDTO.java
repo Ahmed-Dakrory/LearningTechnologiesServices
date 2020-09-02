@@ -32,7 +32,8 @@ public class BookInstructorDTO {
 	
 	private BookActionEnum action;
 	
-	
+
+	private String condition;
 	public Integer getId() {
 		return id;
 	}
@@ -107,6 +108,16 @@ public class BookInstructorDTO {
 
 	public void setBarCode(String barCode) {
 		this.barCode = barCode;
+	}
+
+
+	public String getCondition() {
+		return condition;
+	}
+
+
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	
 	
