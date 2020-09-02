@@ -20,6 +20,8 @@
     width: 196px;
     font-weight: bold;
 }
+
+
 		</style>
 			<ul class="header">
 				<li>
@@ -126,6 +128,53 @@
 							</table>
 							</p:panel>
 							<br/>
+							<br/>
+							
+							<p:panel>
+								<table>
+									<tr>
+										<td><h1>Modification</h1></td>
+									</tr>
+									<tr>
+										<td>program Director:</td>
+										<td>
+										<p:selectOneMenu  id="programDirector" value="#{BooksBean.selectedProgramDirector}" filter="true" filterMatchMode="contains" required="true" requiredMessage="select program Director" style="width:250px;">
+											<f:selectItem itemLabel="Select program Director" />
+											<f:selectItems var="programDirector" value="#{BooksBean.listOfEmployees}" itemLabel="#{programDirector.name}" itemValue="#{programDirector.id}" />
+										</p:selectOneMenu>
+										</td>
+									</tr>
+									
+									<tr>
+										<td>Requester:</td>
+										<td>
+										<p:selectOneMenu  id="requester" value="#{BooksBean.selectedRequester}" filter="true" filterMatchMode="contains" required="true" requiredMessage="select Requester" style="width:250px;">
+												<f:selectItem itemLabel="Select Requester" />
+												<f:selectItems var="requester" value="#{BooksBean.listOfEmployees}" itemLabel="#{requester.name}" itemValue="#{requester.id}" />
+												
+											</p:selectOneMenu>
+										</td>
+									</tr>
+									
+									<tr>
+										<td>Purchase Request:</td>
+										<td><p:inputText value="#{BooksBean.detailedBook.purchaseRequest}" required="true" requiredMessage="insert Purchase Request" id="purchaseRequest" style="width:460px !important;"/></td>
+									</tr>
+									
+									<tr>
+										<td>Price Per Book:</td>
+										<td><p:inputText value="#{BooksBean.detailedBook.pricePerCopy}" required="true" requiredMessage="insert Price Per Book" id="pricePerBook" style="width:460px !important;"/></td>
+									</tr>
+									
+									<tr>
+										<td colspan="3"><h:commandButton style="width: 100%;height: 41px;border-radius: 7px;" update="@form" value="" title="Add" actionListener="#{BooksBean.updateBookDetails}"  class="dialogOk"  /></td>
+										
+									</tr>
+									
+								</table>
+							</p:panel>
+							
+							<br></br>
 							<p:panel id="students">
 							
 								<p:accordionPanel class="dashAccordion" activeIndex="20" multiple="true">
@@ -184,10 +233,10 @@
 									<f:facet name="header">	<h:outputText value="purchase request" /> </f:facet>
 								</p:column>
 								
-								<p:column width="130" id="price" sortBy="#{row.book.pricePerCopy}" filterBy="#{row.book.pricePerCopy}">
+								<p:column width="130" id="price" sortBy="#{row.price}" filterBy="#{row.price}">
 									 <p:cellEditor>
-									 	<f:facet name="output"><h:outputText value="#{row.book.pricePerCopy}" /></f:facet>
-									 	<f:facet name="input"><h:outputText value="#{row.book.pricePerCopy}" /></f:facet>
+									 	<f:facet name="output"><h:outputText value="#{row.price}" /></f:facet>
+									 	<f:facet name="input"><h:inputText value="#{row.price}" /></f:facet>
 									  </p:cellEditor>
 									
 									<f:facet name="header">	<h:outputText value="Price" /> </f:facet>
@@ -205,7 +254,7 @@
 										</f:facet>
 									  </p:cellEditor>
 									
-									<f:facet name="header">	<h:outputText value="Price" /> </f:facet>
+									<f:facet name="header">	<h:outputText value="Condition" /> </f:facet>
 								</p:column>
 							
 								<p:column style="width:35px">

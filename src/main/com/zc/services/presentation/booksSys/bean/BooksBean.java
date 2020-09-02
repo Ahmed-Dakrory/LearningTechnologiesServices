@@ -140,9 +140,52 @@ public class BooksBean {
     }
 
 
+	public void updateBookDetails() {
+		InstructorDTO inst = getInsDataFacade.getInsByPersonID(selectedRequester);
+		Employee selectedRequesterEmployess = new Employee();
+		selectedRequesterEmployess.setMail(inst.getMail());
+		selectedRequesterEmployess.setId(inst.getId());
+		selectedRequesterEmployess.setName(inst.getName());
+		
+		
+		InstructorDTO inst2 = getInsDataFacade.getInsByPersonID(selectedProgramDirector);
+		Employee selectedProgramDirectorEmployess = new Employee();
+		selectedProgramDirectorEmployess.setMail(inst2.getMail());
+		selectedProgramDirectorEmployess.setId(inst2.getId());
+		selectedProgramDirectorEmployess.setName(inst2.getName());
+
+		detailedBook.setRequester(selectedRequesterEmployess);
+		detailedBook.setProgramDirector(selectedProgramDirectorEmployess);
+		facade.update(detailedBook);
+		
+		FacesMessage msg = new FacesMessage("Book Updated", "Book with id "+String.valueOf(detailedBook.getId())+" has been updated");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+	}
 	public void onRowSelect(SelectEvent event) {  
 	  	try {
 	  		BookDTO selectedDTO=(BookDTO) event.getObject();
+	  		try {
+	  			if(selectedDTO.getRequester()!=null) {
+	  				selectedRequester = selectedDTO.getRequester().getId();
+	  			}else {
+	  				selectedRequester = -1;
+	  			}
+	  		
+	  		}catch(Error e) {
+	  			
+	  		}
+	  		
+	  		try {
+	  			if(selectedDTO.getProgramDirector()!=null) {
+	  				selectedProgramDirector = selectedDTO.getProgramDirector().getId();
+	  			}else {
+	  				selectedProgramDirector = -1;
+	  			}
+	  		
+	  		}catch(Error e) {
+	  			
+	  		}
 	  		setDetailedBook(selectedDTO);
 	  	    getDetailedBook().setLogs(facade.getLogsOfBook(getDetailedBook().getId()));
 	  	    fillCopies();

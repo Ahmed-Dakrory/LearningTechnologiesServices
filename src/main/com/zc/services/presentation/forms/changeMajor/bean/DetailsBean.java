@@ -523,6 +523,7 @@ public class DetailsBean {
  	{
  		actionExistBefore=false;
  		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
+ 		if(dto.getActionDTO().get(index).getActionType()!=null) {
  		if(dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved)||
  				dto.getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Refused))
  		{
@@ -531,6 +532,7 @@ public class DetailsBean {
  			break;
  			
  			
+ 		}
  		}
  	}
  		if(actionExistBefore)
