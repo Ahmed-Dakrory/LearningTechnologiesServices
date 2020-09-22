@@ -48,7 +48,7 @@ public class ChangeConcentrationInsServiceImpl implements IChangeConcentrationIn
 		{
 			if(allForms.get(i).getPerformed()==null)
 			{
-				if(allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_REVIEW)||allForms.get(i).getStep().equals(PetitionStepsEnum.PA))
+				if(allForms.get(i).getStep().equals(PetitionStepsEnum.UNDER_REVIEW))
 				{
 					// first add list of actions to this petition 
 					List<PetitionsActions> actions=actionRep.getByPetitionIDAndForm(allForms.get(i).getId(),FormTypesEnum.CHANGECONCENTRATION.getValue());

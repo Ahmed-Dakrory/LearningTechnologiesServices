@@ -136,6 +136,12 @@ public class LeftNavigationMenuBean {
 	private boolean showCourseReplacement=false;
 	
 	
+	private boolean heIsDeanOfAcademic = false;
+	private boolean heIsDeanOfAcreditionEng = false;
+	private boolean heIsDeanOfAcreditionScie = false;
+	private boolean heIsDeanOfStrategic = false;
+	
+	
 	@ManagedProperty("#{ImportStudentsBean}")
 	ImportStudentsBean import_student_Bean;
 	@PostConstruct
@@ -183,12 +189,14 @@ public class LeftNavigationMenuBean {
 				String head5Mail="";
 				String head6Mail="";
 				String head7Mail="";
+				String head8Mail="";
 				Heads  typeHead2 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_ENGINEERING);
 				Heads  typeHead3 = headFacades.getByType(Heads.VICE_DIRECTOR_FOR_SCIENCE);
 				Heads  typeHead4 = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
 				Heads  typeHead5 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
 				Heads  typeHead6 = headFacades.getByType(Heads.REGISTRAR_STAFF);
 				Heads  typeHead7 = headFacades.getByType(Heads.TeachingEffectiveness_DEP);
+				Heads  typeHead8 = headFacades.getByType(Heads.DEAN_OF_ACADEMIC);
 				
 				
 				if(typeHead2!=null) {
@@ -221,21 +229,29 @@ public class LeftNavigationMenuBean {
 		
 				}
 				
+				if(typeHead8!=null) {
+					head8Mail=typeHead8.getHeadPersonId().getMail().toLowerCase();
+		
+				}
+				
 				if(mail.toLowerCase().equals(head2Mail))
 				{
 					//Engineering
 					headOrStudent=true;
+					heIsDeanOfAcreditionEng = true;
 					return;
 				}
 				else if(mail.toLowerCase().equals(head3Mail))
 				{
 					//Science
 					headOrStudent=true;
+					heIsDeanOfAcreditionScie = true;
 					return;
 				}
 				else if(mail.toLowerCase().equals(head4Mail))
 				{
 					headOrStudent=true;
+					heIsDeanOfStrategic = true;
 					return;
 				}
 				else if(mail.toLowerCase().equals(head5Mail))
@@ -253,6 +269,12 @@ public class LeftNavigationMenuBean {
 				{
 
 					headOrStudent=true;
+					return;
+				}else if(mail.toLowerCase().equals(head8Mail))
+				{
+
+					headOrStudent=true;
+					heIsDeanOfAcademic = true;
 					return;
 				}
 				else 
@@ -3158,6 +3180,46 @@ else
 
 	public void setAa_instructorFacade(aa_instructorAppServiceImpl aa_instructorFacade) {
 		this.aa_instructorFacade = aa_instructorFacade;
+	}
+
+
+	public boolean isHeIsDeanOfAcademic() {
+		return heIsDeanOfAcademic;
+	}
+
+
+	public void setHeIsDeanOfAcademic(boolean heIsDeanOfAcademic) {
+		this.heIsDeanOfAcademic = heIsDeanOfAcademic;
+	}
+
+
+	public boolean isHeIsDeanOfAcreditionEng() {
+		return heIsDeanOfAcreditionEng;
+	}
+
+
+	public void setHeIsDeanOfAcreditionEng(boolean heIsDeanOfAcreditionEng) {
+		this.heIsDeanOfAcreditionEng = heIsDeanOfAcreditionEng;
+	}
+
+
+	public boolean isHeIsDeanOfAcreditionScie() {
+		return heIsDeanOfAcreditionScie;
+	}
+
+
+	public void setHeIsDeanOfAcreditionScie(boolean heIsDeanOfAcreditionScie) {
+		this.heIsDeanOfAcreditionScie = heIsDeanOfAcreditionScie;
+	}
+
+
+	public boolean isHeIsDeanOfStrategic() {
+		return heIsDeanOfStrategic;
+	}
+
+
+	public void setHeIsDeanOfStrategic(boolean heIsDeanOfStrategic) {
+		this.heIsDeanOfStrategic = heIsDeanOfStrategic;
 	}
 
 

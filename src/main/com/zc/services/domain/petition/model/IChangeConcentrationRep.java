@@ -25,14 +25,17 @@ public interface IChangeConcentrationRep {
 	public ChangeConcentration getById(Integer id);
 	
 	public List<ChangeConcentration> getByStudentID(Integer id);
-	
+
 	public List<ChangeConcentration> getPendingByPA(Integer id);
+	public List<ChangeConcentration> getPendingByStudentId(Integer id);
 	
 	public List<ChangeConcentration> getOldByPA(Integer id);
 	
 	public List<ChangeConcentration> getAdHeadPending(Integer id);
-	
+
 	public List<ChangeConcentration> getAdDeptPending(Integer id);
+	public List<ChangeConcentration> getAdDeptPendingNoReminder();
+	public List<ChangeConcentration> getDeanOfAcademicPending(Integer id);
 	
 	public List<PendingPetitionCountObject> getInstructorPendingChangMajorPetition(boolean forDailyMAil ) ;
 	public List<ChangeConcentration> getOldSummer(Integer year);

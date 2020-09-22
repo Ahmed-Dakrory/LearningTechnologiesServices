@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.com.zc.services.applicationService.dashboard.IDashboardAppService;
+import main.com.zc.services.domain.petition.model.ChangeConcentration;
 import main.com.zc.services.domain.petition.model.ChangeMajorForm;
 import main.com.zc.services.domain.petition.model.CoursePetition;
 import main.com.zc.services.domain.petition.model.DropAddForm;
@@ -16,6 +17,7 @@ import main.com.zc.services.domain.petition.model.course_replacement_formForm;
 import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.dashboard.dto.AcademicPetitionDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.AddDropDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.ChangeConcentrationDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.ChangeMajorDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.CourseRepeatDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.DashboardElement;
@@ -434,6 +436,16 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		
 		elements.add(new AddDropDashboardElement(count.toString()));*/
 		
+		Integer count = 0;
+		//changeMajor
+			List<ChangeConcentration> ChangeConcentrationForms = dashboardAppServ.getAdmissionHeadChangeConcentrationPending();
+			count = 0;
+			if(ChangeConcentrationForms != null)
+				count = ChangeConcentrationForms.size();
+			
+			elements.add(new ChangeConcentrationDashboardElement(count.toString()));
+		
+		
 		//changeMajor
 			/*	List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
 				count = 0;
@@ -498,7 +510,13 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				
 				elements.add(new ChangeMajorDashboardElement(count.toString()));
 				
+				//ChangeConcentration
+				List<ChangeConcentration> changConcentrationForms = dashboardAppServ.getAdmissionDepartmentChangeConcentrationPending();
+				count = 0;
+				if(changConcentrationForms != null)
+					count = changConcentrationForms.size();
 				
+				elements.add(new ChangeConcentrationDashboardElement(count.toString()));
 				
 				//readmission
 				List<ReadmissionForm> readmissionForms = dashboardAppServ.getAdmissionDepartmentReadmissionPending();
@@ -589,8 +607,13 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		elements.add(new AddDropDashboardElement(count.toString()));
 		
 		//changeMajor
-				count = dashboardAppServ.getInstructorChangeMajorPending(mail);
-				elements.add(new ChangeMajorDashboardElement(count.toString()));
+		count = dashboardAppServ.getInstructorChangeMajorPending(mail);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		
+		//ChangeConcentration
+		count = dashboardAppServ.getInstructorChangeConcentrationPending(mail);
+		elements.add(new ChangeConcentrationDashboardElement(count.toString()));
 				
 				//courseReplacement
 				count = dashboardAppServ.getInstructorCourseReplacementForms( mail);
@@ -736,8 +759,13 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		elements.add(new AddDropDashboardElement(count.toString()));
 		
 		//changeMajor
-				count = dashboardAppServ.getStudentChangeMajorPending(studentId);
-				elements.add(new ChangeMajorDashboardElement(count.toString()));
+		count = dashboardAppServ.getStudentChangeMajorPending(studentId);
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		
+		//changeMajor
+		count = dashboardAppServ.getStudentChangeConcentrationPending(studentId);
+		elements.add(new ChangeConcentrationDashboardElement(count.toString()));
 				
 				//readmission
 				count = dashboardAppServ.getStudentReadmissionPending(studentId);

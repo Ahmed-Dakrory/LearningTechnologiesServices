@@ -36,10 +36,12 @@ import main.com.zc.services.applicationService.forms.tAJuniorProgram.service.IJu
 import main.com.zc.services.applicationService.forms.tAJuniorProgram.service.ITAJuniorProgramServiceStudent;
 import main.com.zc.services.domain.person.model.IEmployeeRepository;
 import main.com.zc.services.domain.person.model.Employee;
+import main.com.zc.services.domain.petition.model.ChangeConcentration;
 import main.com.zc.services.domain.petition.model.ChangeMajorForm;
 import main.com.zc.services.domain.petition.model.CoursePetition;
 import main.com.zc.services.domain.petition.model.DropAddForm;
 import main.com.zc.services.domain.petition.model.IAddDropFormRepository;
+import main.com.zc.services.domain.petition.model.IChangeConcentrationRep;
 import main.com.zc.services.domain.petition.model.IChangeMajorFormRep;
 import main.com.zc.services.domain.petition.model.ICoursePetitionRep;
 import main.com.zc.services.domain.petition.model.IMajorRepository;
@@ -83,9 +85,13 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	
 	@Autowired
 	IAddDropFormRepository addDropRep;
-	
+
 	@Autowired
 	IChangeMajorFormRep changeMajorRep;
+	
+
+	@Autowired
+	IChangeConcentrationRep changeConcentrationRep;
 	
 	
 	@Autowired
@@ -1393,6 +1399,51 @@ public List<ReadmissionForm> getPendingFormsOfAdmission() {
 		// TODO Auto-generated method stub
 		List<courseReplacement> pendingFormsList = courseReplacementRep.getAllForStepAndType(courseReplacement.TYPE_SCIENCE, courseReplacement.STEP_DirectorOfAccredition);
 		return pendingFormsList.size();
+	}
+
+	
+
+	
+
+	@Override
+	public List<ChangeConcentration> getAdmissionDepartmentChangeConcentrationPending() {
+		List<ChangeConcentration> forms = changeConcentrationRep.getAdDeptPendingNoReminder();
+		return forms;
+	}
+
+	@Override
+	public List<ChangeConcentration> getDeanChangeConcentrationPending() {
+		List<ChangeConcentration> forms = changeConcentrationRep.getDeanOfAcademicPending(1);
+		return forms;
+	}
+
+	
+
+	@Override
+	public Integer getInstructorChangeConcentrationPending(String mail) {
+		List<PendingPetitionCountObject> data = changeConcentrationRep.getInstructorPendingChangMajorPetition(true);
+		for (PendingPetitionCountObject pendingPetitionCountObject : data) 
+			if(pendingPetitionCountObject.getInstructor().getMail().equalsIgnoreCase(mail))
+				return Integer.valueOf(pendingPetitionCountObject.getPetionCount().toString());
+		
+		//if not found
+		return 0;
+		
+	}
+
+	@Override
+	public Integer getStudentChangeConcentrationPending(Integer studentId) {
+		List<ChangeConcentration> forms = changeConcentrationRep.getPendingByStudentId(studentId);
+		if(forms != null)
+			return forms.size();
+		else
+			return 0;
+	}
+
+	@Override
+	public List<ChangeConcentration> getAdmissionHeadChangeConcentrationPending() {
+		List<ChangeConcentration> forms = changeConcentrationRep.getAdHeadPending(1);
+		return forms;
 	}
 
 	

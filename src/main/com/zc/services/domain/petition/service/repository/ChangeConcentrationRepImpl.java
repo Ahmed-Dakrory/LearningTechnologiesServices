@@ -167,7 +167,7 @@ public class ChangeConcentrationRepImpl implements IChangeConcentrationRep {
 	public List<ChangeConcentration> getAdHeadPending(Integer id) {
 		try{
 			Query query = sessionFactory.getCurrentSession()
-					.getNamedQuery("ChangeConcentration.getAdHeadPending").setInteger("id", id);
+					.getNamedQuery("ChangeConcentration.getAdHeadPendingNow");
 
 			@SuppressWarnings("unchecked")
 			List<ChangeConcentration> results = query.list();
@@ -186,6 +186,25 @@ public class ChangeConcentrationRepImpl implements IChangeConcentrationRep {
 		try{
 			Query query = sessionFactory.getCurrentSession()
 					.getNamedQuery("ChangeConcentration.getAdDeptPending").setInteger("id", id);
+
+			@SuppressWarnings("unchecked")
+			List<ChangeConcentration> results = query.list();
+			return results;
+			}
+			catch(Exception ex)
+			{
+				
+				ex.printStackTrace();
+				return null;
+			}
+	}
+	
+	
+	@Override
+	public List<ChangeConcentration> getAdDeptPendingNoReminder() {
+		try{
+			Query query = sessionFactory.getCurrentSession()
+					.getNamedQuery("ChangeConcentration.getAdDeptPendingNoReminder");
 
 			@SuppressWarnings("unchecked")
 			List<ChangeConcentration> results = query.list();
@@ -263,6 +282,29 @@ public class ChangeConcentrationRepImpl implements IChangeConcentrationRep {
 				ex.printStackTrace();
 				return null;
 			}
+	}
+
+	@Override
+	public List<ChangeConcentration> getPendingByStudentId(Integer id) {
+		try{
+			Query query = sessionFactory.getCurrentSession().getNamedQuery("ChangeConcentration.getStudentPending").setInteger("id", id);
+
+			@SuppressWarnings("unchecked")
+			List<ChangeConcentration> results = query.list();
+			return results;
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Error in getting forms ");
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+	@Override
+	public List<ChangeConcentration> getDeanOfAcademicPending(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

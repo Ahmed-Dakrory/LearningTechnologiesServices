@@ -88,6 +88,8 @@ public class DashboardBean
 			return leftNavigationMenuBean.renderIncompleteGrade();
 		else if(url.equals("newjuniorTA"))
 			return leftNavigationMenuBean.renderJuniorTAProgram();
+		else if(url.equals("changeconcentration"))
+				return leftNavigationMenuBean.renderChangeConcentration();
 		else
 			return "";
 	}

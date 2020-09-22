@@ -20,16 +20,16 @@
 				</ul>
 				<div class="pannelWrapper">
 					<p:panel id="petitionPanel">
-						<p:selectOneMenu id="request" value="#{ChangeMajorInstructorBean.typeOfUser}" rendered="#{ChangeMajorInstructorBean.deanMood}">
+						<p:selectOneMenu id="request" value="#{ChangeMajorInstructorBean.typeOfUser}" rendered="#{leftNavigationMenuBean.heIsDeanOfAcademic}">
 							<f:selectItems var="userType" value="#{ChangeMajorInstructorBean.userTypesLst}" itemLabel="#{userType.name}" itemValue="#{userType.id}" />
 							<p:ajax listener="#{ChangeMajorInstructorBean.navigate}" update="mainPnl" />				
 						</p:selectOneMenu>
 					<h:panelGroup id="pageContent">
 						<p:panel id="mainPnl">
 							<p:tabMenu activeIndex="#{(ChangeMajorInstructorBean.detailView)?2:0}" id="ins">
-								<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean.xhtml" rendered="#{ChangeMajorInstructorBean.showIns}"/>
+								<p:menuitem value="Pending Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean.xhtml" rendered="true"/>
 								<p:menuitem value="Old Petitions" url="/pages/secured/forms/changeMajor/changeMajorDean1.xhtml" rendered="#{ChangeMajorInstructorBean.showIns}"/>
-								<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" />
+								<p:menuitem value="Submitted Petitions" url="/pages/secured/forms/changeMajor/inprogressPetitions.xhtml" rendered="false" />
 						
 							
 						</p:tabMenu>
