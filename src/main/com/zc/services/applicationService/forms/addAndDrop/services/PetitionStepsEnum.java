@@ -55,18 +55,6 @@ public enum PetitionStepsEnum {
 		}
 	,
 	
-	ADMISSION_HEAD(14) {
-			@Override
-			public int getID() {
-				return 14;
-			}
-			@Override
-			public String getName() {
-				return "Waiting For Action From Admission Head";
-			}
-			
-		}
-	,
 	
 	ADMISSION_DEPT(4) {
 			@Override
