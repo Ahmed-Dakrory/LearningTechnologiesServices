@@ -32,7 +32,7 @@ import org.hibernate.annotations.NamedQuery;
      )
 	,
 	 @NamedQuery(name="Student.getByMail",
-    query="from Student p where LOWER(p.data.mail) LIKE :mail"
+    query="from Student p where LOWER(p.data.mail) = :mail"
     )
 	,
 	 @NamedQuery(name="Student.getByLevel",
