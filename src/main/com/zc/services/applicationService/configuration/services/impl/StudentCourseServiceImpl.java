@@ -782,12 +782,20 @@ course.setCoordinator(inDTO);
 					
 					if (count ==4) {// Phone
 						
-						 
 
-						try {
-						    	student.setPhone(getTheValueFromCell(cell));
-						}catch (Error ex) { //
-						}
+//						System.out.println("Value i = "+i+" count: 1, Value"+getTheValueFromCell(cell));
+						
+							try{
+								String data = getTheValueFromCell(cell);
+								if(!data.equalsIgnoreCase("")) {
+								student.setPhone(String.valueOf((int)Double.parseDouble(data)));
+								}
+							}
+							catch (Error ex) { //
+								System.out.println(ex);
+							}
+
+						
 					    	
 						
 					}
@@ -1020,7 +1028,7 @@ course.setCoordinator(inDTO);
         	 returnedValue = String.valueOf(cell.getStringCellValue());
              break;
          case Cell.CELL_TYPE_NUMERIC:
-        	 float number = (float) cell.getNumericCellValue();
+        	 double number = (double) cell.getNumericCellValue();
         	 returnedValue = String.valueOf(number);
              break;
          case Cell.CELL_TYPE_BOOLEAN:

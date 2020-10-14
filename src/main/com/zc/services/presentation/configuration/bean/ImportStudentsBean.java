@@ -69,6 +69,7 @@ public class ImportStudentsBean {
 			inputStream=file.getInputstream();
 			List<StudentDTO> list=facade.praseStudentFile(inputStream);
 
+			System.out.println("SizeNow : "+list.size());
 			//System.out.println("Ahmed Dakrory1: List: "+String.valueOf(list.size()));
 			//list.remove(list.get(list.size()-1));
 		    students=list;
