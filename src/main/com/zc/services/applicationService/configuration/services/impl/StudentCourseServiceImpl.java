@@ -137,6 +137,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 						System.out.println("ID: "+String.valueOf(count));
 						try {
 							student.setFacultyId(Integer.valueOf(getTheValueFromCellType(cell)));
+							System.out.println("ID: "+String.valueOf(Integer.valueOf(getTheValueFromCellType(cell))));
 						}catch (Exception ex) { //
 						}
 							 
