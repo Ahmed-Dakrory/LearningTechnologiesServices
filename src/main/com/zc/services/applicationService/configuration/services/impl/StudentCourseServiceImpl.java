@@ -460,7 +460,7 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 
 			// Iterate through each rows one by one
 			int rowsNumbers = sheet.getLastRowNum();
-			 for(int i=0;i<=rowsNumbers;i++) {
+			 for(int i=1;i<=rowsNumbers;i++) {
 					Row row = sheet.getRow(i);
 				CoursesDTO course=new CoursesDTO();
 				String instructorName = "";
@@ -479,11 +479,12 @@ public class StudentCourseServiceImpl implements IStudentCourseService{
 			
 							
 						
-						/*	System.out.print(cell.getStringCellValue());*/
+							
 							try{
+								System.out.print(getTheValueFromCell2(cell));
 								course.setYear(Integer.parseInt(getTheValueFromCell2(cell)));
 							}
-							catch(Exception ex)
+							catch(Error ex)
 							{
 								ex.printStackTrace();
 								
@@ -520,7 +521,17 @@ if (count ==3) { // course code
 
 if (count ==10) { // course code
 	
+	try{
 		course.setClo(getTheValueFromCell2(cell));
+	}
+	catch(Error ex)
+	{
+		ex.printStackTrace();
+		
+	}catch(Exception e) {
+		
+	}
+		
 	      
 	
 
