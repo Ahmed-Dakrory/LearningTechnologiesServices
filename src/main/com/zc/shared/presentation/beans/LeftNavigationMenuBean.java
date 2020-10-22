@@ -164,7 +164,7 @@ public class LeftNavigationMenuBean {
 			}
 			else
 			{
-				
+
 				List<MajorDTO> majors=majorfacade.getAll();
 				for(int i=0;i<majors.size();i++){
 					MajorDTO major=majors.get(i);
@@ -172,7 +172,6 @@ public class LeftNavigationMenuBean {
 					{
 						
 						headOrStudent=true;
-						return;
 					}
 				}
 				/*
@@ -198,7 +197,7 @@ public class LeftNavigationMenuBean {
 				Heads  typeHead7 = headFacades.getByType(Heads.TeachingEffectiveness_DEP);
 				Heads  typeHead8 = headFacades.getByType(Heads.DEAN_OF_ACADEMIC);
 				
-				
+
 				if(typeHead2!=null) {
 					head2Mail=typeHead2.getHeadPersonId().getMail().toLowerCase();
 		
@@ -233,6 +232,29 @@ public class LeftNavigationMenuBean {
 					head8Mail=typeHead8.getHeadPersonId().getMail().toLowerCase();
 		
 				}
+
+				if(mail.toLowerCase().equals(head8Mail)){
+
+
+					headOrStudent=true;
+					heIsDeanOfAcademic = true;
+					
+				}
+				
+				
+				if(mail.toLowerCase().equals(head4Mail))
+				{
+					headOrStudent=true;
+					heIsDeanOfStrategic = true;
+				}
+				
+				
+				if(mail.toLowerCase().equals(head3Mail))
+				{
+					//Science
+					headOrStudent=true;
+					heIsDeanOfAcreditionScie = true;
+				}
 				
 				if(mail.toLowerCase().equals(head2Mail))
 				{
@@ -241,19 +263,7 @@ public class LeftNavigationMenuBean {
 					heIsDeanOfAcreditionEng = true;
 					return;
 				}
-				else if(mail.toLowerCase().equals(head3Mail))
-				{
-					//Science
-					headOrStudent=true;
-					heIsDeanOfAcreditionScie = true;
-					return;
-				}
-				else if(mail.toLowerCase().equals(head4Mail))
-				{
-					headOrStudent=true;
-					heIsDeanOfStrategic = true;
-					return;
-				}
+				 
 				else if(mail.toLowerCase().equals(head5Mail))
 				{
 
@@ -270,19 +280,16 @@ public class LeftNavigationMenuBean {
 
 					headOrStudent=true;
 					return;
-				}else if(mail.toLowerCase().equals(head8Mail))
-				{
-
-					headOrStudent=true;
-					heIsDeanOfAcademic = true;
-					return;
-				}
-				else 
+				}else 
 				{
 
 					headOrStudent=false;
 					return;
 				}
+
+				
+				
+				
 				
 			
 			}
