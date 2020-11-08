@@ -94,8 +94,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Ahmed.Dakrory/Desktop/primefaces-7.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ahmed.Dakrory/Desktop/primefaces-6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Ahmed.Dakrory/Desktop/primefaces-extensions-6.2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

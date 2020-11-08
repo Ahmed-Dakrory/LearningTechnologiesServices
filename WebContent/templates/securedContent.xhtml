@@ -47,6 +47,10 @@
 					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.seeGraduationFormReponses}" 
 					value="Graduation Form" action="#{leftNavigationMenuBean.renderGraduationForm}" class="#{leftNavigationMenuBean.getActiveCssName('Graduation Form')}"/>
 					
+					
+					<p:commandLink ajax="false" immediate="true" rendered="#{leftNavigationMenuBean.isInstructorHasCourseFile()}" 
+					value="Course File Instructions" action="#{leftNavigationMenuBean.renderCouseFileInstructions}" class="#{leftNavigationMenuBean.getActiveCssName('Graduation Form')}"/>
+					
 					<h:outputLink target="_blank" value="#{leftNavigationMenuBean.helpFile}">Help</h:outputLink>
 					<h:panelGrid width="100%"  rendered="#{leftNavigationMenuBean.seeResultsOfIntendedMajor}">
 						<ui:remove><h3>Intended</h3></ui:remove>

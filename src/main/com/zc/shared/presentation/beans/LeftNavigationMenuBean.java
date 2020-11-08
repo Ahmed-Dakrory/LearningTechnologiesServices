@@ -19,6 +19,8 @@ import main.com.zc.service.academic_advising_instructor.aa_instructor;
 import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.service.instructor_courses_file.instructor_courses_file;
+import main.com.zc.service.instructor_courses_file.instructor_courses_fileAppServiceImpl;
 import main.com.zc.services.domain.model.heads.Heads;
 import main.com.zc.services.domain.petition.model.Majors;
 import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
@@ -144,6 +146,10 @@ public class LeftNavigationMenuBean {
 	
 	@ManagedProperty("#{ImportStudentsBean}")
 	ImportStudentsBean import_student_Bean;
+	
+
+	@ManagedProperty(value = "#{instructor_courses_fileFacadeImpl}")
+	private instructor_courses_fileAppServiceImpl instructor_courses_fileFacade;
 	@PostConstruct
 	public void init() {
 		
@@ -337,7 +343,31 @@ public class LeftNavigationMenuBean {
 		return cloAvailable;
 	}
 	
-	
+	public boolean isInstructorHasCourseFile() {
+		FormsStatusDTO settingform = formStatus.getById(23);
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String mail = authentication.getName();
+		FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))
+		{
+			List<instructor_courses_file>	allinstructorCoursesWithLink = instructor_courses_fileFacade.getAllByInstructorEmailAndYearAndSemester(mail,String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+			if(allinstructorCoursesWithLink!=null) {
+			if (allinstructorCoursesWithLink.size()>0) {
+				return true;
+			}else {
+				return false;
+			}
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
 	public boolean InAcademicAdvising() {
 
 		FormsStatusDTO settingform = formStatus.getById(23);
@@ -2798,6 +2828,23 @@ else
 			return"/pages/public/login.xhtml?faces-redirect=true";
 		}
 	}
+	
+	public String renderCouseFileInstructions()
+	{
+		currentMenuId = "Course File Instructions";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			return"/pages/secured/courseFileInstructions/instructions.xhtml?faces-redirect=true";
+		}
+		else
+		{
+			return"/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
 	public String renderGraduationForm()
 	{
 		currentMenuId = "Graduation Form";
@@ -3227,6 +3274,16 @@ else
 
 	public void setHeIsDeanOfStrategic(boolean heIsDeanOfStrategic) {
 		this.heIsDeanOfStrategic = heIsDeanOfStrategic;
+	}
+
+
+	public instructor_courses_fileAppServiceImpl getInstructor_courses_fileFacade() {
+		return instructor_courses_fileFacade;
+	}
+
+
+	public void setInstructor_courses_fileFacade(instructor_courses_fileAppServiceImpl instructor_courses_fileFacade) {
+		this.instructor_courses_fileFacade = instructor_courses_fileFacade;
 	}
 
 

@@ -1,0 +1,932 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course File Instructions</ui:define>
+		
+		<ui:define name="content">
+		
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+#{courseFileInstructorBean.refresh()}
+<style type="text/css">
+.lst-kix_syrqaq6ta897-4>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-4}ol.lst-kix_y1sclulod024-4.start{counter-reset:lst-ctn-kix_y1sclulod024-4 0}ol.lst-kix_syrqaq6ta897-3.start{counter-reset:lst-ctn-kix_syrqaq6ta897-3 0}.lst-kix_y1sclulod024-1>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-1,lower-latin) ". "}ol.lst-kix_syrqaq6ta897-8{list-style-type:none}.lst-kix_list_2-1>
+li{counter-increment:lst-ctn-kix_list_2-1}ol.lst-kix_syrqaq6ta897-7{list-style-type:none}ul.lst-kix_list_1-0{list-style-type:none}.lst-kix_y1sclulod024-0>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-0,decimal) ". "}.lst-kix_y1sclulod024-3>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-3,decimal) ". "}ol.lst-kix_syrqaq6ta897-4{list-style-type:none}ol.lst-kix_syrqaq6ta897-3{list-style-type:none}ol.lst-kix_syrqaq6ta897-6{list-style-type:none}ol.lst-kix_syrqaq6ta897-5{list-style-type:none}ol.lst-kix_syrqaq6ta897-0{list-style-type:none}.lst-kix_list_3-0>
+li:before{content:"\0025cf  "}.lst-kix_y1sclulod024-2>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-2,lower-roman) ". "}ol.lst-kix_syrqaq6ta897-2{list-style-type:none}ol.lst-kix_y1sclulod024-1.start{counter-reset:lst-ctn-kix_y1sclulod024-1 0}ol.lst-kix_syrqaq6ta897-1{list-style-type:none}ol.lst-kix_syrqaq6ta897-6.start{counter-reset:lst-ctn-kix_syrqaq6ta897-6 0}.lst-kix_list_3-1>
+li:before{content:"o  "}.lst-kix_list_3-2>
+li:before{content:"\0025cf  "}ol.lst-kix_y1sclulod024-7.start{counter-reset:lst-ctn-kix_y1sclulod024-7 0}.lst-kix_syrqaq6ta897-3>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-3}ol.lst-kix_y1sclulod024-8{list-style-type:none}ul.lst-kix_list_1-3{list-style-type:none}.lst-kix_list_3-5>
+li:before{content:"\0025cf  "}ol.lst-kix_y1sclulod024-7{list-style-type:none}ul.lst-kix_list_1-4{list-style-type:none}ol.lst-kix_y1sclulod024-6{list-style-type:none}ul.lst-kix_list_1-1{list-style-type:none}.lst-kix_list_3-4>
+li:before{content:"\0025cf  "}ol.lst-kix_y1sclulod024-5{list-style-type:none}ul.lst-kix_list_1-2{list-style-type:none}ul.lst-kix_list_1-7{list-style-type:none}.lst-kix_list_3-3>
+li:before{content:"\0025cf  "}ul.lst-kix_list_1-8{list-style-type:none}ul.lst-kix_list_1-5{list-style-type:none}ul.lst-kix_list_1-6{list-style-type:none}ol.lst-kix_y1sclulod024-0{list-style-type:none}.lst-kix_list_3-8>
+li:before{content:"\0025cf  "}ol.lst-kix_y1sclulod024-4{list-style-type:none}ol.lst-kix_y1sclulod024-3{list-style-type:none}ol.lst-kix_y1sclulod024-2{list-style-type:none}ol.lst-kix_y1sclulod024-1{list-style-type:none}.lst-kix_list_3-6>
+li:before{content:"\0025cf  "}.lst-kix_syrqaq6ta897-2>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-2}.lst-kix_list_3-7>
+li:before{content:"\0025cf  "}.lst-kix_syrqaq6ta897-5>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-5}ul.lst-kix_flach4o9g6wo-8{list-style-type:none}ul.lst-kix_flach4o9g6wo-4{list-style-type:none}ul.lst-kix_flach4o9g6wo-5{list-style-type:none}ul.lst-kix_flach4o9g6wo-6{list-style-type:none}ul.lst-kix_flach4o9g6wo-7{list-style-type:none}ul.lst-kix_flach4o9g6wo-0{list-style-type:none}.lst-kix_y1sclulod024-8>
+li{counter-increment:lst-ctn-kix_y1sclulod024-8}ul.lst-kix_flach4o9g6wo-1{list-style-type:none}ul.lst-kix_flach4o9g6wo-2{list-style-type:none}ul.lst-kix_flach4o9g6wo-3{list-style-type:none}ol.lst-kix_syrqaq6ta897-8.start{counter-reset:lst-ctn-kix_syrqaq6ta897-8 0}ol.lst-kix_list_2-1{list-style-type:none}.lst-kix_list_4-8>
+li:before{content:"\0025cf  "}.lst-kix_m0heixhup3lr-1>
+li:before{content:"\0025cb  "}.lst-kix_list_4-7>
+li:before{content:"\0025cf  "}ol.lst-kix_y1sclulod024-6.start{counter-reset:lst-ctn-kix_y1sclulod024-6 0}.lst-kix_m0heixhup3lr-0>
+li:before{content:"\0025cf  "}ul.lst-kix_list_4-8{list-style-type:none}.lst-kix_flach4o9g6wo-8>
+li:before{content:"\0025a0  "}ul.lst-kix_list_4-6{list-style-type:none}ul.lst-kix_list_4-7{list-style-type:none}.lst-kix_flach4o9g6wo-7>
+li:before{content:"\0025cb  "}ul.lst-kix_list_4-0{list-style-type:none}ul.lst-kix_list_4-1{list-style-type:none}.lst-kix_flach4o9g6wo-4>
+li:before{content:"\0025cb  "}.lst-kix_flach4o9g6wo-5>
+li:before{content:"\0025a0  "}ol.lst-kix_syrqaq6ta897-1.start{counter-reset:lst-ctn-kix_syrqaq6ta897-1 0}ul.lst-kix_list_4-4{list-style-type:none}ul.lst-kix_list_4-5{list-style-type:none}.lst-kix_syrqaq6ta897-6>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-6}.lst-kix_flach4o9g6wo-6>
+li:before{content:"\0025cf  "}ul.lst-kix_list_4-2{list-style-type:none}ul.lst-kix_list_4-3{list-style-type:none}.lst-kix_m0heixhup3lr-7>
+li:before{content:"\0025cb  "}ol.lst-kix_syrqaq6ta897-7.start{counter-reset:lst-ctn-kix_syrqaq6ta897-7 0}.lst-kix_m0heixhup3lr-8>
+li:before{content:"\0025a0  "}.lst-kix_y1sclulod024-4>
+li{counter-increment:lst-ctn-kix_y1sclulod024-4}.lst-kix_m0heixhup3lr-5>
+li:before{content:"\0025a0  "}.lst-kix_y1sclulod024-7>
+li{counter-increment:lst-ctn-kix_y1sclulod024-7}.lst-kix_y1sclulod024-1>
+li{counter-increment:lst-ctn-kix_y1sclulod024-1}ol.lst-kix_syrqaq6ta897-0.start{counter-reset:lst-ctn-kix_syrqaq6ta897-0 0}ol.lst-kix_y1sclulod024-0.start{counter-reset:lst-ctn-kix_y1sclulod024-0 0}.lst-kix_m0heixhup3lr-2>
+li:before{content:"\0025a0  "}.lst-kix_m0heixhup3lr-6>
+li:before{content:"\0025cf  "}.lst-kix_m0heixhup3lr-3>
+li:before{content:"\0025cf  "}.lst-kix_m0heixhup3lr-4>
+li:before{content:"\0025cb  "}.lst-kix_list_2-6>
+li:before{content:"\0025cf  "}.lst-kix_list_2-7>
+li:before{content:"\0025cf  "}.lst-kix_list_2-4>
+li:before{content:"\0025cf  "}.lst-kix_list_2-5>
+li:before{content:"\0025cf  "}.lst-kix_list_2-8>
+li:before{content:"\0025cf  "}.lst-kix_y1sclulod024-2>
+li{counter-increment:lst-ctn-kix_y1sclulod024-2}ul.lst-kix_list_3-7{list-style-type:none}ul.lst-kix_list_3-8{list-style-type:none}ul.lst-kix_list_3-1{list-style-type:none}ul.lst-kix_list_3-2{list-style-type:none}.lst-kix_y1sclulod024-3>
+li{counter-increment:lst-ctn-kix_y1sclulod024-3}ul.lst-kix_list_3-0{list-style-type:none}ul.lst-kix_list_3-5{list-style-type:none}ul.lst-kix_list_3-6{list-style-type:none}ul.lst-kix_list_3-3{list-style-type:none}ul.lst-kix_list_3-4{list-style-type:none}.lst-kix_flach4o9g6wo-0>
+li:before{content:"\0025cf  "}.lst-kix_flach4o9g6wo-1>
+li:before{content:"\0025cb  "}ul.lst-kix_m0heixhup3lr-8{list-style-type:none}ul.lst-kix_m0heixhup3lr-5{list-style-type:none}ol.lst-kix_syrqaq6ta897-2.start{counter-reset:lst-ctn-kix_syrqaq6ta897-2 0}.lst-kix_flach4o9g6wo-3>
+li:before{content:"\0025cf  "}ul.lst-kix_m0heixhup3lr-4{list-style-type:none}ul.lst-kix_m0heixhup3lr-7{list-style-type:none}ul.lst-kix_m0heixhup3lr-6{list-style-type:none}.lst-kix_list_4-0>
+li:before{content:"\0025cf  "}.lst-kix_syrqaq6ta897-0>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-0}ul.lst-kix_m0heixhup3lr-1{list-style-type:none}.lst-kix_syrqaq6ta897-8>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-8}ul.lst-kix_m0heixhup3lr-0{list-style-type:none}.lst-kix_list_4-1>
+li:before{content:"o  "}ul.lst-kix_m0heixhup3lr-3{list-style-type:none}ul.lst-kix_m0heixhup3lr-2{list-style-type:none}ol.lst-kix_y1sclulod024-5.start{counter-reset:lst-ctn-kix_y1sclulod024-5 0}.lst-kix_flach4o9g6wo-2>
+li:before{content:"\0025a0  "}.lst-kix_list_4-4>
+li:before{content:"\0025cf  "}.lst-kix_list_4-3>
+li:before{content:"\0025cf  "}.lst-kix_list_4-5>
+li:before{content:"\0025cf  "}.lst-kix_list_4-2>
+li:before{content:"\0025aa  "}.lst-kix_list_4-6>
+li:before{content:"\0025cf  "}ol.lst-kix_y1sclulod024-8.start{counter-reset:lst-ctn-kix_y1sclulod024-8 0}ol.lst-kix_syrqaq6ta897-5.start{counter-reset:lst-ctn-kix_syrqaq6ta897-5 0}.lst-kix_syrqaq6ta897-7>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-7}.lst-kix_syrqaq6ta897-0>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-0,decimal) ". "}.lst-kix_y1sclulod024-5>
+li{counter-increment:lst-ctn-kix_y1sclulod024-5}ul.lst-kix_list_2-8{list-style-type:none}ol.lst-kix_y1sclulod024-2.start{counter-reset:lst-ctn-kix_y1sclulod024-2 0}.lst-kix_syrqaq6ta897-8>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-8,lower-roman) ". "}.lst-kix_y1sclulod024-0>
+li{counter-increment:lst-ctn-kix_y1sclulod024-0}ul.lst-kix_list_2-2{list-style-type:none}.lst-kix_list_1-0>
+li:before{content:"\0025cf  "}ul.lst-kix_list_2-3{list-style-type:none}ul.lst-kix_list_2-0{list-style-type:none}ul.lst-kix_list_2-6{list-style-type:none}.lst-kix_y1sclulod024-6>
+li{counter-increment:lst-ctn-kix_y1sclulod024-6}.lst-kix_list_1-1>
+li:before{content:"\0025cf  "}.lst-kix_list_1-2>
+li:before{content:"\0025cf  "}ul.lst-kix_list_2-7{list-style-type:none}ul.lst-kix_list_2-4{list-style-type:none}ul.lst-kix_list_2-5{list-style-type:none}.lst-kix_list_1-3>
+li:before{content:"\0025cf  "}.lst-kix_list_1-4>
+li:before{content:"\0025cf  "}ol.lst-kix_syrqaq6ta897-4.start{counter-reset:lst-ctn-kix_syrqaq6ta897-4 0}.lst-kix_list_1-7>
+li:before{content:"\0025cf  "}.lst-kix_syrqaq6ta897-7>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-7,lower-latin) ". "}.lst-kix_list_1-5>
+li:before{content:"\0025cf  "}.lst-kix_list_1-6>
+li:before{content:"\0025cf  "}.lst-kix_y1sclulod024-7>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-7,lower-latin) ". "}.lst-kix_syrqaq6ta897-5>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-5,lower-roman) ". "}.lst-kix_syrqaq6ta897-6>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-6,decimal) ". "}.lst-kix_y1sclulod024-5>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-5,lower-roman) ". "}.lst-kix_syrqaq6ta897-4>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-4,lower-latin) ". "}.lst-kix_list_2-0>
+li:before{content:"\0025cf  "}.lst-kix_list_2-1>
+li:before{content:"" counter(lst-ctn-kix_list_2-1,decimal) ". "}ol.lst-kix_list_2-1.start{counter-reset:lst-ctn-kix_list_2-1 0}.lst-kix_y1sclulod024-4>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-4,lower-latin) ". "}.lst-kix_y1sclulod024-8>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-8,lower-roman) ". "}ol.lst-kix_y1sclulod024-3.start{counter-reset:lst-ctn-kix_y1sclulod024-3 0}.lst-kix_syrqaq6ta897-1>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-1,lower-latin) ". "}.lst-kix_syrqaq6ta897-2>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-2,lower-roman) ". "}.lst-kix_list_1-8>
+li:before{content:"\0025cf  "}.lst-kix_list_2-2>
+li:before{content:"\0025cf  "}.lst-kix_list_2-3>
+li:before{content:"\0025cf  "}.lst-kix_syrqaq6ta897-3>
+li:before{content:"" counter(lst-ctn-kix_syrqaq6ta897-3,decimal) ". "}.lst-kix_y1sclulod024-6>
+li:before{content:"" counter(lst-ctn-kix_y1sclulod024-6,decimal) ". "}.lst-kix_syrqaq6ta897-1>
+li{counter-increment:lst-ctn-kix_syrqaq6ta897-1}ol{margin:0;padding:0}table td,table th{padding:0}.c5{border-right-style:solid;padding:2pt 2pt 2pt 2pt;border-bottom-color:#000000;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:middle;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;background-color:#fce5cd;border-left-style:solid;border-bottom-width:1pt;width:216pt;border-top-color:#000000;border-bottom-style:solid}.c19{border-right-style:solid;padding:2pt 2pt 2pt 2pt;border-bottom-color:#000000;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:middle;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:57.8pt;border-top-color:#000000;border-bottom-style:solid}.c14{border-right-style:solid;padding:2pt 2pt 2pt 2pt;border-bottom-color:#000000;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:middle;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:216pt;border-top-color:#000000;border-bottom-style:solid}.c7{border-right-style:solid;padding:2pt 2pt 2pt 2pt;border-bottom-color:#000000;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:middle;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:117.5pt;border-top-color:#000000;border-bottom-style:solid}.c22{border-right-style:solid;padding:2pt 2pt 2pt 2pt;border-bottom-color:#000000;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:middle;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:17.4pt;border-top-color:#000000;border-bottom-style:solid}.c6{border-right-style:solid;padding:2pt 2pt 2pt 2pt;border-bottom-color:#000000;border-top-width:1pt;border-right-width:1pt;border-left-color:#000000;vertical-align:middle;border-right-color:#000000;border-left-width:1pt;border-top-style:solid;border-left-style:solid;border-bottom-width:1pt;width:59.2pt;border-top-color:#000000;border-bottom-style:solid}.c18{margin-left:36pt;padding-top:0pt;padding-left:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:left}.c4{margin-left:72pt;padding-top:0pt;padding-left:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:left}.c35{margin-left:36pt;padding-top:0pt;padding-left:0pt;padding-bottom:14pt;line-height:1.0;orphans:2;widows:2;text-align:left}.c31{padding-top:18pt;padding-bottom:12pt;line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:center}.c37{color:#666666;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:24pt;font-family:"Georgia";font-style:italic}.c33{padding-top:24pt;padding-bottom:12pt;line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:center}.c21{padding-top:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:left;height:12pt}.c1{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10pt;font-family:"Arial";font-style:normal}.c29{color:#c00000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:12pt;font-family:"Times New Roman";font-style:normal}.c8{color:#000000;font-weight:700;text-decoration:none;vertical-align:baseline;font-size:10pt;font-family:"Times New Roman";font-style:normal}.c17{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:12pt;font-family:"Times New Roman";font-style:normal}.c13{color:#000000;text-decoration:none;vertical-align:baseline;font-size:36pt;font-family:"Times New Roman";font-style:normal}.c38{padding-top:0pt;padding-bottom:14pt;line-height:1.0;orphans:2;widows:2;text-align:left}.c26{padding-top:0pt;padding-bottom:0pt;line-height:1.0;orphans:2;widows:2;text-align:left}.c34{color:#000000;text-decoration:none;vertical-align:baseline;font-size:12pt;font-family:"Times New Roman";font-style:normal}.c32{font-weight:400;vertical-align:baseline;font-family:"Times New Roman";font-style:normal}.c2{padding-top:0pt;padding-bottom:0pt;line-height:1.15;text-align:left}.c25{border-spacing:0;border-collapse:collapse;margin-right:auto}.c0{padding-top:0pt;padding-bottom:0pt;line-height:1.15;text-align:center}.c15{text-decoration-skip-ink:none;-webkit-text-decoration-skip:none;color:#1155cc;text-decoration:underline}.c40{background-color:#ffffff;padding:72pt 72pt 72pt 72pt}.c10{color:inherit;text-decoration:inherit}.c24{font-family:"Arial";color:#ffffff}.c39{color:#000000;text-decoration:none}.c27{padding:0;margin:0}.c23{height:12pt}.c36{background-color:#fce5cd}.c20{background-color:#666666}.c16{height:44.2pt}.c11{font-weight:700}.c3{height:16.5pt}.c12{height:30.8pt}.c9{font-size:10pt}.c30{color:#c00000}.c28{background-color:#ff0000}.title{padding-top:24pt;color:#000000;font-weight:700;font-size:36pt;padding-bottom:6pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:18pt;color:#666666;font-size:24pt;padding-bottom:4pt;font-family:"Georgia";line-height:1.0;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:12pt;font-family:"Times New Roman"}p{margin:0;color:#000000;font-size:12pt;font-family:"Times New Roman"}h1{padding-top:24pt;color:#000000;font-weight:700;font-size:24pt;padding-bottom:6pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:18pt;color:#000000;font-weight:700;font-size:18pt;padding-bottom:4pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:14pt;color:#000000;font-weight:700;font-size:14pt;padding-bottom:4pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:12pt;color:#000000;font-weight:700;font-size:12pt;padding-bottom:2pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:11pt;color:#000000;font-weight:700;font-size:11pt;padding-bottom:2pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:10pt;color:#000000;font-weight:700;font-size:10pt;padding-bottom:2pt;font-family:"Times New Roman";line-height:1.0;page-break-after:avoid;orphans:2;widows:2;text-align:left}
+
+</style>
+		
+		
+		<div class="container">
+		<div class="row">
+			<div>
+			<div class="c40">
+<p class="c33 title" id="h.ag9trferlopw">
+<span class="c11 c13">
+Course File Instructions</span>
+</p>
+<p class="c31 subtitle" id="h.ax1tjpsdfjfx">
+<span class="c37">
+UST Accreditation Unit - Fall 2020</span>
+</p>
+<p class="c21">
+<span class="c17">
+</span>
+</p>
+<p class="c26">
+<span>
+The course file is the channel through which the </span>
+<span class="c15">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1HIeJNzce7Ga-KkkuJLynVr2tWGygPnQ4/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621763000&amp;usg=AOvVaw03AXY9oZkGOF9VFt_xyOd5">
+course improvement cycle</a>
+</span>
+<span class="c17">
+&nbsp;is documented, reviewed, and maintained.</span>
+</p>
+<p class="c21">
+<span class="c17">
+</span>
+</p>
+<ul class="c27 lst-kix_m0heixhup3lr-0 start">
+<li class="c18">
+<span>
+Upload the </span>
+<span class="c17">
+course file items to the shared folder(s) according to the below link. The course file items are described below:</span>
+</li>
+</ul>
+<ul class="c27 lst-kix_m0heixhup3lr-1 start">
+<ui:repeat var="var" value="#{courseFileInstructorBean.allinstructorCoursesWithLink}" varstatus="status"> 
+<li class="c4" style="
+    color: blue;
+    text-decoration: underline;
+">
+<a href="#{var.courseFileLink}" target="#{var.courseCode}" class="c10">#{var.courseCode}</a>
+</li>
+</ui:repeat>
+
+</ul>
+<ul class="c27 lst-kix_m0heixhup3lr-0">
+<li class="c18">
+<span>
+C</span>
+<span class="c17">
+ommunicate the progress of your course file(s) preparation through the scoring sheet:</span>
+</li>
+</ul>
+<ul class="c27 lst-kix_m0heixhup3lr-1 start">
+<li class="c4">
+<span class="c15">
+<a class="c10" href="https://www.google.com/url?q=https://docs.google.com/spreadsheets/d/1fnNfn3sqeYYOEhhT_BK6p5SfFq6XroTiR3BZx6n1K8Y/edit?usp%3Dsharing&amp;sa=D&amp;ust=1604587621764000&amp;usg=AOvVaw2A40MoHCRcXFnTfFmh3g_b">
+FL20 - Course File Scoring Sheet</a>
+</span>
+</li>
+</ul>
+<p class="c21">
+<span class="c17">
+</span>
+</p>
+<p class="c26">
+<span>
+Here is a&nbsp;</span>
+<span class="c15">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/drive/folders/1tuOGoIj6ryK3CWfpVuFIH1TWVWRTAlZu?usp%3Dsharing&amp;sa=D&amp;ust=1604587621764000&amp;usg=AOvVaw2oDrKLDcTxiesy5qHgvPm_">
+complete sample course&nbsp;file</a>
+</span>
+<span class="c17">
+&nbsp;that you can use for guidance.</span>
+</p>
+<p class="c21">
+<span class="c17">
+</span>
+</p>
+<p class="c38">
+<span class="c11 c34">
+Course&nbsp;File&nbsp;Items (Please keep their order and numbering)</span>
+</p>
+<a id="t.f1129aa360cb593ee8156c3bf7c6cce334980845">
+</a>
+<a id="t.0">
+</a>
+<table class="c25">
+<tbody>
+<tr class="c3">
+<td class="c22 c20" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c11 c24">
+#</span>
+</p>
+</td>
+<td class="c7 c20" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c24 c11">
+Item</span>
+</p>
+</td>
+<td class="c6 c20" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c24 c11">
+Structure</span>
+</p>
+</td>
+<td class="c14 c20" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c24 c11">
+Notes</span>
+</p>
+</td>
+<td class="c19 c20" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c24 c11">
+Template</span>
+</p>
+</td>
+</tr>
+<tr class="c16">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+01</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Rubric</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c14" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Assesses course alignment, syllabus design, and course file completeness. Gets filled by the instructor and a peer reviewer</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1fopsSxrYA-xXr1lGxbp2nOV1JVUsDa_x/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621768000&amp;usg=AOvVaw0Xmr8AOvs085bBsirpM6nw">
+Template</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c3">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+02</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Syllabus</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c8">
+Generated by CASh</span>
+</p>
+<p class="c2">
+<span class="c9">
+The two-pages syllabus</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/186VvNc6C_GgMV7A2HfqHXInDhAEsKL-F/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621771000&amp;usg=AOvVaw0cP0MyGP9rS7X_OzDdQX6X">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c16">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+03</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Detailed Syllabus</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c14" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Describes the planned schedule of course instructional methods (lectures, tutorials, ...) and assessment tools (assignments, quizzes, ...)</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1Hgg8ONI0njn39zxgvJSCmuiSf4ueJKat/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621775000&amp;usg=AOvVaw2udmSAKahbQ-EStHAx67uh">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+04</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c32 c39 c9">
+Direct Assessment Tools</span>
+</p>
+<p class="c2">
+<span class="c9">
+(Blank copies)</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Folder &amp; Subfolders</span>
+</p>
+</td>
+<td class="c14" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Quizzes, Midterms, Assignments, ...</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c9">
+-</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+05</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Indirect Assessment Tools</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c8">
+Generated by CASh</span>
+</p>
+<p class="c2">
+<span class="c9">
+Blank CLOs Survey</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c32 c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1MlO63ZHvN2wORgTquUDeHJvw6r9bT1QQ/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621780000&amp;usg=AOvVaw2yJAAsWI3Wz5uLa_E174JS">
+Example</a>
+</span>
+</p>
+<p class="c0 c23">
+<span class="c15 c9 c32">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1MlO63ZHvN2wORgTquUDeHJvw6r9bT1QQ/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621781000&amp;usg=AOvVaw19t2b-BcE74IBdOdBLwU9D">
+</a>
+</span>
+</p>
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1UwSC5lJRSSjzZyzeF-y8YlRySvm44lYE/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621781000&amp;usg=AOvVaw24HIz83g6LXcht2lm1ewr6">
+Template</a>
+</span>
+<span class="c9">
+&nbsp;(To build it manually)</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+06</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Student work samples</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Folder &amp; Subfolders</span>
+</p>
+</td>
+<td class="c14" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c32 c9 c39">
+Three Samples per assessment tool:</span>
+</p>
+<p class="c2">
+<span class="c9">
+Max, Avg, Min</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c9">
+-</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+07</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Students Grade Matrix</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c14" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+A list of the student scores: course work, final assessment, final grade</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1RFaMDcbGWSCC42Wd_zk4yri_t_IYhJvh/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621785000&amp;usg=AOvVaw15GBFZA6R5AlQ8MMLU0HbJ">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c3">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+08</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+CLO-SO Matrix</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c11 c9">
+Generated by CASh</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1Ta8mCA3TVj4DCzxYZ-rY21VJtZAYzMZE/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621787000&amp;usg=AOvVaw1dhiqiRrBw2NYcoD7BppOY">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c3">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+09</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Course Alignment Report</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c8">
+Generated by CASh</span>
+</p>
+<p class="c2">
+<span class="c9">
+To show how assessments, learning objectives, and instructional strategies are aligned</span>
+<span class="c32 c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://www.cmu.edu/teaching/assessment/basics/alignment.html&amp;sa=D&amp;ust=1604587621789000&amp;usg=AOvVaw2MQDk8D9BK4cgmeVKmXULh">
+.</a>
+</span>
+</p>
+<p class="c2">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://www.cmu.edu/teaching/assessment/basics/alignment.html&amp;sa=D&amp;ust=1604587621789000&amp;usg=AOvVaw2MQDk8D9BK4cgmeVKmXULh">
+More in</a>
+</span>
+<span class="c15 c9">
+fo</span>
+<span class="c9">
+.</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1_dTlUJ1hEeGjo71X2giVKRcMmJyJmQfw/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621790000&amp;usg=AOvVaw0iPFRm-wG5M1WOszPdSaRI">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+10</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Direct Assessment Report</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c8">
+Generated by CASh</span>
+</p>
+<p class="c2">
+<span class="c9">
+Shows the attainment levels of the CLOs &amp; SOs through students scores</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1U336oGDGmQgOPHOiK6J_5hGVwKkVp20z/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621792000&amp;usg=AOvVaw2bivR5nVURa__KBR6g4UZS">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+11</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Indirect Assessment Report (CLOs &amp; SOs)</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c8">
+Generated by CASh</span>
+</p>
+<p class="c2">
+<span class="c9">
+Shows the attainment levels of the CLOs &amp; SOs through students feedback</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/17lbX_4UG1IG1z5H46lxDV3O6LbYOvLbx/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621794000&amp;usg=AOvVaw0lLknnvoooXZBMq9pDEAnc">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+12</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Instructional Methods and Assessment Tools</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c8">
+Generated by CASh</span>
+</p>
+<p class="c2">
+<span class="c9">
+Describes the Instructional Methods and Assessment Tools used to deliver the course and assess the students&rsquo; performance. They should be aligned with the CLOs and their levels.</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c32 c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1bVVpl8TV6myqTFLRo9cGPMMqMa9YE3vh/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621796000&amp;usg=AOvVaw2v8w_cTGfUkkfYAnJlDHYF">
+Example</a>
+</span>
+</p>
+<p class="c0 c23">
+<span class="c32 c15 c9">
+</span>
+</p>
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1JQZiRsp5-KnAiJCUxQsOvvantb6BszRU/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621797000&amp;usg=AOvVaw2z8DdzzFQRehrxLcxDXxoP">
+Template</a>
+</span>
+<span class="c15 c9">
+&nbsp;(To build it manually)</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+13</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+CLOs Evaluation and Action Plan</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c11 c9">
+Generated by CASh</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/166LbiJAh-SqwTjZh0bWnSdn7fkQlUKWm/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621798000&amp;usg=AOvVaw2DN6zLs440cOYjDSnCBx5q">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+14</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+SOs Evaluation and Action Plan</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c11 c9">
+Generated by CASh</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/file/d/1tAs2Mt_2NWVS4kW13hV1CjvBfe6NoGo6/view?usp%3Dsharing&amp;sa=D&amp;ust=1604587621800000&amp;usg=AOvVaw2gExHAX-GUjxHqw5CRt2KE">
+Example</a>
+</span>
+</p>
+</td>
+</tr>
+<tr class="c12">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+15</span>
+</p>
+</td>
+<td class="c7" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Instructor Material</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Folder &amp; Subfolders</span>
+</p>
+</td>
+<td class="c14" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Optional: Slides, course notes, handouts, etc.</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c9">
+-</span>
+</p>
+</td>
+</tr>
+<tr class="c3">
+<td class="c22" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c1">
+16</span>
+</p>
+</td>
+<td class="c7 c36" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c11 c9">
+CASh</span>
+</p>
+</td>
+<td class="c6" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+File</span>
+</p>
+</td>
+<td class="c5" colspan="1" rowspan="1">
+<p class="c2">
+<span class="c9">
+Course Assessment Sheet. Should be added for any required post processing by the program</span>
+</p>
+</td>
+<td class="c19" colspan="1" rowspan="1">
+<p class="c0">
+<span class="c15 c9">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/open?id%3D1F9rUba5RzpFPLH0LAbmtMiYfJbuUl8KU&amp;sa=D&amp;ust=1604587621803000&amp;usg=AOvVaw10aykXaY7SoAmLryvjOkDA">
+Link</a>
+</span>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="c21">
+<span class="c17">
+</span>
+</p>
+<p class="c26">
+<span class="c11 c30">
+Course Files confidentiality</span>
+</p>
+<ul class="c27 lst-kix_list_1-0 start">
+<li class="c18">
+<span class="c29">
+A course file typically includes sensitive, confidential student information.</span>
+</li>
+<li class="c18">
+<span class="c29">
+The TAs shouldn&rsquo;t access the course file as it has sensitive data such as the students&rsquo; final exam samples and the students&rsquo; final scores and grade letters.</span>
+</li>
+<li class="c18">
+<span class="c29">
+For the Final Assessments (Final Exams) samples, please cover the student name and ID before adding them.</span>
+</li>
+</ul>
+<p class="c21">
+<span class="c29">
+</span>
+</p>
+<p class="c26">
+<span class="c11">
+Notes</span>
+</p>
+<ul class="c27 lst-kix_list_3-0 start">
+<li class="c18">
+<span>
+The TAs can help scan/upload the samples (</span>
+<span class="c11">
+except the final assessment/ exam&nbsp;</span>
+<span class="c17">
+that should be done by the instructor).</span>
+</li>
+<li class="c18">
+<span>
+Please use the latest version of </span>
+<span class="c15">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/open?id%3D1F9rUba5RzpFPLH0LAbmtMiYfJbuUl8KU&amp;sa=D&amp;ust=1604587621804000&amp;usg=AOvVaw1o0yZMn0c4uS_Dg899D09z">
+CASh</a>
+</span>
+</li>
+<li class="c35">
+<span>
+If&nbsp;you&nbsp;are using an older version of </span>
+<span class="c15">
+<a class="c10" href="https://www.google.com/url?q=https://drive.google.com/open?id%3D1F9rUba5RzpFPLH0LAbmtMiYfJbuUl8KU&amp;sa=D&amp;ust=1604587621804000&amp;usg=AOvVaw1o0yZMn0c4uS_Dg899D09z">
+CASh</a>
+</span>
+<span class="c17">
+, import the old&nbsp;file&nbsp;data to the new one, using the Import Data button.</span>
+</li>
+</ul>
+<p class="c26">
+<span class="c11">
+If&nbsp;you&nbsp;have any questions or comments, please send it to</span>
+</p>
+<ul class="c27 lst-kix_list_4-0 start">
+<li class="c18">
+<span class="c17">
+Dr Ayman El-Shibiny for the science programs</span>
+</li>
+<li class="c35">
+<span>
+Dr Tamer Ali for the engineering programs</span>
+</li>
+</ul>
+</div>
+		
+			</div>
+		</div>
+		</div>
+		
+		
+		</ui:define>
+	</ui:composition>
+</html>
