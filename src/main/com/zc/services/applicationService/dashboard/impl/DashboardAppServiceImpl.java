@@ -773,7 +773,7 @@ public List<ReadmissionDTO> getPendingFormsOfDean() {
 				     filterdDTO.add(dto);
 				}
 			}
-			else if(allForms.get(i).getPerformed()!=true)
+			else
 			{
 				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 				{
@@ -854,7 +854,7 @@ public List<ReadmissionDTO> getPendingFormsOfDeanOfAcademic() {
 			     filterdDTO.add(dto);
 			}
 		}
-		else if(allForms.get(i).getPerformed()!=true)
+		else 
 		{
 			if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 			{

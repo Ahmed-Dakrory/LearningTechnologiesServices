@@ -337,7 +337,7 @@ public class InstructorReadmissionServiceImpl implements IInstructorReadmissionS
 				     filterdDTO.add(dto);
 				}
 			}
-			else if(allForms.get(i).getPerformed()!=true)
+			else
 			{
 				if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN))
 				{
@@ -587,7 +587,7 @@ public class InstructorReadmissionServiceImpl implements IInstructorReadmissionS
 					     filterdDTO.add(dto);
 					}
 				}
-				else if(allForms.get(i).getPerformed()!=true)
+				else 
 				{
 					if(allForms.get(i).getStep().equals(PetitionStepsEnum.DEAN_OF_ACADIMICS))
 					{
