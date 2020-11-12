@@ -148,7 +148,7 @@ public class ReportFileGeneration {
 
 			  cell = row.createCell(cell_column_index_Person);
 			  row.getCell(cell_column_index_Person).setCellStyle(style2);
-			  cell.setCellValue(allCoursesThresoldResults.get(i).getCloThresholdPersons()[j]);
+			  cell.setCellValue(allCoursesThresoldResults.get(i).getCloThresholdPersons()[j]); 
 		   }
 		   
 		  
