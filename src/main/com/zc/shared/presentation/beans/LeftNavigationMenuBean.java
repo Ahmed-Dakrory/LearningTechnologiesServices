@@ -354,15 +354,12 @@ public class LeftNavigationMenuBean {
 		
 		if (!authentication.getPrincipal().equals("anonymousUser"))
 		{
-			List<instructor_courses_file>	allinstructorCoursesWithLink = instructor_courses_fileFacade.getAllByInstructorEmailAndYearAndSemester(mail,String.valueOf(settingform.getYear()), settingform.getSemester().getName());
-			if(allinstructorCoursesWithLink!=null) {
-			if (allinstructorCoursesWithLink.size()>0) {
+			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+			{
+				return false;
+				
+			}else {
 				return true;
-			}else {
-				return false;
-			}
-			}else {
-				return false;
 			}
 		}else {
 			return false;
