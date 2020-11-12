@@ -137,7 +137,7 @@ public class ReportFileGeneration {
 		   row.getCell(1).setCellStyle(style);
 		   cell.setCellValue(allCoursesThresoldResults.get(i).getListOfCourseAnswers().get(0).getCourseId().getName());
 		   
-		   for(int j=0;j<20;j++) {
+		   for(int j=0;j<instructor_survey_ques.size()-3;j++) {
 			  int cell_column_index_Percentage = 2*j+2;
 			  int cell_column_index_Person = 2*j+3;
 
