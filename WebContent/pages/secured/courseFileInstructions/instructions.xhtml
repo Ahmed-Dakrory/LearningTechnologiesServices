@@ -149,8 +149,9 @@ Upload the </span>
 course file items to the shared folder(s) according to the below link. The course file items are described below:</span>
 </li>
 </ul>
+<h:panelGroup rendered="#{courseFileInstructorBean.allinstructorCoursesWithLink.size()>0?true:false}">
 <ul class="c27 lst-kix_m0heixhup3lr-1 start">
-<ui:repeat var="var" value="#{courseFileInstructorBean.allinstructorCoursesWithLink}" varstatus="status"> 
+<ui:repeat  var="var" value="#{courseFileInstructorBean.allinstructorCoursesWithLink}" varstatus="status"> 
 <li class="c4" style="
     color: blue;
     text-decoration: underline;
@@ -160,6 +161,21 @@ course file items to the shared folder(s) according to the below link. The cours
 </ui:repeat>
 
 </ul>
+</h:panelGroup>
+
+<h:panelGroup rendered="#{courseFileInstructorBean.allinstructorCoursesWithLink.size()>0?false:true}">
+<ul class="c27 lst-kix_m0heixhup3lr-0 start">
+<li class="c18" style="
+    margin: 8pt;
+    margin-left: 76pt;
+">
+<span class="c17">
+You have no courses yet</span>
+</li>
+</ul>
+</h:panelGroup>
+
+
 <ul class="c27 lst-kix_m0heixhup3lr-0">
 <li class="c18">
 <span>
