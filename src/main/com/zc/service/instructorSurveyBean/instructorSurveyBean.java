@@ -202,7 +202,16 @@ public class instructorSurveyBean implements Serializable{
 							 }
 						 }
 					 }
+
+					 if(allStudentCourses.size()>0) {
+						 selectedCourse =new Courses();
+							selectedCourse.setId(allStudentCourses.get(0).getId());
+							selectedCourse.setCourseCoordinator(allStudentCourses.get(0).getCourseCoordinator());
+							selectedCourse.setName(allStudentCourses.get(0).getName());
+							selectTheIstructorForThisCourse();
+					 }
 				 }
+				 
 				 
 				
 			}
