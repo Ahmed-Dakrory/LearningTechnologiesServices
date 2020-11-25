@@ -175,9 +175,10 @@ position: absolute;
 					    
 					    
 					     <div class="coursedetails">
+					     <h4>Note, it is 24 hours format, Please change it to your required Datetime</h4>
 					       <h3>
 					       <h:inputText id="datePicker#{status.index}" class="form-control mt-3 inputTimecontroller" value="#{data.date}">
-							<f:convertDateTime pattern="yyyy/MM/dd h:m"/>  
+							<f:convertDateTime pattern="yyyy/MM/dd H:m"/>  
 							</h:inputText>
 							<h:panelGroup rendered="#{data.student==null}">
 								<span class="nameSpan mr-1 ml-3"> Not Reserved yet</span>

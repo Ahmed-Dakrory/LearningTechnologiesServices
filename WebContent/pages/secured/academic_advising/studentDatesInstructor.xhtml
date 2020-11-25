@@ -157,7 +157,7 @@ position: absolute;
 					     <div class="coursedetails">
 					       <h3>
 					       <h:outputText id="datePicker#{status.index}" class="form-control mt-3 inputTimecontroller" value="#{data.date}">
-							<f:convertDateTime pattern="yyyy/MM/dd h:m"/>  
+							<f:convertDateTime pattern="yyyy/MM/dd H:m"/>  
 							</h:outputText>
 							<h:panelGroup rendered="#{data.student==null}">
 								<span class="nameSpan mr-1 ml-3"> Not Reserved yet</span>

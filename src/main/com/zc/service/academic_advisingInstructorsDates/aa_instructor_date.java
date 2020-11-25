@@ -61,7 +61,7 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	
 	,
 	@NamedQuery(name="aa_instructor_date.getAllAvailableByInstructorIdAndYearAndSemester",
-	query = "from aa_instructor_date d where d.state is null and d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	query = "from aa_instructor_date d where d.state is null and d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester) and d.date > CURRENT_DATE"
 			)
 	,
 	@NamedQuery(name="aa_instructor_date.getAllByYearAndSemester",
