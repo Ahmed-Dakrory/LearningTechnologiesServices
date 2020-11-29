@@ -17,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
@@ -88,7 +89,7 @@ public class DetailsBean {
 			
  			if(!authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD)&&
  					!authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT)&&
- 					!(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")))
+ 					!(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")||StringUtils.isNumeric(authentication.getName().substring(0, 4))))
  					{
  				fillInstructorsLst();		
  					}

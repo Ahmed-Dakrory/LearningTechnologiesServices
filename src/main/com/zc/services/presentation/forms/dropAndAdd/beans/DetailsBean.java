@@ -17,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -105,7 +106,7 @@ public class DetailsBean {
 			 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			if(!authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD)&&
 					!authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT)&&
-					!(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")))
+					!(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")||StringUtils.isNumeric(authentication.getName().substring(0, 4))))
 					{
 				fillInstructorsLst();
 				
@@ -138,7 +139,7 @@ public class DetailsBean {
 		{
 			oldMood=true;
 		}
-		if(getDetailedDTO().getReverted()&&(authentication.getName().startsWith("S")||authentication.getName().startsWith("s"))){
+		if(getDetailedDTO().getReverted()&&(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")||StringUtils.isNumeric(authentication.getName().substring(0, 4)))){
 			fillInstructorsLstDialog();
 		}
 		}
