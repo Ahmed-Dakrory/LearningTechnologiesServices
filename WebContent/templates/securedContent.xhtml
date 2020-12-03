@@ -143,6 +143,10 @@
 				    class="#{leftNavigationMenuBean.getActiveCssName('Lecture Objectives Result')}"/>
 					<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.isCloWork()}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
 				    <p:commandLink ajax="false" immediate="true" value="Instructor Survey" rendered="#{leftNavigationMenuBean.isInstructorSurveyWork()}" action="#{leftNavigationMenuBean.renderInstructorSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
+					
+					
+					<p:commandLink ajax="false" immediate="true" value="Instructor Survey Midterm" rendered="#{leftNavigationMenuBean.isInstructorSurveyWorkMidterm()}" action="#{leftNavigationMenuBean.renderInstructorSurveyMidterm}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
+					<p:commandLink ajax="false" immediate="true" value="Instructor Survey Final" rendered="#{leftNavigationMenuBean.isInstructorSurveyWorkFinal()}" action="#{leftNavigationMenuBean.renderInstructorSurveyFinal}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 				
 				
 					<h3>Petitions</h3>

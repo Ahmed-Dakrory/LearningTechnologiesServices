@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Instructor Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+		<style>
+		.tdClass {
+    padding: 0;
+    border: black;
+    border-style: solid;
+    border-width: 1px;
+    width: 139px;
+    height: 37px;
+    text-align: center;
+}
+		</style>
+		#{instructorSurveyBean.refresh()}
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Courses Instructor Evaluation" disabled="true" />
+							<p:menuitem value="Evaluation Results" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+				
+						
+							
+							
+					<h:panelGroup id="pageContent">
+					
+					<p:panel id="coursesPanel">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedCourse.id}">
+							<f:ajax listener="#{instructorSurveyBean.selectTheIstructorForThisCourse()}" render="form:surveyPanel form:instructorsPanel"/>
+							<f:selectItems value="#{instructorSurveyBean.allCoursesthisPeriod}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+						</p:selectOneMenu>
+						 
+						</p:panel>
+						
+						
+						<p:panel id="instructorsPanel" >
+						<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Semester: #{(instructorSurveyBean.semesterSelected==0)?'Fall':''} #{(instructorSurveyBean.semesterSelected==1)?'Spring':''} #{(instructorSurveyBean.semesterSelected==2)?'Summer':''} #{instructorSurveyBean.yearSelected}
+							</div>
+						<div style="    font-size: 20px;    font-weight: 600;">	Select the Instructor or TA: </div>
+								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyBean.selectedInstructor.id}" >
+									<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+									<f:selectItems value="#{instructorSurveyBean.allInstructorForThisCourse}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+									<f:selectItems value="#{instructorSurveyBean.allTAsForThisCourse}" var="data2" itemLabel="#{data2.name}" itemValue="#{data2.id}" />
+						
+								</p:selectOneRadio>
+								
+						</p:panel>
+						
+						<!-- 
+						<p:panel id="petitionPanel">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedInstructor.id}">
+						<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+						<f:selectItems value="#{instructorSurveyBean.allInstructorListOfAnswers}" var="data" itemLabel="#{data.instructorId.name}" itemValue="#{data.instructorId.id}" />
+						</p:selectOneMenu>
+						 
+						 
+						</p:panel> -->
+						  <p:commandButton value="Export survey results statistics" ajax="false"   action="#{instructorSurveyBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
+						
+						
+						<p:panel id="surveyPanel" >
+						<p:panel rendered="true">
+							
+							
+							
+							<br></br>
+							<p:panel rendered="true">
+							<br></br>
+							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
+							<p:commandButton value="Export comments" ajax="false"   action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
+						
+									<br></br>
+									<table>
+									<thead>
+									<tr  style="background: darkkhaki;">
+										<td class="tdClass" style="background: #c1a570;">
+										
+										</td>
+									<td  class="tdClass" colspan="2">
+											<div>Excellent</div>
+										</td>
+										<td class="tdClass"  colspan="2">
+											<div>Very good</div>
+										</td>
+										<td class="tdClass"  colspan="2">
+											<div>good</div>
+										</td>
+										<td class="tdClass"   colspan="2">
+											<div>Fair</div>
+										</td>
+										<td class="tdClass"   colspan="2">
+											<div>Needs Improvement</div>
+										</td>
+										
+										<td class="tdClass" >
+											<div>Total</div>
+										</td>
+									</tr>
+									</thead>
+									<tbody>
+									
+									<ui:repeat var="clo" value="#{instructorSurveyBean.resultsPersonPercntageClo}">
+										<tr style="display:#{clo.numberOfPersons>0}">
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'};width: 32%;">
+												<div> #{instructorSurveyBean.allquestionThisYearAndSemester.get(clo.cloNumber-1).ques}</div>
+											</td>
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
+											
+											
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
+											
+										
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
+											
+
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
+											
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
+											
+											
+											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">
+												<div>#{clo.numberOfPersons}</div>
+											</td>
+											
+										</tr>
+										
+										</ui:repeat>
+									</tbody>
+									</table>
+									
+							</p:panel>
+							
+						 </p:panel>
+						</p:panel>
+						
+						
+						
+					</h:panelGroup>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

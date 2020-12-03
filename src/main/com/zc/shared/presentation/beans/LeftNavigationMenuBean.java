@@ -456,7 +456,7 @@ public class LeftNavigationMenuBean {
 		
 	}
 	
-	public boolean isInstructorSurveyWork() {
+public boolean isInstructorSurveyWork() {
 
 		
 		instructorSurveyAvailable=(formStatus.getById(22).getStatus().getValue())==0?true:false;
@@ -488,6 +488,76 @@ public class LeftNavigationMenuBean {
 		
 		return instructorSurveyAvailable;
 	}
+
+
+
+public boolean isInstructorSurveyWorkMidterm() {
+
+	
+	instructorSurveyAvailable=(formStatus.getById(24).getStatus().getValue())==0?true:false;
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String mail = authentication.getName();
+		FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))
+		{
+			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+				{
+				instructorSurveyAvailable =(formStatus.getById(24).getStatus().getValue())==0?true:false;
+				}else {
+					
+					if((formStatus.getById(24).getStatus().getValue())==0||(formStatus.getById(24).getStatus().getValue())==2||(formStatus.getById(24).getStatus().getValue())==3) {
+						instructorSurveyAvailable = true;
+					}else {
+						instructorSurveyAvailable = false;
+					}
+				}
+
+		}
+		
+		
+	
+	
+	return instructorSurveyAvailable;
+}
+
+
+
+public boolean isInstructorSurveyWorkFinal() {
+
+	
+	instructorSurveyAvailable=(formStatus.getById(25).getStatus().getValue())==0?true:false;
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String mail = authentication.getName();
+		FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))
+		{
+			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+				{
+				instructorSurveyAvailable =(formStatus.getById(25).getStatus().getValue())==0?true:false;
+				}else {
+					
+					if((formStatus.getById(25).getStatus().getValue())==0||(formStatus.getById(25).getStatus().getValue())==2||(formStatus.getById(25).getStatus().getValue())==3) {
+						instructorSurveyAvailable = true;
+					}else {
+						instructorSurveyAvailable = false;
+					}
+				}
+
+		}
+		
+		
+	
+	
+	return instructorSurveyAvailable;
+}
 	public boolean isShowCourseReplacement() {
 		 FormsStatusEnum settings=formStatus.getById(21).getStatus();
 		 Integer active=settings.getValue();
@@ -727,7 +797,92 @@ public class LeftNavigationMenuBean {
 	
 	}
 
+	public String renderInstructorSurveyMidterm() // for Academic Petition
+	{
+		currentMenuId = "Instructor Survey Midterm";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				
+				return "/pages/secured/survey/instructorSurveyAll/Midterm/InstructorsurveyStudent.xhtml?faces-redirect=true";
+			
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_ENG_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurveyAll/Midterm/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurveyAll/Midterm/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.TeachingEffectiveness_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurveyAll/Midterm/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}
+			else
+			{
+
+				return "/pages/secured/survey/instructorSurveyAll/Midterm/InstructorsurveyResultInstructor.xhtml?faces-redirect=true";
+			
+			}
+			
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+		
 	
+	}
+	
+	
+	
+	public String renderInstructorSurveyFinal() // for Academic Petition
+	{
+		currentMenuId = "Instructor Survey Final";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				
+				return "/pages/secured/survey/instructorSurveyAll/Final/InstructorsurveyStudent.xhtml?faces-redirect=true";
+			
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_ENG_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurveyAll/Final/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.ACCREDITION_SCI_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurveyAll/Final/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}else if(mail.toLowerCase().equals(Constants.TeachingEffectiveness_DEP.toLowerCase()))
+			{
+				return "/pages/secured/survey/instructorSurveyAll/Final/InstructorsurveyResult.xhtml?faces-redirect=true";
+			}
+			else
+			{
+
+				return "/pages/secured/survey/instructorSurveyAll/Final/InstructorsurveyResultInstructor.xhtml?faces-redirect=true";
+			
+			}
+			
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+		
+	
+	}
+
 	
 	public String renderInstructorSurvey() // for Academic Petition
 	{

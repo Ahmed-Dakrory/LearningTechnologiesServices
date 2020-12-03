@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Course Evaluation - LT Online Services</ui:define>
+		<ui:define name="content">
+		
+		<style>
+body {font-family: Arial;}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab div {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab div:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab div.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+
+		#{instructorSurveyAllBean.refresh()}
+			<h:form id="form">
+			
+				
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Feedback" />
+							<p:menuitem value="Courses Instructor Evaluation" disabled="true" />
+							<p:menuitem value="#{instructorSurveyAllBean.studentThisAccount.data.getNameInEnglish()}" disabled="true" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+						<p:panel id="petitionPanel">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyAllBean.selectedCourse.id}">
+							<f:ajax listener="#{instructorSurveyAllBean.selectTheIstructorForThisCourse()}" render="form:surveyPanel form:instructorsPanel"/>
+							<f:selectItems value="#{instructorSurveyAllBean.allStudentCoursesthisPeriod}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+						</p:selectOneMenu>
+						 
+						</p:panel>
+						
+						<p:panel id="instructorsPanel" >
+						<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
+								Course Semester: #{(instructorSurveyAllBean.semesterSelected==0)?'Fall':''} #{(instructorSurveyAllBean.semesterSelected==1)?'Spring':''} #{(instructorSurveyAllBean.semesterSelected==2)?'Summer':''} #{instructorSurveyAllBean.yearSelected}
+							</div>
+						<div style="    font-size: 20px;    font-weight: 600;">	Select the Instructor or TA: </div>
+								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyAllBean.selectedInstructor.id}" >
+									<f:ajax listener="#{instructorSurveyAllBean.fillQuestionMidterm()}" render=" form:surveyPanel "/>
+									<f:selectItems value="#{instructorSurveyAllBean.allInstructorForThisCourse}" var="data" itemLabel="#{data.name}" itemValue="#{data.id}" />
+									<f:selectItems value="#{instructorSurveyAllBean.allTAsForThisCourse}" var="data2" itemLabel="#{data2.name}" itemValue="#{data2.id}" />
+						
+								</p:selectOneRadio>
+								
+						</p:panel>
+						
+						
+						<p:panel id="surveyPanel" style="display:#{instructorSurveyAllBean.selectedInstructor.id!=null?'block':'none'};">
+						<p:growl id="growl" showDetail="false"  life="10000"/>
+						<div class="tab">
+						<ui:repeat var="categ"  varStatus="status" value="#{instructorSurveyAllBean.all_Categories}">
+						  <div class="tablinks" onclick="opentab(event, 'categ#{status.index}')">#{categ.categoryName}</div>
+						  </ui:repeat>
+						</div>
+						
+						
+						<ui:repeat var="categ"  varStatus="status" value="#{instructorSurveyAllBean.all_Categories}">
+						<div id="categ#{status.index}" class="tabcontent">
+							<ui:repeat var="ques" varStatus="statusQues" value="#{instructorSurveyAllBean.questionsInCateg[status.index].questionWithChooses_Categ}">
+								
+								<h3>  #{ques.question.ques}</h3>
+							<!-- value="#{instructorSurveyAllBean.ans_Categ0[status.index].ans}" -->
+							
+								<p:panel rendered="#{ques.question.type == 0}">
+								<p:selectOneRadio value="#{ques.answer.ans}" required="true" requiredMessage="Selection of #{ques.question.ques} Ques #{statusQues.index} is required" style="    margin-left: 5%;    margin-top: 1%;"  >
+									
+										<f:selectItems itemLabel="#{ans.answerName}" itemValue="#{ans.answerValue}" var="ans"  value="#{ques.chooses}"/>
+						            
+								</p:selectOneRadio>
+								</p:panel>
+							     
+							     
+							    <p:panel rendered="#{ques.question.type == 1}">
+					
+								    <p:inputTextarea required="true" requiredMessage="there is a comment in need" value="#{ques.answer.data}"></p:inputTextarea>
+							    	
+								</p:panel>
+								
+								
+							     <p:panel rendered="#{ques.question.type == 2}">
+								<p:selectManyCheckbox  value="#{ques.manyAns}"   style="    margin-left: 5%;    margin-top: 1%;"  >
+									
+										<f:selectItems itemLabel="#{ans.answerName}" itemValue="#{ans.answerValue}" var="ans"  value="#{ques.chooses}"/>
+						            
+								</p:selectManyCheckbox >
+								</p:panel>
+							     
+								
+							</ui:repeat>
+						</div>
+						</ui:repeat>
+						
+						<script>
+							function opentab(evt, cityName) {
+							  var i, tabcontent, tablinks;
+							  tabcontent = document.getElementsByClassName("tabcontent");
+							  for (i = 0; i &lt; tabcontent.length; i++) {
+							    tabcontent[i].style.display = "none";
+							  }
+							  tablinks = document.getElementsByClassName("tablinks");
+							  for (i = 0; i &lt; tablinks.length; i++) {
+							    tablinks[i].className = tablinks[i].className.replace(" active", "");
+							  }
+							  document.getElementById(cityName).style.display = "block";
+							  evt.currentTarget.className += " active";
+							}
+							</script>
+						
+						
+						
+						
+							
+				<p:commandButton value="submit" actionListener="#{instructorSurveyAllBean.submitResult}" update="form:growl"/>
+						</p:panel>
+				
+				</div>
+				
+			</h:form>
+			
+					</ui:define>
+	</ui:composition>
+</html>
