@@ -41,7 +41,10 @@ public class questionWithChooses {
 		
 		if(question.getType().intValue()==instructor_all_survey_ques.TYPE_SELECT.intValue()){
 			if(answer!=null) {
-				manyAns = answer.getData().split(",");
+				String manyAnsData = answer.getData();
+				if(manyAnsData!=null) {
+					manyAns = manyAnsData.split(",");
+				}
 			}else {
 				manyAns = new String[chooses.size()];
 			}

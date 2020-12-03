@@ -310,18 +310,21 @@ public void selectTheCourseResults() {
 		resultsPersonPercntageClo=new ArrayList<cloResult>();
 		
 		
-		
+
+		System.out.println(selectedCourse.getId()+" , "+selectedInstructor.getId()+" , "+yearSelected+" , "+semesterSelected);
 		listOfCourseAnswers=instructor_all_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemester(selectedCourse.getId(),selectedInstructor.getId(),yearSelected, semesterSelected);
 		
-		
+		System.out.println(listOfCourseAnswers.size());
 		
 		if(listOfCourseAnswers!=null) {
-			
-			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestar(yearSelected, semesterSelected);
+
+			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndMidtermOrFinalAndType(yearSelected, semesterSelected, instructor_all_survey_ques.MODE_MIDTERM, instructor_all_survey_ques.TYPE_CHOOSE);
+//			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndMidtermOrFinalAndType(yearSelected, semesterSelected, instructor_all_survey_ques.MODE_MIDTERM, instructor_all_survey_ques.TYPE_CHOOSE);
 		
-			
+
+			System.out.println(allquestionThisYearAndSemester.size());
 			//Construct ALL question cloResults
-		for(int i=0;i<allquestionThisYearAndSemester.size()-3;i++) {
+		for(int i=0;i<allquestionThisYearAndSemester.size();i++) {
 
 			resultsPersonPercntageClo.add(new cloResult(i+1));
 		}

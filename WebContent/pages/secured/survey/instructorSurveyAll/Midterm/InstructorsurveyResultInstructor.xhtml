@@ -18,7 +18,7 @@
     text-align: center;
 }
 		</style>
-		#{instructorSurveyBean.refresh()}
+		#{instructorSurveyAllBean.refresh()}
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
 				<ul class="header">
@@ -34,16 +34,16 @@
 				<div class="pannelWrapper">
 				
 			
-							<p:panel rendered="#{instructorSurveyBean.resultsPersonPercntageClo.size()!=null}" id="coursesPanel">
-						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyBean.selectedCourse.id}">
-							<f:ajax listener="#{instructorSurveyBean.selectTheCourseResults()}" render="form:surveyPanel"/>
-							<f:selectItems value="#{instructorSurveyBean.allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor}" var="data" itemLabel="#{data.courseId.name}" itemValue="#{data.courseId.id}" />
+							<p:panel rendered="#{instructorSurveyAllBean.resultsPersonPercntageClo.size()!=null}" id="coursesPanel">
+						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{instructorSurveyAllBean.selectedCourse.id}">
+							<f:ajax listener="#{instructorSurveyAllBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+							<f:selectItems value="#{instructorSurveyAllBean.allcoursesForThisInstructor_thisYear_thisSemesterOnlyOneInstructor}" var="data" itemLabel="#{data.courseId.name}" itemValue="#{data.courseId.id}" />
 						</p:selectOneMenu>
 						 
 						</p:panel>
 							
 							
-							<h:panelGroup rendered="#{instructorSurveyBean.resultsPersonPercntageClo.size()==null}" id="Error" >
+							<h:panelGroup rendered="#{instructorSurveyAllBean.resultsPersonPercntageClo.size()==null}" id="Error" >
 								<p:panel style="
     height: 319px;
     text-align: center;
@@ -52,13 +52,13 @@
 ">You don't have survey results for your courses yet</p:panel>
 								
 							</h:panelGroup>
-					<h:panelGroup rendered="#{instructorSurveyBean.resultsPersonPercntageClo.size()!=null}" id="pageContent">
+					<h:panelGroup rendered="#{instructorSurveyAllBean.resultsPersonPercntageClo.size()!=null}" id="pageContent">
 						<p:panel  id="petitionPanel">
 						
 						 
 						 
 						</p:panel>
-						  <p:commandButton value="Export survey results statistics" ajax="false"  rendered="#{instructorSurveyBean.showNowForInstructors}" action="#{instructorSurveyBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
+						  <p:commandButton value="Export survey results statistics" ajax="false"  rendered="#{instructorSurveyAllBean.showNowForInstructorsMidterm}" action="#{instructorSurveyAllBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
 						
 						
 						<p:panel id="surveyPanel" >
@@ -70,7 +70,7 @@
 							<p:panel rendered="true">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
-							<p:commandButton value="Export comments" ajax="false"  rendered="#{instructorSurveyBean.showNowForInstructors}" action="#{instructorSurveyBean.generateFileOfComments()}" style=""></p:commandButton>
+							<p:commandButton value="Export comments" ajax="false"  rendered="#{instructorSurveyAllBean.showNowForInstructors}" action="#{instructorSurveyAllBean.generateFileOfComments()}" style=""></p:commandButton>
 						
 									<br></br>
 									<table>
@@ -79,19 +79,19 @@
 										<td class="tdClass" style="background: #c1a570;">
 										
 										</td>
-									<td  class="tdClass" colspan="2" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};">
+									<td  class="tdClass" colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
 											<div>Excellent</div>
 										</td>
-										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
 											<div>Very good</div>
 										</td>
-										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
 											<div>good</div>
 										</td>
-										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
 											<div>Fair</div>
 										</td>
-										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
 											<div>Needs Improvement</div>
 										</td>
 										
@@ -102,31 +102,31 @@
 									</thead>
 									<tbody>
 									
-									<ui:repeat var="clo" value="#{instructorSurveyBean.resultsPersonPercntageClo}">
+									<ui:repeat var="clo" value="#{instructorSurveyAllBean.resultsPersonPercntageClo}">
 										<tr style="display:#{clo.numberOfPersons>0}">
 											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'};width: 32%;">
-												<div> #{instructorSurveyBean.allquestionThisYearAndSemester.get(clo.cloNumber-1).ques}</div>
+												<div> #{instructorSurveyAllBean.allquestionThisYearAndSemester.get(clo.cloNumber-1).ques}</div>
 											</td>
 											
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
 											
 											
 											
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
 											
 										
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
 											
 
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
 											
 											
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
 											
 											
 											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">
