@@ -68,6 +68,10 @@ import main.com.zc.services.domain.person.model.Student;
 	query = "from instructor_survey_ans d where d.courseId.id = :courseId and d.instructorId.id = :instructorId and d.quesId.semester = :semester and d.quesId.year = :year"
 			)
 	,
+	@NamedQuery(name="instructor_survey_ans.getAllByCourseAndInstructorAndYearAndSemesterGroupbyStudentId",
+	query = "from instructor_survey_ans d where d.courseId.id = :courseId and d.instructorId.id = :instructorId and d.quesId.semester = :semester and d.quesId.year = :year group by d.studentId.id"
+			)
+	,
 	@NamedQuery(name="instructor_survey_ans.getAllByCourseAndInstructorAndYearAndSemesterAndCategory",
 	query = "from instructor_survey_ans d where d.courseId.id = :courseId and d.instructorId.id = :instructorId and d.quesId.semester = :semester and d.quesId.year = :year and d.quesId.category = :category"
 			)

@@ -590,7 +590,7 @@ public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instr
 	 HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet sheet = workbook.createSheet();
 	    
-	    ReportFileGeneration reportFileGeneration=new ReportFileGeneration(allCoursesThresoldResults,workbook, sheet);
+	    ReportFileGeneration reportFileGeneration=new ReportFileGeneration(allCoursesThresoldResults,workbook, sheet,instructor_survey_ansFacade, yearSelected, semesterSelected);
 	    
 	    reportFileGeneration.generateReport(allquestionThisYearAndSemester);
 

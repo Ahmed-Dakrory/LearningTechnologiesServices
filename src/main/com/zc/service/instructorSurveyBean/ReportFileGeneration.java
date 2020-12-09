@@ -11,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
+import main.com.zc.service.instructor_survey_ans.Iinstructor_survey_ansAppService;
 import main.com.zc.service.instructor_survey_ans.instructor_survey_ans;
 import main.com.zc.service.instructor_survey_ques.instructor_survey_ques;
 
@@ -23,15 +24,23 @@ public class ReportFileGeneration {
 	HSSFCell cell;
 	List<cloThreshold> allCoursesThresoldResults;
 	List<instructor_survey_ans> allanswersThisYearAndSemesterofins;
-	public ReportFileGeneration(List<cloThreshold> allCoursesThresoldResults,HSSFWorkbook wb,HSSFSheet sheet) {
+	Iinstructor_survey_ansAppService instructor_survey_ansFacade;
+	private Integer yearSelected;
+	private Integer semesterSelected;
+	public ReportFileGeneration(List<cloThreshold> allCoursesThresoldResults,HSSFWorkbook wb,HSSFSheet sheet, Iinstructor_survey_ansAppService instructor_survey_ansFacade, Integer yearSelected, Integer semesterSelected) {
 		// TODO Auto-generated constructor stub
 		this.workbook=wb;
 		this.sheet=sheet;
 		this.allCoursesThresoldResults=allCoursesThresoldResults;
+		this.instructor_survey_ansFacade=instructor_survey_ansFacade;
+		this.yearSelected=yearSelected;
+		this.semesterSelected=semesterSelected;
 	}
 
 
 	
+
+
 
 
 	public static String toFraction(float d, int factor) {
@@ -65,10 +74,9 @@ public class ReportFileGeneration {
 		sheet.setColumnWidth(0, 11000);
 		sheet.setColumnWidth(1, 7000);
 		for (int i=2;i<=(2*instructor_survey_ques.size())-5;i++) {
-
 			sheet.setColumnWidth(i, 17000);
 		}
-	
+		sheet.setColumnWidth((2*instructor_survey_ques.size())-4, 7000);
 		
 		titleOfSheet(instructor_survey_ques);
 	}
@@ -113,7 +121,10 @@ public class ReportFileGeneration {
 		    cell.setCellValue("Number of Persons");
 	    }
 	 
-	    
+	    int iOfNumberOfStudents = 2*(instructor_survey_ques.size()-3)+3;
+	    cell = row.createCell(iOfNumberOfStudents);
+	    row.getCell(iOfNumberOfStudents).setCellStyle(style);
+	    cell.setCellValue("Total Number Of Students");
 	    
 	    
 	    
@@ -150,6 +161,13 @@ public class ReportFileGeneration {
 			  row.getCell(cell_column_index_Person).setCellStyle(style2);
 			  cell.setCellValue(allCoursesThresoldResults.get(i).getCloThresholdPersons()[j]); 
 		   }
+		   
+		   
+		   iOfNumberOfStudents = 2*(instructor_survey_ques.size()-3)+3;
+		   cell = row.createCell(iOfNumberOfStudents);
+			  row.getCell(iOfNumberOfStudents).setCellStyle(style2);
+			  List<instructor_survey_ans> x = instructor_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterGroupbyStudentId(allCoursesThresoldResults.get(i).getListOfCourseAnswers().get(0).getCourseId().getId(), allCoursesThresoldResults.get(i).getListOfCourseAnswers().get(0).getInstructorId().getId(), this.yearSelected, this.semesterSelected);
+			  cell.setCellValue(x.size()); 
 		   
 		  
 		   

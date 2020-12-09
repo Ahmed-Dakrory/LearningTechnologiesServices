@@ -252,6 +252,23 @@ public class instructor_survey_ansAppServiceImpl implements Iinstructor_survey_a
 
 
 
+	@Override
+	public List<instructor_survey_ans> getAllByCourseAndInstructorAndYearAndSemesterGroupbyStudentId(int courseId,
+			int instructorId, int year, int semester) {
+		try{
+			List<instructor_survey_ans> course=instructor_survey_ansDataRepository.getAllByCourseAndInstructorAndYearAndSemesterGroupbyStudentId(courseId, instructorId, year,semester);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 	
 
 	
