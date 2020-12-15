@@ -123,7 +123,7 @@ public class aaRegistrarBean implements Serializable{
 		
         
 	    setAttachmentFile(event.getFile());
-	    if(!selectedSemester.equalsIgnoreCase("") && !selectedYear.equalsIgnoreCase("") ) {
+//	    if(!selectedSemester.equalsIgnoreCase("") && !selectedYear.equalsIgnoreCase("") ) {
 	    if(this.attachmentFile != null)
 		{
 			AttachmentDTO attachmentDto = new AttachmentDTO(attachmentFile.getFileName(), attachmentFile.getContents());
@@ -135,7 +135,7 @@ public class aaRegistrarBean implements Serializable{
 			file.setSemester(selectedSemester);
 			file.setYear(selectedYear);
 			attachmentsFacade.addfilesOfLibraries(file);
-			allFiles = attachmentsFacade.getByYearAndSemester(selectedYear, selectedSemester);
+			allFiles = attachmentsFacade.getAll();
 
 			FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -143,10 +143,10 @@ public class aaRegistrarBean implements Serializable{
 			FacesMessage msg = new FacesMessage("Error", event.getFile().getFileName() + " not uploaded.");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-	    }else {
-	    	FacesMessage msg = new FacesMessage("Error", "Please select Year and semester");
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	    }
+//	    }else {
+//	    	FacesMessage msg = new FacesMessage("Error", "Please select Year and semester");
+//	        FacesContext.getCurrentInstance().addMessage(null, msg);
+//	    }
 	    
 	}  
 
@@ -155,7 +155,7 @@ public class aaRegistrarBean implements Serializable{
 		try {
 			attachmentsFacade.delete(attachmentsFacade.getById(id));
 
-			allFiles = attachmentsFacade.getByYearAndSemester(selectedYear, selectedSemester);
+			allFiles = attachmentsFacade.getAll();
 			
 			FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("pageForm:dataTable");
 			FacesMessage msg = new FacesMessage("Successful", "File Has Been Deleted");
@@ -249,7 +249,7 @@ public class aaRegistrarBean implements Serializable{
 	}
 	
 	public void getAllListOfFiles() {
-		allFiles = attachmentsFacade.getByYearAndSemester(selectedYear, selectedSemester);
+		allFiles = attachmentsFacade.getAll();
 	}
 	
 	public void onRowSelect(SelectEvent event) {

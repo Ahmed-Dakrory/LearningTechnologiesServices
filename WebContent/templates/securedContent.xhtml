@@ -144,10 +144,10 @@
 					<p:commandLink ajax="false" immediate="true" value="CLO Survey" rendered="#{leftNavigationMenuBean.isCloWork()}" action="#{leftNavigationMenuBean.renderCourseCloSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Clo Survey')}"/>
 				    <p:commandLink ajax="false" immediate="true" value="Instructor Survey" rendered="#{leftNavigationMenuBean.isInstructorSurveyWork()}" action="#{leftNavigationMenuBean.renderInstructorSurvey}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 					
-					
+					<!-- 
 					<p:commandLink ajax="false" immediate="true" value="Instructor Survey Midterm" rendered="#{leftNavigationMenuBean.isInstructorSurveyWorkMidterm()}" action="#{leftNavigationMenuBean.renderInstructorSurveyMidterm}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 					<p:commandLink ajax="false" immediate="true" value="Instructor Survey Final" rendered="#{leftNavigationMenuBean.isInstructorSurveyWorkFinal()}" action="#{leftNavigationMenuBean.renderInstructorSurveyFinal}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
-				
+				 -->
 				
 					<h3>Petitions</h3>
 					<!-- <p:commandLink ajax="false" immediate="true" value="Academic Petition" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderAcademicPet}"  class="#{leftNavigationMenuBean.getActiveCssName('Academic Petition')}"/>
@@ -164,6 +164,7 @@
 					<p:commandLink ajax="false" immediate="true" value="Overload Request" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderOverLoadReq}"  class="#{leftNavigationMenuBean.getActiveCssName('Overload Request')}"/>
 					<p:commandLink ajax="false" immediate="true" value="Course Repeat Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderCourseRepeat}"  class="#{leftNavigationMenuBean.getActiveCssName('Course Repeat Form')}"/>
 					<p:commandLink ajax="false" immediate="true" value="Incomplete Grade Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderIncompleteGrade}"  class="#{leftNavigationMenuBean.getActiveCssName('Incomplete Grade Form')}"/>
+					<p:commandLink ajax="false" immediate="true" value="Decleration of Track" rendered="#{leftNavigationMenuBean.isdeclerationOfTrack()}" action="#{leftNavigationMenuBean.renderDeclerationOfTrack}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 					
 					<h:panelGrid rendered="#{(leftNavigationMenuBean.validateLoggedIn) and !(leftNavigationMenuBean.booksSysMode) and !(leftNavigationMenuBean.admin) and !(leftNavigationMenuBean.isStudent())}" columns="1">
 					<h3 >Course Modification</h3>

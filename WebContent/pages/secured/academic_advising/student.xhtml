@@ -128,9 +128,25 @@ position: absolute;
 					
 					<p:panel id="panelofSchedules">
 					<p class="alert alert-info">Please Select a Date From the shown Dates</p>
+					
+					<br></br>
+					
+					<h:panelGroup rendered="#{aaStudentBean.selectedInstructorForThisStudent!=null}">
+					<p class="alert alert-success">Your Advisor:  #{aaStudentBean.selectedInstructorForThisStudent.instructor.name}</p>
+					
+					</h:panelGroup>
+					
+					
+					<h:panelGroup rendered="#{aaStudentBean.selectedInstructorForThisStudent==null}">
+					<p class="alert alert-info">You are not assigned to any advisor</p>
+					
+					</h:panelGroup>
 					#{aaStudentBean.refresh()}
 					<div class="container" >
-						
+						<div class="row">
+								
+							
+						</div>
 						<div class="row">
 						<ui:repeat var="data" id="repeater" varStatus="status" value="#{aaStudentBean.allinstructorDates}">
 						<div  class="col-md-3 text-center mt-3" >
@@ -166,7 +182,7 @@ position: absolute;
 							</h:panelGroup>
 							
 							<h:panelGroup rendered="#{data.student!=null}">
-								<span class="nameSpan mr-1 ml-3"> #{data.student.name}  </span>
+								<span class="nameSpan mr-1 ml-3"> #{data.instructor.name}  </span>
 							</h:panelGroup>
 							
 							

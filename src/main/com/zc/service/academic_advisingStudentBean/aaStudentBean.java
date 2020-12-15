@@ -133,6 +133,7 @@ public class aaStudentBean implements Serializable{
 				selectedStudent =  aa_student_profileFacade.getByMailAndYearAndSemester(mail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 
 				selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+				if(selectedInstructorForThisStudent!=null) {
 				if(selectedInstructorForThisStudent.getInstructor_date()==null) {
 					/**
 					 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
@@ -182,6 +183,8 @@ public class aaStudentBean implements Serializable{
 					}
 					
 					
+				}
+				
 				}
 				}
 		}

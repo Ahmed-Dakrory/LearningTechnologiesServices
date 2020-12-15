@@ -490,6 +490,37 @@ public boolean isInstructorSurveyWork() {
 	}
 
 
+public boolean isdeclerationOfTrack() {
+
+	
+	boolean declerationOfTrackAvailable = (formStatus.getById(26).getStatus().getValue())==0?true:false;
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String mail = authentication.getName();
+		FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		if (!authentication.getPrincipal().equals("anonymousUser"))
+		{
+			if(mail.startsWith("S-") || mail.startsWith("s-")||StringUtils.isNumeric(mail.substring(0, 4)))
+				{
+				declerationOfTrackAvailable =(formStatus.getById(26).getStatus().getValue())==0?true:false;
+				}else if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+				{
+						declerationOfTrackAvailable = (formStatus.getById(26).getStatus().getValue())==0?true:false;
+					
+				}else {
+					declerationOfTrackAvailable = false;
+				}
+
+		}
+		
+		
+	
+	
+	return declerationOfTrackAvailable;
+}
 
 public boolean isInstructorSurveyWorkMidterm() {
 
@@ -797,6 +828,45 @@ public boolean isInstructorSurveyWorkFinal() {
 	
 	}
 
+	
+	
+	public String renderDeclerationOfTrack() // for Academic Petition
+	{
+		currentMenuId = "Decleration of track";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				
+				return "/pages/secured/forms/declerationOfTrack/student.xhtml?faces-redirect=true";
+			
+			}else if(mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
+			{
+				return "/pages/secured/forms/declerationOfTrack/registerar.xhtml?faces-redirect=true";
+			}
+			else
+			{
+				return "/pages/public/login.xhtml?faces-redirect=true";
+			
+			}
+			
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+		
+	
+	}
+
+	
+	
 	public String renderInstructorSurveyMidterm() // for Academic Petition
 	{
 		currentMenuId = "Instructor Survey Midterm";

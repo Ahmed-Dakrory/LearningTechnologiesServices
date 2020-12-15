@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<ui:composition template="/templates/pureTemplate.xhtml">
+		<ui:define name="title">Decleration of Track</ui:define>
+		<ui:define name="content">
+		
+		<style>
+		.p-5{
+		
+		padding:19px;
+		}
+		
+		.internal body {
+    background: #ffffff !important;
+    overflow-y: auto !important;
+}
+		</style>
+			<ul class="header">
+				<li>
+					<h:form id="pageForm" class="p-5" style="background: white;">
+					<p:growl id="msgs" showDetail="true"/>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Decleration of Track" />
+						</p:breadCrumb>
+						
+						
+					 
+						<p:panel>
+						
+						#{declerationOfTrackBean.refresh()}
+						<h:panelGroup rendered="#{declerationOfTrackBean.trackSelected}">
+							<p class="alert alert-success">Your declared Track is:  #{declerationOfTrackBean.current_decleration_of_track.track==0?'Engineer':'Science'}</p>
+					
+						</h:panelGroup>
+						<h:panelGroup rendered="#{not declerationOfTrackBean.trackSelected}">
+						
+						<div class="row">
+						
+						
+						
+							<p:selectOneMenu id="selectedTrack" value="#{declerationOfTrackBean.selectedTrack}" style="width:30%;" required="true" requiredMessage="Please select track">
+										<f:selectItem itemLabel="Engineer" itemValue="0" />
+										<f:selectItem itemLabel="Science" itemValue="1" />
+									</p:selectOneMenu>
+									<p:message for="selectedTrack" />
+						
+							
+						</div>
+						
+						<div class="row">
+						
+						<p:commandButton value="Submit" update=":pageForm" actionListener="#{declerationOfTrackBean.addTrack()}"></p:commandButton>
+								
+						</div>
+							</h:panelGroup>
+						 </p:panel>
+						
+					</h:form>
+				</li>
+			</ul>
+			
+		
+		
+
+
+		</ui:define>
+		
+		
+	</ui:composition>
+</html>

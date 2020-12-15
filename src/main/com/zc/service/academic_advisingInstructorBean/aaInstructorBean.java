@@ -211,7 +211,7 @@ public void onRowEdit(RowEditEvent event) {
 
 				FormsStatusDTO settingform = facadeSettings.getById(23);
 				
-				allFiles = attachmentsFacade.getByYearAndSemester(String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+				allFiles = attachmentsFacade.getAll();
 		}
 		getAllInstructorDates();
 	}
