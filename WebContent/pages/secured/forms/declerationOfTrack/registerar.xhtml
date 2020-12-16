@@ -33,43 +33,33 @@
 						</p:breadCrumb>
 						
 						
-						<!-- 
 						
 						<table>
 							<tr>
 								<td>
-									<p:selectOneMenu id="semester" value="#{aaRegistrarBean.selectedSemester}" required="true" requiredMessage="Please select semester">
+									<p:selectOneMenu id="semester" value="#{declerationOfTrackBean.semester}" required="true" requiredMessage="Please select semester">
 										<f:selectItem itemLabel="Select Semester" />
-										<f:selectItems var="semester" value="#{aaRegistrarBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.name}" />
-										<p:ajax listener="#{aaRegistrarBean.fillYearLst}" update="year"/>	
+										<f:selectItems var="semester" value="#{declerationOfTrackBean.semesterLst}" itemLabel="#{semester.name}" itemValue="#{semester.id}" />
+										<p:ajax listener="#{declerationOfTrackBean.fillYearLst}" update="year"/>	
 									</p:selectOneMenu>
 									<p:message for="semester" />
 								</td>
 								<td width="12">&nbsp;</td>
 								<td>
-									<p:selectOneMenu id="year" value="#{aaRegistrarBean.selectedYear}" required="true" requiredMessage="Please select year">
+									<p:selectOneMenu id="year" value="#{declerationOfTrackBean.year}" required="true" requiredMessage="Please select year">
 										<f:selectItem itemLabel="Select Year" />
-										<f:selectItems var="year" value="#{aaRegistrarBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
-										<p:ajax listener="#{aaRegistrarBean.getAllListOfFiles}" update="dataTable"/>
+										<f:selectItems var="year" value="#{declerationOfTrackBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
+										<p:ajax listener="#{declerationOfTrackBean.getAllListOfdeclerationOfTrack}" update="dataTable"/>
 									</p:selectOneMenu>
 									<p:message for="year" />
 								</td>
 								
 								</tr>
 							</table>
-						 -->
 						 
-						 #{aaRegistrarBean.getAllListOfFiles()}
-						<h:panelGroup>
-								    <p:fileUpload fileUploadListener="#{aaRegistrarBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
-								                  update="messages dataTable" multiple="true" sizeLimit="500000000"  />
-								     
-								    <p:growl id="messages" showDetail="true" />          
-								
-						</h:panelGroup>
 						
 						<h:panelGroup >
-				<p:dataTable var="row" style="padding-right: 1%;padding-left: 1%;" value="#{aaRegistrarBean.allFiles}" selectionMode="single" rowKey="#{row.id}" 
+				<p:dataTable var="row" style="padding-right: 1%;padding-left: 1%;" value="#{declerationOfTrackBean.decleration_of_trackList}" selectionMode="single" rowKey="#{row.id}" 
 							sortMode="multiple" widgetVar="studentProfile" id="dataTable" resizableColumns="true" rows="100" paginator="true"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
                          	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
@@ -86,9 +76,9 @@
 								
 							
 								
-								<p:column width="105" id="name" sortBy="#{row.attachment.name}" filterBy="#{row.attachment.name}">
+								<p:column width="105" id="name" sortBy="#{row.studentId.data.nameInEnglish}" filterBy="#{row.studentId.data.nameInEnglish}">
 								
-									<h:outputText value="#{row.attachment.name}" />
+									<h:outputText value="#{row.studentId.data.nameInEnglish}" />
 								
 									<f:facet name="header">
 										<h:outputText value="Name" />
@@ -96,33 +86,27 @@
 								</p:column>
 								
 								
+								<p:column width="105" id="mail" sortBy="#{row.studentId.data.mail}" filterBy="#{row.studentId.data.mail}">
 								
-								<p:column width="173" id="download" sortBy="#{row.id}" filterBy="#{row.id}">
-									
-						                
-						                	<h:commandButton actionListener="#{aaRegistrarBean.downloadAttachments2(row.attachment)}" value="Download" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
-						              
-						              
-										<f:facet name="header">
-											<h:outputText value="Download" />
-										</f:facet>
-										
-										
-							</p:column>
+									<h:outputText value="#{row.studentId.data.mail}" />
+								
+									<f:facet name="header">
+										<h:outputText value="Mail" />
+									</f:facet>
+								</p:column>
+								
+								
+								<p:column width="105" id="track" sortBy="#{row.track}" filterBy="#{row.track}">
+								
+									<h:outputText value="#{row.track==0?'Engineering':'Science'}" />
+								
+									<f:facet name="header">
+										<h:outputText value="Track" />
+									</f:facet>
+								</p:column>
+								
+								
 							
-							
-							<p:column width="173" id="delete" sortBy="#{row.id}" filterBy="#{row.id}">
-									
-						                
-						                	<h:commandButton   actionListener="#{aaRegistrarBean.deleteFile(row.id)}" value="Delete" style="background: #cc2654!important;color: white!important;border-radius: 7px;"/>
-						              
-						              
-										<f:facet name="header">
-											<h:outputText value="Delete" />
-										</f:facet>
-										
-										
-							</p:column>
 							
 								
 							

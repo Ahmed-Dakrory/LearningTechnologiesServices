@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,7 @@ import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
+import main.com.zc.shared.presentation.dto.BaseDTO;
 
 @ManagedBean(name = "declerationOfTrackBean")
 @SessionScoped
@@ -78,22 +80,54 @@ public class declerationOfTrackBean implements Serializable{
 
 
 	private decleration_of_track decleration_of_trackObject;
+	private List<decleration_of_track> decleration_of_trackList;
 	private Integer year=0;
 	private Integer semester = 0;
 
 	private boolean trackSelected = false;
 	private decleration_of_track current_decleration_of_track;
 	private Integer selectedTrack = -1;
-	
+
+	private List<BaseDTO> semesterLst;
+	private List<String> yearLst;
 	
 	@PostConstruct
 	public void init() {
 
 		
 		refresh();
-		
+		fillSemesterLst();
 		
 	}
+	
+public void getAllListOfdeclerationOfTrack() {
+	decleration_of_trackList = decleration_of_trackFacade.getAllByYearAndSemestar(year, semester);
+}
+	
+	public void fillSemesterLst()
+	{
+		semesterLst=new ArrayList<BaseDTO>();
+		semesterLst.add(new BaseDTO(0,"Fall"));
+		semesterLst.add(new BaseDTO(1,"Spring"));
+		semesterLst.add(new BaseDTO(2,"Summer"));
+		//semesterLst.add(new BaseDTO(3,"Winter"));
+		
+		yearLst=new ArrayList<String>();
+		for(int i=2013;i<2031;i++)
+		{
+			yearLst.add(String.valueOf(i));
+		}
+	}
+	
+	public void fillYearLst(AjaxBehaviorEvent event)
+	{
+		 yearLst=new ArrayList<String>();
+		for(int i=2013;i<2031;i++)
+		{
+			yearLst.add(String.valueOf(i));
+		}
+	}
+
 	
 	public void refresh(){
 		trackSelected = false;
@@ -253,6 +287,44 @@ public class declerationOfTrackBean implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+
+	public decleration_of_track getDecleration_of_trackObject() {
+		return decleration_of_trackObject;
+	}
+
+
+	public void setDecleration_of_trackObject(decleration_of_track decleration_of_trackObject) {
+		this.decleration_of_trackObject = decleration_of_trackObject;
+	}
+
+
+	public List<BaseDTO> getSemesterLst() {
+		return semesterLst;
+	}
+
+
+	public void setSemesterLst(List<BaseDTO> semesterLst) {
+		this.semesterLst = semesterLst;
+	}
+
+
+	public List<String> getYearLst() {
+		return yearLst;
+	}
+
+
+	public void setYearLst(List<String> yearLst) {
+		this.yearLst = yearLst;
+	}
+
+	public List<decleration_of_track> getDecleration_of_trackList() {
+		return decleration_of_trackList;
+	}
+
+	public void setDecleration_of_trackList(List<decleration_of_track> decleration_of_trackList) {
+		this.decleration_of_trackList = decleration_of_trackList;
 	}
 
 

@@ -237,6 +237,17 @@ public class instructorSurveyAllBean implements Serializable{
 		}
 	}
 
+	
+	public void fillQuestionFinal() {
+		// TODO Auto-generated method stub
+		questionsInCateg = new ArrayList<InstructorSurveyCategory>();
+		all_Categories = instructor_all_survey_quesFacade.getNumberOfGategoriesByYearAndSemestarAndMidtermOrFinal(yearSelected, semesterSelected, instructor_all_survey_ques.MODE_FINAL);
+		for(int i=0;i<all_Categories.size();i++) {
+			List<instructor_all_survey_ques> questionsOnly_Categ = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndCategoryAndMidtermOrFinal(yearSelected, semesterSelected, i, instructor_all_survey_ques.MODE_FINAL);
+			questionsInCateg.add(new InstructorSurveyCategory(studentThisAccount.getId(), selectedCourse.getId(), selectedInstructor.getId(), instructor_all_survey_ansFacade,questionsOnly_Categ, instructor_all_survey_ques_chooseFacade));
+		}
+	}
+
 
 	
 	public void submitResult() {
