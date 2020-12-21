@@ -108,7 +108,8 @@
                           action="#{leftNavigationMenuBean.renderDeclarationOfMajor}"
                            rendered="#{FormsStatusBean.declarationOfMajor and leftNavigationMenuBean.studentModeDeclarationOfMajor}"
 						class="#{leftNavigationMenuBean.getActiveCssName('Declaration of Major')}"/>
-						
+						<p:commandLink ajax="false" immediate="true" value="Decleration of Track" rendered="#{leftNavigationMenuBean.isdeclerationOfTrack()}" action="#{leftNavigationMenuBean.renderDeclerationOfTrack}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
+					
 						</h:panelGroup>
 					 	
 					
@@ -164,7 +165,6 @@
 					<p:commandLink ajax="false" immediate="true" value="Overload Request" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderOverLoadReq}"  class="#{leftNavigationMenuBean.getActiveCssName('Overload Request')}"/>
 					<p:commandLink ajax="false" immediate="true" value="Course Repeat Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderCourseRepeat}"  class="#{leftNavigationMenuBean.getActiveCssName('Course Repeat Form')}"/>
 					<p:commandLink ajax="false" immediate="true" value="Incomplete Grade Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderIncompleteGrade}"  class="#{leftNavigationMenuBean.getActiveCssName('Incomplete Grade Form')}"/>
-					<p:commandLink ajax="false" immediate="true" value="Decleration of Track" rendered="#{leftNavigationMenuBean.isdeclerationOfTrack()}" action="#{leftNavigationMenuBean.renderDeclerationOfTrack}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 					
 					<h:panelGrid rendered="#{(leftNavigationMenuBean.validateLoggedIn) and !(leftNavigationMenuBean.booksSysMode) and !(leftNavigationMenuBean.admin) and !(leftNavigationMenuBean.isStudent())}" columns="1">
 					<h3 >Course Modification</h3>

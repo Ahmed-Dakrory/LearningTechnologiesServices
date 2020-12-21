@@ -41,7 +41,7 @@
 							<p class="alert alert-success">Your declared Track is:  #{declerationOfTrackBean.current_decleration_of_track.track==0?'Engineer':'Science'}</p>
 					
 						</h:panelGroup>
-						<h:panelGroup rendered="#{not declerationOfTrackBean.trackSelected}">
+						<h:panelGroup >
 						
 						<div class="row">
 						
@@ -58,7 +58,7 @@
 						
 						<div class="row">
 						
-						<p:commandButton value="Submit" update=":pageForm" actionListener="#{declerationOfTrackBean.addTrack()}"></p:commandButton>
+						<h:commandButton value="Submit" update=":pageForm" actionListener="#{declerationOfTrackBean.addTrack()}"></h:commandButton>
 								
 						</div>
 							</h:panelGroup>

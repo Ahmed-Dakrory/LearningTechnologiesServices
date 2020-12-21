@@ -1,10 +1,8 @@
 package main.com.zc.service.decleration_of_track;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +10,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
@@ -21,15 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_students;
-import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_studentsAppServiceImpl;
-import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_date;
-import main.com.zc.service.academic_advisingInstructorsDates.aa_instructor_dateAppServiceImpl;
-import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
-import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
-import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
 import main.com.zc.service.student.IStudentGetDataAppService;
 import main.com.zc.services.domain.person.model.Student;
-import main.com.zc.services.domain.shared.Constants;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
@@ -163,13 +153,24 @@ public void getAllListOfdeclerationOfTrack() {
 
 	
 	public void addTrack() {
-		decleration_of_trackObject = new decleration_of_track();
-		decleration_of_trackObject.setDate(Calendar.getInstance());
-		decleration_of_trackObject.setStudentId(selectedStudent);
-		decleration_of_trackObject.setTrack(selectedTrack);
-		decleration_of_trackObject.setSemester(semester);
-		decleration_of_trackObject.setYear(year);
-		decleration_of_trackFacade.adddecleration_of_track(decleration_of_trackObject);
+		
+		
+		if(isTrackSelected()) {
+
+			current_decleration_of_track.setDate(Calendar.getInstance());
+			current_decleration_of_track.setStudentId(selectedStudent);
+			current_decleration_of_track.setTrack(selectedTrack);
+			current_decleration_of_track.setSemester(semester);
+			current_decleration_of_track.setYear(year);
+		}else {
+			current_decleration_of_track = new decleration_of_track();
+			current_decleration_of_track.setDate(Calendar.getInstance());
+			current_decleration_of_track.setStudentId(selectedStudent);
+			current_decleration_of_track.setTrack(selectedTrack);
+			current_decleration_of_track.setSemester(semester);
+			current_decleration_of_track.setYear(year);
+		}
+		decleration_of_trackFacade.adddecleration_of_track(current_decleration_of_track);
 		FacesMessage msg = new FacesMessage("Declared", "Your Track has been declared");
 		trackSelected = true;
 	    FacesContext.getCurrentInstance().addMessage(null, msg);
