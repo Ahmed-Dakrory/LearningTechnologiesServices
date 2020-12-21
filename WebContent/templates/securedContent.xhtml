@@ -108,10 +108,10 @@
                           action="#{leftNavigationMenuBean.renderDeclarationOfMajor}"
                            rendered="#{FormsStatusBean.declarationOfMajor and leftNavigationMenuBean.studentModeDeclarationOfMajor}"
 						class="#{leftNavigationMenuBean.getActiveCssName('Declaration of Major')}"/>
-						<p:commandLink ajax="false" immediate="true" value="Decleration of Track" rendered="#{leftNavigationMenuBean.isdeclerationOfTrack()}" action="#{leftNavigationMenuBean.renderDeclerationOfTrack}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
-					
+						
 						</h:panelGroup>
 					 	
+					<p:commandLink ajax="false" immediate="true" value="Declaration of Track" rendered="#{leftNavigationMenuBean.isdeclerationOfTrack()}" action="#{leftNavigationMenuBean.renderDeclerationOfTrack}"  class="#{leftNavigationMenuBean.getActiveCssName('Instructor Survey')}"/>
 					
 					<h3>Feedback</h3>
 					<p:commandLink ajax="false" immediate="true" value="Feedback Form" action="#{leftNavigationMenuBean.renderGenFeedback}"
