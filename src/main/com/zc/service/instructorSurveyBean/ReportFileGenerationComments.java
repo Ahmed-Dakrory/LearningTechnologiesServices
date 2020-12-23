@@ -97,17 +97,17 @@ public class ReportFileGenerationComments {
 	    for(int i=0;i<1;i++) {
 	    	cell = row.createCell(2*i+2);
 		    row.getCell(2*i+2).setCellStyle(style);
-		    cell.setCellValue("Positive Comments");
+		    cell.setCellValue("Please respond to the following question only if your course is online or hybrid How do you rate the accessibility to the online material (e.g. communicated early enough (1 day or more) before the online session (if applicable), availability, clarity…etc.)?");
 		    
 		    
 		    cell = row.createCell(2*i+3);
 		    row.getCell(2*i+3).setCellStyle(style);
-		    cell.setCellValue("Negative Comments");
+		    cell.setCellValue("General Comments (Please indicate both positive experiences and any suggestions you may have to improve the course)");
 		    
 		    
 		    cell = row.createCell(2*i+4);
 		    row.getCell(2*i+4).setCellStyle(style);
-		    cell.setCellValue("TA Comments");
+		    cell.setCellValue("TA Evaluation");
 	    }
 	 
 	    int negSize = 0;
