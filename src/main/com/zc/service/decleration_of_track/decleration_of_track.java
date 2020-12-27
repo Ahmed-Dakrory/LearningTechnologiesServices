@@ -41,6 +41,11 @@ import main.com.zc.services.domain.person.model.Student;
 	query = "from decleration_of_track d where d.year = :year and d.semester = :semester"
 			)
 	
+	,
+	@NamedQuery(name="decleration_of_track.getAllByYearAndSemestarAndStudent",
+	query = "from decleration_of_track d where d.year = :year and d.semester = :semester and d.studentId.id = :studentId"
+			)
+	
 		
 	
 })

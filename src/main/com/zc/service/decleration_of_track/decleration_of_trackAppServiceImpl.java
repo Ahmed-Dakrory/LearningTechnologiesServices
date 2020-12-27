@@ -102,6 +102,22 @@ public class decleration_of_trackAppServiceImpl implements Idecleration_of_track
 
 
 
+	@Override
+	public List<decleration_of_track> getAllByYearAndSemestarAndStudent(int year, int semestar, int studentId) {
+		try{
+			List<decleration_of_track> course=decleration_of_trackDataRepository.getAllByYearAndSemestarAndStudent(year, semestar,studentId);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 
 	
 

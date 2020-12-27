@@ -136,7 +136,7 @@ public void getAllListOfdeclerationOfTrack() {
 //				studentDataFacade.getPersonByPersonMail(mail).
 				
 				selectedStudent = studentFacade.getStudentByPersonMail(mail);
-				List<decleration_of_track> current_decleration_of_trackAll = decleration_of_trackFacade.getAllByYearAndSemestar(year, semester);
+				List<decleration_of_track> current_decleration_of_trackAll = decleration_of_trackFacade.getAllByYearAndSemestarAndStudent(year, semester,selectedStudent.getId());
 				if(current_decleration_of_trackAll!=null) {
 					if(current_decleration_of_trackAll.size()>0) {
 						current_decleration_of_track = current_decleration_of_trackAll.get(current_decleration_of_trackAll.size()-1);

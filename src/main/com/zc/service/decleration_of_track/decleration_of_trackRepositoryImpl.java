@@ -106,6 +106,22 @@ public class decleration_of_trackRepositoryImpl implements decleration_of_trackR
 		 }
 	}
 
+	@Override
+	public List<decleration_of_track> getAllByYearAndSemestarAndStudent(int year, int semestar, int studentId) {
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("decleration_of_track.getAllByYearAndSemestarAndStudent")
+				 .setInteger("year",year)
+				 .setInteger("semester", semestar)
+				 .setInteger("studentId", studentId);
+
+		 @SuppressWarnings("unchecked")
+		List<decleration_of_track> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
 
 	
 
