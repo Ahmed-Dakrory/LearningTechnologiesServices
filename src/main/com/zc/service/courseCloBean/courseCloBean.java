@@ -878,7 +878,8 @@ public class courseCloBean implements Serializable{
 					
 					
 				}
-
+				
+				System.out.println("Number: "+String.valueOf(course.getCourse_code()));
 				
 				dataList.add(course);
 	 	       }
@@ -902,6 +903,7 @@ public class courseCloBean implements Serializable{
 
 
 	private String theIntgerDataAdaptedTo(Cell cell) {
+		try {
 		// TODO Auto-generated method stub
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_NUMERIC:
@@ -934,6 +936,11 @@ public class courseCloBean implements Serializable{
 			}
 		}
 		
+		}
+		}catch(Error e) {
+			
+		}catch(Exception excp) {
+			
 		}
 		return null;
 	}
