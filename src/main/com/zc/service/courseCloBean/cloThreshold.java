@@ -22,12 +22,13 @@ public class cloThreshold {
 
 			private List<clo_survey_ans> listOfCourseAnswers;
 			private course_clo selectedCourse;
+			private int numberOfPersonTotalForThisCourse=0;
 			public cloThreshold( List<clo_survey_ans> listOfCourseAnswers,
-					course_clo selectedCourse) {
+					course_clo selectedCourse,int numberOfPersonTotalForThisCourse) {
 				super();
 				this.listOfCourseAnswers = listOfCourseAnswers;
 				this.selectedCourse = selectedCourse;
-				
+				this.numberOfPersonTotalForThisCourse=numberOfPersonTotalForThisCourse;
 				GenerateThe_resulsPersonPercentageCLO();
 				GenerateTheThresholdValues();
 			}
@@ -402,6 +403,20 @@ public class cloThreshold {
 
 			public void setSelectedCourse(course_clo selectedCourse) {
 				this.selectedCourse = selectedCourse;
+			}
+
+
+
+
+			public int getNumberOfPersonTotalForThisCourse() {
+				return numberOfPersonTotalForThisCourse;
+			}
+
+
+
+
+			public void setNumberOfPersonTotalForThisCourse(int numberOfPersonTotalForThisCourse) {
+				this.numberOfPersonTotalForThisCourse = numberOfPersonTotalForThisCourse;
 			}
 			
 			

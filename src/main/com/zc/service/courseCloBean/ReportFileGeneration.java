@@ -77,6 +77,7 @@ public class ReportFileGeneration {
 		sheet.setColumnWidth(18, 5000);
 		sheet.setColumnWidth(19, 3000);
 		sheet.setColumnWidth(20, 5000);
+		sheet.setColumnWidth(21, 7999);
 		
 		titleOfSheet();
 	}
@@ -111,6 +112,11 @@ public class ReportFileGeneration {
 		    row.getCell(2*i+2).setCellStyle(style);
 		    cell.setCellValue("CLO "+String.valueOf(i+1)+" Persons");
 	    }
+
+
+	    cell = row.createCell(2*20+2);
+	    row.getCell(2*20+2).setCellStyle(style);
+	    cell.setCellValue("Total Number Of Students");
 	 
 	    
 	    
@@ -144,7 +150,9 @@ public class ReportFileGeneration {
 			  cell.setCellValue(allCoursesThresoldResults.get(i).getCloThresholdPersons()[j]);
 		   }
 		   
-		  
+		   cell = row.createCell(2*20+2);
+		  row.getCell(2*20+2).setCellStyle(style2);
+		  cell.setCellValue(allCoursesThresoldResults.get(i).getNumberOfPersonTotalForThisCourse());
 		   
 	   }
 	 

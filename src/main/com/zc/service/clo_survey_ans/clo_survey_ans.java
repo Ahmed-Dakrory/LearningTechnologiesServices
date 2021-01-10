@@ -46,6 +46,11 @@ import main.com.zc.services.domain.person.model.Student;
 	@NamedQuery(name="clo_survey_ans.getAllByCourseId",
 	query = "from clo_survey_ans d where d.courseCloId.id = :courseId"
 			)
+	
+	,
+	@NamedQuery(name="clo_survey_ans.getAllByCourseIdGroupByStudent",
+	query = "from clo_survey_ans d where d.courseCloId.id = :courseId group by d.studentId.id"
+			)
 		
 	
 })

@@ -123,6 +123,20 @@ public class clo_survey_ansRepositoryImpl implements clo_survey_ansRepository{
 		 }
 	}
 
+	@Override
+	public List<clo_survey_ans> getAllByCourseIdGroupByStudent(int courseId) {
+		 Query query 	=sessionFactory.getCurrentSession().getNamedQuery("clo_survey_ans.getAllByCourseIdGroupByStudent")
+				 .setInteger("courseId",courseId);
+
+		 @SuppressWarnings("unchecked")
+		List<clo_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
 	
 
 

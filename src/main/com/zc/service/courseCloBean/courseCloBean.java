@@ -147,9 +147,18 @@ public class courseCloBean implements Serializable{
 		List<cloThreshold> allCoursesThresoldResults=new ArrayList<cloThreshold>();
 		for(int i=0;i<listOfAllCourses.size();i++) {
 			 course_clo courseCLO = course_cloFacade.getById(listOfAllCourses.get(i).getId());
-			listOfCourseAnswers=clo_survey_ansFacade.getAllByCourseId(courseCLO.getId());
+				listOfCourseAnswers=clo_survey_ansFacade.getAllByCourseId(courseCLO.getId());
+				List<clo_survey_ans> listOfCourseAnswersGroupbyStudent = clo_survey_ansFacade.getAllByCourseIdGroupByStudent(courseCLO.getId());
+				cloThreshold course_threshold=null;
+				if(listOfCourseAnswersGroupbyStudent == null) {
+
+					 course_threshold=new cloThreshold(listOfCourseAnswers, courseCLO,0);
+				}else {
+
+					 course_threshold=new cloThreshold(listOfCourseAnswers, courseCLO,listOfCourseAnswersGroupbyStudent.size());
+				}
+				
 			System.out.println("Ahmed Result: "+courseCLO.getCourse_code());
-			cloThreshold course_threshold=new cloThreshold(listOfCourseAnswers, courseCLO);
 			
 			allCoursesThresoldResults.add(course_threshold);
 		}

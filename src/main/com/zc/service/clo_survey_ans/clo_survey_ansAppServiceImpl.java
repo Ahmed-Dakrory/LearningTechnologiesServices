@@ -118,6 +118,22 @@ public class clo_survey_ansAppServiceImpl implements Iclo_survey_ansAppService{
 
 
 
+	@Override
+	public List<clo_survey_ans> getAllByCourseIdGroupByStudent(int courseId) {
+		try{
+			List<clo_survey_ans> course=clo_survey_ansDataRepository.getAllByCourseIdGroupByStudent(courseId);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 	
 
 	
