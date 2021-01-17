@@ -90,6 +90,236 @@
 									
 								</h:panelGrid>
 							
+							
+							
+							
+							<!--Steps -->
+							
+							<h:panelGroup>
+							<h3>Current Step</h3><hr/> 
+							
+							
+							<div class="formProgressWrapper">
+							<ol class="formProgress">
+							
+							<!-- Registrar Auditing -->
+							<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Registrar Auditing" /><br/>
+									</div>
+								</li>
+								</h:panelGroup>
+								
+								<!-- OR -->
+								<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0}">
+								<li>
+									<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Registrar Auditing" /><br/>
+											<div class="otherInfo">
+											
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								<!-- End Registrar Auditing -->
+								
+								
+								
+								
+								
+								
+								<!-- Major Head -->
+							<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Major Head" /><br/>
+										<div class="otherInfo">
+											#{HeadDetailsBeanChangeCourseComfirmation.major.headOfMajor.name}
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								
+								<!-- OR -->
+								<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1}">
+								<li>
+									<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Major Head" /><br/>
+											<div class="otherInfo">
+											#{HeadDetailsBeanChangeCourseComfirmation.major.headOfMajor.name}
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								<!-- End Major Head -->
+								
+								
+								
+								
+								<!-- Director Of Accredition  -->
+								<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.type==2}">
+								
+								<!-- TYPE_SCIENCE -->
+									<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Director Of Accredition" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead7().headPersonId.name}
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Director Of Accredition" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead7().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								</h:panelGroup>
+						
+						
+						
+						<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.type==1}">
+								
+								<!-- TYPE_ENGINEERING -->
+									<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Director Of Accredition" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead6().headPersonId.name}
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Director Of Accredition" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead6().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								</h:panelGroup>
+						
+								<!-- End Director Of Accredition -->
+								
+								
+								
+									<!-- Dean Of Stratigic Enrollment  -->
+									<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead4().headPersonId.name}
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead4().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								<!-- End Dean Of Stratigic Enrollment -->
+								
+								
+								
+								<!-- Associate Dean  -->
+									<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Associate Dean" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead10().headPersonId.name}
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Associate Dean" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead10().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								<!-- End Associate Dean -->
+								
+								
+								<!-- Registrar Office  -->
+									<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Registrar Office" /><br/>
+												
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Registrar Office" /><br/>
+													
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								<!-- End Registrar Office -->
+								
+								
+								
+								</ol>
+							</div>
+							</h:panelGroup>
+							
+							<!-- End Steps -->
+							
+							
 								<h3>Courses needed to be comfirmed</h3><hr/>
 								<h:panelGrid id="panelForupdate" columns="2" styleClass="graduationFormPrintDetails">			
 									  				

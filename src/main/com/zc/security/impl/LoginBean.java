@@ -128,6 +128,8 @@ public class LoginBean {
 	public static Employee TeachingEffectiveness =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	public static Heads head9 ;//= headRep.getByType(Heads.Regist_Head);
 	public static Employee AcademicAdvisor =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
+	public static Heads head10 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee ASSOCIATE_DEAN =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	
 	
 	@PostConstruct
@@ -166,6 +168,8 @@ public class LoginBean {
 		TeachingEffectiveness = head8.getHeadPersonId();
 		head9 = headFacades.getByType(Heads.AcademicAdvisor_DEP);
 		AcademicAdvisor = head9.getHeadPersonId();
+		head10 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
+		ASSOCIATE_DEAN = head10.getHeadPersonId();
 		
 		Constants.DEAN_OF_STRATEGIC=DEAN_OF_STRATEGICEm.getMail();//"mabdrabou@zewailcity.edu.eg";
 		Constants.DEAN_OF_STRATEGIC_ID=DEAN_OF_STRATEGICEm.getId();//1379;
@@ -175,8 +179,6 @@ public class LoginBean {
 		Constants.DEAN_OF_ACADEMIC_NAME=DEAN_OF_ACADEMICEm.getName();//"Dr. Tarek Ibrahim";
 		
 
-		System.out.println("Ahmed:"+String.valueOf(Constants.DEAN_OF_STRATEGIC_ID));
-		System.out.println("Ahmed:"+String.valueOf(Constants.DEAN_OF_STRATEGIC));
 		
 		Constants.ADMISSION_HEAD=ADMISSION_HEADEm.getMail();//"ghazem@zewailcity.edu.eg";
 		Constants.ADMISSION_HEAD_ID=ADMISSION_HEADEm.getId();//888;
@@ -211,9 +213,15 @@ public class LoginBean {
 		Constants.ADMISSION_HEAD_NAME=ADMISSION_HEADEm.getName();//"Mrs. Ghada";
 		Constants.ADMISSION_DEPT=ADMISSION_DEPTEm.getMail();//"registrar@zewailcity.edu.eg";
 		Constants.ADMISSION_DEPT_ID=ADMISSION_DEPTEm.getId();//999;
+		
 		Constants.PROVOST=PROVOSTEm.getMail();//"sobbaya@zewailcity.edu.eg";
 		Constants.PROVOST_ID=PROVOSTEm.getId();//21;
 		Constants.PROVOST_NAME=PROVOSTEm.getName();//"Dr. Salah Obayya";
+		
+
+		Constants.ASSOCIATE_DEAN_DEP=ASSOCIATE_DEAN.getMail();//"sobbaya@zewailcity.edu.eg";
+		Constants.ASSOCIATE_DEAN_ID=ASSOCIATE_DEAN.getId();//21;
+		Constants.ASSOCIATE_DEAN_NAME=ASSOCIATE_DEAN.getName();//"Dr. Salah Obayya";
 	}
 	public String login() {
 		try {
@@ -321,7 +329,7 @@ public class LoginBean {
 			if (getRegisterMail().startsWith("s-")||StringUtils.isNumeric(getRegisterMail().substring(0, 4))
 					|| getRegisterMail().startsWith("S-"))// Student add login
 			{
-				System.out.println("student");
+//				System.out.println("student");
 				if (loginfacade.checkStudents(getRegisterMail())) {
 					LoginStaffDTO dao = loginAppService.addInsLogin(
 							getRegisterName(), getRegisterMail(),
@@ -479,8 +487,8 @@ public class LoginBean {
 			            transport.connect(host, from, pass);
 			            transport.sendMessage(message, message.getAllRecipients());
 			            transport.close();
-			            System.out.println("Done Email Send");JavaScriptMessagesHandler.RegisterErrorMessage("",
-								successMessage);
+//			            System.out.println("Done Email Send");JavaScriptMessagesHandler.RegisterErrorMessage("",
+//								successMessage);
 			            return true;
 			        }
 			        catch (AddressException ae) {
@@ -936,6 +944,94 @@ public class LoginBean {
 
 	public void setHeadFacades(HeadsAppServiceImpl headFacades) {
 		this.headFacades = headFacades;
+	}
+
+	public static Heads getHead() {
+		return head;
+	}
+
+	public static void setHead(Heads head) {
+		LoginBean.head = head;
+	}
+
+	public static Heads getHead1() {
+		return head1;
+	}
+
+	public static void setHead1(Heads head1) {
+		LoginBean.head1 = head1;
+	}
+
+	public static Heads getHead2() {
+		return head2;
+	}
+
+	public static void setHead2(Heads head2) {
+		LoginBean.head2 = head2;
+	}
+
+	public static Heads getHead3() {
+		return head3;
+	}
+
+	public static void setHead3(Heads head3) {
+		LoginBean.head3 = head3;
+	}
+
+	public static Heads getHead4() {
+		return head4;
+	}
+
+	public static void setHead4(Heads head4) {
+		LoginBean.head4 = head4;
+	}
+
+	public static Heads getHead5() {
+		return head5;
+	}
+
+	public static void setHead5(Heads head5) {
+		LoginBean.head5 = head5;
+	}
+
+	public static Heads getHead6() {
+		return head6;
+	}
+
+	public static void setHead6(Heads head6) {
+		LoginBean.head6 = head6;
+	}
+
+	public static Heads getHead7() {
+		return head7;
+	}
+
+	public static void setHead7(Heads head7) {
+		LoginBean.head7 = head7;
+	}
+
+	public static Heads getHead8() {
+		return head8;
+	}
+
+	public static void setHead8(Heads head8) {
+		LoginBean.head8 = head8;
+	}
+
+	public static Heads getHead9() {
+		return head9;
+	}
+
+	public static void setHead9(Heads head9) {
+		LoginBean.head9 = head9;
+	}
+
+	public static Heads getHead10() {
+		return head10;
+	}
+
+	public static void setHead10(Heads head10) {
+		LoginBean.head10 = head10;
 	}
 
 	
