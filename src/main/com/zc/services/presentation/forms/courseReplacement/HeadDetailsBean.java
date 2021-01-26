@@ -449,6 +449,7 @@ public class HeadDetailsBean {
 	        		"					"+name+"\n" + 
 	        		"					,</span><br><br><br>\n" + 
 	        		"					<span style=\"color:#676767\">"+string+"</span><br><br><br>\n" + 
+	        		"					<a href='https://lts.zewailcity.edu.eg/LearningTechnologiesServices/pages/public/login.xhtml' style=\"color:#676767\">Login Now</a><br><br><br>\n" + 
 	        		"					<br><br>\n" + 
 	        		"					<span style=\"color:#676767\">Thank you, </span><br><br>\n" + 
 	        		"					<span style=\"color:#676767\">Center for Learning Technologies</span>\n" + 
