@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -44,7 +44,7 @@ import main.com.zc.shared.JavaScriptMessagesHandler;
  *
  */
 @ManagedBean(name="HeadDetailsBeanChangeCourseComfirmation")
-@ApplicationScoped
+@SessionScoped
 public class HeadDetailsBean {
 
 	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
@@ -256,6 +256,7 @@ public class HeadDetailsBean {
 			
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_AUDITING+1);
+			selectedNewCourseComfirmation.setAuditingDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(courseReplacement.STEP_AUDITING+1);
 			sendEmailForStudent(getNameByState(courseReplacement.STEP_AUDITING+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
 		
@@ -263,6 +264,7 @@ public class HeadDetailsBean {
 			
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_MajorHead+1);
+			selectedNewCourseComfirmation.setProgramDirectorDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(courseReplacement.STEP_MajorHead+1);
 			sendEmailForStudent(getNameByState(courseReplacement.STEP_MajorHead+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
 		
@@ -270,6 +272,7 @@ public class HeadDetailsBean {
 			
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_DirectorOfAccredition+1);
+			selectedNewCourseComfirmation.setViceDirectorDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(courseReplacement.STEP_DirectorOfAccredition+1);
 			sendEmailForStudent(getNameByState(courseReplacement.STEP_DirectorOfAccredition+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
 		
@@ -283,6 +286,7 @@ public class HeadDetailsBean {
 			
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Registerar);
+			selectedNewCourseComfirmation.setDeanDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(courseReplacement.STEP_Registerar);
 			sendEmailForStudent(getNameByState(courseReplacement.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
 		
@@ -298,6 +302,7 @@ public class HeadDetailsBean {
 
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_ACCEPTED);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Finished);
+			selectedNewCourseComfirmation.setRegisterationDate(Calendar.getInstance());
 			sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Accepted");
 		}
 		

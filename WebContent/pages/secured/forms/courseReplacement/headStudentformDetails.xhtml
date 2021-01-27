@@ -121,6 +121,11 @@
     								<div class="formProgress-done">
     									<br/>
 										<h:outputLabel value="Registrar Auditing" /><br/>
+										<div class="otherInfo">
+											<h:outputText  value="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.auditingDate.time}" styleClass="date" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.auditingDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
+											</div>
 									</div>
 								</li>
 								</h:panelGroup>
@@ -152,6 +157,10 @@
 										<h:outputLabel value="Major Head" /><br/>
 										<div class="otherInfo">
 											#{HeadDetailsBeanChangeCourseComfirmation.major.headOfMajor.name}
+													<br/>
+											<h:outputText  value="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.programDirectorDate.time}" styleClass="date" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.programDirectorDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
 											</div>
 									</div>
 								</li>
@@ -185,6 +194,11 @@
 												<h:outputLabel value="Director Of Accredition" /><br/>
 												<div class="otherInfo">
 													#{loginBean.getHead7().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.viceDirectorDate.time}" styleClass="date" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.viceDirectorDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+													
 													</div>
 											</div>
 										</li>
@@ -217,6 +231,10 @@
 												<h:outputLabel value="Director Of Accredition" /><br/>
 												<div class="otherInfo">
 													#{loginBean.getHead6().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.viceDirectorDate.time}" styleClass="date" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.viceDirectorDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
 													</div>
 											</div>
 										</li>
@@ -249,6 +267,12 @@
 												<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
 												<div class="otherInfo">
 													#{loginBean.getHead4().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.deanDate.time}" styleClass="date" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.deanDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
 													</div>
 											</div>
 										</li>
@@ -271,7 +295,7 @@
 								
 								
 								
-								<!-- Associate Dean  -->
+								<!-- Associate Dean  
 									<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
@@ -284,7 +308,7 @@
 										</li>
 										</h:panelGroup>
 										
-										<!-- OR -->
+										
 										<h:panelGroup rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.formStep==4}">
 										<li>
 											<div class="formProgress-todo">
@@ -297,7 +321,7 @@
 										</li>
 									</h:panelGroup>
 								
-								<!-- End Associate Dean -->
+							 End Associate Dean -->
 								
 								
 								<!-- Registrar Office  -->
@@ -306,7 +330,14 @@
 		    								<div class="formProgress-done">
 		    									<br/>
 												<h:outputLabel value="Registrar Office" /><br/>
-												
+												<div class="otherInfo">
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.registerationDate.time}" styleClass="date" rendered="#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.registerationDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
+													</div>
 											</div>
 										</li>
 										</h:panelGroup>
@@ -402,10 +433,10 @@
 	            				
 	            				<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 3) ? 'block' : 'none'}" >Dean of Strategic Enrollment Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 3) ? 'block' : 'none'}"></hr>
 								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 3) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.deanComment}"  style="width:70%; height:300px;"/>
-	            				
+	            				<!-- 
 	            				<h3 style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 4) ? 'block' : 'none'}" >Associate Dean Comment</h3><hr style="display:#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 4) ? 'block' : 'none'}"></hr>
 								<p:inputTextarea rendered="#{(HeadDetailsBeanChangeCourseComfirmation.stepNow == 4) ? true : false}" value = "#{HeadDetailsBeanChangeCourseComfirmation.selectedNewCourseComfirmation.associateDeanComment}"  style="width:70%; height:300px;"/>
-	            					
+	            					 -->
 							
 							
 							<h3>Graduate Contact Information</h3><hr/>

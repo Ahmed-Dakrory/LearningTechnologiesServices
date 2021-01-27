@@ -163,9 +163,33 @@ public class courseReplacement {
 	@Column(name = "submissionDate")
 	private Calendar submissionDate;
 	
-	
+
 	@Column(name = "lastUpdateDate")
 	private Calendar lastUpdateDate;
+	
+
+	@Column(name = "auditingDate")
+	private Calendar auditingDate;
+	
+	
+	@Column(name = "registerationDate")
+	private Calendar registerationDate;
+	
+
+	@Column(name = "programDirectorDate")
+	private Calendar programDirectorDate;
+	
+
+	@Column(name = "viceDirectorDate")
+	private Calendar viceDirectorDate;
+	
+
+	@Column(name = "deanDate")
+	private Calendar deanDate;
+	
+
+	@Column(name = "associateDeanDate")
+	private Calendar associateDeanDate;
 
 
 	public Integer getId() {
@@ -369,6 +393,8 @@ public class courseReplacement {
 			return "Major Head";
 		}else if(formStep==STEP_Registerar) {
 			return "Registrar";
+		}else if(formStep==STEP_Finished) {
+			return "Finished";
 		}else {
 			return "Vice Director Of Accredition";
 		}
@@ -384,4 +410,68 @@ public class courseReplacement {
 			return "REFUSED";
 		}
 	}
+
+
+	
+	public Calendar getAuditingDate() {
+		return auditingDate;
+	}
+
+
+	public void setAuditingDate(Calendar auditingDate) {
+		this.auditingDate = auditingDate;
+	}
+
+
+	public Calendar getRegisterationDate() {
+		return registerationDate;
+	}
+
+
+	public void setRegisterationDate(Calendar registerationDate) {
+		this.registerationDate = registerationDate;
+	}
+
+
+	public Calendar getProgramDirectorDate() {
+		return programDirectorDate;
+	}
+
+
+	public void setProgramDirectorDate(Calendar programDirectorDate) {
+		this.programDirectorDate = programDirectorDate;
+	}
+
+
+	public Calendar getViceDirectorDate() {
+		return viceDirectorDate;
+	}
+
+
+	public void setViceDirectorDate(Calendar viceDirectorDate) {
+		this.viceDirectorDate = viceDirectorDate;
+	}
+
+
+	public Calendar getDeanDate() {
+		return deanDate;
+	}
+
+
+	public void setDeanDate(Calendar deanDate) {
+		this.deanDate = deanDate;
+	}
+
+
+	public Calendar getAssociateDeanDate() {
+		return associateDeanDate;
+	}
+
+
+	public void setAssociateDeanDate(Calendar associateDeanDate) {
+		this.associateDeanDate = associateDeanDate;
+	}
+	
+	
+	
 }

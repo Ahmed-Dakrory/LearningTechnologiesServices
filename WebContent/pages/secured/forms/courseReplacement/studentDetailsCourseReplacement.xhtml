@@ -100,6 +100,11 @@
     								<div class="formProgress-done">
     									<br/>
 										<h:outputLabel value="Registrar Auditing" /><br/>
+										<div class="otherInfo">
+											<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.auditingDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.auditingDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
+											</div>
 									</div>
 								</li>
 								</h:panelGroup>
@@ -130,7 +135,11 @@
     									<br/>
 										<h:outputLabel value="Major Head" /><br/>
 										<div class="otherInfo">
-											#{courseReplacementBean.major.headOfMajor.name}
+											#{HeadDetailsBeanChangeCourseComfirmation.major.headOfMajor.name}
+													<br/>
+											<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.programDirectorDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.programDirectorDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
 											</div>
 									</div>
 								</li>
@@ -143,7 +152,7 @@
 											<br/>
 											<h:outputLabel value="Major Head" /><br/>
 											<div class="otherInfo">
-											#{courseReplacementBean.major.headOfMajor.name}
+											#{HeadDetailsBeanChangeCourseComfirmation.major.headOfMajor.name}
 											</div>
 									</div>
 								</li>
@@ -164,6 +173,11 @@
 												<h:outputLabel value="Director Of Accredition" /><br/>
 												<div class="otherInfo">
 													#{loginBean.getHead7().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+													
 													</div>
 											</div>
 										</li>
@@ -196,6 +210,10 @@
 												<h:outputLabel value="Director Of Accredition" /><br/>
 												<div class="otherInfo">
 													#{loginBean.getHead6().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
 													</div>
 											</div>
 										</li>
@@ -228,6 +246,12 @@
 												<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
 												<div class="otherInfo">
 													#{loginBean.getHead4().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.deanDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.deanDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
 													</div>
 											</div>
 										</li>
@@ -250,7 +274,7 @@
 								
 								
 								
-								<!-- Associate Dean  -->
+								<!-- Associate Dean  
 									<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
@@ -263,7 +287,7 @@
 										</li>
 										</h:panelGroup>
 										
-										<!-- OR -->
+										
 										<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2||courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4}">
 										<li>
 											<div class="formProgress-todo">
@@ -276,7 +300,7 @@
 										</li>
 									</h:panelGroup>
 								
-								<!-- End Associate Dean -->
+							 End Associate Dean -->
 								
 								
 								<!-- Registrar Office  -->
@@ -285,7 +309,14 @@
 		    								<div class="formProgress-done">
 		    									<br/>
 												<h:outputLabel value="Registrar Office" /><br/>
-												
+												<div class="otherInfo">
+															<br/>
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.registerationDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.registerationDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
+													</div>
 											</div>
 										</li>
 										</h:panelGroup>
@@ -349,10 +380,10 @@
 	            					
 	            					<p:outputLabel>Dean of Strategic Enrollment Comment</p:outputLabel>
 	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.deanComment}"  style="width:150px;"/>
-	            					
+	            					<!-- 
 	            					<p:outputLabel>Associate Dean Comment</p:outputLabel>
 	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.associateDeanComment}"  style="width:150px;"/>
-	            					
+	            					 -->
 	           	
 								</h:panelGrid>
 							
