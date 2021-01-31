@@ -1,5 +1,6 @@
 package main.com.zc.service.decleration_of_track;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,14 +11,25 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import main.com.zc.service.academic_advisingInstructorStudents.aa_instructor_students;
+import main.com.zc.service.instructorSurveyBean.ReportFileGeneration;
+import main.com.zc.service.instructor_survey_ques.instructor_survey_ques;
 import main.com.zc.service.student.IStudentGetDataAppService;
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
@@ -42,6 +54,8 @@ public class declerationOfTrackBean implements Serializable{
 	 * 
 	 */
 	
+	HSSFRow row;
+	HSSFCell cell;
 	
  
 
@@ -87,7 +101,96 @@ public class declerationOfTrackBean implements Serializable{
 		
 		refresh();
 		fillSemesterLst();
+		getAllListOfdeclerationOfTrack();
+	}
+	
+	
+	public void generateReport(){
+		HSSFWorkbook workbook = new HSSFWorkbook();
+	    HSSFSheet sheet = workbook.createSheet();
+	    
+	    
+	    
+	    
+		sheet.setColumnWidth(0, 13000);
+		sheet.setColumnWidth(1, 13000);
+		sheet.setColumnWidth(2, 13000);
+		sheet.setColumnWidth(3, 13000);
 		
+		HSSFCellStyle style = workbook.createCellStyle();
+	    style.setAlignment(CellStyle.ALIGN_CENTER);
+	    HSSFFont font = workbook.createFont();
+	    font.setFontHeightInPoints((short) 12);
+	    font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+	    style.setFont(font); 
+	    
+	    
+	    HSSFCellStyle style2 = workbook.createCellStyle();
+	    style2.setAlignment(CellStyle.ALIGN_CENTER);
+	    HSSFFont font2 = workbook.createFont();
+	    font2.setFontHeightInPoints((short) 10);
+	    style2.setFont(font2); 
+	    
+	    
+	    row = sheet.createRow(0);
+	    cell = row.createCell(0);
+	    row.getCell(0).setCellStyle(style);
+	    cell.setCellValue("Id");
+
+	    cell = row.createCell(1);
+	    row.getCell(1).setCellStyle(style);
+	    cell.setCellValue("Name");
+	    
+
+	    cell = row.createCell(2);
+	    row.getCell(2).setCellStyle(style);
+	    cell.setCellValue("Mail");
+	    
+
+	    cell = row.createCell(3);
+	    row.getCell(3).setCellStyle(style);
+	    cell.setCellValue("Track");
+	    
+	    for(int i=0;i<decleration_of_trackList.size()-3;i++) {
+	    	row = sheet.createRow(i+1);
+	    	cell = row.createCell(0);
+		    row.getCell(0).setCellStyle(style);
+		    cell.setCellValue(decleration_of_trackList.get(i).getId());
+		    
+		    
+		    cell = row.createCell(1);
+		    row.getCell(1).setCellStyle(style);
+		    cell.setCellValue(decleration_of_trackList.get(i).getStudentId().getData().getNameInEnglish());
+		    
+		    cell = row.createCell(2);
+		    row.getCell(2).setCellStyle(style);
+		    cell.setCellValue(decleration_of_trackList.get(i).getStudentId().getData().getMail());
+		    
+		    cell = row.createCell(3);
+		    row.getCell(3).setCellStyle(style);
+		    if(decleration_of_trackList.get(i).getTrack().intValue() == decleration_of_track.ENGINEERING_TRACK.intValue()) {
+		    	cell.setCellValue("Engineering");
+		    }else if(decleration_of_trackList.get(i).getTrack().intValue()==decleration_of_track.SCIENCE_TRACK.intValue()) {
+		    	cell.setCellValue("Science");
+		    }
+		    
+	    }
+
+
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    ExternalContext externalContext = facesContext.getExternalContext();
+	    externalContext.setResponseContentType("application/vnd.ms-excel");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"Decleration of track.xls\"");
+
+	    try {
+			workbook.write(externalContext.getResponseOutputStream());
+			System.out.println("Done");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+	    facesContext.responseComplete();
 	}
 	
 public void getAllListOfdeclerationOfTrack() {
