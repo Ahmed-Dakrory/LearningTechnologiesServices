@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Gap form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Student Gap form Details" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.id}" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.data.studentImage != null }" />
+								</li>
+								
+								<li>
+								<table>
+											<tr>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Submission Date" />
+														<h:outputLabel value="#{gap_formBean.getFriendlySubmissionDate(HeadDetailsBeanGap_form.selectedNewCourseComfirmation.submissionDate)}" />
+														<h:outputLabel value="Updating Date" />
+														<h:outputLabel value="#{gap_formBean.getFriendlySubmissionDate(HeadDetailsBeanGap_form.selectedNewCourseComfirmation.lastUpdateDate)}" />
+														<h:outputLabel value="ID" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.facultyId}" />
+														<h:outputLabel value="Mob./Phone" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.mobile}" />
+													</h:panelGrid>
+												</td>
+														<td width="48">&nbsp;</td>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Earned Credit hrs." />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.completedCreditHrs}" />
+														<h:outputLabel value="Registered hrs." />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.registeredCreditHrs}" />
+														<h:outputLabel value="Repeated Courses" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.repeatedCourses}" />
+													</h:panelGrid>
+												</td>
+												<td width="48">&nbsp;</td>
+												<td valign="top">
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="GPA" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.gpa}" />
+														<h:outputLabel value="Current Program" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.major.majorName}" />
+														<h:outputLabel value="Current Program Type" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.getMajorType(HeadDetailsBeanGap_form.major.type)}" />
+															<h:outputLabel value="Concentration" />
+														<h:outputLabel value="#{HeadDetailsBeanGap_form.student.studentProfileDTO.concentration.name}" />
+														</h:panelGrid>
+												</td>
+										
+											</tr> 
+										</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						
+						<!-- Petition Details -->
+
+						<!-- Action Buttons -->
+						<!-- Action Buttons -->
+						
+							<p:panel id="feedbackformPanel" style="width:70%;margin:0 auto;border:0;">
+							
+							
+								<h3>Personal Information</h3><hr/>  
+								<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">
+									<p:outputLabel value="Student's ID" for="studentID"/>
+									<p:outputLabel value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.fileNo}" id="studentID" disabled="true"/>
+									
+									<p:outputLabel value="Full Name" for="firstName"/>
+									<p:outputLabel value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.data.getNameInEnglish()}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+									
+								</h:panelGrid>
+							
+							
+							
+							
+							<!--Steps -->
+							
+							<h:panelGroup>
+							<h3>Current Step</h3><hr/> 
+							
+							
+							<div class="formProgressWrapper">
+							<ol class="formProgress">
+							
+							<!-- Registrar Auditing -->
+							<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Registrar Auditing" /><br/>
+										<div class="otherInfo">
+											<h:outputText  value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.auditingDate.time}" styleClass="date" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.auditingDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								
+								<!-- OR -->
+								<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0}">
+								<li>
+									<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Registrar Auditing" /><br/>
+											<div class="otherInfo">
+											
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								<!-- End Registrar Auditing -->
+								
+								
+								
+								
+								
+								
+								<!-- Major Head -->
+							<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Major Head" /><br/>
+										<div class="otherInfo">
+											#{HeadDetailsBeanGap_form.major.headOfMajor.name}
+													<br/>
+											<h:outputText  value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.programDirectorDate.time}" styleClass="date" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.programDirectorDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								
+								<!-- OR -->
+								<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1}">
+								<li>
+									<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Major Head" /><br/>
+											<div class="otherInfo">
+											#{HeadDetailsBeanGap_form.major.headOfMajor.name}
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								<!-- End Major Head -->
+								
+								
+								
+								
+								<!-- Director Of Accredition  -->
+								<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.type==2}">
+								
+								<!-- TYPE_SCIENCE -->
+									<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Director Of Accredition" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead7().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.viceDirectorDate.time}" styleClass="date" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.viceDirectorDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+													
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Director Of Accredition" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead7().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								</h:panelGroup>
+						
+						
+						
+						<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.type==1}">
+								
+								<!-- TYPE_ENGINEERING -->
+									<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Director Of Accredition" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead6().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.viceDirectorDate.time}" styleClass="date" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.viceDirectorDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Director Of Accredition" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead6().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								</h:panelGroup>
+						
+								<!-- End Director Of Accredition -->
+								
+								
+								
+									<!-- Dean Of Stratigic Enrollment  -->
+									<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead4().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.deanDate.time}" styleClass="date" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.deanDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead4().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								<!-- End Dean Of Stratigic Enrollment -->
+								
+								
+								
+								<!-- Associate Dean  
+									<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Associate Dean" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead10().headPersonId.name}
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										
+										<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Associate Dean" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead10().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+								
+							 End Associate Dean -->
+								
+								
+								<!-- Registrar Office  -->
+									<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Registrar Office" /><br/>
+												<div class="otherInfo">
+													<h:outputText  value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.registerationDate.time}" styleClass="date" rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.registerationDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==0||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==1||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==2||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==3||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==4||HeadDetailsBeanGap_form.selectedNewCourseComfirmation.formStep==5}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Registrar Office" /><br/>
+													
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								<!-- End Registrar Office -->
+								
+								
+								
+								</ol>
+							</div>
+							</h:panelGroup>
+							
+							<!-- End Steps -->
+							
+							
+								<h3>Courses needed to be comfirmed</h3><hr/>
+								<h:panelGrid id="panelForupdate" columns="2" styleClass="graduationFormPrintDetails">			
+									  				
+				               		<p:outputLabel>Requiest Id</p:outputLabel>				
+				               		<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.id}" style="width:150px;"/>
+	            	
+					                <p:outputLabel>Course Complete: </p:outputLabel>
+					                <p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.courseComplete} with #{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.courseCompleteCredits} Cr.H" style="width:150px;"/>
+	            
+					                <p:outputLabel>To Replace: </p:outputLabel>
+					                <p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.toReplace}  with #{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.toReplaceCredits} Cr.H" style="width:150px;"/>
+				          		
+					                <p:outputLabel>Intake Year</p:outputLabel>
+					                <p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentInTake}" style="width:150px;"/>
+				           	<!-- 
+					               	<p:outputLabel>Course Regarded As</p:outputLabel>
+					              	<p:outputLabel value = "#{gap_formBean.getCourseCountAsString(HeadDetailsBeanGap_form.selectedNewCourseComfirmation.courseCountAs)}" style="width:150px;"/>
+				            	
+				            	-->
+				            		<p:outputLabel>State</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.getStepString()}" style="width:150px;"/>
+	            					          	
+				               		<p:outputLabel>Action</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.getStateString()}" style="width:150px;"/>
+	 
+	            					<p:outputLabel>Registrar Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.registerationComment}"  style="width:150px; height:300px;"/>
+	            					
+	            					<p:outputLabel>Program Director Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.programDirectorComment}"  style="width:150px;"/>
+	            					
+	            					<p:outputLabel>Vice Director Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.viceDirectorComment}"  style="width:150px;"/>
+	            					
+	            					<p:outputLabel>Dean of Strategic Enrollment Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.deanComment}"  style="width:150px;"/>
+	            					<!-- 
+	            					<p:outputLabel>Associate Dean Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.associateDeanComment}"  style="width:150px;"/>
+	            					 -->
+	           	
+								</h:panelGrid>
+								
+									
+							
+							
+							<h3>Graduate Contact Information</h3><hr/>
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
+								<p:outputLabel value="Address" for="address"/>
+								<p:outputLabel value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.data.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+										
+								<p:outputLabel value="Email" for="email"/>
+								<p:outputLabel value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.data.mail}" id="email" disabled="true"/>
+										
+								<p:outputLabel value="Phone" for="phone"/>
+								<p:outputLabel value="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation.studentId.data.phone}" id="phone" />
+										
+							</h:panelGrid>
+							<div style="width:100%;">
+							<p:commandButton  value="Back"  action="#{HeadDetailsBeanGap_form.goBack()}" styleClass="redBtn" style="    margin-left: 81%;" update="feedbackformPanel"/>
+						
+							</div>
+							
+						</p:panel>
+						
+					</p:panel>
+					
+							
+				</div>
+			</h:form>
+			<!-- Printed From -->			
+			</ui:define>
+		<ui:define name="confirmDialogBox">
+  		</ui:define>
+	</ui:composition>
+</html>

@@ -155,6 +155,7 @@
 					 -->
 					
 					 <p:commandLink ajax="false" immediate="true" value="Course Replacement" rendered="#{leftNavigationMenuBean.showCourseReplacement}" action="#{leftNavigationMenuBean.renderChangeCourseConfirmation}"  class="#{leftNavigationMenuBean.getActiveCssName('Comfirmation for Change course')}"/>
+                     <p:commandLink ajax="false" immediate="true" value="Gap Form" rendered="#{leftNavigationMenuBean.showGap_form}" action="#{leftNavigationMenuBean.renderGap_form}"  class="#{leftNavigationMenuBean.getActiveCssName('Comfirmation for Change course')}"/>
                      
                     <p:commandLink ajax="false" immediate="true" value="Drop Form" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderAddDropForm}"  class="#{leftNavigationMenuBean.getActiveCssName('Drop / Add Form')}"/>
                     <p:commandLink ajax="false" immediate="true" value="Change Program and/or Specialization" rendered="#{leftNavigationMenuBean.validateLoggedIn}" action="#{leftNavigationMenuBean.renderChangeMajor}"  class="tallLink #{leftNavigationMenuBean.getActiveCssName('Change Major')}"/>

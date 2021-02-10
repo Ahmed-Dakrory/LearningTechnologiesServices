@@ -136,6 +136,7 @@ public class LeftNavigationMenuBean {
 	private boolean cloAvailable=false;
 	private boolean instructorSurveyAvailable=false;
 	private boolean showCourseReplacement=false;
+	private boolean showGap_form=false;
 	
 	
 	private boolean heIsDeanOfAcademic = false;
@@ -589,16 +590,34 @@ public boolean isInstructorSurveyWorkFinal() {
 	
 	return instructorSurveyAvailable;
 }
-	public boolean isShowCourseReplacement() {
-		 FormsStatusEnum settings=formStatus.getById(21).getStatus();
-		 Integer active=settings.getValue();
-		 if(isHeadOrStudent() && active == FormsStatusEnum.Active.getValue()) {
-			 return true;
-		 }
-		 
-		 return false;
-	}
+public boolean isShowCourseReplacement() {
+	 FormsStatusEnum settings=formStatus.getById(21).getStatus();
+	 Integer active=settings.getValue();
+	 if(isHeadOrStudent() && active == FormsStatusEnum.Active.getValue()) {
+		 return true;
+	 }
+	 
+	 return false;
+}
 
+
+
+public boolean isShowGap_form() {
+	 FormsStatusEnum settings=formStatus.getById(27).getStatus();
+	 Integer active=settings.getValue();
+	 if(isHeadOrStudent() && active == FormsStatusEnum.Active.getValue()) {
+		 return true;
+	 }
+	 
+	 return false;
+}
+
+
+
+
+	public void setShowGap_form(boolean showGap_form) {
+	this.showGap_form = showGap_form;
+}
 
 
 	public void setShowCourseReplacement(boolean showCourseReplacement) {
@@ -1524,6 +1543,172 @@ public boolean isInstructorSurveyWorkFinal() {
 						return "/pages/secured/forms/courseReplacement/auditingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AUDITING+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
 					}
 					return "/pages/secured/forms/courseReplacement/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&type=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				else 
+				{
+					return "/pages/public/login.xhtml?faces-redirect=true";
+				
+				}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	
+	
+	
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderGap_form()
+	{
+		currentMenuId = "Gap Form";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/gap_form/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+							return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
+					}
+				}
+				
+				
+				Heads  STEP_Finance = headFacades.getByType(Heads.FINANCIAL_DEP);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				if(mail.toLowerCase().equals(STEP_Finance.getHeadPersonId().getMail().toLowerCase()))
+				{
+					return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				else 
+				{
+					return "/pages/public/login.xhtml?faces-redirect=true";
+				
+				}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	
+	
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderGap_form(int page)
+	{
+		currentMenuId = "Gap form";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/gap_form/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+							return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
+					}
+				}
+				
+				
+				Heads  STEP_Finance = headFacades.getByType(Heads.FINANCIAL_DEP);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				if(mail.toLowerCase().equals(STEP_Finance.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/gap_form/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+						
+					}else if(page==HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/gap_form/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+						
+					}
+					return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/gap_form/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+							
+					}else if(page==HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/gap_form/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+						
+					}
+						
+						return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/gap_form/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/gap_form/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==HeadDetailsBean.AUDITING_PAGE) {
+						return "/pages/secured/forms/gap_form/auditingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AUDITING+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					}
+					return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				else 

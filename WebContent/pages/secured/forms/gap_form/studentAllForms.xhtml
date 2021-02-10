@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Gap form - LT Online Services</ui:define>
+		<ui:define name="content">
+		#{gap_formBean.init()}
+				<h:form id="form">
+					<ul class="header">
+						<li>
+							<p:breadCrumb>
+								<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+								<p:menuitem value="course details" disabled="true" />
+							</p:breadCrumb>
+						</li>
+					</ul>
+					
+				</h:form>
+				
+				<h:panelGroup id="studentInfoGrid">
+								<ul class="studentInfo">
+									<li>
+										<p:graphicImage value="/images/?path=#{gap_formBean.student.id}" />
+										</li>
+									<li>
+										<div class="userName">
+											<h:outputLabel value="#{gap_formBean.student.name}" />
+											<br/>
+										 </div>
+										 <table>
+											<tr>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="ID" />
+														<h:outputLabel value="#{gap_formBean.student.facultyId}" />
+														<h:outputLabel value="Mob./Phone" />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.mobile}" />
+														<h:outputLabel value="GPA" />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.gpa}" />
+													</h:panelGrid>
+												</td>
+														<td width="48">&nbsp;</td>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Earned Credit hrs." />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.completedCreditHrs}" />
+														<h:outputLabel value="Registered hrs." />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.registeredCreditHrs}" />
+														<h:outputLabel value="Repeated Courses" />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.repeatedCourses}" />
+													</h:panelGrid>
+												</td>
+												<td width="48">&nbsp;</td>
+												<td valign="top">
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Current Program" />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.major.majorName}" />
+														<h:outputLabel value="Current Program Type" />
+														<h:outputLabel value="#{gap_formBean.getMajorType(gap_formBean.major.type)}" />
+														<h:outputLabel value="Concentration" />
+														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.concentration.name}" />
+													</h:panelGrid>
+												</td>
+										
+										
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.minor}" />
+												<h:outputLabel value="Student Email" />
+													<h:outputLabel value="#{gap_formBean.student.mail}" />
+												</h:panelGrid>
+											</td>
+											</tr> 
+										</table>
+									</li>
+								</ul>
+							</h:panelGroup>
+			<p:panel id="dashboardFormPanel">
+			<h:form id="tableform3">
+	<div align="center">
+							
+								<br/><br/>
+         
+         <p:dataTable id="tableOfAll" value = "#{gap_formBean.courseChangeComfirmations}"
+					 		   resizableColumns="true" paginator="true" styleClass="paginated" rowKey="#{CCC.id}" sortMode="multiple"  
+							widgetVar="formsTable" var = "CCC" selectionMode="single" selection="#{gap_formBean.selectedgap_form}">
+            <p:ajax event="rowSelect" listener="#{gap_formBean.onRowSelect}" />
+            <p:column>    				
+               <f:facet name = "header">Id</f:facet>   
+               <div align="center"> 				
+               		<p:outputLabel value = "#{CCC.id}" style="width:150px;"/>
+            	</div>
+            </p:column>
+            
+            <p:column>
+               <f:facet name = "header">Course Complete</f:facet>
+               <p:outputLabel value = "#{CCC.courseComplete}" style="width:150px;"/>
+            </p:column>
+           
+            
+            <p:column>
+               <f:facet name = "header">To Replace</f:facet>
+               <div align="center">
+               		<p:outputLabel value = "#{CCC.toReplace}" style="width:150px;"/>
+          		</div>
+            </p:column>
+            
+            <p:column>
+               <f:facet name = "header">Intake Year</f:facet>
+               <div align="center">
+               		<p:outputLabel value = "#{CCC.studentInTake}" style="width:150px;"/>
+           		</div>
+            </p:column>
+           <!-- 
+            <p:column>
+               <f:facet name = "header">Course Regarded As</f:facet>
+               <div align="center">
+              	 <p:outputLabel value = "#{gap_formBean.getCourseCountAsString(CCC.courseCountAs)}" style="width:150px;"/>
+            	</div>
+            </p:column>
+            
+             -->
+            <p:column>
+               <f:facet name = "header">State</f:facet>
+               <div align="center">
+               		<p:outputLabel value = "In The #{CCC.getStepString()} Office" rendered="#{CCC.action==0}" style="width:150px;"/>
+            		<p:outputLabel value = "Accepted" rendered="#{CCC.action==1}"  style="width:150px;"/>
+            		<p:outputLabel value = "Refused" rendered="#{CCC.action==2}" style="width:150px;"/>
+            	</div>
+            </p:column>
+           
+            <p:column>
+				<p:commandButton value="Delete" update="tableOfAll" ajax="true" action="#{gap_formBean.deletegap_form(CCC.id)}" styleClass="redBtn"/>
+			</p:column>
+         </p:dataTable>
+         
+          <p:commandButton rendered="#{leftNavigationMenuBean.showgap_form}" value="+ New Course" type="button" title="Add New Course Comfirmation" styleClass="greenBtn"
+			 			 onclick="addCourseComfirmationDlg.show();" />
+			
+		</div>
+     </h:form>
+     </p:panel>
+		</ui:define>	
+		<ui:define name="confirmDialogBox">
+			
+					<p:dialog widgetVar="addCourseComfirmationDlg" header="Course Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
+			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="950" height="500" style="width:900px !important">
+					
+			<h:form id="formMain">
+						<div class="dialogWrapper">
+							
+					
+					<h:outputLabel value="Course Completed" />
+					<br></br>
+					<h:inputText value="#{gap_formBean.newCourseComfirmation.courseComplete}"
+					 required="true" pt:placeholder="Please Fill it"
+					/>
+					
+					
+					<br/>
+					
+					<h:outputLabel value="To be Replaced" />
+					<br></br>
+					
+					<h:inputText value="#{gap_formBean.newCourseComfirmation.toReplace}"
+					required="true" pt:placeholder="Please Fill it"
+					/>
+					
+					<br/>
+					
+					<h:outputLabel value="Course intake year" />
+					<br></br>
+					<p:selectOneMenu
+						value="#{gap_formBean.newCourseComfirmation.studentInTake}"
+						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
+						effect="fade" filter="true" filterMatchMode="startsWith">
+						<f:selectItem itemLabel="2011" itemValue="2011" />
+						<f:selectItem itemLabel="2012" itemValue="2012" />
+						<f:selectItem itemLabel="2013" itemValue="2013" />
+						<f:selectItem itemLabel="2014" itemValue="2014" />
+						<f:selectItem itemLabel="2015" itemValue="2015" />
+						<f:selectItem itemLabel="2016" itemValue="2016" />
+						<f:selectItem itemLabel="2017" itemValue="2017" />
+						<f:selectItem itemLabel="2018" itemValue="2018" />
+						<f:selectItem itemLabel="2019" itemValue="2019" />
+						<f:selectItem itemLabel="2020" itemValue="2020" />
+						<f:selectItem itemLabel="2021" itemValue="2021" />
+						<f:selectItem itemLabel="2022" itemValue="2022" />
+						<f:selectItem itemLabel="2023" itemValue="2023" />
+						<f:selectItem itemLabel="2024" itemValue="2024" />
+						<f:selectItem itemLabel="2025" itemValue="2025" />
+						<f:selectItem itemLabel="2026" itemValue="2026" />
+						<f:selectItem itemLabel="2027" itemValue="2027" />
+						<f:selectItem itemLabel="2028" itemValue="2028" />
+						<f:selectItem itemLabel="2029" itemValue="2029" />
+						<f:selectItem itemLabel="2030" itemValue="2030" />
+					</p:selectOneMenu>
+			        
+					<br/>  		
+					
+					<!-- 
+					<h:outputLabel value="Course Req regarded as:" />
+					<br></br>		
+			        <p:selectOneMenu
+						value="#{gap_formBean.newCourseComfirmation.courseCountAs}"
+						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
+						effect="fade" filter="true" filterMatchMode="startsWith">
+						<f:selectItem itemLabel="Program Req" itemValue="0" />
+						<f:selectItem itemLabel="Humanities" itemValue="1" />
+						<f:selectItem itemLabel="Program Elective" itemValue="2" />
+						<f:selectItem itemLabel="Collateral Req" itemValue="3" />
+					</p:selectOneMenu>  	
+			          			
+			          			 -->
+			          			 <br/>
+							
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addCourseComfirmationDlg.hide()"  class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" action="#{gap_formBean.addgap_form}" update=":tableform3:tableOfAll " class="dialogOk"/></li>
+					</ul>
+					
+			</h:form>
+			</p:dialog>
+		</ui:define>
+		
+		
+	</ui:composition>
+
+
+</html>
