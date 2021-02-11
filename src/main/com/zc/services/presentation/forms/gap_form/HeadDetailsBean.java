@@ -228,7 +228,7 @@ public class HeadDetailsBean {
 			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_AUDITING+1);
 			selectedNewCourseComfirmation.setAuditingDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(gap_form.STEP_AUDITING+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_AUDITING+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+			sendEmailForStudent(getNameByState(gap_form.STEP_AUDITING+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
 		
 		}else if(stepNow==gap_form.STEP_MajorHead){
 			
@@ -236,7 +236,7 @@ public class HeadDetailsBean {
 			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_MajorHead+1);
 			selectedNewCourseComfirmation.setProgramDirectorDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(gap_form.STEP_MajorHead+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_MajorHead+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+			sendEmailForStudent(getNameByState(gap_form.STEP_MajorHead+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
 		
 		}else if(stepNow==gap_form.STEP_Finance){
 			
@@ -244,29 +244,29 @@ public class HeadDetailsBean {
 			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Finance+1);
 			selectedNewCourseComfirmation.setFinanceDate(Calendar.getInstance());
 			EmailToSendTo=getEmailByState(gap_form.STEP_Finance+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_Finance+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+			sendEmailForStudent(getNameByState(gap_form.STEP_Finance+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
 		
 		}else if(stepNow==gap_form.STEP_DeanOfStratigicEnrollment){
 			
 			/*selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
 			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_DeanOfStratigicEnrollment+1);
 			EmailToSendTo=getEmailByState(gap_form.STEP_DeanOfStratigicEnrollment+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_DeanOfStratigicEnrollment+1),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+			sendEmailForStudent(getNameByState(gap_form.STEP_DeanOfStratigicEnrollment+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
 		*/
 			
 			selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Registerar);
+			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_DeanOfStratigicEnrollment+1);
 			selectedNewCourseComfirmation.setDeanDate(Calendar.getInstance());
-			EmailToSendTo=getEmailByState(gap_form.STEP_Registerar);
-			sendEmailForStudent(getNameByState(gap_form.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+			EmailToSendTo=getEmailByState(gap_form.STEP_DeanOfStratigicEnrollment+1);
+			sendEmailForStudent(getNameByState(gap_form.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
 		
 			
 		}else if(stepNow==gap_form.STEP_Registerar){
 
 			selectedNewCourseComfirmation.setAction(gap_form.STATE_ACCEPTED);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Finished);
+			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Registerar+1);
 			selectedNewCourseComfirmation.setRegisterationDate(Calendar.getInstance());
-			sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Accepted");
+			sendEmailForStudent(student.getName(),student.getMail(),"Your Gap Form Has been Accepted");
 		}
 		
 		cccAppServiceImpl.addgap_form(selectedNewCourseComfirmation);
@@ -357,12 +357,12 @@ public class HeadDetailsBean {
 		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Action Taken");
 
-		sendEmailForStudent(student.getName(),student.getMail(),"Course Replacement Form Has been Rejected");
+		sendEmailForStudent(student.getName(),student.getMail(),"Gap Form Has been Rejected");
 		
 		if(stepNow!=gap_form.STEP_AUDITING&&stepNow!=gap_form.STEP_Registerar) {
 			//Registerar
 			Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
-			sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Course Replacement Form Has been Rejected");
+			sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Gap Form Has been Rejected");
 		}
 		
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -473,9 +473,15 @@ public class HeadDetailsBean {
 
 			    		message.setContent(body, "text/html; charset=ISO-8859-1");
 			            Transport transport = session.getTransport("smtp");
+			            try {
 			            transport.connect(host, from, pass);
 			            transport.sendMessage(message, message.getAllRecipients());
 			            transport.close();
+			            }catch(Error e) {
+			            	
+			            }catch(Exception e) {
+			            	
+			            }
 			        }
 			        catch (AddressException ae) {
 			            ae.printStackTrace();
@@ -489,7 +495,17 @@ public class HeadDetailsBean {
 	    }
 	 
 	 
-	
+	 public String getMajorType(int type) {
+			switch(type){
+			case 1:
+				return "Science";
+			case 2:
+				return "Engineering";
+				
+			}
+			return "";
+		}
+
 
 
 	public void goBack() {

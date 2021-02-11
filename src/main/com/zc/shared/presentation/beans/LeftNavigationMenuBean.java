@@ -31,6 +31,7 @@ import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
 import main.com.zc.services.presentation.forms.courseReplacement.HeadDetailsBean;
 import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
+import main.com.zc.services.presentation.forms.gap_form.gap_form;
 import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.CourseEvaluationSubmission;
 import main.com.zc.services.presentation.survey.CourseEvalNew.bean.InstructorTAEvalSubmission;
@@ -1592,7 +1593,7 @@ public boolean isShowGap_form() {
 					MajorDTO major=majors.get(i);
 					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
 					{
-							return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
+							return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
 					}
 				}
 				
@@ -1603,18 +1604,18 @@ public boolean isShowGap_form() {
 
 				if(mail.toLowerCase().equals(STEP_Finance.getHeadPersonId().getMail().toLowerCase()))
 				{
-					return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Finance+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
 				{
-						return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				
 				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
 				{
-						return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				else 
@@ -1663,7 +1664,7 @@ public boolean isShowGap_form() {
 					MajorDTO major=majors.get(i);
 					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
 					{
-							return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
+							return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
 					}
 				}
 				
@@ -1674,41 +1675,35 @@ public boolean isShowGap_form() {
 
 				if(mail.toLowerCase().equals(STEP_Finance.getHeadPersonId().getMail().toLowerCase()))
 				{
-					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
-						return "/pages/secured/forms/gap_form/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-						
-					}else if(page==HeadDetailsBean.OLD_PAGE) {
-						return "/pages/secured/forms/gap_form/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-						
-					}
-					return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AssociateDean+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+					return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Finance+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				
 				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
 				{
-					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
-						return "/pages/secured/forms/gap_form/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					if(page==main.com.zc.services.presentation.forms.gap_form.HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/gap_form/submittedGapForm.xhtml?stepNow="+gap_form.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 							
-					}else if(page==HeadDetailsBean.OLD_PAGE) {
-						return "/pages/secured/forms/gap_form/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==main.com.zc.services.presentation.forms.gap_form.HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/gap_form/oldGapForm.xhtml?stepNow="+gap_form.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 						
 					}
 						
-						return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				
 				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
 				{
-					if(page==HeadDetailsBean.SUBMITTED_PAGE) {
-						return "/pages/secured/forms/gap_form/submittedCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-					}else if(page==HeadDetailsBean.OLD_PAGE) {
-						return "/pages/secured/forms/gap_form/oldCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-					}else if(page==HeadDetailsBean.AUDITING_PAGE) {
-						return "/pages/secured/forms/gap_form/auditingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_AUDITING+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					if(page==main.com.zc.services.presentation.forms.gap_form.HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/gap_form/submittedGapForm.xhtml?stepNow="+gap_form.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==main.com.zc.services.presentation.forms.gap_form.HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/gap_form/oldGapForm.xhtml?stepNow="+gap_form.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					}else if(page==main.com.zc.services.presentation.forms.gap_form.HeadDetailsBean.AUDITING_PAGE) {
+						return "/pages/secured/forms/gap_form/auditingGapForm.xhtml?stepNow="+gap_form.STEP_AUDITING+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					}
-					return "/pages/secured/forms/gap_form/pendingCourseReplacementForm.xhtml?stepNow="+courseReplacement.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_AUDITING+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
 					
 				}
 				else 

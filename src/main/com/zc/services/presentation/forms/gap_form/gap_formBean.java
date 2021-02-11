@@ -164,11 +164,11 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		//Registerar
 		Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
 		
-		sendEmailForStudent(student.getName(),student.getMail(),"Please Check your dashboard for a New Course Replacement Form");
-		sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Please Check your dashboard for a New Course Replacement Form");
+		sendEmailForStudent(student.getName(),student.getMail(),"Please Check your dashboard for a New Gap Form");
+		sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Please Check your dashboard for a New Gap Form");
 		
 		
-		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course comfirmation requist was added successfully");
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Gap form requist was added successfully");
 
 		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -180,7 +180,7 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		 String from = "learningtechnologies@zewailcity.edu.eg";
 	        String pass = "DELF-651984@dr";
 	        String[] to = {mail }; // list of recipient email addresses 
-	        String subject = "Graduation Requirements Form New Message";
+	        String subject = "Gap Form New Message";
 	        String htmlText = "<div style=\"width:700px;margin:0\" auto;font:normal=\"\" 13px=\"\" 30px=\"\" segoe,=\"\" segoe=\"\" ui,=\"\" dejavu=\"\" sans,=\"\" trebuchet=\"\" ms,=\"\" verdana,=\"\" sans-serif=\"\" !important;=\"\">\n" + 
 	        		"					<ul style=\"margin:0;padding:0;\">\n" + 
 	        		"					<li style=\"list-style:none;float:left;width:700px;margin:0;\">\n" + 
@@ -294,7 +294,7 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		*/
 		cccAppServiceImpl.delete(cccAppServiceImpl.getById(Id));
 		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
-		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course comfirmation requist was Deleted successfully");
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Gap form requist was Deleted successfully");
 
 		System.out.println("Deleted Item: "+String.valueOf(Id));
 	}
@@ -333,7 +333,7 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 			System.out.println("Ahmed Dakrory new: "+String.valueOf(selectedgap_form.getStudentId().getId()));
 	  		try {
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
-					("studentDetailsgap_form.xhtml?c="+selectedgap_form.getId());
+					("studentDetailsgap_formForStudent.xhtml?stepNow=-1&emailForState=-1&majorId="+String.valueOf(selectedgap_form.getMajorId())+"&c="+selectedgap_form.getId());
 	    			
 	    			
 	    		

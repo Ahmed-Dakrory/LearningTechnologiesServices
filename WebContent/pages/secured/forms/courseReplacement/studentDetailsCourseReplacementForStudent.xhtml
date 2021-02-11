@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/templates/securedContent.xhtml">
-		<ui:define name="title">Gap form Form - LT Online Services</ui:define>
+		<ui:define name="title">Course Replacement Form - LT Online Services</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -13,7 +13,7 @@
 					<li>
 						<p:breadCrumb>
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
-					    	<p:menuitem value="Student Gap form" />
+					    	<p:menuitem value="Student Course Replacement Form" />
 						</p:breadCrumb>
 					</li>
 				</ul>
@@ -23,7 +23,7 @@
 						<h:panelGroup id="studentInfoGrid">
 							<ul class="studentInfo">
 								<li>
-									<p:graphicImage value="/images/?path=#{gap_formBean.selectedgap_form.studentId.id}" rendered="#{gap_formBean.selectedgap_form.studentId.data.studentImage != null }" />
+									<p:graphicImage value="/images/?path=#{courseReplacementBean.selectedCourseReplacement.studentId.id}" rendered="#{courseReplacementBean.selectedCourseReplacement.studentId.data.studentImage != null }" />
 								</li>
 								
 								<li>
@@ -32,37 +32,37 @@
 												<td>
 													<h:panelGrid columns="2" class="student">
 														<h:outputLabel value="Submission Date" />
-														<h:outputLabel value="#{gap_formBean.getFriendlySubmissionDate(gap_formBean.selectedgap_form.submissionDate)}" />
+														<h:outputLabel value="#{courseReplacementBean.getFriendlySubmissionDate(courseReplacementBean.selectedCourseReplacement.submissionDate)}" />
 														<h:outputLabel value="Updating Date" />
-														<h:outputLabel value="#{gap_formBean.getFriendlySubmissionDate(gap_formBean.selectedgap_form.lastUpdateDate)}" />
+														<h:outputLabel value="#{courseReplacementBean.getFriendlySubmissionDate(courseReplacementBean.selectedCourseReplacement.lastUpdateDate)}" />
 														<h:outputLabel value="ID" />
-														<h:outputLabel value="#{gap_formBean.student.facultyId}" />
+														<h:outputLabel value="#{courseReplacementBean.student.facultyId}" />
 														<h:outputLabel value="Mob./Phone" />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.mobile}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.mobile}" />
 													</h:panelGrid>
 												</td>
 														<td width="48">&nbsp;</td>
 												<td>
 													<h:panelGrid columns="2" class="student">
 														<h:outputLabel value="Earned Credit hrs." />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.completedCreditHrs}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.completedCreditHrs}" />
 														<h:outputLabel value="Registered hrs." />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.registeredCreditHrs}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.registeredCreditHrs}" />
 														<h:outputLabel value="Repeated Courses" />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.repeatedCourses}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.repeatedCourses}" />
 													</h:panelGrid>
 												</td>
 												<td width="48">&nbsp;</td>
 												<td valign="top">
 													<h:panelGrid columns="2" class="student">
 														<h:outputLabel value="GPA" />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.gpa}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.gpa}" />
 														<h:outputLabel value="Current Program" />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.major.majorName}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.major.majorName}" />
 														<h:outputLabel value="Current Program Type" />
-														<h:outputLabel value="#{gap_formBean.getMajorType(gap_formBean.major.type)}" />
+														<h:outputLabel value="#{courseReplacementBean.getMajorType(courseReplacementBean.major.type)}" />
 															<h:outputLabel value="Concentration" />
-														<h:outputLabel value="#{gap_formBean.student.studentProfileDTO.concentration.name}" />
+														<h:outputLabel value="#{courseReplacementBean.student.studentProfileDTO.concentration.name}" />
 														</h:panelGrid>
 												</td>
 										
@@ -79,10 +79,10 @@
 							<h3>Personal Information</h3><hr/>  
 							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">
 								<p:outputLabel value="Student's ID" for="studentID"/>
-								<p:outputLabel value="#{gap_formBean.selectedgap_form.studentId.fileNo}" id="studentID" disabled="true"/>
+								<p:outputLabel value="#{courseReplacementBean.selectedCourseReplacement.studentId.fileNo}" id="studentID" disabled="true"/>
 								
 								<p:outputLabel value="Full Name" for="firstName"/>
-								<p:outputLabel value="#{gap_formBean.selectedgap_form.studentId.data.getNameInEnglish()}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+								<p:outputLabel value="#{courseReplacementBean.selectedCourseReplacement.studentId.data.getNameInEnglish()}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
 								
 							</h:panelGrid>
 							
@@ -95,13 +95,13 @@
 							<ol class="formProgress">
 							
 							<!-- Registrar Auditing -->
-							<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==1||gap_formBean.selectedgap_form.formStep==2||gap_formBean.selectedgap_form.formStep==3||gap_formBean.selectedgap_form.formStep==4||gap_formBean.selectedgap_form.formStep==5||gap_formBean.selectedgap_form.formStep==6}">
+							<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2||courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4||courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
     							<li>
     								<div class="formProgress-done">
     									<br/>
 										<h:outputLabel value="Registrar Auditing" /><br/>
 										<div class="otherInfo">
-											<h:outputText  value="#{gap_formBean.selectedgap_form.auditingDate.time}" styleClass="date" rendered="#{gap_formBean.selectedgap_form.auditingDate!=null}">
+											<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.auditingDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.auditingDate!=null}">
 											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
 											</h:outputText>
 											</div>
@@ -110,7 +110,7 @@
 								</h:panelGroup>
 								
 								<!-- OR -->
-								<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0}">
+								<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0}">
 								<li>
 									<div class="formProgress-todo">
 											<br/>
@@ -129,15 +129,15 @@
 								
 								
 								<!-- Major Head -->
-							<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==2||gap_formBean.selectedgap_form.formStep==3||gap_formBean.selectedgap_form.formStep==4||gap_formBean.selectedgap_form.formStep==5||gap_formBean.selectedgap_form.formStep==6}">
+							<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==2||courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4||courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
     							<li>
     								<div class="formProgress-done">
     									<br/>
 										<h:outputLabel value="Major Head" /><br/>
 										<div class="otherInfo">
-											#{HeadDetailsBeanGap_form.major.headOfMajor.name}
+											#{courseReplacementBean.major.headOfMajor.name}
 													<br/>
-											<h:outputText  value="#{gap_formBean.selectedgap_form.programDirectorDate.time}" styleClass="date" rendered="#{gap_formBean.selectedgap_form.programDirectorDate!=null}">
+											<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.programDirectorDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.programDirectorDate!=null}">
 											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
 											</h:outputText>
 											</div>
@@ -146,13 +146,13 @@
 								</h:panelGroup>
 								
 								<!-- OR -->
-								<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0||gap_formBean.selectedgap_form.formStep==1}">
+								<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1}">
 								<li>
 									<div class="formProgress-todo">
 											<br/>
 											<h:outputLabel value="Major Head" /><br/>
 											<div class="otherInfo">
-											#{HeadDetailsBeanGap_form.major.headOfMajor.name}
+											#{courseReplacementBean.major.headOfMajor.name}
 											</div>
 									</div>
 								</li>
@@ -163,10 +163,10 @@
 								
 								
 								<!-- Director Of Accredition  -->
-								<h:panelGroup rendered="#{gap_formBean.selectedgap_form.type==2}">
+								<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.type==2}">
 								
 								<!-- TYPE_SCIENCE -->
-									<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==3||gap_formBean.selectedgap_form.formStep==4||gap_formBean.selectedgap_form.formStep==5||gap_formBean.selectedgap_form.formStep==6}">
+									<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4||courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
 		    									<br/>
@@ -174,7 +174,7 @@
 												<div class="otherInfo">
 													#{loginBean.getHead7().headPersonId.name}
 															<br/>
-													<h:outputText  value="#{gap_formBean.selectedgap_form.viceDirectorDate.time}" styleClass="date" rendered="#{gap_formBean.selectedgap_form.viceDirectorDate!=null}">
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate!=null}">
 													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
 													</h:outputText>
 													
@@ -184,7 +184,7 @@
 										</h:panelGroup>
 										
 										<!-- OR -->
-										<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0||gap_formBean.selectedgap_form.formStep==1||gap_formBean.selectedgap_form.formStep==2}">
+										<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2}">
 										<li>
 											<div class="formProgress-todo">
 													<br/>
@@ -200,10 +200,10 @@
 						
 						
 						
-						<h:panelGroup rendered="#{gap_formBean.selectedgap_form.type==1}">
+						<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.type==1}">
 								
 								<!-- TYPE_ENGINEERING -->
-									<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==3||gap_formBean.selectedgap_form.formStep==4||gap_formBean.selectedgap_form.formStep==5||gap_formBean.selectedgap_form.formStep==6}">
+									<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4||courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
 		    									<br/>
@@ -211,7 +211,7 @@
 												<div class="otherInfo">
 													#{loginBean.getHead6().headPersonId.name}
 															<br/>
-													<h:outputText  value="#{gap_formBean.selectedgap_form.viceDirectorDate.time}" styleClass="date" rendered="#{gap_formBean.selectedgap_form.viceDirectorDate!=null}">
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.viceDirectorDate!=null}">
 													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
 													</h:outputText>
 													</div>
@@ -220,7 +220,7 @@
 										</h:panelGroup>
 										
 										<!-- OR -->
-										<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0||gap_formBean.selectedgap_form.formStep==1||gap_formBean.selectedgap_form.formStep==2}">
+										<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2}">
 										<li>
 											<div class="formProgress-todo">
 													<br/>
@@ -239,7 +239,7 @@
 								
 								
 									<!-- Dean Of Stratigic Enrollment  -->
-									<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==4||gap_formBean.selectedgap_form.formStep==5||gap_formBean.selectedgap_form.formStep==6}">
+									<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==4||courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
 		    									<br/>
@@ -247,7 +247,7 @@
 												<div class="otherInfo">
 													#{loginBean.getHead4().headPersonId.name}
 															<br/>
-													<h:outputText  value="#{gap_formBean.selectedgap_form.deanDate.time}" styleClass="date" rendered="#{gap_formBean.selectedgap_form.deanDate!=null}">
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.deanDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.deanDate!=null}">
 													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
 													</h:outputText>
 											
@@ -258,7 +258,7 @@
 										</h:panelGroup>
 										
 										<!-- OR -->
-										<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0||gap_formBean.selectedgap_form.formStep==1||gap_formBean.selectedgap_form.formStep==2||gap_formBean.selectedgap_form.formStep==3}">
+										<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2||courseReplacementBean.selectedCourseReplacement.formStep==3}">
 										<li>
 											<div class="formProgress-todo">
 													<br/>
@@ -275,7 +275,7 @@
 								
 								
 								<!-- Associate Dean  
-									<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==5||gap_formBean.selectedgap_form.formStep==6}">
+									<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==5||courseReplacementBean.selectedCourseReplacement.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
 		    									<br/>
@@ -288,7 +288,7 @@
 										</h:panelGroup>
 										
 										
-										<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0||gap_formBean.selectedgap_form.formStep==1||gap_formBean.selectedgap_form.formStep==2||gap_formBean.selectedgap_form.formStep==3||gap_formBean.selectedgap_form.formStep==4}">
+										<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2||courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4}">
 										<li>
 											<div class="formProgress-todo">
 													<br/>
@@ -304,14 +304,14 @@
 								
 								
 								<!-- Registrar Office  -->
-									<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==6}">
+									<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==6}">
 		    							<li>
 		    								<div class="formProgress-done">
 		    									<br/>
 												<h:outputLabel value="Registrar Office" /><br/>
 												<div class="otherInfo">
 															<br/>
-													<h:outputText  value="#{gap_formBean.selectedgap_form.registerationDate.time}" styleClass="date" rendered="#{gap_formBean.selectedgap_form.registerationDate!=null}">
+													<h:outputText  value="#{courseReplacementBean.selectedCourseReplacement.registerationDate.time}" styleClass="date" rendered="#{courseReplacementBean.selectedCourseReplacement.registerationDate!=null}">
 													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
 													</h:outputText>
 											
@@ -322,7 +322,7 @@
 										</h:panelGroup>
 										
 										<!-- OR -->
-										<h:panelGroup rendered="#{gap_formBean.selectedgap_form.formStep==0||gap_formBean.selectedgap_form.formStep==1||gap_formBean.selectedgap_form.formStep==2||gap_formBean.selectedgap_form.formStep==3||gap_formBean.selectedgap_form.formStep==4||gap_formBean.selectedgap_form.formStep==5}">
+										<h:panelGroup rendered="#{courseReplacementBean.selectedCourseReplacement.formStep==0||courseReplacementBean.selectedCourseReplacement.formStep==1||courseReplacementBean.selectedCourseReplacement.formStep==2||courseReplacementBean.selectedCourseReplacement.formStep==3||courseReplacementBean.selectedCourseReplacement.formStep==4||courseReplacementBean.selectedCourseReplacement.formStep==5}">
 										<li>
 											<div class="formProgress-todo">
 													<br/>
@@ -345,44 +345,44 @@
 								<h:panelGrid id="panelForupdate" columns="2" styleClass="graduationFormPrintDetails">			
 									  				
 				               		<p:outputLabel>Requiest Id</p:outputLabel>				
-				               		<p:outputLabel value = "#{gap_formBean.selectedgap_form.id}" style="width:150px;"/>
+				               		<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.id}" style="width:150px;"/>
 	            	
 					                <p:outputLabel>Course Complete: </p:outputLabel>
-					                <p:outputLabel value = "#{gap_formBean.selectedgap_form.courseComplete} with #{gap_formBean.selectedgap_form.courseCompleteCredits} Cr.H" style="width:150px;"/>
+					                <p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.courseComplete} with #{courseReplacementBean.selectedCourseReplacement.courseCompleteCredits} Cr.H" style="width:150px;"/>
 	            
 					                <p:outputLabel>To Replace: </p:outputLabel>
-					                <p:outputLabel value = "#{gap_formBean.selectedgap_form.toReplace}  with #{gap_formBean.selectedgap_form.toReplaceCredits} Cr.H" style="width:150px;"/>
+					                <p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.toReplace}  with #{courseReplacementBean.selectedCourseReplacement.toReplaceCredits} Cr.H" style="width:150px;"/>
 				          		
 					                <p:outputLabel>Intake Year</p:outputLabel>
-					                <p:outputLabel value = "#{gap_formBean.selectedgap_form.studentInTake}" style="width:150px;"/>
+					                <p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.studentInTake}" style="width:150px;"/>
 				           	
 					               	<p:outputLabel>Course Regarded As</p:outputLabel>
-					              	<p:outputLabel value = "#{gap_formBean.getCourseCountAsString(gap_formBean.selectedgap_form.courseCountAs)}" style="width:150px;"/>
+					              	<p:outputLabel value = "#{courseReplacementBean.getCourseCountAsString(courseReplacementBean.selectedCourseReplacement.courseCountAs)}" style="width:150px;"/>
 				            	
 				            	
 				            		<p:outputLabel>State</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.getStepString()}" style="width:150px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.getStepString()}" style="width:150px;"/>
 	            					          	
 				               		<p:outputLabel>Action</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.getStateString()}"  style="width:150px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.getStateString()}"  style="width:150px;"/>
 	            					
 	            	
 	            					<p:outputLabel>Registrar Comment</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.registerationComment}"  style="width:150px; height:300px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.registerationComment}"  style="width:150px; height:300px;"/>
 	            					
 	            					
 	            					<p:outputLabel>Program Director Comment</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.programDirectorComment}"  style="width:150px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.programDirectorComment}"  style="width:150px;"/>
 	            					
 	            					
 	            					<p:outputLabel>Vice Director Comment</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.viceDirectorComment}"  style="width:150px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.viceDirectorComment}"  style="width:150px;"/>
 	            					
 	            					<p:outputLabel>Dean of Strategic Enrollment Comment</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.deanComment}"  style="width:150px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.deanComment}"  style="width:150px;"/>
 	            					<!-- 
 	            					<p:outputLabel>Associate Dean Comment</p:outputLabel>
-	            					<p:outputLabel value = "#{gap_formBean.selectedgap_form.associateDeanComment}"  style="width:150px;"/>
+	            					<p:outputLabel value = "#{courseReplacementBean.selectedCourseReplacement.associateDeanComment}"  style="width:150px;"/>
 	            					 -->
 	           	
 								</h:panelGrid>
@@ -390,13 +390,13 @@
 							<h3>Graduate Contact Information</h3><hr/>
 							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
 								<p:outputLabel value="Address" for="address"/>
-								<p:outputLabel value="#{gap_formBean.selectedgap_form.studentId.data.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+								<p:outputLabel value="#{courseReplacementBean.selectedCourseReplacement.studentId.data.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
 										
 								<p:outputLabel value="Email" for="email"/>
-								<p:outputLabel value="#{gap_formBean.selectedgap_form.studentId.data.mail}" id="email" disabled="true"/>
+								<p:outputLabel value="#{courseReplacementBean.selectedCourseReplacement.studentId.data.mail}" id="email" disabled="true"/>
 										
 								<p:outputLabel value="Phone" for="phone"/>
-								<p:outputLabel value="#{gap_formBean.selectedgap_form.studentId.data.phone}" id="phone" />
+								<p:outputLabel value="#{courseReplacementBean.selectedCourseReplacement.studentId.data.phone}" id="phone" />
 										
 							</h:panelGrid>
 								

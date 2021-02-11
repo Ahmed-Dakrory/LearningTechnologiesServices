@@ -20,14 +20,16 @@
 					</li>
 				</ul>
 				<div class="pannelWrapper">
-						<p:tabMenu activeIndex="2">
+						<p:tabMenu rendered="#{(HeadDetailsBeanGap_form.stepNow == 0 ||HeadDetailsBeanGap_form.stepNow == 4) ? true : false}" activeIndex="1">
 								
-							<p:menuitem value="Pending Form" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation()}" />
-						   <p:menuitem value="Old Form"  rendered="#{HeadDetailsBeanGap_form.oldTabVisibility}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(3)}" />
-						   <p:menuitem value="Auditing Form"  rendered="#{HeadDetailsBeanGap_form.auditingTabVisibility}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(1)}" />
-						   <p:menuitem value="Submitted Form"  rendered="#{HeadDetailsBeanGap_form.submittedTabVisibility}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(2)}" />
+							<p:menuitem value="Pending Form" url="#{leftNavigationMenuBean.renderGap_form()}" />
+						   <p:menuitem value="Old Form"  rendered="#{HeadDetailsBeanGap_form.oldTabVisibility}" url="#{leftNavigationMenuBean.renderGap_form(3)}" />
+						   <p:menuitem value="Auditing Form"  rendered="#{HeadDetailsBeanGap_form.auditingTabVisibility}" url="#{leftNavigationMenuBean.renderGap_form(1)}" />
+						   <p:menuitem value="Submitted Form"  rendered="#{HeadDetailsBeanGap_form.submittedTabVisibility}" url="#{leftNavigationMenuBean.renderGap_form(2)}" />
 						   
-						</p:tabMenu>	 
+						</p:tabMenu>	
+							
+							
 							
 					<h:panelGroup id="panelGroup2"></h:panelGroup>
 					<p:panel id="addSurveyPanel">
@@ -36,9 +38,9 @@
 
 					
 						
-						<p:dataTable var="forms" value="#{HeadDetailsBeanGap_form.auditingFormList}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation}"
+						<p:dataTable var="forms" value="#{HeadDetailsBeanGap_form.oldFormsFinal}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{HeadDetailsBeanGap_form.selectedNewCourseComfirmation}"
 							widgetVar="formsTable" id="reponses">
-							<p:ajax event="rowSelect" listener="#{HeadDetailsBeanGap_form.onRowSelect}" />
+							<p:ajax event="rowSelect" listener="#{HeadDetailsBeanGap_form.onRowSelect1}" />
 							<p:column width="100" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
 								<h:outputText value="#{forms.id}" />
 								<p:watermark value="ID" forElement="mainForm:form:reponses:formID:filter" />
@@ -59,12 +61,6 @@
 								<p:watermark value="Req Regarded As" forElement="mainForm:form:reponses:regardedAs:filter" />
 							</p:column>
 							 -->
-							<p:column width="160" id="intakeYear" sortBy="#{forms.studentInTake}" filterBy="#{forms.studentInTake}">
-								<h:outputText value="#{forms.studentInTake}" />
-								<p:watermark value="Intake Year" forElement="mainForm:form:reponses:intakeYear:filter" />
-							</p:column>
-							
-							
 							
 							<p:column width="160" id="formStep" sortBy="#{forms.getStepString()}" filterBy="#{forms.getStepString()}">
 								<h:outputText value="#{forms.getStepString()}" />
@@ -76,7 +72,6 @@
 								<h:outputText value="#{forms.getStateString()}" />
 								<p:watermark value="State" forElement="mainForm:form:reponses:formAction:filter" />
 							</p:column>
-							
 							
 							
 							<ui:remove>

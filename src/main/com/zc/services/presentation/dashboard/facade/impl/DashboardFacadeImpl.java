@@ -26,8 +26,10 @@ import main.com.zc.services.presentation.dashboard.dto.JuniorTADashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.OverloadRequestDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.ReadmissionDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.course_replacement_formDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.gap_formDashboardElement;
 import main.com.zc.services.presentation.dashboard.facade.IDashboardFacade;
 import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
+import main.com.zc.services.presentation.forms.gap_form.gap_form;
 import main.com.zc.shared.appService.IPersonGetDataAppService;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
@@ -99,24 +101,34 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 			
 			 //user email
 			 if(userMail.equalsIgnoreCase(Constants.DEAN_OF_STRATEGIC)) {
+				 System.out.println("Stratigic");
 				 fillDeanDashboardStrategic(elements,userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_HEAD)) {
+				 System.out.println("Addmission Head");
 				 fillAddmissionHeadDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.Financial_DEP)) {
+				 System.out.println("Finance");
 				 fillAddmissionFinanceDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_DEPT)) {
+				 System.out.println("Admission Dep");
 				 fillAdmissionDepartmentDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.DEAN_OF_ACADEMIC)) {
+				 System.out.println("Dean of Academic");
 				 fillDeanDashboardAcademic(elements,userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.PROVOST)) {
+				 System.out.println("PRovost");
 				 fillProvostDashboard(elements, userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.LTS_SYSTEM_ADMIN)) {
+				 System.out.println("LT adim");
 				 fillAdminDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.ACCREDITION_ENG_DEP)) {
+				 System.out.println("Accred Eng");
 				 fillAccredEngDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.ACCREDITION_SCI_DEP)) {
+				 System.out.println("Accred sci");
 				 fillAccredSciDashboard(elements);
 			 }else {
+				 System.out.println("Instructor");
 				 fillInstructorDashboard(elements, userMail);
 			 }
 			
@@ -165,6 +177,15 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				if(changMajorForms != null)
 					count = course_replacement_formForms;
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
+				
+				
+				
+				//gap_form
+				Integer gapForms = dashboardAppServ.getDeanGapFormsPending();
+				count = 0;
+				if(changMajorForms != null)
+					count = gapForms;
+				elements.add(new gap_formDashboardElement(count.toString()));
 		
 		//overload
 		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getDeanOverloadRequestPending();
@@ -274,6 +295,15 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 					count = course_replacement_formForms.size();
 				count += dashboardAppServ.getInstructorcourse_replacement_formPending(Constants.DEAN_OF_STRATEGIC_ID,mail);
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
+				
+				
+				//gap_form
+				List<gap_form> gap_forms = dashboardAppServ.getDeangap_FromPending();
+				count = 0;
+				if(gap_forms != null)
+					count = gap_forms.size();
+				count += dashboardAppServ.getInstructorGap_formPending(Constants.DEAN_OF_STRATEGIC_ID,mail);
+				elements.add(new gap_formDashboardElement(count.toString()));
 		
 		//overload
 		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getDeanOverloadRequestPending();
@@ -380,13 +410,21 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				
 				elements.add(new AddDropDashboardElement(count.toString()));
 				*/
-				//changeMajor
-						List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
-						Integer count = 0;
-						if(changMajorForms != null)
-							count = changMajorForms.size();
-						
-						elements.add(new ChangeMajorDashboardElement(count.toString()));
+		//changeMajor
+		List<ChangeMajorForm> changMajorForms = dashboardAppServ.getAdmissionHeadChangeMajorPending();
+		Integer count = 0;
+		if(changMajorForms != null)
+			count = changMajorForms.size();
+		
+		elements.add(new ChangeMajorDashboardElement(count.toString()));
+		
+		//gap_form
+		List<gap_form> gapForms = dashboardAppServ.getFinanceDepartmentgap_formPending();
+		count = 0;
+		if(changMajorForms != null)
+			count = changMajorForms.size();
+		
+		elements.add(new gap_formDashboardElement(count.toString()));
 						
 						//readmission
 						/*List<ReadmissionForm> readmissionForms = dashboardAppServ.getAdmissionHeadReadmissionPending();
@@ -537,6 +575,16 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
 				
 				
+				//course_replacement_form
+				Integer gapform = dashboardAppServ.getAdmissionDepartmentGapFormsAuditing();
+				Integer gapform2 = dashboardAppServ.getAdmissionDepartmentGapFormsPending();
+				count = 0;
+				if(gapform != null)
+					count = gapform+gapform2;
+				
+				elements.add(new gap_formDashboardElement(count.toString()));
+				
+				
 		//overload
 		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionDepartmentOverloadRequestPending();
 		count = 0;
@@ -615,9 +663,13 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		count = dashboardAppServ.getInstructorChangeConcentrationPending(mail);
 		elements.add(new ChangeConcentrationDashboardElement(count.toString()));
 				
-				//courseReplacement
-				count = dashboardAppServ.getInstructorCourseReplacementForms( mail);
-				elements.add(new course_replacement_formDashboardElement(count.toString()));
+		//courseReplacement
+		count = dashboardAppServ.getInstructorCourseReplacementForms( mail);
+		elements.add(new course_replacement_formDashboardElement(count.toString()));
+		
+		//gap form
+		count = dashboardAppServ.getInstructorGapForms( mail);
+		elements.add(new gap_formDashboardElement(count.toString()));
 		
 		
 		//overload
@@ -674,6 +726,12 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				count = dashboardAppServ.getAdmincourse_replacement_formPending();
 				all = count + dashboardAppServ.getAdmincourse_replacement_formOld();
 				elements.add(new course_replacement_formDashboardElement(count.toString() + "/" +all.toString()));
+				
+				
+				//gap_form
+				count = dashboardAppServ.getAdminGap_formPending();
+				all = count + dashboardAppServ.getAdminGap_formOld();
+				elements.add(new gap_formDashboardElement(count.toString() + "/" +all.toString()));
 		
 		//overload
 		count = dashboardAppServ.getAdminOverloadRequestPending();
@@ -718,6 +776,12 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				count = dashboardAppServ.getAdmincourse_replacement_formPending();
 				all = count + dashboardAppServ.getAdmincourse_replacement_formOld();
 				elements.add(new course_replacement_formDashboardElement(count.toString() + "/" +all.toString()));
+				
+				
+				//course_replacement_form
+				count = dashboardAppServ.getAdminGap_formPending();
+				all = count + dashboardAppServ.getAdminGap_formOld();
+				elements.add(new gap_formDashboardElement(count.toString() + "/" +all.toString()));
 				
 				
 				//overload
@@ -775,6 +839,10 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				//course_replacement_form
 				count = dashboardAppServ.getStudentCourseReplacementForms(studentId);
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
+				
+				//course_replacement_form
+				count = dashboardAppServ.getStudentGapForms(studentId);
+				elements.add(new gap_formDashboardElement(count.toString()));
 		
 				
 				

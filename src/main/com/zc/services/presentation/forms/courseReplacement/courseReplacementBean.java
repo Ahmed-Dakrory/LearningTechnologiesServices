@@ -334,7 +334,7 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 			System.out.println("Ahmed Dakrory new: "+String.valueOf(selectedCourseReplacement.getStudentId().getId()));
 	  		try {
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
-					("studentDetailsCourseReplacement.xhtml?c="+selectedCourseReplacement.getId());
+					("studentDetailsCourseReplacementForStudent.xhtml?stepNow=-1&type=-1&emailForState=-1&majorId="+String.valueOf(selectedCourseReplacement.getMajorId())+"&c="+selectedCourseReplacement.getId());
 	    			
 	    			
 	    		

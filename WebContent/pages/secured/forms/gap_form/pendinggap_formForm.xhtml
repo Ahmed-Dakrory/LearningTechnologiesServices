@@ -22,10 +22,10 @@
 				<div class="pannelWrapper">
 						<p:tabMenu activeIndex="0">
 								
-							<p:menuitem value="Pending Form" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation()}" />
-						   <p:menuitem value="Old Form"  rendered="#{HeadDetailsBeanGap_form.oldTabVisibility}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(3)}" />
-						   <p:menuitem value="Auditing Form"  rendered="#{HeadDetailsBeanGap_form.auditingTabVisibility}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(1)}" />
-						   <p:menuitem value="Submitted Form"  rendered="#{HeadDetailsBeanGap_form.submittedTabVisibility}" url="#{leftNavigationMenuBean.renderChangeCourseConfirmation(2)}" />
+							<p:menuitem value="Pending Form" url="#{leftNavigationMenuBean.renderGap_form()}" />
+						   <p:menuitem value="Old Form"  rendered="#{HeadDetailsBeanGap_form.oldTabVisibility}" url="#{leftNavigationMenuBean.renderGap_form(3)}" />
+						   <p:menuitem value="Auditing Form"  rendered="#{HeadDetailsBeanGap_form.auditingTabVisibility}" url="#{leftNavigationMenuBean.renderGap_form(1)}" />
+						   <p:menuitem value="Submitted Form"  rendered="#{HeadDetailsBeanGap_form.submittedTabVisibility}" url="#{leftNavigationMenuBean.renderGap_form(2)}" />
 						   
 						</p:tabMenu>	
 							
@@ -48,16 +48,6 @@
 							<p:column width="160" id="name" sortBy="#{forms.studentId.data.getNameInEnglish()}" filterBy="#{forms.studentId.data.getNameInEnglish()}">
 								<h:outputText value="#{forms.studentId.data.getNameInEnglish()}" />
 								<p:watermark value="Name" forElement="mainForm:form:reponses:name:filter" />
-							</p:column>
-							<!-- 
-							<p:column width="160" id="regardedAs" sortBy="#{HeadDetailsBeanGap_form.getCourseCountAsString(forms.courseCountAs)}" filterBy="#{HeadDetailsBeanGap_form.getCourseCountAsString(forms.courseCountAs)}">
-								<h:outputText value="#{HeadDetailsBeanGap_form.getCourseCountAsString(forms.courseCountAs)}" />
-								<p:watermark value="Req Regarded As" forElement="mainForm:form:reponses:regardedAs:filter" />
-							</p:column>
-							 -->
-							<p:column width="160" id="intakeYear" sortBy="#{forms.studentInTake}" filterBy="#{forms.studentInTake}">
-								<h:outputText value="#{forms.studentInTake}" />
-								<p:watermark value="Intake Year" forElement="mainForm:form:reponses:intakeYear:filter" />
 							</p:column>
 							
 							

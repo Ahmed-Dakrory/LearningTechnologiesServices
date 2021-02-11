@@ -80,6 +80,8 @@ public class DashboardBean
 			return leftNavigationMenuBean.renderReadmission();
 		else if(url.equals("newcourse_replacement_form"))
 			return leftNavigationMenuBean.renderChangeCourseConfirmation(HeadDetailsBean.PENDING_PAGE);
+		else if(url.equals("newgap_form"))
+			return leftNavigationMenuBean.renderGap_form(HeadDetailsBean.PENDING_PAGE);
 		else if(url.equals("newOverload"))
 			return leftNavigationMenuBean.renderOverLoadReq();
 		else if(url.equals("newCourseRepeat"))

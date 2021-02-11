@@ -65,6 +65,8 @@ import main.com.zc.services.presentation.forms.courseReplacement.courseReplaceme
 import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
 import main.com.zc.services.presentation.forms.dropAndAdd.dto.DropAddFormDTO;
 import main.com.zc.services.presentation.forms.emails.model.PendingPetitionCountObject;
+import main.com.zc.services.presentation.forms.gap_form.gap_form;
+import main.com.zc.services.presentation.forms.gap_form.gap_formRepository;
 import main.com.zc.services.presentation.forms.incompleteGrade.dto.IncompleteGradeDTO;
 import main.com.zc.services.presentation.forms.overloadRequest.dto.OverloadRequestDTO;
 import main.com.zc.services.presentation.forms.shared.dto.PetitionsActionsDTO;
@@ -99,9 +101,13 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 	
 	@Autowired
 	IEmployeeRepository emplRep;
-	
+
 	@Autowired
 	courseReplacementRepository courseReplacementRep;
+	
+
+	@Autowired
+	gap_formRepository gap_formRep;
 
 	@Autowired
 	IOverloadRequestRep overloadRequestRep;
@@ -145,6 +151,9 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 
 	@Autowired
 	IStudentcourse_replacement_formService studentcourse_replacement_formAppServ;
+	
+	
+	
 	
 	
 	@Autowired
@@ -1444,6 +1453,170 @@ public List<ReadmissionForm> getPendingFormsOfAdmission() {
 	public List<ChangeConcentration> getAdmissionHeadChangeConcentrationPending() {
 		List<ChangeConcentration> forms = changeConcentrationRep.getAdHeadPending(1);
 		return forms;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//////////////////////////////////////////////////  GAP form
+	@Override
+	public List<gap_form> getDeangap_FromPending() {
+		// TODO Auto-generated method stub
+				List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+
+				return pendingFormsList;
+	}
+
+	@Override
+	public Integer getDeanGapFormsPending() {
+		// TODO Auto-generated method stub
+		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+
+		return pendingFormsList.size();
+	}
+
+	@Override
+	public List<gap_form> getAdmissionDepartmentgap_formPending() {
+		// TODO Auto-generated method stub
+				List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
+				
+				
+				return pendingFormsList;
+	}
+
+	@Override
+	public Integer getAdmissionDepartmentGapFormsPending() {
+		// TODO Auto-generated method stub
+				List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
+				
+				
+				return pendingFormsList.size();
+	}
+
+	@Override
+	public Integer getAdmissionDepartmentGapFormsAuditing() {
+		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_AUDITING);
+		
+		
+		return pendingFormsList.size();
+	}
+
+	@Override
+	public Integer getAdminGap_formPending() {
+			List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
+			if(pendingFormsList==null) pendingFormsList = new ArrayList<gap_form>();
+			List<gap_form> newList = gap_formRep.getAllForStep(gap_form.STEP_AUDITING);
+			if(newList==null) newList = new ArrayList<gap_form>();
+			pendingFormsList.addAll(newList);
+			
+			newList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+			if(newList==null) newList = new ArrayList<gap_form>();
+			pendingFormsList.addAll(newList);
+
+			
+			newList = gap_formRep.getAllForStep(gap_form.STEP_Finance);
+			if(newList==null) newList = new ArrayList<gap_form>();
+			pendingFormsList.addAll(newList);
+			
+			newList = gap_formRep.getAllForStep(gap_form.STEP_MajorHead);
+			if(newList==null) newList = new ArrayList<gap_form>();
+			pendingFormsList.addAll(newList);
+			
+			
+		
+		return pendingFormsList.size();
+	}
+
+	@Override
+	public Integer getAdminGap_formOld() {
+		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Finished);
+		
+		
+		
+	
+	return pendingFormsList.size();
+	}
+
+	@Override
+	public Integer getInstructorGap_formPending(Integer employId, String mail) {
+		if(employId.equals(Constants.ADMISSION_DEPT_ID)) {
+			List<gap_form> data =getAdmissionDepartmentgap_formPending();
+			return Integer.valueOf(data.size());
+		}else if(employId.equals(Constants.Financial_DEP_ID)) {
+			List<gap_form> data =getFinanceDepartmentgap_formPending();
+			return Integer.valueOf(data.size()); 
+		}else if(employId.equals(Constants.DEAN_OF_STRATEGIC_ID)) {
+			List<gap_form> data = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+			return Integer.valueOf(data.size());
+		}
+		
+		//if not found
+		return 0;
+	}
+
+	@Override
+	public Integer getInstructorGapForms(String mail) {
+		// TODO Auto-generated method stub
+				//this mean the head of major
+				Employee empl = emplRep.getByMail(mail);
+				List<Majors> majorDetails=majorRep.getByInsID(empl.getId());
+				for(int i=0;i<majorDetails.size();i++) {
+					if(majorDetails.get(i).getHeadOfMajorId().getMail().equals(mail)){
+						List<gap_form> pendingFormsList = gap_formRep.getAllForStepAndMajorId(majorDetails.get(i).getId(), gap_form.STEP_MajorHead);
+						System.out.println("Major: "+String.valueOf(pendingFormsList.size()));
+						return pendingFormsList.size();
+					}
+				}
+				return 0;
+	}
+
+	@Override
+	public Integer getStudentGap_formPending(Integer studentId) {
+		List<gap_form> pendingFormsList = gap_formRep.getByStudentId(studentId);
+		if(pendingFormsList==null) pendingFormsList = new ArrayList<gap_form>();
+		List<gap_form> newList = new ArrayList<gap_form>();
+		
+		for(int i=0;i<pendingFormsList.size();i++) {
+			if(!pendingFormsList.get(i).getFormStep().equals(gap_form.STEP_Finished)) {
+				newList.add(pendingFormsList.get(i));
+			}
+		}
+		
+		
+		
+		
+	
+	return newList.size();
+
+	}
+
+	@Override
+	public Integer getStudentGapForms(Integer studentId) {
+		List<gap_form> pendingFormsList = gap_formRep.getByStudentId(studentId);
+		
+		
+		
+		
+	
+	return pendingFormsList.size();
+	}
+
+	@Override
+	public List<gap_form> getFinanceDepartmentgap_formPending() {
+		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Finance);
+		
+		
+		
+		
+		return pendingFormsList;
 	}
 
 	
