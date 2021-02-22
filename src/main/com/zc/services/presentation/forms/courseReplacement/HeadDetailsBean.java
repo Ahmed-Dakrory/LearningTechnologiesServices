@@ -575,9 +575,9 @@ public class HeadDetailsBean {
 	public String getMajorType(int type) {
 		switch(type){
 		case 1:
-			return "Science";
-		case 2:
 			return "Engineering";
+		case 2:
+			return "Science";
 			
 		}
 		return "";
