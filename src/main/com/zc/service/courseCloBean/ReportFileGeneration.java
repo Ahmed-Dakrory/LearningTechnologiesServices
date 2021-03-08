@@ -166,7 +166,7 @@ public class ReportFileGeneration {
 			  
 			  cell = row.createCell(cell_column_index_Percentage);
 			  row.getCell(cell_column_index_Percentage).setCellStyle(style2);
-			  cell.setCellValue(toFraction(allCoursesThresoldResults.get(i).getCloThresholdPercentage()[j],1000));
+			  cell.setCellValue(toFraction(allCoursesThresoldResults.get(i).getCloThresholdPercentage()[j]/100,1000));
 			  
 
 		   }
