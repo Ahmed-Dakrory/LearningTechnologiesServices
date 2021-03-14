@@ -335,7 +335,8 @@ public class StudentOverloadRequestBean {
 	
 	private boolean validProfileToSubmit(StudentProfileDTO profile) {
 		// TODO Auto-generated method stub
-		if(profile.getGpa()>=3 && profile.getCompletedCreditHrs()>64) {
+//		if(profile.getGpa()>=3 && profile.getCompletedCreditHrs()>64) {
+			if( profile.getCompletedCreditHrs()>64) {
 			return true;
 		}
 		return false;
