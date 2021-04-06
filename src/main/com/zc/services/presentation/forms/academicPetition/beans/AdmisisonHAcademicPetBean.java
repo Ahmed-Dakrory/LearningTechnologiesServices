@@ -86,7 +86,7 @@ public class AdmisisonHAcademicPetBean {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
-			if(authentication.getName().equals(Constants.ADMISSION_HEAD))
+			if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
 			{
 				fillPendingFormLst();
 				//fillArchievedPetitionsLst();
@@ -132,7 +132,7 @@ public class AdmisisonHAcademicPetBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.equals(Constants.ADMISSION_HEAD)){
+			if(mail.equals(Constants.REGISTRAR_HEAD_EMAIL)){
 				pendingForms=facade.getPendingPet();
 			}
 			else {
@@ -149,7 +149,7 @@ public class AdmisisonHAcademicPetBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.equals(Constants.ADMISSION_HEAD)){
+			if(mail.equals(Constants.REGISTRAR_HEAD_EMAIL)){
 				archievedForms=facade.getOldPet();
 				
 			}

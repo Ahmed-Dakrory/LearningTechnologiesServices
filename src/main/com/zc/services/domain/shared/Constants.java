@@ -67,10 +67,17 @@ public class Constants implements IConstants {
 	public static  Integer DEAN_OF_ACADEMIC_ID;//20;
 	public static  String DEAN_OF_ACADEMIC_NAME;//"Dr. Tarek Ibrahim";
 	
+//	public static  String ADMISSION_HEAD_EMAIL;//"ghazem@zewailcity.edu.eg";
+//	public static  Integer ADMISSION_HEAD_ID;//888;
+//	public static  String ADMISSION_HEAD_NAME;//"Mrs. Ghada";
 	
+	public static  String REGISTRAR_HEAD_EMAIL;//"ghazem@zewailcity.edu.eg";
+	public static  Integer REGISTRAR_HEAD_ID;//888;
+	public static  String REGISTRAR_HEAD_NAME;//"Mrs. Ghada";
 	
-	public static  String ADMISSION_HEAD;//"ghazem@zewailcity.edu.eg";
-	public static  Integer ADMISSION_HEAD_ID;//888;
+//	public static  String ADMISSION_HEAD;//"ghazem@zewailcity.edu.eg";
+//	public static  Integer ADMISSION_HEAD_ID;//888;
+//	public static  String ADMISSION_HEAD_NAME;//"Mrs. Ghada";
 	
 	public static  String Financial_DEP;//"ghazem@zewailcity.edu.eg";
 	public static  Integer Financial_DEP_ID;//888;
@@ -94,15 +101,21 @@ public class Constants implements IConstants {
 	public static  String ACCREDITION_SCI_DEP;//"ghazem@zewailcity.edu.eg";
 	public static  Integer ACCREDITION_SCI_ID;//888;
 	public static  String ACCREDITION_SCI_NAME;//"Mrs. Ghada";
-	
+
 	
 	public static  String ASSOCIATE_DEAN_DEP;//"ghazem@zewailcity.edu.eg";
 	public static  Integer ASSOCIATE_DEAN_ID;//888;
 	public static  String ASSOCIATE_DEAN_NAME;//"Mrs. Ghada";
 	
 	
+
 	
+	public static  String ADMISSION_HEAD_EMAIL;//"ghazem@zewailcity.edu.eg";
+	public static  Integer ADMISSION_HEAD_ID;//888;
 	public static  String ADMISSION_HEAD_NAME;//"Mrs. Ghada";
+	
+	
+	
 	public static  String ADMISSION_DEPT;//"registrar@zewailcity.edu.eg";
 	public static  Integer ADMISSION_DEPT_ID;//999;
 	public static final String CHANGE_MAJOR_YASMINE="yasmine@zewailcity.edu.eg";

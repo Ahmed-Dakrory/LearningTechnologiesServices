@@ -111,7 +111,7 @@ public class LoginBean {
 	public static Heads head ;//= headRep.getByType(Heads.Regist_Head);
 	public static Employee  ADMISSION_DEPTEm =null;//= instructorRepository.getById(head.getHeadPersonId().getId());
 	public static Heads head1 ;//= headRep.getByType(Heads.Regist_Head);
-	public static Employee  ADMISSION_HEADEm =null;// instructorRepository.getById(head1.getHeadPersonId().getId());
+	public static Employee  REGISTRAR_HEADEm =null;// instructorRepository.getById(head1.getHeadPersonId().getId());
 	public static Heads head2 ;//= headRep.getByType(Heads.Regist_Head);
 	public static Employee  DEAN_OF_ACADEMICEm =null;// instructorRepository.getById(head2.getHeadPersonId().getId());
 	public static Heads head3 ;//= headRep.getByType(Heads.Regist_Head);
@@ -130,6 +130,8 @@ public class LoginBean {
 	public static Employee AcademicAdvisor =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	public static Heads head10 ;//= headRep.getByType(Heads.Regist_Head);
 	public static Employee ASSOCIATE_DEAN =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
+	public static Heads head12 ;//= headRep.getByType(Heads.Regist_Head);
+	public static Employee ADMISSION_HEAD =null;// instructorRepository.getById(head4.getHeadPersonId().getId());
 	
 	
 	@PostConstruct
@@ -151,7 +153,7 @@ public class LoginBean {
 		head = headFacades.getByType(Heads.REGISTRAR_STAFF);
 		ADMISSION_DEPTEm = head.getHeadPersonId();
 		head1 = headFacades.getByType(Heads.Regist_Head);
-		ADMISSION_HEADEm = head1.getHeadPersonId();
+		REGISTRAR_HEADEm = head1.getHeadPersonId();
 		head2 = headFacades.getByType(Heads.DEAN_OF_ACADEMIC);
 		DEAN_OF_ACADEMICEm = head2.getHeadPersonId();
 		head3 = headFacades.getByType(Heads.PROVOST);
@@ -170,6 +172,8 @@ public class LoginBean {
 		AcademicAdvisor = head9.getHeadPersonId();
 		head10 = headFacades.getByType(Heads.ASSOCIATE_DEAN);
 		ASSOCIATE_DEAN = head10.getHeadPersonId();
+		head12 = headFacades.getByType(Heads.Admission_head_DEP);
+		ADMISSION_HEAD = head12.getHeadPersonId();
 		
 		Constants.DEAN_OF_STRATEGIC=DEAN_OF_STRATEGICEm.getMail();//"mabdrabou@zewailcity.edu.eg";
 		Constants.DEAN_OF_STRATEGIC_ID=DEAN_OF_STRATEGICEm.getId();//1379;
@@ -180,9 +184,17 @@ public class LoginBean {
 		
 
 		
-		Constants.ADMISSION_HEAD=ADMISSION_HEADEm.getMail();//"ghazem@zewailcity.edu.eg";
-		Constants.ADMISSION_HEAD_ID=ADMISSION_HEADEm.getId();//888;
-
+		Constants.ADMISSION_HEAD_EMAIL=ADMISSION_HEAD.getMail();//"ghazem@zewailcity.edu.eg";
+		Constants.ADMISSION_HEAD_ID=ADMISSION_HEAD.getId();//888;
+		Constants.ADMISSION_HEAD_NAME=ADMISSION_HEAD.getName();//"Mrs. Ghada";
+		
+		
+		Constants.REGISTRAR_HEAD_EMAIL=REGISTRAR_HEADEm.getMail();//"ghazem@zewailcity.edu.eg";
+		Constants.REGISTRAR_HEAD_ID=REGISTRAR_HEADEm.getId();//888;
+		Constants.REGISTRAR_HEAD_NAME=REGISTRAR_HEADEm.getName();//"Mrs. Ghada";
+		
+		
+		
 		Constants.Financial_DEP=FinancialDepEm.getMail();//"ghazem@zewailcity.edu.eg";
 		Constants.Financial_DEP_ID=FinancialDepEm.getId();//888;
 		Constants.Financial_DEP_NAME=FinancialDepEm.getName();//"Mrs. Ghada";
@@ -210,7 +222,6 @@ public class LoginBean {
 		Constants.ACCREDITION_SCI_NAME=AccredSci.getName();//"Mrs. Ghada";
 		
 		
-		Constants.ADMISSION_HEAD_NAME=ADMISSION_HEADEm.getName();//"Mrs. Ghada";
 		Constants.ADMISSION_DEPT=ADMISSION_DEPTEm.getMail();//"registrar@zewailcity.edu.eg";
 		Constants.ADMISSION_DEPT_ID=ADMISSION_DEPTEm.getId();//999;
 		
@@ -1032,6 +1043,110 @@ public class LoginBean {
 
 	public static void setHead10(Heads head10) {
 		LoginBean.head10 = head10;
+	}
+
+	public static Employee getADMISSION_DEPTEm() {
+		return ADMISSION_DEPTEm;
+	}
+
+	public static void setADMISSION_DEPTEm(Employee aDMISSION_DEPTEm) {
+		ADMISSION_DEPTEm = aDMISSION_DEPTEm;
+	}
+
+	public static Employee getREGISTRAR_HEADEm() {
+		return REGISTRAR_HEADEm;
+	}
+
+	public static void setREGISTRAR_HEADEm(Employee rEGISTRAR_HEADEm) {
+		REGISTRAR_HEADEm = rEGISTRAR_HEADEm;
+	}
+
+	public static Employee getDEAN_OF_ACADEMICEm() {
+		return DEAN_OF_ACADEMICEm;
+	}
+
+	public static void setDEAN_OF_ACADEMICEm(Employee dEAN_OF_ACADEMICEm) {
+		DEAN_OF_ACADEMICEm = dEAN_OF_ACADEMICEm;
+	}
+
+	public static Employee getPROVOSTEm() {
+		return PROVOSTEm;
+	}
+
+	public static void setPROVOSTEm(Employee pROVOSTEm) {
+		PROVOSTEm = pROVOSTEm;
+	}
+
+	public static Employee getDEAN_OF_STRATEGICEm() {
+		return DEAN_OF_STRATEGICEm;
+	}
+
+	public static void setDEAN_OF_STRATEGICEm(Employee dEAN_OF_STRATEGICEm) {
+		DEAN_OF_STRATEGICEm = dEAN_OF_STRATEGICEm;
+	}
+
+	public static Employee getFinancialDepEm() {
+		return FinancialDepEm;
+	}
+
+	public static void setFinancialDepEm(Employee financialDepEm) {
+		FinancialDepEm = financialDepEm;
+	}
+
+	public static Employee getAccredEn() {
+		return AccredEn;
+	}
+
+	public static void setAccredEn(Employee accredEn) {
+		AccredEn = accredEn;
+	}
+
+	public static Employee getAccredSci() {
+		return AccredSci;
+	}
+
+	public static void setAccredSci(Employee accredSci) {
+		AccredSci = accredSci;
+	}
+
+	public static Employee getTeachingEffectiveness() {
+		return TeachingEffectiveness;
+	}
+
+	public static void setTeachingEffectiveness(Employee teachingEffectiveness) {
+		TeachingEffectiveness = teachingEffectiveness;
+	}
+
+	public static Employee getAcademicAdvisor() {
+		return AcademicAdvisor;
+	}
+
+	public static void setAcademicAdvisor(Employee academicAdvisor) {
+		AcademicAdvisor = academicAdvisor;
+	}
+
+	public static Employee getASSOCIATE_DEAN() {
+		return ASSOCIATE_DEAN;
+	}
+
+	public static void setASSOCIATE_DEAN(Employee aSSOCIATE_DEAN) {
+		ASSOCIATE_DEAN = aSSOCIATE_DEAN;
+	}
+
+	public static Heads getHead12() {
+		return head12;
+	}
+
+	public static void setHead12(Heads head12) {
+		LoginBean.head12 = head12;
+	}
+
+	public static Employee getADMISSION_HEAD() {
+		return ADMISSION_HEAD;
+	}
+
+	public static void setADMISSION_HEAD(Employee aDMISSION_HEAD) {
+		ADMISSION_HEAD = aDMISSION_HEAD;
 	}
 
 	

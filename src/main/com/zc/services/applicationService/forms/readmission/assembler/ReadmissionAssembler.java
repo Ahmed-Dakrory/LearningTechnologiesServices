@@ -38,14 +38,14 @@ public class ReadmissionAssembler {
 		{
 				dto.setCurrentStatus("Reviewed By Registrar");
 
-				dto.setNextStatus("Reviewing By Dean of Academics");
+				dto.setNextStatus("Reviewing By Admission Head");
 			
 			
 		}
 		
 		else 	if(form.getStep().equals(PetitionStepsEnum.DEAN))
 		{
-			dto.setCurrentStatus("Reviewed By Dean of Academics");
+			dto.setCurrentStatus("Reviewed By Admission Head");
 			dto.setNextStatus("Reviewing By Dean of Strategic Enrollment Management");
 		}else 	if(form.getStep().equals(PetitionStepsEnum.ADMISSION_DEPT))
 		{

@@ -1355,7 +1355,7 @@ public class CheckNewEmails extends Thread implements ICheckNewMails {
 
 	private void sendDailyForAdmissionHead() {
 		try {
-			Employee instructor = insRep.getByMail(Constants.ADMISSION_HEAD);
+			Employee instructor = insRep.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 			if (instructor.getMailSetting().getNotifyMe()) {
 				Integer every = instructor.getMailSetting().getEveryDays();
 				SimpleDateFormat dayFormat = new SimpleDateFormat("ddMMyyyy");

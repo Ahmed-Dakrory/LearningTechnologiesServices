@@ -61,7 +61,7 @@ public class AdmisisonAcademicPetAdminBean {
 			// will allow to Dr. Ashraf , Admission Head , Registrar to see the in progress petitions
 			//if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC))
 			if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||
-					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.ADMISSION_HEAD)||
+					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL)||
 					authentication.getName().equals(Constants.ADMISSION_DEPT))
 			{
 				fillPendingFormLst();
@@ -73,7 +73,7 @@ public class AdmisisonAcademicPetAdminBean {
 			    {
 			    	setLoginCase(1);
 			    }
-			    else if(authentication.getName().equals(Constants.ADMISSION_HEAD))
+			    else if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
 			    {
 			    	setLoginCase(2);
 			    }
@@ -100,7 +100,7 @@ public class AdmisisonAcademicPetAdminBean {
 			// will allow to Dr. Ashraf , Admission Head , Registrar to see the in progress petitions
 						//if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC))
 						if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||
-								authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.ADMISSION_HEAD)||
+								authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL)||
 								authentication.getName().equals(Constants.ADMISSION_DEPT))
 						{
 				pendingForms=facade.getPendingPet();
@@ -123,7 +123,7 @@ public class AdmisisonAcademicPetAdminBean {
 				archievedForms=facade.getOldPet();
 				
 			}
-			else if(authentication.getName().equals(Constants.ADMISSION_DEPT)||authentication.getName().equals(Constants.ADMISSION_HEAD)||
+			else if(authentication.getName().equals(Constants.ADMISSION_DEPT)||authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL)||
 					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)){
 				//DO NOTHING
 			}

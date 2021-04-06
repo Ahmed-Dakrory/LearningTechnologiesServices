@@ -95,7 +95,7 @@ public class DetailsBean {
 	{
 		try{
 			 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if(!authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD)&&
+			if(!authentication.getName().toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL)&&
 					!authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT)&&
 					!(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")||StringUtils.isNumeric(authentication.getName().substring(0, 4))))
 					{
@@ -1326,7 +1326,7 @@ public class DetailsBean {
 		    		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
 		    		
 		    			
-		    		if(dto.getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_HEAD_ID))
+		    		if(dto.getActionDTO().get(i).getInstructorID().equals(Constants.REGISTRAR_HEAD_ID))
 		    		{
 		    			actionExistBefore=true;
 		    			index=i;
@@ -1414,7 +1414,7 @@ public class DetailsBean {
 		    			newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
 		    			newAction.setDate(Calendar.getInstance());
 		    			newAction.setFormType(FormTypesEnum.REPEATECOURSE);
-		    			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+		    			newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 		    			newAction.setPetitionID(dto.getId());
 		    			if(getNewComment()!=null)
 		    			{
@@ -1463,7 +1463,7 @@ public class DetailsBean {
 				newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
 				newAction.setDate(Calendar.getInstance());
 				newAction.setFormType(FormTypesEnum.REPEATECOURSE);
-				newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+				newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 				newAction.setPetitionID(dto.getId());
 				if(getNewComment()!=null)
 				{
@@ -1629,7 +1629,7 @@ public class DetailsBean {
 		    			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
 		    			newAction.setDate(Calendar.getInstance());
 		    			newAction.setFormType(FormTypesEnum.REPEATECOURSE);
-		    			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+		    			newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 		    			newAction.setPetitionID(dto.getId());
 		    			if(getNewComment()!=null)
 		    			{
@@ -1674,7 +1674,7 @@ public class DetailsBean {
 				newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
 				newAction.setDate(Calendar.getInstance());
 				newAction.setFormType(FormTypesEnum.REPEATECOURSE);
-				newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+				newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 				newAction.setPetitionID(dto.getId());
 				if(getNewComment()!=null)
 				{
@@ -2444,7 +2444,7 @@ public class DetailsBean {
 		{
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			if(authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT)||
-					authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD))
+					authentication.getName().toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL))
 			{
 				return false;
 			}

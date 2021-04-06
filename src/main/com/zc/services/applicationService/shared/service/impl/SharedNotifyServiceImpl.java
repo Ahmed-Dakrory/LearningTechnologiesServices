@@ -190,7 +190,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 			} else if (coursePetition.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -405,7 +405,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 			} else if (dropAddForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -891,7 +891,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							.getProvostRequired())) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 				// Notify Student
 				studentDTO = new StudentDTO();
 				studentDTO.setMail(overLoadRequest.getStudent().getData()
@@ -941,7 +941,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					PetitionStepsEnum.PROVOST)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 				// Notify Student
 				studentDTO = new StudentDTO();
 				studentDTO.setMail(overLoadRequest.getStudent().getData()
@@ -1166,7 +1166,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 			} else if (repeat.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 
 			// Notify Student
 				studentDTO = new StudentDTO();
@@ -1508,7 +1508,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					.getByMail(Constants.DEAN_OF_STRATEGIC);
 		} else if (coursePetition.getStep().equals(PetitionStepsEnum.DEAN)) {
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (coursePetition.getStep().equals(
 				PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
@@ -1533,7 +1533,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					.getByMail(Constants.DEAN_OF_STRATEGIC);
 		} else if (addForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (addForm.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
 					.getByMail(Constants.ADMISSION_DEPT);
@@ -1562,7 +1562,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					.getByMail(Constants.DEAN_OF_STRATEGIC);
 		} else if (changeMajorForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (changeMajorForm.getStep().equals(
 				PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
@@ -1587,7 +1587,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					.getByMail(Constants.DEAN_OF_STRATEGIC);
 		} else if (overloadRequest.getStep().equals(PetitionStepsEnum.DEAN)) {
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (overloadRequest.getStep().equals(
 				PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
@@ -1615,7 +1615,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					.getByMail(Constants.DEAN_OF_ACADEMIC);
 		} else if (repeatCourseForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (repeatCourseForm.getStep().equals(
 				PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
@@ -2031,7 +2031,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 			else if (incompleteGrade.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -2246,7 +2246,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 		} */
 		else if (incompleteGrade.getStep().equals(PetitionStepsEnum.DEAN)) {
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (incompleteGrade.getStep().equals(
 				PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
@@ -2619,7 +2619,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 			else if (form.getStep().equals(PetitionStepsEnum.PA)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository
-						.getByMail(Constants.ADMISSION_HEAD);
+						.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -2798,7 +2798,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 				.equals(PetitionStepsEnum.PA)) {
 		
 			instructor = instructorRepository
-					.getByMail(Constants.ADMISSION_HEAD);
+					.getByMail(Constants.REGISTRAR_HEAD_EMAIL);
 		} else if (changeOfConcen.getStep().equals(
 				PetitionStepsEnum.ADMISSION_PROCESSING)) {
 			instructor = instructorRepository
@@ -2916,7 +2916,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 					PetitionStepsEnum.DEAN_OF_ACADIMICS)) {
 				// Notify DEAN
 				instructor = instructorRepository
-						.getByMail(Constants.DEAN_OF_ACADEMIC);
+						.getByMail(Constants.ADMISSION_HEAD_EMAIL);
 
 				// Notify Student
 				studentDTO = new StudentDTO();
@@ -2944,7 +2944,7 @@ public class SharedNotifyServiceImpl implements ISharedNotifyService {
 							+ " " + insname;
 				}*/
 				
-				studentContent += "<br/> The next step is the Dean of Academics approval";
+				studentContent += "<br/> The next step is the Admission Head approval";
 			} else if (readmissionForm.getStep().equals(PetitionStepsEnum.DEAN)) {
 				// Notify ADMISSION_HEAD
 				instructor = instructorRepository

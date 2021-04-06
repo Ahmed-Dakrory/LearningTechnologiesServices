@@ -113,6 +113,7 @@ public class HeadsRepositoryImpl implements HeadsRepository{
 
 				 @SuppressWarnings("unchecked")
 				List<Heads> results=query.list();
+
 				 if(results!=null && results.size()>0) {
 				   return results.get(0);
 				 }else {

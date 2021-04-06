@@ -776,7 +776,7 @@ public boolean isShowGap_form() {
 						else 
 							return "/pages/secured/forms/academicPetition/deanCoursePetitionPage.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase()))
 					{
 						return "/pages/secured/forms/academicPetition/admissionHAcademicPet.xhtml?faces-redirect=true";
 					}
@@ -1119,7 +1119,7 @@ public boolean isShowGap_form() {
 						else 
 							return "/pages/secured/forms/dropAndAdd/addDropDean.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase()))
 					{
 						return "/pages/secured/forms/dropAndAdd/addDropAdmissionHead.xhtml?faces-redirect=true";
 					}
@@ -1227,7 +1227,7 @@ public boolean isShowGap_form() {
 						
 							return "/pages/secured/forms/readmission/readmissionDean.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.DEAN_OF_ACADEMIC.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD_EMAIL.toLowerCase()))
 					{
 						return "/pages/secured/forms/readmission/readmissionDeanOfAcad.xhtml?faces-redirect=true";
 					}
@@ -1346,7 +1346,7 @@ public boolean isShowGap_form() {
 						else 
 							return "/pages/secured/forms/overloadRequest/overloadRequestDean.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase()))
 					{
 						return "/pages/secured/forms/overloadRequest/overloadRequestAdmissionHead.xhtml?faces-redirect=true";
 					}
@@ -1753,7 +1753,7 @@ public boolean isShowGap_form() {
 						else 
 							return "/pages/secured/forms/CourseRepeatForm/courseRepeatFormDean.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase()))
 					{
 						return "/pages/secured/forms/CourseRepeatForm/courseRepeatFormAdmissionHead.xhtml?faces-redirect=true";
 					}
@@ -1808,7 +1808,7 @@ public boolean isShowGap_form() {
 						else 
 							return "/pages/secured/forms/incompleteGrade/incompleteGradeDean.xhtml?faces-redirect=true";
 					}
-					else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+					else if(mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase()))
 					{
 						return "/pages/secured/forms/incompleteGrade/IncompleteAdmissionH.xhtml?faces-redirect=true";
 					}
@@ -1863,7 +1863,7 @@ public boolean isShowGap_form() {
 					
 					if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
 							mail.toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||
-							mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+							mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||
 							mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 					{
 						currentMenuId = "Planned Major Results";
@@ -1905,7 +1905,7 @@ public boolean isShowGap_form() {
 					
 					if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
 							mail.toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||
-							mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+							mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||
 							mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 					{
 						
@@ -1960,7 +1960,7 @@ public boolean isShowGap_form() {
 			}
 				if(( authentication.getName().toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
 						authentication.getName().toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||isMajorHead||
-						authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+						authentication.getName().toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||
 						authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase())))
 			{
 				
@@ -2001,7 +2001,7 @@ public boolean isShowGap_form() {
 					
 					if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
 							mail.toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||
-							mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+							mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||
 							mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 					{
 						currentMenuId = "Planned Major Results";
@@ -2618,7 +2618,7 @@ public String renderChangeConcentration(){
 			return "/pages/secured/forms/changeOfConcentration/changeOfConcentrationStudent.xhtml?faces-redirect=true";
 		
 		}
-		else if(mail.equals(Constants.ADMISSION_HEAD))
+		else if(mail.equals(Constants.REGISTRAR_HEAD_EMAIL))
 		{
 			
 			return "/pages/secured/forms/changeOfConcentration/changeOfConcentrationAdmissionHead.xhtml?faces-redirect=true";
@@ -2872,7 +2872,7 @@ public void setValidateLoggedIn(boolean validateLoggedIn) {
 		{
 			
 			String mail = authentication.getName();
-			if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase())||mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN.toLowerCase()))
+			if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase())||mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN.toLowerCase()))
 					{
 						
 							return "/pages/secured/forms/formsHistory/formsHistory.xhtml?faces-redirect=true";
@@ -2918,7 +2918,7 @@ public void setValidateLoggedIn(boolean validateLoggedIn) {
 				.getAuthentication();
 			
 			String mail = authentication.getName();
-		if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase())||mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN.toLowerCase()))
+		if(mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase())||mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN.toLowerCase()))
 		{
 			
 				return true;
@@ -2952,7 +2952,7 @@ else
 		}
 			if(( mail.toLowerCase().equals(Constants.DEAN_OF_STRATEGIC.toLowerCase()) ||
 				mail.toLowerCase().equals(Constants.PROVOST.toLowerCase())  ||isMajorHead||
-				mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+				mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||
 				mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase())))
 			{
 			return true;
@@ -2970,7 +2970,7 @@ else
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{   String mail = authentication.getName();
 			if(	mail.toLowerCase().equals(Constants.LTS_SYSTEM_ADMIN) ||
-				mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase())||
+				mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())||
 				mail.toLowerCase().equals(Constants.ADMISSION_DEPT.toLowerCase()))
 			{
 			return true;

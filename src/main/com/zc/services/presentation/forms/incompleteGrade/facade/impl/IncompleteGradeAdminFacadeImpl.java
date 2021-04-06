@@ -86,9 +86,9 @@ public class IncompleteGradeAdminFacadeImpl implements IIncompleteGradeAdminFaca
 		}
 		else if(form.getStep().equals(PetitionStepsEnum.DEAN))
 		{
-			sendEmailFacade.sendEmail(Constants.ADMISSION_HEAD_NAME
+			sendEmailFacade.sendEmail(Constants.REGISTRAR_HEAD_NAME
 		
-				,Constants.ADMISSION_HEAD, content,title);
+				,Constants.REGISTRAR_HEAD_EMAIL, content,title);
 		}
 		else if(form.getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{

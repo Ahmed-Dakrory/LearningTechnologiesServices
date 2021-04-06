@@ -107,11 +107,11 @@ public class CoursePetitionDTO {
 		
 		else if(getStep().equals(PetitionStepsEnum.ADMISSION_PROCESSING))
 		{
-			if(authentication.getName().equals(Constants.ADMISSION_HEAD))
+			if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
 			{
 				for(int i=0;i<getActionDTO().size();i++)
 				{
-					if(getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_HEAD_ID))
+					if(getActionDTO().get(i).getInstructorID().equals(Constants.REGISTRAR_HEAD_ID))
 					{
 						if(getActionDTO().get(i).getActionType()!=null){
 						if(getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Admission_Approved))

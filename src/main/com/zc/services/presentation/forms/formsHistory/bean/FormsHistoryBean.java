@@ -59,7 +59,7 @@ public class FormsHistoryBean implements Serializable {
 			if (mail.toLowerCase().equals(
 					Constants.DEAN_OF_STRATEGIC.toLowerCase())
 					|| mail.toLowerCase().equals(
-							Constants.ADMISSION_HEAD.toLowerCase())|| mail.toLowerCase().equals(
+							Constants.REGISTRAR_HEAD_EMAIL.toLowerCase())|| mail.toLowerCase().equals(
 									Constants.LTS_SYSTEM_ADMIN.toLowerCase())) {
 				clear();
 			} else {

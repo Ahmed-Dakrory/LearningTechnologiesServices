@@ -115,7 +115,7 @@ public class course_replacement_formAdmissionHBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			String mail = authentication.getName();
-			if(mail.equals(Constants.ADMISSION_HEAD)){
+			if(mail.equals(Constants.REGISTRAR_HEAD_EMAIL)){
 				pendingForms=facade.getPendingFormsOfAdmissionHead();
 			}
 			else {

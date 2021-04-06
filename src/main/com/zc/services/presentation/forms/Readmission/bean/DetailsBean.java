@@ -89,7 +89,7 @@ public class DetailsBean {
 	private PetitionsActionsDTO deanActionDetails;
 	private PetitionsActionsDTO admissionHActionDetails;
 	private PetitionsActionsDTO admissionDActionDetails;
-	private PetitionsActionsDTO deanAcademicsActionDetails;
+	private PetitionsActionsDTO admissionHeadActionDetails;
 	private boolean renderRemindMe;
 	private Date notifyAt;
 	private boolean adminView;
@@ -104,7 +104,7 @@ public class DetailsBean {
 	{
 		try{ 
 			 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			if(!authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD)&&
+			if(!authentication.getName().toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL)&&
 					!authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT)&&
 					!(authentication.getName().startsWith("S")||authentication.getName().startsWith("s")||StringUtils.isNumeric(authentication.getName().substring(0, 4))))
 					{
@@ -1839,7 +1839,7 @@ public class DetailsBean {
 	    		//3- if(actions.get(i).getInstructorID == Logged-in instructor)
 	    		
 	    			
-	    		if(dto.getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_HEAD_ID))
+	    		if(dto.getActionDTO().get(i).getInstructorID().equals(Constants.REGISTRAR_HEAD_ID))
 	    		{
 	    			actionExistBefore=true;
 	    			index=i;
@@ -1927,7 +1927,7 @@ public class DetailsBean {
 	    			newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
 	    			newAction.setDate(Calendar.getInstance());
 	    			newAction.setFormType(FormTypesEnum.READMISSION);
-	    			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+	    			newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
 	    			{
@@ -1976,7 +1976,7 @@ public class DetailsBean {
 			newAction.setActionType(PetitionActionTypeEnum.Admission_Approved);
 			newAction.setDate(Calendar.getInstance());
 			newAction.setFormType(FormTypesEnum.READMISSION);
-			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+			newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
 			{
@@ -2144,7 +2144,7 @@ public class DetailsBean {
 	    			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
 	    			newAction.setDate(Calendar.getInstance());
 	    			newAction.setFormType(FormTypesEnum.READMISSION);
-	    			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+	    			newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 	    			newAction.setPetitionID(dto.getId());
 	    			if(getNewComment()!=null)
 	    			{
@@ -2189,7 +2189,7 @@ public class DetailsBean {
 			newAction.setActionType(PetitionActionTypeEnum.Admission_Refused);
 			newAction.setDate(Calendar.getInstance());
 			newAction.setFormType(FormTypesEnum.READMISSION);
-			newAction.setInstructorID(Constants.ADMISSION_HEAD_ID);
+			newAction.setInstructorID(Constants.REGISTRAR_HEAD_ID);
 			newAction.setPetitionID(dto.getId());
 			if(getNewComment()!=null)
 			{
@@ -3108,7 +3108,7 @@ public class DetailsBean {
 		{
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			if(authentication.getName().toLowerCase().equals(Constants.ADMISSION_DEPT)||
-					authentication.getName().toLowerCase().equals(Constants.ADMISSION_HEAD))
+					authentication.getName().toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL))
 			{
 				return false;
 			}
@@ -3238,7 +3238,7 @@ public class DetailsBean {
 	}
 	
 	
-	public PetitionsActionsDTO getDeanAcademicsActionDetails() {
+	public PetitionsActionsDTO getAdmissionHeadActionDetails() {
 		PetitionsActionsDTO dto=new PetitionsActionsDTO();
 		if(getDetailedDTO()!=null)
 		{
@@ -3248,7 +3248,7 @@ public class DetailsBean {
 					
 					for(int i=0;i<getDetailedDTO().getActionDTO().size();i++)
 					{
-						if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.DEAN_OF_ACADEMIC_ID)) {
+						if(getDetailedDTO().getActionDTO().get(i).getInstructorID().equals(Constants.ADMISSION_HEAD_ID)) {
 						if(getDetailedDTO().getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Approved)||
 								getDetailedDTO().getActionDTO().get(i).getActionType().equals(PetitionActionTypeEnum.Refused))
 						{
@@ -3268,9 +3268,13 @@ public class DetailsBean {
 		}
 		  return dto;
 	}
-	public void setDeanAcademicsActionDetails(PetitionsActionsDTO deanAcademicsActionDetails) {
-		this.deanAcademicsActionDetails = deanAcademicsActionDetails;
+	
+	
+
+	public void setAdmissionHeadActionDetails(PetitionsActionsDTO admissionHeadActionDetails) {
+		this.admissionHeadActionDetails = admissionHeadActionDetails;
 	}
+
 	public PetitionsActionsDTO getAdmissionDActionDetails() {
 		PetitionsActionsDTO dto=new PetitionsActionsDTO();
 		if(getDetailedDTO()!=null)

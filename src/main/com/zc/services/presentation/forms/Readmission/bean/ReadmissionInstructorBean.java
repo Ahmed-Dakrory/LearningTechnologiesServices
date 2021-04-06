@@ -383,7 +383,7 @@ public class ReadmissionInstructorBean {
     			 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     				if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
     				{
-			if(authentication.getName().equalsIgnoreCase(Constants.DEAN_OF_ACADEMIC)) {
+			if(authentication.getName().equalsIgnoreCase(Constants.ADMISSION_HEAD_EMAIL)) {
     			FacesContext.getCurrentInstance().getExternalContext().redirect
 			("formDetails.xhtml?id="+dto.getId()+"&cases=DeanAcad");
 			}else {

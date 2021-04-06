@@ -1302,8 +1302,8 @@ public void addComment(TAJuniorProgramDTO dto) {
 					actionDTO.setComment(getNewComment());
 					if(authentication.getName().equals(Constants.ADMISSION_DEPT))
 						facade.addComment(actionDTO,Constants.ADMISSION_DEPT_ID);
-						else if(authentication.getName().equals(Constants.ADMISSION_HEAD))
-								facade.addComment(actionDTO,Constants.ADMISSION_HEAD_ID);
+						else if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
+								facade.addComment(actionDTO,Constants.REGISTRAR_HEAD_ID);
 						else 	
 							facade.addComment(actionDTO,getInsDataFacade.getInsByPersonMail(authentication.getName()).getId());setNewComment(null);
 					
@@ -1320,8 +1320,8 @@ public void addComment(TAJuniorProgramDTO dto) {
 					actionDTO.setPetitionID(getDetailedDTO().getId());
 					if(authentication.getName().equals(Constants.ADMISSION_DEPT))
 					facade.addComment(actionDTO,Constants.ADMISSION_DEPT_ID);
-					else if(authentication.getName().equals(Constants.ADMISSION_HEAD))
-							facade.addComment(actionDTO,Constants.ADMISSION_HEAD_ID);
+					else if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
+							facade.addComment(actionDTO,Constants.REGISTRAR_HEAD_ID);
 					else 	
 						facade.addComment(actionDTO,getInsDataFacade.getInsByPersonMail(authentication.getName()).getId());
 					setNewComment(null);
@@ -1341,8 +1341,8 @@ public void addComment(TAJuniorProgramDTO dto) {
 				actionDTO.setPetitionID(getDetailedDTO().getId());
 				if(authentication.getName().equals(Constants.ADMISSION_DEPT))
 				facade.addComment(actionDTO,Constants.ADMISSION_DEPT_ID);
-				else if(authentication.getName().equals(Constants.ADMISSION_HEAD))
-						facade.addComment(actionDTO,Constants.ADMISSION_HEAD_ID);
+				else if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
+						facade.addComment(actionDTO,Constants.REGISTRAR_HEAD_ID);
 				else 	
 					facade.addComment(actionDTO,getInsDataFacade.getInsByPersonMail(authentication.getName()).getId());
 				setNewComment(null);

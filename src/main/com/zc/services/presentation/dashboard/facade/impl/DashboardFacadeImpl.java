@@ -103,7 +103,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 			 if(userMail.equalsIgnoreCase(Constants.DEAN_OF_STRATEGIC)) {
 				 System.out.println("Stratigic");
 				 fillDeanDashboardStrategic(elements,userMail);
-			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_HEAD)) {
+			 }else if(userMail.equalsIgnoreCase(Constants.REGISTRAR_HEAD_EMAIL)) {
 				 System.out.println("Addmission Head");
 				 fillAddmissionHeadDashboard(elements);
 			 }else if(userMail.equalsIgnoreCase(Constants.Financial_DEP)) {
@@ -115,6 +115,9 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 			 }else if(userMail.equalsIgnoreCase(Constants.DEAN_OF_ACADEMIC)) {
 				 System.out.println("Dean of Academic");
 				 fillDeanDashboardAcademic(elements,userMail);
+			 }else if(userMail.equalsIgnoreCase(Constants.ADMISSION_HEAD_EMAIL)) {
+				 System.out.println("Admission Head");
+				 fillAdmissionHeadDashboardAcademic(elements,userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.PROVOST)) {
 				 System.out.println("PRovost");
 				 fillProvostDashboard(elements, userMail);
@@ -357,10 +360,6 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				count += dashboardAppServ.getInstructorChangeMajorPending(mail);
 				elements.add(new ChangeMajorDashboardElement(count.toString()));
 				
-				//readmission
-				count = dashboardAppServ.getInstructorReadmissionPending(Constants.DEAN_OF_ACADEMIC_ID,mail);
-				elements.add(new ReadmissionDashboardElement(count.toString()));
-				
 				
 				
 				
@@ -390,6 +389,26 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				count = dashboardAppServ.getDeanJuniorTAPending();
 				count += dashboardAppServ.getInstructorJuniorTAPending(mail);
 				elements.add(new JuniorTADashboardElement(count.toString()));
+			
+	}
+	
+	
+	private void fillAdmissionHeadDashboardAcademic(List<DashboardElement> elements,String mail)
+	{
+	
+		//petition
+			//Integer	count = dashboardAppServ.getInstructorAcademicPetitionsPending(mail);	
+			//elements.add(new AcademicPetitionDashboardElement(count.toString()));
+				
+		
+				//readmission
+				Integer count = dashboardAppServ.getInstructorReadmissionPending(Constants.ADMISSION_HEAD_ID,mail);
+				elements.add(new ReadmissionDashboardElement(count.toString()));
+				
+				
+				
+			
+				
 			
 	}
 	

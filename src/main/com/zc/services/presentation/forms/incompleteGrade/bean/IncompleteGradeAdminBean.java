@@ -53,7 +53,7 @@ public class IncompleteGradeAdminBean {
 		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
 		{
 			if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||
-					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.ADMISSION_HEAD)||
+					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL)||
 					authentication.getName().equals(Constants.ADMISSION_DEPT))
 			{
 				fillPendingFormLst();
@@ -65,7 +65,7 @@ public class IncompleteGradeAdminBean {
 			    {
 			    	setLoginCase(1);
 			    }
-			    else if(authentication.getName().equals(Constants.ADMISSION_HEAD))
+			    else if(authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL))
 			    {
 			    	setLoginCase(2);
 			    }
@@ -101,7 +101,7 @@ public class IncompleteGradeAdminBean {
 			
 		}*/
 			if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||
-					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.ADMISSION_HEAD)||
+					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL)||
 					authentication.getName().equals(Constants.ADMISSION_DEPT))
 			{
 				pendingForms=facade.getPendingForms();
@@ -130,7 +130,7 @@ public class IncompleteGradeAdminBean {
 			 *
 			 */
 			if(authentication.getName().equals(Constants.LTS_SYSTEM_ADMIN) || authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||
-					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.ADMISSION_HEAD)||
+					authentication.getName().equals(Constants.DEAN_OF_STRATEGIC)||authentication.getName().equals(Constants.REGISTRAR_HEAD_EMAIL)||
 					authentication.getName().equals(Constants.ADMISSION_DEPT))
 			{
 				//DO NOTHING

@@ -730,8 +730,8 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 		if(employeId.equals(Constants.ADMISSION_DEPT_ID)) {
 			List<ReadmissionForm> data =getPendingFormsOfAdmission();
 			return Integer.valueOf(data.size());
-		}else if(employeId.equals(Constants.DEAN_OF_ACADEMIC_ID)) {
-			List<ReadmissionDTO> data = getPendingFormsOfDeanOfAcademic();
+		}else if(employeId.equals(Constants.ADMISSION_HEAD_ID)) {
+			List<ReadmissionDTO> data = getPendingFormsOfAdmissionHead();
 			return Integer.valueOf(data.size()); 
 		}else if(employeId.equals(Constants.DEAN_OF_STRATEGIC_ID)) {
 			List<ReadmissionDTO> data = getPendingFormsOfDean();
@@ -824,7 +824,7 @@ public List<ReadmissionDTO> getPendingFormsOfDean() {
 	}
 
 
-public List<ReadmissionDTO> getPendingFormsOfDeanOfAcademic() {
+public List<ReadmissionDTO> getPendingFormsOfAdmissionHead() {
 	
 	List<ReadmissionDTO> filterdDTO=new ArrayList<ReadmissionDTO>();
 	try{

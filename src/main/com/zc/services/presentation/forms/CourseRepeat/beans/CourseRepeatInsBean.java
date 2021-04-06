@@ -107,7 +107,7 @@ public class CourseRepeatInsBean {
 					e.printStackTrace();
 				}
 			}
-			else if(mail.toLowerCase().equals(Constants.ADMISSION_HEAD.toLowerCase()))
+			else if(mail.toLowerCase().equals(Constants.REGISTRAR_HEAD_EMAIL.toLowerCase()))
 			{
 				try {
 					FacesContext.getCurrentInstance().getExternalContext().redirect
