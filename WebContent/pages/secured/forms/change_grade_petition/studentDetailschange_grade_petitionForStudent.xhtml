@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change Grade  form Form - LT Online Services</ui:define>
+		<ui:define name="content">
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Student Change Grade  form" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+					<p:panel>
+						<!-- Student Info -->
+						<h:panelGroup id="studentInfoGrid">
+							<ul class="studentInfo">
+								<li>
+									<p:graphicImage value="/images/?path=#{change_grade_petitionBean.selectedchange_grade_petition.studentId.id}" rendered="#{change_grade_petitionBean.selectedchange_grade_petition.studentId.data.studentImage != null }" />
+								</li>
+								
+								<li>
+								<table>
+											<tr>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Submission Date" />
+														<h:outputLabel value="#{change_grade_petitionBean.getFriendlySubmissionDate(change_grade_petitionBean.selectedchange_grade_petition.submissionDate)}" />
+														<h:outputLabel value="Updating Date" />
+														<h:outputLabel value="#{change_grade_petitionBean.getFriendlySubmissionDate(change_grade_petitionBean.selectedchange_grade_petition.lastUpdateDate)}" />
+														<h:outputLabel value="ID" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.facultyId}" />
+														<h:outputLabel value="Mob./Phone" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.mobile}" />
+													</h:panelGrid>
+												</td>
+														<td width="48">&nbsp;</td>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Earned Credit hrs." />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.completedCreditHrs}" />
+														<h:outputLabel value="Registered hrs." />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.registeredCreditHrs}" />
+														<h:outputLabel value="Repeated Courses" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.repeatedCourses}" />
+													</h:panelGrid>
+												</td>
+												<td width="48">&nbsp;</td>
+												<td valign="top">
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="GPA" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.gpa}" />
+														<h:outputLabel value="Current Program" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.major.majorName}" />
+														<h:outputLabel value="Current Program Type" />
+														<h:outputLabel value="#{change_grade_petitionBean.getMajorType(change_grade_petitionBean.major.type)}" />
+															<h:outputLabel value="Concentration" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.concentration.name}" />
+														</h:panelGrid>
+												</td>
+										
+											</tr> 
+										</table>
+								</li>
+							</ul>
+						</h:panelGroup>
+						
+						<!-- Petition Details -->
+
+						<!-- Action Buttons -->
+							<p:panel id="feedbackformPanel" style="width:70%;margin:0 auto;border:0;">
+							<h3>Personal Information</h3><hr/>  
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">
+								<p:outputLabel value="Student's ID" for="studentID"/>
+								<p:outputLabel value="#{change_grade_petitionBean.selectedchange_grade_petition.studentId.fileNo}" id="studentID" disabled="true"/>
+								
+								<p:outputLabel value="Full Name" for="firstName"/>
+								<p:outputLabel value="#{change_grade_petitionBean.selectedchange_grade_petition.studentId.data.getNameInEnglish()}" id="firstName" required="true" requiredMessage="Please fill the first name"/>
+								
+							</h:panelGrid>
+							
+							
+							<h:panelGroup>
+							<h3>Current Step</h3><hr/> 
+							
+							
+							<div class="formProgressWrapper">
+							<ol class="formProgress">
+							
+							<!-- INSTRUCTOR -->
+							<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==1||change_grade_petitionBean.selectedchange_grade_petition.formStep==2||change_grade_petitionBean.selectedchange_grade_petition.formStep==3||change_grade_petitionBean.selectedchange_grade_petition.formStep==4||change_grade_petitionBean.selectedchange_grade_petition.formStep==5||change_grade_petitionBean.selectedchange_grade_petition.formStep==6}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Course Instructor" /><br/>
+										<div class="otherInfo">
+											#{change_grade_petitionBean.selectedchange_grade_petition.courseInstructorId.name}
+											<h:outputText  value="#{change_grade_petitionBean.selectedchange_grade_petition.courseInstructorDate.time}" styleClass="date" rendered="#{change_grade_petitionBean.selectedchange_grade_petition.courseInstructorDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								
+								<!-- OR -->
+								<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==0}">
+								<li>
+									<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Course Instructor" /><br/>
+											<div class="otherInfo">
+											#{change_grade_petitionBean.selectedchange_grade_petition.courseInstructorId.name}
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								<!-- End INSTRUCTOR -->
+								
+								
+								
+								
+								
+								
+								<!-- Major Head -->
+							<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==2||change_grade_petitionBean.selectedchange_grade_petition.formStep==3||change_grade_petitionBean.selectedchange_grade_petition.formStep==4||change_grade_petitionBean.selectedchange_grade_petition.formStep==5||change_grade_petitionBean.selectedchange_grade_petition.formStep==6}">
+    							<li>
+    								<div class="formProgress-done">
+    									<br/>
+										<h:outputLabel value="Major Head" /><br/>
+										<div class="otherInfo">
+											#{change_grade_petitionBean.major.headOfMajor.name}
+													<br/>
+											<h:outputText  value="#{change_grade_petitionBean.selectedchange_grade_petition.programDirectorDate.time}" styleClass="date" rendered="#{change_grade_petitionBean.selectedchange_grade_petition.programDirectorDate!=null}">
+											    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+											</h:outputText>
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								
+								<!-- OR -->
+								<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==0||change_grade_petitionBean.selectedchange_grade_petition.formStep==1}">
+								<li>
+									<div class="formProgress-todo">
+											<br/>
+											<h:outputLabel value="Major Head" /><br/>
+											<div class="otherInfo">
+											#{change_grade_petitionBean.major.headOfMajor.name}
+											</div>
+									</div>
+								</li>
+								</h:panelGroup>
+								<!-- End Major Head -->
+								
+								
+								
+								
+									<!-- Dean Of Stratigic Enrollment  -->
+						<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==3||change_grade_petitionBean.selectedchange_grade_petition.formStep==4||change_grade_petitionBean.selectedchange_grade_petition.formStep==5||change_grade_petitionBean.selectedchange_grade_petition.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
+												<div class="otherInfo">
+													#{loginBean.getHead4().headPersonId.name}
+															<br/>
+													<h:outputText  value="#{change_grade_petitionBean.selectedchange_grade_petition.deanDate.time}" styleClass="date" rendered="#{change_grade_petitionBean.selectedchange_grade_petition.deanDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==0||change_grade_petitionBean.selectedchange_grade_petition.formStep==1||change_grade_petitionBean.selectedchange_grade_petition.formStep==2}">
+											<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Dean Of Stratigic Enrollment" /><br/>
+													<div class="otherInfo">
+													#{loginBean.getHead4().headPersonId.name}
+													</div>
+											</div>
+										</li>
+									</h:panelGroup>
+						
+						
+					
+						
+									<!--End Dean Of Stratigic Enrollment  -->
+								
+								
+								
+									
+								<!-- Registrar Office  -->
+									<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==4||change_grade_petitionBean.selectedchange_grade_petition.formStep==5||change_grade_petitionBean.selectedchange_grade_petition.formStep==6}">
+		    							<li>
+		    								<div class="formProgress-done">
+		    									<br/>
+												<h:outputLabel value="Registrar Office" /><br/>
+												<div class="otherInfo">
+															<br/>
+													<h:outputText  value="#{change_grade_petitionBean.selectedchange_grade_petition.registerationDate.time}" styleClass="date" rendered="#{change_grade_petitionBean.selectedchange_grade_petition.registerationDate!=null}">
+													    <f:convertDateTime pattern="h:m a EEEE, MMMM d yyyy" />
+													</h:outputText>
+											
+											
+													</div>
+											</div>
+										</li>
+										</h:panelGroup>
+										
+										<!-- OR -->
+										<h:panelGroup rendered="#{change_grade_petitionBean.selectedchange_grade_petition.formStep==0||change_grade_petitionBean.selectedchange_grade_petition.formStep==1||change_grade_petitionBean.selectedchange_grade_petition.formStep==2||change_grade_petitionBean.selectedchange_grade_petition.formStep==3}">
+										<li>
+											<div class="formProgress-todo">
+													<br/>
+													<h:outputLabel value="Registrar Office" /><br/>
+													
+											</div>
+										</li>
+									</h:panelGroup>
+								
+								
+								
+								
+								<!-- End Registrar Office -->
+								
+								
+								
+								</ol>
+							</div>
+							</h:panelGroup>
+							
+							
+								<h3>Courses needed to be comfirmed</h3><hr/>
+								<h:panelGrid id="panelForupdate" columns="2" styleClass="graduationFormPrintDetails">			
+									  				
+				               		<p:outputLabel>Requiest Id</p:outputLabel>				
+				               		<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.id}" style="width:150px;"/>
+	            	
+					                <p:outputLabel>Clearification</p:outputLabel>
+					                <p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.questionWhy}" style="width:150px;"/>
+	            
+					               
+				            		<p:outputLabel>State</p:outputLabel>
+	            					<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.getStepString()}" style="width:150px;"/>
+	            					          	
+				               		<p:outputLabel>Action</p:outputLabel>
+	            					<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.getStateString()}"  style="width:150px;"/>
+	            					
+	            	
+	            					<p:outputLabel>Course Instructor Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.courseInstructorComment}"  style="width:150px;"/>
+	            					
+	            					<p:outputLabel>Dean of Strategic Enrollment Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.deanComment}"  style="width:150px;"/>
+	            					
+	            					<p:outputLabel>Registrar Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.registerationComment}"  style="width:150px; height:300px;"/>
+	            					
+	            					
+	            					<p:outputLabel>Program Director Comment</p:outputLabel>
+	            					<p:outputLabel value = "#{change_grade_petitionBean.selectedchange_grade_petition.programDirectorComment}"  style="width:150px;"/>
+	            					
+	            					
+	            					
+	           	
+								</h:panelGrid>
+							
+							<h3>Graduate Contact Information</h3><hr/>
+							<h:panelGrid columns="2" styleClass="graduationFormPrintDetails">			
+								<p:outputLabel value="Address" for="address"/>
+								<p:outputLabel value="#{change_grade_petitionBean.selectedchange_grade_petition.studentId.data.address}" id="address" required="true" requiredMessage="Please fill the middle name"/>
+										
+								<p:outputLabel value="Email" for="email"/>
+								<p:outputLabel value="#{change_grade_petitionBean.selectedchange_grade_petition.studentId.data.mail}" id="email" disabled="true"/>
+										
+								<p:outputLabel value="Phone" for="phone"/>
+								<p:outputLabel value="#{change_grade_petitionBean.selectedchange_grade_petition.studentId.data.phone}" id="phone" />
+										
+							</h:panelGrid>
+								
+						</p:panel>
+					</p:panel>
+				</div>
+			</h:form>
+			<!-- Printed From -->			
+			</ui:define>
+		<ui:define name="confirmDialogBox">
+  		</ui:define>
+	</ui:composition>
+</html>

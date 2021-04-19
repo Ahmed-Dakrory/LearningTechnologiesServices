@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.forms.gap_form;
+package main.com.zc.services.presentation.forms.change_grade_petition;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -29,9 +29,10 @@ import org.primefaces.event.SelectEvent;
 import main.com.zc.services.domain.model.heads.Heads;
 import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
 import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
-import main.com.zc.services.presentation.forms.gap_form.implementation.gap_formAppServiceImpl;
+import main.com.zc.services.presentation.forms.change_grade_petition.implementation.change_grade_petitionAppServiceImpl;
 import main.com.zc.services.presentation.shared.facade.impl.CouresFacadeImpl;
 import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
+import main.com.zc.services.presentation.users.dto.InstructorDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
@@ -43,7 +44,7 @@ import main.com.zc.shared.JavaScriptMessagesHandler;
  * @author omnya
  *
  */
-@ManagedBean(name="HeadDetailsBeanGap_form")
+@ManagedBean(name="HeadDetailsBeanchange_grade_petition")
 @SessionScoped
 public class HeadDetailsBean {
 
@@ -65,8 +66,8 @@ public class HeadDetailsBean {
     @ManagedProperty("#{ICouresFacade}")
 	private CouresFacadeImpl coursesfacade;
     
-    @ManagedProperty("#{gap_formFacadeImpl}")
-	private gap_formAppServiceImpl cccAppServiceImpl;
+    @ManagedProperty("#{change_grade_petitionFacadeImpl}")
+	private change_grade_petitionAppServiceImpl cccAppServiceImpl;
     
 	
     private StudentDTO student;
@@ -76,22 +77,23 @@ public class HeadDetailsBean {
 
     
     private int stateOfReq;
-    private gap_form selectedNewCourseComfirmation;
+    private change_grade_petition selectedNewCourseComfirmation;
     
 
 	@ManagedProperty("#{headsFacadeImpl}")
    	private HeadsAppServiceImpl headFacades; 
 	
 
-    private List<gap_form> pendingFormsList; 
-    private List<gap_form> oldFormsFinal;
-    private List<gap_form> submittedForms;
-    private List<gap_form> auditingFormList;
+    private List<change_grade_petition> pendingFormsList; 
+    private List<change_grade_petition> oldFormsFinal;
+    private List<change_grade_petition> submittedForms;
+    private List<change_grade_petition> auditingFormList;
     
     //Those parameters handled on the get request
 
     private int stepNow=-1;
     private int majorId=-1;
+    private int instructorId=-1;
     
     private String emailForState;
 
@@ -116,6 +118,7 @@ public class HeadDetailsBean {
 		stepNow=Integer.parseInt(origRequest.getParameter("stepNow"));
 		emailForState=origRequest.getParameter("emailForState");
 		majorId=Integer.parseInt(origRequest.getParameter("majorId"));
+		instructorId=Integer.parseInt(origRequest.getParameter("instructorId"));
 		
 		
 	
@@ -133,33 +136,32 @@ public class HeadDetailsBean {
 	
 	private void updateListDependsOnLogedAccount() {
 		// TODO Auto-generated method stub
-		pendingFormsList=new ArrayList<gap_form>();
-		oldFormsFinal=new ArrayList<gap_form>();
-		auditingFormList=new ArrayList<gap_form>(); 
-		submittedForms=new ArrayList<gap_form>(); 
+		pendingFormsList=new ArrayList<change_grade_petition>();
+		oldFormsFinal=new ArrayList<change_grade_petition>();
+		auditingFormList=new ArrayList<change_grade_petition>(); 
+		submittedForms=new ArrayList<change_grade_petition>(); 
 		
 		
-		if(stepNow==gap_form.STEP_Registerar||stepNow==gap_form.STEP_AUDITING) {
+		if(stepNow==change_grade_petition.STEP_Registerar) {
 			//Registerar
 			Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
 			if(registerar.getHeadPersonId().getMail().equals(emailForState)){
-				auditingFormList=cccAppServiceImpl.getAllForStep(gap_form.STEP_AUDITING);
-				pendingFormsList=cccAppServiceImpl.getAllForStep(gap_form.STEP_Registerar);
+				pendingFormsList=cccAppServiceImpl.getAllForStep(change_grade_petition.STEP_Registerar);
 				submittedForms=cccAppServiceImpl.getAll();
-				oldFormsFinal=cccAppServiceImpl.getAllForStep(gap_form.STEP_Finished);
+				oldFormsFinal=cccAppServiceImpl.getAllForStep(change_grade_petition.STEP_Finished);
 				oldFormsFinal.addAll(cccAppServiceImpl.getAllRefused());
-				auditingTabVisibility=true;
+				auditingTabVisibility=false;
 				oldTabVisibility=true;
 				submittedTabVisibility=true;
 			}
 			
 		}
 		
-		if(stepNow==gap_form.STEP_MajorHead){
+		if(stepNow==change_grade_petition.STEP_ProgramHead){
 			//this mean the head of major
 			MajorDTO majorDetails=majorfacade.getById(majorId);
 			if(majorDetails.getHeadOfMajor().getMail().equals(emailForState)){
-				pendingFormsList=cccAppServiceImpl.getAllForStepAndMajorId(majorId, gap_form.STEP_MajorHead);
+				pendingFormsList=cccAppServiceImpl.getAllForStepAndMajorId(majorId, change_grade_petition.STEP_ProgramHead);
 				auditingTabVisibility=false;
 				submittedTabVisibility=false;
 				oldTabVisibility=false;
@@ -174,13 +176,13 @@ public class HeadDetailsBean {
 		
 		
 		
-		if(stepNow==gap_form.STEP_DeanOfStratigicEnrollment) {
-			
+		if(stepNow==change_grade_petition.STEP_DeanOfStratigicEnrollment) {
+
 			Heads deanOfStratigicEnrollement= headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
 			if(emailForState.equals(deanOfStratigicEnrollement.getHeadPersonId().getMail())){
-				pendingFormsList=cccAppServiceImpl.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+				pendingFormsList=cccAppServiceImpl.getAllForStep(change_grade_petition.STEP_DeanOfStratigicEnrollment);
 				submittedForms=cccAppServiceImpl.getAll();
-				oldFormsFinal=cccAppServiceImpl.getAllForStep(gap_form.STEP_Finished);
+				oldFormsFinal=cccAppServiceImpl.getAllForStep(change_grade_petition.STEP_Finished);
 				oldFormsFinal.addAll(cccAppServiceImpl.getAllRefused());
 				
 				auditingTabVisibility=false;
@@ -192,13 +194,13 @@ public class HeadDetailsBean {
 
 		
 		
-		if(stepNow==gap_form.STEP_Finance) {
+		if(stepNow==change_grade_petition.STEP_Course_Instructor) {
 			
-			Heads deanOfStratigicEnrollement= headFacades.getByType(Heads.FINANCIAL_DEP);
-			if(emailForState.equals(deanOfStratigicEnrollement.getHeadPersonId().getMail())){
-				pendingFormsList=cccAppServiceImpl.getAllForStep(gap_form.STEP_Finance);
+			InstructorDTO ins = getInsDataFacade.getInsByPersonID(instructorId);
+			if(emailForState.equals(ins.getMail())){
+				pendingFormsList=cccAppServiceImpl.getAllForStepAndInstructorId(instructorId, change_grade_petition.STEP_Course_Instructor);
 				submittedForms=cccAppServiceImpl.getAll();
-				oldFormsFinal=cccAppServiceImpl.getAllForStep(gap_form.STEP_Finished);
+				oldFormsFinal=cccAppServiceImpl.getAllForStep(change_grade_petition.STEP_Finished);
 				oldFormsFinal.addAll(cccAppServiceImpl.getAllRefused());
 				
 				auditingTabVisibility=false;
@@ -222,54 +224,41 @@ public class HeadDetailsBean {
 		
 		
 		
-		if(stepNow==gap_form.STEP_AUDITING){
+		if(stepNow==change_grade_petition.STEP_Course_Instructor){
 			
-			selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_AUDITING+1);
-			selectedNewCourseComfirmation.setAuditingDate(Calendar.getInstance());
-			EmailToSendTo=getEmailByState(gap_form.STEP_AUDITING+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_AUDITING+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
+			selectedNewCourseComfirmation.setAction(change_grade_petition.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_Course_Instructor+1);
+			selectedNewCourseComfirmation.setCourseInstructorDate(Calendar.getInstance());
+			EmailToSendTo=getEmailByState(change_grade_petition.STEP_Course_Instructor+1);
+			sendEmailForStudent(getNameByState(change_grade_petition.STEP_Course_Instructor+1),EmailToSendTo,"Please Check your dashboard for a new Change Of Grade Form with id "+String.valueOf(selectedNewCourseComfirmation.getId()));
 		
-		}else if(stepNow==gap_form.STEP_MajorHead){
+		}else if(stepNow==change_grade_petition.STEP_ProgramHead){
 			
-			selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_MajorHead+1);
+			selectedNewCourseComfirmation.setAction(change_grade_petition.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_ProgramHead+1);
 			selectedNewCourseComfirmation.setProgramDirectorDate(Calendar.getInstance());
-			EmailToSendTo=getEmailByState(gap_form.STEP_MajorHead+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_MajorHead+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
+			EmailToSendTo=getEmailByState(change_grade_petition.STEP_ProgramHead+1);
+			sendEmailForStudent(getNameByState(change_grade_petition.STEP_ProgramHead+1),EmailToSendTo,"Please Check your dashboard for a new Change Of Grade Form with id "+String.valueOf(selectedNewCourseComfirmation.getId()));
 		
-		}else if(stepNow==gap_form.STEP_Finance){
-			
-			selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Finance+1);
-			selectedNewCourseComfirmation.setFinanceDate(Calendar.getInstance());
-			EmailToSendTo=getEmailByState(gap_form.STEP_Finance+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_Finance+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
+		}else if(stepNow==change_grade_petition.STEP_DeanOfStratigicEnrollment){
 		
-		}else if(stepNow==gap_form.STEP_DeanOfStratigicEnrollment){
 			
-			/*selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_DeanOfStratigicEnrollment+1);
-			EmailToSendTo=getEmailByState(gap_form.STEP_DeanOfStratigicEnrollment+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_DeanOfStratigicEnrollment+1),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
-		*/
-			
-			selectedNewCourseComfirmation.setAction(gap_form.STATE_INPROCESS);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_DeanOfStratigicEnrollment+1);
+			selectedNewCourseComfirmation.setAction(change_grade_petition.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_DeanOfStratigicEnrollment+1);
 			selectedNewCourseComfirmation.setDeanDate(Calendar.getInstance());
-			EmailToSendTo=getEmailByState(gap_form.STEP_DeanOfStratigicEnrollment+1);
-			sendEmailForStudent(getNameByState(gap_form.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new Gap Form");
+			EmailToSendTo=getEmailByState(change_grade_petition.STEP_DeanOfStratigicEnrollment+1);
+			sendEmailForStudent(getNameByState(change_grade_petition.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new Change Of Grade Form with id "+String.valueOf(selectedNewCourseComfirmation.getId()));
 		
 			
-		}else if(stepNow==gap_form.STEP_Registerar){
+		}else if(stepNow==change_grade_petition.STEP_Registerar){
 
-			selectedNewCourseComfirmation.setAction(gap_form.STATE_ACCEPTED);
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Registerar+1);
+			selectedNewCourseComfirmation.setAction(change_grade_petition.STATE_ACCEPTED);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_Registerar+1);
 			selectedNewCourseComfirmation.setRegisterationDate(Calendar.getInstance());
-			sendEmailForStudent(student.getName(),student.getMail(),"Your Gap Form Has been Accepted");
+			sendEmailForStudent(student.getName(),student.getMail(),"Your Change Of Grade Form Has been Accepted");
 		}
 		
-		cccAppServiceImpl.addgap_form(selectedNewCourseComfirmation);
+		cccAppServiceImpl.addchange_grade_petition(selectedNewCourseComfirmation);
 		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Action Taken");
 
@@ -280,7 +269,7 @@ public class HeadDetailsBean {
 		
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect
-			("pendinggap_formForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&emailForState="+emailForState);
+			("pendingchange_grade_petitionForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&emailForState="+emailForState+"&instructorId="+instructorId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -291,20 +280,15 @@ public class HeadDetailsBean {
 	public String getEmailByState(int step) {
 		
 
-		if(step==gap_form.STEP_MajorHead) {
+		if(step==change_grade_petition.STEP_ProgramHead) {
 			
 			//this mean the head of major
 			MajorDTO majorDetails=majorfacade.getById(selectedNewCourseComfirmation.getMajorId());
 			return majorDetails.getHeadOfMajor().getMail();
-		}else if(step==gap_form.STEP_Finance){
-			
-			Heads employee= headFacades.getByType(Heads.FINANCIAL_DEP);
-			return employee.getHeadPersonId().getMail();
-		}else if(step==gap_form.STEP_AUDITING){
-			
-			Heads employee= headFacades.getByType(Heads.REGISTRAR_STAFF);
-			return employee.getHeadPersonId().getMail();
-		}else if(step==gap_form.STEP_DeanOfStratigicEnrollment){
+		}else if(step==change_grade_petition.STEP_Course_Instructor){
+			InstructorDTO ins = getInsDataFacade.getInsByPersonID(instructorId);
+			return ins.getMail();
+		}else if(step==change_grade_petition.STEP_DeanOfStratigicEnrollment){
 			
 			Heads employee= headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
 			return employee.getHeadPersonId().getMail();
@@ -320,19 +304,14 @@ public class HeadDetailsBean {
 	public String getNameByState(int step) {
 		
 
-		if(step==gap_form.STEP_MajorHead) {
+		if(step==change_grade_petition.STEP_ProgramHead) {
 			//this mean the head of major
 			MajorDTO majorDetails=majorfacade.getById(selectedNewCourseComfirmation.getMajorId());
 			return majorDetails.getHeadOfMajor().getName();
-		}else if(step==gap_form.STEP_Finance){
-			
-			Heads employee= headFacades.getByType(Heads.FINANCIAL_DEP);
-			return employee.getHeadPersonId().getName();
-		}else if(step==gap_form.STEP_AUDITING){
-			
-			Heads employee= headFacades.getByType(Heads.REGISTRAR_STAFF);
-			return employee.getHeadPersonId().getName();
-		}else if(step==gap_form.STEP_DeanOfStratigicEnrollment){
+		}else if(step==change_grade_petition.STEP_Course_Instructor){
+			InstructorDTO ins = getInsDataFacade.getInsByPersonID(instructorId);
+			return ins.getName();
+		}else if(step==change_grade_petition.STEP_DeanOfStratigicEnrollment){
 			
 			Heads employee= headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
 			return employee.getHeadPersonId().getName();
@@ -345,62 +324,55 @@ public class HeadDetailsBean {
 
 
 	public void refuseRequist(int id){
-		selectedNewCourseComfirmation.setAction(gap_form.STATE_REFUSED);
+		selectedNewCourseComfirmation.setAction(change_grade_petition.STATE_REFUSED);
 		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 		student=studentFacadeImpl.getById(studentId);
 		student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
-		setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
 		
-		
-		if(stepNow==gap_form.STEP_AUDITING){
+		if(stepNow==change_grade_petition.STEP_Course_Instructor){
 			
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_AUDITING+1);
-			selectedNewCourseComfirmation.setAuditingDate(Calendar.getInstance());
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_Course_Instructor+1);
+			selectedNewCourseComfirmation.setCourseInstructorDate(Calendar.getInstance());
 			
-		}else if(stepNow==gap_form.STEP_MajorHead){
+		}else if(stepNow==change_grade_petition.STEP_ProgramHead){
 			
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_MajorHead+1);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_ProgramHead+1);
 			selectedNewCourseComfirmation.setProgramDirectorDate(Calendar.getInstance());
 			
-		}else if(stepNow==gap_form.STEP_Finance){
+		}else if(stepNow==change_grade_petition.STEP_DeanOfStratigicEnrollment){
+		
 			
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Finance+1);
-			selectedNewCourseComfirmation.setFinanceDate(Calendar.getInstance());
-			
-		}else if(stepNow==gap_form.STEP_DeanOfStratigicEnrollment){
-			
-			
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_DeanOfStratigicEnrollment+1);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_DeanOfStratigicEnrollment+1);
 			selectedNewCourseComfirmation.setDeanDate(Calendar.getInstance());
 			
 			
-		}else if(stepNow==gap_form.STEP_Registerar){
+		}else if(stepNow==change_grade_petition.STEP_Registerar){
 
-			selectedNewCourseComfirmation.setFormStep(gap_form.STEP_Registerar+1);
+			selectedNewCourseComfirmation.setFormStep(change_grade_petition.STEP_Registerar+1);
 			selectedNewCourseComfirmation.setRegisterationDate(Calendar.getInstance());
-			
 		}
 
-
-		cccAppServiceImpl.addgap_form(selectedNewCourseComfirmation);
+		setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
+		
+		cccAppServiceImpl.addchange_grade_petition(selectedNewCourseComfirmation);
 		
 		updateListDependsOnLogedAccount();
 		
 		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Action Taken");
 
-		sendEmailForStudent(student.getName(),student.getMail(),"Gap Form Has been Rejected");
+		sendEmailForStudent(student.getName(),student.getMail(),"Change Of Grade Form Has been Rejected with id "+String.valueOf(selectedNewCourseComfirmation.getId()));
 		
-		if(stepNow!=gap_form.STEP_AUDITING&&stepNow!=gap_form.STEP_Registerar) {
+		if(stepNow!=change_grade_petition.STEP_Registerar) {
 			//Registerar
 			Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
-			sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Gap Form Has been Rejected");
+			sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Change Of Grade Form with id "+String.valueOf(selectedNewCourseComfirmation.getId())+" Has been Rejected");
 		}
 		
 		HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		origRequest.getRequestURL();
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect
-				("pendinggap_formForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&emailForState="+emailForState);
+				("pendingchange_grade_petitionForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&emailForState="+emailForState+"&instructorId="+instructorId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -411,7 +383,7 @@ public class HeadDetailsBean {
 		 String from = "learningtechnologies@zewailcity.edu.eg";
 	        String pass = "DELF-651984@dr";
 	        String[] to = {mail }; // list of recipient email addresses 
-	        String subject = "GAP Semester Form New Message";
+	        String subject = "Change Of Grade Form New Message";
 	        String htmlText = "<div style=\"width:700px;margin:0\" auto;font:normal=\"\" 13px=\"\" 30px=\"\" segoe,=\"\" segoe=\"\" ui,=\"\" dejavu=\"\" sans,=\"\" trebuchet=\"\" ms,=\"\" verdana,=\"\" sans-serif=\"\" !important;=\"\">\n" + 
 	        		"					<ul style=\"margin:0;padding:0;\">\n" + 
 	        		"					<li style=\"list-style:none;float:left;width:700px;margin:0;\">\n" + 
@@ -544,7 +516,7 @@ public class HeadDetailsBean {
 		origRequest.getRequestURL();
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect
-				("pendinggap_formForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&emailForState="+emailForState);
+				("pendingchange_grade_petitionForm.xhtml?stepNow="+stepNow+"&majorId="+majorId+"&emailForState="+emailForState+"&instructorId="+instructorId);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -557,7 +529,7 @@ public class HeadDetailsBean {
 	
 	public void onRowSelect(SelectEvent event) {  
 	  	try {
-	  		selectedNewCourseComfirmation = (gap_form) event.getObject();
+	  		selectedNewCourseComfirmation = (change_grade_petition) event.getObject();
 	  		
 	  		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 			student=studentFacadeImpl.getById(studentId);
@@ -589,7 +561,7 @@ public class HeadDetailsBean {
 	
 	public void onRowSelect1(SelectEvent event) {  
 	  	try {
-	  		selectedNewCourseComfirmation = (gap_form) event.getObject();
+	  		selectedNewCourseComfirmation = (change_grade_petition) event.getObject();
 	  		
 	  		studentId = selectedNewCourseComfirmation.getStudentId().getId();
 			student=studentFacadeImpl.getById(studentId);
@@ -692,11 +664,11 @@ public class HeadDetailsBean {
 	}
 
 
-	public gap_formAppServiceImpl getCccAppServiceImpl() {
+	public change_grade_petitionAppServiceImpl getCccAppServiceImpl() {
 		return cccAppServiceImpl;
 	}
 	
-	public void setCccAppServiceImpl(gap_formAppServiceImpl cccAppServiceImpl) {
+	public void setCccAppServiceImpl(change_grade_petitionAppServiceImpl cccAppServiceImpl) {
 		this.cccAppServiceImpl = cccAppServiceImpl;
 	}
 
@@ -722,32 +694,32 @@ public class HeadDetailsBean {
 
 	
 
-	public List<gap_form> getCourseChangeComfirmationsForHead() {
+	public List<change_grade_petition> getCourseChangeComfirmationsForHead() {
 		return pendingFormsList;
 	}
 
 	public void setCourseChangeComfirmationsForHead(
-			List<gap_form> pendingFormsList) {
+			List<change_grade_petition> pendingFormsList) {
 		this.pendingFormsList = pendingFormsList;
 	}
 
 
-	public gap_form getNewCourseComfirmation() {
+	public change_grade_petition getNewCourseComfirmation() {
 		return selectedNewCourseComfirmation;
 	}
 
 
-	public void setNewCourseComfirmation(gap_form selectedNewCourseComfirmation) {
+	public void setNewCourseComfirmation(change_grade_petition selectedNewCourseComfirmation) {
 		this.selectedNewCourseComfirmation = selectedNewCourseComfirmation;
 	}
 
 
-	public gap_form getSelectedNewCourseComfirmation() {
+	public change_grade_petition getSelectedNewCourseComfirmation() {
 		return selectedNewCourseComfirmation;
 	}
 
 
-	public void setSelectedNewCourseComfirmation(gap_form selectedNewCourseComfirmation) {
+	public void setSelectedNewCourseComfirmation(change_grade_petition selectedNewCourseComfirmation) {
 		this.selectedNewCourseComfirmation = selectedNewCourseComfirmation;
 	}
 
@@ -794,12 +766,12 @@ public class HeadDetailsBean {
 	}
 
 
-	public List<gap_form> getCourseChangeComfirmationsForHeadWaiting() {
+	public List<change_grade_petition> getCourseChangeComfirmationsForHeadWaiting() {
 		return oldFormsFinal;
 	}
 
 
-	public void setCourseChangeComfirmationsForHeadWaiting(List<gap_form> oldFormsFinal) {
+	public void setCourseChangeComfirmationsForHeadWaiting(List<change_grade_petition> oldFormsFinal) {
 		this.oldFormsFinal = oldFormsFinal;
 	}
 
@@ -839,42 +811,42 @@ public class HeadDetailsBean {
 	}
 
 
-	public List<gap_form> getPendingFormsList() {
+	public List<change_grade_petition> getPendingFormsList() {
 		return pendingFormsList;
 	}
 
 
-	public void setPendingFormsList(List<gap_form> pendingFormsList) {
+	public void setPendingFormsList(List<change_grade_petition> pendingFormsList) {
 		this.pendingFormsList = pendingFormsList;
 	}
 
 
-	public List<gap_form> getOldFormsFinal() {
+	public List<change_grade_petition> getOldFormsFinal() {
 		return oldFormsFinal;
 	}
 
 
-	public void setOldFormsFinal(List<gap_form> oldFormsFinal) {
+	public void setOldFormsFinal(List<change_grade_petition> oldFormsFinal) {
 		this.oldFormsFinal = oldFormsFinal;
 	}
 
 
-	public List<gap_form> getSubmittedForms() {
+	public List<change_grade_petition> getSubmittedForms() {
 		return submittedForms;
 	}
 
 
-	public void setSubmittedForms(List<gap_form> submittedForms) {
+	public void setSubmittedForms(List<change_grade_petition> submittedForms) {
 		this.submittedForms = submittedForms;
 	}
 
 
-	public List<gap_form> getAuditingFormList() {
+	public List<change_grade_petition> getAuditingFormList() {
 		return auditingFormList;
 	}
 
 
-	public void setAuditingFormList(List<gap_form> auditingFormList) {
+	public void setAuditingFormList(List<change_grade_petition> auditingFormList) {
 		this.auditingFormList = auditingFormList;
 	}
 	

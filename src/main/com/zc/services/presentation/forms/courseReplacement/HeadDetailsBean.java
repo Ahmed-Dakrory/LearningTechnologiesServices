@@ -303,7 +303,7 @@ public class HeadDetailsBean {
 			selectedNewCourseComfirmation.setAction(courseReplacement.STATE_ACCEPTED);
 			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Finished);
 			selectedNewCourseComfirmation.setRegisterationDate(Calendar.getInstance());
-			sendEmailForStudent(student.getName(),student.getMail(),"Your Graduation Requirement Form Has been Accepted");
+			sendEmailForStudent(student.getName(),student.getMail(),"Your Course Replacement Requirement Form Has been Accepted");
 		}
 		
 		cccAppServiceImpl.addcourseReplacement(selectedNewCourseComfirmation);
@@ -404,6 +404,43 @@ public class HeadDetailsBean {
 		student.setStudentProfileDTO(getFacade().getCurrentPRofileByStudentID(getStudentId()));
 		setMajor(majorfacade.getById(getStudent().getStudentProfileDTO().getMajor().getId()));
 		
+		
+		if(stepNow==courseReplacement.STEP_AUDITING){
+			
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_AUDITING+1);
+			selectedNewCourseComfirmation.setAuditingDate(Calendar.getInstance());
+			
+		}else if(stepNow==courseReplacement.STEP_MajorHead){
+			
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_MajorHead+1);
+			selectedNewCourseComfirmation.setProgramDirectorDate(Calendar.getInstance());
+			
+		}else if(stepNow==courseReplacement.STEP_DirectorOfAccredition){
+			
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_DirectorOfAccredition+1);
+			selectedNewCourseComfirmation.setViceDirectorDate(Calendar.getInstance());
+			
+		}else if(stepNow==courseReplacement.STEP_DeanOfStratigicEnrollment){
+			
+			
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Registerar);
+			selectedNewCourseComfirmation.setDeanDate(Calendar.getInstance());
+			
+			
+		}else if(stepNow==courseReplacement.STEP_AssociateDean){
+			
+		/*	selectedNewCourseComfirmation.setAction(courseReplacement.STATE_INPROCESS);
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Registerar);
+			EmailToSendTo=getEmailByState(courseReplacement.STEP_Registerar);
+			sendEmailForStudent(getNameByState(courseReplacement.STEP_Registerar),EmailToSendTo,"Please Check your dashboard for a new course Replacement Form");
+		*/
+		}else if(stepNow==courseReplacement.STEP_Registerar){
+
+			selectedNewCourseComfirmation.setFormStep(courseReplacement.STEP_Finished);
+			selectedNewCourseComfirmation.setRegisterationDate(Calendar.getInstance());
+		}
+
+
 		cccAppServiceImpl.addcourseReplacement(selectedNewCourseComfirmation);
 		
 		updateListDependsOnLogedAccount();
@@ -433,7 +470,7 @@ public class HeadDetailsBean {
 		 String from = "learningtechnologies@zewailcity.edu.eg";
 	        String pass = "DELF-651984@dr";
 	        String[] to = {mail }; // list of recipient email addresses 
-	        String subject = "Graduation Requirements Form New Message";
+	        String subject = "Course Replacement Form New Message";
 	        String htmlText = "<div style=\"width:700px;margin:0\" auto;font:normal=\"\" 13px=\"\" 30px=\"\" segoe,=\"\" segoe=\"\" ui,=\"\" dejavu=\"\" sans,=\"\" trebuchet=\"\" ms,=\"\" verdana,=\"\" sans-serif=\"\" !important;=\"\">\n" + 
 	        		"					<ul style=\"margin:0;padding:0;\">\n" + 
 	        		"					<li style=\"list-style:none;float:left;width:700px;margin:0;\">\n" + 

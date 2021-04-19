@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/securedContent.xhtml">
+		<ui:define name="title">Change Grade  form - LT Online Services</ui:define>
+		<ui:define name="content">
+		#{HeadDetailsBeanchange_grade_petition.init()}
+			<h:form id="form">
+				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000" />
+				<ul class="header">
+					<li>
+						<p:breadCrumb>
+							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+					    	<p:menuitem value="Change Grade  form" />
+						</p:breadCrumb>
+					</li>
+				</ul>
+				<div class="pannelWrapper">
+						<p:tabMenu activeIndex="0">
+								
+							<p:menuitem value="Pending Form" url="#{leftNavigationMenuBean.renderchange_grade_petition()}" />
+						   <p:menuitem value="Old Form"  rendered="#{HeadDetailsBeanchange_grade_petition.oldTabVisibility}" url="#{leftNavigationMenuBean.renderchange_grade_petition(3)}" />
+						   <p:menuitem value="Auditing Form"  rendered="#{HeadDetailsBeanchange_grade_petition.auditingTabVisibility}" url="#{leftNavigationMenuBean.renderchange_grade_petition(1)}" />
+						   <p:menuitem value="Submitted Form"  rendered="#{HeadDetailsBeanchange_grade_petition.submittedTabVisibility}" url="#{leftNavigationMenuBean.renderchange_grade_petition(2)}" />
+						   
+						</p:tabMenu>	
+							
+					<h:panelGroup id="panelGroup2"></h:panelGroup>
+					<p:panel id="addSurveyPanel">
+						<br/>	
+						<p:dataTable var="forms" value="#{HeadDetailsBeanchange_grade_petition.pendingFormsList}" rowKey="#{forms.id}" sortMode="multiple"  selectionMode="single" selection="#{HeadDetailsBeanchange_grade_petition.selectedNewCourseComfirmation}"
+							widgetVar="formsTable" id="reponses">
+							<p:ajax event="rowSelect" listener="#{HeadDetailsBeanchange_grade_petition.onRowSelect}" />
+							<p:column width="100" id="formID" sortBy="#{forms.id}" filterBy="#{forms.id}">
+								<h:outputText value="#{forms.id}" />
+								<p:watermark value="ID" forElement="mainForm:form:reponses:formID:filter" />
+							</p:column>
+							
+							<p:column width="100" id="formFileNo" sortBy="#{forms.studentId.fileNo}" filterBy="#{forms.studentId.fileNo}">
+								<h:outputText value="#{forms.studentId.fileNo}" />
+								<p:watermark value="FileNo" forElement="mainForm:form:reponses:formFileNo:filter" />
+							</p:column>
+							
+							<p:column width="160" id="name" sortBy="#{forms.studentId.data.getNameInEnglish()}" filterBy="#{forms.studentId.data.getNameInEnglish()}">
+								<h:outputText value="#{forms.studentId.data.getNameInEnglish()}" />
+								<p:watermark value="Name" forElement="mainForm:form:reponses:name:filter" />
+							</p:column>
+							
+							
+							
+							<p:column width="160" id="formStep" sortBy="#{forms.getStepString()}" filterBy="#{forms.getStepString()}">
+								<h:outputText value="#{forms.getStepString()}" />
+								<p:watermark value="Step" forElement="mainForm:form:reponses:formStep:filter" />
+							</p:column>
+							
+							
+							<p:column width="160" id="formAction" sortBy="#{forms.getStateString()}" filterBy="#{forms.getStateString()}">
+								<h:outputText value="#{forms.getStateString()}" />
+								<p:watermark value="State" forElement="mainForm:form:reponses:formAction:filter" />
+							</p:column>
+							
+							
+							
+							<ui:remove>
+							<p:column width="130" headerText="Details" styleClass="txtCenter">
+								<p:commandButton title="Dislay"  oncomplete="editDlg.show();"
+								value="Show" actionListener="#{feedbackResultsBean.displayDetails(forms)}"
+								immediate="true"  styleClass="blueBtn"  update=":editNumForm:editNumPalnel"/>
+							</p:column>
+							<p:column width="130" headerText="Send" styleClass="txtCenter">
+								<p:commandButton title="Send" oncomplete="sendingStatusDlg.show();"
+								value="Send" actionListener="#{feedbackResultsBean.sendToSpecificCourse(forms)}"
+								immediate="true"  styleClass="blueBtn" update=":sendingStatusForm:sendingStatusPanel"/>
+							</p:column>
+							</ui:remove>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</h:form>
+		</ui:define>
+</ui:composition>
+</html>

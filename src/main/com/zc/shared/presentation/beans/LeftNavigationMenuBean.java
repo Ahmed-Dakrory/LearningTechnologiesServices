@@ -29,6 +29,7 @@ import main.com.zc.services.domain.shared.enumurations.FormsStatusEnum;
 import main.com.zc.services.presentation.configuration.bean.ImportStudentsBean;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.forms.change_grade_petition.change_grade_petition;
 import main.com.zc.services.presentation.forms.courseReplacement.HeadDetailsBean;
 import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
 import main.com.zc.services.presentation.forms.gap_form.gap_form;
@@ -138,6 +139,7 @@ public class LeftNavigationMenuBean {
 	private boolean instructorSurveyAvailable=false;
 	private boolean showCourseReplacement=false;
 	private boolean showGap_form=false;
+	private boolean showchange_grade_petition=false;
 	
 	
 	private boolean heIsDeanOfAcademic = false;
@@ -613,6 +615,16 @@ public boolean isShowGap_form() {
 	 return false;
 }
 
+public boolean isShowchange_grade_petition() {
+	 FormsStatusEnum settings=formStatus.getById(28).getStatus();
+	 Integer active=settings.getValue();
+	 if( active == FormsStatusEnum.Active.getValue()) {
+		 return true;
+	 }
+	 
+	 return false;
+}
+
 
 
 
@@ -625,6 +637,12 @@ public boolean isShowGap_form() {
 		this.showCourseReplacement = showCourseReplacement;
 	}
 
+
+	
+
+	public void setShowchange_grade_petition(boolean showchange_grade_petition) {
+		this.showchange_grade_petition = showchange_grade_petition;
+	}
 
 
 	public String renderDashboard()
@@ -1564,79 +1582,6 @@ public boolean isShowGap_form() {
 	}
 	
 	
-	
-	
-	/*
-	 * This for the new comfirmation course
-	 */
-	public String renderGap_form()
-	{
-		currentMenuId = "Gap Form";
-		Authentication authentication = SecurityContextHolder.getContext()
-				.getAuthentication();
-		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
-		{
-			
-			String mail = authentication.getName();
-			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
-			{
-				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
-				int idStudent=dataOfStudent.getId();
-				return "/pages/secured/forms/gap_form/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
-			
-			}
-			else
-			{
-				
-				List<MajorDTO> majors=majorfacade.getAll();
-				for(int i=0;i<majors.size();i++){
-					MajorDTO major=majors.get(i);
-					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
-					{
-							return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
-					}
-				}
-				
-				
-				Heads  STEP_Finance = headFacades.getByType(Heads.FINANCIAL_DEP);
-				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
-				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
-
-				if(mail.toLowerCase().equals(STEP_Finance.getHeadPersonId().getMail().toLowerCase()))
-				{
-					return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Finance+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-					
-				}
-				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
-				{
-						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-					
-				}
-				
-				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
-				{
-						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
-					
-				}
-				else 
-				{
-					return "/pages/public/login.xhtml?faces-redirect=true";
-				
-				}
-				
-			
-			}
-			
-		}
-		else
-		{
-			
-			return "/pages/public/login.xhtml?faces-redirect=true";
-		}
-	}
-	
-	
-	
 	/*
 	 * This for the new comfirmation course
 	 */
@@ -1723,6 +1668,227 @@ public boolean isShowGap_form() {
 		}
 	}
 	
+	
+
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderGap_form(){
+		currentMenuId = "Gap Form";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/gap_form/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+							return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_MajorHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&faces-redirect=true";
+					}
+				}
+				
+				
+				Heads  STEP_Finance = headFacades.getByType(Heads.FINANCIAL_DEP);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				if(mail.toLowerCase().equals(STEP_Finance.getHeadPersonId().getMail().toLowerCase()))
+				{
+					return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Finance+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				else if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/gap_form/pendinggap_formForm.xhtml?stepNow="+gap_form.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&faces-redirect=true";
+					
+				}
+				else 
+				{
+					return "/pages/public/login.xhtml?faces-redirect=true";
+				
+				}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	
+	
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderchange_grade_petition(int page)
+	{
+		currentMenuId = "Change Grade Petition";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/change_grade_petition/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+							return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_ProgramHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					}
+				}
+				
+				
+				Heads  STEP_Finance = headFacades.getByType(Heads.FINANCIAL_DEP);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				 if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(page==main.com.zc.services.presentation.forms.change_grade_petition.HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/change_grade_petition/submittedchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+							
+					}else if(page==main.com.zc.services.presentation.forms.change_grade_petition.HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/change_grade_petition/oldchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+						
+					}
+						
+						return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
+				{
+					if(page==main.com.zc.services.presentation.forms.change_grade_petition.HeadDetailsBean.SUBMITTED_PAGE) {
+						return "/pages/secured/forms/change_grade_petition/submittedchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					}else if(page==main.com.zc.services.presentation.forms.change_grade_petition.HeadDetailsBean.OLD_PAGE) {
+						return "/pages/secured/forms/change_grade_petition/oldchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					}
+					return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					
+				}
+				else 
+				{
+					InstructorDTO instructor = getInsDataFacade.getInsByPersonMail(mail);
+					return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_Course_Instructor+"&majorId=-1&emailForState="+mail+"&instructorId="+String.valueOf(instructor.getId())+"&faces-redirect=true";
+					
+				}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	
+	
+	/*
+	 * This for the new comfirmation course
+	 */
+	public String renderchange_grade_petition()
+	{
+		currentMenuId = "Change Grade Petition";
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		if (!authentication.getPrincipal().equals("anonymousUser"))// logged in
+		{
+			
+			String mail = authentication.getName();
+			if(mail.startsWith("s-")||mail.startsWith("S-")||StringUtils.isNumeric(mail.substring(0, 4))) // student case
+			{
+				PersonDataDTO dataOfStudent= studentDataFacade.getPersonByPersonMail(mail);
+				int idStudent=dataOfStudent.getId();
+				return "/pages/secured/forms/change_grade_petition/studentAllForms.xhtml?id="+idStudent+"&faces-redirect=true";
+			
+			}
+			else
+			{
+				
+				List<MajorDTO> majors=majorfacade.getAll();
+				for(int i=0;i<majors.size();i++){
+					MajorDTO major=majors.get(i);
+					if(mail.toLowerCase().equals(major.getHeadOfMajor().getMail().toLowerCase()))
+					{
+							return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_ProgramHead+"&majorId="+String.valueOf(major.getId())+"&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					}
+				}
+				
+				
+				Heads  STEP_Finance = headFacades.getByType(Heads.FINANCIAL_DEP);
+				Heads  STEP_DeanOfStratigicEnrollment = headFacades.getByType(Heads.DEAN_OF_STRATIGIC_ENROLLEMENT);
+				Heads  STEP_Registerar = headFacades.getByType(Heads.REGISTRAR_STAFF);
+
+				if(mail.toLowerCase().equals(STEP_DeanOfStratigicEnrollment.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_DeanOfStratigicEnrollment+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					
+				}
+				
+				else if(mail.toLowerCase().equals(STEP_Registerar.getHeadPersonId().getMail().toLowerCase()))
+				{
+						return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_Registerar+"&majorId=-1&emailForState="+mail+"&instructorId=-1"+"&faces-redirect=true";
+					
+				}
+				else 
+				{
+					InstructorDTO instructor = getInsDataFacade.getInsByPersonMail(mail);
+					return "/pages/secured/forms/change_grade_petition/pendingchange_grade_petitionForm.xhtml?stepNow="+change_grade_petition.STEP_Course_Instructor+"&majorId=-1&emailForState="+mail+"&instructorId="+String.valueOf(instructor.getId())+"&faces-redirect=true";
+					
+				
+				}
+				
+			
+			}
+			
+		}
+		else
+		{
+			
+			return "/pages/public/login.xhtml?faces-redirect=true";
+		}
+	}
+	
+	
+	
+
 
 	public String renderCourseRepeat()
 	{

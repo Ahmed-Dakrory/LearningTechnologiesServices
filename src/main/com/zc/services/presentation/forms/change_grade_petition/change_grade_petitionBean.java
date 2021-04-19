@@ -1,10 +1,11 @@
 /**
  * 
  */
-package main.com.zc.services.presentation.forms.courseReplacement;
+package main.com.zc.services.presentation.forms.change_grade_petition;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
@@ -26,14 +27,22 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
+import main.com.zc.services.domain.data.model.Courses;
 import main.com.zc.services.domain.model.heads.Heads;
+import main.com.zc.services.domain.person.model.Employee;
 import main.com.zc.services.domain.person.model.Student;
 import main.com.zc.services.domain.service.repository.heads.HeadsAppServiceImpl;
 import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
-import main.com.zc.services.presentation.forms.courseReplacement.implementation.courseReplacementAppServiceImpl;
+import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
+import main.com.zc.services.presentation.configuration.facade.ICourseInstructorFacade;
+import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.configuration.facade.IStudentCourseFacade;
+import main.com.zc.services.presentation.forms.change_grade_petition.implementation.change_grade_petitionAppServiceImpl;
 import main.com.zc.services.presentation.shared.facade.impl.CouresFacadeImpl;
 import main.com.zc.services.presentation.shared.facade.impl.MajorsFacadeImpl;
+import main.com.zc.services.presentation.survey.courseEval.facade.ICourseEvalAnswersFacade;
 import main.com.zc.services.presentation.survey.courseFeedback.dto.CoursesDTO;
+import main.com.zc.services.presentation.users.dto.InstructorDTO;
 import main.com.zc.services.presentation.users.dto.MajorDTO;
 import main.com.zc.services.presentation.users.dto.StudentDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInInstructorData;
@@ -45,9 +54,9 @@ import main.com.zc.shared.JavaScriptMessagesHandler;
  * @author omnya
  *
  */
-@ManagedBean(name="courseReplacementBean")
+@ManagedBean(name="change_grade_petitionBean")
 @ViewScoped
-public class courseReplacementBean {
+public class change_grade_petitionBean {
 
 	@ManagedProperty("#{GetLoggedInInstructorDataImpl}")
    	private IGetLoggedInInstructorData getInsDataFacade;
@@ -68,8 +77,8 @@ public class courseReplacementBean {
     @ManagedProperty("#{ICouresFacade}")
 	private CouresFacadeImpl coursesfacade;
     
-    @ManagedProperty("#{courseReplacementFacadeImpl}")
-	private courseReplacementAppServiceImpl cccAppServiceImpl;
+    @ManagedProperty("#{change_grade_petitionFacadeImpl}")
+	private change_grade_petitionAppServiceImpl cccAppServiceImpl;
     
     
 
@@ -80,17 +89,49 @@ public class courseReplacementBean {
     private MajorDTO major;
     private List<CoursesDTO> coursesDTOsTaken;
     private List<CoursesDTO> coursesDTOsAll;
-    private List<courseReplacement> courseChangeComfirmations;
+    private List<change_grade_petition> courseChangeComfirmations;
     private int studentId;
     
 
+
+
+	@ManagedProperty("#{IFormsStatusFacade}")
+   	private IFormsStatusFacade facadeSettings;
+
+	
     
     private int step;
 
-    private courseReplacement newCourseComfirmation;
+
+	private Integer semesterSelected=1;
+	private Integer yearSelected=2020;
+
+	List<CoursesDTO> allStudentCoursesthisPeriod;
+	List<CoursesDTO> allCoursesthisPeriod;
+	
+	Courses selectedCourse;
+	List<InstructorDTO> allInstructorForThisCourse;
+	List<InstructorDTO> allTAsForThisCourse;
+	List<InstructorDTO> allInstructorList;
+	Employee selectedInstructor;
+	
+
+	
+	@ManagedProperty("#{ICourseEvalAnswersFacade}")
+	private ICourseEvalAnswersFacade coursesFacade;
+	
+
+	@ManagedProperty("#{ICourseInstructorFacade}")
+	private ICourseInstructorFacade courseInsFacade;
+
+	@ManagedProperty("#{IStudentCourseFacade}")
+   	private IStudentCourseFacade facadeStudendCourses; 
+	
+	
+    private change_grade_petition newCourseComfirmation;
     
 
-    private courseReplacement selectedCourseReplacement;
+    private change_grade_petition selectedchange_grade_petition;
     
 	@PostConstruct
 	public void init()
@@ -105,7 +146,9 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 				if(id!=null){
 					studentId=id;
 					student=studentFacadeImpl.getById(studentId);
-					newCourseComfirmation=new courseReplacement();
+					newCourseComfirmation=new change_grade_petition();
+					newCourseComfirmation.setCourseId(new Courses());
+					newCourseComfirmation.setCourseInstructorId(new Employee());
 					courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
 					student.setStudentProfileDTO(facade.getCurrentPRofileByStudentID(studentId));
 					
@@ -114,6 +157,32 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 					coursesDTOsTaken=coursesfacade.getAll();
 					coursesDTOsAll=coursesfacade.getAll();
 					System.out.println("Ahmed Dakrory: "+String.valueOf(major.getType()));
+					
+					FormsStatusDTO settingCLO = facadeSettings.getById(28);
+					semesterSelected = Integer.valueOf(settingCLO.getSemester().getId());
+					
+					yearSelected = settingCLO.getYear();
+					selectedCourse = new Courses();
+					 allCoursesthisPeriod = coursesFacade.getCoursesByYearAndSemester(semesterSelected, yearSelected);
+					 
+					 
+					//Student
+						allStudentCoursesthisPeriod = new ArrayList<CoursesDTO>();
+						List<CoursesDTO> allStudentCourses = facadeStudendCourses.getCoursesOfStudent(studentId);
+						
+						 if(allStudentCourses!=null) {
+							 for(int i=0;i<allStudentCourses.size();i++) {
+								 if(allCoursesthisPeriod!=null) {
+									 for(int j=0;j<allCoursesthisPeriod.size();j++) {
+										 if(allCoursesthisPeriod.get(j).getId()==allStudentCourses.get(i).getId()) {
+											 allStudentCoursesthisPeriod.add(allCoursesthisPeriod.get(j));
+										 }
+									 }
+								 }
+							 }
+
+							 
+						 }
 				}
 
 				
@@ -126,13 +195,13 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		
 		try{
 
-		Integer idCourseReplacement=Integer.parseInt(origRequest.getParameter("c"));
+		Integer idchange_grade_petition=Integer.parseInt(origRequest.getParameter("c"));
 		
-		if(idCourseReplacement!=null) {
-			selectedCourseReplacement=cccAppServiceImpl.getById(idCourseReplacement);
+		if(idchange_grade_petition!=null) {
+			selectedchange_grade_petition=cccAppServiceImpl.getById(idchange_grade_petition);
 			
 			
-			studentId=selectedCourseReplacement.getStudentId().getId();
+			studentId=selectedchange_grade_petition.getStudentId().getId();
 			student=studentFacadeImpl.getById(studentId);
 			student.setStudentProfileDTO(facade.getCurrentPRofileByStudentID(studentId));
 			
@@ -147,41 +216,60 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	}
 	
 	
-	public void addcourseReplacement(){
+	
+	public void selectTheIstructorForThisCourse() {
+
+		selectedInstructor =new Employee();
+	allInstructorForThisCourse = 	courseInsFacade.getAllInstructorsByCourseId(newCourseComfirmation.getCourseId().getId());
+	allTAsForThisCourse = courseInsFacade.getAllTAsByCourseId(newCourseComfirmation.getCourseId().getId());
+	allInstructorList =new ArrayList<InstructorDTO>();
+	
+		if(allInstructorForThisCourse!=null) {
+			allInstructorList.addAll(allInstructorForThisCourse);
+		}
+		
+		if(allTAsForThisCourse!=null) {
+			allInstructorList.addAll(allTAsForThisCourse);
+		}
+	}
+	
+	public void addchange_grade_petition(){
 		step=0;
 		Student studentNew=new Student();
 		studentNew.setId(studentId);
 		newCourseComfirmation.setStudentId(studentNew);
 		newCourseComfirmation.setFormStep(step);
 		newCourseComfirmation.setMajorId(major.getId());
-		newCourseComfirmation.setType(major.getType());
 		newCourseComfirmation.setAction(0);
 		newCourseComfirmation.setSubmissionDate(Calendar.getInstance());
 		newCourseComfirmation.setLastUpdateDate(Calendar.getInstance());
-		cccAppServiceImpl.addcourseReplacement(newCourseComfirmation);
+		cccAppServiceImpl.addchange_grade_petition(newCourseComfirmation);
 		
 		
 		
 		//Registerar
 		Heads registerar= headFacades.getByType(Heads.REGISTRAR_STAFF);
 		
-		sendEmailForStudent(student.getName(),student.getMail(),"Please Check your dashboard for a New Course Replacement Form");
-		sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Please Check your dashboard for a New Course Replacement Form");
+		sendEmailForStudent(student.getName(),student.getMail(),"Please Check your dashboard for a New Gap Form");
+		sendEmailForStudent(registerar.getHeadPersonId().getName(),registerar.getHeadPersonId().getMail(),"Please Check your dashboard for a New Gap Form");
 		
 		
-		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course comfirmation requist was added successfully");
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Gap form requist was added successfully");
 
 		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("addCourseComfirmationDlg.hide();");
-		newCourseComfirmation=new courseReplacement();
+		newCourseComfirmation=new change_grade_petition();
+
+		newCourseComfirmation.setCourseId(new Courses());
+		newCourseComfirmation.setCourseInstructorId(new Employee());
 	}
 	
 	public void sendEmailForStudent(String name,String mail, String string) {
 		 String from = "learningtechnologies@zewailcity.edu.eg";
 	        String pass = "DELF-651984@dr";
 	        String[] to = {mail }; // list of recipient email addresses 
-	        String subject = "Course Replacement Form New Message";
+	        String subject = "Gap Form New Message";
 	        String htmlText = "<div style=\"width:700px;margin:0\" auto;font:normal=\"\" 13px=\"\" 30px=\"\" segoe,=\"\" segoe=\"\" ui,=\"\" dejavu=\"\" sans,=\"\" trebuchet=\"\" ms,=\"\" verdana,=\"\" sans-serif=\"\" !important;=\"\">\n" + 
 	        		"					<ul style=\"margin:0;padding:0;\">\n" + 
 	        		"					<li style=\"list-style:none;float:left;width:700px;margin:0;\">\n" + 
@@ -289,31 +377,18 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	 
 	 
 	
-	public void deletecourseReplacement(int Id){
+	public void deletechange_grade_petition(int Id){
 		/*preRequisitFacade.delete(preRequisitFacade.getById(Id));
 		courseSyllabusCollection.setPre_Requisites(preRequisitFacade.getByCourseId(courseId));
 		*/
 		cccAppServiceImpl.delete(cccAppServiceImpl.getById(Id));
 		courseChangeComfirmations=cccAppServiceImpl.getByStudentId(studentId);
-		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Course comfirmation requist was Deleted successfully");
+		JavaScriptMessagesHandler.RegisterErrorMessage(null, "Gap form requist was Deleted successfully");
 
 		System.out.println("Deleted Item: "+String.valueOf(Id));
 	}
 	
-	public String getCourseCountAsString(int countAs) {
-		switch(countAs){
-		case 0:
-			return "Major Req";
-		case 1:
-			return "Humanities";
-		case 2:
-			return "Major Elective";
-		case 3:
-			return "Collateral Req";
-			
-		}
-		return "";
-	}
+	
 	
 	public String getMajorType(int type) {
 		switch(type){
@@ -326,15 +401,15 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		return "";
 	}
 
-	public void onRowSelect(SelectEvent event) {  
+	public void onRowSelect(int id) {  
 	  	try {
-	  		selectedCourseReplacement = (courseReplacement) event.getObject();
+	  		selectedchange_grade_petition = cccAppServiceImpl.getById(id);
 	  		
 
-			System.out.println("Ahmed Dakrory new: "+String.valueOf(selectedCourseReplacement.getStudentId().getId()));
+			System.out.println("Ahmed Dakrory new: "+String.valueOf(selectedchange_grade_petition.getStudentId().getId()));
 	  		try {
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect
-					("studentDetailsCourseReplacementForStudent.xhtml?stepNow=-1&type=-1&emailForState=-1&majorId="+String.valueOf(selectedCourseReplacement.getMajorId())+"&c="+selectedCourseReplacement.getId());
+					("studentDetailschange_grade_petitionForStudent.xhtml?stepNow=-1&emailForState=-1&majorId="+String.valueOf(selectedchange_grade_petition.getMajorId())+"&c="+selectedchange_grade_petition.getId());
 	    			
 	    			
 	    		
@@ -442,19 +517,19 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 		this.coursesDTOsAll = coursesDTOsAll;
 	}
 
-	public courseReplacementAppServiceImpl getCccAppServiceImpl() {
+	public change_grade_petitionAppServiceImpl getCccAppServiceImpl() {
 		return cccAppServiceImpl;
 	}
 	
-	public void setCccAppServiceImpl(courseReplacementAppServiceImpl cccAppServiceImpl) {
+	public void setCccAppServiceImpl(change_grade_petitionAppServiceImpl cccAppServiceImpl) {
 		this.cccAppServiceImpl = cccAppServiceImpl;
 	}
 
-	public List<courseReplacement> getCourseChangeComfirmations() {
+	public List<change_grade_petition> getCourseChangeComfirmations() {
 		return courseChangeComfirmations;
 	}
 
-	public void setCourseChangeComfirmations(List<courseReplacement> courseChangeComfirmations) {
+	public void setCourseChangeComfirmations(List<change_grade_petition> courseChangeComfirmations) {
 		this.courseChangeComfirmations = courseChangeComfirmations;
 	}
 
@@ -468,12 +543,12 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 
 
 
-	public courseReplacement getNewCourseComfirmation() {
+	public change_grade_petition getNewCourseComfirmation() {
 		return newCourseComfirmation;
 	}
 
 
-	public void setNewCourseComfirmation(courseReplacement newCourseComfirmation) {
+	public void setNewCourseComfirmation(change_grade_petition newCourseComfirmation) {
 		this.newCourseComfirmation = newCourseComfirmation;
 	}
 
@@ -490,13 +565,13 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 	}
 
 
-	public courseReplacement getSelectedCourseReplacement() {
-		return selectedCourseReplacement;
+	public change_grade_petition getSelectedchange_grade_petition() {
+		return selectedchange_grade_petition;
 	}
 
 
-	public void setSelectedCourseReplacement(courseReplacement selectedCourseReplacement) {
-		this.selectedCourseReplacement = selectedCourseReplacement;
+	public void setSelectedchange_grade_petition(change_grade_petition selectedchange_grade_petition) {
+		this.selectedchange_grade_petition = selectedchange_grade_petition;
 	}
 
 
@@ -507,6 +582,140 @@ HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInst
 
 	public void setHeadFacades(HeadsAppServiceImpl headFacades) {
 		this.headFacades = headFacades;
+	}
+
+
+	public IFormsStatusFacade getFacadeSettings() {
+		return facadeSettings;
+	}
+
+
+	public void setFacadeSettings(IFormsStatusFacade facadeSettings) {
+		this.facadeSettings = facadeSettings;
+	}
+
+
+	public Integer getSemesterSelected() {
+		return semesterSelected;
+	}
+
+
+	public void setSemesterSelected(Integer semesterSelected) {
+		this.semesterSelected = semesterSelected;
+	}
+
+
+	public Integer getYearSelected() {
+		return yearSelected;
+	}
+
+
+	public void setYearSelected(Integer yearSelected) {
+		this.yearSelected = yearSelected;
+	}
+
+
+	public List<CoursesDTO> getAllStudentCoursesthisPeriod() {
+		return allStudentCoursesthisPeriod;
+	}
+
+
+	public void setAllStudentCoursesthisPeriod(List<CoursesDTO> allStudentCoursesthisPeriod) {
+		this.allStudentCoursesthisPeriod = allStudentCoursesthisPeriod;
+	}
+
+
+	public List<CoursesDTO> getAllCoursesthisPeriod() {
+		return allCoursesthisPeriod;
+	}
+
+
+	public void setAllCoursesthisPeriod(List<CoursesDTO> allCoursesthisPeriod) {
+		this.allCoursesthisPeriod = allCoursesthisPeriod;
+	}
+
+
+	public Courses getSelectedCourse() {
+		return selectedCourse;
+	}
+
+
+	public void setSelectedCourse(Courses selectedCourse) {
+		this.selectedCourse = selectedCourse;
+	}
+
+
+	public List<InstructorDTO> getAllInstructorForThisCourse() {
+		return allInstructorForThisCourse;
+	}
+
+
+	public void setAllInstructorForThisCourse(List<InstructorDTO> allInstructorForThisCourse) {
+		this.allInstructorForThisCourse = allInstructorForThisCourse;
+	}
+
+
+	public List<InstructorDTO> getAllTAsForThisCourse() {
+		return allTAsForThisCourse;
+	}
+
+
+	public void setAllTAsForThisCourse(List<InstructorDTO> allTAsForThisCourse) {
+		this.allTAsForThisCourse = allTAsForThisCourse;
+	}
+
+
+	public Employee getSelectedInstructor() {
+		return selectedInstructor;
+	}
+
+
+	public void setSelectedInstructor(Employee selectedInstructor) {
+		this.selectedInstructor = selectedInstructor;
+	}
+
+
+	public ICourseEvalAnswersFacade getCoursesFacade() {
+		return coursesFacade;
+	}
+
+
+	public void setCoursesFacade(ICourseEvalAnswersFacade coursesFacade) {
+		this.coursesFacade = coursesFacade;
+	}
+
+
+	public IStudentCourseFacade getFacadeStudendCourses() {
+		return facadeStudendCourses;
+	}
+
+
+	public void setFacadeStudendCourses(IStudentCourseFacade facadeStudendCourses) {
+		this.facadeStudendCourses = facadeStudendCourses;
+	}
+
+
+
+	public ICourseInstructorFacade getCourseInsFacade() {
+		return courseInsFacade;
+	}
+
+
+
+	public void setCourseInsFacade(ICourseInstructorFacade courseInsFacade) {
+		this.courseInsFacade = courseInsFacade;
+	}
+
+
+
+	public List<InstructorDTO> getAllInstructorList() {
+		return allInstructorList;
+	}
+
+
+
+	public void setAllInstructorList(List<InstructorDTO> allInstructorList) {
+		this.allInstructorList = allInstructorList;
 	}
 
 

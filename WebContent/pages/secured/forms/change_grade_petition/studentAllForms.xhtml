@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/uploadSecuredContent.xhtml">
+		<ui:define name="title">Change Grade  form - LT Online Services</ui:define>
+		<ui:define name="content">
+		#{change_grade_petitionBean.init()}
+				<h:form id="form">
+					<ul class="header">
+						<li>
+							<p:breadCrumb>
+								<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
+								<p:menuitem value="course details" disabled="true" />
+							</p:breadCrumb>
+						</li>
+					</ul>
+					
+				</h:form>
+				
+				<h:panelGroup id="studentInfoGrid">
+								<ul class="studentInfo">
+									<li>
+										<p:graphicImage value="/images/?path=#{change_grade_petitionBean.student.id}" />
+										</li>
+									<li>
+										<div class="userName">
+											<h:outputLabel value="#{change_grade_petitionBean.student.name}" />
+											<br/>
+										 </div>
+										 <table>
+											<tr>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="ID" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.facultyId}" />
+														<h:outputLabel value="Mob./Phone" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.mobile}" />
+														<h:outputLabel value="GPA" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.gpa}" />
+													</h:panelGrid>
+												</td>
+														<td width="48">&nbsp;</td>
+												<td>
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Earned Credit hrs." />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.completedCreditHrs}" />
+														<h:outputLabel value="Registered hrs." />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.registeredCreditHrs}" />
+														<h:outputLabel value="Repeated Courses" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.repeatedCourses}" />
+													</h:panelGrid>
+												</td>
+												<td width="48">&nbsp;</td>
+												<td valign="top">
+													<h:panelGrid columns="2" class="student">
+														<h:outputLabel value="Current Program" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.major.majorName}" />
+														<h:outputLabel value="Current Program Type" />
+														<h:outputLabel value="#{change_grade_petitionBean.getMajorType(change_grade_petitionBean.major.type)}" />
+														<h:outputLabel value="Concentration" />
+														<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.concentration.name}" />
+													</h:panelGrid>
+												</td>
+										
+										
+											<td width="48">&nbsp;</td>
+											<td valign="top">
+												<h:panelGrid columns="2" class="student">
+													<h:outputLabel value="Minor" />
+													<h:outputLabel value="#{change_grade_petitionBean.student.studentProfileDTO.minor}" />
+												<h:outputLabel value="Student Email" />
+													<h:outputLabel value="#{change_grade_petitionBean.student.mail}" />
+												</h:panelGrid>
+											</td>
+											</tr> 
+										</table>
+									</li>
+								</ul>
+							</h:panelGroup>
+			<p:panel id="dashboardFormPanel">
+			<h:form id="tableform3">
+	<div align="center">
+							
+								<br/><br/>
+         
+         <p:dataTable id="tableOfAll" value = "#{change_grade_petitionBean.courseChangeComfirmations}"
+					 		   resizableColumns="true" paginator="true" styleClass="paginated" rowKey="#{CCC.id}" sortMode="multiple"  
+							widgetVar="formsTable" var = "CCC" selectionMode="single" selection="#{change_grade_petitionBean.selectedchange_grade_petition}">
+           
+            
+            <p:column>    				
+               <f:facet name = "header">Id</f:facet>   
+               <div align="center"> 				
+               		<p:outputLabel value = "#{CCC.id}" style="width:150px;"/>
+            	</div>
+            </p:column>
+            
+            
+            <p:column>
+               <f:facet name = "header">Why?</f:facet>
+               <div align="center">
+               		<p:outputLabel value = "#{CCC.questionWhy}" style="width:350px;"/>
+          		</div>
+            </p:column>
+            
+          
+            <p:column>
+               <f:facet name = "header">State</f:facet>
+               <div align="center">
+               		<p:outputLabel value = "In The #{CCC.getStepString()} Step" rendered="#{CCC.action==0}" style="width:150px;"/>
+            		<p:outputLabel value = "Accepted" rendered="#{CCC.action==1}"  style="width:150px;"/>
+            		<p:outputLabel value = "Refused" rendered="#{CCC.action==2}" style="width:150px;"/>
+            	</div>
+            </p:column>
+           
+            <p:column>
+				<p:commandButton value="Delete" update="tableOfAll" ajax="true" action="#{change_grade_petitionBean.deletechange_grade_petition(CCC.id)}" styleClass="redBtn"/>
+			</p:column>
+			
+			<p:column>
+				<p:commandButton value="Details"  ajax="true" action="#{change_grade_petitionBean.onRowSelect(CCC.id)}" styleClass="blueBtn"/>
+			</p:column>
+         </p:dataTable>
+         
+          <p:commandButton rendered="#{leftNavigationMenuBean.showchange_grade_petition}" value="+ New Course" type="button" title="Add New Change Grade  form" styleClass="greenBtn"
+			 			 onclick="addCourseComfirmationDlg.show();" />
+			
+		</div>
+     </h:form>
+     </p:panel>
+		</ui:define>	
+		<ui:define name="confirmDialogBox">
+			
+					<p:dialog widgetVar="addCourseComfirmationDlg" header="Course Data" showEffect="slide" hideEffect="clip" closeOnEscape="true" position="center"
+			 resizable="true" maximizable="true" minimizable="true" class="addDialog" width="950" height="500" style="width:900px !important">
+					
+			<h:form id="formMain">
+						<div class="dialogWrapper">
+							
+					
+					<h:outputLabel value="Clearify your Problem" />
+					<br></br>
+					<h:inputText value="#{change_grade_petitionBean.newCourseComfirmation.questionWhy}"
+					 required="true" pt:placeholder="Please Fill it"
+					/>
+					
+					
+					<br/>
+					<h:outputLabel value="Select The Course" />
+					<br></br>
+					<p:selectOneMenu
+						value="#{change_grade_petitionBean.newCourseComfirmation.courseId.id}"
+						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
+						effect="fade" filter="true" filterMatchMode="startsWith">
+						<f:selectItems value="#{change_grade_petitionBean.allStudentCoursesthisPeriod}" var="item"
+							itemLabel="#{item.name}" itemValue="#{item.id}"/>
+							<f:ajax listener="#{change_grade_petitionBean.selectTheIstructorForThisCourse}" render=" formMain "/>
+					</p:selectOneMenu>
+			        
+					<br/>  		
+					
+					<h:outputLabel value="Select The Instructor" />
+					<br></br>
+					<p:selectOneMenu
+						value="#{change_grade_petitionBean.newCourseComfirmation.courseInstructorId.id}"
+						panelStyle="width:180px;" style="margin-top:20px; width: 300px;"
+						effect="fade" filter="true" filterMatchMode="startsWith">
+						<f:selectItems value="#{change_grade_petitionBean.allInstructorList}" var="item"
+							itemLabel="#{item.name}" itemValue="#{item.id}"/>
+					</p:selectOneMenu>
+			        
+					
+					
+							
+					</div>
+					<ul class="dialogFooter">
+						<li><p:commandButton value="Cancel" title="Cancel" onclick="addCourseComfirmationDlg.hide()"  class="dialogCancel" /></li>
+						<li><p:commandButton value="Add" title="Add" action="#{change_grade_petitionBean.addchange_grade_petition}" update=":tableform3:tableOfAll " class="dialogOk"/></li>
+					</ul>
+					
+			</h:form>
+			</p:dialog>
+		</ui:define>
+		
+		
+	</ui:composition>
+
+
+</html>
