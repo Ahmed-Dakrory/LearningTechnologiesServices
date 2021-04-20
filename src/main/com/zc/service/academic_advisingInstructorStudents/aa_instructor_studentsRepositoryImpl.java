@@ -91,26 +91,11 @@ public class aa_instructor_studentsRepositoryImpl implements aa_instructor_stude
 
 
 
-	@Override
-	public List<aa_instructor_students> getAllByYearAndSemester(String year,  String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getAllByYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year);
-
-		 @SuppressWarnings("unchecked")
-		List<aa_instructor_students> results=query.list();
-		 if(results.size()!=0){
-			 return results;
-		 }else{
-			 return null;
-		 }
-	}
 
 	@Override
-	public List<aa_instructor_students> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByInstructorIdAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public List<aa_instructor_students> getByInstructorId(int id) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByInstructorId")
+				
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")
@@ -123,10 +108,9 @@ public class aa_instructor_studentsRepositoryImpl implements aa_instructor_stude
 	}
 
 	@Override
-	public aa_instructor_students getByStudentIdAndYearAndSemester(int id, String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByStudentIdAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public aa_instructor_students getByStudentId(int id) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByStudentId")
+				 
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")
@@ -141,10 +125,9 @@ public class aa_instructor_studentsRepositoryImpl implements aa_instructor_stude
 	}
 
 	@Override
-	public aa_instructor_students getByStudentEmailAndYearAndSemester(String mail, String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByStudentEmailAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public aa_instructor_students getByStudentEmail(String mail) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_students.getByStudentEmail")
+				
 				 .setString("mail", mail);
 
 		 @SuppressWarnings("unchecked")

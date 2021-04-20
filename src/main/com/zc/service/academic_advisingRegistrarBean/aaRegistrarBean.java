@@ -196,7 +196,7 @@ public class aaRegistrarBean implements Serializable{
 		selectedStudent = aa_student_profileFacade.getById(idOfDate);
 
 		
-		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(selectedStudent.getId());
 		
 			/**
 			 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
@@ -205,7 +205,7 @@ public class aaRegistrarBean implements Serializable{
 			 */
 			
 			// This is the last dates reserved
-			allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+			allinstructorDates = aa_instructor_dateFacade.getByStudentId(selectedInstructorForThisStudent.getStudent().getId());
 			
 			
 		ExternalContext ec = FacesContext.getCurrentInstance()
@@ -237,15 +237,15 @@ public class aaRegistrarBean implements Serializable{
 	public void getAllListOfDates() {
 		
 		if(selectedAction.equalsIgnoreCase("All")) {
-			allinstructorDates = aa_instructor_dateFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
+			allinstructorDates = aa_instructor_dateFacade.getAll();
 		}else {
-			allinstructorDates = aa_instructor_dateFacade.getByActionAndYearAndSemester(selectedAction, selectedYear, selectedSemester);
+			allinstructorDates = aa_instructor_dateFacade.getByAction(selectedAction);
 		}
 		
 	}
 	
 	public void getAllListOfStudents() {
-		allStudentSelected = instructor_studentsFacade.getAllByYearAndSemester(selectedYear, selectedSemester);
+		allStudentSelected = instructor_studentsFacade.getAll();
 	}
 	
 	public void getAllListOfFiles() {

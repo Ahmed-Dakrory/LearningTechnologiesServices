@@ -61,9 +61,9 @@ public class aaInstructorBean implements Serializable{
 	private filesOfLibrariesAppServiceImpl attachmentsFacade;
 
 
+
 	@ManagedProperty("#{IFormsStatusFacade}")
    	private IFormsStatusFacade facadeSettings;
-
 
 	@ManagedProperty(value = "#{aa_student_profileFacadeImpl}")
 	private aa_student_profileAppServiceImpl aa_student_profileFacade;
@@ -117,13 +117,12 @@ public class aaInstructorBean implements Serializable{
 	}
 	
 	public void getAllInstructorDates() {
-		FormsStatusDTO settingform = facadeSettings.getById(23);
-		allinstructorDates = aa_instructor_dateFacade.getByInstructorIdAndYearAndSemester(thisInstrutorAccount.getId(),String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		allinstructorDates = aa_instructor_dateFacade.getByInstructorId(thisInstrutorAccount.getId());
 	}
 	
 	
 	public void getAllListOfStudents() {
-		allStudentSelected = instructor_studentsFacade.getByInstructorIdAndYearAndSemester(thisInstrutorAccount.getId(),selectedYear, selectedSemester);
+		allStudentSelected = instructor_studentsFacade.getByInstructorId(thisInstrutorAccount.getId());
 	}
      
 
@@ -154,12 +153,11 @@ public class aaInstructorBean implements Serializable{
 	public void goToStudentDates(int idOfDate) {
 		System.out.print(idOfDate);
 		meetingSelected = false;
-		FormsStatusDTO settingform = facadeSettings.getById(23);
 		
 		selectedStudent = aa_student_profileFacade.getById(idOfDate);
 
 		
-		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(selectedStudent.getId());
 		
 			/**
 			 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
@@ -168,7 +166,7 @@ public class aaInstructorBean implements Serializable{
 			 */
 			
 			// This is the last dates reserved
-			allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+			allinstructorDates = aa_instructor_dateFacade.getByStudentId(selectedInstructorForThisStudent.getStudent().getId() );
 			
 			
 		ExternalContext ec = FacesContext.getCurrentInstance()
@@ -209,7 +207,6 @@ public void onRowEdit(RowEditEvent event) {
 			
 				thisInstrutorAccount =  aa_instructorFacade.getByMail(mail);	
 
-				FormsStatusDTO settingform = facadeSettings.getById(23);
 				
 				allFiles = attachmentsFacade.getAll();
 		}
@@ -239,8 +236,7 @@ public void onRowEdit(RowEditEvent event) {
 
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
-		FormsStatusDTO settingform = facadeSettings.getById(23);
-		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(dateForStudentAndInstructor.getStudent().getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(dateForStudentAndInstructor.getStudent().getId());
 		selectedInstructorForThisStudent.setInstructor_date(null);
 		instructor_studentsFacade.addaa_instructor_students(selectedInstructorForThisStudent);
 		Constants.sendEmailNotificationForThisEmailWithMessage(selectedInstructorForThisStudent.getStudent().getName(), "Academic Advising Cancelation", "Your academic advising Meeting has Been Cancelled", selectedInstructorForThisStudent.getStudent().getMail());
@@ -281,10 +277,10 @@ public void onRowEdit(RowEditEvent event) {
 public void getAllListOfDates() {
 		
 		if(selectedAction.equalsIgnoreCase("All")) {
-			allinstructorDates = aa_instructor_dateFacade.getByInstructorIdAndYearAndSemester(thisInstrutorAccount.getId(),selectedYear, selectedSemester);
+			allinstructorDates = aa_instructor_dateFacade.getByInstructorId(thisInstrutorAccount.getId());
 		}else {
 
-			allinstructorDates = aa_instructor_dateFacade.getByActionAndInstructorAndYearAndSemester(selectedAction,thisInstrutorAccount.getId(), selectedYear, selectedSemester);
+			allinstructorDates = aa_instructor_dateFacade.getByActionAndInstructor(selectedAction,thisInstrutorAccount.getId());
 		}
 		
 	}

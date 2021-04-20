@@ -17,6 +17,8 @@
 		padding:19px;
 		}
 		</style>
+		
+		#{aaInstructorBean.getAllListOfStudents()}
 			<ul class="header">
 				<li>
 					<h:form id="pageForm" class="p-5" style="background: white;">
@@ -25,7 +27,7 @@
 							<p:menuitem value="Dashboard" url="/pages/secured/securedHome.xhtml" />
 					    	<p:menuitem value="Academic Advising" />
 						</p:breadCrumb>
-						
+						<!-- 
 						<table>
 							<tr>
 								<td>
@@ -41,14 +43,14 @@
 									<p:selectOneMenu id="year" value="#{aaInstructorBean.selectedYear}" required="true" requiredMessage="Please select year">
 										<f:selectItem itemLabel="Select Year" />
 										<f:selectItems var="year" value="#{aaInstructorBean.yearLst}" itemLabel="#{year}" itemValue="#{year}" />
-										<p:ajax listener="#{aaInstructorBean.getAllListOfStudents}" update="studentTable"/>
+										<p:ajax listener="#{aaInstructorBean.getAllListOfStudents()}" update="studentTable"/>
 									</p:selectOneMenu>
 									<p:message for="year" />
 								</td>
 								
 								</tr>
 							</table>
-						
+						-->
 						
 						
 						

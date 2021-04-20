@@ -91,7 +91,7 @@ public class aaStudentBean implements Serializable{
 		aa_student_profileFacade.addaa_student_profile(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
 		FormsStatusDTO settingform = facadeSettings.getById(23);
-		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(selectedStudent.getId());
 		selectedInstructorForThisStudent.setInstructor_date(null);
 		instructor_studentsFacade.addaa_instructor_students(selectedInstructorForThisStudent);
 		Constants.sendEmailNotificationForThisEmailWithMessage(dateForStudentAndInstructor.getInstructor().getName(), "Academic Advising Meeting Cancelled", "A Student has cancelled the meeting with date "+String.valueOf(dateForStudentAndInstructor.getDate()), dateForStudentAndInstructor.getInstructor().getMail());
@@ -111,7 +111,7 @@ public class aaStudentBean implements Serializable{
 		dateForStudentAndInstructor.setStudent(selectedStudent);
 		aa_instructor_dateFacade.addaa_instructor_date(dateForStudentAndInstructor);
 		FormsStatusDTO settingform = facadeSettings.getById(23);
-		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+		selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(selectedStudent.getId());
 		selectedInstructorForThisStudent.setInstructor_date(dateForStudentAndInstructor);
 		instructor_studentsFacade.addaa_instructor_students(selectedInstructorForThisStudent);
 		Constants.sendEmailNotificationForThisEmailWithMessage(dateForStudentAndInstructor.getInstructor().getName(), "Academic Advising Meeting Selected", "A Student has select meeting with date "+String.valueOf(dateForStudentAndInstructor.getDate()), dateForStudentAndInstructor.getInstructor().getMail());
@@ -132,7 +132,7 @@ public class aaStudentBean implements Serializable{
 			{
 				selectedStudent =  aa_student_profileFacade.getByMailAndYearAndSemester(mail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
 
-				selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentIdAndYearAndSemester(selectedStudent.getId(), String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+				selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(selectedStudent.getId());
 				if(selectedInstructorForThisStudent!=null) {
 				if(selectedInstructorForThisStudent.getInstructor_date()==null) {
 					/**
@@ -142,11 +142,11 @@ public class aaStudentBean implements Serializable{
 					 */
 					
 					// This is the last dates reserved
-					allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					allinstructorDates = aa_instructor_dateFacade.getByStudentId(selectedInstructorForThisStudent.getStudent().getId());
 					
 					
 					// This is the unreserved dates
-					List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorIdAndYearAndSemester(selectedInstructorForThisStudent.getInstructor().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorId(selectedInstructorForThisStudent.getInstructor().getId() );
 					if(allNullInstructorDates!=null) {
 						if(allNullInstructorDates.size()>0) {
 							if(allinstructorDates==null) {
@@ -159,7 +159,7 @@ public class aaStudentBean implements Serializable{
 				}else {
 					allinstructorDates = new ArrayList<aa_instructor_date>();
 					
-					allinstructorDates = aa_instructor_dateFacade.getByStudentIdAndYearAndSemester(selectedInstructorForThisStudent.getStudent().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					allinstructorDates = aa_instructor_dateFacade.getByStudentId(selectedInstructorForThisStudent.getStudent().getId() );
 					/**
 					 * Find if the last reserved data is finished
 					 * then i will select a new data from unreserved dates
@@ -168,7 +168,7 @@ public class aaStudentBean implements Serializable{
 					
 					if(!isDateEnded) {
 						// This is the unreserved dates
-						List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorIdAndYearAndSemester(selectedInstructorForThisStudent.getInstructor().getId() , String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+						List<aa_instructor_date> allNullInstructorDates = aa_instructor_dateFacade.getAllAvailableByInstructorId(selectedInstructorForThisStudent.getInstructor().getId() );
 						if(allNullInstructorDates!=null) {
 							if(allNullInstructorDates.size()>0) {
 								if(allinstructorDates==null) {

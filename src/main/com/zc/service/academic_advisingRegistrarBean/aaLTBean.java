@@ -217,7 +217,7 @@ public class aaLTBean implements Serializable{
 							System.out.println(ex.toString());
 						}
 					}
-					data = instructor_studentsFacade.getByStudentEmailAndYearAndSemester(studentEmail, String.valueOf(settingform.getYear()), settingform.getSemester().getName());
+					data = instructor_studentsFacade.getByStudentEmail(studentEmail);
 					
 					if(data == null) {
 						try {

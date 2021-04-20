@@ -92,9 +92,9 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getAllByYearAndSemester(String year, String semester) {
+	public List<aa_instructor_date> getByInstructorId(int id) {
 		try{
-			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getAllByYearAndSemester(year,semester);
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByInstructorId(id);
 			
 			return course;
 			}
@@ -108,9 +108,9 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
+	public List<aa_instructor_date> getByAction(String state) {
 		try{
-			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByInstructorIdAndYearAndSemester(id, year, semester);
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByAction(state);
 			
 			return course;
 			}
@@ -124,9 +124,9 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getByActionAndYearAndSemester(String state, String year, String semester) {
+	public List<aa_instructor_date> getAllAvailableByInstructorId(int id) {
 		try{
-			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByActionAndYearAndSemester(state, year, semester);
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getAllAvailableByInstructorId(id);
 			
 			return course;
 			}
@@ -140,10 +140,9 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getAllAvailableByInstructorIdAndYearAndSemester(int id, String year,
-			String semester) {
+	public aa_instructor_date getByInstructorIdAndStudentId(int idInstructor, int idStudent) {
 		try{
-			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getAllAvailableByInstructorIdAndYearAndSemester(id, year, semester);
+			aa_instructor_date course=aa_instructor_dateDataRepository.getByInstructorIdAndStudentId(idInstructor,idStudent);
 			
 			return course;
 			}
@@ -157,10 +156,9 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public aa_instructor_date getByInstructorIdAndStudentIdAndYearAndSemester(int idInstructor, int idStudent,
-			String year, String semester) {
+	public List<aa_instructor_date> getByStudentId(int id) {
 		try{
-			aa_instructor_date course=aa_instructor_dateDataRepository.getByInstructorIdAndStudentIdAndYearAndSemester(idInstructor,idStudent, year, semester);
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByStudentId(id);
 			
 			return course;
 			}
@@ -174,26 +172,9 @@ public class aa_instructor_dateAppServiceImpl implements Iaa_instructor_dateAppS
 
 
 	@Override
-	public List<aa_instructor_date> getByStudentIdAndYearAndSemester(int id, String year, String semester) {
+	public List<aa_instructor_date> getByActionAndInstructor(String state, int idInstructor) {
 		try{
-			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByStudentIdAndYearAndSemester(id, year, semester);
-			
-			return course;
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				return null;
-			}
-	}
-
-
-
-	@Override
-	public List<aa_instructor_date> getByActionAndInstructorAndYearAndSemester(String state, int idInstructor,
-			String year, String semester) {
-		try{
-			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByActionAndInstructorAndYearAndSemester(state,idInstructor, year, semester);
+			List<aa_instructor_date> course=aa_instructor_dateDataRepository.getByActionAndInstructor(state,idInstructor);
 			
 			return course;
 			}

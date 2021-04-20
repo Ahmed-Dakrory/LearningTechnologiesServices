@@ -38,35 +38,32 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	query = "from aa_instructor_date d where d.id = :id "
 			)
 	,
-	@NamedQuery(name="aa_instructor_date.getByInstructorIdAndYearAndSemester",
-	query = "from aa_instructor_date d where d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_date.getByInstructorId",
+	query = "from aa_instructor_date d where d.instructor.id = :id"
 			)
 	,
-	@NamedQuery(name="aa_instructor_date.getByInstructorIdAndStudentIdAndYearAndSemester",
-	query = "from aa_instructor_date d where d.instructor.id = :instructorId and d.student.id = :studentId and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_date.getByInstructorIdAndStudentId",
+	query = "from aa_instructor_date d where d.instructor.id = :instructorId and d.student.id = :studentId"
 			)
 	,
-	@NamedQuery(name="aa_instructor_date.getByStudentIdAndYearAndSemester",
-	query = "from aa_instructor_date d where  d.student.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_date.getByStudentId",
+	query = "from aa_instructor_date d where  d.student.id = :id"
 			)
 	,
-	@NamedQuery(name="aa_instructor_date.getByActionAndYearAndSemester",
-	query = "from aa_instructor_date d where d.state = :state and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_date.getByAction",
+	query = "from aa_instructor_date d where d.state = :state"
 			)
 	
 	,
-	@NamedQuery(name="aa_instructor_date.getByActionAndInstructorAndYearAndSemester",
-	query = "from aa_instructor_date d where d.state = :state and d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_date.getByActionAndInstructor",
+	query = "from aa_instructor_date d where d.state = :state and d.instructor.id = :id"
 			)
 	
 	,
-	@NamedQuery(name="aa_instructor_date.getAllAvailableByInstructorIdAndYearAndSemester",
-	query = "from aa_instructor_date d where d.state is null and d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester) and d.date > CURRENT_DATE"
+	@NamedQuery(name="aa_instructor_date.getAllAvailableByInstructorId",
+	query = "from aa_instructor_date d where d.state is null and d.instructor.id = :id and d.date > CURRENT_DATE"
 			)
-	,
-	@NamedQuery(name="aa_instructor_date.getAllByYearAndSemester",
-	query = "from aa_instructor_date d where d.year = :year and Lower(d.semester) = Lower(:semester)"
-			)
+	
 	
 	
 	

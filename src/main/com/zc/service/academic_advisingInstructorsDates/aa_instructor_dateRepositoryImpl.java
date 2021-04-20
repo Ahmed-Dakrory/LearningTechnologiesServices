@@ -91,26 +91,11 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 
 
 
-	@Override
-	public List<aa_instructor_date> getAllByYearAndSemester(String year,  String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getAllByYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year);
-
-		 @SuppressWarnings("unchecked")
-		List<aa_instructor_date> results=query.list();
-		 if(results.size()!=0){
-			 return results;
-		 }else{
-			 return null;
-		 }
-	}
 
 	@Override
-	public List<aa_instructor_date> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByInstructorIdAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public List<aa_instructor_date> getByInstructorId(int id) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByInstructorId")
+				
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")
@@ -123,10 +108,9 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 	}
 
 	@Override
-	public List<aa_instructor_date> getByActionAndYearAndSemester(String state, String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByActionAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public List<aa_instructor_date> getByAction(String state) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByAction")
+				
 				 .setString("state", state);
 
 		 @SuppressWarnings("unchecked")
@@ -139,11 +123,9 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 	}
 
 	@Override
-	public List<aa_instructor_date> getAllAvailableByInstructorIdAndYearAndSemester(int id, String year,
-			String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getAllAvailableByInstructorIdAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public List<aa_instructor_date> getAllAvailableByInstructorId(int id) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getAllAvailableByInstructorId")
+			
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")
@@ -156,11 +138,9 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 	}
 
 	@Override
-	public aa_instructor_date getByInstructorIdAndStudentIdAndYearAndSemester(int idInstructor, int idStudent,
-			String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByInstructorIdAndStudentIdAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public aa_instructor_date getByInstructorIdAndStudentId(int idInstructor, int idStudent) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByInstructorIdAndStudentId")
+				
 				 .setInteger("studentId", idStudent)
 				 .setInteger("instructorId", idInstructor);
 
@@ -174,10 +154,9 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 	}
 
 	@Override
-	public List<aa_instructor_date> getByStudentIdAndYearAndSemester(int id, String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByStudentIdAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public List<aa_instructor_date> getByStudentId(int id) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByStudentId")
+				
 				 .setInteger("id", id);
 
 		 @SuppressWarnings("unchecked")
@@ -190,11 +169,9 @@ public class aa_instructor_dateRepositoryImpl implements aa_instructor_dateRepos
 	}
 
 	@Override
-	public List<aa_instructor_date> getByActionAndInstructorAndYearAndSemester(String state, int idInstructor,
-			String year, String semester) {
-		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByActionAndInstructorAndYearAndSemester")
-				 .setString("semester",semester)
-				 .setString("year", year)
+	public List<aa_instructor_date> getByActionAndInstructor(String state, int idInstructor) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("aa_instructor_date.getByActionAndInstructor")
+				
 				 .setString("state", state)
 				 .setInteger("id", idInstructor);
 

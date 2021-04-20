@@ -91,10 +91,11 @@ public class aa_instructor_studentsAppServiceImpl implements Iaa_instructor_stud
 
 
 
+
 	@Override
-	public List<aa_instructor_students> getAllByYearAndSemester(String year, String semester) {
+	public List<aa_instructor_students> getByInstructorId(int id) {
 		try{
-			List<aa_instructor_students> course=aa_instructor_studentsDataRepository.getAllByYearAndSemester(year,semester);
+			List<aa_instructor_students> course=aa_instructor_studentsDataRepository.getByInstructorId(id);
 			
 			return course;
 			}
@@ -108,9 +109,9 @@ public class aa_instructor_studentsAppServiceImpl implements Iaa_instructor_stud
 
 
 	@Override
-	public List<aa_instructor_students> getByInstructorIdAndYearAndSemester(int id, String year, String semester) {
+	public aa_instructor_students getByStudentId(int id) {
 		try{
-			List<aa_instructor_students> course=aa_instructor_studentsDataRepository.getByInstructorIdAndYearAndSemester(id, year, semester);
+			aa_instructor_students course=aa_instructor_studentsDataRepository.getByStudentId(id);
 			
 			return course;
 			}
@@ -124,25 +125,9 @@ public class aa_instructor_studentsAppServiceImpl implements Iaa_instructor_stud
 
 
 	@Override
-	public aa_instructor_students getByStudentIdAndYearAndSemester(int id, String year, String semester) {
+	public aa_instructor_students getByStudentEmail(String mail) {
 		try{
-			aa_instructor_students course=aa_instructor_studentsDataRepository.getByStudentIdAndYearAndSemester(id, year, semester);
-			
-			return course;
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				return null;
-			}
-	}
-
-
-
-	@Override
-	public aa_instructor_students getByStudentEmailAndYearAndSemester(String mail, String year, String semester) {
-		try{
-			aa_instructor_students course=aa_instructor_studentsDataRepository.getByStudentEmailAndYearAndSemester(mail, year, semester);
+			aa_instructor_students course=aa_instructor_studentsDataRepository.getByStudentEmail(mail);
 			
 			return course;
 			}

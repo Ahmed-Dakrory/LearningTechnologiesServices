@@ -37,22 +37,19 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 	query = "from aa_instructor_students d where d.id = :id "
 			)
 	,
-	@NamedQuery(name="aa_instructor_students.getByInstructorIdAndYearAndSemester",
-	query = "from aa_instructor_students d where d.instructor.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_students.getByInstructorId",
+	query = "from aa_instructor_students d where d.instructor.id = :id"
 			)
 	
 	,
-	@NamedQuery(name="aa_instructor_students.getByStudentIdAndYearAndSemester",
-	query = "from aa_instructor_students d where d.student.id = :id and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_students.getByStudentId",
+	query = "from aa_instructor_students d where d.student.id = :id"
 			)
 	,
-	@NamedQuery(name="aa_instructor_students.getByStudentEmailAndYearAndSemester",
-	query = "from aa_instructor_students d where d.student.mail = :mail and d.year = :year and Lower(d.semester) = Lower(:semester)"
+	@NamedQuery(name="aa_instructor_students.getByStudentEmail",
+	query = "from aa_instructor_students d where d.student.mail = :mail"
 			)
-	,
-	@NamedQuery(name="aa_instructor_students.getAllByYearAndSemester",
-	query = "from aa_instructor_students d where d.year = :year and Lower(d.semester) = Lower(:semester)"
-			)
+	
 	
 	
 	
