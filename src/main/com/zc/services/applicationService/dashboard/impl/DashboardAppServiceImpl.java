@@ -60,6 +60,8 @@ import main.com.zc.services.presentation.forms.CourseRepeat.dto.CourseRepeatDTO;
 import main.com.zc.services.presentation.forms.Readmission.dto.ReadmissionDTO;
 import main.com.zc.services.presentation.forms.academicPetition.dto.CoursePetitionDTO;
 import main.com.zc.services.presentation.forms.changeMajor.dto.ChangeMajorDTO;
+import main.com.zc.services.presentation.forms.change_grade_petition.change_grade_petition;
+import main.com.zc.services.presentation.forms.change_grade_petition.change_grade_petitionRepository;
 import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
 import main.com.zc.services.presentation.forms.courseReplacement.courseReplacementRepository;
 import main.com.zc.services.presentation.forms.course_replacement_form.dto.course_replacement_formDTO;
@@ -108,6 +110,10 @@ public class DashboardAppServiceImpl implements IDashboardAppService
 
 	@Autowired
 	gap_formRepository gap_formRep;
+	
+
+	@Autowired
+	change_grade_petitionRepository change_grade_petitionRep;
 
 	@Autowired
 	IOverloadRequestRep overloadRequestRep;
@@ -1466,160 +1472,291 @@ public List<ReadmissionForm> getPendingFormsOfAdmission() {
 	
 	
 	
-	//////////////////////////////////////////////////  GAP form
-	@Override
-	public List<gap_form> getDeangap_FromPending() {
-		// TODO Auto-generated method stub
-				List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+//////////////////////////////////////////////////GAP form
+@Override
+public List<gap_form> getDeangap_FromPending() {
+// TODO Auto-generated method stub
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
 
-				return pendingFormsList;
-	}
+return pendingFormsList;
+}
 
-	@Override
-	public Integer getDeanGapFormsPending() {
-		// TODO Auto-generated method stub
-		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+@Override
+public Integer getDeanGapFormsPending() {
+// TODO Auto-generated method stub
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
 
-		return pendingFormsList.size();
-	}
+return pendingFormsList.size();
+}
 
-	@Override
-	public List<gap_form> getAdmissionDepartmentgap_formPending() {
-		// TODO Auto-generated method stub
-				List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
-				
-				
-				return pendingFormsList;
-	}
+@Override
+public List<gap_form> getAdmissionDepartmentgap_formPending() {
+// TODO Auto-generated method stub
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
 
-	@Override
-	public Integer getAdmissionDepartmentGapFormsPending() {
-		// TODO Auto-generated method stub
-				List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
-				
-				
-				return pendingFormsList.size();
-	}
 
-	@Override
-	public Integer getAdmissionDepartmentGapFormsAuditing() {
-		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_AUDITING);
-		
-		
-		return pendingFormsList.size();
-	}
+return pendingFormsList;
+}
 
-	@Override
-	public Integer getAdminGap_formPending() {
-			List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
-			if(pendingFormsList==null) pendingFormsList = new ArrayList<gap_form>();
-			List<gap_form> newList = gap_formRep.getAllForStep(gap_form.STEP_AUDITING);
-			if(newList==null) newList = new ArrayList<gap_form>();
-			pendingFormsList.addAll(newList);
-			
-			newList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
-			if(newList==null) newList = new ArrayList<gap_form>();
-			pendingFormsList.addAll(newList);
+@Override
+public Integer getAdmissionDepartmentGapFormsPending() {
+// TODO Auto-generated method stub
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
 
-			
-			newList = gap_formRep.getAllForStep(gap_form.STEP_Finance);
-			if(newList==null) newList = new ArrayList<gap_form>();
-			pendingFormsList.addAll(newList);
-			
-			newList = gap_formRep.getAllForStep(gap_form.STEP_MajorHead);
-			if(newList==null) newList = new ArrayList<gap_form>();
-			pendingFormsList.addAll(newList);
-			
-			
-		
-		return pendingFormsList.size();
-	}
 
-	@Override
-	public Integer getAdminGap_formOld() {
-		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Finished);
-		
-		
-		
-	
+return pendingFormsList.size();
+}
+
+@Override
+public Integer getAdmissionDepartmentGapFormsAuditing() {
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_AUDITING);
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public Integer getAdminGap_formPending() {
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Registerar);
+if(pendingFormsList==null) pendingFormsList = new ArrayList<gap_form>();
+List<gap_form> newList = gap_formRep.getAllForStep(gap_form.STEP_AUDITING);
+if(newList==null) newList = new ArrayList<gap_form>();
+pendingFormsList.addAll(newList);
+
+newList = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+if(newList==null) newList = new ArrayList<gap_form>();
+pendingFormsList.addAll(newList);
+
+
+newList = gap_formRep.getAllForStep(gap_form.STEP_Finance);
+if(newList==null) newList = new ArrayList<gap_form>();
+pendingFormsList.addAll(newList);
+
+newList = gap_formRep.getAllForStep(gap_form.STEP_MajorHead);
+if(newList==null) newList = new ArrayList<gap_form>();
+pendingFormsList.addAll(newList);
+
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public Integer getAdminGap_formOld() {
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Finished);
+
+
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public Integer getInstructorGap_formPending(Integer employId, String mail) {
+if(employId.equals(Constants.ADMISSION_DEPT_ID)) {
+List<gap_form> data =getAdmissionDepartmentgap_formPending();
+return Integer.valueOf(data.size());
+}else if(employId.equals(Constants.Financial_DEP_ID)) {
+List<gap_form> data =getFinanceDepartmentgap_formPending();
+return Integer.valueOf(data.size()); 
+}else if(employId.equals(Constants.DEAN_OF_STRATEGIC_ID)) {
+List<gap_form> data = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
+return Integer.valueOf(data.size());
+}
+
+//if not found
+return 0;
+}
+
+@Override
+public Integer getInstructorGapForms(String mail) {
+// TODO Auto-generated method stub
+//this mean the head of major
+Employee empl = emplRep.getByMail(mail);
+List<Majors> majorDetails=majorRep.getByInsID(empl.getId());
+for(int i=0;i<majorDetails.size();i++) {
+if(majorDetails.get(i).getHeadOfMajorId().getMail().equals(mail)){
+List<gap_form> pendingFormsList = gap_formRep.getAllForStepAndMajorId(majorDetails.get(i).getId(), gap_form.STEP_MajorHead);
+System.out.println("Major: "+String.valueOf(pendingFormsList.size()));
+return pendingFormsList.size();
+}
+}
+return 0;
+}
+
+@Override
+public Integer getStudentGap_formPending(Integer studentId) {
+List<gap_form> pendingFormsList = gap_formRep.getByStudentId(studentId);
+if(pendingFormsList==null) pendingFormsList = new ArrayList<gap_form>();
+List<gap_form> newList = new ArrayList<gap_form>();
+
+for(int i=0;i<pendingFormsList.size();i++) {
+if(!pendingFormsList.get(i).getFormStep().equals(gap_form.STEP_Finished)) {
+newList.add(pendingFormsList.get(i));
+}
+}
+
+
+
+
+
+return newList.size();
+
+}
+
+@Override
+public Integer getStudentGapForms(Integer studentId) {
+List<gap_form> pendingFormsList = gap_formRep.getByStudentId(studentId);
+
+
+
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public List<gap_form> getFinanceDepartmentgap_formPending() {
+List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Finance);
+
+
+
+
+return pendingFormsList;
+}
+
+
+
+
+
+
+//////////////////////////////////////////////////change_grade_petition
+@Override
+public List<change_grade_petition> getDeanchange_grade_petitionPending() {
+// TODO Auto-generated method stub
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_DeanOfStratigicEnrollment);
+
+return pendingFormsList;
+}
+
+@Override
+public Integer getDeanchange_grade_petitionFormsPending() {
+// TODO Auto-generated method stub
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_DeanOfStratigicEnrollment);
+
+return pendingFormsList.size();
+}
+
+
+@Override
+public Integer getAdminchange_grade_petitionPending() {
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStep(gap_form.STEP_Registerar);
+if(pendingFormsList==null) pendingFormsList = new ArrayList<change_grade_petition>();
+
+List<change_grade_petition> newList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_Course_Instructor);
+if(newList==null) newList = new ArrayList<change_grade_petition>();
+pendingFormsList.addAll(newList);
+
+newList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_DeanOfStratigicEnrollment);
+if(newList==null) newList = new ArrayList<change_grade_petition>();
+pendingFormsList.addAll(newList);
+
+newList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_ProgramHead);
+if(newList==null) newList = new ArrayList<change_grade_petition>();
+pendingFormsList.addAll(newList);
+
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public Integer getAdminchange_grade_petitionOld() {
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_Finished);
+
+
+
+
+return pendingFormsList.size();
+}
+
+
+@Override
+public Integer getInstructorchange_grade_petition(String mail) {
+// TODO Auto-generated method stub
+//this mean the head of major
+Employee empl = emplRep.getByMail(mail);
+List<Majors> majorDetails=majorRep.getByInsID(empl.getId());
+
+for(int i=0;i<majorDetails.size();i++) {
+if(majorDetails.get(i).getHeadOfMajorId().getMail().equals(mail)){
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStepAndMajorId(majorDetails.get(i).getId(), change_grade_petition.STEP_ProgramHead);
+System.out.println("Major: "+String.valueOf(pendingFormsList.size()));
+return pendingFormsList.size();
+}
+}
+
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStepAndInstructorId(empl.getId(), change_grade_petition.STEP_Course_Instructor);
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public Integer getStudentchange_grade_petitionPending(Integer studentId) {
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getByStudentId(studentId);
+if(pendingFormsList==null) pendingFormsList = new ArrayList<change_grade_petition>();
+List<change_grade_petition> newList = new ArrayList<change_grade_petition>();
+
+for(int i=0;i<pendingFormsList.size();i++) {
+if(!pendingFormsList.get(i).getFormStep().equals(change_grade_petition.STEP_Finished)) {
+newList.add(pendingFormsList.get(i));
+}
+}
+
+
+
+
+
+return newList.size();
+
+}
+
+@Override
+public Integer getStudentchange_grade_petition(Integer studentId) {
+List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getByStudentId(studentId);
+
+
+
+
+
+return pendingFormsList.size();
+}
+
+@Override
+public List<change_grade_petition> getAdmissionDepartmentchange_grade_petition_formPending() {
+	List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_Registerar);
+
+
+
+
+	return pendingFormsList;
+}
+
+@Override
+public Integer getAdmissionDepartmentchange_grade_petitionPending() {
+	List<change_grade_petition> pendingFormsList = change_grade_petitionRep.getAllForStep(change_grade_petition.STEP_Registerar);
+
+
+
+
 	return pendingFormsList.size();
-	}
+}
 
-	@Override
-	public Integer getInstructorGap_formPending(Integer employId, String mail) {
-		if(employId.equals(Constants.ADMISSION_DEPT_ID)) {
-			List<gap_form> data =getAdmissionDepartmentgap_formPending();
-			return Integer.valueOf(data.size());
-		}else if(employId.equals(Constants.Financial_DEP_ID)) {
-			List<gap_form> data =getFinanceDepartmentgap_formPending();
-			return Integer.valueOf(data.size()); 
-		}else if(employId.equals(Constants.DEAN_OF_STRATEGIC_ID)) {
-			List<gap_form> data = gap_formRep.getAllForStep(gap_form.STEP_DeanOfStratigicEnrollment);
-			return Integer.valueOf(data.size());
-		}
-		
-		//if not found
-		return 0;
-	}
 
-	@Override
-	public Integer getInstructorGapForms(String mail) {
-		// TODO Auto-generated method stub
-				//this mean the head of major
-				Employee empl = emplRep.getByMail(mail);
-				List<Majors> majorDetails=majorRep.getByInsID(empl.getId());
-				for(int i=0;i<majorDetails.size();i++) {
-					if(majorDetails.get(i).getHeadOfMajorId().getMail().equals(mail)){
-						List<gap_form> pendingFormsList = gap_formRep.getAllForStepAndMajorId(majorDetails.get(i).getId(), gap_form.STEP_MajorHead);
-						System.out.println("Major: "+String.valueOf(pendingFormsList.size()));
-						return pendingFormsList.size();
-					}
-				}
-				return 0;
-	}
 
-	@Override
-	public Integer getStudentGap_formPending(Integer studentId) {
-		List<gap_form> pendingFormsList = gap_formRep.getByStudentId(studentId);
-		if(pendingFormsList==null) pendingFormsList = new ArrayList<gap_form>();
-		List<gap_form> newList = new ArrayList<gap_form>();
-		
-		for(int i=0;i<pendingFormsList.size();i++) {
-			if(!pendingFormsList.get(i).getFormStep().equals(gap_form.STEP_Finished)) {
-				newList.add(pendingFormsList.get(i));
-			}
-		}
-		
-		
-		
-		
-	
-	return newList.size();
 
-	}
 
-	@Override
-	public Integer getStudentGapForms(Integer studentId) {
-		List<gap_form> pendingFormsList = gap_formRep.getByStudentId(studentId);
-		
-		
-		
-		
-	
-	return pendingFormsList.size();
-	}
-
-	@Override
-	public List<gap_form> getFinanceDepartmentgap_formPending() {
-		List<gap_form> pendingFormsList = gap_formRep.getAllForStep(gap_form.STEP_Finance);
-		
-		
-		
-		
-		return pendingFormsList;
-	}
-
-	
 
 	
 }

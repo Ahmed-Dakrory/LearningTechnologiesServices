@@ -12,6 +12,7 @@ import main.com.zc.services.domain.petition.model.DropAddForm;
 import main.com.zc.services.domain.petition.model.OverloadRequest;
 import main.com.zc.services.domain.petition.model.ReadmissionForm;
 import main.com.zc.services.domain.petition.model.course_replacement_formForm;
+import main.com.zc.services.presentation.forms.change_grade_petition.change_grade_petition;
 import main.com.zc.services.presentation.forms.gap_form.gap_form;
 
 /**
@@ -27,8 +28,10 @@ public interface IDashboardAppService
 	public List<ReadmissionForm> getDeanReadmissionPending();
 	public List<course_replacement_formForm> getDeancourse_replacement_formPending();
 	public List<gap_form> getDeangap_FromPending();
+	public List<change_grade_petition> getDeanchange_grade_petitionPending();
 	public Integer getDeanCourseReplacementFormsPending();
 	public Integer getDeanGapFormsPending();
+	public Integer getDeanchange_grade_petitionFormsPending();
 	public List<OverloadRequest> getDeanOverloadRequestPending();
 	public Integer getDeanCourseRepeatPending();
 	public Integer getDeanIncompleteGradePending();/** @author Omnya */
@@ -54,8 +57,13 @@ public interface IDashboardAppService
 	public List<course_replacement_formForm> getAdmissionDepartmentcourse_replacement_formPending();
 	public List<gap_form> getAdmissionDepartmentgap_formPending();
 	public List<gap_form> getFinanceDepartmentgap_formPending();
+	
+	public List<change_grade_petition> getAdmissionDepartmentchange_grade_petition_formPending();
+	
 	public Integer getAdmissionDepartmentCourseReplacementFormsPending();
 	public Integer getAdmissionDepartmentCourseReplacementFormsAuditing();
+	
+	public Integer getAdmissionDepartmentchange_grade_petitionPending();
 	public Integer getAdmissionDepartmentGapFormsPending();
 	public Integer getAdmissionDepartmentGapFormsAuditing();
 	
@@ -81,6 +89,9 @@ public interface IDashboardAppService
 	public Integer getAdminGap_formPending();/** @author Dakrory */
 	public Integer getAdminGap_formOld();/** @author Dakrory */
 	
+	public Integer getAdminchange_grade_petitionPending();/** @author Dakrory */
+	public Integer getAdminchange_grade_petitionOld();/** @author Dakrory */
+	
 	public Integer getInstructorAcademicPetitionsPending(String mail);
 	public Integer getInstructorAddDropPending(String mail);
 	public Integer getInstructorChangeMajorPending(String mail);
@@ -92,6 +103,8 @@ public interface IDashboardAppService
 	public Integer getInstructorReadmissionPending(Integer employId,String mail);/** @author Dakrory */
 	public Integer getInstructorcourse_replacement_formPending(Integer employId,String mail);/** @author Dakrory */
 	public Integer getInstructorCourseReplacementForms(String mail);
+	public Integer getInstructorchange_grade_petition(String mail);
+	
 	public Integer getInstructorGap_formPending(Integer employId,String mail);/** @author Dakrory */
 	public Integer getInstructorGapForms(String mail);
 	
@@ -106,6 +119,9 @@ public interface IDashboardAppService
 	public Integer getStudentReadmissionPending(Integer studentId);/** @author Dakrory */
 	public Integer getStudentcourse_replacement_formPending(Integer studentId);/** @author Dakrory */
 	public Integer getStudentCourseReplacementForms(Integer studentId);
+	public Integer getStudentchange_grade_petitionPending(Integer studentId);/** @author Dakrory */
+	public Integer getStudentchange_grade_petition(Integer studentId);
+	
 	public Integer getStudentGap_formPending(Integer studentId);/** @author Dakrory */
 	public Integer getStudentGapForms(Integer studentId);
 	

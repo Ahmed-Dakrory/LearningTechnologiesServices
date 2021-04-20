@@ -25,9 +25,11 @@ import main.com.zc.services.presentation.dashboard.dto.IncompleteGradeDashboardE
 import main.com.zc.services.presentation.dashboard.dto.JuniorTADashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.OverloadRequestDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.ReadmissionDashboardElement;
+import main.com.zc.services.presentation.dashboard.dto.change_grade_petitionDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.course_replacement_formDashboardElement;
 import main.com.zc.services.presentation.dashboard.dto.gap_formDashboardElement;
 import main.com.zc.services.presentation.dashboard.facade.IDashboardFacade;
+import main.com.zc.services.presentation.forms.change_grade_petition.change_grade_petition;
 import main.com.zc.services.presentation.forms.courseReplacement.courseReplacement;
 import main.com.zc.services.presentation.forms.gap_form.gap_form;
 import main.com.zc.shared.appService.IPersonGetDataAppService;
@@ -169,7 +171,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				//readmission
 				List<ReadmissionForm> readmissionForms = dashboardAppServ.getDeanReadmissionPending();
 				count = 0;
-				if(changMajorForms != null)
+				if(readmissionForms != null)
 					count = readmissionForms.size();
 				count += dashboardAppServ.getInstructorReadmissionPending(Constants.DEAN_OF_STRATEGIC_ID,mail);
 				elements.add(new ReadmissionDashboardElement(count.toString()));
@@ -177,7 +179,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				//course_replacement_form
 				Integer course_replacement_formForms = dashboardAppServ.getDeanCourseReplacementFormsPending();
 				count = 0;
-				if(changMajorForms != null)
+				if(course_replacement_formForms != null)
 					count = course_replacement_formForms;
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
 				
@@ -186,9 +188,17 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				//gap_form
 				Integer gapForms = dashboardAppServ.getDeanGapFormsPending();
 				count = 0;
-				if(changMajorForms != null)
+				if(gapForms != null)
 					count = gapForms;
 				elements.add(new gap_formDashboardElement(count.toString()));
+				
+				
+				//change_grade_petition
+				Integer change_grade_petition = dashboardAppServ.getDeanchange_grade_petitionFormsPending();
+				count = 0;
+				if(change_grade_petition != null)
+					count = change_grade_petition;
+				elements.add(new change_grade_petitionDashboardElement(count.toString()));
 		
 		//overload
 		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getDeanOverloadRequestPending();
@@ -307,6 +317,14 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 					count = gap_forms.size();
 				count += dashboardAppServ.getInstructorGap_formPending(Constants.DEAN_OF_STRATEGIC_ID,mail);
 				elements.add(new gap_formDashboardElement(count.toString()));
+				
+				//gap_form
+				List<change_grade_petition> change_grade_petition = dashboardAppServ.getDeanchange_grade_petitionPending();
+				count = 0;
+				if(change_grade_petition != null)
+					count = change_grade_petition.size();
+				count += dashboardAppServ.getInstructorchange_grade_petition(mail);
+				elements.add(new change_grade_petitionDashboardElement(count.toString()));
 		
 		//overload
 		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getDeanOverloadRequestPending();
@@ -604,6 +622,14 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				elements.add(new gap_formDashboardElement(count.toString()));
 				
 				
+				Integer change_grade_petition = dashboardAppServ.getAdmissionDepartmentchange_grade_petitionPending();
+				count = 0;
+				if(gapform != null)
+					count = change_grade_petition;
+				
+				elements.add(new change_grade_petitionDashboardElement(count.toString()));
+				
+				
 		//overload
 		List<OverloadRequest> overloadRequestForms = dashboardAppServ.getAdmissionDepartmentOverloadRequestPending();
 		count = 0;
@@ -691,6 +717,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 		elements.add(new gap_formDashboardElement(count.toString()));
 		
 		
+		//change_grade_petition
+		count = dashboardAppServ.getInstructorchange_grade_petition( mail);
+		elements.add(new change_grade_petitionDashboardElement(count.toString()));
+				
+		
 		//overload
 		count = dashboardAppServ.getInstructorOverloadRequestPending(mail);
 		elements.add(new OverloadRequestDashboardElement(count.toString()));
@@ -750,6 +781,11 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				//gap_form
 				count = dashboardAppServ.getAdminGap_formPending();
 				all = count + dashboardAppServ.getAdminGap_formOld();
+				elements.add(new gap_formDashboardElement(count.toString() + "/" +all.toString()));
+				
+				//change_grade_petition
+				count = dashboardAppServ.getAdminchange_grade_petitionPending();
+				all = count + dashboardAppServ.getAdminchange_grade_petitionOld();
 				elements.add(new gap_formDashboardElement(count.toString() + "/" +all.toString()));
 		
 		//overload
@@ -859,9 +895,14 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 				count = dashboardAppServ.getStudentCourseReplacementForms(studentId);
 				elements.add(new course_replacement_formDashboardElement(count.toString()));
 				
-				//course_replacement_form
+				//gap_form
 				count = dashboardAppServ.getStudentGapForms(studentId);
 				elements.add(new gap_formDashboardElement(count.toString()));
+				
+				
+				//change_grade_petition
+				count = dashboardAppServ.getStudentchange_grade_petition(studentId);
+				elements.add(new change_grade_petitionDashboardElement(count.toString()));
 		
 				
 				
