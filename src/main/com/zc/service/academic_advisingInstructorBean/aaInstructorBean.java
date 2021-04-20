@@ -15,6 +15,14 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.primefaces.event.RowEditEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +35,7 @@ import main.com.zc.service.academic_advising_instructor.aa_instructor;
 import main.com.zc.service.academic_advising_instructor.aa_instructorAppServiceImpl;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 import main.com.zc.service.academic_advising_student_profile.aa_student_profileAppServiceImpl;
+import main.com.zc.service.decleration_of_track.decleration_of_track;
 import main.com.zc.service.filesOfLibraries.filesOfLibraries;
 import main.com.zc.service.filesOfLibraries.filesOfLibrariesAppServiceImpl;
 import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
@@ -104,6 +113,10 @@ public class aaInstructorBean implements Serializable{
 
 	private List<filesOfLibraries> allFiles;
 	
+
+	HSSFRow row;
+	HSSFCell cell;
+	
 	@PostConstruct
 	public void init() {
 
@@ -126,6 +139,124 @@ public class aaInstructorBean implements Serializable{
 	}
      
 
+	
+
+	public void generateReport(){
+		HSSFWorkbook workbook = new HSSFWorkbook();
+	    HSSFSheet sheet = workbook.createSheet();
+	    
+	    
+	    
+	    
+		sheet.setColumnWidth(0, 13000);
+		sheet.setColumnWidth(1, 13000);
+		sheet.setColumnWidth(2, 13000);
+		sheet.setColumnWidth(3, 13000);
+		sheet.setColumnWidth(4, 13000);
+		sheet.setColumnWidth(5, 13000);
+		sheet.setColumnWidth(6, 13000);
+		
+		HSSFCellStyle style = workbook.createCellStyle();
+	    style.setAlignment(CellStyle.ALIGN_CENTER);
+	    HSSFFont font = workbook.createFont();
+	    font.setFontHeightInPoints((short) 12);
+	    font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+	    style.setFont(font); 
+	    
+	    
+	    HSSFCellStyle style2 = workbook.createCellStyle();
+	    style2.setAlignment(CellStyle.ALIGN_CENTER);
+	    HSSFFont font2 = workbook.createFont();
+	    font2.setFontHeightInPoints((short) 10);
+	    style2.setFont(font2); 
+	    
+	    
+	    row = sheet.createRow(0);
+	    cell = row.createCell(0);
+	    row.getCell(0).setCellStyle(style);
+	    cell.setCellValue("Zewail city Id");
+
+	    cell = row.createCell(1);
+	    row.getCell(1).setCellStyle(style);
+	    cell.setCellValue("Name");
+	    
+
+	    cell = row.createCell(2);
+	    row.getCell(2).setCellStyle(style);
+	    cell.setCellValue("Mail");
+	    
+
+	    cell = row.createCell(3);
+	    row.getCell(3).setCellStyle(style);
+	    cell.setCellValue("Major");
+	    
+
+	    cell = row.createCell(4);
+	    row.getCell(3).setCellStyle(style);
+	    cell.setCellValue("minor");
+	    
+
+	    cell = row.createCell(5);
+	    row.getCell(3).setCellStyle(style);
+	    cell.setCellValue("gpa");
+	    
+
+	    cell = row.createCell(6);
+	    row.getCell(3).setCellStyle(style);
+	    cell.setCellValue("Concentration");
+	    
+	    for(int i=0;i<allStudentSelected.size();i++) {
+	    	row = sheet.createRow(i+1);
+	    	cell = row.createCell(0);
+		    row.getCell(0).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getZewailcity_id());
+		    
+		    
+		    cell = row.createCell(1);
+		    row.getCell(1).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getName());
+		    
+		    cell = row.createCell(2);
+		    row.getCell(2).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getMail());
+
+		    cell = row.createCell(3);
+		    row.getCell(3).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getMajor());
+		    
+
+		    cell = row.createCell(4);
+		    row.getCell(4).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getMinor());
+		    
+
+		    cell = row.createCell(5);
+		    row.getCell(5).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getGpa());
+		    
+
+		    cell = row.createCell(6);
+		    row.getCell(6).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getStudent().getConcentration());
+	    }
+
+
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    ExternalContext externalContext = facesContext.getExternalContext();
+	    externalContext.setResponseContentType("application/vnd.ms-excel");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"All student assigned to me.xls\"");
+
+	    try {
+			workbook.write(externalContext.getResponseOutputStream());
+			System.out.println("Done");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+	    facesContext.responseComplete();
+	}
+	
 	public void fillSemesterLst()
 	{
 		semesterLst=new ArrayList<BaseDTO>();

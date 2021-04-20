@@ -51,7 +51,15 @@
 								</tr>
 							</table>
 						-->
-						
+						<table>
+							<tr>
+								<td>
+									<h:commandButton value="Generate Excel" actionListener="#{aaInstructorBean.generateReport}"></h:commandButton>
+									
+								</td>
+								
+							</tr>
+						</table>
 						
 						
 				<p:dataTable var="row"  value="#{aaInstructorBean.allStudentSelected}" selectionMode="single" rowKey="#{row.student.id}" editable="true" 

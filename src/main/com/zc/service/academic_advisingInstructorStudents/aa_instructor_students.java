@@ -29,7 +29,7 @@ import main.com.zc.service.academic_advising_student_profile.aa_student_profile;
 @NamedQueries({
 	
 	
-	@NamedQuery(name="aa_instructor_students_students.getAll",
+	@NamedQuery(name="aa_instructor_students.getAll",
 		     query="SELECT c FROM aa_instructor_students c "
 		     )
 	,
