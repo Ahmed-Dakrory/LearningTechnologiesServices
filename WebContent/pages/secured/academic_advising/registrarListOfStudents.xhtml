@@ -51,7 +51,15 @@
 							</table>
 						 -->
 						
-						
+							<table>
+							<tr>
+								<td>
+									<h:commandButton value="Generate Excel" actionListener="#{aaRegistrarBean.generateReport}"></h:commandButton>
+									
+								</td>
+								
+							</tr>
+						</table>
 						
 				<p:dataTable var="row"  value="#{aaRegistrarBean.allStudentSelected}" selectionMode="single" rowKey="#{row.student.id}" editable="true" 
 							sortMode="multiple" widgetVar="studentProfile" id="studentTable" resizableColumns="true" rows="100" paginator="true"
