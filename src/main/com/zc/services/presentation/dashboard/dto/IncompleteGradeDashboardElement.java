@@ -9,8 +9,8 @@ package main.com.zc.services.presentation.dashboard.dto;
  */
 public class IncompleteGradeDashboardElement extends DashboardElement
 {
-	public IncompleteGradeDashboardElement(String value)
+	public IncompleteGradeDashboardElement(String value, String Role)
 	{
-		super("Incomplete Grade", value, "newIncompleteGrade", "newIncompleteGrade");
+		super("Incomplete Grade ("+Role+")", value, "newIncompleteGrade", "newIncompleteGrade");
 	}
 }

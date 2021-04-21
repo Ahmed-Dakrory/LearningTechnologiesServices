@@ -7,6 +7,7 @@
 	<ui:composition template="/templates/securedContent.xhtml">
 		<ui:define name="title">Dashboard - LT Online Services</ui:define>
 		<ui:define name="content">
+		
 			<div id="dashboardFormId" class="dashboard">
 				<ul class="header">
 					<li>
@@ -22,7 +23,7 @@
 						<h:panelGroup rendered="#{!dashboardBean.adminMode}">	
 							<li>
 								<p style="font-weight:bold">Forms Status</p>
-								<div class="divcenter">
+								<div class="divcenter" style="height: 525px;">
 									<ul class="dashboardStatistics-user">
 										<ui:repeat value="#{dashboardBean.dashboradElements}" var="dashboardElm" varStatus="iterationStatus">
 											<h:commandLink action="#{dashboardBean.navigateToDashBoardElement(dashboardElm.linkUrl)}"  rendered="#{dashboardElm.CSS != 'newjuniorTA'}">

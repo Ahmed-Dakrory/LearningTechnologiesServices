@@ -9,8 +9,8 @@ package main.com.zc.services.presentation.dashboard.dto;
  */
 public class JuniorTADashboardElement extends DashboardElement
 {
-	public JuniorTADashboardElement(String value)
+	public JuniorTADashboardElement(String value, String Role)
 	{
-		super("Junior  TA", value, "newjuniorTA", "newjuniorTA");
+		super("Junior  TA ("+Role+")", value, "newjuniorTA", "newjuniorTA");
 	}
 }
