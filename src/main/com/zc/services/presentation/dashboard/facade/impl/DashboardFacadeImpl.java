@@ -105,6 +105,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 			 if(userMail.equalsIgnoreCase(Constants.DEAN_OF_STRATEGIC)) {
 				 System.out.println("Stratigic");
 				 fillDeanDashboardStrategic(elements,userMail);
+				 fillInstructorDashboard(elements, userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.REGISTRAR_HEAD_EMAIL)) {
 				 System.out.println("Addmission Head");
 				 fillAddmissionHeadDashboard(elements);
@@ -124,6 +125,7 @@ public class DashboardFacadeImpl implements IDashboardFacade {
 			 }else if(userMail.equalsIgnoreCase(Constants.PROVOST)) {
 				 System.out.println("PRovost");
 				 fillProvostDashboard(elements, userMail);
+				 fillInstructorDashboard(elements, userMail);
 			 }else if(userMail.equalsIgnoreCase(Constants.LTS_SYSTEM_ADMIN)) {
 				 System.out.println("LT adim");
 				 fillAdminDashboard(elements);
