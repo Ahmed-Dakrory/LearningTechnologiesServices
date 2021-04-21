@@ -23,7 +23,7 @@
 						<h:panelGroup rendered="#{!dashboardBean.adminMode}">	
 							<li>
 								<p style="font-weight:bold">Forms Status</p>
-								<div class="divcenter" style="height: 525px;">
+								<div class="divcenter" style="height: 825px;">
 									<ul class="dashboardStatistics-user">
 										<ui:repeat value="#{dashboardBean.dashboradElements}" var="dashboardElm" varStatus="iterationStatus">
 											<h:commandLink action="#{dashboardBean.navigateToDashBoardElement(dashboardElm.linkUrl)}"  rendered="#{dashboardElm.CSS != 'newjuniorTA'}">
