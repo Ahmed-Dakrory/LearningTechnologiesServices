@@ -248,9 +248,9 @@ table.policy td:first-child{width:120px;color:#009db1;}
 .ui-datatable .ui-widget-content, .ui-datatable th, .ui-datatable td{border:0 !important;}
 .ui-datatable th, .ui-datatable-scrollable th{padding:9px !important;border-bottom:solid 1px #e6e9ed !important;color:#5b5779 !important;font:normal 14px "Roboto-Regular","Segoe UI","DejaVu Sans","Trebuchet MS",Verdana,sans-serif !important;}
 .petitionHistoryTbl th{padding:9px 3px !important;}
-.ui-datatable td{min-height:30px !important;padding:5px 9px 5px 12px !important;border-bottom:solid 1px #f1f3f5 !important;color:#2a2c2e;}
+.ui-datatable td{min-height:30px !important;padding:5px 9px 5px 12px !important;border-bottom:solid 1px #f1f3f5 !important;/* color:#2a2c2e; */}
 .ui-datatable th.ui-state-hover, .ui-datatable tr.ui-state-hover, .ui-datatable-scrollable th.ui-state-hover{box-shadow:none !important;}
-.ui-datatable tr.ui-state-hover, .ui-datatable tr.ui-state-hover td, .ui-datatable tr.ui-state-highlight td{background:#f5f8fa !important;color:#009db1 !important;}
+.ui-datatable tr.ui-state-hover, .ui-datatable tr.ui-state-hover td, .ui-datatable tr.ui-state-highlight td{}
 .ui-datatable tr.ui-state-highlight{text-shadow:none !important;}
 .ui-sortable-column-icon{width:7px;height:9px;margin:14px 9px 9px !important;background:url(../resources/images/icon_sort.png) 0 0 no-repeat !important;}
 .ui-datatable.ui-button-icon-only{left:auto !important;margin:0 !important;}

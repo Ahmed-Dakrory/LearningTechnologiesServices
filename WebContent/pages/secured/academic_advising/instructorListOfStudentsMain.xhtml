@@ -11,10 +11,43 @@
 	<ui:composition template="/templates/uploadSecuredContent.xhtml">
 		<ui:define name="title">Academic Advising</ui:define>
 		<ui:define name="content">
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+		
+		
 		<style>
 		.p-5{
 		
 		padding:19px;
+		}
+
+
+		
+		.gpasecond{
+			    background-color: #ffde3c!important;
+			    background-image: none !important;
+			    color: black!important;
+			    
+		}
+		
+		.gpafirst{
+			    background-color: red!important;
+			    background-image: none !important;
+			    color: white!important;
+		}
+		
+		
+		
+		
+		.gpathird{
+			        background-color: #70bf33!important;
+				    background-image: none !important;
+				    color: #0e0e0e!important;
+		}
+		
+		#closeButton:hover{
+		color: #aeb9b9;
 		}
 		</style>
 		
@@ -60,12 +93,106 @@
 								
 							</tr>
 						</table>
+							<table style="    margin-top: 25px;    margin-bottom: 14px;">
+							<tr>
+								<td><div style="width: 19px;height: 19px;background:red;margin: 5px;"></div></td>
+								<td colspan="50"><div>GPA &lt;= 2.2 </div></td>
+								
+							</tr>
+							<tr>
+								<td><div style="width:19px;height:19px;background:#ffde3c;margin: 5px;"></div></td>
+								<td colspan="50"><div>3.0 &gt; GPA &gt; 2.2 </div></td>
+							</tr>
+							<tr>
+								<td><div style="width:19px;height:19px;background:#70bf33;margin: 5px;"></div></td>
+								<td colspan="50"><div>GPA &gt;= 3.0 </div></td>
+							</tr>
+						</table>
 						
+						
+						
+						
+			
+
+						
+						
+	<dialog id="myDialog">
+
+ <div id="graph_2015" class ="stats_box">
+ <span id="closeButton" onclick="closeDialog()" style="width: 25px;height: 25px;font-size: 23px;border-style: groove;text-align: center;border-radius: 15px; position: relative;  left: 96%;" class="fa fa-times"></span>
+						<canvas id="myChart" width="1000" height="400"></canvas>
+						
+						</div>
+
+</dialog>
+	
+	
+<script>
+function myFunction() { 
+  document.getElementById("myDialog").showModal(); 
+} 
+
+function closeDialog(){
+	  document.getElementById("myDialog").close();
+}
+</script>
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+
+const labels = ["1","jun","Oct","Sep","Aug","July","May"];
+const dataMain = {
+  labels: labels,
+  datasets: [{
+    label: '#{aaInstructorBean.studentProfiles.get(0).student.name} GPA',
+    data: [
+    	65, 
+    	59, 
+    	80, 
+    	81, 
+    	56, 
+    	55, 
+    	40],
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+  }]
+};
+
+
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: dataMain,
+    options: {
+    	responsive: false
+    }
+});
+</script>
+
+<p:panel id ="PanelScript">
+<script>
+	myChart.data.datasets[0].label = "#{aaInstructorBean.studentProfiles.get(0).student.name} GPA";
+	myChart.data.datasets[0].data =[
+		<ui:repeat value="#{aaInstructorBean.studentProfiles}" var="data">
+			"#{data.gpa}",
+		</ui:repeat>
+		];
+	
+	myChart.data.labels = [
+		<ui:repeat value="#{aaInstructorBean.studentProfiles}" var="data">
+		"#{data.semester} #{data.year}",
+	</ui:repeat>
+	];
+	myChart.update();
+</script>
+
+</p:panel>	
 						
 				<p:dataTable var="row"  value="#{aaInstructorBean.allStudentSelected}" selectionMode="single" rowKey="#{row.student.id}" editable="true" 
 							sortMode="multiple" widgetVar="studentProfile" id="studentTable" resizableColumns="true" rows="100" paginator="true"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
-                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}">
+                         	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
+							rowStyleClass="#{row.student.gpa &gt; 2.2  &amp;&amp; row.student.gpa &lt; 3.0 ? 'gpasecond' : null}  #{row.student.gpa &lt;= 2.2 ? 'gpafirst' : null} #{row.student.gpa &gt;= 3.0 ? 'gpathird' : null} ">
 								<!--  <p:ajax event="rowSelect" listener="#{aaInstructorBean.onRowSelect}" /> -->
 								
 								<p:ajax event="rowEdit" listener="#{aaInstructorBean.onRowEdit}" update=":pageForm:msgs" />
@@ -184,6 +311,20 @@
 							</p:column>
 							
 								
+								
+								<p:column width="173" id="history" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
+									
+						                
+						                	<h:commandButton actionListener="#{aaInstructorBean.generateReportForstudent(row.student.mail)}" value="Export GPA History" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              		<br></br>
+						              		<p:commandButton action="#{aaInstructorBean.getStudentList(row.student.mail)}" value="Graph" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              	
+										<f:facet name="header">
+											<h:outputText value="GPA history" />
+										</f:facet>
+										
+										
+							</p:column>
 							
 								
 								<p:column style="width:35">

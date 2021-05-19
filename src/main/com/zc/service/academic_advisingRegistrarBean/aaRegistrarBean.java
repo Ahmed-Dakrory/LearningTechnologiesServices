@@ -22,6 +22,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -37,11 +38,16 @@ import main.com.zc.service.filesOfLibraries.filesOfLibraries;
 import main.com.zc.service.filesOfLibraries.filesOfLibrariesAppServiceImpl;
 import main.com.zc.services.applicationService.forms.shared.AttachmentsAssembler;
 import main.com.zc.services.domain.petition.model.Attachments;
+import main.com.zc.services.presentation.accountSetting.facade.impl.StudentProfileFacadeImpl;
 import main.com.zc.services.presentation.configuration.dto.FormsStatusDTO;
 import main.com.zc.services.presentation.configuration.facade.IFormsStatusFacade;
+import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
+import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
+import main.com.zc.services.presentation.users.facade.impl.StudentFacadeImpl;
 import main.com.zc.shared.AttachmentDownloaderHelper;
 import main.com.zc.shared.presentation.dto.AttachmentDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
+import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
 @ManagedBean(name = "aaRegistrarBean")
 @SessionScoped
@@ -74,6 +80,17 @@ public class aaRegistrarBean implements Serializable{
 	@ManagedProperty(value = "#{aa_instructor_studentsFacadeImpl}")
 	private aa_instructor_studentsAppServiceImpl instructor_studentsFacade;
 	
+
+    @ManagedProperty("#{IStudentProfileFacade}")
+	private StudentProfileFacadeImpl facadeStudentProfile;
+	
+    
+    @ManagedProperty("#{IStudentFacade}")
+    private StudentFacadeImpl studentFacadeImpl;
+    
+    @ManagedProperty("#{GetLoggedInStudentDataFacadeImpl}")
+    private IGetLoggedInStudentDataFacade studentDataFacade;
+    
 	private aa_student_profile selectedStudent;
 	
 	private List<aa_instructor_students> allStudentSelected;
@@ -103,6 +120,7 @@ public class aaRegistrarBean implements Serializable{
 	private boolean meetingSelected=false;
 	private UploadedFile attachmentFile;
 
+	private List<StudentProfileDTO> studentProfiles;
 
 	private List<filesOfLibraries> allFiles;
 
@@ -209,13 +227,15 @@ public class aaRegistrarBean implements Serializable{
 	    
 	    
 	    
-		sheet.setColumnWidth(0, 13000);
-		sheet.setColumnWidth(1, 13000);
-		sheet.setColumnWidth(2, 13000);
-		sheet.setColumnWidth(3, 13000);
-		sheet.setColumnWidth(4, 13000);
-		sheet.setColumnWidth(5, 13000);
-		sheet.setColumnWidth(6, 13000);
+		sheet.setColumnWidth(0, 8000);
+		sheet.setColumnWidth(1, 8000);
+		sheet.setColumnWidth(2, 8000);
+		sheet.setColumnWidth(3, 8000);
+		sheet.setColumnWidth(4, 8000);
+		sheet.setColumnWidth(5, 8000);
+		sheet.setColumnWidth(6, 8000);
+		sheet.setColumnWidth(7, 8000);
+		sheet.setColumnWidth(8, 8000);
 		
 		HSSFCellStyle style = workbook.createCellStyle();
 	    style.setAlignment(CellStyle.ALIGN_CENTER);
@@ -239,12 +259,12 @@ public class aaRegistrarBean implements Serializable{
 
 	    cell = row.createCell(1);
 	    row.getCell(1).setCellStyle(style);
-	    cell.setCellValue("Name");
+	    cell.setCellValue("Student Name");
 	    
 
 	    cell = row.createCell(2);
 	    row.getCell(2).setCellStyle(style);
-	    cell.setCellValue("Mail");
+	    cell.setCellValue("Student Mail");
 	    
 
 	    cell = row.createCell(3);
@@ -253,18 +273,29 @@ public class aaRegistrarBean implements Serializable{
 	    
 
 	    cell = row.createCell(4);
-	    row.getCell(3).setCellStyle(style);
+	    row.getCell(4).setCellStyle(style);
 	    cell.setCellValue("minor");
 	    
 
 	    cell = row.createCell(5);
-	    row.getCell(3).setCellStyle(style);
+	    row.getCell(5).setCellStyle(style);
 	    cell.setCellValue("gpa");
 	    
 
 	    cell = row.createCell(6);
-	    row.getCell(3).setCellStyle(style);
+	    row.getCell(6).setCellStyle(style);
 	    cell.setCellValue("Concentration");
+	    
+
+	    cell = row.createCell(7);
+	    row.getCell(7).setCellStyle(style);
+	    cell.setCellValue("Instructor Name");
+	    
+	    
+
+	    cell = row.createCell(8);
+	    row.getCell(8).setCellStyle(style);
+	    cell.setCellValue("Instructor Mail");
 	    
 	    for(int i=0;i<allStudentSelected.size();i++) {
 	    	row = sheet.createRow(i+1);
@@ -302,6 +333,14 @@ public class aaRegistrarBean implements Serializable{
 		    row.getCell(6).setCellStyle(style);
 		    cell.setCellValue(allStudentSelected.get(i).getStudent().getConcentration());
 		    
+		    cell = row.createCell(7);
+		    row.getCell(7).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getInstructor().getName());
+		    
+		    cell = row.createCell(8);
+		    row.getCell(8).setCellStyle(style);
+		    cell.setCellValue(allStudentSelected.get(i).getInstructor().getMail());
+		    
 	    	}catch(Error e) {
 	    		
 	    	}catch(NullPointerException exc) {
@@ -314,6 +353,253 @@ public class aaRegistrarBean implements Serializable{
 	    ExternalContext externalContext = facesContext.getExternalContext();
 	    externalContext.setResponseContentType("application/vnd.ms-excel");
 	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"All student assigned to me.xls\"");
+
+	    try {
+			workbook.write(externalContext.getResponseOutputStream());
+			System.out.println("Done");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+	    facesContext.responseComplete();
+	}
+	
+	public void getStudentList(String mail) {
+		PersonDataDTO studentData = studentDataFacade.getPersonByPersonMail(mail);
+	    //studentFacadeImpl.get
+	    studentProfiles = facadeStudentProfile.getByStudentID(studentData.getId());
+	    
+	    FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("pageForm:PanelScript");
+		FacesMessage msg = new FacesMessage("Successful", "File Has Been Deleted");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        
+        RequestContext.getCurrentInstance().execute("myFunction();");
+	}
+	
+	public void generateReportForstudent(String mail){
+		HSSFWorkbook workbook = new HSSFWorkbook();
+	    HSSFSheet sheet = workbook.createSheet();
+	    
+	    
+	    
+	    
+		sheet.setColumnWidth(0, 8000);
+		sheet.setColumnWidth(1, 8000);
+		sheet.setColumnWidth(2, 8000);
+		sheet.setColumnWidth(3, 8000);
+		sheet.setColumnWidth(4, 8000);
+		sheet.setColumnWidth(5, 8000);
+		sheet.setColumnWidth(6, 8000);
+		sheet.setColumnWidth(7, 8000);
+		sheet.setColumnWidth(8, 8000);
+		
+		HSSFCellStyle style = workbook.createCellStyle();
+	    style.setAlignment(CellStyle.ALIGN_CENTER);
+	    HSSFFont font = workbook.createFont();
+	    font.setFontHeightInPoints((short) 12);
+	    font.setBoldweight(XSSFFont.BOLDWEIGHT_BOLD);
+	    style.setFont(font); 
+	    
+	    
+	    HSSFCellStyle style2 = workbook.createCellStyle();
+	    style2.setAlignment(CellStyle.ALIGN_CENTER);
+	    HSSFFont font2 = workbook.createFont();
+	    font2.setFontHeightInPoints((short) 10);
+	    style2.setFont(font2); 
+	    
+	    
+	    row = sheet.createRow(0);
+	    cell = row.createCell(0);
+	    row.getCell(0).setCellStyle(style);
+	    cell.setCellValue("Zewail city Id");
+
+	    cell = row.createCell(1);
+	    row.getCell(1).setCellStyle(style);
+	    cell.setCellValue("Student Name");
+	    
+
+	    cell = row.createCell(2);
+	    row.getCell(2).setCellStyle(style);
+	    cell.setCellValue("Student Mail");
+	    
+
+	    cell = row.createCell(3);
+	    row.getCell(3).setCellStyle(style);
+	    cell.setCellValue("Major");
+	    
+
+	    cell = row.createCell(4);
+	    row.getCell(4).setCellStyle(style);
+	    cell.setCellValue("minor");
+	    
+
+	    cell = row.createCell(5);
+	    row.getCell(5).setCellStyle(style);
+	    cell.setCellValue("gpa");
+	    
+
+	    cell = row.createCell(6);
+	    row.getCell(6).setCellStyle(style);
+	    cell.setCellValue("Concentration");
+	    
+
+	    cell = row.createCell(7);
+	    row.getCell(7).setCellStyle(style);
+	    cell.setCellValue("Year");
+	    
+	    
+
+	    cell = row.createCell(8);
+	    row.getCell(8).setCellStyle(style);
+	    cell.setCellValue("Semester");
+	    
+	    
+	    PersonDataDTO studentData = studentDataFacade.getPersonByPersonMail(mail);
+	    //studentFacadeImpl.get
+	    studentProfiles = facadeStudentProfile.getByStudentID(studentData.getId());
+	    System.out.println(studentData.getId());
+
+	    for(int i=0;i<studentProfiles.size();i++) {
+	    	row = sheet.createRow(i+1);
+	    	
+	    	try {
+	    	cell = row.createCell(0);
+		    row.getCell(0).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getStudent().getFacultyId());
+		    
+
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+	    	
+	    	try {
+		    cell = row.createCell(1);
+		    row.getCell(1).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getStudent().getName());
+
+		    
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+	    	
+	    	
+	    	try {
+		    cell = row.createCell(2);
+		    row.getCell(2).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getStudent().getMail());
+
+		    
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+	    	
+	    	
+
+	    	try {
+		    cell = row.createCell(3);
+		    row.getCell(3).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getMajor().getMajorName());
+
+		    
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+
+
+	    	try {
+		    cell = row.createCell(4);
+		    row.getCell(4).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getMinor());
+
+		    
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+
+	    	
+
+	    	try {
+	    		
+		    cell = row.createCell(5);
+		    row.getCell(5).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getGpa());
+
+		    
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+
+	    	
+
+	    	try {
+		    cell = row.createCell(6);
+		    row.getCell(6).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getConcentration().getName());
+		    
+		    
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+	    	
+
+	    	try {
+		    cell = row.createCell(7);
+		    row.getCell(7).setCellStyle(style);
+		    cell.setCellValue(String.valueOf(studentProfiles.get(i).getYear()));
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+
+	    	try {
+		    cell = row.createCell(8);
+		    row.getCell(8).setCellStyle(style);
+		    cell.setCellValue(studentProfiles.get(i).getSemester().getName());
+
+		    
+		    
+
+		    System.out.println(String.valueOf("Here..........3."));
+		    System.out.println(String.valueOf(studentProfiles.get(i).getSemester()));
+		    System.out.println(String.valueOf(studentProfiles.get(i).getYear()));
+		    
+	    	}catch(Error e) {
+	    		
+	    	}catch(NullPointerException exc) {
+	    		
+	    	}
+	    }
+
+
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+	    ExternalContext externalContext = facesContext.getExternalContext();
+	    externalContext.setResponseContentType("application/vnd.ms-excel");
+	    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"GPA history.xls\"");
 
 	    try {
 			workbook.write(externalContext.getResponseOutputStream());
@@ -612,6 +898,54 @@ public class aaRegistrarBean implements Serializable{
 
 	public void setAllFiles(List<filesOfLibraries> allFiles) {
 		this.allFiles = allFiles;
+	}
+
+
+
+	public StudentProfileFacadeImpl getFacadeStudentProfile() {
+		return facadeStudentProfile;
+	}
+
+
+
+	public void setFacadeStudentProfile(StudentProfileFacadeImpl facadeStudentProfile) {
+		this.facadeStudentProfile = facadeStudentProfile;
+	}
+
+
+
+	public StudentFacadeImpl getStudentFacadeImpl() {
+		return studentFacadeImpl;
+	}
+
+
+
+	public void setStudentFacadeImpl(StudentFacadeImpl studentFacadeImpl) {
+		this.studentFacadeImpl = studentFacadeImpl;
+	}
+
+
+
+	public IGetLoggedInStudentDataFacade getStudentDataFacade() {
+		return studentDataFacade;
+	}
+
+
+
+	public void setStudentDataFacade(IGetLoggedInStudentDataFacade studentDataFacade) {
+		this.studentDataFacade = studentDataFacade;
+	}
+
+
+
+	public List<StudentProfileDTO> getStudentProfiles() {
+		return studentProfiles;
+	}
+
+
+
+	public void setStudentProfiles(List<StudentProfileDTO> studentProfiles) {
+		this.studentProfiles = studentProfiles;
 	}
 
 
