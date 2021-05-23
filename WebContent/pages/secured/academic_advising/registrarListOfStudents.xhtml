@@ -185,7 +185,7 @@ var myChart = new Chart(ctx, {
 </script>
 
 </p:panel>
-				<p:dataTable var="row"  value="#{aaRegistrarBean.allStudentSelected}" selectionMode="single" rowKey="#{row.student.id}" editable="true" 
+				<p:dataTable var="row"  value="#{aaRegistrarBean.allStudentSelected}"   editable="true" 
 							sortMode="multiple" widgetVar="studentProfile" id="studentTable" resizableColumns="true" rows="100" paginator="true"
 					 		 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="100,200,300,400"  paginatorPosition="top"
                          	 currentPageReportTemplate="Total No. Of Records : {totalRecords} | Page: {currentPage}/{totalPages}"
@@ -193,6 +193,26 @@ var myChart = new Chart(ctx, {
 								<!--  <p:ajax event="rowSelect" listener="#{aaRegistrarBean.onRowSelect}" /> -->
 								
 								<p:ajax event="rowEdit" listener="#{aaRegistrarBean.onRowEdit}" update=":pageForm:msgs" />
+								
+								
+								
+									<p:column width="173" id="history" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
+									
+						                	<h:commandButton actionListener="#{aaRegistrarBean.generateReportForstudent(row.student.mail)}" value="Export GPA History" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              		<br></br>	
+						              		<button type="button"  onclick='getStudentList("#{row.student.mail}")' style="background: #48B0E3!important;color: white!important;border-radius: 7px;">
+						              		Graph
+						              		</button>
+
+										<f:facet name="header">
+											<h:outputText value="GPA history" />
+										</f:facet>
+										
+										
+							</p:column>
+							
+								
+								
 								<p:column width="105" id="zewailcity_id" sortBy="#{row.student.zewailcity_id}" filterBy="#{row.student.zewailcity_id}">
 								<p:cellEditor>
 									<f:facet name="output"><h:outputText value="#{row.student.zewailcity_id}" /></f:facet>
@@ -308,19 +328,7 @@ var myChart = new Chart(ctx, {
 							</p:column>
 							
 							
-							<p:column width="173" id="history" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
-									
-						                
-						                	<h:commandButton actionListener="#{aaRegistrarBean.generateReportForstudent(row.student.mail)}" value="Export GPA History" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
-						              		<br></br>
-						              		<p:commandButton action="#{aaRegistrarBean.getStudentList(row.student.mail)}" value="Graph" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
-						              	
-										<f:facet name="header">
-											<h:outputText value="GPA history" />
-										</f:facet>
-										
-										
-							</p:column>
+						
 							
 							
 							
@@ -339,6 +347,15 @@ var myChart = new Chart(ctx, {
 				</li>
 			</ul>
 			
+			<script>
+			function getStudentList(mail){
+				console.log(mail);
+				getGraph([{name: 'mail', value: mail}, {name: 'data', value: 'NOTHING'}]);
+			}
+			</script>
+			<h:form>
+				<p:remoteCommand action="#{aaRegistrarBean.getStudentList}" name="getGraph"/>
+			</h:form>
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
   AOS.init();

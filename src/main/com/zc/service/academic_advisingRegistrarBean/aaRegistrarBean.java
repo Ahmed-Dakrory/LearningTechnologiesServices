@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -45,6 +46,7 @@ import main.com.zc.services.presentation.users.dto.StudentProfileDTO;
 import main.com.zc.services.presentation.users.facade.IGetLoggedInStudentDataFacade;
 import main.com.zc.services.presentation.users.facade.impl.StudentFacadeImpl;
 import main.com.zc.shared.AttachmentDownloaderHelper;
+import main.com.zc.shared.JavaScriptMessagesHandler;
 import main.com.zc.shared.presentation.dto.AttachmentDTO;
 import main.com.zc.shared.presentation.dto.BaseDTO;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
@@ -365,20 +367,29 @@ public class aaRegistrarBean implements Serializable{
 	    facesContext.responseComplete();
 	}
 	
-	public void getStudentList(String mail) {
+	public void getStudentList() {
+		 FacesContext context = FacesContext.getCurrentInstance();
+		 Map<String, String> map = context.getExternalContext().getRequestParameterMap();
+		 String mail = (String) map.get("mail");
+		 try {
 		PersonDataDTO studentData = studentDataFacade.getPersonByPersonMail(mail);
 	    //studentFacadeImpl.get
 	    studentProfiles = facadeStudentProfile.getByStudentID(studentData.getId());
-	    
+	    studentProfiles.remove(studentProfiles.size()-1);
 	    FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("pageForm:PanelScript");
 		FacesMessage msg = new FacesMessage("Successful", "File Has Been Deleted");
         FacesContext.getCurrentInstance().addMessage(null, msg);
         
         
         RequestContext.getCurrentInstance().execute("myFunction();");
+	}catch(NullPointerException e) {
+		 JavaScriptMessagesHandler.RegisterErrorMessage(null,
+					"There is no GPA Data Available");
+	 }
 	}
 	
 	public void generateReportForstudent(String mail){
+		try {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet sheet = workbook.createSheet();
 	    
@@ -610,6 +621,10 @@ public class aaRegistrarBean implements Serializable{
 			System.out.println(e.toString());
 		}
 	    facesContext.responseComplete();
+		}catch(NullPointerException e) {
+			 JavaScriptMessagesHandler.RegisterErrorMessage(null,
+						"There is no GPA Data Available");
+		 }
 	}
 	
 	

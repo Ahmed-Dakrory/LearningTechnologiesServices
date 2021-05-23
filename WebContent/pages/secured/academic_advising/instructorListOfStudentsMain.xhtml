@@ -196,6 +196,24 @@ var myChart = new Chart(ctx, {
 								<!--  <p:ajax event="rowSelect" listener="#{aaInstructorBean.onRowSelect}" /> -->
 								
 								<p:ajax event="rowEdit" listener="#{aaInstructorBean.onRowEdit}" update=":pageForm:msgs" />
+								
+								
+									<p:column width="173" id="history" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
+									
+						                
+						                	<h:commandButton actionListener="#{aaInstructorBean.generateReportForstudent(row.student.mail)}" value="Export GPA History" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
+						              		<br></br>
+						         <button type="button"  onclick='getStudentList("#{row.student.mail}")' style="background: #48B0E3!important;color: white!important;border-radius: 7px;">
+						              		Graph
+						              		</button>
+
+										<f:facet name="header">
+											<h:outputText value="GPA history" />
+										</f:facet>
+										
+										
+							</p:column>
+							
 								<p:column width="105" id="zewailcity_id" sortBy="#{row.student.zewailcity_id}" filterBy="#{row.student.zewailcity_id}">
 								<p:cellEditor>
 									<f:facet name="output"><h:outputText value="#{row.student.zewailcity_id}" /></f:facet>
@@ -312,19 +330,7 @@ var myChart = new Chart(ctx, {
 							
 								
 								
-								<p:column width="173" id="history" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
-									
-						                
-						                	<h:commandButton actionListener="#{aaInstructorBean.generateReportForstudent(row.student.mail)}" value="Export GPA History" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
-						              		<br></br>
-						              		<p:commandButton action="#{aaInstructorBean.getStudentList(row.student.mail)}" value="Graph" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
-						              	
-										<f:facet name="header">
-											<h:outputText value="GPA history" />
-										</f:facet>
-										
-										
-							</p:column>
+							
 							
 								
 								<p:column style="width:35">
@@ -338,6 +344,19 @@ var myChart = new Chart(ctx, {
 					</h:form>
 				</li>
 			</ul>
+			
+			
+			
+			<script>
+			function getStudentList(mail){
+				console.log(mail);
+				getGraph([{name: 'mail', value: mail}, {name: 'data', value: 'NOTHING'}]);
+			}
+			</script>
+			<h:form>
+				<p:remoteCommand action="#{aaInstructorBean.getStudentList}" name="getGraph"/>
+			</h:form>
+			
 			
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>

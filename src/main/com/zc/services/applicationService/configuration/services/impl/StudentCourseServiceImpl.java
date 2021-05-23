@@ -1124,6 +1124,11 @@ course.setCoordinator(inDTO);
 					profile.setAttachmentTranscript(attachmentAssm.toEntity(student.getStudentProfileDTO().getAttachmentTranscript()));
 					
 					profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
+
+					System.out.println("Ahmed Error: "+String.valueOf(student.getMail()));
+					System.out.println("Ahmed Error2: "+String.valueOf(student.getStudentProfileDTO().getId()));
+					
+					System.out.println("Ahmed Error3: "+String.valueOf(student.getStudentProfileDTO().getMajor().getMajorName()));
 					Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 					profile.setMajor(major);
 					profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
@@ -1166,6 +1171,7 @@ course.setCoordinator(inDTO);
 				
 				
 				profile.setAttempt_credit_hours(student.getStudentProfileDTO().getAttempt_credit_hours());
+				System.out.println("Ahmed Error: "+String.valueOf(student.getMail()));
 				Majors major=majorRep.getById(student.getStudentProfileDTO().getMajor().getId());
 				profile.setMajor(major);
 				profile.setRepeatedCourses(student.getStudentProfileDTO().getRepeatedCourses());
