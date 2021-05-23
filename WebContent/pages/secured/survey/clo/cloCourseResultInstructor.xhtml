@@ -18,6 +18,49 @@
     text-align: center;
 }
 		</style>
+		
+		
+		<style>
+
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+</style>
+
 		#{courseCloBean.refresh()}
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
@@ -46,6 +89,143 @@
 						 
 						 
 						</p:panel>
+						
+						
+						<div class="tab">
+						  <button class="tablinks active" type="button" onclick="openCity(event, 'Course')">Course CLO</button>
+						  <button class="tablinks" type="button" onclick="openCity(event, 'Survey')">Survey Results</button>
+						</div>
+
+
+
+						<div id="Course" class="tabcontent" style="display:block;">
+						
+						Please fill CLO fields in order
+						<br></br>
+						<br></br>
+						  	<p:panel rendered="#{courseCloBean.selectedCourse.id!=null}" >
+						  	<p:panelGrid columns="2" >
+						  		<p:panel>
+						  		<p:outputLabel value = "CLO 1"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo1}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 2"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo2}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 3"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo3}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 4"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo4}" />
+								</p:panel>
+								
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 5"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo5}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 6"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo6}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 7"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo7}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 8"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo8}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 9"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo9}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 10"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo10}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 11"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo11}" />
+								</p:panel>
+								<p:panel>
+						  		<p:outputLabel value = "CLO 12"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo12}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 13"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo13}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 14"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo14}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 15"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo15}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 16"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo16}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 17"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo17}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 18"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo18}" />
+								</p:panel>
+								
+								
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 19"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo19}" />
+								</p:panel>
+								
+								<p:panel>
+						  		<p:outputLabel value = "CLO 20"/>
+								<br></br>
+								<p:inputTextarea readonly="#{!courseCloBean.changeCLOOpened}" value="#{courseCloBean.selectedCourse.clo20}" />
+								</p:panel>
+						  	</p:panelGrid>
+								
+								
+								<p:commandButton action="#{courseCloBean.saveCourseClo()}" value="Save"/>
+							</p:panel>
+						</div>
+						
+						<div id="Survey" class="tabcontent">
+						  
 						 <p:commandButton  value="Export survey results statistics" ajax="false" rendered="#{courseCloBean.showNowForInstructors}"  action="#{courseCloBean.getListOfAllCoursesThreshold()}" style=""></p:commandButton>
 						
 						
@@ -155,9 +335,29 @@ None of the students has responded to this course survey yet
 						</p:panel>
 						
 						
+						</div>
+						
+					
 					</h:panelGroup>
 				</div>
 			</h:form>
+			
+			
+			<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i &lt; tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i &lt; tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
 		</ui:define>
 	</ui:composition>
 </html>

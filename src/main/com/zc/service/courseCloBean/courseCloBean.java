@@ -115,6 +115,7 @@ public class courseCloBean implements Serializable{
 	private String statusMessage;
 	private boolean resultText;
 	private boolean saveMood;
+	private boolean changeCLOOpened;
 	private List<course_clo> courses=new ArrayList<course_clo>();
 
 	private Integer semesterSelected=0;
@@ -134,6 +135,32 @@ public class courseCloBean implements Serializable{
 		
 	}
 	
+	
+	public void saveCourseClo() {
+		if(selectedCourse.getClo1().equals("")) selectedCourse.setClo1(null);
+		if(selectedCourse.getClo2().equals("")) selectedCourse.setClo2(null);
+		if(selectedCourse.getClo3().equals("")) selectedCourse.setClo3(null);
+		if(selectedCourse.getClo4().equals("")) selectedCourse.setClo4(null);
+		if(selectedCourse.getClo5().equals("")) selectedCourse.setClo5(null);
+		if(selectedCourse.getClo6().equals("")) selectedCourse.setClo6(null);
+		if(selectedCourse.getClo7().equals("")) selectedCourse.setClo7(null);
+		if(selectedCourse.getClo8().equals("")) selectedCourse.setClo8(null);
+		if(selectedCourse.getClo9().equals("")) selectedCourse.setClo9(null);
+		if(selectedCourse.getClo10().equals("")) selectedCourse.setClo10(null);
+		if(selectedCourse.getClo11().equals("")) selectedCourse.setClo11(null);
+		if(selectedCourse.getClo12().equals("")) selectedCourse.setClo12(null);
+		if(selectedCourse.getClo13().equals("")) selectedCourse.setClo13(null);
+		if(selectedCourse.getClo14().equals("")) selectedCourse.setClo14(null);
+		if(selectedCourse.getClo15().equals("")) selectedCourse.setClo15(null);
+		if(selectedCourse.getClo16().equals("")) selectedCourse.setClo16(null);
+		if(selectedCourse.getClo17().equals("")) selectedCourse.setClo17(null);
+		if(selectedCourse.getClo18().equals("")) selectedCourse.setClo18(null);
+		if(selectedCourse.getClo19().equals("")) selectedCourse.setClo19(null);
+		if(selectedCourse.getClo20().equals("")) selectedCourse.setClo20(null);
+		course_cloFacade.addcourse_clo(selectedCourse);
+		JavaScriptMessagesHandler.RegisterErrorMessage(null,
+				"Saved");
+	}
 	public void selectTheAnswerForthisCourseAndStudent() {
 		selectedCourse = course_cloFacade.getById(selectedCourse.getId());
 		System.out.println("Dakrory: "+String.valueOf(selectedCourse.getCourse_code()));
@@ -564,7 +591,13 @@ public class courseCloBean implements Serializable{
 	}
 	
 	public void refresh(){
+		FormsStatusDTO settingCLOOpen = facadeSettings.getById(29);
 		
+		if(settingCLOOpen.getStatus().getValue()!=1) {
+			changeCLOOpened = true;
+		}else {
+			changeCLOOpened = false;
+		}
 		FormsStatusDTO settingCLO = facadeSettings.getById(18);
 		
 		/**
@@ -1209,6 +1242,16 @@ public class courseCloBean implements Serializable{
 
 	public void setShowNowForInstructors(boolean showNowForInstructors) {
 		this.showNowForInstructors = showNowForInstructors;
+	}
+
+
+	public boolean isChangeCLOOpened() {
+		return changeCLOOpened;
+	}
+
+
+	public void setChangeCLOOpened(boolean changeCLOOpened) {
+		this.changeCLOOpened = changeCLOOpened;
 	}
 
 
