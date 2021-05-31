@@ -362,10 +362,11 @@ public class aaInstructorBean implements Serializable{
 	    style2.setFont(font2); 
 	    
 	    
+
 	    row = sheet.createRow(0);
 	    cell = row.createCell(0);
 	    row.getCell(0).setCellStyle(style);
-	    cell.setCellValue("Zewail city Id");
+	    cell.setCellValue("Student Id");
 
 	    cell = row.createCell(1);
 	    row.getCell(1).setCellStyle(style);
@@ -374,7 +375,7 @@ public class aaInstructorBean implements Serializable{
 
 	    cell = row.createCell(2);
 	    row.getCell(2).setCellStyle(style);
-	    cell.setCellValue("Student Mail");
+	    cell.setCellValue("Student EMail");
 	    
 
 	    cell = row.createCell(3);
@@ -382,30 +383,37 @@ public class aaInstructorBean implements Serializable{
 	    cell.setCellValue("Major");
 	    
 
+	    cell = row.createCell(6);
+	    row.getCell(6).setCellStyle(style);
+	    cell.setCellValue("Concentration");
+
 	    cell = row.createCell(4);
 	    row.getCell(4).setCellStyle(style);
 	    cell.setCellValue("minor");
 	    
 
-	    cell = row.createCell(5);
-	    row.getCell(5).setCellStyle(style);
-	    cell.setCellValue("gpa");
+	   
+
 	    
 
-	    cell = row.createCell(6);
-	    row.getCell(6).setCellStyle(style);
-	    cell.setCellValue("Concentration");
 	    
-
-	    cell = row.createCell(7);
-	    row.getCell(7).setCellStyle(style);
-	    cell.setCellValue("Year");
 	    
 	    
 
 	    cell = row.createCell(8);
 	    row.getCell(8).setCellStyle(style);
 	    cell.setCellValue("Semester");
+	    
+	    
+	    
+	    cell = row.createCell(7);
+	    row.getCell(7).setCellStyle(style);
+	    cell.setCellValue("Year");
+	    
+	    
+	    cell = row.createCell(5);
+	    row.getCell(5).setCellStyle(style);
+	    cell.setCellValue("gpa");
 	    
 	    
 	    PersonDataDTO studentData = studentDataFacade.getPersonByPersonMail(mail);
@@ -471,10 +479,26 @@ public class aaInstructorBean implements Serializable{
 	    		
 	    	}
 
-
+	    	
+	    	
 	    	try {
-		    cell = row.createCell(4);
-		    row.getCell(4).setCellStyle(style);
+			    cell = row.createCell(4);
+			    row.getCell(4).setCellStyle(style);
+			    cell.setCellValue(studentProfiles.get(i).getConcentration().getName());
+			    
+			    
+			    
+		    	}catch(Error e) {
+		    		
+		    	}catch(NullPointerException exc) {
+		    		
+		    	}
+
+	    	
+	    	
+	    	try {
+		    cell = row.createCell(5);
+		    row.getCell(5).setCellStyle(style);
 		    cell.setCellValue(studentProfiles.get(i).getMinor());
 
 		    
@@ -487,28 +511,20 @@ public class aaInstructorBean implements Serializable{
 
 	    	
 
-	    	try {
-	    		
-		    cell = row.createCell(5);
-		    row.getCell(5).setCellStyle(style);
-		    cell.setCellValue(studentProfiles.get(i).getGpa());
-
-		    
-		    
-	    	}catch(Error e) {
-	    		
-	    	}catch(NullPointerException exc) {
-	    		
-	    	}
-
+	    	
 	    	
 
+	    	
+	    	
+
+	    	
+	    	
+	    	
 	    	try {
 		    cell = row.createCell(6);
 		    row.getCell(6).setCellStyle(style);
-		    cell.setCellValue(studentProfiles.get(i).getConcentration().getName());
-		    
-		    
+		    cell.setCellValue(studentProfiles.get(i).getSemester().getName());
+
 		    
 	    	}catch(Error e) {
 	    		
@@ -516,35 +532,34 @@ public class aaInstructorBean implements Serializable{
 	    		
 	    	}
 	    	
-
+	    	
+	    	
 	    	try {
-		    cell = row.createCell(7);
-		    row.getCell(7).setCellStyle(style);
-		    cell.setCellValue(String.valueOf(studentProfiles.get(i).getYear()));
-		    
-	    	}catch(Error e) {
-	    		
-	    	}catch(NullPointerException exc) {
-	    		
-	    	}
+			    cell = row.createCell(7);
+			    row.getCell(7).setCellStyle(style);
+			    cell.setCellValue(String.valueOf(studentProfiles.get(i).getYear()));
+			    
+		    	}catch(Error e) {
+		    		
+		    	}catch(NullPointerException exc) {
+		    		
+		    	}
 
-	    	try {
-		    cell = row.createCell(8);
-		    row.getCell(8).setCellStyle(style);
-		    cell.setCellValue(studentProfiles.get(i).getSemester().getName());
+		    	
+		    	
+		    	try {
+		    		
+				    cell = row.createCell(8);
+				    row.getCell(8).setCellStyle(style);
+				    cell.setCellValue(studentProfiles.get(i).getGpa());
 
-		    
-		    
-
-		    System.out.println(String.valueOf("Here..........3."));
-		    System.out.println(String.valueOf(studentProfiles.get(i).getSemester()));
-		    System.out.println(String.valueOf(studentProfiles.get(i).getYear()));
-		    
-	    	}catch(Error e) {
-	    		
-	    	}catch(NullPointerException exc) {
-	    		
-	    	}
+				    
+				    
+			    	}catch(Error e) {
+			    		
+			    	}catch(NullPointerException exc) {
+			    		
+			    	}
 	    }
 
 

@@ -30,7 +30,11 @@ import org.hibernate.annotations.NamedQuery;
 @NamedQueries({
 	@NamedQuery(
 	name = "StudentProfile.getByStudentID",
-	query = "from StudentProfile p where p.student.id = :id"
+	query = "from StudentProfile p where p.student.id = :id order by year,CASE semester " + 
+			"      WHEN 0 THEN 3 " + 
+			"      WHEN 1 THEN 1 " + 
+			"      WHEN 2 THEN 2 " + 
+			"   END"
 	),
 	@NamedQuery(
 	name = "StudentProfile.getById",
