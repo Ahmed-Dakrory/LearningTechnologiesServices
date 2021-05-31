@@ -477,6 +477,7 @@ public class aaRegistrarBean implements Serializable{
 	    PersonDataDTO studentData = studentDataFacade.getPersonByPersonMail(mail);
 	    //studentFacadeImpl.get
 	    studentProfiles = facadeStudentProfile.getByStudentID(studentData.getId());
+	    studentProfiles.remove(studentProfiles.size()-1);
 	    System.out.println(studentData.getId());
 
 	    for(int i=0;i<studentProfiles.size();i++) {
