@@ -47,6 +47,9 @@ body {font-family: Arial;}
   border: 1px solid #ccc;
   border-top: none;
 }
+label{
+margin-right: 30px;
+}
 </style>
 
 		#{instructorSurveyAllBean.refresh()}
@@ -114,7 +117,7 @@ body {font-family: Arial;}
 							     
 							    <p:panel rendered="#{ques.question.type == 1}">
 					
-								    <p:inputTextarea required="true" requiredMessage="there is a comment in need" value="#{ques.answer.data}"></p:inputTextarea>
+								    <p:inputTextarea  value="#{ques.answer.data}"></p:inputTextarea>
 							    	
 								</p:panel>
 								
