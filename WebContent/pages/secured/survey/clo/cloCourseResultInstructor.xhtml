@@ -83,7 +83,7 @@
 					<h:panelGroup id="pageContent"  >
 						<p:panel id="petitionPanel">
 						<p:selectOneMenu style="width:260px" filter="true" filterMatchMode="contains" value="#{courseCloBean.selectedCourse.id}">
-						<f:ajax listener="#{courseCloBean.selectTheCourseResults()}" render="form:surveyPanel"/>
+						<f:ajax listener="#{courseCloBean.selectTheCourseResults()}" render="form:cloPanel form:surveyPanel"/>
 						<f:selectItems value="#{courseCloBean.listOfAllCourses}" var="data" itemLabel="#{data.course_code}" itemValue="#{data.id}" />
 						</p:selectOneMenu>
 						 
@@ -103,7 +103,8 @@
 						Please fill CLO fields in order
 						<br></br>
 						<br></br>
-						  	<p:panel rendered="#{courseCloBean.selectedCourse.id!=null}" >
+						<p:panel id="cloPanel">
+						  	<p:panel  rendered="#{courseCloBean.selectedCourse.id!=null}" >
 						  	<p:panelGrid columns="2" >
 						  		<p:panel>
 						  		<p:outputLabel value = "CLO 1"/>
@@ -221,6 +222,8 @@
 								
 								
 								<p:commandButton action="#{courseCloBean.saveCourseClo()}" value="Save"/>
+							</p:panel>
+							
 							</p:panel>
 						</div>
 						

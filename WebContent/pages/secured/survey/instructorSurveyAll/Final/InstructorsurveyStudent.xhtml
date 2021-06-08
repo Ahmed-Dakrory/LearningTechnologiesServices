@@ -47,6 +47,10 @@ body {font-family: Arial;}
   border: 1px solid #ccc;
   border-top: none;
 }
+
+label{
+margin-right: 30px;
+}
 </style>
 
 		#{instructorSurveyAllBean.refresh()}
@@ -75,6 +79,7 @@ body {font-family: Arial;}
 						<p:panel id="instructorsPanel" >
 						<div style="    font-size: larger;    font-weight: 700;    color: #888075;">
 								Course Semester: #{(instructorSurveyAllBean.semesterSelected==0)?'Fall':''} #{(instructorSurveyAllBean.semesterSelected==1)?'Spring':''} #{(instructorSurveyAllBean.semesterSelected==2)?'Summer':''} #{instructorSurveyAllBean.yearSelected}
+							#{instructorSurveyAllBean.selectedCourse.id}
 							</div>
 						<div style="    font-size: 20px;    font-weight: 600;">	Select the Instructor or TA: </div>
 								<p:selectOneRadio style="    margin-left: 5%;    margin-top: 1%;" value="#{instructorSurveyAllBean.selectedInstructor.id}" >
@@ -104,7 +109,7 @@ body {font-family: Arial;}
 							<!-- value="#{instructorSurveyAllBean.ans_Categ0[status.index].ans}" -->
 							
 								<p:panel rendered="#{ques.question.type == 0}">
-								<p:selectOneRadio value="#{ques.answer.ans}" required="true" requiredMessage="Selection of #{ques.question.ques} Ques #{statusQues.index} is required" style="    margin-left: 5%;    margin-top: 1%;"  >
+								<p:selectOneRadio value="#{ques.answer.ans}" required="true" requiredMessage="Answer of #{ques.question.ques} is required" style="    margin-left: 5%;    margin-top: 1%;"  >
 									
 										<f:selectItems itemLabel="#{ans.answerName}" itemValue="#{ans.answerValue}" var="ans"  value="#{ques.chooses}"/>
 						            
@@ -114,7 +119,7 @@ body {font-family: Arial;}
 							     
 							    <p:panel rendered="#{ques.question.type == 1}">
 					
-								    <p:inputTextarea required="true" requiredMessage="there is a comment in need" value="#{ques.answer.data}"></p:inputTextarea>
+								    <p:inputTextarea  value="#{ques.answer.data}"></p:inputTextarea>
 							    	
 								</p:panel>
 								
