@@ -316,9 +316,12 @@ var myChart = new Chart(ctx, {
 								
 								<p:column width="173" id="action" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
 									
+									<div style="background: #48B0E3!important;color: white!important;border-radius: 7px;width: 44px;padding: 10px;">
 						                
-						                	<h:commandButton actionListener="#{aaRegistrarBean.goToStudentDates(row.student.id)}" value="details" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"/>
-						              	
+						                	<a href="/LearningTechnologiesServices/pages/secured/academic_advising/studentDates.xhtml?idOfStudent=#{row.student.id}"  >
+						                	Report
+						                	</a>
+						              	</div>
 						              
 										<f:facet name="header">
 											<h:outputText value="Action" />

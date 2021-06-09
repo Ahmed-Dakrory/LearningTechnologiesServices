@@ -10,10 +10,13 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -52,7 +55,7 @@ import main.com.zc.shared.presentation.dto.BaseDTO;
 import main.com.zc.shared.presentation.dto.PersonDataDTO;
 
 @ManagedBean(name = "aaRegistrarBean")
-@SessionScoped
+@ViewScoped
 public class aaRegistrarBean implements Serializable{
 	
 	
@@ -135,6 +138,9 @@ public class aaRegistrarBean implements Serializable{
 		allStudentSelected =new ArrayList<aa_instructor_students>();
 		allFiles = new ArrayList<filesOfLibraries>();
 		refresh();
+		
+		
+		
 		
 		
 	}
@@ -736,6 +742,70 @@ public class aaRegistrarBean implements Serializable{
 	public void refresh(){
 
 		fillSemesterLst();
+		
+		
+		
+		HttpServletRequest origRequest = (HttpServletRequest)FacesContext
+				.getCurrentInstance()
+				.getExternalContext()
+				.getRequest();
+		
+		try{
+			Integer id=Integer.parseInt(origRequest.getParameterValues("idOfStudent")[0]);
+			
+				if(id!=null){
+					meetingSelected = false;
+					FormsStatusDTO settingform = facadeSettings.getById(23);
+					
+					selectedStudent = aa_student_profileFacade.getById(id);
+
+					
+					selectedInstructorForThisStudent = instructor_studentsFacade.getByStudentId(selectedStudent.getId());
+					
+						/**
+						 * THIS CASE WHEN STUDENT NOT RESERVE A SLOT
+						 * 
+						 * Get all Available Dates for the student
+						 */
+						
+						// This is the last dates reserved
+						allinstructorDates = aa_instructor_dateFacade.getByStudentId(selectedInstructorForThisStudent.getStudent().getId());
+						
+						
+						FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("myForm");
+						
+				}
+				
+				
+			}
+		catch(Exception ex){
+
+			 System.out.println("Ahmed Dakrory    new3    :"+String.valueOf(ex));
+		}
+		
+		
+		
+		try{
+			Integer idDate=Integer.parseInt(origRequest.getParameterValues("idOfDate")[0]);
+
+			 System.out.println("Ahmed Dakrory   sdsdsd new    :"+String.valueOf(idDate));
+				if(idDate!=null){
+					selectedDateData = aa_instructor_dateFacade.getById(idDate);
+					selectedStudent = aa_student_profileFacade.getById(selectedDateData.getStudent().getId());
+
+
+					 System.out.println("Ahmed Dakrory   sdsdssdsdsdsdd new    :"+String.valueOf(idDate));
+					FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add("myForm");
+					
+				}
+				
+				
+			}
+		catch(Exception ex){
+			 System.out.println("Ahmed Dakrory    new    :"+String.valueOf(ex));
+		}
+		
+		
 	}
 
 

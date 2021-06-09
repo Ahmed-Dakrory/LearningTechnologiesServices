@@ -146,7 +146,15 @@
 								<p:column width="64" id="action" sortBy="#{row.id}" filterBy="#{row.id}">
 									
 						                
-						                <p:commandButton actionListener="#{aaInstructorBean.goToStudentProfileMeeting(row.id)}" value="details" style="background: #48B0E3!important;color: white!important;border-radius: 7px;"></p:commandButton>
+						              
+						               <div style="background: #48B0E3!important;color: white!important;border-radius: 7px;width: 44px;padding: 10px;">
+						                
+						                	<a href="/LearningTechnologiesServices/pages/secured/academic_advising/studentProfile_Ins.xhtml?idOfDate=#{row.id}"  >
+						                	Report
+						                	</a>
+						              	</div>
+						              
+						              
 						              
 										<f:facet name="header">
 											<h:outputText value="Action" />

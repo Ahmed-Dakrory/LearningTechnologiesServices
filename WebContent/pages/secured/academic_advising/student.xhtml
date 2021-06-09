@@ -132,7 +132,8 @@ position: absolute;
 					<br></br>
 					
 					<h:panelGroup rendered="#{aaStudentBean.selectedInstructorForThisStudent!=null}">
-					<p class="alert alert-success">Your Advisor:  #{aaStudentBean.selectedInstructorForThisStudent.instructor.name}</p>
+					<p class="alert alert-success">Your Advisor Name:  #{aaStudentBean.selectedInstructorForThisStudent.instructor.name}</p>
+					<p class="alert alert-success">Your Advisor Email:  #{aaStudentBean.selectedInstructorForThisStudent.instructor.mail}</p>
 					
 					</h:panelGroup>
 					
