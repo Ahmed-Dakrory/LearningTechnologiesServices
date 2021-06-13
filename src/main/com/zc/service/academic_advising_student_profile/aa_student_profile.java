@@ -98,7 +98,9 @@ public class aa_student_profile {
 
 
 	
-	
+
+	@Column(name = "link_of_meeting")
+	private String link_of_meeting;
 	
 	public Integer getId() {
 		return id;
@@ -217,6 +219,16 @@ public class aa_student_profile {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+
+	public String getLink_of_meeting() {
+		return link_of_meeting;
+	}
+
+
+	public void setLink_of_meeting(String link_of_meeting) {
+		this.link_of_meeting = link_of_meeting;
 	}
 
 

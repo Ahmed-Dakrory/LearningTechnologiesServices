@@ -314,6 +314,16 @@ var myChart = new Chart(ctx, {
 								</p:column>
 								
 								
+								<p:column width="53" id="meeting" sortBy="#{row.student.link_of_meeting}" filterBy="#{row.student.link_of_meeting}">
+								<p:cellEditor>
+									<f:facet name="output"><a href="#{row.student.link_of_meeting}" target="newMeeting"> Link </a></f:facet>
+						            <f:facet name="input"><a href="#{row.student.link_of_meeting}" target="newMeeting"> Link </a></f:facet>
+									</p:cellEditor>
+									<f:facet name="header">
+										<h:outputText value="Link Of the meeting" />
+									</f:facet>
+								</p:column>
+								
 								
 								<p:column width="173" id="action" sortBy="#{row.student.id}" filterBy="#{row.student.id}">
 									
