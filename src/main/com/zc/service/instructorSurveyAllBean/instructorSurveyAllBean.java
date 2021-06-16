@@ -146,6 +146,7 @@ public class instructorSurveyAllBean implements Serializable{
 
 	private boolean showNowForInstructorsFinal=false;
 	private boolean showNowForInstructorsMidterm=false;
+	private Integer midtermOrFinal=instructor_all_survey_ques.MODE_MIDTERM;
 	@PostConstruct
 	public void init() {
 
@@ -313,7 +314,15 @@ public class instructorSurveyAllBean implements Serializable{
 			}
 		}
 	}
+	public void makeItMidTerm() {
+		midtermOrFinal = instructor_all_survey_ques.MODE_MIDTERM;
+	}
+	
+	
+	public void makeItfinal() {
 
+		midtermOrFinal = instructor_all_survey_ques.MODE_FINAL;
+	}
 	
 public void selectTheCourseResults() {
 		
@@ -329,7 +338,7 @@ public void selectTheCourseResults() {
 		
 		if(listOfCourseAnswers!=null) {
 
-			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndMidtermOrFinalAndType(yearSelected, semesterSelected, instructor_all_survey_ques.MODE_MIDTERM, instructor_all_survey_ques.TYPE_CHOOSE);
+			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndMidtermOrFinalAndType(yearSelected, semesterSelected,midtermOrFinal, instructor_all_survey_ques.TYPE_CHOOSE);
 //			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndMidtermOrFinalAndType(yearSelected, semesterSelected, instructor_all_survey_ques.MODE_MIDTERM, instructor_all_survey_ques.TYPE_CHOOSE);
 		
 
@@ -863,6 +872,16 @@ public void generateFileOfComments(){
 
 	public void setShowNowForInstructorsMidterm(boolean showNowForInstructorsMidterm) {
 		this.showNowForInstructorsMidterm = showNowForInstructorsMidterm;
+	}
+
+
+	public Integer getMidtermOrFinal() {
+		return midtermOrFinal;
+	}
+
+
+	public void setMidtermOrFinal(Integer midtermOrFinal) {
+		this.midtermOrFinal = midtermOrFinal;
 	}
 
 	
