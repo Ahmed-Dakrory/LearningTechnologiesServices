@@ -151,7 +151,7 @@ public class instructorSurveyAllBean implements Serializable{
 	public void init() {
 
 		selectedInstructor =new Employee();
-		refresh();
+		
 		
 		
 	}
@@ -315,12 +315,16 @@ public class instructorSurveyAllBean implements Serializable{
 		}
 	}
 	public void makeItMidTerm() {
+		
+		System.out.println("Ahmed:::"+" , "+yearSelected+" , "+semesterSelected);
+	
 		midtermOrFinal = instructor_all_survey_ques.MODE_MIDTERM;
 	}
 	
 	
 	public void makeItfinal() {
-
+		System.out.println("Ahmed:::"+" , "+yearSelected+" , "+semesterSelected);
+		
 		midtermOrFinal = instructor_all_survey_ques.MODE_FINAL;
 	}
 	
@@ -333,8 +337,9 @@ public void selectTheCourseResults() {
 
 		System.out.println(selectedCourse.getId()+" , "+selectedInstructor.getId()+" , "+yearSelected+" , "+semesterSelected);
 		listOfCourseAnswers=instructor_all_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemester(selectedCourse.getId(),selectedInstructor.getId(),yearSelected, semesterSelected);
-		
+
 		System.out.println(listOfCourseAnswers.size());
+		System.out.println(yearSelected+"   "+semesterSelected+"   "+midtermOrFinal+"   "+ instructor_all_survey_ques.TYPE_CHOOSE);
 		
 		if(listOfCourseAnswers!=null) {
 
@@ -342,6 +347,7 @@ public void selectTheCourseResults() {
 //			allquestionThisYearAndSemester = instructor_all_survey_quesFacade.getAllByYearAndSemestarAndMidtermOrFinalAndType(yearSelected, semesterSelected, instructor_all_survey_ques.MODE_MIDTERM, instructor_all_survey_ques.TYPE_CHOOSE);
 		
 
+			System.out.println(String.valueOf(allquestionThisYearAndSemester));
 			System.out.println(allquestionThisYearAndSemester.size());
 			//Construct ALL question cloResults
 		for(int i=0;i<allquestionThisYearAndSemester.size();i++) {

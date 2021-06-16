@@ -18,8 +18,8 @@
     text-align: center;
 }
 		</style>
-		#{instructorSurveyAllBean.refresh()}
 		#{instructorSurveyAllBean.makeItMidTerm()}
+		#{instructorSurveyAllBean.refresh()}
 			<h:form id="form">
 				<p:growl id="growl" showDetail="true" rendered="#{not facesContext.validationFailed}" life="4000"/>
 				<ul class="header">
@@ -71,7 +71,7 @@
 							<p:panel rendered="true">
 							<br></br>
 							<div style="    font-size: 20px;    font-weight: 600;">	Results</div>
-							<p:commandButton value="Export comments" ajax="false"  rendered="#{instructorSurveyAllBean.showNowForInstructors}" action="#{instructorSurveyAllBean.generateFileOfComments()}" style=""></p:commandButton>
+							<p:commandButton value="Export comments" ajax="false"  rendered="#{instructorSurveyAllBean.showNowForInstructorsMidterm}" action="#{instructorSurveyAllBean.generateFileOfComments()}" style=""></p:commandButton>
 						
 									<br></br>
 									<table>
@@ -80,19 +80,19 @@
 										<td class="tdClass" style="background: #c1a570;">
 										
 										</td>
-									<td  class="tdClass" colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
+									<td  class="tdClass" colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};">
 											<div>Excellent</div>
 										</td>
-										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};">
 											<div>Very good</div>
 										</td>
-										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"  colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};">
 											<div>good</div>
 										</td>
-										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};">
 											<div>Fair</div>
 										</td>
-										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};">
+										<td class="tdClass"   colspan="2" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};">
 											<div>Needs Improvement</div>
 										</td>
 										
@@ -109,25 +109,25 @@
 												<div> #{instructorSurveyAllBean.allquestionThisYearAndSemester.get(clo.cloNumber-1).ques}</div>
 											</td>
 											
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[4]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[4]}%</div></td>
 											
 											
 											
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[3]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[3]}%</div></td>
 											
 										
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[2]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[2]}%</div></td>
 											
 
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.eachGradeCloPersons[1]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#dbecf3':'red'}"><div>#{clo.percentage[1]}%</div></td>
 											
 											
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
-											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructors?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.eachGradeCloPersons[0]} Person</div></td>
+											<td class="tdClass" style="display:#{instructorSurveyAllBean.showNowForInstructorsMidterm?'table-cell':'none'};background:#{clo.numberOfPersons>0?'#b9b68a':'red'}"><div>#{clo.percentage[0]}%</div></td>
 											
 											
 											<td class="tdClass" style="background:#{clo.numberOfPersons>0?'#c1a570':'red'}">
