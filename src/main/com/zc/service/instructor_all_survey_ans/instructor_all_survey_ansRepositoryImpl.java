@@ -260,6 +260,25 @@ public class instructor_all_survey_ansRepositoryImpl implements instructor_all_s
 		 }
 	}
 
+	@Override
+	public List<instructor_all_survey_ans> getAllByCourseAndInstructorAndYearAndSemesterAndType(int courseId,
+			int instructorId, int year, int semester, int type) {
+		Query query 	=sessionFactory.getCurrentSession().getNamedQuery("instructor_all_survey_ans.getAllByCourseAndInstructorAndYearAndSemesterAndType")
+				 .setInteger("courseId",courseId)
+				 .setInteger("instructorId", instructorId)
+				 .setInteger("year", year)
+				 .setInteger("semester", semester)
+				 .setInteger("type", type);
+
+		 @SuppressWarnings("unchecked")
+		List<instructor_all_survey_ans> results=query.list();
+		 if(results.size()!=0){
+			 return results;
+		 }else{
+			 return null;
+		 }
+	}
+
 	
 
 

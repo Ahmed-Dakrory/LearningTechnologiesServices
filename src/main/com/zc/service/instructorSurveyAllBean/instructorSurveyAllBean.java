@@ -461,14 +461,12 @@ public void generateFile(List<cloThreshold> allCoursesThresoldResults,List<instr
 
 public void generateFileOfComments(){
 	if(selectedCourse.getId()!=null && selectedInstructor.getId()!=null) {
-	List<instructor_all_survey_ans> allanswersThisYearAndSemesterofinsPositive = instructor_all_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,6);
-	List<instructor_all_survey_ans> allanswersThisYearAndSemesterofinsNegative = instructor_all_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,7);
-	List<instructor_all_survey_ans> allanswersThisYearAndSemesterofTAs = instructor_all_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndCategory(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,8);
-	if(allanswersThisYearAndSemesterofinsPositive!=null || allanswersThisYearAndSemesterofinsNegative!=null || allanswersThisYearAndSemesterofTAs!=null) { 
+	List<instructor_all_survey_ans> allanswersThisYearAndSemesterofinsPositive = instructor_all_survey_ansFacade.getAllByCourseAndInstructorAndYearAndSemesterAndType(selectedCourse.getId(), selectedInstructor.getId(),yearSelected,semesterSelected,instructor_all_survey_ques.TYPE_COMMENT);
+	if(allanswersThisYearAndSemesterofinsPositive!=null ) { 
 	HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet sheet = workbook.createSheet();
 	    
-	    ReportFileGenerationComments reportFileGeneration=new ReportFileGenerationComments(allanswersThisYearAndSemesterofinsPositive,allanswersThisYearAndSemesterofinsNegative,allanswersThisYearAndSemesterofTAs ,workbook, sheet);
+	    ReportFileGenerationComments reportFileGeneration=new ReportFileGenerationComments(allanswersThisYearAndSemesterofinsPositive ,workbook, sheet);
 	    
 	    reportFileGeneration.generateReport();
 

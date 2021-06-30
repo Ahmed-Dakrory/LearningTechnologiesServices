@@ -252,6 +252,23 @@ public class instructor_all_survey_ansAppServiceImpl implements Iinstructor_all_
 
 
 
+	@Override
+	public List<instructor_all_survey_ans> getAllByCourseAndInstructorAndYearAndSemesterAndType(int courseId,
+			int instructorId, int year, int semester, int type) {
+		try{
+			List<instructor_all_survey_ans> course=instructor_all_survey_ansDataRepository.getAllByCourseAndInstructorAndYearAndSemesterAndType(courseId, instructorId, year,semester,type);
+			
+			return course;
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+				return null;
+			}
+	}
+
+
+
 	
 
 	
